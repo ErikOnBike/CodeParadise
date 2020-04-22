@@ -28,7 +28,9 @@ The platform is going to be web based, because this lowers the barriers for usin
 
 The platform will consist of a server farm running many Smalltalk images. At this time it is not decided if this will be limited to a specific Smalltalk implementation or if different implementations will co-exist. The latter would mean that these differences has to be made clear to the users, which does not help in the understandability of the platform. All code will become open source and schools, other organizations or individuals should be able to setup their own server/platform as well.
 
-## Background
+(the following text needs to be cleaned up)
+
+## Background UI
 
 The development environment itself will be running on the mentioned servers. The web browser is only responsible for the user interface of the development environment. A small Smalltalk application will run (as a kind of Javascript replacement) in the web browser to handle user interface logic (displaying information and receiving input events). All decision logic (even of what should be displayed) is performed on the server side.
 
@@ -38,4 +40,14 @@ The current plan is to have a web browser as the 'head' of the development envir
 
 Currently work is being based on a [tiny Smalltalk image](https://github.com/carolahp/pharo/tree/candle) running on SqueakJS (a Smalltalk VM written in Javascript) in the browser. This tiny image is responsible for the client side UI logic. The server side Smalltalk image contains UI components (classes) which 'know' their HTML and CSS (something kids do learn in different places) and a bit of Smalltalk code to handle events. This UI component (HTML, CSS and code) is transferred to the web browser and installed in the tiny image. It will create the same UI component (class) inside the browser and it can/will only do the displaying and event handling. If the server side code changes, these changes are sent to the web browser as well. This keeps the UI components in sync. If an exception occurs in the tiny image, it will be send back to the server as an event. The server can handle it or show a debugger (which of course gets displayed in the web browser just like everything else). There has to be a tiny glue layer between the tiny image and the DOM. This is done by a Javascript plugin for SqueakJS (and could be regarded as part of the VM) like UI handling for desktop Smalltalks is also handled in plugins. 
 
+The tiny image will receive classes and methods in bytecode format. Execution of code is initiated by the development environment. This way no Compiler is needed in the tiny image. A working prototype of this mechanism (running in the browser) has been development and seems to perform well. The tiny image is around 150kb at the moment, but a number of features need to be added.
+
 The UI components are based on the [Web Components](https://developer.mozilla.org/en-US/docs/Web/Web_Components) standard.
+
+## Background applications
+
+For the application development at least two Smalltalk images are used. One image will contain the development environment (the one mentioned in the previous paragraph) and the others will run the applications under development. These applications themselves will be tiny images similar to the image for the UI described above. That way it is easy to create a new (or throw away an old) application, but still keep the development environment. The application itself will also not require a Compiler since all code will be installed in bytecode format from the development image (similar again to the way the UI image is provisioned). The tiny image makes understanding the application hopefully eassier because there is less 'stuff' around.
+
+The development image, the UI image and the application image(s) can all be changed by the user/developer. The full environment should be under control of the developer.
+
+The applications (when run on a cloud platform) will not have access to the file system, local netwerk or FFI as a security measurement. Meaning that other applications will be made available which offer storage and other features. Maybe even a clustor of images forming a persistent storage of objects and classes...time will tell.
