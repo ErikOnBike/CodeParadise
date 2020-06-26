@@ -342,16 +342,19 @@ CpObjectDecoder >> decodeNil [
 { #category : #decoding }
 CpObjectDecoder >> decodePragma [
 
-	"Decode Pragma using its keyword (aka selector) and arguments.
+	"Decode Pragma using its selector (fka keyword) and arguments.
 	A Pragma is only decoded in the context of a CompiledMethod."
 
-	| keyword arguments |
+	| selector arguments |
 
 	"The Pragma's method will be set in #decodeAdditionalMethodState just use keyword and arguments"
-	keyword := self readString.
+	selector := self readString.
 	arguments := self readArray.
 
-	^ Pragma keyword: keyword arguments: arguments
+	^ Pragma new
+		selector: selector ;
+		arguments: arguments ;
+		yourself
 ]
 
 { #category : #decoding }

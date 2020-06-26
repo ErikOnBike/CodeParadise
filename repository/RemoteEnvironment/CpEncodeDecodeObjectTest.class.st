@@ -65,7 +65,7 @@ CpEncodeDecodeObjectTest class >> compareMethodPropertiesFrom: aMethodProperties
 	aMethodProperties pragmas doWithIndex: [ :eachPragma :index |
 		| otherPragma |
 		otherPragma := anotherMethodProperties pragmas at: index.
-		eachPragma keyword = otherPragma keyword
+		eachPragma selector = otherPragma selector
 			ifFalse: [ ^ false ].
 		eachPragma arguments asArray = otherPragma arguments asArray
 			ifFalse: [ ^ false ] ].
