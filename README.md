@@ -35,7 +35,7 @@ The tiny Smalltalk image does not include a Compiler or Debugger. If you try to 
 
 ### Load ServerEnvironment
 
-The ServerEnvironment should be run from a Pharo7+ image. In the future other platforms like Cuis will probably supported as well.
+The ServerEnvironment should be run from a Pharo7+ image. In the future other platforms like Cuis will probably be supported as well.
 
 Loading the ServerEnvironment can be done using:
 ```Smalltalk
@@ -51,7 +51,7 @@ The ServerEnvironment provides a HTTP server (using [Zinc HTTP Components](https
 
 The ServerEnvironment provides a WebSocket server (again using [Zinc HTTP Components](https://github.com/svenvc/zinc)) for the interactive communication between ClientEnvironment and ServerEnvironment.
 
-To start a web server allowing incoming HTTP and WebSockets the following code has to be executed (port number and WebSocket path '/io' are hardcoded in the ClientEnvironment for now):
+To start a web server allowing incoming HTTP and WebSockets the following code has to be executed:
 ```Smalltalk
 "Configure the usage of ZnWebSocket as MessageChannel"
 CpMessageChannel environmentImplementation: CpZincWebSocketChannel.
@@ -69,6 +69,8 @@ CpWebApplicationServerStarter startUsingConfig: {
 "If you serve the static files using your own HTTP server, you can start the WebSocket server using:"
 "CpRemoteEnvironmentServer newOnPort: 8080 path: '/io'."
 ```
+
+The WebSocket server is listening on path `/io` by default (see example above). If you change this, please also update `app.html` in which the path is hardcoded. 
 
 When you are done or want to reset the environment, the following code can be executed:
 ```Smalltalk
