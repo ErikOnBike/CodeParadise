@@ -1,0 +1,53 @@
+# Code Paradise
+
+Code Paradise is the name of my current pet project. Code Paradise is going to be a [web based](#web-based) [platform](#platform) for [kids](#kids) to learn to program using Object Oriented principles in [Smalltalk](#Smalltalk). It is a place to go when initial experience has been gathered on HTML and CSS and/or environments like [Scratch](https://scratch.mit.edu) and [Blockly](https://developers.google.com/blockly/).
+
+## Status
+
+Code Paradise is still in very early stages of development. Progress is limited because the development has to be done in the evenings and weekends. And even that is limited because of having a family and a regular social live. Development is still a one man show. The plan is to attract kids to join in at an early stage, so they can help shape the environment.
+
+## <a name="platform">Why a platform?</a>
+
+Code Paradise is going to be a platform for kids to share their work and help each other. Mentors (experienced developers and/or teachers) are allowed on the platform as well.
+
+## <a name="kids">Why kids?</a>
+
+Simply put, kids are the future programmers and I like to offer another platform next to the existing ones. One based on the principles of [Object Orientation](http://www.purl.org/stefan_ram/pub/doc_kay_oop_en) (Alan Kay's explanation). I have a broad range of experience with different programming languages and development environments and have personally been most happy with programming using [Smalltalk](#Smalltalk) (in different environments). I want to share that type of happiness with our future programmers.
+
+Strictly speaking the platform is not going to be restricted to kids. Anyone wanting to learn programming can join. Tone of voice, examples and explanation might be more focused on kids than (young) adults though.
+
+## <a name="Smalltalk">Why Smalltalk?</a>
+
+As explained above, using Smalltalk for programming does and did make me very happy (as a programmer). Two elements stand out for me: the simplicity of the underlying model (communicating objects using messages) and a live moldable environment (direct changes and changing the development environment itself). Both are [design principles of Smalltalk](http://www.cs.virginia.edu/~evans/cs655/readings/smalltalk.html). Different Smalltalk implementations do exist, all with their own focus. Two have my special attention [Pharo](https://www.pharo.org) and [Cuis](https://github.com/Cuis-Smalltalk/Cuis-Smalltalk-Dev). The former has a very active community and is very feature rich. The latter is focused on a clean and simple implementation which is nice for learning purposes. Additionally a [toolkit Glamorous](https://gtoolkit.com) is built on top of Pharo that really shows the possibilities of moldability.
+
+## <a name="web-based">Why web based?</a>
+
+The platform is going to be web based, because this lowers the barriers for using it. Anyone with a (relative recent) web browser on his/her computer should be able to use the platform.
+
+## <a name="implementation">How will the platform be implemented?</a>
+
+The platform will consist of a server farm running many Smalltalk images. At this time it is not decided if this will be limited to a specific Smalltalk implementation or if different implementations will co-exist. The latter would mean that these differences has to be made clear to the users, which does not help in the understandability of the platform. All code will become open source and schools, other organizations or individuals should be able to setup their own server/platform as well.
+
+(the following text needs to be cleaned up)
+
+## Background UI
+
+The development environment itself will be running on the mentioned servers. The web browser is only responsible for the user interface of the development environment. A small Smalltalk application will run (as a kind of Javascript replacement) in the web browser to handle user interface logic (displaying information and receiving input events). All decision logic (even of what should be displayed) is performed on the server side.
+
+[SqueakJS](https://squeak.js.org) or [Amber](https://amber-lang.net) can already be used as Smalltalk development environment in the web browser. They both would require quite some work to become a team environment in which users can help each other and an environment that could use more (server side) resources like databases. Running a 'regular' Smalltalk image inside SqueakJS does work, but requires a fast CPU and a lot of memory. Amber's main focus is on client side development. It could be used for the user interface, but it would use a very distinct implementation since it is not based on a Smalltalk image being run by a VM.
+
+The current plan is to have a web browser as the 'head' of the development environment. It should only represent the display and input device. There has to be some logic in the web browser to create the display (creating elements in the DOM) and handling events (user pressing buttons or dragging windows). This is normally done in Javascript, but kids should not learn Javascript as well. Although some solutions do exist to have Smalltalk in the browser, the Javascript often shines through. As soon as an event is not handled correctly, Javascript will generate an exception. This does not fit the Smalltalk model and some translation has to be done between the two models. [PharoJS](https://pharojs.github.io) might be useful option here as well as SqueakJS, but both focus on a different use case.
+
+Currently work is being based on a [tiny Smalltalk image](https://github.com/carolahp/pharo/tree/candle) running on SqueakJS (a Smalltalk VM written in Javascript) in the browser. This tiny image is responsible for the client side UI logic. The server side Smalltalk image contains UI components (classes) which 'know' their HTML and CSS (something kids do learn in different places) and a bit of Smalltalk code to handle events. This UI component (HTML, CSS and code) is transferred to the web browser and installed in the tiny image. It will create the same UI component (class) inside the browser and it can/will only do the displaying and event handling. If the server side code changes, these changes are sent to the web browser as well. This keeps the UI components in sync. If an exception occurs in the tiny image, it will be send back to the server as an event. The server can handle it or show a debugger (which of course gets displayed in the web browser just like everything else). There has to be a tiny glue layer between the tiny image and the DOM. This is done by a Javascript plugin for SqueakJS (and could be regarded as part of the VM) like UI handling for desktop Smalltalks is also handled in plugins. 
+
+The tiny image will receive classes and methods in bytecode format. Execution of code is initiated by the development environment. This way no Compiler is needed in the tiny image. A working prototype of this mechanism (running in the browser) has been development and seems to perform well. The tiny image is around 150kb at the moment, but a number of features need to be added.
+
+The UI components are based on the [Web Components](https://developer.mozilla.org/en-US/docs/Web/Web_Components) standard.
+
+## Background applications
+
+For the application development at least two Smalltalk images are used. One image will contain the development environment (the one mentioned in the previous paragraph) and the others will run the applications under development. These applications themselves will be tiny images similar to the image for the UI described above. That way it is easy to create a new (or throw away an old) application, but still keep the development environment. The application itself will also not require a Compiler since all code will be installed in bytecode format from the development image (similar again to the way the UI image is provisioned). The tiny image makes understanding the application hopefully eassier because there is less 'stuff' around.
+
+The development image, the UI image and the application image(s) can all be changed by the user/developer. The full environment should be under control of the developer.
+
+The applications (when run on a cloud platform) will not have access to the file system, local netwerk or FFI as a security measurement. Meaning that other applications will be made available which offer storage and other features. Maybe even a clustor of images forming a persistent storage of objects and classes...time will tell.
