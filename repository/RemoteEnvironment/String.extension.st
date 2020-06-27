@@ -1,6 +1,6 @@
 Extension { #name : #String }
 
-{ #category : #'*WebApplication' }
+{ #category : #'*RemoteEnvironment' }
 String >> cpEncodeWith: anEncoder [
 
 	<clientEnvironment>

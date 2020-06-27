@@ -1,6 +1,6 @@
 Extension { #name : #CompiledMethod }
 
-{ #category : #'*WebApplication' }
+{ #category : #'*RemoteEnvironment' }
 CompiledMethod >> bindClassVariablesTo: aClass [
 
 	"Bind class variables to the receiver (replace literal association with the
@@ -19,7 +19,7 @@ CompiledMethod >> bindClassVariablesTo: aClass [
 
 ]
 
-{ #category : #'*WebApplication' }
+{ #category : #'*RemoteEnvironment' }
 CompiledMethod >> cpEncodeWith: anEncoder [
 
 	<clientEnvironment>
@@ -27,11 +27,12 @@ CompiledMethod >> cpEncodeWith: anEncoder [
 	anEncoder encodeCompiledMethod: self
 ]
 
-{ #category : #'*WebApplication' }
+{ #category : #'*RemoteEnvironment' }
 CompiledMethod >> install [
 	"Install the receiver in its Class"
 
 	<clientEnvironment>
+
 	self methodClass
 		ifNotNil: [ :methodClass | 
 			methodClass addSelector: self selector withMethod: self.

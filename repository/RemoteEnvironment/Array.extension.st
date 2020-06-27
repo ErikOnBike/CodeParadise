@@ -1,6 +1,6 @@
 Extension { #name : #Array }
 
-{ #category : #'*WebApplication' }
+{ #category : #'*RemoteEnvironment' }
 Array >> asSlotCollection [
 
 	"Answer a new Collection with the receiver's elements as Slots"
@@ -10,7 +10,7 @@ Array >> asSlotCollection [
 	^ self collect: [ :each | each asSlot ]
 ]
 
-{ #category : #'*WebApplication' }
+{ #category : #'*RemoteEnvironment' }
 Array >> cpEncodeWith: anEncoder [
 
 	<clientEnvironment>

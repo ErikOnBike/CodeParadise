@@ -1,6 +1,6 @@
 Extension { #name : #UndefinedObject }
 
-{ #category : #'*WebApplication' }
+{ #category : #'*RemoteEnvironment' }
 UndefinedObject >> cpEncodeWith: anEncoder [
 
 	<clientEnvironment>

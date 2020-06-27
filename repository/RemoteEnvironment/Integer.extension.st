@@ -1,6 +1,6 @@
 Extension { #name : #Integer }
 
-{ #category : #'*WebApplication' }
+{ #category : #'*RemoteEnvironment' }
 Integer >> byteSize [
 
 	"Answer the size of receiver in bytes"
@@ -10,7 +10,7 @@ Integer >> byteSize [
 	^ self digitLength
 ]
 
-{ #category : #'*WebApplication' }
+{ #category : #'*RemoteEnvironment' }
 Integer >> cpEncodeWith: anEncoder [
 
 	<clientEnvironment>

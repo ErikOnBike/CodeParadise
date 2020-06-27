@@ -1,6 +1,6 @@
 Extension { #name : #Symbol }
 
-{ #category : #'*WebApplication' }
+{ #category : #'*RemoteEnvironment' }
 Symbol >> cpEncodeWith: anEncoder [
 
 	<clientEnvironment>

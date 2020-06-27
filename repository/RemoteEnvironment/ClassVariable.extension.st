@@ -1,6 +1,6 @@
 Extension { #name : #ClassVariable }
 
-{ #category : #'*WebApplication' }
+{ #category : #'*RemoteEnvironment' }
 ClassVariable >> cpEncodeWith: anEncoder [
 
 	anEncoder encodeClassVariable: self

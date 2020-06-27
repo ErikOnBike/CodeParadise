@@ -1,6 +1,6 @@
 Extension { #name : #Pragma }
 
-{ #category : #'*WebApplication' }
+{ #category : #'*RemoteEnvironment' }
 Pragma >> cpEncodeWith: anEncoder [
 
 	<clientEnvironment>

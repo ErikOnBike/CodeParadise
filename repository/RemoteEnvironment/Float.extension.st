@@ -1,6 +1,6 @@
 Extension { #name : #Float }
 
-{ #category : #'*WebApplication' }
+{ #category : #'*RemoteEnvironment' }
 Float >> cpEncodeWith: anEncoder [
 
 	<clientEnvironment>

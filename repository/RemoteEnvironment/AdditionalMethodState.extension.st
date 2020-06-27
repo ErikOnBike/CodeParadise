@@ -1,6 +1,6 @@
 Extension { #name : #AdditionalMethodState }
 
-{ #category : #'*WebApplication' }
+{ #category : #'*RemoteEnvironment' }
 AdditionalMethodState >> cpEncodeWith: anEncoder [
 
 	<clientEnvironment>

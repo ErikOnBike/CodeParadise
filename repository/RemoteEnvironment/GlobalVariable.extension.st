@@ -1,6 +1,6 @@
 Extension { #name : #GlobalVariable }
 
-{ #category : #'*WebApplication' }
+{ #category : #'*RemoteEnvironment' }
 GlobalVariable >> cpEncodeWith: anEncoder [
 
 	anEncoder encodeGlobalVariable: self

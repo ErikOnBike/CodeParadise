@@ -1,6 +1,6 @@
 Extension { #name : #False }
 
-{ #category : #'*WebApplication' }
+{ #category : #'*RemoteEnvironment' }
 False >> cpEncodeWith: anEncoder [
 
 	<clientEnvironment>

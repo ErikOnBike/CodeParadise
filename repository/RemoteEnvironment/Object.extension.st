@@ -1,6 +1,6 @@
 Extension { #name : #Object }
 
-{ #category : #'*WebApplication' }
+{ #category : #'*RemoteEnvironment' }
 Object >> cpEncoded [
 
 	"Encode the receiver as a ByteArray for transfering over network connection"

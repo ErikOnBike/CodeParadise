@@ -1,6 +1,6 @@
 Extension { #name : #MessageSend }
 
-{ #category : #'*WebApplication' }
+{ #category : #'*RemoteEnvironment' }
 MessageSend >> cpEncodeWith: anEncoder [
 
 	<clientEnvironment>

@@ -1,6 +1,6 @@
 Extension { #name : #Dictionary }
 
-{ #category : #'*WebApplication' }
+{ #category : #'*RemoteEnvironment' }
 Dictionary >> cpEncodeWith: anEncoder [
 
 	<clientEnvironment>

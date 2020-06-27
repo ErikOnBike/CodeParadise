@@ -1,6 +1,6 @@
 Extension { #name : #Association }
 
-{ #category : #'*WebApplication' }
+{ #category : #'*RemoteEnvironment' }
 Association >> cpEncodeWith: anEncoder [
 
 	<clientEnvironment>
