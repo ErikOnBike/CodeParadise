@@ -11,7 +11,7 @@ Class {
 { #category : #accessing }
 CpDomExampleClientBehavior class >> cpRequiredClasses [
 
-	^ super cpRequiredClasses, { CpSvgElement . CpMathElement }
+	^ super cpRequiredClasses, { CpHtmlElement . CpSvgElement . CpMathElement . CpBrowserEventHandler }
 ]
 
 { #category : #examples }
