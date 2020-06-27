@@ -458,7 +458,7 @@ CpObjectEncoder >> writeUInt32: uint32 [
 		nextPut: (uint32 bitAnd: 16rff) ;
 		nextPut: ((uint32 bitShift: -8) bitAnd: 16rff) ;
 		nextPut: ((uint32 bitShift: -16) bitAnd: 16rff) ;
-		nextPut: (uint32 bitShift: -24)
+		nextPut: ((uint32 bitShift: -24) bitAnd: 16rff)
 ]
 
 { #category : #writing }

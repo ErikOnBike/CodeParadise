@@ -18,5 +18,8 @@ BaselineOfCodeParadise >> baseline: spec [
 		"Packages"
 		spec
 			package: 'RemoteEnvironment' ;
-			package: 'WebApplication' with: [ spec requires: 'RemoteEnvironment' ] ]
+			package: 'WebApplication' with: [ spec requires: 'RemoteEnvironment' ].
+
+		"Pharo 9.x specific"
+		spec for: #'pharo9.x' do: [ spec package: 'RemoteEnvironment-Pharo9' ] ]
 ]
