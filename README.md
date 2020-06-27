@@ -35,7 +35,7 @@ The tiny Smalltalk image does not include a Compiler or Debugger. If you try to 
 
 ### Load ServerEnvironment
 
-The ServerEnvironment should be run from a Pharo7+ image. In the future other platforms like Cuis will probably be supported as well.
+The ServerEnvironment should be run from a Pharo7 or Pharo8 image (*there is an issue with Pharo9*). In the future other platforms like Cuis will probably be supported as well.
 
 Loading the ServerEnvironment can be done using:
 ```Smalltalk
