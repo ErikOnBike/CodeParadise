@@ -35,7 +35,7 @@ The tiny Smalltalk image does not include a Compiler or Debugger. If you try to 
 
 ### Load ServerEnvironment
 
-The ServerEnvironment should be run from a Pharo7 or Pharo8 image (*there is an issue with Pharo9*). In the future other platforms like Cuis will probably be supported as well.
+The ServerEnvironment should be run from a Pharo7 or Pharo8 image (**Pharo9 can't be used at the moment, see compatibility info below**). In the future other platforms like Cuis will probably be supported as well.
 
 Loading the ServerEnvironment can be done using:
 ```Smalltalk
@@ -109,3 +109,9 @@ For the mobile applications for example, the following could be done:
 * execute code to remove the ClientEnvironment's Communicator (disconnecting it from the ServerEnvironment) and test code
 * save the ClientEnvironment image (currently not working because of tiny image format, but seems fixable ;-)
 * use the saved image stand-alone in a mobile application (combine with SqueakJS VM into single package)
+
+## Compatibility
+
+The means of installing (Compiled) code in the ClientEnvironment is by sending the relevant bytecode. The current implementation assumes that both the ServerEnvironment and the ClientEnvironment share the same bytecode set. Since the ClientEnvironment is running on SqueakJS VM, only bytecode sets supported by SqueakJS VM are usable. At the moment there is no support for the newer Sista bytecode set in SqueakJS VM. Therefore Pharo9 can't be used as a development platform. Support for Sista in SqueakJS VM is currently not foreseen. If anyone is interested to help out, please reach out to either Vanessa Freudenberg (developer and maintainer of SqueakJS VM) at [SqueakJS](https://github.com/codefrau/SqueakJS) or me.
+
+There is no explicit list of supported browsers at the moment. Please use a recent browser version. If you have trouble using (the pre-Chrome based) Microsoft Edge, please consider switching to Chrome, Firefox or one of the derivatives.
