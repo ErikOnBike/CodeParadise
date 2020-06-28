@@ -23,7 +23,7 @@ CpDomExamplesServerApplication >> load [
 
 	super load.
 
-	self environment addClass: CpDomExampleClientBehavior.
+	self environment addClass: CpDomExamplesClientBehavior.
 
 	"Start the client behavior"
 	self startClientBehavior
@@ -42,5 +42,5 @@ CpDomExamplesServerApplication >> reload [
 CpDomExamplesServerApplication >> startClientBehavior [
 
 	"Start the client behavior by creating an instance of the class containing the behavior"
-	self environment clientCreateInstanceOf: CpDomExampleClientBehavior withId: #client
+	self environment clientCreateInstanceOf: CpDomExamplesClientBehavior withId: #client
 ]

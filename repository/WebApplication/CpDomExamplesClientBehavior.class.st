@@ -3,25 +3,25 @@ I am the client behavior for the DOM Example Server Application.
 I only live in the ClientEnvironment.
 "
 Class {
-	#name : #CpDomExampleClientBehavior,
+	#name : #CpDomExamplesClientBehavior,
 	#superclass : #Object,
 	#category : #'WebApplication-Examples'
 }
 
 { #category : #accessing }
-CpDomExampleClientBehavior class >> cpRequiredClasses [
+CpDomExamplesClientBehavior class >> cpRequiredClasses [
 
 	^ super cpRequiredClasses, { CpHtmlElement . CpSvgElement . CpMathElement . CpBrowserEventHandler }
 ]
 
 { #category : #examples }
-CpDomExampleClientBehavior class >> someValue [
+CpDomExamplesClientBehavior class >> someValue [
 
 	^ 3 + 4
 ]
 
 { #category : #examples }
-CpDomExampleClientBehavior >> exampleCreateRandomBlocks [
+CpDomExamplesClientBehavior >> exampleCreateRandomBlocks [
 
 	<example: 'Create 1000 random blocks' order: 100>
 
@@ -50,7 +50,7 @@ CpDomExampleClientBehavior >> exampleCreateRandomBlocks [
 ]
 
 { #category : #examples }
-CpDomExampleClientBehavior >> exampleCreateRandomEllipses [
+CpDomExamplesClientBehavior >> exampleCreateRandomEllipses [
 
 	<example: 'Create 1000 random ellipses' order: 100>
 
@@ -94,7 +94,7 @@ CpDomExampleClientBehavior >> exampleCreateRandomEllipses [
 ]
 
 { #category : #examples }
-CpDomExampleClientBehavior >> exampleHelloWorld [
+CpDomExamplesClientBehavior >> exampleHelloWorld [
 
 	<example: 'Hello world' order: 10>
 
@@ -115,7 +115,7 @@ CpDomExampleClientBehavior >> exampleHelloWorld [
 ]
 
 { #category : #examples }
-CpDomExampleClientBehavior >> exampleMathFormula [
+CpDomExamplesClientBehavior >> exampleMathFormula [
 
 	<example: 'MathML formula' order: 200>
 
@@ -133,7 +133,7 @@ CpDomExampleClientBehavior >> exampleMathFormula [
 ]
 
 { #category : #examples }
-CpDomExampleClientBehavior >> exampleSVGSimple [
+CpDomExamplesClientBehavior >> exampleSVGSimple [
 
 	<example: 'Simple SVG' order: 200>
 
@@ -173,7 +173,7 @@ CpDomExampleClientBehavior >> exampleSVGSimple [
 ]
 
 { #category : #examples }
-CpDomExampleClientBehavior >> exampleToDo [
+CpDomExamplesClientBehavior >> exampleToDo [
 
 	<example: 'ToDo List' order: 1000>
 
@@ -205,7 +205,7 @@ CpDomExampleClientBehavior >> exampleToDo [
 ]
 
 { #category : #events }
-CpDomExampleClientBehavior >> handleEvent: anEvent [
+CpDomExamplesClientBehavior >> handleEvent: anEvent [
 
 	| selector output |
 
@@ -227,7 +227,7 @@ CpDomExampleClientBehavior >> handleEvent: anEvent [
 ]
 
 { #category : #initialization }
-CpDomExampleClientBehavior >> initialize [
+CpDomExamplesClientBehavior >> initialize [
 
 	super initialize.
 
@@ -237,7 +237,7 @@ CpDomExampleClientBehavior >> initialize [
 ]
 
 { #category : #initialization }
-CpDomExampleClientBehavior >> installBrowserEventHandler [
+CpDomExamplesClientBehavior >> installBrowserEventHandler [
 
 	"Install receiver as actual event handler"
 
@@ -246,13 +246,13 @@ CpDomExampleClientBehavior >> installBrowserEventHandler [
 ]
 
 { #category : #accessing }
-CpDomExampleClientBehavior >> outputElement [
+CpDomExamplesClientBehavior >> outputElement [
 
 	^ CpHtmlElement documentBody firstDescendantMatching: '#output'
 ]
 
 { #category : #examples }
-CpDomExampleClientBehavior >> showIndex [
+CpDomExamplesClientBehavior >> showIndex [
 
 	| body list items |
 
