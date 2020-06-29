@@ -39,7 +39,6 @@ CpLink class >> style [
 	^ ':host {
 			display: inline-block;
 			position: relative;
-			outline: none;
 			white-space: nowrap;
 			font-size: .8rem;
 		}

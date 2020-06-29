@@ -10,6 +10,7 @@ CpComponentExamplesClientBehavior class >> cpRequiredClasses [
 	^ super cpRequiredClasses, {
 		CpButton .
 		CpLink .
+		CpCheckbox .
 		CpViewEventHandler }
 ]
 
@@ -43,6 +44,26 @@ CpComponentExamplesClientBehavior >> exampleButtons [
 	outputElement appendChild: (CpHtmlElement newWithTag: #p).
 
 	outputElement appendChild: (CpButton prefix: #'chevron-left' asSolidFontAwesomeIcon label: 'both' suffix: #'chevron-right' asSolidFontAwesomeIcon).
+]
+
+{ #category : #examples }
+CpComponentExamplesClientBehavior >> exampleCheckboxes [
+
+	<example: 'Checkboxes' order: 300>
+
+	| outputElement checkbox |
+	
+	outputElement := self outputElement.
+
+	checkbox := outputElement appendChild: (CpCheckbox label: 'First selection').
+
+	"Add horizontal separator"
+	outputElement appendChild: (' ' inHtmlTag: #span).
+
+	outputElement appendChild: ((CpButton label: 'Make mixed')
+			when: CpEventAnnouncement do: [ checkbox mixed ] ;
+			yourself).
+
 ]
 
 { #category : #examples }
