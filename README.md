@@ -33,6 +33,8 @@ The files:
 
 The tiny Smalltalk image does not include a Compiler or Debugger. If you try to start it using a desktop VM you will not get it running, since it assumes a number of Javascript primitives is implemented. The image is based on [Pharo Candle](https://github.com/carolahp/PharoCandleSrc) but has been extended with Exception handling, Announcements and the minimal ClientEnvironment classes like a Communicator. The code and some explanation for this tiny image can be found on [CP-Bootstrap](https://github.com/ErikOnBike/CP-Bootstrap).
 
+**Tip**: Do not forget to pull this repo regularly, since some code changes will need to be made on the ClientEnvironment as well.
+
 ### Load ServerEnvironment
 
 The ServerEnvironment should be run from a Pharo7 or Pharo8 image (**Pharo9 can't be used at the moment, see compatibility info below**). In the future other platforms like Cuis will probably be supported as well.
