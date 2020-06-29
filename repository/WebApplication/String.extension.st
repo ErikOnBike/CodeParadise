@@ -1,6 +1,14 @@
 Extension { #name : #String }
 
 { #category : #'*WebApplication' }
+String >> asElement [
+
+	<webApplicationExtension>
+
+	^ self inHtmlTag: #span
+]
+
+{ #category : #'*WebApplication' }
 String >> asRegularFontAwesomeIcon [
 
 	<webApplicationFontAwesomeExtension>

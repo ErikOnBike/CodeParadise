@@ -149,6 +149,14 @@ CpDomElement >> appendChild: childElement [
 	self primitiveFailed
 ]
 
+{ #category : #converting }
+CpDomElement >> asElement [
+
+	"Answer the receiver as DOM element"
+
+	^ self
+]
+
 { #category : #attributes }
 CpDomElement >> attributeAt: nameString [
 
