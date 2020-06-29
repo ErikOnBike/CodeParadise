@@ -58,6 +58,7 @@ CpMessageChannel environmentImplementation: CpZincWebSocketChannel.
 
 "Register the two example applications"
 CpDomExamplesServerApplication register.
+CpComponentExamplesServerApplication register.
 CpCounterWebApplication register.
 
 "Start the HTTP and WeSocket servers (use the path where you stored the ClientEnvironment)"
@@ -81,6 +82,7 @@ CpServerApplication allSubInstances do: [ :each | each stop ].
 
 "Unregister applications"
 CpDomExamplesServerApplication unregister.
+CpComponentExamplesServerApplication unregister.
 CpCounterWebApplication unregister.
 CpCounterWebApplication release.
 
@@ -96,6 +98,7 @@ If all went well you should be able to fire up a number of browser tabs/pages an
 
 The two applications can be reached using the following URLs:
 * DOM Examples [http://localhost:8080/static/app.html?DOM-Examples](http://localhost:8080/static/app.html?DOM-Examples)
+* Component Examples [http://localhost:8080/static/app.html?Component-Examples](http://localhost:8080/static/app.html?Component-Examples)
 * Counter Example [http://localhost:8080/static/app.html?counter](http://localhost:8080/static/app.html?counter)
 
 ## Possible usage
