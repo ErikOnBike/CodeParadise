@@ -99,6 +99,15 @@ CpWebApplication >> initialize [
 ]
 
 { #category : #installing }
+CpWebApplication >> installExtensionMethods [
+
+	"Install the extension methods from known Classes"
+
+	(Pragma allNamed: #webApplicationExtension in: String) do: [ :each |
+		self environment addMethod: each method ]
+]
+
+{ #category : #installing }
 CpWebApplication >> installPresenter: aPresenter [
 
 	"Install the specified Presenter in the ClientEnvironment"
