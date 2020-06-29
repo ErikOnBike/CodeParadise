@@ -8,8 +8,8 @@ Class {
 CpComponentExamplesClientBehavior class >> cpRequiredClasses [
 
 	^ super cpRequiredClasses, {
-		CpButtonView .
-		CpLinkView .
+		CpButton .
+		CpLink .
 		CpViewEventHandler }
 ]
 
@@ -22,7 +22,7 @@ CpComponentExamplesClientBehavior >> exampleButtons [
 	
 	outputElement := self outputElement.
 
-	outputElement appendChild: ((CpButtonView new)
+	outputElement appendChild: ((CpButton new)
 		textContent: 'My label' ;
 		yourself)
 ]
@@ -36,7 +36,7 @@ CpComponentExamplesClientBehavior >> exampleLinks [
 	
 	outputElement := self outputElement.
 
-	outputElement appendChild: ((CpLinkView new)
+	outputElement appendChild: ((CpLink new)
 		textContent: 'My link' ;
 		yourself)
 ]
@@ -160,7 +160,7 @@ CpComponentExamplesClientBehavior >> showIndex [
 		| example |
 				
 		example := (list appendChild: (CpHtmlElement newWithTag: 'li'))
-			appendChild: ((CpLinkView new)
+			appendChild: ((CpLink new)
 				attributeAt: #id put: item key ;	"ie selector"
 				textContent: item value first ;	"ie title"
 				yourself).

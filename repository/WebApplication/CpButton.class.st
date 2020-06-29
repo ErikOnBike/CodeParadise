@@ -1,11 +1,11 @@
 Class {
-	#name : #CpButtonView,
+	#name : #CpButton,
 	#superclass : #CpView,
 	#category : #'WebApplication-Components'
 }
 
 { #category : #'web resources' }
-CpButtonView class >> style [
+CpButton class >> style [
 
 	<webResource: #css>
 
@@ -65,7 +65,7 @@ CpButtonView class >> style [
 ]
 
 { #category : #'web resources' }
-CpButtonView class >> template [
+CpButton class >> template [
 
 	<webResource: #html>
 
@@ -83,7 +83,7 @@ CpButtonView class >> template [
 ]
 
 { #category : #'event handling' }
-CpButtonView >> handleClickEvent: aClickEvent [
+CpButton >> handleClickEvent: aClickEvent [
 
 	self announce: aClickEvent asAnnouncement
 ]

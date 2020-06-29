@@ -1,11 +1,11 @@
 Class {
-	#name : #CpLinkView,
+	#name : #CpLink,
 	#superclass : #CpView,
 	#category : #'WebApplication-Components'
 }
 
 { #category : #'web resources' }
-CpLinkView class >> style [
+CpLink class >> style [
 
 	<webResource: #css>
 
@@ -40,7 +40,7 @@ CpLinkView class >> style [
 ]
 
 { #category : #'web resources' }
-CpLinkView class >> template [
+CpLink class >> template [
 
 	<webResource: #html>
 
@@ -48,7 +48,7 @@ CpLinkView class >> template [
 ]
 
 { #category : #'event handling' }
-CpLinkView >> handleClickEvent: aClickEvent [
+CpLink >> handleClickEvent: aClickEvent [
 
 	self announce: aClickEvent asAnnouncement
 ]
