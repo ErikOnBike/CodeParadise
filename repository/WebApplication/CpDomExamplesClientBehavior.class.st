@@ -4,7 +4,7 @@ I only live in the ClientEnvironment.
 "
 Class {
 	#name : #CpDomExamplesClientBehavior,
-	#superclass : #Object,
+	#superclass : #CpWebClientBehavior,
 	#category : #'WebApplication-Examples'
 }
 

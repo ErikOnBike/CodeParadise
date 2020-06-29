@@ -4,7 +4,7 @@ I only live in the ServerEnvironment.
 "
 Class {
 	#name : #CpDomExamplesServerApplication,
-	#superclass : #CpServerApplication,
+	#superclass : #CpWebApplication,
 	#category : #'WebApplication-Examples'
 }
 
@@ -16,31 +16,8 @@ CpDomExamplesServerApplication class >> app [
 	^ #'DOM-Examples'
 ]
 
-{ #category : #actions }
-CpDomExamplesServerApplication >> load [
+{ #category : #accessing }
+CpDomExamplesServerApplication class >> clientBehaviorClass [
 
-	"Load the client behavior in the ClientEnvironment"
-
-	super load.
-
-	self environment addClass: CpDomExamplesClientBehavior.
-
-	"Start the client behavior"
-	self startClientBehavior
-]
-
-{ #category : #actions }
-CpDomExamplesServerApplication >> reload [
-
-	"Start the client behavior"
-	super reload.
-
-	self startClientBehavior
-]
-
-{ #category : #actions }
-CpDomExamplesServerApplication >> startClientBehavior [
-
-	"Start the client behavior by creating an instance of the class containing the behavior"
-	self environment clientCreateInstanceOf: CpDomExamplesClientBehavior withId: #client
+	^ CpDomExamplesClientBehavior
 ]

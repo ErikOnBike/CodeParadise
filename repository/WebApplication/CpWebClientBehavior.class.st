@@ -25,6 +25,14 @@ CpWebClientBehavior class >> cpRequiredClasses [
 	^ super cpRequiredClasses, { CpViewEventHandler . CpModelProxy . CpPresenter }
 ]
 
+{ #category : #initialization }
+CpWebClientBehavior class >> createIn: aServerEnvironment [
+
+	"Create an instance of the receiver in the specified ServerEnvironment"
+
+	aServerEnvironment clientCreateInstanceOf: self withId: self clientId
+]
+
 { #category : #creating }
 CpWebClientBehavior class >> createPresenter: aPresenter in: aServerEnvironment [
 
@@ -39,13 +47,11 @@ CpWebClientBehavior class >> createPresenter: aPresenter in: aServerEnvironment 
 ]
 
 { #category : #initialization }
-CpWebClientBehavior class >> postInstall [
+CpWebClientBehavior class >> installIn: aServerEnvironment [
 
-	"Create an instance of the receiver after installation"
+	"Install the receiver in the specified ServerEnvironment"
 
-	super postInstall.
-
-	CpClientEnvironment current createInstanceOf: self name withId: self clientId
+	aServerEnvironment addClass: self
 ]
 
 { #category : #updating }

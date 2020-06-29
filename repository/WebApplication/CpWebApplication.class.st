@@ -126,9 +126,13 @@ CpWebApplication >> load [
 	"Ensure the receiver reacts to Announcements from the ClientEnvironment"
 	self environment when: CpMessageToProxyReceived send: #handleMessageToProxy: to: self.
 
-	"Create specific ClientBehavior in the ClientEnvironment by adding the Class.
-	The Class will instantiate itself after installation."
-	self environment addClass: self class clientBehaviorClass.
+	"Install required extensions"
+	self installExtensionMethods.
+
+	"Install an instance the ClientBehavior in the ClientEnvironment"
+	self class clientBehaviorClass
+		installIn: self environment ;
+		createIn: self environment.
 
 	"Install any default presenters"
 	self installPresenters
@@ -204,6 +208,10 @@ CpWebApplication >> reload [
 
 	super reload.
 
+	"Create an instance of the ClientBehavior in the ClientEnvironment (class is already installed)"
+	self class clientBehaviorClass createIn: self environment.
+
+	"Install the presenters"
 	self installPresenters
 ]
 
