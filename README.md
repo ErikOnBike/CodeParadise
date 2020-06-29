@@ -92,6 +92,8 @@ Smalltalk garbageCollect.
 Smalltalk garbageCollect.
 ```
 
+**Tip**: Adding additional classes to an application is currently not always correctly propagated to a running environment. Even reloading a tab/window might not always yield the required result. Try opening a new tab/window just to be sure. And if it still results in an exception, you might try to reset the environment with the code above and restart it.
+
 ### Start your browsers
 
 If all went well you should be able to fire up a number of browser tabs/pages and start using the example applications. Profit warning: the examples are still very limited, but should allow some insight in what is possible and allow you to play with it yourself.
