@@ -22,9 +22,27 @@ CpComponentExamplesClientBehavior >> exampleButtons [
 	
 	outputElement := self outputElement.
 
-	outputElement appendChild: ((CpButton new)
-		textContent: 'My label' ;
-		yourself)
+	outputElement appendChild: (CpButton label: 'My label').
+
+	"Add separator"
+	outputElement appendChild: (CpHtmlElement newWithTag: #p).
+
+	outputElement appendChild: (CpButton label: #heart asRegularFontAwesomeIcon).
+
+	"Add separator"
+	outputElement appendChild: (CpHtmlElement newWithTag: #p).
+
+	outputElement appendChild: (CpButton label: 'Suffixed' suffix: #star asSolidFontAwesomeIcon).
+
+	"Add separator"
+	outputElement appendChild: (CpHtmlElement newWithTag: #p).
+
+	outputElement appendChild: (CpButton prefix: #backward asSolidFontAwesomeIcon label: 'Prefixed' ).
+
+	"Add separator"
+	outputElement appendChild: (CpHtmlElement newWithTag: #p).
+
+	outputElement appendChild: (CpButton prefix: #'chevron-left' asSolidFontAwesomeIcon label: 'both' suffix: #'chevron-right' asSolidFontAwesomeIcon).
 ]
 
 { #category : #examples }
@@ -36,9 +54,7 @@ CpComponentExamplesClientBehavior >> exampleLinks [
 	
 	outputElement := self outputElement.
 
-	outputElement appendChild: ((CpLink new)
-		textContent: 'My link' ;
-		yourself)
+	outputElement appendChild: (CpLink label: 'My link')
 ]
 
 { #category : #events }
@@ -131,6 +147,10 @@ CpComponentExamplesClientBehavior >> showIndex [
 			}
 		' ;
 		yourself).
+	CpHtmlElement documentHead appendChild: ((CpHtmlElement newWithTag: #link)
+		attributeAt: #rel put: 'stylesheet' ;
+		attributeAt: #href put: 'https://use.fontawesome.com/releases/v5.0.7/css/all.css' ;
+		yourself).
 	body := CpHtmlElement documentBody.
 	body markupContent: '<h1>Component Examples</h1>
 		<div style="width: 100%; margin: 0; padding: 0;">
@@ -160,9 +180,8 @@ CpComponentExamplesClientBehavior >> showIndex [
 		| example |
 				
 		example := (list appendChild: (CpHtmlElement newWithTag: 'li'))
-			appendChild: ((CpLink new)
+			appendChild: ((CpLink label: item value first)	"ie titel"
 				attributeAt: #id put: item key ;	"ie selector"
-				textContent: item value first ;	"ie title"
 				yourself).
 
 		"Register interest in events on the list item"
