@@ -95,7 +95,7 @@ CpTemplateComponent class >> template [
 
 { #category : #updating }
 CpTemplateComponent class >> updateStyle [
-self crTrace: 'here?'.
+
 	self installStyle: self style
 ]
 
