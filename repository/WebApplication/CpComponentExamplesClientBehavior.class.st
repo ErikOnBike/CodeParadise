@@ -185,6 +185,5 @@ CpComponentExamplesClientBehavior >> showIndex [
 				yourself).
 
 		"Register interest in events on the list item"
-		CpBrowserEventHandler current registerInterestIn: example.
 		example when: CpEventAnnouncement do: [ :announcement | self handleEvent: announcement event ] ]
 ]

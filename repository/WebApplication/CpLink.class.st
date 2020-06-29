@@ -18,6 +18,19 @@ CpLink class >> label: labelElement [
 		yourself
 ]
 
+{ #category : #'instance creation' }
+CpLink class >> new [
+
+	"Answer new instance of the receiver.
+	Register interest in this instance for event handling."
+
+	| instance |
+
+	instance := super new.
+	CpBrowserEventHandler current registerInterestIn: instance.
+	^ instance
+]
+
 { #category : #'web resources' }
 CpLink class >> style [
 
