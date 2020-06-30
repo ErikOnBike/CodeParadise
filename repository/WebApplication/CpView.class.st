@@ -52,5 +52,17 @@ CpView >> release [
 { #category : #announcing }
 CpView >> when: anAnnouncementClass do: aBlock [
 
-	self announcer when: anAnnouncementClass do: aBlock
+	"Let the sender subscribe to the specified announcement of the receiver.
+	See Announcer>>#when:do:"
+
+	^ self announcer when: anAnnouncementClass do: aBlock
+]
+
+{ #category : #announcing }
+CpView >> when: anAnnouncementClass send: aSymbol to: anObject [
+
+	"Let the sender subscribe to the specified announcement of the receiver.
+	See Announcer>>#when:send:to:"
+
+	^ self announcer when: anAnnouncementClass send: aSymbol to: anObject
 ]
