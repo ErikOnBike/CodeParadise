@@ -245,6 +245,11 @@ CpDomExamplesClientBehavior >> installBrowserEventHandler [
 		delegate: self
 ]
 
+{ #category : #examples }
+CpDomExamplesClientBehavior >> myExampleSelectors [
+	^ self class selectors select: [ :each | each beginsWith: #example ]
+]
+
 { #category : #accessing }
 CpDomExamplesClientBehavior >> outputElement [
 
@@ -253,11 +258,12 @@ CpDomExamplesClientBehavior >> outputElement [
 
 { #category : #examples }
 CpDomExamplesClientBehavior >> showIndex [
-
 	| body list items |
-
-	CpHtmlElement documentHead appendChild: ((CpHtmlElement newWithTag: #style)
-		textContent: '
+	CpHtmlElement documentHead
+		appendChild:
+			((CpHtmlElement newWithTag: #style)
+				textContent:
+					'
 			#menu {
 				display: inline-block;
 				width: 20em;
@@ -279,41 +285,48 @@ CpDomExamplesClientBehavior >> showIndex [
 				width: 100%;
 				height: 100%;
 			}
-		' ;
-		yourself).
+		';
+				yourself).
 	body := CpHtmlElement documentBody.
-	body markupContent: '<h1>DOM Examples</h1>
+	body
+		markupContent:
+			'<h1>DOM Examples</h1>
 		<div style="width: 100%; margin: 0; padding: 0;">
 			<div id="menu"><ul id="list"></ul></div><div id="result"><div id="output"></div></div>
 		</div>
 	'.
-
 	list := body firstDescendantMatching: '#list'.
 
 	"Collect items from example methods"
-
-	items := 	OrderedCollection new.
-	(self class selectors select: [ :each | each beginsWith: #example ]) do: [ :selector |
-		(self class >> selector) properties ifNotNil: [ :properties |
-			(properties at: #example:order:) ifNotNil: [ :pragma |
-				items add: selector -> pragma arguments ] ] ].
+	items := OrderedCollection new.
+	self myExampleSelectors
+		do: [ :selector | 
+			(self class >> selector) properties
+				ifNotNil: [ :properties | 
+					(properties at: #example:order:)
+						ifNotNil: [ :pragma | items add: selector -> pragma arguments ] ] ].
 
 	"Sort items (a and b are associations where the value contains the pragma arguments #title and #order)"
-	items sort: [ :a :b |
-		"Either the order of a is lower than order of b"
-		(a value second < b value second) or: [
-			"or the have the same order and a comes before b alphabetically" 
-			(a value second = b value second) and: [ a value first < b value first ] ] ].
+	items
+		sort: [ :a :b | 
+			"Either the order of a is lower than order of b"
+			a value second < b value second
+				or:
+					[ "or the have the same order and a comes before b alphabetically" a value second = b value second and: [ a value first < b value first ] ] ].
 
 	"Render items onto DOM"
-	items do: [ :item |
-		| example |
-				
-		example := list appendChild: ((CpHtmlElement newWithTag: 'li')
-			attributeAt: #id put: item key ;	"ie selector"
-			textContent: item value first ;	"ie title"
-			yourself).
+	items
+		do: [ :item | 
+			| example |
+			example := list
+				appendChild:
+					((CpHtmlElement newWithTag: 'li')
+						attributeAt: #id put: item key;
+						"ie selector"
+							textContent: item value first;
+						"ie title"
+							yourself).
 
-		"Register interest in events on the list item"
-		CpBrowserEventHandler current registerInterestIn: example ]
+			"Register interest in events on the list item"
+			CpBrowserEventHandler current registerInterestIn: example ]
 ]
