@@ -9,6 +9,17 @@ String >> asElement [
 ]
 
 { #category : #'*WebApplication' }
+String >> asMaterialIcon [
+
+	<webApplicationMaterialDesignExtension>
+
+	^ ((Smalltalk classNamed: #CpHtmlElement) newWithTag: #i)
+		attributeAt: #class put: 'material-icons' ;
+		textContent: self ;
+		yourself
+]
+
+{ #category : #'*WebApplication' }
 String >> asRegularFontAwesomeIcon [
 
 	<webApplicationFontAwesomeExtension>

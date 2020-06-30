@@ -33,17 +33,21 @@ CpComponentExamplesClientBehavior >> exampleButtons [
 	"Add separator"
 	outputElement appendChild: (CpHtmlElement newWithTag: #p).
 
-	outputElement appendChild: (CpButton label: 'Suffixed' suffix: #star asSolidFontAwesomeIcon).
+	outputElement
+		appendChild: (CpButton label: 'Suffixed' suffix: #face asMaterialIcon) ;
+		appendChild: (' this is a Material (Design) Icon' inHtmlTag: #span).
 
 	"Add separator"
 	outputElement appendChild: (CpHtmlElement newWithTag: #p).
 
-	outputElement appendChild: (CpButton prefix: #backward asSolidFontAwesomeIcon label: 'Prefixed' ).
+	outputElement
+		appendChild: (CpButton prefix: #backward asSolidFontAwesomeIcon label: 'Prefixed') ;
+		appendChild: (' this is a FontAwesome Icon' inHtmlTag: #span).
 
 	"Add separator"
 	outputElement appendChild: (CpHtmlElement newWithTag: #p).
 
-	outputElement appendChild: (CpButton prefix: #'chevron-left' asSolidFontAwesomeIcon label: 'both' suffix: #'chevron-right' asSolidFontAwesomeIcon).
+	outputElement appendChild: (CpButton prefix: #'chevron-left' asSolidFontAwesomeIcon label: 'Both' suffix: #'chevron-right' asSolidFontAwesomeIcon).
 ]
 
 { #category : #examples }
@@ -172,6 +176,10 @@ CpComponentExamplesClientBehavior >> showIndex [
 		attributeAt: #rel put: 'stylesheet' ;
 		attributeAt: #href put: 'https://use.fontawesome.com/releases/v5.0.7/css/all.css' ;
 		yourself).
+	CpHtmlElement documentHead appendChild: ((CpHtmlElement newWithTag: #link)
+		attributeAt: #rel put: 'stylesheet' ;
+		attributeAt: #href put: 'https://fonts.googleapis.com/icon?family=Material+Icons' ;
+      yourself).
 	body := CpHtmlElement documentBody.
 	body markupContent: '<h1>Component Examples</h1>
 		<div style="width: 100%; margin: 0; padding: 0;">
