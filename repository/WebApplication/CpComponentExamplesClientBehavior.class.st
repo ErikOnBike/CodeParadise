@@ -4,16 +4,6 @@ Class {
 	#category : #'WebApplication-Examples'
 }
 
-{ #category : #accessing }
-CpComponentExamplesClientBehavior class >> cpRequiredClasses [
-
-	^ super cpRequiredClasses, {
-		CpButton .
-		CpLink .
-		CpCheckbox .
-		CpViewEventHandler }
-]
-
 { #category : #examples }
 CpComponentExamplesClientBehavior >> exampleButtons [
 

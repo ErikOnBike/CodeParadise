@@ -19,12 +19,6 @@ CpWebClientBehavior class >> clientId [
 	^ #client
 ]
 
-{ #category : #accessing }
-CpWebClientBehavior class >> cpRequiredClasses [
-
-	^ super cpRequiredClasses, { CpViewEventHandler . CpModelProxy . CpPresenter }
-]
-
 { #category : #initialization }
 CpWebClientBehavior class >> createIn: aServerEnvironment [
 

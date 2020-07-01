@@ -75,38 +75,90 @@ CpClientEnvironment class >> preInstalledClasses [
 
 	self flag: #todo.	"Should ClientEnvironment announce these classes with CpClientStarted?"
 
-	"Implementation: only answer Classes in the tiny Smalltalk image which would normally be inherited from (for the time being)"
 	^ PreInstalledClasses ifNil: [
 		PreInstalledClasses := Set new
-			add: CpClientEnvironment ;
-			add: CpClientCommunicator ;
-			add: CpCommunicatorReconnectStrategy ;
-			add: CpJavascriptWebSocketChannel ;
+			add: AdditionalMethodState ;
 			add: Announcement ;
+			add: AnnouncementSet ;
+			add: AnnouncementSetWithExclusions ;
+			add: AnnouncementSubscription ;
+			add: Announcer ;
+			add: Array ;
+			add: ArrayedCollection ;
+			add: Association ;
+			add: Behavior ;
+"			add: Block ;
+"			add: ByteArray ;
+			add: Character ;
+			add: Class ;
+"			add: ClassBuilder ;
+"			add: Collection ;
+			add: CompiledMethod ;
+			add: Context ;
+			add: CpClientCommunicator ;
+			add: CpClientDecodeFailed ;
+			add: CpClientEnvironment ;
+			add: CpClientError ;
+			add: CpClientMessageSendFailed ;
 			add: CpClientStarted ;
 			add: CpClientStopped ;
-			add: ProtoObject ;
-			add: Object ;
-			add: UndefinedObject ;
-			add: Array ;
-			add: ByteArray ;
-			add: Collection ;
-			add: ArrayedCollection ;
-			add: SequenceableCollection ;
-			add: OrderedCollection ;
+			add: CpCommunicator ;
+			add: CpCommunicatorReconnectStrategy ;
+			add: CpEnvironment ;
+			add: CpJavascriptWebSocketChannel ;
+			add: CpMessageChannel ;
+			add: CpObjectDecoder ;
+			add: CpObjectEncoder ;
+			add: CpObjectRegistry ;
 			add: Dictionary ;
-			add: IdentityDictionary ;
-			add: Set ;
-			add: IdentitySet ;
-			add: Association ;
-			add: Interval ;
-			add: Exception ;
 			add: Error ;
+			add: Exception ;
+			add: ExceptionSet ;
+			add: ExceptionSetWithExclusions ;
+			add: False ;
+			add: Float ;
+			add: IdentityDictionary ;
+			add: IdentitySet ;
+			add: IllegalResumeAttempt ;
+			add: Integer ;
+			add: Interval ;
+			add: LargeNegativeInteger ;
+			add: LargePositiveInteger ;
+			add: LinkedList ;
+			add: Magnitude ;
+			add: Message ;
 			add: MessageNotUnderstood ;
+			add: MessageSend ;
+			add: Metaclass ;
+"			add: MethodContext ;
+"			add: MethodDictionary ;
+			add: Mutex ;
+			add: Number ;
+			add: Object ;
+			add: OrderedCollection ;
+			add: Point ;
+			add: Pragma ;
+			add: Process ;
+			add: ProcessList ;
+			add: ProcessorScheduler ;
+			add: ProtoObject ;
+			add: ReadStream ;
+			add: Rectangle ;
+			add: Semaphore ;
+			add: SequenceableCollection ;
+			add: Set ;
+			add: SmallInteger ;
+			add: SmalltalkImage ;
+			add: String ;
+			add: SubscriptionRegistry ;
+			add: Symbol ;
+"			add: System ;"
+			add: SystemDictionary ;
+			add: True ;
+			add: UndefinedObject ;
 			add: UnhandledError ;
-			add: CpClientError ;
-			add: CpClientDecodeFailed ;
-			add: CpClientMessageSendFailed ;
+			add: ValueLink ;
+			add: WriteStream ;
 		yourself ]
 ]
 

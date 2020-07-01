@@ -7,12 +7,6 @@ Class {
 	#category : #'WebApplication-Examples'
 }
 
-{ #category : #accessing }
-CpCounterView class >> cpRequiredClasses [
-
-	^ super cpRequiredClasses, { CpCounterDecrease . CpCounterIncrease }
-]
-
 { #category : #'web resources' }
 CpCounterView class >> style [
 

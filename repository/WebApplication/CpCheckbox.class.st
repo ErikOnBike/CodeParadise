@@ -9,12 +9,6 @@ Class {
 }
 
 { #category : #accessing }
-CpCheckbox class >> cpRequiredClasses [
-
-	^ super cpRequiredClasses, { CpSelectionChanged }
-]
-
-{ #category : #accessing }
 CpCheckbox class >> label: labelElement [
 
 	"Answer a new instance of the receiver with the specified label.

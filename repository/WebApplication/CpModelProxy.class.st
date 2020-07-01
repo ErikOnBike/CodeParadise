@@ -8,12 +8,6 @@ Class {
 	#category : #'WebApplication-Core'
 }
 
-{ #category : #accessing }
-CpModelProxy class >> cpRequiredClasses [
-
-	^ super cpRequiredClasses, { CpMessageToProxyReceived . CpUnidentifiedObjectUsed }
-]
-
 { #category : #'reflective operations' }
 CpModelProxy >> doesNotUnderstand: aMessage [
 

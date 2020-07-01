@@ -28,12 +28,6 @@ CpEvent class >> canHandleType: type [
 	^ self type = type
 ]
 
-{ #category : #accessing }
-CpEvent class >> cpRequiredClasses [
-
-	^ super cpRequiredClasses, { CpEventAnnouncement }
-]
-
 { #category : #'instance creation' }
 CpEvent class >> newFrom: aDictionary [
 

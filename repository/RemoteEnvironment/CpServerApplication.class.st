@@ -122,19 +122,16 @@ CpServerApplication >> methodChanged: anAnnouncement [
 	(self environment ifNil: [ ^ false ]) isRunning
 		ifFalse: [ ^ false ].
 
-	"Validate method is/should be available in ClientEnvironment"
+	"Validate method is or should be available in ClientEnvironment"
 	method := anAnnouncement method.
 	method ifNil: [ ^ false ].
 	methodClass := method methodClass instanceSide.
-	(self environment hasInstalledClass: methodClass)
-		ifTrue: [
-			"Install method in ClientEnvironment (no need to add since class will be reinstalled on reload)"
-			self environment installMethod: method.
-			^ true ].
 	(self environment clientKnowsClass: methodClass)
 		ifTrue: [
+
 			"Add method in ClientEnviroment (making sure it is installed again on reload)"
 			self environment addMethod: method.
+
 			^ true ].
 
 	^ false

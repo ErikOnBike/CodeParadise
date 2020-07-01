@@ -14,12 +14,6 @@ Class {
 }
 
 { #category : #accessing }
-CpPresenter class >> cpRequiredClasses [
-
-	^ super cpRequiredClasses, {  self defaultViewClass . CpBrowserEventHandler }
-]
-
-{ #category : #accessing }
 CpPresenter class >> defaultViewClass [
 
 	^ CpView

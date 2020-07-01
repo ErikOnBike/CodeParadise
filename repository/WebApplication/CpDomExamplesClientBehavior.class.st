@@ -8,12 +8,6 @@ Class {
 	#category : #'WebApplication-Examples'
 }
 
-{ #category : #accessing }
-CpDomExamplesClientBehavior class >> cpRequiredClasses [
-
-	^ super cpRequiredClasses, { CpHtmlElement . CpSvgElement . CpMathElement . CpBrowserEventHandler }
-]
-
 { #category : #examples }
 CpDomExamplesClientBehavior class >> someValue [
 

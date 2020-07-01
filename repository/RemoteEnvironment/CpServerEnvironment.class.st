@@ -112,25 +112,22 @@ CpServerEnvironment class >> newWithId: id [
 { #category : #'adding/removing' }
 CpServerEnvironment >> addClass: aClass [
 
-	"Add the specified Class to the client environment of the receiver and answer it"
+	"Add the specified Class to the client environment of the receiver and answer it.
+	Implementation: since the Class can depend on other classes a collection of Classes
+	might need to be installed. This collection requires an order. For example to prevent
+	the installation of a subclass before its superclass."
 
 	installationMutex critical: [
 
-		"Only add new classes"
-		(self clientKnowsClass: aClass)
-			ifTrue: [ ^ aClass ].
+		"Select all the required classes in 'dependency order' which are not already installed"
+		(aClass cpAllRequiredClassesMatching: [ :each | (self clientKnowsClass: each) not ])
+			do: [ :each |
 
-		"Add super class to receiver first"
-		self addClass: aClass superclass.
+				"Remember which Classes are installed (in order) for reloading"
+				self installedClasses at: each name put: each.
 
-		"Add required classes"
-		aClass cpRequiredClasses do: [ :each | self addClass: each ].
-
-		"Add new class to receiver's collection of installed classes"
-		self installedClasses at: aClass name put: aClass.
-
-		"Install in ClientEnvironment"
-		self installClass: aClass.
+				"Install in ClientEnvironment"
+				self installClass: each ].
 		
 		^ aClass ]
 ]
@@ -143,17 +140,23 @@ CpServerEnvironment >> addMethod: aCompiledMethod [
 	| methodElement |
 
 	installationMutex critical: [
+
 		(self hasInstalledClass: aCompiledMethod methodClass)
 			ifFalse: [
+
 				"Only methods which are not part of installed classes need to be remembered.
 				Others will be installed anyway on reload/restart."
 				methodElement := Association key: aCompiledMethod methodClass value: aCompiledMethod selector.
 				(installedMethods includes: methodElement)
 					ifFalse: [ installedMethods add: methodElement ] ].
 
+		"Install Classes that are referenced from the method first"
+		aCompiledMethod referencedClasses do: [ :each | self addClass: each ].
+
+		"Now that the referred Classes are installed, install the method"
 		self installMethod: aCompiledMethod.
-		
-		^ aCompiledMethod ].
+
+		^ aCompiledMethod ]
 ]
 
 { #category : #announcing }
