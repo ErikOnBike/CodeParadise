@@ -82,13 +82,6 @@ CpButton class >> style [
 			font-size: .8rem;
 		}
 
-		/* Ensure the button is always aligned on the baseline */
-		#container::before {
-			content: "\2003";
-			display: inline-block;
-			width: 0;
-		}
-
 		#container {
 			display: inline-flex;
 			width: 100%;
@@ -96,9 +89,8 @@ CpButton class >> style [
 			min-height: inherit;
 			padding: .25rem;
 			border-radius: .25rem;
-			align-items: center;
+			align-items: baseline;
 			justify-content: center;
-			text-align: center;
 			color: var(--control-text-color);
 			background-color: var(--control-background-color);
 			cursor: pointer;
@@ -119,18 +111,19 @@ CpButton class >> style [
 
 		#prefix,
 		#suffix {
-			flex: none;
+			display: inline-block;
 		}
 
-		#prefix {
+		#prefix ::slotted(*) {
 			margin-right: .25rem;		
 		}
-		
-		#suffix {
+
+		#suffix ::slotted(*) {
 			margin-left: .25rem;
 		}
 
 		#label {
+			display: inline-block;
 			white-space: nowrap;
 			overflow: hidden;
 			text-overflow: ellipsis;

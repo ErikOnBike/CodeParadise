@@ -37,7 +37,7 @@ CpLink class >> style [
 	<webResource: #css>
 
 	^ ':host {
-			display: inline-block;
+			display: inline-flex;
 			position: relative;
 			white-space: nowrap;
 			font-size: .8rem;
