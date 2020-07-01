@@ -11,6 +11,14 @@ Class >> cpEncodeWith: anEncoder [
 ]
 
 { #category : #'*RemoteEnvironment' }
+Class >> cpRequiredClasses [
+
+	"Answer a collection of Classes the receiver is dependent on in the ClientEnvironment"
+
+	^ #()
+]
+
+{ #category : #'*RemoteEnvironment' }
 Class >> postInstall [
 
 	"Perform any necessary initialization after receiver is installed in the ClientEnvironment.
