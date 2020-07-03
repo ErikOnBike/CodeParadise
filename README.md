@@ -69,7 +69,7 @@ CpCounterWebApplication register.
 "Start the HTTP and WeSocket servers (use the path where you stored the ClientEnvironment)"
 CpWebApplicationServerStarter startUsingConfig: {
 	#portNumber -> 8080 .
-	#staticFilesDirectoryName -> '/your/client/environment/path'
+	#staticFilesDirectoryName -> '/your/path/to/CP-ClientEnvironment/html'
 } asDictionary.
 
 "If you serve the static files using your own HTTP server, you can start the WebSocket server using:"
@@ -98,6 +98,8 @@ Smalltalk garbageCollect.
 ```
 
 **Tip**: Adding additional classes to an application is currently not always correctly propagated to a running environment. Even reloading a tab/window might not always yield the required result. Try opening a new tab/window just to be sure. And if it still results in an exception, you might try to reset the environment with the code above and restart it.
+
+**Tip**: The server image keeps all sessions in memory at the moment (they never expire yet). So once in a while use the reset code above to clean up the sessions. Remember the sessions will also be saved in the image. So closing and reopening your image should bring you back the session and you can continu where you left off.
 
 ### Start your browsers
 
