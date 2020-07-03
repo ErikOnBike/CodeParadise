@@ -72,6 +72,31 @@ CpComponentExamplesClientBehavior >> exampleLinks [
 	outputElement appendChild: (CpLink label: 'My link')
 ]
 
+{ #category : #examples }
+CpComponentExamplesClientBehavior >> exampleTextField [
+
+	<example: 'Text fields' order: 400>
+
+	| outputElement |
+	
+	outputElement := self outputElement.
+
+	outputElement appendChild: (self textFieldExplanation inHtmlTag: #p).
+
+	outputElement appendChild: ((CpTextField new)
+		styleAt: #width put: '20em' ;
+		text: 'Hello world' ;
+		yourself).
+
+	"Separator"
+	outputElement appendChild: (CpHtmlElement newWithTag: #p).
+
+	outputElement appendChild: ((CpTextField new)
+		styleAt: #width put: '20em' ;
+		text: '' ;
+		yourself)
+]
+
 { #category : #events }
 CpComponentExamplesClientBehavior >> handleEvent: anEvent [
 
@@ -110,6 +135,9 @@ CpComponentExamplesClientBehavior >> outputElement [
 
 { #category : #examples }
 CpComponentExamplesClientBehavior >> showIndex [
+
+	"Beware: this method is not to be taken as exemplar for creating a UI.
+	This class is just a collection of examples of UI possibilities."
 
 	| body list items |
 
@@ -205,4 +233,25 @@ CpComponentExamplesClientBehavior >> showIndex [
 
 		"Register interest in events on the list item"
 		example when: CpEventAnnouncement do: [ :announcement | self handleEvent: announcement event ] ]
+]
+
+{ #category : #explanation }
+CpComponentExamplesClientBehavior >> textFieldExplanation [
+
+	^ 'This is a very early first beta trial prototype experiment thing
+	(hoping this makes it clear you can''t claim anything based on the result ;-).
+	The textfield below, might look (sort of) normal, but in fact is almost
+	fully rendered and handled by Smalltalk code. There is a hidden HTML input tag
+	on the location where the cursor is, but that is for future use when copy
+	and paste are going to be implemented. (Don''t believe me? Just open up your
+	browser console and check the DOM!) All keyboard events are caught and
+	handled by Smalltalk code. All updating of the visible text field is done
+	by Smalltalk code. The blinking cursor is just a little bar with CSS styling
+	making it look like a blinking cursor. Only a few keystrokes are handled
+	at the moment: single characters, left and right arrow, delete and backspace.
+	You can set the cursor (not remove it) in both text fields. The keys are
+	send to all fields with a cursor. This is to allow both the feature of changing
+	a selection of text in multiple places as well as support multiple inputs in
+	collaboration environments.
+	Still hope you have as much fun with it as I have :-)'
 ]
