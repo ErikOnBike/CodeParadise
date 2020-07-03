@@ -248,6 +248,9 @@ CpDomExamplesClientBehavior >> outputElement [
 { #category : #examples }
 CpDomExamplesClientBehavior >> showIndex [
 
+	"Beware: this method is not to be taken as exemplar for creating a UI.
+	This class is just a collection of examples of UI possibilities."
+
 	| body list items |
 
 	CpHtmlElement documentHead appendChild: ((CpHtmlElement newWithTag: #style)

@@ -1,6 +1,12 @@
 "
 I am an event handler for events inside a web browser.
 
+Implementation:
+I compose some events (like ClickEvent and KeyPressEvent) from other events.
+This to allow as much control over the event handling as possible and
+to have a single location to streamline the different browser behaviors.
+Different browsers have different ways to trigger events (presence/absence
+of events, order of events, data provided by events, etc.).
 "
 Class {
 	#name : #CpBrowserEventHandler,
@@ -8,7 +14,8 @@ Class {
 	#instVars : [
 		'delegate',
 		'clickEvent',
-		'dragEvent'
+		'dragEvent',
+		'keyPressEvent'
 	],
 	#classVars : [
 		'Current'
@@ -19,7 +26,18 @@ Class {
 { #category : #accessing }
 CpBrowserEventHandler class >> cpRequiredClasses [
 
-	^ super cpRequiredClasses, { CpClickEvent . CpDragEvent . CpMouseUpEvent . CpMouseDownEvent . CpMouseMoveEvent . CpTouchStartEvent . CpTouchMoveEvent . CpTouchEndEvent }
+	^ super cpRequiredClasses, {
+		CpClickEvent .
+		CpDragEvent .
+		CpPointerDownEvent .
+		CpPointerMoveEvent .
+		CpPointerUpEvent .
+		CpKeyDownEvent .
+		CpKeyPressEvent .
+		CpKeyUpEvent .
+		CpCompositionStartEvent .
+		CpCompositionUpdateEvent .
+		CpCompositionEndEvent }
 ]
 
 { #category : #accessing }
@@ -42,6 +60,12 @@ CpBrowserEventHandler class >> similarDistance [
 	^ 8
 ]
 
+{ #category : #'event handling' }
+CpBrowserEventHandler >> click: aClickEvent [
+
+	self dispatchEvent: aClickEvent
+]
+
 { #category : #accessing }
 CpBrowserEventHandler >> clickEvent [
 
@@ -49,23 +73,41 @@ CpBrowserEventHandler >> clickEvent [
 ]
 
 { #category : #'event handling' }
-CpBrowserEventHandler >> createClickEvent: mouseDownEvent [
+CpBrowserEventHandler >> compositionEnd: aCompositionEndEvent [
+
+	self dispatchEvent: aCompositionEndEvent
+]
+
+{ #category : #'event handling' }
+CpBrowserEventHandler >> compositionStart: aCompositionStartEvent [
+
+	self dispatchEvent: aCompositionStartEvent
+]
+
+{ #category : #'event handling' }
+CpBrowserEventHandler >> compositionUpdate: aCompositionUpdateEvent [
+
+	self dispatchEvent: aCompositionUpdateEvent
+]
+
+{ #category : #'event handling' }
+CpBrowserEventHandler >> createClickEvent: aPointerDownEvent [
 
 	clickEvent := CpClickEvent new
-		target: mouseDownEvent target ;
-		elementId: mouseDownEvent elementId ;
-		clickPoint: mouseDownEvent mousePoint ;
+		target: aPointerDownEvent target ;
+		elementId: aPointerDownEvent elementId ;
+		clickPoint: aPointerDownEvent point ;
 		yourself
 ]
 
 { #category : #'event handling' }
-CpBrowserEventHandler >> createDragEvent: mouseDownEvent [
+CpBrowserEventHandler >> createDragEvent: aPointerDownEvent [
 
 	dragEvent := CpDragEvent new
-		target: mouseDownEvent target ;
-		elementId: mouseDownEvent elementId ;
-		startPoint: mouseDownEvent mousePoint ;
-		offset: mouseDownEvent offset ;
+		target: aPointerDownEvent target ;
+		elementId: aPointerDownEvent elementId ;
+		startPoint: aPointerDownEvent point ;
+		offset: aPointerDownEvent offset ;
 		yourself
 ]
 
@@ -92,6 +134,16 @@ CpBrowserEventHandler >> createEventHandlerProcess [
 
 	"Start the process (which will actually put it to sleep waiting for the first event)"
 	eventHandlerProcess resume
+]
+
+{ #category : #'event handling' }
+CpBrowserEventHandler >> createKeyPressEvent: aKeyDownEvent [
+
+	keyPressEvent := CpKeyPressEvent new
+		modifiers: aKeyDownEvent modifiers ;
+		key: aKeyDownEvent key ;
+		isComposing: aKeyDownEvent isComposing ;
+		yourself
 ]
 
 { #category : #accessing }
@@ -128,24 +180,30 @@ CpBrowserEventHandler >> eventClass [
 ]
 
 { #category : #'event handling' }
-CpBrowserEventHandler >> handleClick: mouseUpEvent [
+CpBrowserEventHandler >> handleClick: aPointerUpEvent [
+
+	(self point: self clickEvent clickPoint isSimilarTo: aPointerUpEvent point)
+		ifFalse: [ ^ self ].
 
 	self dispatchEvent: self clickEvent
 ]
 
 { #category : #'event handling' }
-CpBrowserEventHandler >> handleDragEnd: mouseUpEvent [
+CpBrowserEventHandler >> handleDragEnd: aPointerUpEvent [
+
+	self dragEvent hasTracePoints
+		ifFalse: [ ^ self ].
 
 	self dispatchEvent: (self dragEvent
-		endPoint: mouseUpEvent mousePoint ;
+		endPoint: aPointerUpEvent point ;
 		yourself)
 ]
 
 { #category : #'event handling' }
-CpBrowserEventHandler >> handleDragOver: mouseMoveEvent [
+CpBrowserEventHandler >> handleDragOver: aPointerMoveEvent [
 
 	self dispatchEvent: (self dragEvent
-		addTracePoint: mouseMoveEvent mousePoint ;
+		addTracePoint: aPointerMoveEvent point ;
 		yourself)
 ]
 
@@ -162,6 +220,18 @@ CpBrowserEventHandler >> handleEvents [
 	Implementation: Try to prevent long running synchronous calls for performance (jitter/yank in UI)."
 
 	self latestEvents do: [ :each | self handleEvent: each ]
+]
+
+{ #category : #'event handling' }
+CpBrowserEventHandler >> handleKeyPress: aKeyUpEvent [
+
+	(self keyPressEvent key = aKeyUpEvent key)
+		ifFalse: [
+			self keyPressEvent isComposing
+				ifFalse: [ self handleKeyPress: self keyPressEvent ].
+			^ self ].
+
+	self dispatchEvent: self keyPressEvent
 ]
 
 { #category : #testing }
@@ -182,6 +252,12 @@ CpBrowserEventHandler >> hasDragEvent [
 	^ dragEvent notNil
 ]
 
+{ #category : #testing }
+CpBrowserEventHandler >> hasKeyPressEvent [
+
+	^ keyPressEvent notNil
+]
+
 { #category : #initialization }
 CpBrowserEventHandler >> initialize [
 
@@ -190,6 +266,55 @@ CpBrowserEventHandler >> initialize [
 	super initialize.
 
 	self createEventHandlerProcess
+]
+
+{ #category : #'event handling' }
+CpBrowserEventHandler >> input: anInputEvent [
+
+	self dispatchEvent: anInputEvent
+]
+
+{ #category : #'event handling' }
+CpBrowserEventHandler >> keyDown: aKeyDownEvent [
+
+	self dispatchEvent: aKeyDownEvent.
+
+	"Key down can become a key press event, create it"
+	self hasKeyPressEvent
+		ifTrue: [
+			self keyPressEvent isComposing
+				ifTrue: [ self crTrace: 'Composing not handled yet' ]
+				ifFalse: [
+					self handleKeyPress: self keyPressEvent.
+					self keyPressEvent
+						modifiers: aKeyDownEvent modifiers ;
+						key: aKeyDownEvent key ;
+						isComposing: aKeyDownEvent isComposing ] ]
+		ifFalse: [ self createKeyPressEvent: aKeyDownEvent ]
+]
+
+{ #category : #'event handling' }
+CpBrowserEventHandler >> keyPress: aKeyPressEvent [
+
+	self dispatchEvent: aKeyPressEvent
+]
+
+{ #category : #accessing }
+CpBrowserEventHandler >> keyPressEvent [
+
+	^ keyPressEvent
+]
+
+{ #category : #'event handling' }
+CpBrowserEventHandler >> keyUp: aKeyUpEvent [
+
+	self dispatchEvent: aKeyUpEvent.
+
+	self hasKeyPressEvent
+		ifTrue: [
+			self
+				handleKeyPress: aKeyUpEvent ;
+				removeKeyPressEvent ]
 ]
 
 { #category : #accessing }
@@ -202,48 +327,6 @@ CpBrowserEventHandler >> latestEvents [
 	^ self primLatestEvents collect: [ :each | self eventClass buildFrom: each asDictionary ]
 ]
 
-{ #category : #'event handling' }
-CpBrowserEventHandler >> mouseDown: mouseDownEvent [
-
-	self dispatchEvent: mouseDownEvent.
-
-	"Mouse down can become both a click and a drag event, create both"
-	self
-		createClickEvent: mouseDownEvent ;
-		createDragEvent: mouseDownEvent
-]
-
-{ #category : #'event handling' }
-CpBrowserEventHandler >> mouseMove: mouseMoveEvent [
-
-	self dispatchEvent: mouseMoveEvent.
-
-	"If mouse moved too far assume the earlier mouseDown will not become a click"
-	(self hasClickEvent and: [ (self point: self clickEvent clickPoint isSimilarTo: mouseMoveEvent mousePoint) not ])
-		ifTrue: [ self removeClickEvent ].
-
-	self hasDragEvent
-		ifTrue: [ self handleDragOver: mouseMoveEvent ]
-]
-
-{ #category : #'event handling' }
-CpBrowserEventHandler >> mouseUp: mouseUpEvent [
-
-	self dispatchEvent: mouseUpEvent.
-
-	self hasClickEvent
-		ifTrue: [
-			(self point: self clickEvent clickPoint isSimilarTo: mouseUpEvent mousePoint)
-				ifTrue: [ self handleClick: mouseUpEvent ].
-			self removeClickEvent ].
-
-	self hasDragEvent
-		ifTrue: [
-			self dragEvent hasTracePoints
-				ifTrue: [ self handleDragEnd: mouseUpEvent ].
-			self removeDragEvent ]
-]
-
 { #category : #utilities }
 CpBrowserEventHandler >> point: aPoint isSimilarTo: otherPoint [
 
@@ -252,6 +335,48 @@ CpBrowserEventHandler >> point: aPoint isSimilarTo: otherPoint [
 	distance := aPoint dist: otherPoint.
 
 	^ distance < self class similarDistance
+]
+
+{ #category : #'event handling' }
+CpBrowserEventHandler >> pointerDown: aPointerDownEvent [
+
+	self dispatchEvent: aPointerDownEvent.
+
+	"Pointer down can become both a click and a drag event, create both"
+	self
+		createClickEvent: aPointerDownEvent ;
+		createDragEvent: aPointerDownEvent
+]
+
+{ #category : #'event handling' }
+CpBrowserEventHandler >> pointerMove: aPointerMoveEvent [
+
+	self dispatchEvent: aPointerMoveEvent.
+
+	"If mouse moved too far assume the earlier mouseDown will not become a click"
+	(self hasClickEvent and: [ (self point: self clickEvent clickPoint isSimilarTo: aPointerMoveEvent point) not ])
+		ifTrue: [ self removeClickEvent ].
+
+	self hasDragEvent
+		ifTrue: [ self handleDragOver: aPointerMoveEvent ]
+]
+
+{ #category : #'event handling' }
+CpBrowserEventHandler >> pointerUp: aPointerUpEvent [
+
+	self dispatchEvent: aPointerUpEvent.
+
+	self hasClickEvent
+		ifTrue: [
+			self
+				handleClick: aPointerUpEvent ;
+				removeClickEvent ].
+
+	self hasDragEvent
+		ifTrue: [
+			self
+				handleDragEnd: aPointerUpEvent ;
+				removeDragEvent ]
 ]
 
 { #category : #primitives }
@@ -295,47 +420,8 @@ CpBrowserEventHandler >> removeDragEvent [
 	dragEvent := nil
 ]
 
-{ #category : #'event handling' }
-CpBrowserEventHandler >> touchEnd: touchEndEvent [
+{ #category : #removing }
+CpBrowserEventHandler >> removeKeyPressEvent [
 
-	| mouseUpEvent |
-
-	mouseUpEvent := CpMouseUpEvent new
-		target: touchEndEvent target ;
-		elementId: touchEndEvent elementId ;
-		mousePoint: touchEndEvent touchPoint ;
-		offset: touchEndEvent offset ;
-		yourself.
-		
-	self mouseUp: mouseUpEvent
-]
-
-{ #category : #'event handling' }
-CpBrowserEventHandler >> touchMove: touchMoveEvent [
-
-	| mouseMoveEvent |
-
-	mouseMoveEvent := CpMouseDownEvent new
-		target: touchMoveEvent target ;
-		elementId: touchMoveEvent elementId ;
-		mousePoint: touchMoveEvent touchPoint ;
-		offset: touchMoveEvent offset ;
-		yourself.
-		
-	self mouseMove: mouseMoveEvent
-]
-
-{ #category : #'event handling' }
-CpBrowserEventHandler >> touchStart: touchStartEvent [
-
-	| mouseDownEvent |
-
-	mouseDownEvent := CpMouseDownEvent new
-		target: touchStartEvent target ;
-		elementId: touchStartEvent elementId ;
-		mousePoint: touchStartEvent touchPoint ;
-		offset: touchStartEvent offset ;
-		yourself.
-		
-	self mouseDown: mouseDownEvent
+	keyPressEvent := nil
 ]

@@ -220,6 +220,15 @@ CpDomElement >> firstDescendantMatching: cssSelectorString [
 	self primitiveFailed
 ]
 
+{ #category : #'window management' }
+CpDomElement >> focus [
+
+	"Set the focus to the receiver (ie take focus)"
+
+	<primitive: 'primitiveDOMElementFocus' module: 'CpDOMPlugin'>
+	self primitiveFailed
+]
+
 { #category : #'tag/id/classes' }
 CpDomElement >> id [
 

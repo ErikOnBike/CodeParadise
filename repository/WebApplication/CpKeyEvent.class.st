@@ -1,0 +1,115 @@
+"
+I am a Key(board) Event. I offer an interface to low level key press and release events.
+For text entry please also have a look at InputEvent.
+"
+Class {
+	#name : #CpKeyEvent,
+	#superclass : #CpEvent,
+	#instVars : [
+		'modifiers',
+		'key',
+		'isComposing'
+	],
+	#category : #'WebApplication-Events'
+}
+
+{ #category : #'instance creation' }
+CpKeyEvent class >> newFrom: aDictionary [
+
+	^ (super newFrom: aDictionary)
+		modifiers: (aDictionary at: #modifiers ifAbsent: [ 0 ]) ;
+		key: (aDictionary at: #key ifAbsent: [ nil ]) ;
+		isComposing: (aDictionary at: #isComposing ifAbsent: [ false ]) ;
+		yourself
+]
+
+{ #category : #accessing }
+CpKeyEvent class >> type [
+
+	^ #key
+]
+
+{ #category : #testing }
+CpKeyEvent >> hasAltModifier [
+
+	^ (self modifiers bitAnd: 1) ~= 0
+]
+
+{ #category : #testing }
+CpKeyEvent >> hasCtrlModifier [
+
+	^ (self modifiers bitAnd: 2) ~= 0
+]
+
+{ #category : #testing }
+CpKeyEvent >> hasMetaModifier [
+
+	^ (self modifiers bitAnd: 4) ~= 0
+]
+
+{ #category : #testing }
+CpKeyEvent >> hasShiftModifier [
+
+	^ (self modifiers bitAnd: 8) ~= 0
+]
+
+{ #category : #accessing }
+CpKeyEvent >> isComposing [
+
+	^ isComposing
+]
+
+{ #category : #accessing }
+CpKeyEvent >> isComposing: aBoolean [
+
+	isComposing := aBoolean
+]
+
+{ #category : #testing }
+CpKeyEvent >> isInputEvent [
+
+	^ true
+]
+
+{ #category : #accessing }
+CpKeyEvent >> key [
+
+	^ key
+]
+
+{ #category : #accessing }
+CpKeyEvent >> key: aString [
+
+	key := aString
+]
+
+{ #category : #accessing }
+CpKeyEvent >> modifiers [
+
+	"Answer an Integer specifying the different modifiers pressed.
+	Combine the following individual numbers:
+		1 - alt
+		2 - ctrl
+		4 - meta
+		8 - shift"
+
+	^ modifiers
+]
+
+{ #category : #accessing }
+CpKeyEvent >> modifiers: anInteger [
+
+	modifiers := anInteger
+]
+
+{ #category : #printing }
+CpKeyEvent >> printOn: aStream [
+
+	super printOn: aStream.
+	aStream nextPutAll: ', modifiers: '.
+	self modifiers printOn: aStream.
+	aStream nextPutAll: ', key: '.
+	self key printOn: aStream.
+	aStream nextPutAll: ', isComposing: '.
+	self isComposing printOn: aStream
+]

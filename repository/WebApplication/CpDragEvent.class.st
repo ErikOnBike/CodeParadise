@@ -1,11 +1,10 @@
 Class {
 	#name : #CpDragEvent,
-	#superclass : #CpEvent,
+	#superclass : #CpPointerEvent,
 	#instVars : [
 		'startPoint',
 		'tracePoints',
-		'endPoint',
-		'clientOffset'
+		'endPoint'
 	],
 	#category : #'WebApplication-Events'
 }
@@ -77,13 +76,25 @@ CpDragEvent >> isEnded [
 { #category : #accessing }
 CpDragEvent >> offset [
 
-	^ clientOffset
+	^ offset
 ]
 
 { #category : #accessing }
 CpDragEvent >> offset: aPoint [
 
-	clientOffset := aPoint
+	offset := aPoint
+]
+
+{ #category : #printing }
+CpDragEvent >> printOn: aStream [
+
+	super printOn: aStream.
+	aStream nextPutAll: ', startPoint: '.
+	self startPoint printOn: aStream.
+	aStream nextPutAll: ', endPoint: '.
+	self endPoint printOn: aStream.
+	aStream nextPutAll: ', offset: '.
+	self offset printOn: aStream
 ]
 
 { #category : #sending }

@@ -59,41 +59,61 @@ CpWebComponent >> canHandleEvents [
 ]
 
 { #category : #'event handling' }
-CpWebComponent >> handleClickEvent: clickEvent [
+CpWebComponent >> handleClickEvent: aClickEvent [
 
 ]
 
 { #category : #'event handling' }
-CpWebComponent >> handleDragEvent: dragEvent [
+CpWebComponent >> handleCompositionEndEvent: aCompositionEndEvent [
 
 ]
 
 { #category : #'event handling' }
-CpWebComponent >> handleMouseDownEvent: mouseDownEvent [
+CpWebComponent >> handleCompositionStartEvent: aCompositionStartEvent [
 
 ]
 
 { #category : #'event handling' }
-CpWebComponent >> handleMouseMoveEvent: mouseMoveEvent [
+CpWebComponent >> handleCompositionUpdateEvent: aCompositionUpdateEvent [
 
 ]
 
 { #category : #'event handling' }
-CpWebComponent >> handleMouseUpEvent: mouseUpEvent [
+CpWebComponent >> handleDragEvent: aDragEvent [
 
 ]
 
 { #category : #'event handling' }
-CpWebComponent >> handleTouchEndEvent: touchEndEvent [
+CpWebComponent >> handleInputEvent: anInputEvent [
 
 ]
 
 { #category : #'event handling' }
-CpWebComponent >> handleTouchMoveEvent: touchMoveEvent [
+CpWebComponent >> handleKeyDownEvent: aKeyDownEvent [
 
 ]
 
 { #category : #'event handling' }
-CpWebComponent >> handleTouchStartEvent: touchStartEvent [
+CpWebComponent >> handleKeyPressEvent: aKeyPressEvent [
+
+]
+
+{ #category : #'event handling' }
+CpWebComponent >> handleKeyUpEvent: aKeyUpEvent [
+
+]
+
+{ #category : #'event handling' }
+CpWebComponent >> handlePointerDownEvent: aPointerDownEvent [
+
+]
+
+{ #category : #'event handling' }
+CpWebComponent >> handlePointerMoveEvent: aPointerMoveEvent [
+
+]
+
+{ #category : #'event handling' }
+CpWebComponent >> handlePointerUpEvent: aPointerUpEvent [
 
 ]

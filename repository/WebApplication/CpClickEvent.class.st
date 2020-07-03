@@ -1,6 +1,6 @@
 Class {
 	#name : #CpClickEvent,
-	#superclass : #CpEvent,
+	#superclass : #CpPointerEvent,
 	#instVars : [
 		'clickPoint'
 	],
@@ -30,7 +30,7 @@ CpClickEvent class >> type [
 { #category : #visiting }
 CpClickEvent >> accept: aVisitor [
 
-	aVisitor clickEvent: self
+	aVisitor click: self
 ]
 
 { #category : #accessing }
@@ -43,6 +43,14 @@ CpClickEvent >> clickPoint [
 CpClickEvent >> clickPoint: aPoint [
 
 	clickPoint := aPoint
+]
+
+{ #category : #printing }
+CpClickEvent >> printOn: aStream [
+
+	super printOn: aStream.
+	aStream nextPutAll: ', clickPoint: '.
+	self clickPoint printOn: aStream
 ]
 
 { #category : #sending }

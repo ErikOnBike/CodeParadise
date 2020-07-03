@@ -2,8 +2,7 @@ Class {
 	#name : #CpEvent,
 	#superclass : #Object,
 	#instVars : [
-		'target',
-		'elementId'
+		'timeStamp'
 	],
 	#category : #'WebApplication-Events'
 }
@@ -19,7 +18,7 @@ CpEvent class >> buildFrom: aDictionary [
 		(each canHandleType: type)
 			ifTrue: [ ^ each newFrom: aDictionary ] ].
 
-	self error: 'DOM event has unknown type: ', type asString
+	self error: 'DOM event has unknown type: ', type printString
 ]
 
 { #category : #testing }
@@ -31,26 +30,9 @@ CpEvent class >> canHandleType: type [
 { #category : #'instance creation' }
 CpEvent class >> newFrom: aDictionary [
 
-	| target |
-
-	target := aDictionary at: #target ifAbsent: [ self error: 'DOM event should have a target' ].
-
 	^ self new
-		target: target ;
-		elementId: (aDictionary at: #elementId ifAbsent: [ nil ]) ;
+		timeStamp: (aDictionary at: #timeStamp ifAbsent: [ nil ]) ;
 		yourself
-]
-
-{ #category : #utilities }
-CpEvent class >> offsetFrom: aDictionary [
-
-	^ ((aDictionary at: #offsetX ifAbsent: [ 0 ]) ifNil: [ 0 ]) @ ((aDictionary at: #offsetY ifAbsent: [ 0 ]) ifNil: [ 0 ])
-]
-
-{ #category : #utilities }
-CpEvent class >> pointFrom: aDictionary [
-
-	^ (aDictionary at: #x ifAbsent: [ 0 ]) @ (aDictionary at: #y ifAbsent: [ 0 ])
 ]
 
 { #category : #accessing }
@@ -71,34 +53,26 @@ CpEvent >> asAnnouncement [
 	^ CpEventAnnouncement event: self
 ]
 
-{ #category : #accessing }
-CpEvent >> elementId [
+{ #category : #testing }
+CpEvent >> isInputEvent [
 
-	"Answer the id of the DOM element which first received the event.
-	This can be either the target of the event or a descendant. In case of a TemplateComponent
-	this can also be the id of an element inside the shadow DOM."
-
-	^ elementId
+	^ false
 ]
 
-{ #category : #accessing }
-CpEvent >> elementId: aString [
+{ #category : #testing }
+CpEvent >> isPointerEvent [
 
-	elementId := aString
+	^ false
 ]
 
 { #category : #printing }
 CpEvent >> printOn: aStream [
 
 	self class name printOn: aStream.
-	aStream nextPut: $(.
-	self class type printOn: aStream.
-	aStream nextPut: $,.
-	self target printOn: aStream.
-	self elementId ifNotNil: [
-		aStream nextPut: $,.
-		self elementId printOn: aStream ].
-	aStream nextPut: $)
+	aStream nextPutAll: ', type: '.
+	self type printOn: aStream.
+	aStream nextPutAll: ', timeStamp: '.
+	self timeStamp printOn: aStream
 ]
 
 { #category : #sending }
@@ -108,15 +82,19 @@ CpEvent >> sendTo: anObject [
 ]
 
 { #category : #accessing }
-CpEvent >> target [
+CpEvent >> timeStamp [
 
-	^ target
+	"Answer the relative timestamp (a Number) for when the receiver was triggered"
+
+	^ timeStamp
 ]
 
 { #category : #accessing }
-CpEvent >> target: aDomElement [
+CpEvent >> timeStamp: aNumber [
 
-	target := aDomElement
+	"Set the relative timestamp for when the receiver was triggered"
+
+	timeStamp := aNumber
 ]
 
 { #category : #accessing }
