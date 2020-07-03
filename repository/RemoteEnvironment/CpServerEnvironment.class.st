@@ -124,7 +124,7 @@ CpServerEnvironment >> addClass: aClass [
 			do: [ :each |
 
 				"Remember which Classes are installed (in order) for reloading"
-				self installedClasses at: each name put: each.
+				self installedClasses add: each.
 
 				"Install in ClientEnvironment"
 				self installClass: each ].
@@ -295,8 +295,11 @@ CpServerEnvironment >> handleMessageReceived: aByteArray [
 CpServerEnvironment >> hasInstalledClass: aClass [
 
 	"Answer whether the specified Class is installed in the client environment through the receiver"
-self installedClasses ifNil: [ ^false ].
-	^ self installedClasses includesKey: aClass name
+
+	"Safety check"
+	self installedClasses ifNil: [ ^false ].
+
+	^ self installedClasses includes: aClass
 ]
 
 { #category : #initialization }
@@ -307,7 +310,7 @@ CpServerEnvironment >> initialize [
 	super initialize.
 
 	encoderMutex := Mutex new.
-	installedClasses := OrderedDictionary new.
+	installedClasses := OrderedCollection new.
 	installedMethods := OrderedCollection new.
 	installationMutex := Mutex new.
 	loaded := false.
@@ -342,22 +345,26 @@ CpServerEnvironment >> installMethod: aCompiledMethod [
 ]
 
 { #category : #installing }
-CpServerEnvironment >> installRegisteredClasses [
+CpServerEnvironment >> installRegisteredCode [
 
-	"Install the already registered Classes in the client environment (normally only done at reload)"
+	"Install the already registered CompiledMethods and Classes in the client environment.
+	This is normally only done at reload."
 
-	self installedClasses valuesDo: [ :eachClass | self installClass: eachClass ]
+	installationMutex critical: [
 
-]
+		| classes |
 
-{ #category : #installing }
-CpServerEnvironment >> installRegisteredMethods [
+		"First install the methods, which might add base feature to the image"
+		self installedMethods do: [ :eachMethodElement |
+			self installMethod: (eachMethodElement key) >> (eachMethodElement value) ].
 
-	"Install the already registered CompiledMethods in the client environment (normally only done at reload)"
-
-	self installedMethods do: [ :eachMethodElement |
-		self installMethod: (eachMethodElement key) >> (eachMethodElement value) ]
-
+		"Install classes by re-adding them. Additional dependencies will be installed
+		this way. Such dependencies might arise when methods are changed. Although
+		these dependencies are added when the method is installed, the order of installation
+		might be wrong on reload."
+		classes := installedClasses.
+		installedClasses := OrderedCollection new.
+		classes do: [ :each | self addClass: each ] ]
 ]
 
 { #category : #accessing }
@@ -409,9 +416,7 @@ CpServerEnvironment >> started: anAnnouncement [
 	self isLoaded
 		ifFalse: [ self clientAssignId ].
 
-	self
-		installRegisteredClasses ;
-		installRegisteredMethods.
+	self installRegisteredCode.
 
 	"On first time started announce Loaded, for restarts afterwards announce Reloaded.
 	Loading is announced by the class side Announcer since interested parties do not
