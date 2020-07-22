@@ -208,7 +208,6 @@ CpComponentExamplesClientBehavior >> showIndex [
 	list := body firstDescendantMatching: '#list'.
 
 	"Collect items from example methods"
-
 	items := 	OrderedCollection new.
 	Pragma withPragmasIn: self class do: [ :pragma |
 		pragma key = #example:order:
