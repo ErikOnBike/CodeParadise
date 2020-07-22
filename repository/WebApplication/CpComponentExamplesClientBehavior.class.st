@@ -210,10 +210,9 @@ CpComponentExamplesClientBehavior >> showIndex [
 	"Collect items from example methods"
 
 	items := 	OrderedCollection new.
-	(self class selectors select: [ :each | each beginsWith: #example ]) do: [ :selector |
-		(self class >> selector) properties ifNotNil: [ :properties |
-			(properties at: #example:order:) ifNotNil: [ :pragma |
-				items add: selector -> pragma arguments ] ] ].
+	Pragma withPragmasIn: self class do: [ :pragma |
+		pragma key = #example:order:
+			ifTrue: [ items add: pragma methodSelector -> pragma arguments ] ].
 
 	"Sort items (a and b are associations where the value contains the pragma arguments #title and #order)"
 	items sort: [ :a :b |
