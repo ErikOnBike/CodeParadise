@@ -55,7 +55,7 @@ CpComponentExamplesClientBehavior >> exampleCheckboxes [
 	outputElement appendChild: (' ' inHtmlTag: #span).
 
 	outputElement appendChild: ((CpButton label: 'Make mixed')
-			when: CpEventAnnouncement do: [ checkbox mixed ] ;
+			when: CpEventAnnouncement do: [ checkbox makeMixed ] ;
 			yourself).
 
 ]

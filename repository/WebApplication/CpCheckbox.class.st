@@ -140,7 +140,7 @@ CpCheckbox >> label: anElement [
 ]
 
 { #category : #'state handling' }
-CpCheckbox >> mixed [
+CpCheckbox >> makeMixed [
 
 	"Set #mixed as value of the selected attribute of the receiver"
 
