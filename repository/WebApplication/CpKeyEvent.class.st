@@ -84,6 +84,26 @@ CpKeyEvent >> key: aString [
 ]
 
 { #category : #accessing }
+CpKeyEvent >> keyWithModifiers [
+
+	"Answer a String representing the receiver's key with modifiers prepended"
+
+	self key ifNil: [ ^ nil ].
+	self key size = 1 ifTrue: [ ^ self key ].
+
+	^ String streamContents: [ :stream |
+		self hasAltModifier
+			ifTrue: [ stream nextPutAll: 'A-' ].
+		self hasCtrlModifier
+			ifTrue: [ stream nextPutAll: 'C-' ].
+		self hasMetaModifier
+			ifTrue: [ stream nextPutAll: 'M-' ].
+		self hasShiftModifier
+			ifTrue: [ stream nextPutAll: 'S-' ].
+		stream nextPutAll: self key ]
+]
+
+{ #category : #accessing }
 CpKeyEvent >> modifiers [
 
 	"Answer an Integer specifying the different modifiers pressed.

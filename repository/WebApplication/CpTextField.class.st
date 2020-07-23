@@ -13,6 +13,19 @@ CpTextField class >> cpRequiredClasses [
 	^ super cpRequiredClasses, { CpCursor }
 ]
 
+{ #category : #accessing }
+CpTextField class >> defaultKeyMapping [
+
+	self flag: #todo.	"Handle OS specific keymappings better"
+
+	^ Dictionary new
+		at: 'ArrowLeft' put: 'CharacterLeft' ;
+		at: 'ArrowRight' put: 'CharacterRight' ;
+		at: (self isPlatformMacOS ifTrue: [ 'A-ArrowLeft' ] ifFalse: [ 'C-ArrowLeft' ]) put: 'WordLeft' ;
+		at: (self isPlatformMacOS ifTrue: [ 'A-ArrowRight' ] ifFalse: [ 'C-ArrowRight' ]) put: 'WordRight' ;
+		yourself
+]
+
 { #category : #'instance creation' }
 CpTextField class >> new [
 
@@ -71,8 +84,26 @@ CpTextField class >> template [
 	^ '<div id="container" tabindex="-1"><div id="entry"><slot name="text"></slot></div></div>'
 ]
 
+{ #category : #adding }
+CpTextField >> handleBackspace [
+
+	self children ifNotNil: [ :children |
+
+		| cursorIndex previousElement |
+
+		"Find cursor"
+		cursorIndex := children findFirst: [ :each | each class = CpCursor ].
+		cursorIndex = 0
+			ifTrue: [ ^ self ].
+
+		"Remove last character from previous element"
+		previousElement := children at: cursorIndex - 1 ifAbsent: [ ^ self ].
+		previousElement textContent ifEmpty: [ ^ self ].
+		previousElement textContent: previousElement textContent allButLast ]
+]
+
 { #category : #'as yet unclassified' }
-CpTextField >> handleArrowLeft [
+CpTextField >> handleCharacterLeft [
 
 	self children ifNotNil: [ :children |
 
@@ -93,7 +124,7 @@ CpTextField >> handleArrowLeft [
 ]
 
 { #category : #'as yet unclassified' }
-CpTextField >> handleArrowRight [
+CpTextField >> handleCharacterRight [
 
 	self children ifNotNil: [ :children |
 
@@ -111,24 +142,6 @@ CpTextField >> handleArrowRight [
 			self insertChild: (CpHtmlElement newWithTag: #span) before: (children at: cursorIndex) atSlotNamed: #text ].
 		previousElement textContent: previousElement textContent, nextElement textContent first asString.
 		nextElement textContent: nextElement textContent allButFirst ]
-]
-
-{ #category : #adding }
-CpTextField >> handleBackspace [
-
-	self children ifNotNil: [ :children |
-
-		| cursorIndex previousElement |
-
-		"Find cursor"
-		cursorIndex := children findFirst: [ :each | each class = CpCursor ].
-		cursorIndex = 0
-			ifTrue: [ ^ self ].
-
-		"Remove last character from previous element"
-		previousElement := children at: cursorIndex - 1 ifAbsent: [ ^ self ].
-		previousElement textContent ifEmpty: [ ^ self ].
-		previousElement textContent: previousElement textContent allButLast ]
 ]
 
 { #category : #'event handling' }
@@ -180,16 +193,17 @@ CpTextField >> handleInsert: aKeyString [
 { #category : #'as yet unclassified' }
 CpTextField >> handleKey: aKeyString [
 
+	"Handle the specified key. The key can contain modifiers like 'C-M-A' to denote Ctrl-Meta-A.
+	See also CpKeyEvent>>keyWithModifiers"
+
+	| handlerSelector |
+
 	self flag: #todo.	"Create better solution for handling keys"
 
-	aKeyString = 'ArrowLeft'
-		ifTrue: [ ^ self handleArrowLeft ].
-	aKeyString = 'ArrowRight'
-		ifTrue: [ ^ self handleArrowRight ].
-	aKeyString = 'Backspace'
-		ifTrue: [ ^ self handleBackspace ].
-	aKeyString = 'Delete'
-		ifTrue: [ ^ self handleDelete ].
+	"Perform direct mapping to a handler"
+	handlerSelector := ('handle', aKeyString) asSymbol.
+	(self class includesSelector: handlerSelector)
+		ifTrue: [ ^ self perform: handlerSelector ].
 	aKeyString size = 1
 		ifTrue: [ ^ self handleInsert: aKeyString ].
 	self crTrace: 'Unhandled key ', aKeyString
@@ -198,7 +212,8 @@ CpTextField >> handleKey: aKeyString [
 { #category : #'event handling' }
 CpTextField >> handleKeyPressEvent: aKeyPressEvent [
 
-	aKeyPressEvent key ifNotNil: [ :key | self handleKey: key ]
+	aKeyPressEvent keyWithModifiers
+		ifNotNil: [ :keyWithModifiers | self handleKey: (self keymapper map: keyWithModifiers) ]
 
 ]
 
