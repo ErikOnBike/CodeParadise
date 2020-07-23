@@ -6,10 +6,35 @@ Class {
 	#name : #CpView,
 	#superclass : #CpTemplateComponent,
 	#instVars : [
-		'announcer'
+		'announcer',
+		'keymapper'
 	],
 	#category : #'WebApplication-Core'
 }
+
+{ #category : #accessing }
+CpView class >> currentPlatform [
+
+	^ CpClientEnvironment current variableAt: #OS
+]
+
+{ #category : #testing }
+CpView class >> isPlatformLinux [
+
+	^ self currentPlatform = #linux
+]
+
+{ #category : #testing }
+CpView class >> isPlatformMacOS [
+
+	^ self currentPlatform = #macos
+]
+
+{ #category : #testing }
+CpView class >> isPlatformWindows [
+
+	^ self currentPlatform = #windows
+]
 
 { #category : #'web resources' }
 CpView class >> template [
