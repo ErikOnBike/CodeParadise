@@ -18,6 +18,12 @@ CpView class >> currentPlatform [
 	^ CpClientEnvironment current variableAt: #OS
 ]
 
+{ #category : #accessing }
+CpView class >> defaultKeyMapping [
+
+	^ Dictionary new
+]
+
 { #category : #testing }
 CpView class >> isPlatformLinux [
 
@@ -61,7 +67,17 @@ CpView >> initialize [
 
 	super initialize.
 
-	announcer := Announcer new
+	announcer := Announcer new.
+	keymapper := CpKeyMapper new.
+
+	self class defaultKeyMapping keysAndValuesDo: [ :key :value |
+		keymapper addMappingFrom: key to: value ]
+]
+
+{ #category : #accessing }
+CpView >> keymapper [
+
+	^ keymapper
 ]
 
 { #category : #dependencies }
@@ -70,6 +86,9 @@ CpView >> release [
 	announcer ifNotNil: [
 		announcer subscriptions reset.
 		announcer := nil ].
+	keymapper ifNotNil: [
+		keymapper release.
+		keymapper := nil ].
 
 	super release
 ]
