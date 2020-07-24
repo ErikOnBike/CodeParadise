@@ -141,7 +141,7 @@ CpServerEnvironment >> addMethod: aCompiledMethod [
 
 	installationMutex critical: [
 
-		(self hasInstalledClass: aCompiledMethod methodClass)
+		(self hasInstalledClass: aCompiledMethod methodClass instanceSide)
 			ifFalse: [
 
 				"Only methods which are not part of installed classes need to be remembered.
