@@ -7,8 +7,7 @@ Class {
 	#superclass : #CpEvent,
 	#instVars : [
 		'data',
-		'inputType',
-		'isComposing'
+		'inputType'
 	],
 	#category : #'WebApplication-Events'
 }
@@ -43,18 +42,6 @@ CpInputEvent >> inputType: aString [
 	inputType := aString
 ]
 
-{ #category : #accessing }
-CpInputEvent >> isComposing [
-
-	^ isComposing
-]
-
-{ #category : #accessing }
-CpInputEvent >> isComposing: aBoolean [
-
-	isComposing := aBoolean
-]
-
 { #category : #printing }
 CpInputEvent >> printOn: aStream [
 
@@ -62,9 +49,7 @@ CpInputEvent >> printOn: aStream [
 	aStream nextPutAll: ', data: '.
 	self data printOn: aStream.
 	aStream nextPutAll: ', inputType: '.
-	self inputType printOn: aStream.
-	aStream nextPutAll: ', isComposing: '.
-	self isComposing printOn: aStream
+	self inputType printOn: aStream
 ]
 
 { #category : #sending }
