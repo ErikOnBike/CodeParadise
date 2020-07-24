@@ -4,12 +4,6 @@ Class {
 	#category : #'WebApplication-Events'
 }
 
-{ #category : #accessing }
-CpPointerUpEvent class >> type [
-
-	^ #pointerup
-]
-
 { #category : #visiting }
 CpPointerUpEvent >> accept: aVisitor [
 

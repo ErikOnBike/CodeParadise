@@ -59,6 +59,11 @@ CpWebComponent >> canHandleEvents [
 ]
 
 { #category : #'event handling' }
+CpWebComponent >> handleBeforeInputEvent: aBeforeInputEvent [
+
+]
+
+{ #category : #'event handling' }
 CpWebComponent >> handleClickEvent: aClickEvent [
 
 ]

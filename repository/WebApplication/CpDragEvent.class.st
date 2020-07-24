@@ -9,26 +9,6 @@ Class {
 	#category : #'WebApplication-Events'
 }
 
-{ #category : #'instance creation' }
-CpDragEvent class >> newFrom: aDictionary [
-
-	"Create a new instance of the receiver based on the specified DOM event (a Javascript object encoded as a Dictionary)"
-
-	| startPoint |
-
-	startPoint := self pointFrom: aDictionary.
-
-	^ (super newFrom: aDictionary)
-		startPoint: startPoint ;
-		yourself
-]
-
-{ #category : #accessing }
-CpDragEvent class >> type [
-
-	^ #drag
-]
-
 { #category : #visiting }
 CpDragEvent >> accept: aVisitor [
 

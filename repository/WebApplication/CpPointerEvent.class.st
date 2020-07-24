@@ -10,39 +10,6 @@ Class {
 	#category : #'WebApplication-Events'
 }
 
-{ #category : #'instance creation' }
-CpPointerEvent class >> newFrom: aDictionary [
-
-	| target |
-
-	target := aDictionary at: #target ifAbsent: [ self error: 'DOM event should have a target' ].
-
-	^ (super newFrom: aDictionary)
-		target: target ;
-		elementId: (aDictionary at: #elementId ifAbsent: [ nil ]) ;
-		point: (self pointFrom: aDictionary) ;
-		offset: (self offsetFrom: aDictionary) ;
-		yourself
-]
-
-{ #category : #utilities }
-CpPointerEvent class >> offsetFrom: aDictionary [
-
-	^ ((aDictionary at: #offsetX ifAbsent: [ 0 ]) ifNil: [ 0 ]) @ ((aDictionary at: #offsetY ifAbsent: [ 0 ]) ifNil: [ 0 ])
-]
-
-{ #category : #utilities }
-CpPointerEvent class >> pointFrom: aDictionary [
-
-	^ (aDictionary at: #x ifAbsent: [ 0 ]) @ (aDictionary at: #y ifAbsent: [ 0 ])
-]
-
-{ #category : #accessing }
-CpPointerEvent class >> type [
-
-	^ #pointer
-]
-
 { #category : #accessing }
 CpPointerEvent >> elementId [
 

@@ -28,6 +28,19 @@ CpViewEventHandler class >> viewWithId: identifier [
 ]
 
 { #category : #'event handling' }
+CpViewEventHandler >> handleBeforeInputEvent: aBeforeInputEvent [
+
+	self flag: #todo. "Add focus handler which knows where to send input events"
+	"Do allow for multiple active cursors at the same time. Both for updating the
+	same text/selection (you selected all occurences of a specific word and start
+	changing all occurrences at once) and for allowing remote users with their
+	own cursors (mentors joining in on sessions or cooperation between kids)."
+
+	(CpHtmlElement documentBody allDescendantsMatching: #'cp-cursor') do: [ :each |
+		aBeforeInputEvent sendTo: each ]
+]
+
+{ #category : #'event handling' }
 CpViewEventHandler >> handleEvent: anEvent [
 
 	self flag: #todo. "Needs to be refactored in Pointer event handler and Input event handler"

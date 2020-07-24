@@ -4,12 +4,6 @@ Class {
 	#category : #'WebApplication-Events'
 }
 
-{ #category : #accessing }
-CpPointerMoveEvent class >> type [
-
-	^ #pointermove
-]
-
 { #category : #visiting }
 CpPointerMoveEvent >> accept: aVisitor [
 

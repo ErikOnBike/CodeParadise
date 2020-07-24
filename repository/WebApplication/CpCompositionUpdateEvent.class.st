@@ -4,12 +4,6 @@ Class {
 	#category : #'WebApplication-Events'
 }
 
-{ #category : #accessing }
-CpCompositionUpdateEvent class >> type [
-
-	^ #compositionupdate
-]
-
 { #category : #visiting }
 CpCompositionUpdateEvent >> accept: aVisitor [
 

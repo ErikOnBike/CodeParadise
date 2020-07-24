@@ -4,8 +4,14 @@ Class {
 	#category : #'WebApplication-Events'
 }
 
-{ #category : #accessing }
-CpBeforeInputEvent class >> type [
+{ #category : #visiting }
+CpBeforeInputEvent >> accept: aVisitor [
 
-	^ #beforeinput
+	aVisitor beforeInput: self
+]
+
+{ #category : #sending }
+CpBeforeInputEvent >> sendTo: anObject [
+
+	anObject handleBeforeInputEvent: self
 ]

@@ -26,7 +26,21 @@ Class {
 { #category : #accessing }
 CpBrowserEventHandler class >> cpRequiredClasses [
 
-	^ super cpRequiredClasses, {
+	^ super cpRequiredClasses, self eventClasses
+]
+
+{ #category : #accessing }
+CpBrowserEventHandler class >> current [
+
+	"Answer the current instance of the receiver"
+
+	^ Current ifNil: [ Current := self basicNew initialize ; yourself ]
+]
+
+{ #category : #accessing }
+CpBrowserEventHandler class >> eventClasses [
+
+	^ {
 		CpClickEvent .
 		CpDragEvent .
 		CpPointerDownEvent .
@@ -37,15 +51,9 @@ CpBrowserEventHandler class >> cpRequiredClasses [
 		CpKeyUpEvent .
 		CpCompositionStartEvent .
 		CpCompositionUpdateEvent .
-		CpCompositionEndEvent }
-]
-
-{ #category : #accessing }
-CpBrowserEventHandler class >> current [
-
-	"Answer the current instance of the receiver"
-
-	^ Current ifNil: [ Current := self basicNew initialize ; yourself ]
+		CpCompositionEndEvent .
+		CpInputEvent .
+		CpBeforeInputEvent }
 ]
 
 { #category : #'instance creation' }
@@ -58,6 +66,12 @@ CpBrowserEventHandler class >> new [
 CpBrowserEventHandler class >> similarDistance [
 
 	^ 8
+]
+
+{ #category : #'event handling' }
+CpBrowserEventHandler >> beforeInput: aBeforeInputEvent [
+
+	self dispatchEvent: aBeforeInputEvent
 ]
 
 { #category : #'event handling' }
@@ -265,7 +279,9 @@ CpBrowserEventHandler >> initialize [
 
 	super initialize.
 
-	self createEventHandlerProcess
+	self
+		createEventHandlerProcess ;
+		registerEventClasses
 ]
 
 { #category : #'event handling' }
@@ -322,9 +338,7 @@ CpBrowserEventHandler >> latestEvents [
 
 	"Answer a collection of the latest Events received from the browser"
 
-	"Each primitive browser event is an Array of Associations (and needs converting to a Dictionary for)
-	representing an event"
-	^ self primLatestEvents collect: [ :each | self eventClass buildFrom: each asDictionary ]
+	^ self primLatestEvents
 ]
 
 { #category : #utilities }
@@ -388,6 +402,14 @@ CpBrowserEventHandler >> primLatestEvents [
 ]
 
 { #category : #primitives }
+CpBrowserEventHandler >> primRegisterEventClass: anEventClass [
+
+	<primitive: 'primitiveEventHandlerRegisterEventClass:' module: 'CpDOMPlugin'>
+	self primitiveFailed
+
+]
+
+{ #category : #primitives }
 CpBrowserEventHandler >> primRegisterInterestIn: aDomElement [
 
 	<primitive: 'primitiveEventHandlerRegisterInterestIn:' module: 'CpDOMPlugin'>
@@ -400,6 +422,18 @@ CpBrowserEventHandler >> primRegisterProcess: eventHandlerProcess [
 	<primitive: 'primitiveEventHandlerRegisterProcess:' module: 'CpDOMPlugin'>
 	self primitiveFailed
 
+]
+
+{ #category : #initialization }
+CpBrowserEventHandler >> registerEventClass: anEventClass [
+
+	self primRegisterEventClass: anEventClass
+]
+
+{ #category : #initialization }
+CpBrowserEventHandler >> registerEventClasses [
+
+	self class eventClasses do: [ :each | self registerEventClass: each ]
 ]
 
 { #category : #'event registration' }

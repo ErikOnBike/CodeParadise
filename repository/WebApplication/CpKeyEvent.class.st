@@ -13,22 +13,6 @@ Class {
 	#category : #'WebApplication-Events'
 }
 
-{ #category : #'instance creation' }
-CpKeyEvent class >> newFrom: aDictionary [
-
-	^ (super newFrom: aDictionary)
-		modifiers: (aDictionary at: #modifiers ifAbsent: [ 0 ]) ;
-		key: (aDictionary at: #key ifAbsent: [ nil ]) ;
-		isComposing: (aDictionary at: #isComposing ifAbsent: [ false ]) ;
-		yourself
-]
-
-{ #category : #accessing }
-CpKeyEvent class >> type [
-
-	^ #key
-]
-
 { #category : #testing }
 CpKeyEvent >> hasAltModifier [
 

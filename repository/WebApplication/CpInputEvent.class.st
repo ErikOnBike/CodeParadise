@@ -13,22 +13,6 @@ Class {
 	#category : #'WebApplication-Events'
 }
 
-{ #category : #'instance creation' }
-CpInputEvent class >> newFrom: aDictionary [
-
-	^ (super newFrom: aDictionary)
-		data: (aDictionary at: #data ifAbsent: [ '' ]) ;
-		inputType: (aDictionary at: #inputType ifAbsent: [ nil ]) ;
-		isComposing: (aDictionary at: #isComposing ifAbsent: [ false ]) ;
-		yourself
-]
-
-{ #category : #accessing }
-CpInputEvent class >> type [
-
-	^ #input
-]
-
 { #category : #visiting }
 CpInputEvent >> accept: aVisitor [
 

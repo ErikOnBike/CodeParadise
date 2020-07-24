@@ -7,20 +7,6 @@ Class {
 	#category : #'WebApplication-Events'
 }
 
-{ #category : #'instance creation' }
-CpCompositionEvent class >> newFrom: aDictionary [
-
-	^ (super newFrom: aDictionary)
-		data: (aDictionary at: #data ifAbsent: [ nil ]) ;
-		yourself
-]
-
-{ #category : #accessing }
-CpCompositionEvent class >> type [
-
-	^ #composition
-]
-
 { #category : #accessing }
 CpCompositionEvent >> data [
 

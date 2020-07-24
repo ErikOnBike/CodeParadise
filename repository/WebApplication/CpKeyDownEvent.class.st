@@ -4,12 +4,6 @@ Class {
 	#category : #'WebApplication-Events'
 }
 
-{ #category : #accessing }
-CpKeyDownEvent class >> type [
-
-	^ #keydown
-]
-
 { #category : #visiting }
 CpKeyDownEvent >> accept: aVisitor [
 
