@@ -20,13 +20,15 @@ CpEvent >> asAnnouncement [
 ]
 
 { #category : #testing }
-CpEvent >> isInputEvent [
+CpEvent >> isPointerEvent [
 
 	^ false
 ]
 
 { #category : #testing }
-CpEvent >> isPointerEvent [
+CpEvent >> isTextEntryEvent [
+
+	"Answer whether the receiver is an interesting Event from text entry perspective"
 
 	^ false
 ]

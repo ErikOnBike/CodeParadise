@@ -43,13 +43,13 @@ CpViewEventHandler >> handleBeforeInputEvent: aBeforeInputEvent [
 { #category : #'event handling' }
 CpViewEventHandler >> handleEvent: anEvent [
 
-	self flag: #todo. "Needs to be refactored in Pointer event handler and Input event handler"
+	self flag: #todo. "Needs to be refactored in pointer event handler and text entry event handler"
 
 	anEvent isPointerEvent
 		ifTrue: [ self handlePointerEvent: anEvent ].
 
-	anEvent isInputEvent
-		ifTrue: [ self handleInputEvent: anEvent ]
+	anEvent isTextEntryEvent
+		ifTrue: [ self handleTextEntryEvent: anEvent ]
 ]
 
 { #category : #'event handling' }
@@ -75,4 +75,17 @@ CpViewEventHandler >> handlePointerEvent: aPointerEvent [
 		ifFalse: [ ^ self ].
 
 	aPointerEvent sendTo: view
+]
+
+{ #category : #'event handling' }
+CpViewEventHandler >> handleTextEntryEvent: anEvent [
+
+	self flag: #todo. "Add focus handler which knows where to send text entry events"
+	"Do allow for multiple active cursors at the same time. Both for updating the
+	same text/selection (you selected all occurences of a specific word and start
+	changing all occurrences at once) and for allowing remote users with their
+	own cursors (mentors joining in on sessions or cooperation between kids)."
+
+	(CpHtmlElement documentBody allDescendantsMatching: #'cp-cursor') do: [ :each |
+		anEvent sendTo: each ]
 ]

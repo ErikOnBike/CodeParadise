@@ -50,7 +50,7 @@ CpKeyEvent >> isComposing: aBoolean [
 ]
 
 { #category : #testing }
-CpKeyEvent >> isInputEvent [
+CpKeyEvent >> isTextEntryEvent [
 
 	^ true
 ]

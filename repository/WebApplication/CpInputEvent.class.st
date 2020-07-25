@@ -42,6 +42,12 @@ CpInputEvent >> inputType: aString [
 	inputType := aString
 ]
 
+{ #category : #testing }
+CpInputEvent >> isTextEntryEvent [
+
+	^ true
+]
+
 { #category : #printing }
 CpInputEvent >> printOn: aStream [
 
