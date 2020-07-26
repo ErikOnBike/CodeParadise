@@ -29,7 +29,7 @@ CpCursor class >> style [
 			position: absolute;
 			top: -.8rem;
 			left: 0;
-			width: 3px;
+			width: 1px;
 			height: 1rem;
 			background-color: #333;
 			-webkit-animation: 1s blink step-end infinite;
@@ -39,8 +39,12 @@ CpCursor class >> style [
 		
 		input,
 		input:focus {
+			position: fixed;
 			display: inline-block;
+			left: 0;
+			top: 0;
 			width: 0;
+			height: 0;
 			margin: 0;
 			padding: 0;
 			font-family: inherit;
@@ -86,7 +90,15 @@ CpCursor class >> template [
 
 	<webResource: #html>
 
-	^ '<div id="container"><div id="cursor"><input type="text"></div></div>'
+	^ '<div id="container"><div id="cursor"></div></div><input type="text">'
+]
+
+{ #category : #'event handling' }
+CpCursor >> handleBeforeInputEvent: aBeforeInputEvent [
+
+	self flag: #todo.	"For now let the parent handle it, might need to change"
+
+	self parent handleBeforeInputEvent: aBeforeInputEvent
 ]
 
 { #category : #'event handling' }

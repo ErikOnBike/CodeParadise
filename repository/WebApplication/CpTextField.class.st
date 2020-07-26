@@ -56,6 +56,7 @@ CpTextField class >> style [
 			width: 100%;
 			height: 100%;
 			min-height: inherit;
+			overflow: hidden;
 			padding: .25rem;
 			border-radius: .25rem;
 			border: 1px solid #333;
@@ -71,7 +72,6 @@ CpTextField class >> style [
 			width: 100%;
 			height: 100%;
 			overflow: hidden;
-			text-overflow: hidden;
 			white-space: nowrap;
 		}'
 ]
@@ -84,7 +84,7 @@ CpTextField class >> template [
 	^ '<div id="container" tabindex="-1"><div id="entry"><slot name="text"></slot></div></div>'
 ]
 
-{ #category : #adding }
+{ #category : #'text deleting' }
 CpTextField >> handleBackspace [
 
 	self children ifNotNil: [ :children |
@@ -102,7 +102,16 @@ CpTextField >> handleBackspace [
 		previousElement textContent: previousElement textContent allButLast ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'event handling' }
+CpTextField >> handleBeforeInputEvent: aBeforeInputEvent [
+
+	(#('insertText' 'insertCompositionText' 'insertFromComposition' 'insertFromPaste') includes: aBeforeInputEvent inputType)
+		ifTrue: [ ^ self handleInsert: aBeforeInputEvent data ].
+
+	self crTrace: aBeforeInputEvent printString
+]
+
+{ #category : #'cursor navigation' }
 CpTextField >> handleCharacterLeft [
 
 	self children ifNotNil: [ :children |
@@ -123,7 +132,7 @@ CpTextField >> handleCharacterLeft [
 		previousElement textContent: previousElement textContent allButLast ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'cursor navigation' }
 CpTextField >> handleCharacterRight [
 
 	self children ifNotNil: [ :children |
@@ -154,7 +163,25 @@ CpTextField >> handleClickEvent: aClickEvent [
 	(self appendChild: CpCursor new atSlotNamed: #text) focus
 ]
 
-{ #category : #adding }
+{ #category : #'event handling' }
+CpTextField >> handleCompositionEndEvent: aCompositionEndEvent [
+
+	self crTrace: aCompositionEndEvent printString
+]
+
+{ #category : #'event handling' }
+CpTextField >> handleCompositionStartEvent: aCompositionStartEvent [
+
+	self crTrace: aCompositionStartEvent printString
+]
+
+{ #category : #'event handling' }
+CpTextField >> handleCompositionUpdateEvent: aCompositionUpdateEvent [
+
+	self crTrace: aCompositionUpdateEvent printString
+]
+
+{ #category : #'text deleting' }
 CpTextField >> handleDelete [
 
 	self children ifNotNil: [ :children |
@@ -172,7 +199,7 @@ CpTextField >> handleDelete [
 		nextElement textContent: nextElement textContent allButFirst ]
 ]
 
-{ #category : #adding }
+{ #category : #'text inserting' }
 CpTextField >> handleInsert: aKeyString [
 
 	self children ifNotNil: [ :children |
@@ -190,7 +217,7 @@ CpTextField >> handleInsert: aKeyString [
 		previousElement textContent: previousElement textContent, aKeyString ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'event handling' }
 CpTextField >> handleKey: aKeyString [
 
 	"Handle the specified key. The key can contain modifiers like 'C-M-A' to denote Ctrl-Meta-A.
@@ -204,8 +231,7 @@ CpTextField >> handleKey: aKeyString [
 	handlerSelector := ('handle', aKeyString) asSymbol.
 	(self class includesSelector: handlerSelector)
 		ifTrue: [ ^ self perform: handlerSelector ].
-	aKeyString size = 1
-		ifTrue: [ ^ self handleInsert: aKeyString ].
+
 	self crTrace: 'Unhandled key ', aKeyString
 ]
 

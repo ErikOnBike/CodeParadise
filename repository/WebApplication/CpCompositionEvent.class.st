@@ -19,6 +19,12 @@ CpCompositionEvent >> data: aString [
 	data := aString
 ]
 
+{ #category : #testing }
+CpCompositionEvent >> isTextEntryEvent [
+
+	^ true
+]
+
 { #category : #printing }
 CpCompositionEvent >> printOn: aStream [
 
