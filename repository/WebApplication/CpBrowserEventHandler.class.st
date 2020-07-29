@@ -59,6 +59,8 @@ CpBrowserEventHandler class >> eventClasses [
 { #category : #'instance creation' }
 CpBrowserEventHandler class >> new [
 
+	"Use self >> #current instead to get the singleton instance"
+
 	self shouldNotImplement
 ]
 
