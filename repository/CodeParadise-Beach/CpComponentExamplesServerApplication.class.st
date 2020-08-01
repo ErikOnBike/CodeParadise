@@ -1,6 +1,6 @@
 Class {
 	#name : #CpComponentExamplesServerApplication,
-	#superclass : #CpWebApplication,
+	#superclass : #CpMvpWebApplication,
 	#category : #'CodeParadise-Beach-Examples'
 }
 

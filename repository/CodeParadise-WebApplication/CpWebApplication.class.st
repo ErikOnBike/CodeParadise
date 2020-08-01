@@ -5,10 +5,6 @@ I am a ServerApplication with Web-specific behavior. I work according to a Model
 Class {
 	#name : #CpWebApplication,
 	#superclass : #CpServerApplication,
-	#instVars : [
-		'models',
-		'presenters'
-	],
 	#classVars : [
 		'IdentifierGenerator'
 	],
@@ -45,59 +41,6 @@ CpWebApplication class >> webResourcePragmaName [
 	^ #webResource:
 ]
 
-{ #category : #'adding/removing' }
-CpWebApplication >> addModel: aModel [
-
-	^ self models add: aModel
-]
-
-{ #category : #'adding/removing' }
-CpWebApplication >> addPresenter: aPresenter [
-
-	^ self presenters at: aPresenter id asSymbol put: aPresenter
-]
-
-{ #category : #creating }
-CpWebApplication >> createPresenter: aPresenterClass forModel: aModel [
-
-	"Create a new Presenter for the specified Model (both in the ServerEnvironment and the ClientEnvironment).
-	Implementation: it is assumed no two processes will update the same WebApplication simulataneously"
-
-	| presenter |
-
-	"Create Presenter in ServerEnvironment"
-	presenter := aPresenterClass new
-		id: (IdentifierGenerator generateSatisfying: [ :id | (self presenters includesKey: id) not ]) asSymbol ;
-		model: aModel ;
-		createViewProxyFor: self environment ;
-		yourself.
-
-	aModel whenChangedDo: [ presenter modelChanged: #something ].
-
-	^ self addPresenter: presenter
-]
-
-{ #category : #'event handling' }
-CpWebApplication >> handleMessageToProxy: aMessageToProxyReceived [
-
-	"Handle the MessageToProxyReceived Announcement by sending the message to the actual Model"
-
-	| messageSend |
-
-	messageSend := aMessageToProxyReceived messageSend.
-	(self presenterWithId: messageSend receiver ifAbsent: [ self error: 'Message from unknown presenter' ])
-		sendMessageToModel: messageSend selector withArguments: messageSend arguments
-]
-
-{ #category : #initialization }
-CpWebApplication >> initialize [
-
-	super initialize.
-
-	models := OrderedCollection new.
-	presenters := OrderedIdentityDictionary new
-]
-
 { #category : #installing }
 CpWebApplication >> installExtensionMethods [
 
@@ -107,24 +50,6 @@ CpWebApplication >> installExtensionMethods [
 		self environment addMethod: each method ]
 ]
 
-{ #category : #installing }
-CpWebApplication >> installPresenter: aPresenter [
-
-	"Install the specified Presenter in the ClientEnvironment"
-
-	CpWebClientBehavior createPresenter: aPresenter in: self environment
-]
-
-{ #category : #installing }
-CpWebApplication >> installPresenters [
-
-	"Install the presenters in the ClientEnvironment and render first time"
-
-	self presenters do: [ :each |
-		self installPresenter: each.
-		each renderView ]
-]
-
 { #category : #actions }
 CpWebApplication >> load [
 
@@ -132,19 +57,13 @@ CpWebApplication >> load [
 
 	super load.
 
-	"Ensure the receiver reacts to Announcements from the ClientEnvironment"
-	self environment when: CpMessageToProxyReceived send: #handleMessageToProxy: to: self.
-
 	"Install required extensions"
 	self installExtensionMethods.
 
 	"Install an instance the ClientBehavior in the ClientEnvironment"
 	self class clientBehaviorClass
 		installIn: self environment ;
-		createIn: self environment.
-
-	"Install any default presenters"
-	self installPresenters
+		createIn: self environment
 ]
 
 { #category : #updating }
@@ -176,40 +95,6 @@ CpWebApplication >> methodChanged: anAnnouncement [
 	^ true
 ]
 
-{ #category : #accessing }
-CpWebApplication >> models [
-
-	^ models
-]
-
-{ #category : #accessing }
-CpWebApplication >> presenterWithId: identifier ifAbsent: aBlock [
-
-	^ self presenters at: identifier ifAbsent: aBlock
-]
-
-{ #category : #accessing }
-CpWebApplication >> presenters [
-
-	^ presenters
-]
-
-{ #category : #initialization }
-CpWebApplication >> release [
-
-	"Release the receivers resources.
-	Release any presenters of the receiver, but not the models (these might be shared)."
-
-	presenters ifNotNil: [
-		presenters do: [ :each | each release ].
-		presenters := nil ].
-	models ifNotNil: [
-		models do: [ :each | each announcer unsubscribe: self ].
-		models := nil ].
-
-	super release
-]
-
 { #category : #actions }
 CpWebApplication >> reload [
 
@@ -218,22 +103,7 @@ CpWebApplication >> reload [
 	super reload.
 
 	"Create an instance of the ClientBehavior in the ClientEnvironment (class is already installed)"
-	self class clientBehaviorClass createIn: self environment.
-
-	"Install the presenters"
-	self installPresenters
-]
-
-{ #category : #'adding/removing' }
-CpWebApplication >> removeModel: aModel [
-
-	^ self models remove: aModel
-]
-
-{ #category : #'adding/removing' }
-CpWebApplication >> removePresenter: aPresenter [
-
-	^ self presenters removeKey: aPresenter id asSymbol
+	self class clientBehaviorClass createIn: self environment
 ]
 
 { #category : #actions }
@@ -247,11 +117,11 @@ CpWebApplication >> stop [
 { #category : #updating }
 CpWebApplication >> updateStyleViewClass: aViewClass [
 
-	CpWebClientBehavior updateStyleViewClass: aViewClass in: self environment
+	self class clientBehaviorClass updateStyleViewClass: aViewClass in: self environment
 ]
 
 { #category : #updating }
 CpWebApplication >> updateTemplateViewClass: aViewClass [
 
-	CpWebClientBehavior updateTemplateViewClass: aViewClass in: self environment
+	self class clientBehaviorClass updateTemplateViewClass: aViewClass in: self environment
 ]

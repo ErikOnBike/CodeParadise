@@ -9,7 +9,7 @@ Class {
 		'announcer',
 		'keymapper'
 	],
-	#category : #'CodeParadise-WebApplication-Core'
+	#category : #'CodeParadise-WebApplication-MVP-Core'
 }
 
 { #category : #accessing }

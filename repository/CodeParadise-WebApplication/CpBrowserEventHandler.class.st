@@ -64,6 +64,16 @@ CpBrowserEventHandler class >> new [
 	self shouldNotImplement
 ]
 
+{ #category : #utilities }
+CpBrowserEventHandler class >> point: aPoint isSimilarTo: otherPoint [
+
+	| distance |
+
+	distance := aPoint dist: otherPoint.
+
+	^ distance < self similarDistance
+]
+
 { #category : #accessing }
 CpBrowserEventHandler class >> similarDistance [
 
@@ -346,11 +356,7 @@ CpBrowserEventHandler >> latestEvents [
 { #category : #utilities }
 CpBrowserEventHandler >> point: aPoint isSimilarTo: otherPoint [
 
-	| distance |
-
-	distance := aPoint dist: otherPoint.
-
-	^ distance < self class similarDistance
+	^ self class point: aPoint isSimilarTo: otherPoint
 ]
 
 { #category : #'event handling' }

@@ -4,7 +4,7 @@ I am a View representing a Window.
 Class {
 	#name : #CpWindow,
 	#superclass : #CpView,
-	#category : #'CodeParadise-WebApplication-Core'
+	#category : #'CodeParadise-WebApplication-MVP-Core'
 }
 
 { #category : #'web resources' }

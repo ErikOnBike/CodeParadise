@@ -4,11 +4,11 @@ I only live in the ServerEnvironment.
 "
 Class {
 	#name : #CpCounterWebApplication,
-	#superclass : #CpWebApplication,
+	#superclass : #CpMvpWebApplication,
 	#classVars : [
 		'GlobalCounter'
 	],
-	#category : #'CodeParadise-WebApplication-Examples'
+	#category : #'CodeParadise-WebApplication-MVP-Examples'
 }
 
 { #category : #accessing }

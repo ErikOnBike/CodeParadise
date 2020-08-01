@@ -7,7 +7,7 @@ Class {
 	#instVars : [
 		'value'
 	],
-	#category : #'CodeParadise-WebApplication-Examples'
+	#category : #'CodeParadise-WebApplication-MVP-Examples'
 }
 
 { #category : #accessing }

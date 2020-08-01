@@ -4,7 +4,7 @@ I am a View representing the Screen of the web browser I live in.
 Class {
 	#name : #CpScreen,
 	#superclass : #CpView,
-	#category : #'CodeParadise-WebApplication-Core'
+	#category : #'CodeParadise-WebApplication-MVP-Core'
 }
 
 { #category : #'web resources' }

@@ -3,8 +3,8 @@ I am a BrowserEventHandler and I am responsible for handling events of Views wit
 "
 Class {
 	#name : #CpViewEventHandler,
-	#superclass : #Object,
-	#category : #'CodeParadise-WebApplication-Core'
+	#superclass : #CpBaseEventHandler,
+	#category : #'CodeParadise-WebApplication-MVP-Core'
 }
 
 { #category : #accessing }
@@ -33,10 +33,10 @@ CpViewEventHandler >> handleEvent: anEvent [
 	self flag: #todo. "Needs to be refactored in pointer event handler and text entry event handler"
 
 	anEvent isPointerEvent
-		ifTrue: [ self handlePointerEvent: anEvent ].
+		ifTrue: [ ^ self handlePointerEvent: anEvent ].
 
 	anEvent isTextEntryEvent
-		ifTrue: [ self handleTextEntryEvent: anEvent ]
+		ifTrue: [ ^ self handleTextEntryEvent: anEvent ]
 ]
 
 { #category : #'event handling' }

@@ -27,17 +27,10 @@ CpWebClientBehavior class >> createIn: aServerEnvironment [
 	aServerEnvironment clientCreateInstanceOf: self withId: self clientId
 ]
 
-{ #category : #creating }
-CpWebClientBehavior class >> createPresenter: aPresenter in: aServerEnvironment [
+{ #category : #accessing }
+CpWebClientBehavior class >> eventHandlerClass [
 
-	"Create a new Presenter in the ClientEnvironment belonging to the specified ServerEnvironment"
-
-	aServerEnvironment
-		addClass: aPresenter class ;
-
-		clientPerform: #createPresenter:withId:
-		withArguments: { aPresenter class name . aPresenter id }
-		receiver: self clientId
+	^ CpBaseEventHandler
 ]
 
 { #category : #initialization }
@@ -72,23 +65,6 @@ CpWebClientBehavior class >> updateTemplateViewClass: aViewClass in: aServerEnvi
 
 ]
 
-{ #category : #creating }
-CpWebClientBehavior >> createPresenter: aPresenterClass withId: identifier [
-
-	"Create a new Presenter with the specified identifier (a String).
-	The View for the Presenter is also created.
-	A proxy is created for the Model (which lives in the ServerEnvironment)."
-
-	| presenter |
-
-	presenter := CpClientEnvironment current createInstanceOf: aPresenterClass withId: identifier.
-	^ presenter
-		id: identifier ;
-		model: CpModelProxy new ;
-		createView ;
-		yourself
-]
-
 { #category : #initialization }
 CpWebClientBehavior >> initialize [
 
@@ -96,8 +72,16 @@ CpWebClientBehavior >> initialize [
 
 	super initialize.
 
+	self installBrowserEventHandler
+]
+
+{ #category : #initialization }
+CpWebClientBehavior >> installBrowserEventHandler [
+
+	"Install the event handler for the receiver"
+
 	CpBrowserEventHandler current
-		delegate: CpViewEventHandler new
+		delegate: self class eventHandlerClass new
 ]
 
 { #category : #updating }

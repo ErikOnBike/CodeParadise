@@ -10,7 +10,7 @@ Class {
 		'model',
 		'view'
 	],
-	#category : #'CodeParadise-WebApplication-Core'
+	#category : #'CodeParadise-WebApplication-MVP-Core'
 }
 
 { #category : #accessing }

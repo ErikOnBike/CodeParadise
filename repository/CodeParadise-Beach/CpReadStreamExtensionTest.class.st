@@ -1,7 +1,7 @@
 Class {
 	#name : #CpReadStreamExtensionTest,
 	#superclass : #TestCase,
-	#category : #'CodeParadise-WebApplication-Tests'
+	#category : #'CodeParadise-Beach-Tests'
 }
 
 { #category : #tests }

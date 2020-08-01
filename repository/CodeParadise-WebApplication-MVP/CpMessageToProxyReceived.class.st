@@ -7,7 +7,7 @@ Class {
 	#instVars : [
 		'messageSend'
 	],
-	#category : #'CodeParadise-WebApplication-Core'
+	#category : #'CodeParadise-WebApplication-MVP-Core'
 }
 
 { #category : #'instance creation' }

@@ -1,7 +1,7 @@
 Class {
 	#name : #CpSmalltalkParserTest,
 	#superclass : #TestCase,
-	#category : #'CodeParadise-WebApplication-Tests'
+	#category : #'CodeParadise-Beach-Tests'
 }
 
 { #category : #tests }

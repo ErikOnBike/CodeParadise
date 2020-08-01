@@ -4,7 +4,7 @@ I am a Presenter for a Counter Model.
 Class {
 	#name : #CpCounterPresenter,
 	#superclass : #CpPresenter,
-	#category : #'CodeParadise-WebApplication-Examples'
+	#category : #'CodeParadise-WebApplication-MVP-Examples'
 }
 
 { #category : #accessing }

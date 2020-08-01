@@ -5,7 +5,7 @@ I only live in a ClientEnvironment.
 Class {
 	#name : #CpModelProxy,
 	#superclass : #Object,
-	#category : #'CodeParadise-WebApplication-Core'
+	#category : #'CodeParadise-WebApplication-MVP-Core'
 }
 
 { #category : #'reflective operations' }

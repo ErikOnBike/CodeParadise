@@ -4,5 +4,5 @@ I am an Announcement to indicate an unidentified/unregistered Object is used (in
 Class {
 	#name : #CpUnidentifiedObjectUsed,
 	#superclass : #CpClientError,
-	#category : #'CodeParadise-WebApplication-Core'
+	#category : #'CodeParadise-WebApplication-MVP-Core'
 }

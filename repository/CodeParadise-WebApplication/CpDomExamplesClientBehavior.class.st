@@ -225,9 +225,7 @@ CpDomExamplesClientBehavior >> initialize [
 
 	super initialize.
 
-	self
-		installBrowserEventHandler ;
-		showIndex
+	self showIndex
 ]
 
 { #category : #initialization }

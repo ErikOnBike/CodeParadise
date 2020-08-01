@@ -1,8 +1,14 @@
 Class {
 	#name : #CpComponentExamplesClientBehavior,
-	#superclass : #CpWebClientBehavior,
+	#superclass : #CpMvpWebClientBehavior,
 	#category : #'CodeParadise-Beach-Examples'
 }
+
+{ #category : #accessing }
+CpComponentExamplesClientBehavior class >> eventHandlerClass [
+
+	^ CpViewEventHandler
+]
 
 { #category : #examples }
 CpComponentExamplesClientBehavior >> exampleButtons [

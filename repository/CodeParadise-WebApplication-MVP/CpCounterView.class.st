@@ -4,7 +4,7 @@ I am a View for a Counter Model.
 Class {
 	#name : #CpCounterView,
 	#superclass : #CpView,
-	#category : #'CodeParadise-WebApplication-Examples'
+	#category : #'CodeParadise-WebApplication-MVP-Examples'
 }
 
 { #category : #'web resources' }

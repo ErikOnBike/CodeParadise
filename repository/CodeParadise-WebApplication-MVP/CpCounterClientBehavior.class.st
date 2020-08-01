@@ -1,8 +1,14 @@
 Class {
 	#name : #CpCounterClientBehavior,
-	#superclass : #CpWebClientBehavior,
-	#category : #'CodeParadise-WebApplication-Examples'
+	#superclass : #CpMvpWebClientBehavior,
+	#category : #'CodeParadise-WebApplication-MVP-Examples'
 }
+
+{ #category : #accessing }
+CpCounterClientBehavior class >> eventHandlerClass [
+
+	^ CpViewEventHandler
+]
 
 { #category : #accessing }
 CpCounterClientBehavior class >> introHtml [
