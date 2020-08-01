@@ -7,6 +7,12 @@ Class {
 	#category : #'CodeParadise-WebApplication-Fomantic-Elements'
 }
 
+{ #category : #'as yet unclassified' }
+FuiElement class >> allColors [
+
+	^ #(#primary #secondary #tertiary #positive #negative #orange #yellow #olive #green #teal #blue #violet #purple #pink #brown #grey)
+]
+
 { #category : #announcing }
 FuiElement >> announce: anAnnouncement [
 
