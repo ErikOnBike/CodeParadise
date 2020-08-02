@@ -25,12 +25,46 @@ FuiElement >> announcer [
 	^ announcer
 ]
 
+{ #category : #coloring }
+FuiElement >> beColor: colorSymbol [
+
+	| classAttribute allClassValues allColorSymbols |
+
+	classAttribute := self shadowElement attributeAt: #class.
+	allClassValues := (classAttribute findTokens: ' 	') collect: [ :each | each asSymbol ].
+	allColorSymbols := self class allColors.
+
+	"Select all non colors and add the specified color (before the element type which is normally at last position)"
+	allClassValues := allClassValues reject: [ :each | allColorSymbols includes: each ].
+	colorSymbol ifNotNil: [ allClassValues insert: colorSymbol before: allClassValues size ].
+
+	self flag: #todo.	"No flatten or join method in tiny image yet"
+	"Flatten class values"
+	self shadowElement attributeAt: #class put: (String streamContents: [ :stream |
+		allClassValues do: [ :each |
+			stream position > 0
+				ifTrue: [ stream nextPut: Character space ].
+			stream nextPutAll: each ] ])
+]
+
 { #category : #initialization }
 FuiElement >> initialize [
 
 	super initialize.
 
 	announcer := Announcer new
+]
+
+{ #category : #coloring }
+FuiElement >> primary [
+
+	self beColor: #primary
+]
+
+{ #category : #coloring }
+FuiElement >> regular [
+
+	self beColor: nil
 ]
 
 { #category : #initialization }
@@ -43,6 +77,12 @@ FuiElement >> release [
 	super release
 ]
 
+{ #category : #coloring }
+FuiElement >> secondary [
+
+	self beColor: #secondary
+]
+
 { #category : #accessing }
 FuiElement >> shadowElement [
 
@@ -51,6 +91,12 @@ FuiElement >> shadowElement [
 	<primitive: 'primitiveFUIElementShadowElement' module: 'CpFomanticPlugin'>
 	self primitiveFailed
 
+]
+
+{ #category : #coloring }
+FuiElement >> tertiary [
+
+	self beColor: #tertiary
 ]
 
 { #category : #announcing }
