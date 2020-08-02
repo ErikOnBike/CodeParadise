@@ -65,6 +65,7 @@ CpMessageChannel environmentImplementation: CpZincWebSocketChannel.
 CpDomExamplesServerApplication register.
 CpComponentExamplesServerApplication register.
 CpCounterWebApplication register.
+CpFomanticExamplesServerApplication register.
 
 "Start the HTTP and WeSocket servers (use the path where you stored the ClientEnvironment)"
 CpWebApplicationServerStarter startUsingConfig: {
@@ -90,6 +91,7 @@ CpDomExamplesServerApplication unregister.
 CpComponentExamplesServerApplication unregister.
 CpCounterWebApplication unregister.
 CpCounterWebApplication release.
+CpFomanticExamplesServerApplication unregister.
 
 "Garbage collect works better in triples ;-)"
 Smalltalk garbageCollect.
@@ -109,6 +111,7 @@ The two applications can be reached using the following URLs:
 * DOM Examples [http://localhost:8080/static/app.html?DOM-Examples](http://localhost:8080/static/app.html?DOM-Examples)
 * Component Examples [http://localhost:8080/static/app.html?Component-Examples](http://localhost:8080/static/app.html?Component-Examples)
 * Counter Example [http://localhost:8080/static/app.html?counter](http://localhost:8080/static/app.html?counter)
+* Fomantic Examples [http://localhost:8080/static/app.html?Fomantic-Examples](http://localhost:8080/static/app.html?Fomantic-Examples)
 
 ## Troubleshooting
 
