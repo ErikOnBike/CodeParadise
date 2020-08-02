@@ -11,60 +11,6 @@ CpFomanticExamplesClientBehavior class >> eventHandlerClass [
 ]
 
 { #category : #examples }
-CpFomanticExamplesClientBehavior >> createCalendarWithLabel: labelString andIcon: iconString [
-
-	^ (CpHtmlElement newWithTag: #div)
-		attributeAt: #class put: 'ui calendar' ;
-		appendChild: ((CpHtmlElement newWithTag: #div)
-			attributeAt: #class put: 'ui input left icon' ;
-			appendChild: ((CpHtmlElement newWithTag: #i)
-				attributeAt: #class put: iconString, ' icon' ;
-				yourself) ;
-			appendChild: ((CpHtmlElement newWithTag: #input)
-				attributeAt: #type put: 'text' ;
-				attributeAt: #placeholder put: labelString ;
-				yourself) ;
-			yourself)
-]
-
-{ #category : #examples }
-CpFomanticExamplesClientBehavior >> createCheckboxWithLabel: labelString [
-
-	^ (CpHtmlElement newWithTag: #div)
-		attributeAt: #class put: 'ui toggle checkbox' ;
-		appendChild: ((CpHtmlElement newWithTag: #input)
-			attributeAt: #type put: 'checkbox' ;
-			attributeAt: #tabindex put: '0' ;
-			attributeAt: #class put: 'hidden' ;
-			yourself) ;
-		appendChild: ((CpHtmlElement newWithTag: #label)
-			textContent: labelString ;
-			yourself) ;
-		yourself
-]
-
-{ #category : #examples }
-CpFomanticExamplesClientBehavior >> createHeaderWithIcon: iconString andLabel: labelString andSubLabel: subLabelString [
-
-	^ (CpHtmlElement newWithTag: #h1)
-		attributeAt: #class put: 'ui icon header' ;
-		appendChild: ((CpHtmlElement newWithTag: #i)
-			attributeAt: #class put: iconString, ' icon' ;
-			yourself) ;
-		appendChild: ((CpHtmlElement newWithTag: #div)
-			attributeAt: #class put: 'content' ;
-			appendChild: ((CpHtmlElement newWithTag: #span)
-				textContent: labelString ;
-				yourself) ;
-			appendChild: ((CpHtmlElement newWithTag: #div)
-				attributeAt: #class put: 'sub header' ;
-				textContent: subLabelString ;
-				yourself) ;
-			yourself) ;
-		yourself
-]
-
-{ #category : #examples }
 CpFomanticExamplesClientBehavior >> exampleButton [
 
 	<example: 'Button' order: 100>
@@ -129,33 +75,74 @@ CpFomanticExamplesClientBehavior >> exampleButton [
 ]
 
 { #category : #examples }
-CpFomanticExamplesClientBehavior >> exampleCalendar [
-
-	<example: 'Calendar' order: 100>
-
-	CpHtmlElement documentBody
-		appendChild: (self createCalendarWithLabel: 'Date' andIcon: 'calendar') ;
-		appendChild: ((self createCalendarWithLabel: 'Time' andIcon: 'time') becomeElement: #calendar with: { #type -> 'time' } asDictionary) ;
-		appendChild: ((self createCalendarWithLabel: 'Year' andIcon: 'calendar') becomeElement: #calendar with: { #startMode -> 'year' } asDictionary)
-]
-
-{ #category : #examples }
 CpFomanticExamplesClientBehavior >> exampleCheckbox [
 
 	<example: 'Checkbox' order: 100>
 
-	CpHtmlElement documentBody
-		appendChild: (self createCheckboxWithLabel: 'First checkbox') ;
-		appendChild: ((self createCheckboxWithLabel: 'Second checkbox') becomeElement: #checkbox)
-]
+	| outputElement checkbox checkButton uncheckButton isCheckedButton isCheckedLabel |
 
-{ #category : #examples }
-CpFomanticExamplesClientBehavior >> exampleHeader [
+	outputElement := self outputElement.
 
-	<example: 'Header' order: 100>
+	outputElement appendChild: ((CpHtmlElement newWithTag: #span)
+		textContent: 'Checkboxes have enabled state ' ;
+		yourself).
+	outputElement appendChild: (FuiCheckbox new
+		textContent: 'Enabled' ;
+		yourself).
 
-	CpHtmlElement documentBody
-		appendChild: (self createHeaderWithIcon: 'settings' andLabel: 'Account settings' andSubLabel: 'Manage your account settings and set e-mail preferences.')
+	outputElement appendChild: ((CpHtmlElement newWithTag: #span) textContent: ' ' ; yourself).
+
+	outputElement appendChild: (FuiCheckbox new
+		textContent: 'Disabled' ;
+		disable ;
+		yourself).
+
+	outputElement appendChild: ((CpHtmlElement newWithTag: #div) addClass: #separator ; yourself).
+
+	outputElement appendChild: ((CpHtmlElement newWithTag: #span) textContent: 'Checkboxes have checked state ' ; yourself).
+	outputElement appendChild: (FuiCheckbox new
+		textContent: 'Checked' ;
+		check ;
+		yourself).
+
+	outputElement appendChild: ((CpHtmlElement newWithTag: #span) textContent: ' ' ; yourself).
+
+	checkbox := outputElement appendChild: (FuiCheckbox new
+		textContent: 'Unchecked' ;
+		uncheck ;
+		yourself).
+
+	outputElement appendChild: ((CpHtmlElement newWithTag: #span) textContent: ' ' ; yourself).
+
+	checkButton := outputElement appendChild: (FuiButton new
+		textContent: 'Check' ;
+		yourself).
+	CpBrowserEventHandler current registerInterestIn: checkButton.
+	checkButton when: CpEventAnnouncement do: [
+		checkbox check.
+		checkButton disable.
+		uncheckButton enable. ].
+
+	outputElement appendChild: ((CpHtmlElement newWithTag: #span) textContent: ' ' ; yourself).
+
+	uncheckButton := outputElement appendChild: (FuiButton new
+		textContent: 'Uncheck' ;
+		yourself).
+	CpBrowserEventHandler current registerInterestIn: uncheckButton.
+	uncheckButton when: CpEventAnnouncement do: [
+		checkbox uncheck.
+		checkButton enable.
+		uncheckButton disable ].
+
+	outputElement appendChild: ((CpHtmlElement newWithTag: #span) textContent: ' ' ; yourself).
+
+	isCheckedButton := outputElement appendChild: (FuiButton new
+		textContent: 'Is checked' ;
+		yourself).
+	isCheckedLabel := outputElement appendChild: (CpHtmlElement newWithTag: #span).
+	CpBrowserEventHandler current registerInterestIn: isCheckedButton.
+	isCheckedButton when: CpEventAnnouncement do: [ isCheckedLabel textContent: ' ', checkbox isChecked printString ].
+	isCheckedButton announce: CpEventAnnouncement new "trigger first update"
 ]
 
 { #category : #events }

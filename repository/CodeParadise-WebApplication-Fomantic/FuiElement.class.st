@@ -7,10 +7,26 @@ Class {
 	#category : #'CodeParadise-WebApplication-Fomantic-Elements'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #'accessing - colors' }
 FuiElement class >> allColors [
 
 	^ #(#primary #secondary #tertiary #positive #negative #orange #yellow #olive #green #teal #blue #violet #purple #pink #brown #grey)
+]
+
+{ #category : #'web resources' }
+FuiElement class >> style [
+
+	<webResource: #css>
+
+	^ '@import "https://cdn.jsdelivr.net/npm/fomantic-ui@2.8.6/dist/semantic.min.css";'
+]
+
+{ #category : #accessing }
+FuiElement class >> type [
+
+	"Answer a Symbol specifying the (Javascript) type of the receiver"
+
+	self subclassResponsibility
 ]
 
 { #category : #announcing }
@@ -25,7 +41,7 @@ FuiElement >> announcer [
 	^ announcer
 ]
 
-{ #category : #coloring }
+{ #category : #'accessing - colors' }
 FuiElement >> beColor: colorSymbol [
 
 	| classAttribute allClassValues allColorSymbols |
@@ -55,13 +71,31 @@ FuiElement >> initialize [
 	announcer := Announcer new
 ]
 
-{ #category : #coloring }
+{ #category : #'accessing - state' }
+FuiElement >> performOnElement: behavior [
+
+	"Perform the specified behavior (a Dictionary or Symbol) on the receiver's element"
+
+	^ self performOnElement: behavior as: self class type
+]
+
+{ #category : #'accessing - state' }
+FuiElement >> performOnElement: behavior as: type [
+
+	"Perform the specified behavior (a Dictionary or Symbol) on the receiver's element with the specified type (a Symbol)"
+
+	<primitive: 'primitiveFUIElementPerformOnElement:as:' module: 'CpFomanticPlugin'>
+	self primitiveFailed
+
+]
+
+{ #category : #'accessing - colors' }
 FuiElement >> primary [
 
 	self beColor: #primary
 ]
 
-{ #category : #coloring }
+{ #category : #'accessing - colors' }
 FuiElement >> regular [
 
 	self beColor: nil
@@ -77,7 +111,7 @@ FuiElement >> release [
 	super release
 ]
 
-{ #category : #coloring }
+{ #category : #'accessing - colors' }
 FuiElement >> secondary [
 
 	self beColor: #secondary
@@ -93,7 +127,7 @@ FuiElement >> shadowElement [
 
 ]
 
-{ #category : #coloring }
+{ #category : #'accessing - colors' }
 FuiElement >> tertiary [
 
 	self beColor: #tertiary

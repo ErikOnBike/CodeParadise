@@ -5,14 +5,6 @@ Class {
 }
 
 { #category : #'web resources' }
-FuiButton class >> style [
-
-	<webResource: #css>
-
-	^ '@import "https://cdn.jsdelivr.net/npm/fomantic-ui@2.8.6/dist/semantic.min.css";'
-]
-
-{ #category : #'web resources' }
 FuiButton class >> template [
 
 	<webResource: #html>
@@ -20,25 +12,33 @@ FuiButton class >> template [
 	^ '<button class="ui button"><slot></slot></button>'
 ]
 
-{ #category : #protocol }
+{ #category : #accessing }
+FuiButton class >> type [
+
+	"Buttons do not have a type"
+
+	^ nil
+]
+
+{ #category : #'accessing - state' }
 FuiButton >> beLoaded [
 
 	^ self shadowElement removeClass: #loading
 ]
 
-{ #category : #protocol }
+{ #category : #'accessing - state' }
 FuiButton >> beLoading [
 
 	^ self shadowElement addClass: #loading
 ]
 
-{ #category : #protocol }
+{ #category : #'accessing - state' }
 FuiButton >> disable [
 
 	^ self shadowElement addClass: #disabled
 ]
 
-{ #category : #protocol }
+{ #category : #'accessing - state' }
 FuiButton >> enable [
 
 	^ self shadowElement removeClass: #disabled
