@@ -142,7 +142,23 @@ CpFomanticExamplesClientBehavior >> exampleCheckbox [
 	isCheckedLabel := outputElement appendChild: (CpHtmlElement newWithTag: #span).
 	CpBrowserEventHandler current registerInterestIn: isCheckedButton.
 	isCheckedButton when: CpEventAnnouncement do: [ isCheckedLabel textContent: ' ', checkbox isChecked printString ].
-	isCheckedButton announce: CpEventAnnouncement new "trigger first update"
+	isCheckedButton announce: CpEventAnnouncement new. "trigger first update"
+
+	outputElement appendChild: ((CpHtmlElement newWithTag: #div) addClass: #separator ; yourself).
+
+	outputElement appendChild: ((CpHtmlElement newWithTag: #span) textContent: 'Checkboxes can be sliders or toggles ' ; yourself).
+	outputElement appendChild: (FuiCheckbox new
+		textContent: 'Slider' ;
+		beSlider ;
+		yourself).
+
+	outputElement appendChild: ((CpHtmlElement newWithTag: #span) textContent: ' ' ; yourself).
+
+	outputElement appendChild: (FuiCheckbox new
+		textContent: 'Toggle' ;
+		beToggle ;
+		yourself).
+
 ]
 
 { #category : #events }

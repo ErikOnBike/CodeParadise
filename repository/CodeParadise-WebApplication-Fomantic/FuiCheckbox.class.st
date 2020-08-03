@@ -4,6 +4,12 @@ Class {
 	#category : #'CodeParadise-WebApplication-Fomantic-Elements'
 }
 
+{ #category : #accessing }
+FuiCheckbox class >> allTypes [
+
+	^ #(#slider #toggle)
+]
+
 { #category : #'web resources' }
 FuiCheckbox class >> template [
 
@@ -16,6 +22,24 @@ FuiCheckbox class >> template [
 FuiCheckbox class >> type [
 
 	^ #checkbox
+]
+
+{ #category : #'as yet unclassified' }
+FuiCheckbox >> beRegular [
+
+	^ self setType: nil ofTypes: self class allTypes
+]
+
+{ #category : #'as yet unclassified' }
+FuiCheckbox >> beSlider [
+
+	^ self setType: #slider ofTypes: self class allTypes
+]
+
+{ #category : #'as yet unclassified' }
+FuiCheckbox >> beToggle [
+
+	^ self setType: #toggle ofTypes: self class allTypes
 ]
 
 { #category : #'accessing - state' }

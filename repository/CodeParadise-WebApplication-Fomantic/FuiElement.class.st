@@ -44,23 +44,7 @@ FuiElement >> announcer [
 { #category : #'accessing - colors' }
 FuiElement >> beColor: colorSymbol [
 
-	| classAttribute allClassValues allColorSymbols |
-
-	classAttribute := self shadowElement attributeAt: #class.
-	allClassValues := (classAttribute findTokens: ' 	') collect: [ :each | each asSymbol ].
-	allColorSymbols := self class allColors.
-
-	"Select all non colors and add the specified color (before the element type which is normally at last position)"
-	allClassValues := allClassValues reject: [ :each | allColorSymbols includes: each ].
-	colorSymbol ifNotNil: [ allClassValues insert: colorSymbol before: allClassValues size ].
-
-	self flag: #todo.	"No flatten or join method in tiny image yet"
-	"Flatten class values"
-	self shadowElement attributeAt: #class put: (String streamContents: [ :stream |
-		allClassValues do: [ :each |
-			stream position > 0
-				ifTrue: [ stream nextPut: Character space ].
-			stream nextPutAll: each ] ])
+	self setType: colorSymbol ofTypes: self class allColors
 ]
 
 { #category : #initialization }
@@ -115,6 +99,36 @@ FuiElement >> release [
 FuiElement >> secondary [
 
 	self beColor: #secondary
+]
+
+{ #category : #'accessing - colors' }
+FuiElement >> setType: aSymbol ofTypes: aCollection [
+
+	"Set the specified ui type to aSymbol on the receiver.
+	The possible (alternative) type values are specified by aCollection.
+	If aSymbol is nil, the type is removed from the receiver.
+
+	Examples:
+		checkbox setType: #slider ofClasses: #(#slider #toggle).
+		button setType: #red ofClasses: #(#primary #secondary #red #green #blue).
+		button setType: nil ofClasses: #(#primary #secondary #red #green #blue)."
+
+	| classAttribute allClassValues |
+
+	classAttribute := self shadowElement attributeAt: #class.
+	allClassValues := (classAttribute findTokens: ' ') collect: [ :each | each asSymbol ].
+
+	"Add the specified type and remove any alternative type values"
+	allClassValues := allClassValues reject: [ :each | aCollection includes: each ].
+	aSymbol ifNotNil: [ allClassValues insert: aSymbol before: allClassValues size ].	"Insert before last element which is the main type"
+
+	self flag: #todo.	"No flatten or join method in tiny image yet"
+	"Flatten class values"
+	self shadowElement attributeAt: #class put: (String streamContents: [ :stream |
+		allClassValues do: [ :each |
+			stream position > 0
+				ifTrue: [ stream nextPut: Character space ].
+			stream nextPutAll: each ] ])
 ]
 
 { #category : #accessing }
