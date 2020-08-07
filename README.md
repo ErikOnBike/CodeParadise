@@ -62,10 +62,10 @@ To start a web server allowing incoming HTTP and WebSockets the following code h
 CpMessageChannel environmentImplementation: CpZincWebSocketChannel.
 
 "Register the two example applications"
-CpDomExamplesServerApplication register.
-CpComponentExamplesServerApplication register.
+CpDomExamplesWebApplication register.
+CpComponentExamplesWebApplication register.
 CpCounterWebApplication register.
-CpFomanticExamplesServerApplication register.
+CpFomanticExamplesWebApplication register.
 
 "Start the HTTP and WeSocket servers (use the path where you stored the ClientEnvironment)"
 CpWebApplicationServerStarter startUsingConfig: {
@@ -87,11 +87,11 @@ CpRemoteEnvironmentServer allInstances do: [ :each | each stop ].
 CpServerApplication allSubInstances do: [ :each | each stop ].
 
 "Unregister applications"
-CpDomExamplesServerApplication unregister.
-CpComponentExamplesServerApplication unregister.
+CpDomExamplesWebApplication unregister.
+CpComponentExamplesWebApplication unregister.
 CpCounterWebApplication unregister.
 CpCounterWebApplication release.
-CpFomanticExamplesServerApplication unregister.
+CpFomanticExamplesWebApplication unregister.
 
 "Garbage collect works better in triples ;-)"
 Smalltalk garbageCollect.
