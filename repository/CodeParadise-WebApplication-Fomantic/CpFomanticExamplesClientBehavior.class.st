@@ -161,6 +161,39 @@ CpFomanticExamplesClientBehavior >> exampleCheckbox [
 
 ]
 
+{ #category : #examples }
+CpFomanticExamplesClientBehavior >> exampleInput [
+
+	<example: 'Input' order: 200>
+
+	| outputElement |
+
+	outputElement := self outputElement.
+
+	outputElement appendChild: ((CpHtmlElement newWithTag: #span)
+		textContent: 'Basic input ' ;
+		yourself).
+	outputElement appendChild: FuiInput new.
+
+	outputElement appendChild: ((CpHtmlElement newWithTag: #div) addClass: #separator ; yourself).
+
+	outputElement appendChild: ((CpHtmlElement newWithTag: #span)
+		textContent: 'Input with placeholder' ;
+		yourself).
+	outputElement appendChild: (FuiInput new
+		placeholder: 'Search...' ;
+		yourself).
+
+	outputElement appendChild: ((CpHtmlElement newWithTag: #div) addClass: #separator ; yourself).
+
+	outputElement appendChild: ((CpHtmlElement newWithTag: #span)
+		textContent: 'Input with icon' ;
+		yourself).
+	outputElement appendChild: (FuiInput new
+		icon: #search ;
+		yourself)
+]
+
 { #category : #events }
 CpFomanticExamplesClientBehavior >> handleEvent: anEvent [
 
