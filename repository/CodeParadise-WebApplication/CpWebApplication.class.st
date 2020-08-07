@@ -1,5 +1,5 @@
 "
-I am a ServerApplication with Web-specific behavior. I work according to a Model-View-Presenter pattern.
+I am a ServerApplication with Web-specific behavior. I work with WebComponents, meaning I know how to update their appearance (template and style).
 
 "
 Class {

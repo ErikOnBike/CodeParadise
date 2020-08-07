@@ -1,3 +1,6 @@
+"
+I am a WebApplication. I work with elements according to the Model-View-Presenter pattern.
+"
 Class {
 	#name : #CpMvpWebApplication,
 	#superclass : #CpWebApplication,

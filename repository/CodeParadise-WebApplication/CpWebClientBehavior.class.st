@@ -1,5 +1,5 @@
 "
-I am application Behavior to be performed inside a ClientEnvironment. I work for a WebApplication and according to a Model-View-Presenter pattern.
+I am application Behavior to be performed inside a ClientEnvironment. I work for a WebApplication.
 I only live in a ClientEnvironment.
 "
 Class {

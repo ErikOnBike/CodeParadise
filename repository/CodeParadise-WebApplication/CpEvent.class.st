@@ -1,3 +1,6 @@
+"
+I am the base class for Events.
+"
 Class {
 	#name : #CpEvent,
 	#superclass : #Object,

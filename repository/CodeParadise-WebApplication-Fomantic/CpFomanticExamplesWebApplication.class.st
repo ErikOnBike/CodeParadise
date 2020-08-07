@@ -1,11 +1,11 @@
 Class {
-	#name : #CpFomanticExamplesServerApplication,
+	#name : #CpFomanticExamplesWebApplication,
 	#superclass : #CpWebApplication,
 	#category : #'CodeParadise-WebApplication-Fomantic-Examples'
 }
 
 { #category : #accessing }
-CpFomanticExamplesServerApplication class >> app [
+CpFomanticExamplesWebApplication class >> app [
 
 	"Answer the unique identifier (a Symbol) for the receiver"
 
@@ -13,7 +13,7 @@ CpFomanticExamplesServerApplication class >> app [
 ]
 
 { #category : #accessing }
-CpFomanticExamplesServerApplication class >> clientBehaviorClass [
+CpFomanticExamplesWebApplication class >> clientBehaviorClass [
 
 	^ CpFomanticExamplesClientBehavior
 ]

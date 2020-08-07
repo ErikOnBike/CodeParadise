@@ -1,3 +1,6 @@
+"
+I am an Announcement for events.
+"
 Class {
 	#name : #CpEventAnnouncement,
 	#superclass : #Announcement,

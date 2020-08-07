@@ -1,3 +1,6 @@
+"
+I am a base class for event handling. I can be used as a delegate for the BrowserEventHandler.
+"
 Class {
 	#name : #CpBaseEventHandler,
 	#superclass : #Object,

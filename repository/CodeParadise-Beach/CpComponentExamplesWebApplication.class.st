@@ -1,11 +1,11 @@
 Class {
-	#name : #CpComponentExamplesServerApplication,
+	#name : #CpComponentExamplesWebApplication,
 	#superclass : #CpMvpWebApplication,
 	#category : #'CodeParadise-Beach-Examples'
 }
 
 { #category : #accessing }
-CpComponentExamplesServerApplication class >> app [
+CpComponentExamplesWebApplication class >> app [
 
 	"Answer the unique identifier (a Symbol) for the receiver"
 
@@ -13,13 +13,13 @@ CpComponentExamplesServerApplication class >> app [
 ]
 
 { #category : #accessing }
-CpComponentExamplesServerApplication class >> clientBehaviorClass [
+CpComponentExamplesWebApplication class >> clientBehaviorClass [
 
 	^ CpComponentExamplesClientBehavior
 ]
 
 { #category : #installing }
-CpComponentExamplesServerApplication >> installExtensionMethods [
+CpComponentExamplesWebApplication >> installExtensionMethods [
 
 	"Install the extension methods from known Classes"
 

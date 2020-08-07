@@ -1,3 +1,7 @@
+"
+I am application Behavior to be performed inside a ClientEnvironment. I work for a MvpWebApplication and according to a Model-View-Presenter pattern.
+I only live in a ClientEnvironment.
+"
 Class {
 	#name : #CpMvpWebClientBehavior,
 	#superclass : #CpWebClientBehavior,
