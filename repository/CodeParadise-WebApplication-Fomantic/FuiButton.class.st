@@ -4,6 +4,12 @@ Class {
 	#category : #'CodeParadise-WebApplication-Fomantic-Elements'
 }
 
+{ #category : #'accessing - colors' }
+FuiButton class >> allColors [
+
+	^ #(#primary #secondary #tertiary #positive #negative #orange #yellow #olive #green #teal #blue #violet #purple #pink #brown #grey)
+]
+
 { #category : #'web resources' }
 FuiButton class >> template [
 
@@ -15,33 +21,37 @@ FuiButton class >> template [
 { #category : #accessing }
 FuiButton class >> type [
 
-	"Buttons do not have a type"
+	^ #button
+]
 
-	^ nil
+{ #category : #'accessing - variation' }
+FuiButton >> beColor: colorSymbol [
+
+	self setVariation: colorSymbol ofVariations: self class allColors
 ]
 
 { #category : #'accessing - state' }
 FuiButton >> beLoaded [
 
-	^ self shadowElement removeClass: #loading
+	self removeState: #loading
 ]
 
 { #category : #'accessing - state' }
 FuiButton >> beLoading [
 
-	^ self shadowElement addClass: #loading
+	self addState: #loading
 ]
 
 { #category : #'accessing - state' }
 FuiButton >> disable [
 
-	^ self shadowElement addClass: #disabled
+	self addState: #disabled
 ]
 
 { #category : #'accessing - state' }
 FuiButton >> enable [
 
-	^ self shadowElement removeClass: #disabled
+	self removeState: #disabled
 ]
 
 { #category : #'event handling' }
@@ -50,4 +60,28 @@ FuiButton >> handleClickEvent: aClickEvent [
 	"Announce the fact that receiver has been clicked"
 
 	self announce: aClickEvent asAnnouncement
+]
+
+{ #category : #'accessing - variation' }
+FuiButton >> primary [
+
+	self beColor: #primary
+]
+
+{ #category : #'accessing - variation' }
+FuiButton >> regular [
+
+	self beColor: nil
+]
+
+{ #category : #'accessing - variation' }
+FuiButton >> secondary [
+
+	self beColor: #secondary
+]
+
+{ #category : #'accessing - variation' }
+FuiButton >> tertiary [
+
+	self beColor: #tertiary
 ]

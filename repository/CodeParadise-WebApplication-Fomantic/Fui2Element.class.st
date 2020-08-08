@@ -1,31 +1,14 @@
 Class {
-	#name : #FuiElement,
-	#superclass : #CpTemplateComponent,
+	#name : #Fui2Element,
+	#superclass : #CpHtmlElement,
 	#instVars : [
-		'announcer',
 		'classes'
 	],
 	#category : #'CodeParadise-WebApplication-Fomantic-Elements'
 }
 
-{ #category : #'web resources' }
-FuiElement class >> style [
-
-	<webResource: #css>
-
-	^ '@import "https://cdn.jsdelivr.net/npm/fomantic-ui@2.8.6/dist/semantic.min.css";'
-]
-
-{ #category : #accessing }
-FuiElement class >> type [
-
-	"Answer a Symbol specifying the (Javascript) type of the receiver"
-
-	self subclassResponsibility
-]
-
 { #category : #'private - accessing' }
-FuiElement >> addClass: aSymbol at: usageIndex [
+Fui2Element >> addClass: aSymbol at: usageIndex [
 
 	"Add a DOM class (aSymbol) to the receiver at the specified index.
 	DOM classes are stored per usage (State, Type and Variation).
@@ -37,7 +20,7 @@ FuiElement >> addClass: aSymbol at: usageIndex [
 ]
 
 { #category : #'private - accessing' }
-FuiElement >> addClass: aSymbol rejecting: aCollection at: usageIndex [
+Fui2Element >> addClass: aSymbol rejecting: aCollection at: usageIndex [
 
 	"Add a DOM class (aSymbol) to the receiver at the specified index.
 	Reject any existing classes within aCollection (representing mutually
@@ -74,7 +57,7 @@ FuiElement >> addClass: aSymbol rejecting: aCollection at: usageIndex [
 ]
 
 { #category : #'accessing - state' }
-FuiElement >> addState: aSymbol [
+Fui2Element >> addState: aSymbol [
 
 	"Add specified state to the receiver"
 
@@ -82,7 +65,7 @@ FuiElement >> addState: aSymbol [
 ]
 
 { #category : #'accessing - state' }
-FuiElement >> addState: aSymbol deferUpdates: aBoolean [
+Fui2Element >> addState: aSymbol deferUpdates: aBoolean [
 
 	"Add specified state to the receiver.
 	Update the DOM as specified (only update if aBoolean is false)."
@@ -92,7 +75,7 @@ FuiElement >> addState: aSymbol deferUpdates: aBoolean [
 ]
 
 { #category : #'accessing - type' }
-FuiElement >> addType: aSymbol [
+Fui2Element >> addType: aSymbol [
 
 	"Add specified type to the receiver"
 
@@ -100,7 +83,7 @@ FuiElement >> addType: aSymbol [
 ]
 
 { #category : #'accessing - type' }
-FuiElement >> addType: aSymbol deferUpdates: aBoolean [
+Fui2Element >> addType: aSymbol deferUpdates: aBoolean [
 
 	"Add specified type to the receiver.
 	Update the DOM as specified (only update if aBoolean is false)."
@@ -110,7 +93,7 @@ FuiElement >> addType: aSymbol deferUpdates: aBoolean [
 ]
 
 { #category : #'accessing - variation' }
-FuiElement >> addVariation: aSymbol [
+Fui2Element >> addVariation: aSymbol [
 
 	"Add specified variation to the receiver"
 
@@ -118,7 +101,7 @@ FuiElement >> addVariation: aSymbol [
 ]
 
 { #category : #'accessing - variation' }
-FuiElement >> addVariation: aSymbol deferUpdates: aBoolean [
+Fui2Element >> addVariation: aSymbol deferUpdates: aBoolean [
 
 	"Add specified variation to the receiver.
 	Update the DOM as specified (only update if aBoolean is false)."
@@ -127,20 +110,8 @@ FuiElement >> addVariation: aSymbol deferUpdates: aBoolean [
 	aBoolean ifFalse: [ self updateDom ]
 ]
 
-{ #category : #announcing }
-FuiElement >> announce: anAnnouncement [
-
-	self announcer announce: anAnnouncement
-]
-
-{ #category : #accessing }
-FuiElement >> announcer [
-
-	^ announcer
-]
-
 { #category : #'private - accessing' }
-FuiElement >> classesAt: usageIndex [
+Fui2Element >> classesAt: usageIndex [
 
 	"Answer the DOM classes (Collection of Symbols) of the receiver at the specified index.
 	DOM classes are stored per usage (State, Type and Variation).
@@ -153,16 +124,8 @@ FuiElement >> classesAt: usageIndex [
 	^ (classes at: usageIndex) ifNil: [ #() ]
 ]
 
-{ #category : #initialization }
-FuiElement >> initialize [
-
-	super initialize.
-
-	announcer := Announcer new
-]
-
 { #category : #'private - behavior' }
-FuiElement >> performOnElement: behavior [
+Fui2Element >> performOnElement: behavior [
 
 	"Perform the specified behavior (a Dictionary or Symbol) on the receiver's element"
 
@@ -170,7 +133,7 @@ FuiElement >> performOnElement: behavior [
 ]
 
 { #category : #'private - behavior' }
-FuiElement >> performOnElement: behavior as: type [
+Fui2Element >> performOnElement: behavior as: type [
 
 	"Perform the specified behavior (a Dictionary or Symbol) on the receiver's element with the specified type (a Symbol)"
 
@@ -180,7 +143,7 @@ FuiElement >> performOnElement: behavior as: type [
 ]
 
 { #category : #'private - accessing' }
-FuiElement >> printClassesAt: usageIndex on: aStream [
+Fui2Element >> printClassesAt: usageIndex on: aStream [
 
 	"Print all DOM classes (Symbols) of the receiver at the specified index.
 	DOM classes are stored per usage (State, Type and Variation).
@@ -193,19 +156,8 @@ FuiElement >> printClassesAt: usageIndex on: aStream [
 			nextPutAll: each ]
 ]
 
-{ #category : #initialization }
-FuiElement >> release [
-
-	announcer ifNotNil: [
-		announcer subscriptions reset.
-		announcer := nil ].
-	classes := nil.
-
-	super release
-]
-
 { #category : #'private - accessing' }
-FuiElement >> removeClass: aSymbol at: usageIndex [
+Fui2Element >> removeClass: aSymbol at: usageIndex [
 
 	"Remove a DOM class (aSymbol) from the receiver at the specified index.
 	DOM classes are stored per usage (State, Type and Variation).
@@ -220,7 +172,7 @@ FuiElement >> removeClass: aSymbol at: usageIndex [
 ]
 
 { #category : #'accessing - state' }
-FuiElement >> removeState: aSymbol [
+Fui2Element >> removeState: aSymbol [
 
 	"Remove specified state from the receiver"
 
@@ -228,7 +180,7 @@ FuiElement >> removeState: aSymbol [
 ]
 
 { #category : #'accessing - state' }
-FuiElement >> removeState: aSymbol deferUpdates: aBoolean [
+Fui2Element >> removeState: aSymbol deferUpdates: aBoolean [
 
 	"Remove specified state from the receiver.
 	Update the DOM as specified (only update if aBoolean is false)."
@@ -238,7 +190,7 @@ FuiElement >> removeState: aSymbol deferUpdates: aBoolean [
 ]
 
 { #category : #'accessing - type' }
-FuiElement >> removeType: aSymbol [
+Fui2Element >> removeType: aSymbol [
 
 	"Remove specified type from the receiver"
 
@@ -246,7 +198,7 @@ FuiElement >> removeType: aSymbol [
 ]
 
 { #category : #'accessing - type' }
-FuiElement >> removeType: aSymbol deferUpdates: aBoolean [
+Fui2Element >> removeType: aSymbol deferUpdates: aBoolean [
 
 	"Remove specified type from the receiver.
 	Update the DOM as specified (only update if aBoolean is false)."
@@ -256,7 +208,7 @@ FuiElement >> removeType: aSymbol deferUpdates: aBoolean [
 ]
 
 { #category : #'accessing - variation' }
-FuiElement >> removeVariation: aSymbol [
+Fui2Element >> removeVariation: aSymbol [
 
 	"Remove specified variation from the receiver"
 
@@ -264,7 +216,7 @@ FuiElement >> removeVariation: aSymbol [
 ]
 
 { #category : #'accessing - variation' }
-FuiElement >> removeVariation: aSymbol deferUpdates: aBoolean [
+Fui2Element >> removeVariation: aSymbol deferUpdates: aBoolean [
 
 	"Remove specified variation from the receiver.
 	Update the DOM as specified (only update if aBoolean is false)."
@@ -274,7 +226,7 @@ FuiElement >> removeVariation: aSymbol deferUpdates: aBoolean [
 ]
 
 { #category : #'accessing - state' }
-FuiElement >> setState: aSymbol ofStates: aCollection [
+Fui2Element >> setState: aSymbol ofStates: aCollection [
 
 	"Add specified state to the receiver replacing any occurence of states
 	as specified (aCollection of Symbols). This is to set a state from a collection
@@ -284,7 +236,7 @@ FuiElement >> setState: aSymbol ofStates: aCollection [
 ]
 
 { #category : #'accessing - state' }
-FuiElement >> setState: aSymbol ofStates: aCollection deferUpdates: aBoolean [
+Fui2Element >> setState: aSymbol ofStates: aCollection deferUpdates: aBoolean [
 
 	"Add specified state to the receiver replacing any occurence of states
 	as specified (aCollection of Symbols). This is to set a state from a collection
@@ -296,7 +248,7 @@ FuiElement >> setState: aSymbol ofStates: aCollection deferUpdates: aBoolean [
 ]
 
 { #category : #'accessing - type' }
-FuiElement >> setType: aSymbol ofTypes: aCollection [
+Fui2Element >> setType: aSymbol ofTypes: aCollection [
 
 	"Add specified type to the receiver replacing any occurence of types
 	as specified (aCollection of Symbols). This is to set a type from a collection
@@ -306,7 +258,7 @@ FuiElement >> setType: aSymbol ofTypes: aCollection [
 ]
 
 { #category : #'accessing - type' }
-FuiElement >> setType: aSymbol ofTypes: aCollection deferUpdates: aBoolean [
+Fui2Element >> setType: aSymbol ofTypes: aCollection deferUpdates: aBoolean [
 
 	"Add specified type to the receiver replacing any occurence of types
 	as specified (aCollection of Symbols). This is to set a type from a collection
@@ -318,7 +270,7 @@ FuiElement >> setType: aSymbol ofTypes: aCollection deferUpdates: aBoolean [
 ]
 
 { #category : #'accessing - variation' }
-FuiElement >> setVariation: aSymbol ofVariations: aCollection [
+Fui2Element >> setVariation: aSymbol ofVariations: aCollection [
 
 	"Add specified variation to the receiver replacing any occurence of variation
 	as specified (aCollection of Symbols). This is to set a variation from a collection
@@ -328,7 +280,7 @@ FuiElement >> setVariation: aSymbol ofVariations: aCollection [
 ]
 
 { #category : #'accessing - variation' }
-FuiElement >> setVariation: aSymbol ofVariations: aCollection deferUpdates: aBoolean [
+Fui2Element >> setVariation: aSymbol ofVariations: aCollection deferUpdates: aBoolean [
 
 	"Add specified variation to the receiver replacing any occurence of variation
 	as specified (aCollection of Symbols). This is to set a variation from a collection
@@ -339,18 +291,8 @@ FuiElement >> setVariation: aSymbol ofVariations: aCollection deferUpdates: aBoo
 	aBoolean ifFalse: [ self updateDom ]
 ]
 
-{ #category : #accessing }
-FuiElement >> shadowElement [
-
-	"Answer the shadow DOM's element (this is the first element within the shadow DOM) of the receiver"
-
-	<primitive: 'primitiveFUIElementShadowElement' module: 'CpFomanticPlugin'>
-	self primitiveFailed
-
-]
-
 { #category : #'accessing - state' }
-FuiElement >> states [
+Fui2Element >> states [
 
 	"Answer the state values of the receiver"
 
@@ -358,7 +300,7 @@ FuiElement >> states [
 ]
 
 { #category : #'accessing - type' }
-FuiElement >> types [
+Fui2Element >> types [
 
 	"Answer the type values of the receiver"
 
@@ -366,7 +308,7 @@ FuiElement >> types [
 ]
 
 { #category : #updating }
-FuiElement >> updateDom [
+Fui2Element >> updateDom [
 
 	"Update the DOM of the receiver based on its state.
 	Fomantic's visual state is specified by an element's class attribute.
@@ -375,7 +317,7 @@ FuiElement >> updateDom [
 
 	Implementation: see comment in #addClass:at:"
 
-	self shadowElement attributeAt: #class put: (String streamContents: [ :stream |
+	self attributeAt: #class put: (String streamContents: [ :stream |
 		stream nextPutAll: 'ui'.
 		self
 			printClassesAt: 1 on: stream ;
@@ -387,33 +329,15 @@ FuiElement >> updateDom [
 ]
 
 { #category : #'accessing - variation' }
-FuiElement >> variations [
+Fui2Element >> variations [
 
 	"Answer the variation values of the receiver"
 
 	^ self classesAt: 3
 ]
 
-{ #category : #announcing }
-FuiElement >> when: anAnnouncementClass do: aBlock [
-
-	"Let the sender subscribe to the specified announcement of the receiver.
-	See Announcer>>#when:do:"
-
-	^ self announcer when: anAnnouncementClass do: aBlock
-]
-
-{ #category : #announcing }
-FuiElement >> when: anAnnouncementClass send: aSymbol to: anObject [
-
-	"Let the sender subscribe to the specified announcement of the receiver.
-	See Announcer>>#when:send:to:"
-
-	^ self announcer when: anAnnouncementClass send: aSymbol to: anObject
-]
-
 { #category : #'private - accessing' }
-FuiElement >> withClassesAt: usageIndex do: aBlock [
+Fui2Element >> withClassesAt: usageIndex do: aBlock [
 
 	"Evaluate the specified block for all DOM classes (Symbols) of the receiver at the specified index.
 	DOM classes are stored per usage (State, Type and Variation).

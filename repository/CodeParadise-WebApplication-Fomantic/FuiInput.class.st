@@ -15,9 +15,7 @@ FuiInput class >> template [
 { #category : #accessing }
 FuiInput class >> type [
 
-	"Inputs do not have a type"
-
-	^ nil
+	^ #input
 ]
 
 { #category : #protocol }
@@ -59,14 +57,14 @@ FuiInput >> icon: aSymbol [
 		ifNil: [ self removeIcon ]
 ]
 
-{ #category : #'api-shortcuts' }
+{ #category : #accessing }
 FuiInput >> placeholder [
 
 	^ (self shadowElement firstDescendantMatching: #input)
 		attributeAt: #placeholder
 ]
 
-{ #category : #'api-shortcuts' }
+{ #category : #accessing }
 FuiInput >> placeholder: aString [
 
 	(self shadowElement firstDescendantMatching: #input)

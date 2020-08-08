@@ -382,6 +382,12 @@ CpDomElement >> removeChild: childElement [
 	self primitiveFailed
 ]
 
+{ #category : #'adding/removing' }
+CpDomElement >> removeChildren [
+
+	self children do: [ :each | self removeChild: each ]
+]
+
 { #category : #'tag/id/classes' }
 CpDomElement >> removeClass: aString [
 
