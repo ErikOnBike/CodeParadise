@@ -1,7 +1,7 @@
 Class {
 	#name : #CpReadStreamExtensionTest,
 	#superclass : #TestCase,
-	#category : #'CodeParadise-WebApplication'
+	#category : #'CodeParadise-WebApplication-Tests'
 }
 
 { #category : #tests }
@@ -15,6 +15,7 @@ CpReadStreamExtensionTest >> testLookAheadAt [
 	self assert: (readStream lookAheadAt: 2) = $e description: 'Look at second Character from start'.
 	self assert: (readStream lookAheadAt: 0) isNil description: 'No current (at start)'.
 	self assert: (readStream lookAheadAt: -1) isNil description: 'No previous (at start)'.
+	self assert: (readStream lookAheadAt: readStream size) = $d description: 'Look at last element'.
 
 	readStream next: 5.
 	self assert: (readStream lookAheadAt: 1) = Character space description: 'Look at next Character from middle'.
