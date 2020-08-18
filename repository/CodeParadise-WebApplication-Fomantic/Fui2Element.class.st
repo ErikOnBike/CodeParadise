@@ -1,20 +1,39 @@
 Class {
 	#name : #Fui2Element,
 	#superclass : #CpHtmlElement,
-	#instVars : [
-		'classes'
-	],
 	#category : #'CodeParadise-WebApplication-Fomantic-Elements'
 }
+
+{ #category : #accessing }
+Fui2Element class >> allStates [
+
+	"Answer a collection (of Symbols) representing all states of the receiver"
+
+	^ #()
+]
+
+{ #category : #accessing }
+Fui2Element class >> allTypes [
+
+	"Answer a collection (of Symbols) representing all types of the receiver"
+
+	^ #()
+]
+
+{ #category : #accessing }
+Fui2Element class >> allVariations [
+
+	"Answer a collection (of Symbols) representing all variations of the receiver"
+
+	^ #()
+]
 
 { #category : #'private - accessing' }
 Fui2Element >> addClass: aSymbol at: usageIndex [
 
-	"Add a DOM class (aSymbol) to the receiver at the specified index.
-	DOM classes are stored per usage (State, Type and Variation).
-	If the receiver already has the class specified, nothing happens.
-
-	Implementation: see #addClass:rejecting:at:"
+	"Add a HTML class name (aSymbol) to the receiver at the specified usage index.
+	HTML classes are stored per usage (Type, State and Variation).
+	If the receiver already has the class specified, nothing happens."
 
 	self addClass: aSymbol rejecting: #() at: usageIndex
 ]
@@ -22,38 +41,33 @@ Fui2Element >> addClass: aSymbol at: usageIndex [
 { #category : #'private - accessing' }
 Fui2Element >> addClass: aSymbol rejecting: aCollection at: usageIndex [
 
-	"Add a DOM class (aSymbol) to the receiver at the specified index.
+	"Add a HTML class name (aSymbol) to the receiver at the specified usage index.
 	Reject any existing classes within aCollection (representing mutually
 	exclusive values).
-	DOM classes are stored per usage (State, Type and Variation).
-	If the receiver already has the class specified, nothing happens.
+	HTML class names are stored per usage (Type, State and Variation).
+	If the receiver already has the class name specified, nothing happens."
 
-	Implementation:
-	Use an OrderedCollection instead of a Set because the number of elements will be low
-	and a Set will be too heavy. 
-	Use lazy initialization to keep Object instantiation limited."
+	| classes usageClasses classesChanged |
 
-	| usageClasses |
-
-	classes ifNil: [ classes := Array new: 3 ].
-
-	(usageClasses := classes at: usageIndex)
-		ifNil: [
-
-			"No classes present, simply add new collection containing the requested value"
-			aSymbol
-				ifNotNil: [ classes at: usageIndex put: (OrderedCollection with: aSymbol) ].
-			^ self ].
+	classes := self classes.
+	usageClasses := classes at: usageIndex.
 
 	"First remove any existing (mutually exclusive) class values"
-	aCollection ifNotEmpty: [
-		usageClasses := usageClasses reject: [ :each | aCollection includes: each ].
-		classes at: usageIndex put: usageClasses ].
+	aCollection
+		ifNotEmpty: [ usageClasses := usageClasses reject: [ :each | aCollection includes: each ] ].
+	classesChanged := (classes at: usageIndex) size ~= usageClasses size.
 
 	"Add class if not already present"
-	aSymbol ifNil: [ ^ self ].
-	(usageClasses includes: aSymbol)
-		ifFalse: [ usageClasses add: aSymbol ]
+	(aSymbol notNil and: [ (usageClasses includes: aSymbol) not ])
+		ifTrue: [
+			usageClasses add: aSymbol.
+			classesChanged := true ].
+self crTrace: aSymbol, ' classesChanged ', classesChanged printString.
+	"Update receiver's class attribute (if changed)"
+	classesChanged
+		ifFalse: [ ^ self ].
+	classes at: usageIndex put: usageClasses.
+	self classes: classes
 ]
 
 { #category : #'accessing - state' }
@@ -61,17 +75,7 @@ Fui2Element >> addState: aSymbol [
 
 	"Add specified state to the receiver"
 
-	self addState: aSymbol deferUpdates: false
-]
-
-{ #category : #'accessing - state' }
-Fui2Element >> addState: aSymbol deferUpdates: aBoolean [
-
-	"Add specified state to the receiver.
-	Update the DOM as specified (only update if aBoolean is false)."
-
-	self addClass: aSymbol at: 1.
-	aBoolean ifFalse: [ self updateDom ]
+	self addClass: aSymbol at: 2
 ]
 
 { #category : #'accessing - type' }
@@ -79,17 +83,7 @@ Fui2Element >> addType: aSymbol [
 
 	"Add specified type to the receiver"
 
-	self addType: aSymbol deferUpdates: false
-]
-
-{ #category : #'accessing - type' }
-Fui2Element >> addType: aSymbol deferUpdates: aBoolean [
-
-	"Add specified type to the receiver.
-	Update the DOM as specified (only update if aBoolean is false)."
-
-	self addClass: aSymbol at: 2.
-	aBoolean ifFalse: [ self updateDom ]
+	self addClass: aSymbol at: 1
 ]
 
 { #category : #'accessing - variation' }
@@ -97,31 +91,91 @@ Fui2Element >> addVariation: aSymbol [
 
 	"Add specified variation to the receiver"
 
-	self addVariation: aSymbol deferUpdates: false
-]
-
-{ #category : #'accessing - variation' }
-Fui2Element >> addVariation: aSymbol deferUpdates: aBoolean [
-
-	"Add specified variation to the receiver.
-	Update the DOM as specified (only update if aBoolean is false)."
-
-	self addClass: aSymbol at: 3.
-	aBoolean ifFalse: [ self updateDom ]
+	self addClass: aSymbol at: 3
 ]
 
 { #category : #'private - accessing' }
-Fui2Element >> classesAt: usageIndex [
+Fui2Element >> classes [
 
-	"Answer the DOM classes (Collection of Symbols) of the receiver at the specified index.
-	DOM classes are stored per usage (State, Type and Variation).
-	DO NOT modify the result of this method. Use #addClass:at: or #removeClass:at: instead.
+	"Answer an Array with an OrderedCollection of class names (Symbols) of the receiver as elements.
+	The Array has 3 elements for class names representing Type, States and Variations (with values
+	as defined by Fomantic docs).
 
-	Implementation: see comment in #addClass:rejecting:at:"
+	For example the tag <div class='ui read-only checked slider checkbox'>...</div> will result in:
+		Array
+			with: (OrderedCollection with: #slider)
+			with: (OrderedCollection with: #'read-only' with: #checked)
+			with: (OrderedCollection new).
 
-	classes ifNil: [ ^ #() ].
+	This means the element has Type: #slider, States: #'read-only' and #checked and no Variation.
+	"
 
-	^ (classes at: usageIndex) ifNil: [ #() ]
+	^ self classesFrom: ((self attributeAt: #class) ifNil: [ '' ])
+
+]
+
+{ #category : #'private - accessing' }
+Fui2Element >> classes: anArray [
+
+	"Update the HTML class attribute of the receiver using the class names
+	specified. anArray should have 3 elements each being an OrderedCollection
+	with class names (Symbols).
+
+	The result is a class attribute following the rule:
+		'ui <type-name> <state-name1> ... <state-nameX> <variation-name1> ... <variation-nameY> <type>'
+
+	The previous order is not strictly necessary, but beware that some State or Variation
+	classes can consist of two names like 'left icon' or 'very padded'.
+
+	<type-name> is typically a subtype (like a #slider for main type #checkbox).
+	All three Type, State and Variation classes can be empty (ie have default values).
+	"
+
+	self attributeAt: #class put: (String streamContents: [ :stream |
+		stream nextPutAll: 'ui'.
+		self
+			printClasses: (anArray at: 1) on: stream ;
+			printClasses: (anArray at: 2) on: stream ;
+			printClasses: (anArray at: 3) on: stream.
+		stream
+			space ;
+			nextPutAll: self class type ])
+]
+
+{ #category : #'private - accessing' }
+Fui2Element >> classesFrom: aString [
+
+	| classes readStream |
+
+	classes := Array
+		with: OrderedCollection new		"Type"
+		with: OrderedCollection new		"States"
+		with: OrderedCollection new.	"Variations"
+
+	readStream := ReadStream on: (aString findTokens: ' ').
+	[ readStream atEnd ] whileFalse: [
+
+		| token |
+
+		token := readStream lookAheadAt: 1.
+		(token = 'ui' or: [ token = self class type ])
+			ifTrue: [ readStream skip ]
+			ifFalse: [
+				(self storeClassFrom: token into: classes)
+					ifTrue: [ readStream skip ]
+					ifFalse: [
+
+						"Token might be combined token like 'left icon' or 'very padded'"
+						token := token, ' ', (readStream lookAheadAt: 2).
+						(self storeClassFrom: token into: classes)
+							ifTrue: [ readStream skip: 2 ]
+							ifFalse: [
+
+								"Unknown token"
+								self crTrace: 'Unknown class "', readStream peek, '" for Fomantic UI element ', self class type.
+								readStream skip ] ] ] ].
+
+	^ classes
 ]
 
 { #category : #'private - behavior' }
@@ -143,14 +197,11 @@ Fui2Element >> performOnElement: behavior as: type [
 ]
 
 { #category : #'private - accessing' }
-Fui2Element >> printClassesAt: usageIndex on: aStream [
+Fui2Element >> printClasses: aCollection on: aStream [
 
-	"Print all DOM classes (Symbols) of the receiver at the specified index.
-	DOM classes are stored per usage (State, Type and Variation).
+	"Print all HTML class names (Symbols) in the Collection on the specified stream"
 
-	Implementation: see comment in #addClass:rejecting:at:"
-
-	self withClassesAt: usageIndex do: [ :each |
+	aCollection do: [ :each |
 		aStream
 			nextPut: Character space ; 
 			nextPutAll: each ]
@@ -159,16 +210,19 @@ Fui2Element >> printClassesAt: usageIndex on: aStream [
 { #category : #'private - accessing' }
 Fui2Element >> removeClass: aSymbol at: usageIndex [
 
-	"Remove a DOM class (aSymbol) from the receiver at the specified index.
-	DOM classes are stored per usage (State, Type and Variation).
-	If the receiver does not have the class specified, nothing happens.
+	"Remove a HTML class name (aSymbol) from the receiver at the specified usage index.
+	HTML class names are stored per usage (Type, State and Variation).
+	If the receiver does not have the class specified, nothing happens."
 
-	Implementation: see comment in #addClass:rejecting:at:"
+	| classes usageClasses |
+	
+	classes := self classes.
+	usageClasses := classes at: usageIndex.
 
-	classes ifNil: [ ^ self ].
-
-	(classes at: usageIndex)
-		ifNotNil: [ :usageClasses | usageClasses remove: aSymbol ifAbsent: [ "ignore absence" ] ]
+	"Remove and update the receiver's class attribute (if changed)"
+	usageClasses remove: aSymbol ifAbsent: [ ^ self ].
+	classes at: usageIndex put: usageClasses.
+	self classes: classes
 ]
 
 { #category : #'accessing - state' }
@@ -176,17 +230,7 @@ Fui2Element >> removeState: aSymbol [
 
 	"Remove specified state from the receiver"
 
-	self removeState: aSymbol deferUpdates: false
-]
-
-{ #category : #'accessing - state' }
-Fui2Element >> removeState: aSymbol deferUpdates: aBoolean [
-
-	"Remove specified state from the receiver.
-	Update the DOM as specified (only update if aBoolean is false)."
-
-	self removeClass: aSymbol at: 1.
-	aBoolean ifFalse: [ self updateDom ]
+	self removeClass: aSymbol at: 2
 ]
 
 { #category : #'accessing - type' }
@@ -194,17 +238,7 @@ Fui2Element >> removeType: aSymbol [
 
 	"Remove specified type from the receiver"
 
-	self removeType: aSymbol deferUpdates: false
-]
-
-{ #category : #'accessing - type' }
-Fui2Element >> removeType: aSymbol deferUpdates: aBoolean [
-
-	"Remove specified type from the receiver.
-	Update the DOM as specified (only update if aBoolean is false)."
-
-	self removeClass: aSymbol at: 2.
-	aBoolean ifFalse: [ self updateDom ]
+	self removeClass: aSymbol at: 1
 ]
 
 { #category : #'accessing - variation' }
@@ -212,17 +246,8 @@ Fui2Element >> removeVariation: aSymbol [
 
 	"Remove specified variation from the receiver"
 
-	self removeVariation: aSymbol deferUpdates: false
-]
+	self removeClass: aSymbol at: 3
 
-{ #category : #'accessing - variation' }
-Fui2Element >> removeVariation: aSymbol deferUpdates: aBoolean [
-
-	"Remove specified variation from the receiver.
-	Update the DOM as specified (only update if aBoolean is false)."
-
-	self removeClass: aSymbol at: 3.
-	aBoolean ifFalse: [ self updateDom ]
 ]
 
 { #category : #'accessing - state' }
@@ -232,19 +257,7 @@ Fui2Element >> setState: aSymbol ofStates: aCollection [
 	as specified (aCollection of Symbols). This is to set a state from a collection
 	of mutually exclusive states."
 
-	self setState: aSymbol ofStates: aCollection deferUpdates: false
-]
-
-{ #category : #'accessing - state' }
-Fui2Element >> setState: aSymbol ofStates: aCollection deferUpdates: aBoolean [
-
-	"Add specified state to the receiver replacing any occurence of states
-	as specified (aCollection of Symbols). This is to set a state from a collection
-	of mutually exclusive states.
-	Update the DOM as specified (only update if aBoolean is false)."
-
-	self addClass: aSymbol rejecting: aCollection at: 1.
-	aBoolean ifFalse: [ self updateDom ]
+	self addClass: aSymbol rejecting: aCollection at: 2
 ]
 
 { #category : #'accessing - type' }
@@ -254,19 +267,7 @@ Fui2Element >> setType: aSymbol ofTypes: aCollection [
 	as specified (aCollection of Symbols). This is to set a type from a collection
 	of mutually exclusive types."
 
-	self setType: aSymbol ofTypes: aCollection deferUpdates: false
-]
-
-{ #category : #'accessing - type' }
-Fui2Element >> setType: aSymbol ofTypes: aCollection deferUpdates: aBoolean [
-
-	"Add specified type to the receiver replacing any occurence of types
-	as specified (aCollection of Symbols). This is to set a type from a collection
-	of mutually exclusive types.
-	Update the DOM as specified (only update if aBoolean is false)."
-
-	self addClass: aSymbol rejecting: aCollection at: 2.
-	aBoolean ifFalse: [ self updateDom ]
+	self addClass: aSymbol rejecting: aCollection at: 1
 ]
 
 { #category : #'accessing - variation' }
@@ -276,19 +277,8 @@ Fui2Element >> setVariation: aSymbol ofVariations: aCollection [
 	as specified (aCollection of Symbols). This is to set a variation from a collection
 	of mutually exclusive variations."
 
-	self setVariation: aSymbol ofVariations: aCollection deferUpdates: false 
-]
+	self addClass: aSymbol rejecting: aCollection at: 3
 
-{ #category : #'accessing - variation' }
-Fui2Element >> setVariation: aSymbol ofVariations: aCollection deferUpdates: aBoolean [
-
-	"Add specified variation to the receiver replacing any occurence of variation
-	as specified (aCollection of Symbols). This is to set a variation from a collection
-	of mutually exclusive variations.
-	Update the DOM as specified (only update if aBoolean is false)."
-
-	self addClass: aSymbol rejecting: aCollection at: 3.
-	aBoolean ifFalse: [ self updateDom ]
 ]
 
 { #category : #'accessing - state' }
@@ -296,7 +286,32 @@ Fui2Element >> states [
 
 	"Answer the state values of the receiver"
 
-	^ self classesAt: 1
+	^ self classes at: 2
+]
+
+{ #category : #'private - accessing' }
+Fui2Element >> storeClassFrom: aString into: classes [
+
+	| className |
+
+	className := aString asSymbol.
+
+	(self class allTypes includes: className)
+		ifTrue: [
+			(classes at: 1) add: className.
+			^ true ]
+		ifFalse: [
+			(self class allStates includes: className)
+				ifTrue: [
+					(classes at: 2) add: className.
+					^ true ]
+				ifFalse: [
+					(self class allVariations includes: className)
+						ifTrue: [
+							(classes at: 3) add: className.
+							^ true ] ] ].
+
+	^ false
 ]
 
 { #category : #'accessing - type' }
@@ -304,28 +319,7 @@ Fui2Element >> types [
 
 	"Answer the type values of the receiver"
 
-	^ self classesAt: 2
-]
-
-{ #category : #updating }
-Fui2Element >> updateDom [
-
-	"Update the DOM of the receiver based on its state.
-	Fomantic's visual state is specified by an element's class attribute.
-	Therefore update the class attribute of the receiver.
-	DOM classes are stored per usage (State, Type and Variation).
-
-	Implementation: see comment in #addClass:at:"
-
-	self attributeAt: #class put: (String streamContents: [ :stream |
-		stream nextPutAll: 'ui'.
-		self
-			printClassesAt: 1 on: stream ;
-			printClassesAt: 2 on: stream ;
-			printClassesAt: 3 on: stream.
-		stream
-			space ;
-			nextPutAll: self class type ])
+	^ self classes at: 1
 ]
 
 { #category : #'accessing - variation' }
@@ -333,19 +327,5 @@ Fui2Element >> variations [
 
 	"Answer the variation values of the receiver"
 
-	^ self classesAt: 3
-]
-
-{ #category : #'private - accessing' }
-Fui2Element >> withClassesAt: usageIndex do: aBlock [
-
-	"Evaluate the specified block for all DOM classes (Symbols) of the receiver at the specified index.
-	DOM classes are stored per usage (State, Type and Variation).
-
-	Implementation: see comment in #addClass:rejecting:at:"
-
-	classes ifNil: [ ^ self ].
-
-	(classes at: usageIndex)
-		ifNotNil: [ :usageClasses | usageClasses do: aBlock ]
+	^ self classes at: 3
 ]

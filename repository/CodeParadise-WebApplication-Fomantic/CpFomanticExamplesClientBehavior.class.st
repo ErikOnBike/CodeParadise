@@ -177,12 +177,46 @@ CpFomanticExamplesClientBehavior >> exampleCheckbox2 [
 
 	outputElement := self outputElement.
 
-	outputElement appendChild: (Fui2Checkbox newNamed: #myCheck withLabel: 'My checkbox').
-	outputElement appendChild: ((Fui2Checkbox newNamed: #myOtherCheck withLabel: 'My slider') beSlider ; yourself).
-	outputElement appendChild: ((Fui2Checkbox newNamed: #myThirdCheck withLabel: 'My toggle') beToggle ; yourself).
-	outputElement appendChild: ((Fui2Checkbox newNamed: #someCheck withLabel: 'Apples') beRadio ; yourself).
-	outputElement appendChild: ((Fui2Checkbox newNamed: #someCheck withLabel: 'Pears') beRadio ; yourself).
-	outputElement appendChild: ((Fui2Checkbox newNamed: #someCheck withLabel: 'Bananas') beRadio ; yourself).
+	outputElement
+		appendChild: ('Checkboxes can have 4 types: checkbox, slider, toggle, radio' inHtmlTag: #p) ;
+		appendChild: ('' inHtmlTag: #p) ;
+		appendChild: ('Chechbox (default):' inHtmlTag: #p) ;	
+		appendChild: (Fui2Checkbox newNamed: #myCheck withLabel: 'My checkbox').
+
+	outputElement
+		appendChild: ('' inHtmlTag: #p) ;
+		appendChild: ('Slider (readonly and disabled):' inHtmlTag: #p) ;
+		appendChild: ((Fui2Checkbox newNamed: #myOtherCheck withLabel: 'My slider')
+			beSlider ;
+			beReadOnly ;
+			disable ;
+			yourself).
+
+	outputElement
+		appendChild: ('' inHtmlTag: #p) ;
+		appendChild: ('Toggle:' inHtmlTag: #p) ;
+		appendChild: ((Fui2Checkbox newNamed: #myThirdCheck withLabel: 'My toggle')
+			beToggle ;
+			yourself).
+
+	outputElement
+		appendChild: ('' inHtmlTag: #p) ;
+		appendChild: ('Radio:' inHtmlTag: #p) ;
+		appendChild: ((Fui2Checkbox newNamed: #someCheck withLabel: 'Apples')
+			beRadio ;
+			disable ;
+			enable ;
+			yourself).
+	outputElement
+		appendChild: ('' inHtmlTag: #p) ;
+		appendChild: ((Fui2Checkbox newNamed: #someCheck withLabel: 'Pears')
+			beRadio ;
+			yourself).
+	outputElement
+		appendChild: ('' inHtmlTag: #p) ;
+		appendChild: ((Fui2Checkbox newNamed: #someCheck withLabel: 'Bananas')
+			beRadio ;
+			yourself).
 
 ]
 
@@ -195,28 +229,25 @@ CpFomanticExamplesClientBehavior >> exampleInput [
 
 	outputElement := self outputElement.
 
-	outputElement appendChild: ((CpHtmlElement newWithTag: #span)
-		textContent: 'Basic input ' ;
-		yourself).
-	outputElement appendChild: FuiInput new.
+	outputElement
+		appendChild: ('Basic input ' inHtmlTag: #span) ;
+		appendChild: FuiInput new.
 
 	outputElement appendChild: ((CpHtmlElement newWithTag: #div) addClass: #separator ; yourself).
 
-	outputElement appendChild: ((CpHtmlElement newWithTag: #span)
-		textContent: 'Input with placeholder' ;
-		yourself).
-	outputElement appendChild: (FuiInput new
-		placeholder: 'Search...' ;
-		yourself).
+	outputElement
+		appendChild: ('Input with placeholder' inHtmlTag: #span) ;
+		appendChild: (FuiInput new
+			placeholder: 'Search...' ;
+			yourself).
 
 	outputElement appendChild: ((CpHtmlElement newWithTag: #div) addClass: #separator ; yourself).
 
-	outputElement appendChild: ((CpHtmlElement newWithTag: #span)
-		textContent: 'Input with icon' ;
-		yourself).
-	outputElement appendChild: (FuiInput new
-		icon: #search ;
-		yourself)
+	outputElement
+		appendChild: ('Input with icon' inHtmlTag: #span) ;
+		appendChild: (FuiInput new
+			icon: #search ;
+			yourself)
 ]
 
 { #category : #examples }
@@ -229,45 +260,41 @@ CpFomanticExamplesClientBehavior >> exampleInput2 [
 	outputElement := self outputElement.
 
 	outputElement
-		appendChild: ((CpHtmlElement newWithTag: #p)
-			textContent: 'Basic input' ;
-			yourself) ;
+		appendChild: ('Basic input' inHtmlTag: #p) ;
 		appendChild: (Fui2Input newNamed: #myText).
 
 	outputElement
-		appendChild: ((CpHtmlElement newWithTag: #p)
-			textContent: 'Input with left icon' ;
-			yourself) ;
+		appendChild: ('Input with left icon' inHtmlTag: #p) ;
 		appendChild: ((Fui2Input newNamed: #leftIconedText)
 			leftIcon: #heart ;
 			yourself).
 
 	outputElement
-		appendChild: ((CpHtmlElement newWithTag: #p)
-			textContent: 'Input with right icon' ;
-			yourself) ;
+		appendChild: ('Input with right icon' inHtmlTag: #p) ;
 		appendChild: ((Fui2Input newNamed: #rightIconedText)
 			rightIcon: #search ;
 			yourself).
 
 	outputElement
-		appendChild: ((CpHtmlElement newWithTag: #p)
-			textContent: 'Input with left and right icon (only right will remain)' ;
-			yourself) ;
+		appendChild: ('Input with left and right icon (only right will remain)' inHtmlTag: #p) ;
 		appendChild: ((Fui2Input newNamed: #leftAndRightIconedText)
 			leftIcon: #'angle left' ;
 			rightIcon: #'angle right' ;
 			yourself).
 
 	outputElement
-		appendChild: ((CpHtmlElement newWithTag: #p)
-			textContent: 'Input with right and left icon (only left will remain)' ;
-			yourself) ;
+		appendChild: ('Input with right and left icon (only left will remain)' inHtmlTag: #p) ;
 		appendChild: ((Fui2Input newNamed: #rightAndLeftIconedText)
 			rightIcon: #'arrow right' ;
 			leftIcon: #'arrow left' ;
 			yourself).
 
+	outputElement
+		appendChild: ('Input is loading' inHtmlTag: #p) ;
+		appendChild: ((Fui2Input newNamed: #loading)
+			leftIcon: #heart ;
+			beLoading ;
+			yourself).
 ]
 
 { #category : #events }

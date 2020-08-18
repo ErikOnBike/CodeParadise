@@ -5,9 +5,21 @@ Class {
 }
 
 { #category : #accessing }
+Fui2Checkbox class >> allStates [
+
+	^ #(#'read-only' #checked #indeterminate #disabled)
+]
+
+{ #category : #accessing }
 Fui2Checkbox class >> allTypes [
 
 	^ #(#slider #toggle #radio)
+]
+
+{ #category : #accessing }
+Fui2Checkbox class >> allVariations [
+
+	^ #(#fitted #inverted)
 ]
 
 { #category : #'instance creation' }
@@ -34,18 +46,66 @@ Fui2Checkbox class >> type [
 	^ #checkbox
 ]
 
+{ #category : #'accessing - state' }
+Fui2Checkbox >> beDeterminate [
+
+	^ self performOnElement: 'set determinate'
+]
+
+{ #category : #'accessing - variation' }
+Fui2Checkbox >> beFitted [
+
+	self addVariation: #fitted
+]
+
+{ #category : #'accessing - state' }
+Fui2Checkbox >> beIndeterminate [
+
+	^ self performOnElement: 'set indeterminate'
+]
+
+{ #category : #'accessing - variation' }
+Fui2Checkbox >> beInverted [
+
+	self addVariation: #inverted
+]
+
+{ #category : #'accessing - variation' }
+Fui2Checkbox >> beNotFitted [
+
+	self removeVariation: #fitted
+]
+
+{ #category : #'accessing - variation' }
+Fui2Checkbox >> beNotInverted [
+
+	self removeVariation: #inverted
+]
+
 { #category : #'accessing - types' }
 Fui2Checkbox >> beRadio [
 
-	self setState: #radio ofStates: self class allTypes.
+	self setType: #radio ofTypes: self class allTypes.
 	(self firstDescendantMatching: #input)
 		propertyAt: #type put: #radio
+]
+
+{ #category : #'accessing - state' }
+Fui2Checkbox >> beReadOnly [
+
+	^ self addState: #'read-only'
+]
+
+{ #category : #'accessing - state' }
+Fui2Checkbox >> beReadWrite [
+
+	^ self removeState: #'read-only'
 ]
 
 { #category : #'accessing - types' }
 Fui2Checkbox >> beSlider [
 
-	self setState: #slider ofStates: self class allTypes.
+	self setType: #slider ofTypes: self class allTypes.
 	(self firstDescendantMatching: #input)
 		propertyAt: #type put: #checkbox
 ]
@@ -53,7 +113,31 @@ Fui2Checkbox >> beSlider [
 { #category : #'accessing - types' }
 Fui2Checkbox >> beToggle [
 
-	self setState: #toggle ofStates: self class allTypes.
+	self setType: #toggle ofTypes: self class allTypes.
 	(self firstDescendantMatching: #input)
 		propertyAt: #type put: #checkbox
+]
+
+{ #category : #'accessing - state' }
+Fui2Checkbox >> check [
+
+	^ self performOnElement: 'set checked'
+]
+
+{ #category : #'accessing - state' }
+Fui2Checkbox >> disable [
+
+	^ self performOnElement: 'set disabled'
+]
+
+{ #category : #'accessing - state' }
+Fui2Checkbox >> enable [
+
+	^ self performOnElement: 'set enabled'
+]
+
+{ #category : #'accessing - state' }
+Fui2Checkbox >> uncheck [
+
+	^ self performOnElement: 'set unchecked'
 ]
