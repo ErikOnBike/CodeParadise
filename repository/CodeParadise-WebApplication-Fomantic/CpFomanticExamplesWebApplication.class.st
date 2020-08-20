@@ -17,3 +17,14 @@ CpFomanticExamplesWebApplication class >> clientBehaviorClass [
 
 	^ CpFomanticExamplesClientBehavior
 ]
+
+{ #category : #installing }
+CpFomanticExamplesWebApplication >> installExtensionMethods [
+
+	"Install the extension methods from known Classes"
+
+	super installExtensionMethods.
+
+	(Pragma allNamed: #webApplicationFomanticExtension in: String) do: [ :each |
+		self environment addMethod: each method ]
+]
