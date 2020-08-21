@@ -28,8 +28,7 @@ CpPresenter >> createView [
 			id: self id ;
 			yourself.
 
-	self flag: #todo.	"Adding new view to the document should not be handled here"
-	CpHtmlElement documentBody appendChild: view
+	self viewLocation appendChild: view
 ]
 
 { #category : #view }
@@ -120,6 +119,18 @@ CpPresenter >> viewClass [
 	"Answer the Class of the View which represents my model best"
 
 	^ self class defaultViewClass
+]
+
+{ #category : #'as yet unclassified' }
+CpPresenter >> viewLocation [
+
+	"Answer the parent element for the receiver's view
+	(i.e. the location where the receiver's view will be appended to).
+	
+	Implementation:
+	By default answer the body of the HTML document. Subclasses should overwrite this."
+
+	^ CpHtmlElement documentBody
 ]
 
 { #category : #view }
