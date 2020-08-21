@@ -156,7 +156,7 @@ CpBrowserEventHandler >> createEventHandlerProcess [
 		priority: Processor highestPriority.
 
 	"Register the event handler process so the VM (plugin) can activate it"
-	self primRegisterProcess: eventHandlerProcess.
+	self primRegisterEventProcess: eventHandlerProcess.
 
 	"Start the process (which will actually put it to sleep waiting for the first event)"
 	eventHandlerProcess resume
@@ -418,18 +418,18 @@ CpBrowserEventHandler >> primRegisterEventClass: anEventClass [
 ]
 
 { #category : #primitives }
-CpBrowserEventHandler >> primRegisterInterestIn: aDomElement [
-
-	<primitive: 'primitiveEventHandlerRegisterInterestIn:' module: 'CpDOMPlugin'>
-	self primitiveFailed
-]
-
-{ #category : #primitives }
-CpBrowserEventHandler >> primRegisterProcess: eventHandlerProcess [
+CpBrowserEventHandler >> primRegisterEventProcess: eventHandlerProcess [
 
 	<primitive: 'primitiveEventHandlerRegisterProcess:' module: 'CpDOMPlugin'>
 	self primitiveFailed
 
+]
+
+{ #category : #primitives }
+CpBrowserEventHandler >> primRegisterInterestIn: aDomElement [
+
+	<primitive: 'primitiveEventHandlerRegisterInterestIn:' module: 'CpDOMPlugin'>
+	self primitiveFailed
 ]
 
 { #category : #initialization }

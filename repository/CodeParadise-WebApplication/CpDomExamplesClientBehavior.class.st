@@ -15,6 +15,61 @@ CpDomExamplesClientBehavior class >> someValue [
 ]
 
 { #category : #examples }
+CpDomExamplesClientBehavior >> exampleAnimationMany [
+
+	<example: 'Many Animation' order: 810>
+
+	| outputElement |
+	
+	outputElement := self outputElement.
+
+	100 timesRepeat: [
+		| element |
+		
+		element := outputElement appendChild: ((CpHtmlElement newWithTag: #div)
+			styleAt: #display put: 'inline-block' ;
+			styleAt: #width put: '10vmin' ;
+			styleAt: #height put: '10vmin' ;
+			styleAt: #margin put: '.2vmin' ;
+			styleAt: #'background-color' put: '#C2B280' ;
+			yourself).
+
+		CpBrowserAnimator current
+			addAnimation: (CpAnimation for: [ :p |
+				element styleAt: #transform put: 'rotate(', (90 * p) printString, 'deg)' ] duration: 400)
+			delay: 1000 ]
+]
+
+{ #category : #examples }
+CpDomExamplesClientBehavior >> exampleAnimationSimple [
+
+	<example: 'Simple Animation' order: 800>
+
+	| outputElement element1 element2 |
+	
+	outputElement := self outputElement.
+
+	element1 := outputElement appendChild: ((CpHtmlElement newWithTag: #div)
+		styleAt: #width put: '50vmin' ;
+		styleAt: #height put: '50vmin' ;
+		styleAt: #'background-color' put: '#C2B280' ;
+		yourself).
+	element2 := outputElement appendChild: ((CpHtmlElement newWithTag: #div)
+		styleAt: #width put: '50vmin' ;
+		styleAt: #height put: '20vmin' ;
+		styleAt: #'background-color' put: '#B280C2' ;
+		yourself).
+
+	CpBrowserAnimator current
+		addAnimation: (CpAnimation for: [ :p |
+			element1 styleAt: #transform put: 'rotate(', (360 * p) printString, 'deg)' ] duration: 1500) ;
+		addAnimation: (CpAnimation for: [ :p |
+			element2 styleAt: #transform put: 'translate(', (200 * p) printString, 'px,0)' ] duration: 800)
+		delay: 700
+
+]
+
+{ #category : #examples }
 CpDomExamplesClientBehavior >> exampleCreateRandomBlocks [
 
 	<example: 'Create 1000 random blocks' order: 100>
