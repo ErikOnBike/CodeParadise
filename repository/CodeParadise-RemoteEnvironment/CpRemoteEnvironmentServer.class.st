@@ -56,7 +56,7 @@ CpRemoteEnvironmentServer >> handleClientError: aClientError for: aServerEnviron
 	self flag: #todo.
 
 	"Show inspector with the error and environment"
-	{ aClientError . aServerEnvironment } inspect
+	{ 'An error occurred in the ClientEnvironment' . aClientError . aServerEnvironment } inspect
 ]
 
 { #category : #'message handling' }
