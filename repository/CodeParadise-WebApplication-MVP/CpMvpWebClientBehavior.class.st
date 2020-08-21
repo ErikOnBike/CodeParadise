@@ -21,6 +21,12 @@ CpMvpWebClientBehavior class >> createPresenter: aPresenter in: aServerEnvironme
 		receiver: self clientId
 ]
 
+{ #category : #accessing }
+CpMvpWebClientBehavior class >> eventHandlerClass [
+
+	^ CpViewEventHandler
+]
+
 { #category : #creating }
 CpMvpWebClientBehavior >> createPresenter: aPresenterClass withId: identifier [
 

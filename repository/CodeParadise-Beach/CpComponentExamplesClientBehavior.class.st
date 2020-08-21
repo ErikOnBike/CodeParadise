@@ -4,12 +4,6 @@ Class {
 	#category : #'CodeParadise-Beach-Examples'
 }
 
-{ #category : #accessing }
-CpComponentExamplesClientBehavior class >> eventHandlerClass [
-
-	^ CpViewEventHandler
-]
-
 { #category : #examples }
 CpComponentExamplesClientBehavior >> exampleButtons [
 

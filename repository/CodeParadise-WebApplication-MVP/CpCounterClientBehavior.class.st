@@ -5,12 +5,6 @@ Class {
 }
 
 { #category : #accessing }
-CpCounterClientBehavior class >> eventHandlerClass [
-
-	^ CpViewEventHandler
-]
-
-{ #category : #accessing }
 CpCounterClientBehavior class >> introHtml [
 
 	^ '<h1>Counter example</h1>
