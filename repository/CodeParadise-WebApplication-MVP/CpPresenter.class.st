@@ -40,8 +40,13 @@ CpPresenter >> createViewProxyFor: anEnvironment [
 	view := (Smalltalk classNamed: #CpViewProxy) newIn: anEnvironment
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 CpPresenter >> eventHandler [
+
+	"Answer the event handler for the receiver.
+	
+	Implementation:
+	By default a singleton BrowserEventHandler is used."
 
 	^ CpBrowserEventHandler current
 ]
@@ -121,7 +126,7 @@ CpPresenter >> viewClass [
 	^ self class defaultViewClass
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #view }
 CpPresenter >> viewLocation [
 
 	"Answer the parent element for the receiver's view
