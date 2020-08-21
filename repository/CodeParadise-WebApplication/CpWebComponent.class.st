@@ -39,6 +39,8 @@ CpWebComponent class >> tagName [
 
 	Implementation: the CamelCase naming will be replaced by dash-separated words
 	and if needed prepended by 'x-', since custom tags need at least one dash.
+	The postfix 'View' will be removed from the class name, allowing names like
+	'CpPersonView' to become 'cp-person' as tag name.
 	The resulting name will be fully lowercase.
 	Examples:
 		CpWindow -> cp-window
