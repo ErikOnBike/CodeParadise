@@ -39,6 +39,15 @@ CpDomElement class >> document [
 	self primitiveFailed
 ]
 
+{ #category : #'acccessing-ui' }
+CpDomElement class >> elementWithId: aString [
+
+	"Answer an instance of the receiver representing the element with the specified id"
+
+	<primitive: 'primitiveDOMElementElementWithId:' module: 'CpDOMPlugin'>
+	self primitiveFailed
+]
+
 { #category : #'instance creation' }
 CpDomElement class >> new [
 
