@@ -11,21 +11,6 @@ Class {
 	#category : #'CodeParadise-WebApplication-MVP-Core'
 }
 
-{ #category : #'reflective operations' }
-CpViewProxy class >> doesNotUnderstand: aMessage [
-
-	| presenter |
-
-	presenter := thisContext sender receiver.
-
-	presenter webApplication
-		remotePerform: #viewClassPerform:
-		withArguments: {
-			presenter id.
-			aMessage selector.
-			aMessage arguments }
-]
-
 { #category : #'instance creation' }
 CpViewProxy class >> newIn: anEnvironment [
 
@@ -39,12 +24,13 @@ CpViewProxy >> doesNotUnderstand: aMessage [
 
 	| presenter |
 
+	"Only presenters should send messages to views, the sender should therefore be a Presenter"
 	presenter := thisContext sender receiver.
 
 	self environment
-		clientPerform: #viewPerform:
-		withArguments: { { aMessage selector . aMessage arguments } }
-		receiver: presenter id
+		clientPerform: #performMessage:
+		withArguments: { aMessage }
+		receiver: presenter viewId
 ]
 
 { #category : #accessing }
@@ -59,7 +45,7 @@ CpViewProxy >> environment: anEnvironment [
 	environment := anEnvironment
 ]
 
-{ #category : #dependencies }
+{ #category : #initialization }
 CpViewProxy >> release [
 
 	environment := nil.

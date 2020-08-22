@@ -1,3 +1,7 @@
+"
+I am the ClientBehavior for a Counter application.
+I only live in a ClientEnvironment.
+"
 Class {
 	#name : #CpCounterClientBehavior,
 	#superclass : #CpMvpWebClientBehavior,

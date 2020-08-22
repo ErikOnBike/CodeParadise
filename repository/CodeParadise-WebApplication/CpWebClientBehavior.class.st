@@ -85,19 +85,30 @@ CpWebClientBehavior >> installBrowserEventHandler [
 ]
 
 { #category : #updating }
-CpWebClientBehavior >> updateStyleViewClass: aViewClassName [
+CpWebClientBehavior >> updateStyleViewClass: viewClassName [
 
 	"Update the style of the specified View"
 
-	(Smalltalk classNamed: aViewClassName)
+	(self viewClassForName: viewClassName)
 		updateStyle
 ]
 
 { #category : #updating }
-CpWebClientBehavior >> updateTemplateViewClass: aViewClassName [
+CpWebClientBehavior >> updateTemplateViewClass: viewClassName [
 
 	"Update the template of the specified View"
 
-	(Smalltalk classNamed: aViewClassName)
+	(self viewClassForName: viewClassName)
 		updateTemplate
+]
+
+{ #category : #'as yet unclassified' }
+CpWebClientBehavior >> viewClassForName: aSymbol [
+
+	"Answer the View class matching the specified Symbol.
+
+	Implementation:
+	It is assumed that if a Class exists it is a View class."
+
+	^ Smalltalk classNamed: aSymbol
 ]

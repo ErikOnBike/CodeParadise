@@ -71,7 +71,9 @@ CpView >> initialize [
 	keymapper := CpKeyMapper new.
 
 	self class defaultKeyMapping keysAndValuesDo: [ :key :value |
-		keymapper addMappingFrom: key to: value ]
+		keymapper addMappingFrom: key to: value ].
+
+	CpBrowserEventHandler current registerInterestIn: self
 ]
 
 { #category : #accessing }
@@ -80,7 +82,15 @@ CpView >> keymapper [
 	^ keymapper
 ]
 
-{ #category : #dependencies }
+{ #category : #performing }
+CpView >> performMessage: aMessage [
+
+	"Perform the specified message on the receiver"
+
+	aMessage sendTo: self
+]
+
+{ #category : #initialization }
 CpView >> release [
 
 	announcer ifNotNil: [
@@ -91,6 +101,18 @@ CpView >> release [
 		keymapper := nil ].
 
 	super release
+]
+
+{ #category : #announcing }
+CpView >> serverAnnounce: anAnnouncement [
+
+	"Announce the specified Announcement on the server (for a Presenter).
+
+	Implementation:
+	Wrap the Announcement in a ViewAnnouncement for easy delivery to the Presenter."
+
+	CpClientEnvironment current
+		serverAnnounce: (CpViewAnnouncement forView: self announcing: anAnnouncement asAnnouncement)
 ]
 
 { #category : #announcing }

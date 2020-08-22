@@ -1,6 +1,9 @@
 "
 I am a Presenter in a Model-View-Presenter pattern.
-I live in both the ClientEnvironment and the ServerEnvironment.
+I have a model and a view and optionally a parent Presenter.
+I live in the ServerEnvironment and know the application I am running in.
+I share an id with my view which allows our binding across environments.
+
 "
 Class {
 	#name : #CpPresenter,
@@ -8,7 +11,10 @@ Class {
 	#instVars : [
 		'id',
 		'model',
-		'view'
+		'view',
+		'parent',
+		'announcer',
+		'application'
 	],
 	#category : #'CodeParadise-WebApplication-MVP-Core'
 }
@@ -19,36 +25,91 @@ CpPresenter class >> defaultViewClass [
 	^ CpView
 ]
 
-{ #category : #view }
-CpPresenter >> createView [
+{ #category : #announcing }
+CpPresenter >> announce: anAnnouncement [
 
-	view ifNotNil: [ self error: 'View already created' ].
-
-	view := self viewClass new
-			id: self id ;
-			yourself.
-
-	self viewLocation appendChild: view
-]
-
-{ #category : #view }
-CpPresenter >> createViewProxyFor: anEnvironment [
-
-	view ifNotNil: [ self error: 'View already created' ].
-
-	"Retrieve class from Smalltalk dictionary to prevent the need for the Proxy to be available at client"
-	view := (Smalltalk classNamed: #CpViewProxy) newIn: anEnvironment
+	self announcer announce: anAnnouncement
 ]
 
 { #category : #accessing }
-CpPresenter >> eventHandler [
+CpPresenter >> announcer [
 
-	"Answer the event handler for the receiver.
-	
+	"Answer the Announcer of the receiver"
+
+	^ announcer
+]
+
+{ #category : #accessing }
+CpPresenter >> application [
+
+	"Answer the application the receiver is part of"
+
+	^ application
+]
+
+{ #category : #accessing }
+CpPresenter >> application: anApplication [
+
+	application := anApplication
+]
+
+{ #category : #'adding/removing' }
+CpPresenter >> createChildPresenter: aPresenterClass forModel: aModel [
+
+	"Create a child Presenter for the receiver on the specified model"
+
+	^ self application createPresenter: aPresenterClass withParent: self forModel: aModel
+]
+
+{ #category : #view }
+CpPresenter >> createView [
+
+	"Create the receiver's view.
+
 	Implementation:
-	By default a singleton BrowserEventHandler is used."
+	The receiver (running in the ServerEnvironment) has only a ViewProxy.
+	The View in the ClientEnvironment is linked to the receiver by an identifier."
 
-	^ CpBrowserEventHandler current
+	view ifNotNil: [ self error: 'View already created' ].
+
+	"Create ViewProxy for in the ServerEnvironment"
+	view := self createViewProxy.
+
+	"Create View in the ClientEnvironment"
+	self application clientCreateViewForPresenter: self
+]
+
+{ #category : #'view - private' }
+CpPresenter >> createViewProxy [
+
+	"Create a ViewProxy for the receiver"
+
+	^ CpViewProxy newIn: self application environment
+]
+
+{ #category : #view }
+CpPresenter >> defaultViewLocation [
+
+	"Answer the default location of the receiver's view (see also #viewLocation).
+	The result should be the id of the parent DOM element for the receiver's view
+	(i.e. the location where the receiver's view will be appended to).
+	If nil is answered the view will be appended to the document body."
+
+	^ nil
+]
+
+{ #category : #model }
+CpPresenter >> hasModel [
+
+	"Answer whether the receiver has a non nil model"
+
+	^ model notNil
+]
+
+{ #category : #testing }
+CpPresenter >> hasParent [
+
+	^ parent notNil
 ]
 
 { #category : #accessing }
@@ -63,8 +124,18 @@ CpPresenter >> id: aString [
 	id := aString
 ]
 
+{ #category : #initialization }
+CpPresenter >> initialize [
+
+	super initialize.
+
+	announcer := Announcer new
+]
+
 { #category : #model }
 CpPresenter >> model [
+
+	"Answer the model of the receiver (can be nil if the model is not set yet)"
 
 	^ model
 ]
@@ -72,19 +143,40 @@ CpPresenter >> model [
 { #category : #model }
 CpPresenter >> model: anObject [
 
-	model := anObject
+	"Set the model of the receiver.
+	Removing and adding interest in the old and new model."
+
+	"Implementation: An unsubscribe method is missing in Model"
+	model
+		ifNotNil: [ 	model announcer unsubscribe: self ].
+
+	(model := anObject)
+		ifNotNil: [ model whenChangedSend: #modelChanged to: self ]
 ]
 
 { #category : #model }
-CpPresenter >> modelChanged: aspectSymbol [
+CpPresenter >> modelChanged [
 
-	"My model has changed as specified by aspectSymbol, update the view accordingly.
-	Updating the view is a subclass responsibility.
-	
-	Implementation: do not forget to call the superclasses' implementation (most likely before any specific behaviour)"
+	"The receiver's model has changed, render the view to make change visible"
+
+	self renderView
 ]
 
-{ #category : #dependencies }
+{ #category : #accessing }
+CpPresenter >> parent [
+
+	"Answer the parent Presenter of the receiver (can be nil)"
+
+	^ parent
+]
+
+{ #category : #accessing }
+CpPresenter >> parent: aPresenter [
+
+	parent := aPresenter
+]
+
+{ #category : #initialization }
 CpPresenter >> release [
 
 	"Release receiver.
@@ -94,6 +186,11 @@ CpPresenter >> release [
 	view ifNotNil: [
 		view release.
 		view := nil ].
+	parent := nil.
+	announcer ifNotNil: [ 
+		announcer subscriptions reset.
+		announcer := nil ].
+	application := nil.
 	id := nil.
 
 	super release
@@ -106,14 +203,10 @@ CpPresenter >> renderView [
 	Subclasses should add relevant behavior."
 ]
 
-{ #category : #model }
-CpPresenter >> sendMessageToModel: aSymbol withArguments: anArray [
-
-	self model perform: aSymbol withArguments: anArray
-]
-
 { #category : #view }
 CpPresenter >> view [
+
+	"Answer the View of the receiver (can be nil if the view is not created yet)"
 
 	^ view
 ]
@@ -127,19 +220,32 @@ CpPresenter >> viewClass [
 ]
 
 { #category : #view }
-CpPresenter >> viewLocation [
+CpPresenter >> viewId [
 
-	"Answer the parent element for the receiver's view
-	(i.e. the location where the receiver's view will be appended to).
-	
-	Implementation:
-	By default answer the body of the HTML document. Subclasses should overwrite this."
+	"Answer the id of the receiver's View"
 
-	^ CpHtmlElement documentBody
+	"Implementation:
+	Presenters and Views share the same id, therefor use the Presenter's id as reference to the view"
+
+	^ self id
 ]
 
 { #category : #view }
-CpPresenter >> viewPerform: aMessage [
+CpPresenter >> viewLocation [
 
-	self view perform: (aMessage at: 1) withArguments: (aMessage at: 2)
+	"Answer the id of the DOM element where the receiver's View should be appended.
+	If nil is answered the View will be appended to the document body."
+
+	^ self hasParent
+		ifTrue: [ self parent viewId ]
+		ifFalse: [ self defaultViewLocation ]
+]
+
+{ #category : #announcing }
+CpPresenter >> when: anAnnouncementClass send: aSymbol to: anObject [
+
+	"Let the sender subscribe to the specified announcement of the receiver.
+	See Announcer>>#when:send:to:"
+
+	^ self announcer when: anAnnouncementClass send: aSymbol to: anObject
 ]

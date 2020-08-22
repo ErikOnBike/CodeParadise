@@ -13,20 +13,6 @@ CpViewEventHandler class >> cpRequiredClasses [
 	^ super cpRequiredClasses, { CpBrowserEventHandler }
 ]
 
-{ #category : #'as yet unclassified' }
-CpViewEventHandler class >> presenterWithId: identifier [
-
-	^ CpClientEnvironment current objectRegistry objectWithId: identifier asSymbol
-]
-
-{ #category : #'as yet unclassified' }
-CpViewEventHandler class >> viewWithId: identifier [
-
-	"Since presenter and view share the same id, retrieve the presenter from the registry"
-
-	^ (self presenterWithId: identifier) view
-]
-
 { #category : #'event handling' }
 CpViewEventHandler >> handleEvent: anEvent [
 
