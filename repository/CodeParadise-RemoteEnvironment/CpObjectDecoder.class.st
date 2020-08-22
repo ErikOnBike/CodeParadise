@@ -272,6 +272,16 @@ CpObjectDecoder >> decodeLargePositiveInteger [
 ]
 
 { #category : #decoding }
+CpObjectDecoder >> decodeMessage [
+
+	"Decode a Message (lookupClass is ignored"
+
+	^ Message
+		selector: self readString asSymbol
+		arguments: self decodeNext
+]
+
+{ #category : #decoding }
 CpObjectDecoder >> decodeMessageSend [
 
 	"Decode a MessageSend"
@@ -328,6 +338,7 @@ CpObjectDecoder >> decodeNext [
 		decodeClass
 		decodeAnnouncement
 		decodeMessageSend
+		decodeMessage
 	) at: type ifAbsent: [ self error: 'Unknown type in decode stream' ].
 
 	^ self perform: selector
