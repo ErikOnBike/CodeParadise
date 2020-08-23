@@ -31,7 +31,7 @@ CpMvpWebClientBehavior >> createView: viewClassName withId: identifier atParentI
 
 	"Create instance of the View class specified"
 	view := parentView appendChild: ((self viewClassForName: viewClassName) new
-		attributeAt: #id put: identifier ;	"Put id in view element for reference by the EventHandler"
+		id: identifier ;	"Put id in view element for reference by the EventHandler"
 		yourself).
 
 	"Register the view instance in ClientEnvironment"

@@ -421,7 +421,7 @@ CpFomanticExamplesClientBehavior >> showIndex [
 		| example |
 				
 		example := FuiButton new
-			attributeAt: #id put: item key ;	"ie selector"
+			id: item key ;	"ie selector"
 			textContent: item value first ;	"ie title"
 			yourself.
 			
