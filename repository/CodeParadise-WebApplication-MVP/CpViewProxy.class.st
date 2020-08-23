@@ -7,6 +7,7 @@ Class {
 	#superclass : #Object,
 	#instVars : [
 		'environment',
+		'viewClass',
 		'announcer'
 	],
 	#category : #'CodeParadise-WebApplication-MVP-Core'
@@ -17,6 +18,15 @@ CpViewProxy class >> newIn: anEnvironment [
 
 	^ self new
 		environment: anEnvironment ;
+		yourself
+]
+
+{ #category : #'instance creation' }
+CpViewProxy class >> newIn: anEnvironment forViewClass: aViewClass [
+
+	^ self new
+		environment: anEnvironment ;
+		viewClass: aViewClass ;
 		yourself
 ]
 
@@ -79,6 +89,20 @@ CpViewProxy >> release [
 	environment := nil.
 
 	super release
+]
+
+{ #category : #accessing }
+CpViewProxy >> viewClass [
+
+	"Answer the Class of the View the receiver is proxying"
+
+	^ viewClass
+]
+
+{ #category : #accessing }
+CpViewProxy >> viewClass: aViewClass [
+
+	viewClass := aViewClass
 ]
 
 { #category : #announcing }

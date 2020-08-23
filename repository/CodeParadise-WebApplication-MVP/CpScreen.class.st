@@ -18,7 +18,11 @@ CpScreen class >> style [
 		top: 0;
 		width: 100vw;
 		height: 100vh;
-		overflow: hidden;
+		overflow: hidden;		
+	}
+	.container {
+		width: 100%;
+		height: 100%;
 	}'
 ]
 
@@ -27,5 +31,28 @@ CpScreen class >> template [
 
 	<webResource: #html>
 
-	^ '<div class="root"><slot></slot></div>'
+	^ '<div class="container">
+			<slot></slot>
+		</div>'
+]
+
+{ #category : #initialization }
+CpScreen >> initialize [
+
+	super initialize.
+
+	CpHtmlElement documentHead appendChild: ((CpHtmlElement newWithTag: #style)
+		textContent: '
+			*, *:before, *:after {
+				-moz-box-sizing: border-box;
+				-webkit-box-sizing: border-box;
+				box-sizing: border-box;
+			}
+			html {
+				font-size: 100%;
+				-webkit-text-size-adjust: 100%;
+				font-family: "SF Pro Text", "Helvetica Neue", Helvetica, Arial, sans-serif;
+			}
+		' ;
+		yourself)
 ]

@@ -16,10 +16,11 @@ CpMvpWebClientBehavior class >> eventHandlerClass [
 ]
 
 { #category : #creating }
-CpMvpWebClientBehavior >> createView: viewClassName withId: identifier atParentId: parentIdentifier [
+CpMvpWebClientBehavior >> createView: viewClassName withId: identifier atParentId: parentIdentifier atSlotNamed: slotName [
 
 	"Create a new View with the specified identifier (a String) and the specified
 	parent (a String or nil if the view does not have a specific parent).
+	If a slotName (aString or nil) is specified, the view is created at that slot in the parent.
 	The View to create is specified by its class name."
 
 	| parentView view |
@@ -30,9 +31,12 @@ CpMvpWebClientBehavior >> createView: viewClassName withId: identifier atParentI
 		ifNil: [ CpHtmlElement documentBody ].
 
 	"Create instance of the View class specified"
-	view := parentView appendChild: ((self viewClassForName: viewClassName) new
+	view := (self viewClassForName: viewClassName) new
 		id: identifier ;	"Put id in view element for reference by the EventHandler"
-		yourself).
+		yourself.
+	slotName
+		ifNotNil: [ parentView replaceChild: view atSlotNamed: slotName ]
+		ifNil: [ parentView appendChild: view ].
 
 	"Register the view instance in ClientEnvironment"
 	CpClientEnvironment current objectRegistry

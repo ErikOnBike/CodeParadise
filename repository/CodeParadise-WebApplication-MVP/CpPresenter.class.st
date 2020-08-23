@@ -11,8 +11,9 @@ Class {
 	#instVars : [
 		'id',
 		'model',
-		'view',
+		'viewProxy',
 		'parent',
+		'slotName',
 		'application'
 	],
 	#category : #'CodeParadise-WebApplication-MVP-Core'
@@ -38,12 +39,24 @@ CpPresenter >> application: anApplication [
 	application := anApplication
 ]
 
-{ #category : #'adding/removing' }
+{ #category : #presenter }
+CpPresenter >> createChildPresenter: aPresenterClass atSlotNamed: aString forModel: aModel [
+
+	"Create a child Presenter for the receiver on the specified model"
+
+	^ self application
+		createPresenter: aPresenterClass
+		withParent: self
+		atSlotNamed: aString
+		forModel: aModel
+]
+
+{ #category : #presenter }
 CpPresenter >> createChildPresenter: aPresenterClass forModel: aModel [
 
 	"Create a child Presenter for the receiver on the specified model"
 
-	^ self application createPresenter: aPresenterClass withParent: self forModel: aModel
+	^ self createChildPresenter: aPresenterClass atSlotNamed: nil forModel: aModel
 ]
 
 { #category : #view }
@@ -52,13 +65,10 @@ CpPresenter >> createView [
 	"Create the receiver's view.
 
 	Implementation:
-	The receiver (running in the ServerEnvironment) has only a ViewProxy.
+	The view is actually a Proxy to the real view in the ClientEnvironment.
 	The View in the ClientEnvironment is linked to the receiver by an identifier."
 
-	view ifNotNil: [ self error: 'View already created' ].
-
-	"Create ViewProxy for in the ServerEnvironment"
-	view := self createViewProxy.
+	self createViewProxy.
 
 	"Create View in the ClientEnvironment"
 	self application clientCreateViewForPresenter: self.
@@ -67,12 +77,15 @@ CpPresenter >> createView [
 	self viewCreated
 ]
 
-{ #category : #'view - private' }
+{ #category : #view }
 CpPresenter >> createViewProxy [
 
 	"Create a ViewProxy for the receiver"
 
-	^ CpViewProxy newIn: self application environment
+	viewProxy
+		ifNotNil: [ self error: 'View already created' ].
+
+	viewProxy := CpViewProxy newIn: self application environment forViewClass: self viewClass
 ]
 
 { #category : #view }
@@ -84,6 +97,26 @@ CpPresenter >> defaultViewLocation [
 	If nil is answered the view will be appended to the document body."
 
 	^ nil
+]
+
+{ #category : #deleting }
+CpPresenter >> destroy [
+
+	"Destroy the receiver by removing it from its application and releasing its references"
+
+	application
+		ifNotNil: [ application removePresenter: self ].
+	self
+		removeView ;
+		release
+]
+
+{ #category : #view }
+CpPresenter >> destroyViewProxy [
+
+	viewProxy ifNotNil: [
+		viewProxy release.
+		viewProxy := nil ]
 ]
 
 { #category : #model }
@@ -98,6 +131,12 @@ CpPresenter >> hasModel [
 CpPresenter >> hasParent [
 
 	^ parent notNil
+]
+
+{ #category : #view }
+CpPresenter >> hasView [
+
+	^ self view notNil
 ]
 
 { #category : #accessing }
@@ -131,15 +170,18 @@ CpPresenter >> model: anObject [
 		ifNotNil: [ 	model announcer unsubscribe: self ].
 
 	(model := anObject)
-		ifNotNil: [ model whenChangedSend: #modelChanged to: self ]
+		ifNotNil: [ model whenChangedSend: #privateModelChanged to: self ]
 ]
 
 { #category : #model }
 CpPresenter >> modelChanged [
 
-	"The receiver's model has changed, render the view to make change visible"
+	"The receiver's model has changed perform any necessary operations.
 
-	self renderView
+	Implementation:
+	The view will be updated after this method has finished execution,
+	so there is no need to render the view explicitly."
+
 ]
 
 { #category : #accessing }
@@ -156,6 +198,29 @@ CpPresenter >> parent: aPresenter [
 	parent := aPresenter
 ]
 
+{ #category : #model }
+CpPresenter >> privateModelChanged [
+
+	"The receiver's model has changed, render the view to make change visible"
+
+	self modelChanged.
+	self hasView
+		ifTrue: [
+			self
+				updateView ;
+				renderView ]
+]
+
+{ #category : #view }
+CpPresenter >> recreateView [
+
+	"Recreate the receiver's view"
+
+	self
+		removeView ;
+		createView
+]
+
 { #category : #initialization }
 CpPresenter >> release [
 
@@ -163,14 +228,30 @@ CpPresenter >> release [
 	If a view is present, release it. Do not release model because it can be shared amongst presenters."
 
 	model := nil.
-	view ifNotNil: [
-		view release.
-		view := nil ].
+	viewProxy ifNotNil: [
+		viewProxy release.
+		viewProxy := nil ].
 	parent := nil.
 	application := nil.
 	id := nil.
 
 	super release
+]
+
+{ #category : #view }
+CpPresenter >> removeView [
+
+	"Remove the receiver's view.
+	
+	Implementation:
+	First remove the view in the ClientEnvironment and then remove the
+	receiver's proxy."
+
+	viewProxy
+		ifNil: [ ^ self ].
+
+	viewProxy remove.	"Will remove the view in the ClientEnvironment"
+	self destroyViewProxy
 ]
 
 { #category : #view }
@@ -180,12 +261,39 @@ CpPresenter >> renderView [
 	Subclasses should add relevant behavior."
 ]
 
+{ #category : #accessing }
+CpPresenter >> slotName [
+
+	"Answer the slot name (a String or nil) of the parent where the receiver's view
+	should be installed in"
+
+	^ slotName
+]
+
+{ #category : #accessing }
+CpPresenter >> slotName: aString [
+
+	slotName := aString
+]
+
+{ #category : #view }
+CpPresenter >> updateView [
+
+	"Update the receiver's view"
+
+	self viewProxy viewClass = self viewClass
+		ifFalse: [ self recreateView ]
+]
+
 { #category : #view }
 CpPresenter >> view [
 
-	"Answer the View of the receiver (can be nil if the view is not created yet)"
+	"Answer the View of the receiver (can be nil if the view is not created yet).
 
-	^ view
+	Implementation:
+	Since the View is accessed by a Proxy anwer the proxy."
+
+	^ self viewProxy
 ]
 
 { #category : #view }
@@ -224,4 +332,10 @@ CpPresenter >> viewLocation [
 	^ self hasParent
 		ifTrue: [ self parent viewId ]
 		ifFalse: [ self defaultViewLocation ]
+]
+
+{ #category : #view }
+CpPresenter >> viewProxy [
+
+	^ viewProxy
 ]

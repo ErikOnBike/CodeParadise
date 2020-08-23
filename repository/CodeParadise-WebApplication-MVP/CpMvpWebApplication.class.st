@@ -32,11 +32,12 @@ CpMvpWebApplication >> clientCreateViewForPresenter: aPresenter [
 	self environment
 		addClass: aPresenter viewClass ;
 
-		clientPerform: #createView:withId:atParentId: 
+		clientPerform: #createView:withId:atParentId:atSlotNamed:
 		withArguments: {
 			aPresenter viewClass name .
 			aPresenter viewId .
-			aPresenter viewLocation }
+			aPresenter viewLocation .
+			aPresenter slotName }
 		receiver: self clientBehaviorId
 ]
 
@@ -62,11 +63,11 @@ CpMvpWebApplication >> createPresenter: aPresenterClass forModel: aModel [
 	"Create a new Presenter for the specified Model (both in the ServerEnvironment and the ClientEnvironment).
 	Implementation: it is assumed no two processes will update the same WebApplication simultaneously"
 
-	^ self createPresenter: aPresenterClass withParent: nil forModel: aModel
+	^ self createPresenter: aPresenterClass withParent: nil atSlotNamed: nil forModel: aModel
 ]
 
 { #category : #creating }
-CpMvpWebApplication >> createPresenter: aPresenterClass withParent: parentPresenter forModel: aModel [
+CpMvpWebApplication >> createPresenter: aPresenterClass withParent: parentPresenter atSlotNamed: slotName forModel: aModel [
 
 	"Create a new Presenter for the specified Model in the specified parent
 	Presenter (or nil if the presenter should not have a parent).
@@ -83,12 +84,11 @@ CpMvpWebApplication >> createPresenter: aPresenterClass withParent: parentPresen
 		application: self ;
 		model: aModel ;
 		parent: parentPresenter ;
+		slotName: slotName ;
 		yourself).
 
 	"Create and render the Presenter's View in the ClientEnvironment"
-	presenter
-		createView ;
-		renderView.
+	presenter createView.
 
 	^ presenter
 ]
