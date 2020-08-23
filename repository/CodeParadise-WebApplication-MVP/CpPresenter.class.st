@@ -13,7 +13,6 @@ Class {
 		'model',
 		'view',
 		'parent',
-		'announcer',
 		'application'
 	],
 	#category : #'CodeParadise-WebApplication-MVP-Core'
@@ -23,20 +22,6 @@ Class {
 CpPresenter class >> defaultViewClass [
 
 	^ CpView
-]
-
-{ #category : #announcing }
-CpPresenter >> announce: anAnnouncement [
-
-	self announcer announce: anAnnouncement
-]
-
-{ #category : #accessing }
-CpPresenter >> announcer [
-
-	"Answer the Announcer of the receiver"
-
-	^ announcer
 ]
 
 { #category : #accessing }
@@ -76,7 +61,10 @@ CpPresenter >> createView [
 	view := self createViewProxy.
 
 	"Create View in the ClientEnvironment"
-	self application clientCreateViewForPresenter: self
+	self application clientCreateViewForPresenter: self.
+
+	"Allow subclasses to perform further initialization"
+	self viewCreated
 ]
 
 { #category : #'view - private' }
@@ -122,14 +110,6 @@ CpPresenter >> id [
 CpPresenter >> id: aString [
 
 	id := aString
-]
-
-{ #category : #initialization }
-CpPresenter >> initialize [
-
-	super initialize.
-
-	announcer := Announcer new
 ]
 
 { #category : #model }
@@ -187,9 +167,6 @@ CpPresenter >> release [
 		view release.
 		view := nil ].
 	parent := nil.
-	announcer ifNotNil: [ 
-		announcer subscriptions reset.
-		announcer := nil ].
 	application := nil.
 	id := nil.
 
@@ -220,6 +197,14 @@ CpPresenter >> viewClass [
 ]
 
 { #category : #view }
+CpPresenter >> viewCreated [
+
+	"The receiver's view is created, perform any additional setup
+	(most notably subscribe to view announcements)"
+
+]
+
+{ #category : #view }
 CpPresenter >> viewId [
 
 	"Answer the id of the receiver's View"
@@ -239,13 +224,4 @@ CpPresenter >> viewLocation [
 	^ self hasParent
 		ifTrue: [ self parent viewId ]
 		ifFalse: [ self defaultViewLocation ]
-]
-
-{ #category : #announcing }
-CpPresenter >> when: anAnnouncementClass send: aSymbol to: anObject [
-
-	"Let the sender subscribe to the specified announcement of the receiver.
-	See Announcer>>#when:send:to:"
-
-	^ self announcer when: anAnnouncementClass send: aSymbol to: anObject
 ]

@@ -13,16 +13,6 @@ CpCounterPresenter class >> defaultViewClass [
 	^ CpCounterView
 ]
 
-{ #category : #initialization }
-CpCounterPresenter >> initialize [
-
-	super initialize.
-
-	self
-		when: CpCounterIncrease send: #modelIncrease to: self ;
-		when: CpCounterDecrease send: #modelDecrease to: self
-]
-
 { #category : #model }
 CpCounterPresenter >> modelDecrease [
 
@@ -39,4 +29,14 @@ CpCounterPresenter >> modelIncrease [
 CpCounterPresenter >> renderView [
 
 	self view renderValue: self model value
+]
+
+{ #category : #view }
+CpCounterPresenter >> viewCreated [
+
+	super viewCreated.
+
+	self view
+		when: CpCounterIncrease send: #modelIncrease to: self ;
+		when: CpCounterDecrease send: #modelDecrease to: self
 ]

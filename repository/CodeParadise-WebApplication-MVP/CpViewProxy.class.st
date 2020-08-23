@@ -6,7 +6,8 @@ Class {
 	#name : #CpViewProxy,
 	#superclass : #Object,
 	#instVars : [
-		'environment'
+		'environment',
+		'announcer'
 	],
 	#category : #'CodeParadise-WebApplication-MVP-Core'
 }
@@ -17,6 +18,20 @@ CpViewProxy class >> newIn: anEnvironment [
 	^ self new
 		environment: anEnvironment ;
 		yourself
+]
+
+{ #category : #announcing }
+CpViewProxy >> announce: anAnnouncement [
+
+	self announcer announce: anAnnouncement
+]
+
+{ #category : #accessing }
+CpViewProxy >> announcer [
+
+	"Answer the Announcer of the receiver"
+
+	^ announcer
 ]
 
 { #category : #'reflective operations' }
@@ -36,6 +51,8 @@ CpViewProxy >> doesNotUnderstand: aMessage [
 { #category : #accessing }
 CpViewProxy >> environment [
 
+	"Answer the ServerEnvironment the receiver is running in"
+
 	^ environment
 ]
 
@@ -46,9 +63,29 @@ CpViewProxy >> environment: anEnvironment [
 ]
 
 { #category : #initialization }
+CpViewProxy >> initialize [
+
+	super initialize.
+
+	announcer := Announcer new
+]
+
+{ #category : #initialization }
 CpViewProxy >> release [
 
+	announcer ifNotNil: [ 
+		announcer subscriptions reset.
+		announcer := nil ].
 	environment := nil.
 
 	super release
+]
+
+{ #category : #announcing }
+CpViewProxy >> when: anAnnouncementClass send: aSymbol to: anObject [
+
+	"Let the sender subscribe to the specified announcement of the receiver.
+	See Announcer>>#when:send:to:"
+
+	^ self announcer when: anAnnouncementClass send: aSymbol to: anObject
 ]

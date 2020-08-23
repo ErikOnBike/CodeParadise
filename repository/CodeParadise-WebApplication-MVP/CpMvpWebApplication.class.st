@@ -109,8 +109,14 @@ CpMvpWebApplication >> handleViewAnnouncement: aViewAnnouncement [
 	Implementation:
 	A View and Presenter share the same id."
 
-	(self presenterWithId: aViewAnnouncement viewId ifAbsent: [ self error: 'View Announcement received for Presenter which does not exist anymore' ])
-		announce: aViewAnnouncement announcement
+	| presenter |
+
+	presenter := self
+		presenterWithId: aViewAnnouncement viewId
+		ifAbsent: [ self error: 'View Announcement received for Presenter which does not exist anymore' ].
+
+	"Let the Presenter's View do the Announcement"
+	presenter view announce: aViewAnnouncement announcement
 ]
 
 { #category : #initialization }
