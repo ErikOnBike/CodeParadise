@@ -20,28 +20,37 @@ CpAnimationDemoContentView >> render [
 
 	"Render two squares which animate"
 
-	| element1 element2 |
+	| canvas element1 element2 |
 
 	self removeChildren.
-	element1 := self appendChild: ((CpHtmlElement newWithTag: #div)
+	canvas := self appendChild: ((CpHtmlElement newWithTag: #div)
+		styleAt: #position put: 'absolute' ;
+		styleAt: #left put: '0' ;
+		styleAt: #top put: '0' ;
+		styleAt: #width put: '100%' ;
+		styleAt: #height put: '100%' ;
+		styleAt: #overflow put: 'hidden' ;
+		yourself).
+	element1 := canvas appendChild: ((CpHtmlElement newWithTag: #div)
 		id: 'square1' ;
 		styleAt: #cursor put: 'pointer' ;
 		styleAt: #position put: 'absolute' ;
-		styleAt: #width put: '50vmin' ;
-		styleAt: #height put: '50vmin' ;
-		styleAt: #top put: '20vh' ;
-		styleAt: #left put: '30vw' ;
+		styleAt: #width put: '30%' ;
+		styleAt: #height put: '50%' ;
+		styleAt: #top put: '20%' ;
+		styleAt: #left put: '30%' ;
 		styleAt: #'background-color' put: '#C2B280' ;
 		yourself).
-	element2 := self appendChild: ((CpHtmlElement newWithTag: #div)
+	element2 := canvas appendChild: ((CpHtmlElement newWithTag: #div)
 		id: 'square2' ;
 		styleAt: #cursor put: 'pointer' ;
 		styleAt: #position put: 'absolute' ;
-		styleAt: #width put: '20vmin' ;
-		styleAt: #height put: '20vmin' ;
-		styleAt: #top put: 'calc(20vh + 50vmin)' ;
-		styleAt: #left put: 'calc(30vw + 50vmin + 30vw)' ;		
-		styleAt: #'background-color' put: '#B280C2' ;
+		styleAt: #width put: '20%' ;
+		styleAt: #height put: '20%' ;
+		styleAt: #top put: 'calc(20% + 50%)' ;
+		styleAt: #left put: 'calc(30% + 30%)' ;
+		styleAt: #transform put: 'translate(200px)'	 ;
+		styleAt: #'background-color' put: '#004E6E' ;
 		yourself).
 
 	CpBrowserAnimator current
@@ -49,7 +58,7 @@ CpAnimationDemoContentView >> render [
 			element1 styleAt: #transform put: 'rotate(', (360 * p) printString, 'deg)' ] duration: 1500)
 		delay: 1000 ;
 		addAnimation: (CpAnimation for: [ :p |
-			element2 styleAt: #transform put: 'translate(', (-30 * p) printString, 'vw,0)' ] duration: 800)
+			element2 styleAt: #transform put: 'translate(', ((1 - p) * 200) printString, 'px,0)' ] duration: 800)
 		delay: 1700
 
 ]
@@ -98,13 +107,19 @@ CpAnimationDemoContentView >> renderMany [
 			yourself)) ;
 		yourself.
 
-	elements do: [ :each |
+	finalColors := Array new: 4.
+	finalColors at: 1 put: (Array with: 1 with: 0.2 with: 0.2).
+	finalColors at: 2 put: (Array with: 0.2 with: 1 with: 0.2).
+	finalColors at: 3 put: (Array with: 0.2 with: 0.2 with: 1).
+	finalColors at: 4 put: (Array with: 1 with: 1 with: 0.2).
+
+	elements withIndexDo: [ :each :index |
 		9 timesRepeat: [
 			| color |
 			color := Array
-				with: 255 atRandom
-				with: 255 atRandom
-				with: 255 atRandom.				
+				with: (95 atRandom + 160) * ((finalColors at: index) at: 1)
+				with: (95 atRandom + 160) * ((finalColors at: index) at: 2)
+				with: (95 atRandom + 160) * ((finalColors at: index) at: 3).
 			each appendChild: ((CpHtmlElement newWithTag: #div)
 				styleAt: #display put: 'inline-block' ;
 				styleAt: #width put: 'calc(33.3333% - 12px)' ;
@@ -113,23 +128,36 @@ CpAnimationDemoContentView >> renderMany [
 				propertyAt: #red put: (color at: 1) ;
 				propertyAt: #green put: (color at: 2) ;
 				propertyAt: #blue put: (color at: 3) ;
-				styleAt: #'background-color' put: '#000' ;
+				styleAt: #'background-color' put: '#00384F' ;
 				yourself) ] ].
 
-	finalColors := Array new: 4.
-	finalColors at: 1 put: (Array with: 255 with: 0 with: 0).
-	finalColors at: 2 put: (Array with: 0 with: 255 with: 0).
-	finalColors at: 3 put: (Array with: 0 with: 0 with: 255).
-	finalColors at: 4 put: (Array with: 0 with: 0 with: 0).
 	CpBrowserAnimator current
 		addAnimation: (CpAnimation for: [ :p |
-			elements do: [ :each | each styleAt: #transform put: 'rotate(', (90 * p) printString, 'deg)' ].
+			| rotate |
+			rotate := String streamContents: [ :stream |
+				stream nextPutAll: 'rotate('.
+				(360 * p) printOn: stream.
+				stream nextPutAll: 'deg)' ].
+			elements do: [ :each | each styleAt: #transform put: rotate ].
 			elements withIndexDo: [ :each :index | each children do: [ :eachChild |
+				| red green blue color scale |
+				red := eachChild propertyAt: #red.
+				green := eachChild propertyAt: #green.
+				blue := eachChild propertyAt: #blue.
+				color := String streamContents: [ :stream |
+					stream nextPutAll: 'rgb('.
+					(red * p) printOn: stream.
+					stream nextPut: $,.
+					(56 + ((green - 56) * p)) printOn: stream.
+					stream nextPut: $,.
+					(79 + ((blue - 79) * p)) printOn: stream.
+					stream nextPut: $) ].
+				scale := String streamContents: [ :stream |
+					stream nextPutAll: 'scale('.
+					(1.0 + (3 * (p > 0.5 ifTrue: [ 1 - p ] ifFalse: [ p ]))) printOn: stream.
+					stream nextPut: $) ].
 				eachChild
-					styleAt: #'background-color' put: 'rgb(',
-						(p * (((finalColors at: index) at: 1) + (eachChild propertyAt: #red) / 2)) printString, ',',
-						(p * (((finalColors at: index) at: 2) + (eachChild propertyAt: #green) / 2)) printString, ',',
-						(p * (((finalColors at: index) at: 3) + (eachChild propertyAt: #blue) / 2)) printString, ')' ;
-					styleAt: #transform put: 'scale(', (1.0 + (p > 0.5 ifTrue: [ 1 - p ] ifFalse: [ p ])) printString, ')' ] ] ] duration: 1500)
+					styleAt: #'background-color' put: color ;
+					styleAt: #transform put: scale ] ] ] duration: 1500)
 		delay: 1000
 ]
