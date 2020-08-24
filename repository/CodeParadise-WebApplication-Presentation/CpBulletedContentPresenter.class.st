@@ -124,5 +124,10 @@ CpBulletedContentPresenter >> updateBulletPresenters [
 	(bulletModels := self bulletModels)
 		ifEmpty: [ ^ self destroyBulletPresenters ].
 
+	"Remove superfluour presenters and views"
+	[ bulletModels size < self bulletPresenters size ] whileTrue: [
+		self bulletPresenters last destroy.
+		self bulletPresenters removeLast ].
+
 	bulletModels withIndexDo: [ :each :index | self updateBullet: each atPresenterIndex: index ]
 ]
