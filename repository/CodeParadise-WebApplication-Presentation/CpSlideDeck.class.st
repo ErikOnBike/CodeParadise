@@ -53,7 +53,7 @@ CpSlideDeck >> insertSlide: aSlide beforeSlide: anotherSlide [
 	
 	(index := self indexOfSlide: anotherSlide) = 0
 		ifTrue: [ self error: 'Unknown slide for relative positioning' ].
-	self slides insert: aSlide before: index.
+	self slides add: aSlide beforeIndex: index.
 
 	self valueChanged.
 

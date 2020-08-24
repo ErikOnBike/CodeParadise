@@ -42,7 +42,7 @@ CpBulletedContent >> insertBullet: aSlideContent beforeBullet: anotherSlideConte
 	| index |
 
 	index := self bullets indexOf: anotherSlideContent ifAbsent: [ self error: 'Unknown slide content for relative positioning' ].
-	self bullets insert: aSlideContent before: index.
+	self bullets add: aSlideContent beforeIndex: index.
 
 	self valueChanged.
 
