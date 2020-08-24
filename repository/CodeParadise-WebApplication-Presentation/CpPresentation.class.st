@@ -39,6 +39,14 @@ CpPresentation >> currentSlide [
 		ifEmpty: [ nil ]
 ]
 
+{ #category : #api }
+CpPresentation >> goToSlide: aSlide [
+
+	self slideStack add: aSlide.
+
+	self valueChanged
+]
+
 { #category : #initialization }
 CpPresentation >> initialize [
 

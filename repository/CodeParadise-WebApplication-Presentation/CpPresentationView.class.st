@@ -59,12 +59,16 @@ CpPresentationView >> handleKeyPressEvent: aKeyEvent [
 	| key |
 
 	key := '|', aKeyEvent key, '|'.
-	('|Left|Backspace|,|' includesSubstring: key)
+	('|ArrowLeft|Backspace|,|' includesSubstring: key)
 		ifTrue: [ ^ self serverAnnounce: CpPreviousSlide ].
-	('|Right| |.|' includesSubstring: key)
+	('|ArrowRight| |.|' includesSubstring: key)
 		ifTrue: [ ^ self serverAnnounce: CpNextSlide ].
 	('|r|R|' includesSubstring: key)
 		ifTrue: [ ^ self serverAnnounce: CpRefreshSlide ].
+	('|i|I|g|G|' includesSubstring: key)
+		ifTrue: [ ^ self serverAnnounce: CpSlideIndex ].
+	('|Escape|' includesSubstring: key)
+		ifTrue: [ ^ self serverAnnounce: CpRemoveSlideIndex ].
 
 	super handleKeyPressEvent: aKeyEvent
 ]
