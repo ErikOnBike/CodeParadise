@@ -9,14 +9,16 @@ CpBulletedContentView class >> style [
 
 	<webResource: #css>
 
-	^'.container {
-		width: 100%;
-		height: 100%;
-	}
-	ul {
-		margin-top: 0;
-		margin-bottom: 0;
-	}'
+	^ '* {
+			box-sizing: border-box;
+		}
+		:host,
+		.container {
+			width: 100%;
+		}
+		ul {
+			margin: 0;
+		}'
 ]
 
 { #category : #'web resources' }

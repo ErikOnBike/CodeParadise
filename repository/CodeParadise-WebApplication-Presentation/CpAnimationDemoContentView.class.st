@@ -25,6 +25,7 @@ CpAnimationDemoContentView >> render [
 	self removeChildren.
 	element1 := self appendChild: ((CpHtmlElement newWithTag: #div)
 		id: 'square1' ;
+		styleAt: #cursor put: 'pointer' ;
 		styleAt: #position put: 'absolute' ;
 		styleAt: #width put: '50vmin' ;
 		styleAt: #height put: '50vmin' ;
@@ -34,6 +35,7 @@ CpAnimationDemoContentView >> render [
 		yourself).
 	element2 := self appendChild: ((CpHtmlElement newWithTag: #div)
 		id: 'square2' ;
+		styleAt: #cursor put: 'pointer' ;
 		styleAt: #position put: 'absolute' ;
 		styleAt: #width put: '20vmin' ;
 		styleAt: #height put: '20vmin' ;
@@ -64,6 +66,7 @@ CpAnimationDemoContentView >> renderMany [
 	elements := OrderedCollection new
 		add: (self appendChild: ((CpHtmlElement newWithTag: #div)
 			id: 'square1' ;
+			styleAt: #cursor put: 'pointer' ;
 			styleAt: #position put: 'absolute' ;
 			styleAt: #width put: '30vmin' ;
 			styleAt: #height put: '30vmin' ;
@@ -72,6 +75,7 @@ CpAnimationDemoContentView >> renderMany [
 			yourself)) ;
 		add: (self appendChild: ((CpHtmlElement newWithTag: #div)
 			id: 'square2' ;
+			styleAt: #cursor put: 'pointer' ;
 			styleAt: #position put: 'absolute' ;
 			styleAt: #width put: '30vmin' ;
 			styleAt: #height put: '30vmin' ;

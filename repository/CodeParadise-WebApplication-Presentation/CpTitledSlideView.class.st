@@ -9,25 +9,30 @@ CpTitledSlideView class >> style [
 
 	<webResource: #css>
 
-	^'.container {
-		width: 100%;
-		height: 100%;
-	}
-	.header {
-		width: 100%;
-		height: 15%;
-		font-size: 12vh;
-		text-align: center;
-		vertical-align: middle;
-		background-color: rgba(255, 0, 0, .1);
-		overflow: hidden;
-	}
-	.content {
-		width: 100%;
-		height: calc(100% - 15%);
-		background-color: rgba(0, 0, 255, .1);
-		overflow: hidden;
-	}'
+	^ '* {
+			box-sizing: border-box;
+		}
+		:host,
+		.container {
+			width: 100%;
+			height: 100%;
+			overflow: hidden;
+		}
+		.header {
+			width: 100%;
+			height: 15vh;
+			font-size: 12vh;
+			text-align: center;
+			overflow: hidden;
+		}
+		.content {
+			width: 100%;
+			height: calc(100% - 15vh);
+			padding: 5vh 5vw 5vh 5vw;
+			font-size: 8vh;
+			background-color: rgba(0, 0, 255, .1);
+			overflow: hidden;
+		}'
 ]
 
 { #category : #'web resources' }

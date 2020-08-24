@@ -44,8 +44,6 @@ CpScreen >> initialize [
 	CpHtmlElement documentHead appendChild: ((CpHtmlElement newWithTag: #style)
 		textContent: '
 			*, *:before, *:after {
-				-moz-box-sizing: border-box;
-				-webkit-box-sizing: border-box;
 				box-sizing: border-box;
 			}
 			html {

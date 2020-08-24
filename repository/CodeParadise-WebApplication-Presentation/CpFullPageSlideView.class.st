@@ -9,10 +9,14 @@ CpFullPageSlideView class >> style [
 
 	<webResource: #css>
 
-	^'.container {
-		width: 100%;
-		height: 100%;
-	}'
+	^ '* {
+			box-sizing: border-box;
+		}
+		:host,
+		.container {
+			width: 100%;
+			height: 100%;
+		}'
 ]
 
 { #category : #'web resources' }

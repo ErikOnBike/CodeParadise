@@ -12,15 +12,15 @@ CpPresentationView class >> style [
 
 	<webResource: #css>
 
-	^':host {
-		width: 100%;
-		height: 100%;
-	}
-	.container {
-		width: 100%;
-		height: 100%;
-		overflow: hidden;
-	}'
+	^ '* {
+			box-sizing: border-box;
+		}
+		:host,
+		.container {
+			width: 100%;
+			height: 100%;
+			overflow: hidden;
+		}'
 ]
 
 { #category : #'web resources' }

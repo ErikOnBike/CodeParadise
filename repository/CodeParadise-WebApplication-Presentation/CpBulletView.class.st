@@ -9,20 +9,20 @@ CpBulletView class >> style [
 
 	<webResource: #css>
 
-	^':host {
-		display: list-item;
-		margin-top: .2rem;
-		margin-bottom: .2rem;
-		margin-left: 5vw;
-		font-size: 6vh;
-	}
-	:host(.sub) { 
-		display: block;
-	}
-	.container {
-		width: 100%;
-		height: 100%;
-	}'
+	^ '* {
+			box-sizing: border-box;
+		}
+		:host {
+			display: list-item;
+			width: 100%;
+			margin: .2vh 5vw .2vh 5vw;
+		}
+		:host(.sub) { 
+			display: block;
+		}
+		.container {
+			width: 100%;
+		}'
 ]
 
 { #category : #'web resources' }

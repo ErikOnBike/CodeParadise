@@ -9,9 +9,12 @@ CpTextContentView class >> style [
 
 	<webResource: #css>
 
-	^'.container {
-		display: inline-block;
-	}'
+	^ '* {
+			box-sizing: border-box;
+		}
+		:host {
+			display: inline-block;
+		}'
 ]
 
 { #category : #'web resources' }
