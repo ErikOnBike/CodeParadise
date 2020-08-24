@@ -14,6 +14,10 @@ CpImageContentView class >> style [
 		}
 		:host {
 			display: inline-block;
+			width: 100%;
+		}
+		.container {
+			width: 100%;
 		}'
 ]
 

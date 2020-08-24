@@ -20,18 +20,22 @@ CpTitledSlideView class >> style [
 		}
 		.header {
 			width: 100%;
-			height: 15vh;
-			font-size: 12vh;
+			height: 15%;
+			font-size: 4.5em;
 			text-align: center;
 			overflow: hidden;
+			color: rgba(0, 105, 148, 1);
+			border-bottom: .3em solid rgba(255, 255, 255, .9);
+			background-color: rgba(255, 240, 201, .7);
 		}
 		.content {
 			width: 100%;
-			height: calc(100% - 15vh);
-			padding: 5vh 5vw 5vh 5vw;
-			font-size: 8vh;
-			background-color: rgba(0, 0, 255, .1);
+			height: calc(100% - 15%);
+			padding: 2.5% 2.5% 2.5% 2.5%;
+			font-size: 3em;
 			overflow: hidden;
+			color: rgba(255, 255, 255, 1);
+			background-color: rgba(0, 105, 148, .7);
 		}'
 ]
 
