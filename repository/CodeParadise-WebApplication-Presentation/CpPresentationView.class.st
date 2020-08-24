@@ -51,12 +51,22 @@ CpPresentationView >> handleClickEvent: aClickEvent [
 { #category : #'event handling' }
 CpPresentationView >> handleKeyPressEvent: aKeyEvent [
 
-	aKeyEvent key = ','
-		ifTrue: [ self serverAnnounce: CpPreviousSlide ]
-		ifFalse: [
-			aKeyEvent key = '.'
-				ifTrue: [ self serverAnnounce: CpNextSlide ]
-				ifFalse: [ super handleKeyPressEvent: aKeyEvent ] ]
+	"Handle key presses for relevant presentation behavior.
+	
+	Implementation:
+	Wrap received key in '|' to make sure a full match is found."
+
+	| key |
+
+	key := '|', aKeyEvent key, '|'.
+	('|Left|Backspace|,|' includesSubstring: key)
+		ifTrue: [ ^ self serverAnnounce: CpPreviousSlide ].
+	('|Right| |.|' includesSubstring: key)
+		ifTrue: [ ^ self serverAnnounce: CpNextSlide ].
+	('|r|R|' includesSubstring: key)
+		ifTrue: [ ^ self serverAnnounce: CpRefreshSlide ].
+
+	super handleKeyPressEvent: aKeyEvent
 ]
 
 { #category : #initialization }

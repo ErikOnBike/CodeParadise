@@ -88,6 +88,12 @@ CpPresentationPresenter >> previousSlide [
 ]
 
 { #category : #view }
+CpPresentationPresenter >> refreshSlide [
+
+	self renderView
+]
+
+{ #category : #view }
 CpPresentationPresenter >> renderView [
 
 	"Render view of the receiver"
@@ -132,5 +138,6 @@ CpPresentationPresenter >> viewCreated [
 
 	self view
 		when: CpPreviousSlide send: #previousSlide to: self ;
-		when: CpNextSlide send: #nextSlide to: self
+		when: CpNextSlide send: #nextSlide to: self ;
+		when: CpRefreshSlide send: #refreshSlide to: self
 ]
