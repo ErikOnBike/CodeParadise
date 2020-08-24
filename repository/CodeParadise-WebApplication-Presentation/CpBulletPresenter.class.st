@@ -33,7 +33,7 @@ CpBulletPresenter >> contentPresenter [
 { #category : #presenter }
 CpBulletPresenter >> createContentPresenter [
 
-	"Create a new Slide Presenter for the receiver's model"
+	"Create a new SlideContent Presenter for the receiver's model"
 
 	| contentModel |
 
