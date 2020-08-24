@@ -1,3 +1,7 @@
+"
+I am a Presentation Presenter.
+I support a PresentationModel and use a PresentationView.
+"
 Class {
 	#name : #CpPresentationPresenter,
 	#superclass : #CpPresenter,

@@ -1,3 +1,8 @@
+"
+I am a Bullet Presenter.
+I support a SlideContentModel and use a BulletView.
+
+"
 Class {
 	#name : #CpBulletPresenter,
 	#superclass : #CpPresenter,

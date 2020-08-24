@@ -1,3 +1,7 @@
+"
+I am a SlideContent Presenter for custom content.
+I support a CustomContentModel and use a model specific view.
+"
 Class {
 	#name : #CpCustomContentPresenter,
 	#superclass : #CpSlideContentPresenter,

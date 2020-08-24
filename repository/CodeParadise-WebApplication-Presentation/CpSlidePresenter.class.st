@@ -1,3 +1,7 @@
+"
+I am a SlidePresenter.
+I support a SlideModel and use a model specific view.
+"
 Class {
 	#name : #CpSlidePresenter,
 	#superclass : #CpPresenter,

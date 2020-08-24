@@ -1,3 +1,7 @@
+"
+I am a SlideContent Presenter specialized in ImageContent.
+I support a ImageContentModel and use ImageContentView.
+"
 Class {
 	#name : #CpImageContentPresenter,
 	#superclass : #CpSlideContentPresenter,

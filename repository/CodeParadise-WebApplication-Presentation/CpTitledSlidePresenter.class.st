@@ -1,3 +1,7 @@
+"
+I am a SlidePresenter specialized in TitledSlides.
+I support a TitledSlideModel and use a TitledSlideView.
+"
 Class {
 	#name : #CpTitledSlidePresenter,
 	#superclass : #CpSlidePresenter,
