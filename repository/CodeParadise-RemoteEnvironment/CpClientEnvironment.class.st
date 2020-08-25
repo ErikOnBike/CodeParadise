@@ -60,6 +60,14 @@ CpClientEnvironment class >> hasPreInstalledClass: aClass [
 	^ self preInstalledClasses includes: aClass
 ]
 
+{ #category : #testing }
+CpClientEnvironment class >> isRunning [
+
+	"Answer whether the ClientEnvironment is running/active"
+
+	^ Current notNil
+]
+
 { #category : #'instance creation' }
 CpClientEnvironment class >> new [
 
