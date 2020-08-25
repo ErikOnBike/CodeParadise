@@ -7,3 +7,9 @@ Class {
 	#superclass : #CpPresenter,
 	#category : #'CodeParadise-WebApplication-Presentation-Presenter'
 }
+
+{ #category : #presenter }
+CpSlideContentPresenter >> slideSelected: aSlide [
+
+	self parent slideSelected: aSlide
+]

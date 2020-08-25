@@ -60,6 +60,20 @@ CpSlideDeck >> insertSlide: aSlide beforeSlide: anotherSlide [
 	^ aSlide
 ]
 
+{ #category : #'as yet unclassified' }
+CpSlideDeck >> selectFirstSlide: aBlock [
+
+	^ (self selectSlides: aBlock)
+		ifNotEmpty: [ :matchedSlides | matchedSlides first ]
+		ifEmpty: [ nil ]
+]
+
+{ #category : #'as yet unclassified' }
+CpSlideDeck >> selectSlides: aBlock [
+
+	^ self slides select: aBlock
+]
+
 { #category : #accessing }
 CpSlideDeck >> slideAfter: aSlide [
 

@@ -163,6 +163,12 @@ CpPresentationPresenter >> slidePresenter [
 	^ slidePresenter
 ]
 
+{ #category : #'presenter - slide' }
+CpPresentationPresenter >> slideSelected: aSlide [
+
+	self model goToSlide: aSlide
+]
+
 { #category : #'presenter - carousel' }
 CpPresentationPresenter >> slidesCarouselPresenter [
 

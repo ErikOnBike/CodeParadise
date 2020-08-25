@@ -90,6 +90,12 @@ CpBulletPresenter >> renderView [
 ]
 
 { #category : #presenter }
+CpBulletPresenter >> slideSelected: aSlide [
+
+	self parent slideSelected: aSlide
+]
+
+{ #category : #presenter }
 CpBulletPresenter >> updateContentPresenter [
 
 	"Update the SlideContent Presenter.

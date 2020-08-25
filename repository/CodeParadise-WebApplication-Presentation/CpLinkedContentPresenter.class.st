@@ -1,30 +1,32 @@
-"
-I am a SlidePresenter.
-I support a SlideModel and use a model specific view.
-"
 Class {
-	#name : #CpSlidePresenter,
-	#superclass : #CpPresenter,
+	#name : #CpLinkedContentPresenter,
+	#superclass : #CpSlideContentPresenter,
 	#instVars : [
 		'contentPresenter'
 	],
 	#category : #'CodeParadise-WebApplication-Presentation-Presenter'
 }
 
+{ #category : #accessing }
+CpLinkedContentPresenter class >> defaultViewClass [
+
+	^ CpLinkedContentView
+]
+
 { #category : #model }
-CpSlidePresenter >> contentModel [
+CpLinkedContentPresenter >> contentModel [
 
 	^ self model content
 ]
 
-{ #category : #presenter }
-CpSlidePresenter >> contentPresenter [
+{ #category : #model }
+CpLinkedContentPresenter >> contentPresenter [
 
 	^ contentPresenter
 ]
 
-{ #category : #presenter }
-CpSlidePresenter >> createContentPresenter [
+{ #category : #model }
+CpLinkedContentPresenter >> createContentPresenter [
 
 	"Create a new SlideContent Presenter for the receiver's model"
 
@@ -35,12 +37,11 @@ CpSlidePresenter >> createContentPresenter [
 	self destroyContentPresenter.
 	contentPresenter := self
 		createChildPresenter: contentModel preferredPresenterClass
-		atSlotNamed: #content
 		forModel: contentModel
 ]
 
-{ #category : #deleting }
-CpSlidePresenter >> destroy [
+{ #category : #model }
+CpLinkedContentPresenter >> destroy [
 
 	"Destroy the receiver, but first its children"
 
@@ -49,8 +50,8 @@ CpSlidePresenter >> destroy [
 	super destroy
 ]
 
-{ #category : #presenter }
-CpSlidePresenter >> destroyContentPresenter [
+{ #category : #model }
+CpLinkedContentPresenter >> destroyContentPresenter [
 
 	"Destroy the SlideContent Presenter of the receiver's model"
 
@@ -61,14 +62,20 @@ CpSlidePresenter >> destroyContentPresenter [
 	contentPresenter := nil
 ]
 
-{ #category : #presenter }
-CpSlidePresenter >> hasContentPresenter [
+{ #category : #model }
+CpLinkedContentPresenter >> hasContentPresenter [
 
 	^ self contentPresenter notNil
 ]
 
 { #category : #view }
-CpSlidePresenter >> renderView [
+CpLinkedContentPresenter >> linkedSlideSelected [
+
+	self parent slideSelected: self model linkedSlide
+]
+
+{ #category : #model }
+CpLinkedContentPresenter >> renderView [
 
 	"Render view of the receiver"
 
@@ -79,14 +86,8 @@ CpSlidePresenter >> renderView [
 
 ]
 
-{ #category : #presenter }
-CpSlidePresenter >> slideSelected: aSlide [
-
-	self parent slideSelected: aSlide
-]
-
-{ #category : #presenter }
-CpSlidePresenter >> updateContentPresenter [
+{ #category : #model }
+CpLinkedContentPresenter >> updateContentPresenter [
 
 	"Update the SlideContent Presenter.
 	If necessary a new Presenter is created or the existing is updated."
@@ -101,4 +102,13 @@ CpSlidePresenter >> updateContentPresenter [
 			self contentPresenter model ~= contentModel
 				ifTrue: [ self contentPresenter model: contentModel ] ]
 		ifFalse: [ self createContentPresenter ]
+]
+
+{ #category : #view }
+CpLinkedContentPresenter >> viewCreated [
+
+	super viewCreated.
+
+	self view
+		when: CpLinkActivated send: #linkedSlideSelected to: self
 ]
