@@ -106,7 +106,7 @@ CpSlidesCarouselPresenter >> previousSlide [
 
 	"No need to take account wrapping, is done in #currentSlide"
 
-	self currentSlideIndex: self currentSlideIndex
+	self currentSlideIndex: self currentSlideIndex - 1
 ]
 
 { #category : #view }
