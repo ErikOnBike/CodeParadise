@@ -78,11 +78,13 @@ CpBulletPresenter >> renderView [
 
 	"Render view of the receiver"
 
-	"Delegate rendering to child presenter(s)"
-	self updateContentPresenter.
+	"Mark content being (sub)bullets"
 	self contentModel class = CpBulletedContent
 		ifTrue: [ self view addClass: #sub ]
 		ifFalse: [ self view removeClass: #sub ]. 
+
+	"Delegate rendering to child presenter(s)"
+	self updateContentPresenter.
 	self contentPresenter renderView
 
 ]
