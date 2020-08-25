@@ -35,7 +35,7 @@ CpSlidesCarouselView class >> style [
 			width: 1050px;
 			height: 700px;
 			margin: 80px auto;
-			perspective: 1000px;
+			perspective: 2000px;
 		}'
 ]
 

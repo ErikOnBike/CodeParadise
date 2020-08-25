@@ -78,6 +78,7 @@ CpPresentationView >> initialize [
 
 	super initialize.
 
+	"Add a cursor so we retrieve key events, but put it outside the visible area"
 	self appendChild: (CpCursor new
 		styleAt: #position put: 'absolute' ;
 		styleAt: #top put: '-2rem' ;

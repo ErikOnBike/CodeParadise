@@ -19,8 +19,10 @@ CpCarouselSlideView class >> style [
 			left: 50px;
 			top: 50px;
 			border: 3px solid black;
+			border-radius: 2em;
 			font-size: .75em;
 			transition: transform 1s, opacity 1s;
+			overflow: hidden;
 		}
 		.container {
 			width: 100%;
