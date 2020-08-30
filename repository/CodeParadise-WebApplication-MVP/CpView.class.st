@@ -1,6 +1,11 @@
 "
 I am a View in a Model-View-Presenter pattern.
 I only live in a ClientEnvironnent.
+
+Implementation:
+I cannot respond to messages I receive from a Presenter, since we live in different
+environements and message sends to objects are implemented as 'fire and forget'.
+
 "
 Class {
 	#name : #CpView,

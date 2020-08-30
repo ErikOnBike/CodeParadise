@@ -4,6 +4,13 @@ I have a model and a view and optionally a parent Presenter.
 I live in the ServerEnvironment and know the application I am running in.
 I share an id with my view which allows our binding across environments.
 
+Implementation:
+The view instance variable is actually a ViewProxy which allows regular message sends to my view.
+The proxy will send the message to the ClientEnvironment environment.
+The fact that objects in the ClientEnvironment can't respond to a message send, does
+however mean that it is not possible to use the result (answer) of a message send. Or to put it
+differently, Views can only be commanded and not interrogated.
+
 "
 Class {
 	#name : #CpPresenter,
@@ -62,30 +69,19 @@ CpPresenter >> createChildPresenter: aPresenterClass forModel: aModel [
 { #category : #view }
 CpPresenter >> createView [
 
-	"Create the receiver's view.
+	"Create the receiver's view (in the ClientEnvironment).
 
 	Implementation:
-	The view is actually a Proxy to the real view in the ClientEnvironment.
+	The view instance variable is actually a Proxy to the real view in the ClientEnvironment.
 	The View in the ClientEnvironment is linked to the receiver by an identifier."
 
-	self createViewProxy.
+	self initializeViewProxy.
 
 	"Create View in the ClientEnvironment"
 	self application clientCreateViewForPresenter: self.
 
 	"Allow subclasses to perform further initialization"
 	self viewCreated
-]
-
-{ #category : #view }
-CpPresenter >> createViewProxy [
-
-	"Create a ViewProxy for the receiver"
-
-	viewProxy
-		ifNotNil: [ self error: 'View already created' ].
-
-	viewProxy := CpViewProxy newIn: self application environment forViewClass: self viewClass
 ]
 
 { #category : #view }
@@ -149,6 +145,17 @@ CpPresenter >> id [
 CpPresenter >> id: aString [
 
 	id := aString
+]
+
+{ #category : #initialization }
+CpPresenter >> initializeViewProxy [
+
+	"Create a ViewProxy for the receiver"
+
+	viewProxy
+		ifNotNil: [ self error: 'View already created' ].
+
+	viewProxy := CpViewProxy newIn: self application environment forViewClass: self viewClass
 ]
 
 { #category : #model }
