@@ -66,6 +66,7 @@ CpDomExamplesWebApplication register.
 CpComponentExamplesWebApplication register.
 CpCounterWebApplication register.
 CpFomanticExamplesWebApplication register.
+CpIntroductionPresentationWebApplication register.
 
 "Start the HTTP and WeSocket servers (use the path where you stored the ClientEnvironment)"
 CpWebApplicationServerStarter startUsingConfig: {
@@ -92,6 +93,7 @@ CpComponentExamplesWebApplication unregister.
 CpCounterWebApplication unregister.
 CpCounterWebApplication release.
 CpFomanticExamplesWebApplication unregister.
+CpIntroductionPresentationWebApplication unregister.
 
 "Garbage collect works better in triples ;-)"
 Smalltalk garbageCollect.
