@@ -1,9 +1,6 @@
 Class {
 	#name : #CpPresentationView,
 	#superclass : #CpView,
-	#instVars : [
-		'width'
-	],
 	#category : #'CodeParadise-WebApplication-Presentation-View'
 }
 
@@ -35,6 +32,10 @@ CpPresentationView class >> template [
 
 { #category : #'event handling' }
 CpPresentationView >> handleClickEvent: aClickEvent [
+
+	"Handle click event for presentation behavior.
+	A click on the left 10% of the window width will move back.
+	A click on the right 10% of the window width will move forward."
 
 	| pointX clickWidth |
 
@@ -98,5 +99,5 @@ CpPresentationView >> renderTitle: aString [
 { #category : #accessing }
 CpPresentationView >> width [ 
 
-	^ width ifNil: [ width := CpHtmlElement documentBody propertyAt: #clientWidth ]
+	^ CpHtmlElement documentBody propertyAt: #clientWidth
 ]
