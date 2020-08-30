@@ -9,7 +9,11 @@ CpPresentationClientBehavior >> initialize [
 
 	super initialize.
 
-	"Add a 'screen' to our browser (creating usable real estate)"
+	"Add a 'screen' to our browser (creating usable real estate).
+
+	Implementation:
+	The PresentationView will refer to the screen id so keep this value unchanged."
+
 	CpHtmlElement documentBody
 		appendChild: (CpScreen new
 			attributeAt: #id put: 'screen' ;
