@@ -25,5 +25,8 @@ CpPresentationWebApplication >> load [
 
 	"Create presentation presenter.
 	This presenter will be installed when #load or #reload is called on the receiver."
-	self createPresenter: CpPresentationPresenter forModel: (self addModel: (CpPresentation titled: 'CodeParadise')) inspect
+	self createPresenter: CpPresentationPresenter forModel: (self addModel: (CpPresentation titled: 'CodeParadise')).
+
+	"Open an Inspector on the receiver to allow access to the ServerEnvironment, the Presentation Model and Presenter"
+	self inspect
 ]
