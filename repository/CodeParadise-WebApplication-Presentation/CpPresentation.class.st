@@ -1,6 +1,10 @@
 "
 I represent a presentation.
 I have a slide deck and keep track of the slides presented/shown (in my slide stack).
+When I perform #nextSlide I make the slide following the #currentSlide in the slides
+of my slideDeck the new current slide. When I perform #previousSlide I make the slide
+current which was previously the #currentSlide. (Implementation) So for #nextSlide I
+use my slideDeck and for #previousSlide I use my slideStack.
 
 "
 Class {
@@ -30,6 +34,12 @@ CpPresentation class >> titled: aString usingSlideDeck: aSlideDeck [
 ]
 
 { #category : #api }
+CpPresentation >> addSlide: aSlide [
+
+	^ self slideDeck addSlide: aSlide
+]
+
+{ #category : #api }
 CpPresentation >> currentSlide [
 
 	"Answer the current Slide or nil if the receiver has no slides or is not started yet"
@@ -41,6 +51,11 @@ CpPresentation >> currentSlide [
 
 { #category : #api }
 CpPresentation >> goToSlide: aSlide [
+
+	"Make the specified slide the current slide"
+
+	(self slideDeck indexOfSlide: aSlide) = 0
+		ifTrue: [ ^ self error: 'The specified slide is not part of the receiver''s slide deck' ].
 
 	self slideStack add: aSlide.
 
@@ -58,6 +73,8 @@ CpPresentation >> initialize [
 { #category : #api }
 CpPresentation >> nextSlide [
 
+	"Go to the next slide (based on the slides in the slideDeck)"
+
 	| nextSlide |
 
 	(nextSlide := self slideDeck slideAfter: self currentSlide)
@@ -70,6 +87,13 @@ CpPresentation >> nextSlide [
 
 { #category : #api }
 CpPresentation >> previousSlide [
+
+	"Go to the previously shown slide.
+
+	Implementation:
+	The previous slide is based on the slideStack.
+	This might be different than the slide order in the slideDeck.
+	See also the class comment."
 
 	self slideStack size > 1
 		ifFalse: [ ^ self ].
