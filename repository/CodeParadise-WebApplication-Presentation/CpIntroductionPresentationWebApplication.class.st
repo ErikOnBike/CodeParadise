@@ -11,13 +11,62 @@ CpIntroductionPresentationWebApplication class >> app [
 ]
 
 { #category : #model }
+CpIntroductionPresentationWebApplication >> createExplainApplicationSlide [
+
+	^ CpTitledSlide new
+		title: 'Explanation: web applications' ;
+		content: (CpBulletedContent new
+			addBullet: (CpTextContent new
+				text: 'CodeParadise supports building web applications' ;
+				yourself) ;
+			addBullet: (CpBulletedContent new
+				addBullet: (CpTextContent new
+					text: 'Smalltalk code runs server-side and client-side (in browser)' ;
+					yourself) ;
+				addBullet: (CpTextContent new
+					text: 'Typically it consists of a server-side CpWebApplication (class)' ;
+					yourself) ;
+				addBullet: (CpTextContent new
+					text: 'And a client-side CpWebClientBehavior (class)' ;
+					yourself) ;
+				addBullet: (CpTextContent new
+					text: 'This combo delivers the required application functionality' ;
+					yourself) ;
+				yourself) ;
+			addBullet: (CpTextContent new
+				text: 'In the Pharo IDE an Inspector is opened' ;
+				yourself) ;
+			addBullet: (CpBulletedContent new
+				addBullet: (CpTextContent new
+					text: 'The Inspector shows the CpWebApplication instance' ;
+					yourself) ;
+				addBullet: (CpTextContent new
+					text: 'The Application knows its Models and Presenters' ;
+					yourself) ;
+				addBullet: (CpTextContent new
+					text: 'The Presenters know their Views (and Models)' ;
+					yourself) ;
+				yourself) ;
+			addBullet: (CpTextContent new
+				text: 'Interact with the application by executing (from Inspector)' ;
+				yourself) ;
+			addBullet: (CpBulletedContent new
+				addBullet: (CpTextContent new
+					text: 'self models first nextSlide' ;
+					yourself) ;
+				yourself) ;
+			yourself) ;
+		yourself
+]
+
+{ #category : #model }
 CpIntroductionPresentationWebApplication >> createExplainModelSlide [
 
 	^ CpTitledSlide new
 		title: 'Explanation: Model' ;
 		content: (CpBulletedContent new
 			addBullet: (CpTextContent new
-				text: 'The presentation is a Model' ;
+				text: 'The presentation (this slideshow) is a Model' ;
 				yourself) ;
 			addBullet: (CpBulletedContent new
 				addBullet: (CpTextContent new
@@ -28,16 +77,18 @@ CpIntroductionPresentationWebApplication >> createExplainModelSlide [
 					yourself) ;
 				yourself) ;
 			addBullet: (CpTextContent new
-				text: 'It is built using the Model View Presenter pattern' ;
+				text: 'You just asked it for its next slide' ;
+				yourself) ;
+			addBullet: (CpBulletedContent new
+				addBullet: (CpTextContent new
+					text: 'Because "self models first" refers to the Presentation model' ;
+					yourself) ;
+				addBullet: (CpTextContent new
+					text: 'Sending the message #nextSlide made the Presentation advance' ;
+					yourself) ;
 				yourself) ;
 			addBullet: (CpTextContent new
-				text: 'You can interact with the model from the IDE' ;
-				yourself) ;
-			addBullet: (CpTextContent new
-				text: 'An Inspector should be opened on the current application' ;
-				yourself) ;
-			addBullet: (CpTextContent new
-				text: 'Try executing the following line (in the Inspector)' ;
+				text: 'Try executing the following line again (in the Inspector)' ;
 				yourself) ;
 			addBullet: (CpBulletedContent new
 				addBullet: (CpTextContent new
@@ -68,7 +119,7 @@ CpIntroductionPresentationWebApplication >> createExplainModelSuccessSlide [
 					text: 'The Model announced this change' ;
 					yourself) ;
 				addBullet: (CpTextContent new
-					text: 'The Presenter was subscribed to announcements of the Model' ;
+					text: 'The Presenter is subscribed to announcements of the Model' ;
 					yourself) ;
 				addBullet: (CpTextContent new
 					text: 'The Presenter therefore received the announcement' ;
@@ -84,12 +135,7 @@ CpIntroductionPresentationWebApplication >> createExplainModelSuccessSlide [
 					yourself) ;
 				yourself) ;
 			addBullet: (CpTextContent new
-				text: 'Try executing the following line again (in the Inspector)' ;
-				yourself) ;
-			addBullet: (CpBulletedContent new
-				addBullet: (CpTextContent new
-					text: 'self models first nextSlide' ;
-					yourself) ;
+				text: '(Just press <Space> or <Right> to go to next slide)' ;
 				yourself) ;
 			yourself) ;
 		yourself
@@ -108,7 +154,7 @@ CpIntroductionPresentationWebApplication >> createExplanationSlide [
 				text: 'It is built using the Model View Presenter pattern' ;
 				yourself) ;
 			addBullet: (CpTextContent new
-				text: 'It also acts as a tutorial' ;
+				text: 'It also acts as a small tutorial' ;
 				yourself) ;
 			addBullet: (CpTextContent new
 				text: 'Just follow the instructions on the next slides' ;
@@ -164,6 +210,7 @@ CpIntroductionPresentationWebApplication >> createPresentationModel [
 	^ (CpPresentation titled: 'CodeParadise')
 		addSlide: self createIntroductionSlide ;
 		addSlide: self createExplanationSlide ;
+		addSlide: self createExplainApplicationSlide ;
 		addSlide: self createExplainModelSlide ;
 		addSlide: self createExplainModelSuccessSlide ;
 		addSlide: self createFinalSlide ;
