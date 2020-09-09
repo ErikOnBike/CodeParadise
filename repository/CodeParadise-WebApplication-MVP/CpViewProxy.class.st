@@ -6,11 +6,26 @@ Class {
 	#name : #CpViewProxy,
 	#superclass : #Object,
 	#instVars : [
+		'presenter',
 		'viewClass',
 		'announcer'
 	],
 	#category : #'CodeParadise-WebApplication-MVP-Core'
 }
+
+{ #category : #'instance creation' }
+CpViewProxy class >> new [
+
+	self shouldNotImplement
+]
+
+{ #category : #'instance creation' }
+CpViewProxy class >> newFor: aPresenter [
+
+	^ self basicNew
+		initializeWith: aPresenter ;
+		yourself
+]
 
 { #category : #announcing }
 CpViewProxy >> announce: anAnnouncement [
@@ -29,14 +44,9 @@ CpViewProxy >> announcer [
 { #category : #'reflective operations' }
 CpViewProxy >> doesNotUnderstand: aMessage [
 
-	| presenter |
+	"Let the presenter send the message to the actual view"
 
-	"Only presenters should send messages to views, the sender should therefore be a Presenter"
-	presenter := thisContext sender receiver.
-	presenter isPresenter
-		ifFalse: [ self error: 'Only presenters are allowed to send messages to the view (through the CpViewProxy)' ].
-
-	presenter sendMessageToView: aMessage
+	self presenter sendMessageToView: aMessage
 ]
 
 { #category : #initialization }
@@ -48,11 +58,26 @@ CpViewProxy >> initialize [
 ]
 
 { #category : #initialization }
+CpViewProxy >> initializeWith: aPresenter [
+
+	self initialize.
+
+	presenter := aPresenter
+]
+
+{ #category : #accessing }
+CpViewProxy >> presenter [
+
+	^ presenter
+]
+
+{ #category : #initialization }
 CpViewProxy >> release [
 
 	announcer ifNotNil: [ 
 		announcer subscriptions reset.
 		announcer := nil ].
+	presenter := nil.
 
 	super release
 ]
