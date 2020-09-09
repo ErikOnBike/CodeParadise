@@ -155,7 +155,19 @@ CpPresenter >> initializeViewProxy [
 	viewProxy
 		ifNotNil: [ self error: 'View already created' ].
 
-	viewProxy := CpViewProxy newIn: self application environment forViewClass: self viewClass
+	viewProxy := CpViewProxy new
+		viewClass: self viewClass ;
+		yourself
+]
+
+{ #category : #testing }
+CpPresenter >> isPresenter [
+
+	"Answer whether the receiver is a Presenter.
+
+	Implementation: The CpViewProxy uses this to make sure only Presenters use the Proxy."
+
+	^ true
 ]
 
 { #category : #model }
@@ -266,6 +278,17 @@ CpPresenter >> renderView [
 
 	"Render the view of the receiver.
 	Subclasses should add relevant behavior."
+]
+
+{ #category : #view }
+CpPresenter >> sendMessageToView: aMessage [
+
+	"Send the specified message to the receiver's view"
+
+	self application environment
+		clientPerform: #performMessage:
+		withArguments: { aMessage }
+		receiver: self viewId
 ]
 
 { #category : #accessing }

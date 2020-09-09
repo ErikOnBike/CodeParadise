@@ -6,29 +6,11 @@ Class {
 	#name : #CpViewProxy,
 	#superclass : #Object,
 	#instVars : [
-		'environment',
 		'viewClass',
 		'announcer'
 	],
 	#category : #'CodeParadise-WebApplication-MVP-Core'
 }
-
-{ #category : #'instance creation' }
-CpViewProxy class >> newIn: anEnvironment [
-
-	^ self new
-		environment: anEnvironment ;
-		yourself
-]
-
-{ #category : #'instance creation' }
-CpViewProxy class >> newIn: anEnvironment forViewClass: aViewClass [
-
-	^ self new
-		environment: anEnvironment ;
-		viewClass: aViewClass ;
-		yourself
-]
 
 { #category : #announcing }
 CpViewProxy >> announce: anAnnouncement [
@@ -51,25 +33,10 @@ CpViewProxy >> doesNotUnderstand: aMessage [
 
 	"Only presenters should send messages to views, the sender should therefore be a Presenter"
 	presenter := thisContext sender receiver.
+	presenter isPresenter
+		ifFalse: [ self error: 'Only presenters are allowed to send messages to the view (through the CpViewProxy)' ].
 
-	self environment
-		clientPerform: #performMessage:
-		withArguments: { aMessage }
-		receiver: presenter viewId
-]
-
-{ #category : #accessing }
-CpViewProxy >> environment [
-
-	"Answer the ServerEnvironment the receiver is running in"
-
-	^ environment
-]
-
-{ #category : #accessing }
-CpViewProxy >> environment: anEnvironment [
-
-	environment := anEnvironment
+	presenter sendMessageToView: aMessage
 ]
 
 { #category : #initialization }
@@ -86,7 +53,6 @@ CpViewProxy >> release [
 	announcer ifNotNil: [ 
 		announcer subscriptions reset.
 		announcer := nil ].
-	environment := nil.
 
 	super release
 ]
