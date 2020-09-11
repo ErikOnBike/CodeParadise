@@ -20,8 +20,8 @@ CpTitledSlideView class >> style [
 		}
 		.header {
 			width: 100%;
-			height: 15%;
-			font-size: 4.5em;
+			height: 1.6em;
+			font-size: 4.5vw;
 			text-align: center;
 			overflow: hidden;
 			color: rgba(0, 105, 148, 1);
@@ -30,7 +30,7 @@ CpTitledSlideView class >> style [
 		}
 		.content {
 			width: 100%;
-			height: calc(100% - 15%);
+			height: calc(100% - 1.6em);
 			padding: 2.5% 2.5% 2.5% 2.5%;
 			font-size: 3em;
 			overflow: hidden;
