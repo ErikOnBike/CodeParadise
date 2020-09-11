@@ -123,14 +123,6 @@ CpWebApplication >> reload [
 	self clientBehaviorClass createIn: self environment
 ]
 
-{ #category : #actions }
-CpWebApplication >> stop [
-
-	"Stop the receiver by releasing it"
-
-	self release
-]
-
 { #category : #updating }
 CpWebApplication >> updateStyleViewClass: aViewClass [
 
