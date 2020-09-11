@@ -102,7 +102,7 @@ CpWebClientBehavior >> updateTemplateViewClass: viewClassName [
 		updateTemplate
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #support }
 CpWebClientBehavior >> viewClassForName: aSymbol [
 
 	"Answer the View class matching the specified Symbol.
