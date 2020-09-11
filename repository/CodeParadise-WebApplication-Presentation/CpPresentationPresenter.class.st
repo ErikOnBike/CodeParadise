@@ -50,19 +50,6 @@ CpPresentationPresenter >> currentSlideModel [
 	^ self model currentSlide
 ]
 
-{ #category : #view }
-CpPresentationPresenter >> defaultViewLocation [
-
-	"Answer the default location of the receiver's view (see also #viewLocation).
-	The result should be the id of the parent DOM element for the receiver's view
-	(i.e. the location where the receiver's view will be appended to).
-
-	Implementation:
-	See CpPresentationClientBehavior >> #initialize"
-
-	^ 'screen'
-]
-
 { #category : #deleting }
 CpPresentationPresenter >> destroy [
 

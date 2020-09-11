@@ -79,6 +79,20 @@ CpPresentationView >> initialize [
 
 	super initialize.
 
+	"Set styling of the page"
+	CpHtmlElement documentHead appendChild: ((CpHtmlElement newWithTag: #style)
+		textContent: '
+			body {
+				margin: 0;
+				padding: 0 ;
+				width: 100vw;
+				height: 100vh;
+				overflow: hidden;
+				font-family: "SF Pro Text", "Helvetica Neue", Helvetica, Arial, sans-serif;
+
+			}' ;
+		yourself).
+
 	"Add a cursor so we retrieve key events, but put it outside the visible area"
 	self appendChild: (CpCursor new
 		styleAt: #position put: 'absolute' ;

@@ -4,12 +4,6 @@ Class {
 	#category : #'CodeParadise-WebApplication-Presentation-Application'
 }
 
-{ #category : #accessing }
-CpPresentationWebApplication class >> clientBehaviorClass [
-
-	^ CpPresentationClientBehavior
-]
-
 { #category : #model }
 CpPresentationWebApplication >> createPresentationModel [
 

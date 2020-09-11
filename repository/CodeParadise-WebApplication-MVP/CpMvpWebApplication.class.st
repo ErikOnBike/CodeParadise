@@ -12,6 +12,12 @@ Class {
 	#category : #'CodeParadise-WebApplication-MVP-Core'
 }
 
+{ #category : #accessing }
+CpMvpWebApplication class >> clientBehaviorClass [
+
+	^ CpMvpWebClientBehavior
+]
+
 { #category : #'adding/removing' }
 CpMvpWebApplication >> addModel: aModel [
 
