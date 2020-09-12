@@ -238,6 +238,30 @@ CpDomElement >> focus [
 	self primitiveFailed
 ]
 
+{ #category : #attributes }
+CpDomElement >> hasAttributeAt: nameString [
+
+	"Answer whether the receiver has a value set for the specified attribute"
+
+	^ (self attributeAt: nameString) notNil
+]
+
+{ #category : #properties }
+CpDomElement >> hasPropertyAt: nameString [
+
+	"Answer whether the receiver has a value set for the specified property"
+
+	^ (self propertyAt: nameString) notNil
+]
+
+{ #category : #styles }
+CpDomElement >> hasStyleAt: nameString [
+
+	"Answer whether the receiver has a value set for the specified style"
+
+	^ (self styleAt: nameString) notNil
+]
+
 { #category : #'tag/id/classes' }
 CpDomElement >> id [
 
