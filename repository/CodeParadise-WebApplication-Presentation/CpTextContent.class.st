@@ -12,6 +12,16 @@ Class {
 	#category : #'CodeParadise-WebApplication-Presentation-Model'
 }
 
+{ #category : #accessing }
+CpTextContent class >> text: aString [
+
+	"Answer an instance of the receiver with the specified text"
+
+	^ self new
+		text: aString ;
+		yourself
+]
+
 { #category : #api }
 CpTextContent >> preferredPresenterClass [
 
