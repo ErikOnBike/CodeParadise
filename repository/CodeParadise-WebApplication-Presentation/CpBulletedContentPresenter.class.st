@@ -106,11 +106,16 @@ CpBulletedContentPresenter >> updateBullet: aSlideContentModel atPresenterIndex:
 	| bulletPresenter |
 
 	bulletPresenter := self bulletPresenters at: anInteger ifAbsent: [ nil ].
-	(bulletPresenter notNil and: [ bulletPresenter class = aSlideContentModel preferredPresenterClass ])
-		ifTrue: [
+
+	"Implementation: Do not check for presenter class here (like in
+	SlidePresenter >> #updateContentPresenter) because the presenter
+	class is fixed to CpBulletPresenter (which in turn does have a
+	similar #updateContentPresenter)."
+	bulletPresenter
+		ifNotNil: [
 				bulletPresenter model ~= aSlideContentModel
 					ifTrue: [ bulletPresenter model: aSlideContentModel ] ]
-		ifFalse: [ self createBulletPresenterFor: aSlideContentModel at: anInteger ]
+		ifNil: [ self createBulletPresenterFor: aSlideContentModel at: anInteger ]
 ]
 
 { #category : #presenter }
