@@ -49,5 +49,7 @@ CpCounterWebApplication >> load [
 	"Create one global and one application specific counter.
 	These presenters will be installed when #load or #reload is called on the receiver."
 	self createPresenter: CpCounterPresenter forModel: (self addModel: self class globalCounter).
-	self createPresenter: CpCounterPresenter forModel: (self addModel: CpCounterModel new)
+	self createPresenter: CpCounterPresenter forModel: (self addModel: CpCounterModel new).
+
+	self clientRenderViews
 ]
