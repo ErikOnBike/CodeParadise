@@ -5,7 +5,7 @@ I have a title and content.
 "
 Class {
 	#name : #CpSlide,
-	#superclass : #Model,
+	#superclass : #CpModel,
 	#instVars : [
 		'content'
 	],

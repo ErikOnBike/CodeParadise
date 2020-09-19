@@ -5,7 +5,7 @@ I have zero or more slides.
 "
 Class {
 	#name : #CpSlideDeck,
-	#superclass : #Model,
+	#superclass : #CpModel,
 	#instVars : [
 		'slides'
 	],

@@ -9,7 +9,7 @@ use my slideDeck and for #previousSlide I use my slideStack.
 "
 Class {
 	#name : #CpPresentation,
-	#superclass : #Model,
+	#superclass : #CpModel,
 	#instVars : [
 		'title',
 		'slideDeck',
