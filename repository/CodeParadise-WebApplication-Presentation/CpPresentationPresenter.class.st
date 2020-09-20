@@ -96,7 +96,7 @@ CpPresentationPresenter >> hasSlidesCarouselPresenter [
 	^ self slidesCarouselPresenter notNil
 ]
 
-{ #category : #model }
+{ #category : #'user interaction' }
 CpPresentationPresenter >> nextSlide [
 
 	self hasSlidesCarouselPresenter
@@ -104,7 +104,7 @@ CpPresentationPresenter >> nextSlide [
 		ifFalse: [ self model nextSlide ]
 ]
 
-{ #category : #model }
+{ #category : #'user interaction' }
 CpPresentationPresenter >> previousSlide [
 
 	self hasSlidesCarouselPresenter
@@ -112,13 +112,13 @@ CpPresentationPresenter >> previousSlide [
 		ifFalse: [ self model previousSlide ]
 ]
 
-{ #category : #view }
+{ #category : #'user interaction' }
 CpPresentationPresenter >> refreshSlide [
 
 	self renderView
 ]
 
-{ #category : #view }
+{ #category : #'user interaction' }
 CpPresentationPresenter >> removeSlideIndex [
 
 	self hasSlidesCarouselPresenter
@@ -150,7 +150,7 @@ CpPresentationPresenter >> slidePresenter [
 	^ slidePresenter
 ]
 
-{ #category : #'presenter - slide' }
+{ #category : #'user interaction' }
 CpPresentationPresenter >> slideSelected: aSlide [
 
 	self model goToSlide: aSlide
@@ -162,7 +162,7 @@ CpPresentationPresenter >> slidesCarouselPresenter [
 	^ slidesCarouselPresenter
 ]
 
-{ #category : #view }
+{ #category : #'user interaction' }
 CpPresentationPresenter >> toggleSlideIndex [
 
 	self hasSlidesCarouselPresenter

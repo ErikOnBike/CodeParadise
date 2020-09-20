@@ -19,13 +19,13 @@ CpLinkedContentPresenter >> contentModel [
 	^ self model content
 ]
 
-{ #category : #model }
+{ #category : #presenter }
 CpLinkedContentPresenter >> contentPresenter [
 
 	^ contentPresenter
 ]
 
-{ #category : #model }
+{ #category : #presenter }
 CpLinkedContentPresenter >> createContentPresenter [
 
 	"Create a new SlideContent Presenter for the receiver's model"
@@ -40,7 +40,7 @@ CpLinkedContentPresenter >> createContentPresenter [
 		forModel: contentModel
 ]
 
-{ #category : #model }
+{ #category : #deleting }
 CpLinkedContentPresenter >> destroy [
 
 	"Destroy the receiver, but first its children"
@@ -50,7 +50,7 @@ CpLinkedContentPresenter >> destroy [
 	super destroy
 ]
 
-{ #category : #model }
+{ #category : #presenter }
 CpLinkedContentPresenter >> destroyContentPresenter [
 
 	"Destroy the SlideContent Presenter of the receiver's model"
@@ -62,19 +62,19 @@ CpLinkedContentPresenter >> destroyContentPresenter [
 	contentPresenter := nil
 ]
 
-{ #category : #model }
+{ #category : #presenter }
 CpLinkedContentPresenter >> hasContentPresenter [
 
 	^ self contentPresenter notNil
 ]
 
-{ #category : #view }
+{ #category : #'user interaction' }
 CpLinkedContentPresenter >> linkedSlideSelected [
 
 	self parent slideSelected: self model linkedSlide
 ]
 
-{ #category : #model }
+{ #category : #view }
 CpLinkedContentPresenter >> renderView [
 
 	"Render view of the receiver"
@@ -86,7 +86,7 @@ CpLinkedContentPresenter >> renderView [
 
 ]
 
-{ #category : #model }
+{ #category : #presenter }
 CpLinkedContentPresenter >> updateContentPresenter [
 
 	"Update the SlideContent Presenter.

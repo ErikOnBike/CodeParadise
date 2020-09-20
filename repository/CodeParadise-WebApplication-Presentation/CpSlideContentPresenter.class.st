@@ -8,7 +8,7 @@ Class {
 	#category : #'CodeParadise-WebApplication-Presentation-Presenter'
 }
 
-{ #category : #presenter }
+{ #category : #'user interaction' }
 CpSlideContentPresenter >> slideSelected: aSlide [
 
 	self parent slideSelected: aSlide

@@ -24,7 +24,7 @@ CpBulletPresenter >> contentModel [
 	^ self model
 ]
 
-{ #category : #testing }
+{ #category : #presenter }
 CpBulletPresenter >> contentPresenter [
 
 	^ contentPresenter
@@ -67,7 +67,7 @@ CpBulletPresenter >> destroyContentPresenter [
 	contentPresenter := nil
 ]
 
-{ #category : #testing }
+{ #category : #presenter }
 CpBulletPresenter >> hasContentPresenter [
 
 	^ self contentPresenter notNil
@@ -89,7 +89,7 @@ CpBulletPresenter >> renderView [
 
 ]
 
-{ #category : #presenter }
+{ #category : #'user interaction' }
 CpBulletPresenter >> slideSelected: aSlide [
 
 	self parent slideSelected: aSlide

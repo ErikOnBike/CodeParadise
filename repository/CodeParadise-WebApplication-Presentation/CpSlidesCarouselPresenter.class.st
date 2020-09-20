@@ -63,7 +63,7 @@ CpSlidesCarouselPresenter >> currentSlideIndex: anInteger [
 	currentSlideIndex := anInteger
 ]
 
-{ #category : #presenter }
+{ #category : #deleting }
 CpSlidesCarouselPresenter >> destroy [
 
 	"Destroy the receiver, but first its children"
@@ -93,7 +93,7 @@ CpSlidesCarouselPresenter >> initialize [
 	slidePresenters := OrderedCollection new
 ]
 
-{ #category : #api }
+{ #category : #'user interaction' }
 CpSlidesCarouselPresenter >> nextSlide [
 
 	"No need to take account wrapping, is done in #currentSlide"
@@ -101,7 +101,7 @@ CpSlidesCarouselPresenter >> nextSlide [
 	self currentSlideIndex: self currentSlideIndex + 1
 ]
 
-{ #category : #api }
+{ #category : #'user interaction' }
 CpSlidesCarouselPresenter >> previousSlide [
 
 	"No need to take account wrapping, is done in #currentSlide"

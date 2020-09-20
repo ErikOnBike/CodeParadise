@@ -79,7 +79,7 @@ CpSlidePresenter >> renderView [
 
 ]
 
-{ #category : #presenter }
+{ #category : #'user interaction' }
 CpSlidePresenter >> slideSelected: aSlide [
 
 	self parent slideSelected: aSlide

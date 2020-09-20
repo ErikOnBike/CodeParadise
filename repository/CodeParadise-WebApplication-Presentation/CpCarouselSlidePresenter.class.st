@@ -55,7 +55,7 @@ CpCarouselSlidePresenter >> destroySlidePresenter [
 	slidePresenter := nil
 ]
 
-{ #category : #testing }
+{ #category : #presenter }
 CpCarouselSlidePresenter >> hasSlidePresenter [
 
 	^ self slidePresenter notNil
@@ -78,7 +78,7 @@ CpCarouselSlidePresenter >> slideModel [
 	^ self model
 ]
 
-{ #category : #testing }
+{ #category : #presenter }
 CpCarouselSlidePresenter >> slidePresenter [
 
 	^ slidePresenter
