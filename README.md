@@ -84,8 +84,8 @@ When you are done or want to reset the environment, the following code can be ex
 ```Smalltalk
 "Stop all server instances and applications"
 ZnServer allSubInstances do: [ :each | (each port = 8080 and: [ each isRunning]) ifTrue: [ each stop ] ].
-CpRemoteEnvironmentServer allInstances do: [ :each | each stop ].
 CpServerApplication allSubInstances do: [ :each | each stop ].
+CpRemoteEnvironmentServer allInstances do: [ :each | each stop ].
 
 "Unregister applications"
 CpDomExamplesWebApplication unregister.
