@@ -179,7 +179,7 @@ CpClientEnvironment class >> release [
 	PreInstalledClasses := nil
 ]
 
-{ #category : #logging }
+{ #category : #'user interaction' }
 CpClientEnvironment >> alert: aString [
 
 	"Alert user with specified message (please use sparsely)"
@@ -196,6 +196,15 @@ CpClientEnvironment >> app [
 
 	^ (self variableAt: #APP)
 		ifNil: [ self fatal: 'The environment variable #APP is not properly set' ]
+]
+
+{ #category : #'user interaction' }
+CpClientEnvironment >> confirm: aString [
+
+	"Confirm specified message with user (please use sparsely)"
+
+	self primConfirm: aString
+
 ]
 
 { #category : #support }
@@ -346,6 +355,19 @@ CpClientEnvironment >> installMethod: aCompiledMethod [
 
 ]
 
+{ #category : #performing }
+CpClientEnvironment >> invalidSession [
+
+	"An invalid session is encountered, ask user whether to start new session"
+
+	(self confirm: 'The session is invalid. Start new session?')
+		ifFalse: [ ^ self ].
+
+	"Reset client identifier and (fully) reload"
+	self removeVariableAt: #CLIENT_ID.
+	self reload
+]
+
 { #category : #logging }
 CpClientEnvironment >> log: aString [
 
@@ -367,15 +389,31 @@ CpClientEnvironment >> objectRegistry [
 { #category : #primitives }
 CpClientEnvironment >> primAlert: aString [
 
-	<primitive: 'primitiveAlert:' module: 'CpSystemPlugin'>
+	<primitive: 'primitiveEnvironmentAlert:' module: 'CpSystemPlugin'>
 	^ self
+
+]
+
+{ #category : #primitives }
+CpClientEnvironment >> primConfirm: aString [
+
+	<primitive: 'primitiveEnvironmentConfirm:' module: 'CpSystemPlugin'>
+	^ false
 
 ]
 
 { #category : #primitives }
 CpClientEnvironment >> primLog: aString [
 
-	<primitive: 'primitiveLog:' module: 'CpSystemPlugin'>
+	<primitive: 'primitiveEnvironmentLog:' module: 'CpSystemPlugin'>
+	^ self
+
+]
+
+{ #category : #primitives }
+CpClientEnvironment >> primReload [
+
+	<primitive: 'primitiveEnvironmentReload' module: 'CpSystemPlugin'>
 	^ self
 
 ]
@@ -388,6 +426,24 @@ CpClientEnvironment >> release [
 	objectRegistry := nil.
 
 	super release
+]
+
+{ #category : #performing }
+CpClientEnvironment >> reload [
+
+	"Reload the receiver (changes might get lost, use sparsely)"
+
+	self primReload
+]
+
+{ #category : #accessing }
+CpClientEnvironment >> removeVariableAt: nameString [
+
+	"Remove the environment variable with the specified name.
+	Case sensitivity is not defined, for compatibilty best use all uppercase names."
+
+	<primitive: 'primitiveEnvironmentRemoveVariableAt:' module: 'CpSystemPlugin'>
+	^ self
 ]
 
 { #category : #'input/output' }

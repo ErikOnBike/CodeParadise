@@ -83,7 +83,7 @@ CpRemoteEnvironmentServer >> handleMessageReceived: aByteArray on: aMessageChann
 			self
 				serverEnvironmentForId: id 
 				ifAbsent: [
-					aMessageChannel sendMessage: CpServerEnvironment invalidSessionAlertMessage.
+					aMessageChannel sendMessage: CpServerEnvironment invalidSessionMessage.
 					^ self ] ]
 		ifNil: [ self createServerEnvironment ].
 
