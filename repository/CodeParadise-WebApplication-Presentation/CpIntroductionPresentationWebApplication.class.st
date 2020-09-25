@@ -14,45 +14,37 @@ CpIntroductionPresentationWebApplication class >> app [
 CpIntroductionPresentationWebApplication >> createExplainApplicationSlide [
 
 	^ CpTitledSlide new
-		title: 'Explanation: web applications' ;
+		title: 'Web applications' ;
 		content: (CpBulletedContent new
 			addBullet: (CpTextContent new
 				text: 'CodeParadise supports building web applications' ;
 				yourself) ;
+			addBullet: (CpTextContent new
+				text: 'Using Smalltalk only' ;
+				yourself) ;
+			addBullet: (CpTextContent new
+				text: 'Web applications are created using' ;
+				yourself) ;
 			addBullet: (CpBulletedContent new
 				addBullet: (CpTextContent new
-					text: 'Smalltalk code runs server-side and client-side (in browser)' ;
+					text: 'A server-side CpWebApplication class (or subclass)' ;
 					yourself) ;
 				addBullet: (CpTextContent new
-					text: 'Typically it consists of a server-side CpWebApplication (class)' ;
-					yourself) ;
-				addBullet: (CpTextContent new
-					text: 'And a client-side CpWebClientBehavior (class)' ;
-					yourself) ;
-				addBullet: (CpTextContent new
-					text: 'This combo delivers the required application functionality' ;
+					text: 'A client-side CpWebClientBehavior class (or subclass)' ;
 					yourself) ;
 				yourself) ;
 			addBullet: (CpTextContent new
-				text: 'In the Pharo IDE an Inspector is opened' ;
+				text: 'The client-side code runs in the browser' ;
 				yourself) ;
 			addBullet: (CpBulletedContent new
-				addBullet: (CpTextContent new
-					text: 'The Inspector shows the CpWebApplication instance' ;
+				addBullet: (CpHtmlContent new
+					html: 'Using SqueakJS VM - <a href="https://squeak.js.org" target="_target">https://squeak.js.org</a>' ;
 					yourself) ;
 				addBullet: (CpTextContent new
-					text: 'The Application knows its Models and Presenters' ;
+					text: 'In a tiny Smalltalk image' ;
 					yourself) ;
 				addBullet: (CpTextContent new
-					text: 'The Presenters know their Views (and Models)' ;
-					yourself) ;
-				yourself) ;
-			addBullet: (CpTextContent new
-				text: 'Interact with the application by executing (from Inspector)' ;
-				yourself) ;
-			addBullet: (CpBulletedContent new
-				addBullet: (CpTextContent new
-					text: 'self models first nextSlide' ;
+					text: 'Where code is installed dynamically' ;
 					yourself) ;
 				yourself) ;
 			yourself) ;
@@ -60,82 +52,44 @@ CpIntroductionPresentationWebApplication >> createExplainApplicationSlide [
 ]
 
 { #category : #model }
-CpIntroductionPresentationWebApplication >> createExplainModelSlide [
+CpIntroductionPresentationWebApplication >> createExplainMvpApplicationSlide [
 
 	^ CpTitledSlide new
-		title: 'Explanation: Model' ;
+		title: 'Web applications with MVP' ;
 		content: (CpBulletedContent new
 			addBullet: (CpTextContent new
-				text: 'The presentation (this slideshow) is a Model' ;
+				text: 'Model View Presenter (with Passive View)' ;
+				yourself) ;
+			addBullet: (CpTextContent new
+				text: 'For the MVP pattern specific classes are present' ;
+				yourself) ;
+			addBullet: (CpTextContent new
+				text: 'Server-side' ;
 				yourself) ;
 			addBullet: (CpBulletedContent new
 				addBullet: (CpTextContent new
-					text: 'An object with behavior and state' ;
+					text: 'CpMvpWebApplication' ;
 					yourself) ;
 				addBullet: (CpTextContent new
-					text: 'Representing a real world presentation' ;
+					text: 'CpModel (or plain Model)' ;
+					yourself) ;
+				addBullet: (CpTextContent new
+					text: 'CpPresenter' ;
 					yourself) ;
 				yourself) ;
 			addBullet: (CpTextContent new
-				text: 'You just asked it for its next slide' ;
+				text: 'Client-side (running in the browser)' ;
 				yourself) ;
 			addBullet: (CpBulletedContent new
 				addBullet: (CpTextContent new
-					text: 'Because "self models first" refers to the Presentation model' ;
+					text: 'CpMvpWebClientBehavior' ;
 					yourself) ;
 				addBullet: (CpTextContent new
-					text: 'Sending the message #nextSlide made the Presentation advance' ;
+					text: 'CpView' ;
 					yourself) ;
 				yourself) ;
 			addBullet: (CpTextContent new
-				text: 'Try executing the following line again (in the Inspector)' ;
-				yourself) ;
-			addBullet: (CpBulletedContent new
-				addBullet: (CpTextContent new
-					text: 'self models first nextSlide' ;
-					yourself) ;
-				yourself) ;
-			yourself) ;
-		yourself
-]
-
-{ #category : #model }
-CpIntroductionPresentationWebApplication >> createExplainModelSuccessSlide [
-
-	^ CpTitledSlide new
-		title: 'Explanation: Model updated' ;
-		content: (CpBulletedContent new
-			addBullet: (CpTextContent new
-				text: 'Very good! The model is updated' ;
-				yourself) ;
-			addBullet: (CpTextContent new
-				text: 'And because MVP is applied the view updated too' ;
-				yourself) ;
-			addBullet: (CpBulletedContent new
-				addBullet: (CpTextContent new
-					text: 'The Model changed state' ;
-					yourself) ;
-				addBullet: (CpTextContent new
-					text: 'The Model announced this change' ;
-					yourself) ;
-				addBullet: (CpTextContent new
-					text: 'The Presenter is subscribed to announcements of the Model' ;
-					yourself) ;
-				addBullet: (CpTextContent new
-					text: 'The Presenter therefore received the announcement' ;
-					yourself) ;
-				addBullet: (CpTextContent new
-					text: 'The Presenter rendered the (new) current slide on its View' ;
-					yourself) ;
-				addBullet: (CpTextContent new
-					text: 'The View received relevant information like title and content' ;
-					yourself) ;
-				addBullet: (CpTextContent new
-					text: 'The View updated the HTML in the browser' ;
-					yourself) ;
-				yourself) ;
-			addBullet: (CpTextContent new
-				text: '(Just press <Space> or <Right> to go to next slide)' ;
+				text: 'Let''s look at these in turn' ;
 				yourself) ;
 			yourself) ;
 		yourself
@@ -148,10 +102,10 @@ CpIntroductionPresentationWebApplication >> createExplanationSlide [
 		title: 'Explanation' ;
 		content: (CpBulletedContent new
 			addBullet: (CpTextContent new
-				text: 'This presentation is an example application' ;
+				text: 'This presentation is an example web application' ;
 				yourself) ;
-			addBullet: (CpTextContent new
-				text: 'It is built using the Model View Presenter pattern' ;
+			addBullet: (CpHtmlContent new
+				html: 'It is built using the <a href="https://www.martinfowler.com/eaaDev/PassiveScreen.html" target="_blank">Model View Presenter</a> pattern' ;
 				yourself) ;
 			addBullet: (CpTextContent new
 				text: 'It also acts as a small tutorial' ;
@@ -203,6 +157,122 @@ CpIntroductionPresentationWebApplication >> createIntroductionSlide [
 ]
 
 { #category : #model }
+CpIntroductionPresentationWebApplication >> createModelClassSlide [
+
+	^ CpTitledSlide new
+		title: 'CpModel class' ;
+		content: (CpBulletedContent new
+			addBullet: (CpTextContent new
+				text: 'Normally you update a model' ;
+				yourself) ;
+			addBullet: (CpTextContent new
+				text: 'Which will announce a change' ;
+				yourself) ;
+			addBullet: (CpTextContent new
+				text: 'Presenters will have subscribed to these announcements' ;
+				yourself) ;
+			addBullet: (CpTextContent new
+				text: 'And will update their view accordingly' ;
+				yourself) ;
+			addBullet: (CpTextContent new
+				text: 'Let''s update the presentation model' ;
+				yourself) ;
+			addBullet: (CpTextContent new
+				text: 'From the application Inspector' ;
+				yourself) ;
+			addBullet: (CpBulletedContent new
+				addBullet: (CpDemoApplicationCodeContent new
+					code: 'self presentationModel currentSlide title: ''Change!''' ;
+					yourself) ;
+				addBullet: (CpDemoApplicationCodeContent new
+					code: ('self presentationModel currentSlide content
+	addBullet: (CpTextContent text: ''Added dynamically'')' replaceAll: Character cr with: Character lf) ;
+					yourself) ;
+				yourself) ;
+			yourself) ;
+		yourself
+]
+
+{ #category : #model }
+CpIntroductionPresentationWebApplication >> createMvpWebApplicationClassSlide [
+
+	^ CpTitledSlide new
+		title: 'CpMvpWebApplication class' ;
+		content: (CpBulletedContent new
+			addBullet: (CpTextContent new
+				text: 'Yes, the next slide is shown!' ;
+				yourself) ;
+			addBullet: (CpTextContent new
+				text: 'This demo application is derived from CpMvpWebApplication' ;
+				yourself) ;
+			addBullet: (CpBulletedContent new
+				addBullet: (CpTextContent new
+					text: 'Which keeps track of its models' ;
+					yourself) ;
+				addBullet: (CpTextContent new
+					text: 'And its presenters' ;
+					yourself) ;
+				yourself) ;
+			addBullet: (CpTextContent new
+				text: 'Try again (from the Inspector)' ;
+				yourself) ;
+			addBullet: (CpBulletedContent new
+				addBullet: (CpDemoApplicationCodeContent new
+					code: 'self showNextSlide' ;
+					yourself) ;
+				yourself) ;
+			yourself) ;
+		yourself
+]
+
+{ #category : #model }
+CpIntroductionPresentationWebApplication >> createMvpWebClientBehaviorClassSlide [
+
+	^ CpTitledSlide new
+		title: 'CpMvpWebClientBehavior class' ;
+		content: (CpBulletedContent new
+			addBullet: (CpTextContent new
+				text: 'This browser runs an instance of CpMvpWebClientBehavior' ;
+				yourself) ;
+			addBullet: (CpBulletedContent new
+				addBullet: (CpTextContent new
+					text: 'Which installs an event handler' ;
+					yourself) ;
+				addBullet: (CpTextContent new
+					text: 'And creates/instantiates views' ;
+					yourself) ;
+				addBullet: (CpTextContent new
+					text: 'The views receive the events triggered on them' ;
+					yourself) ;
+				addBullet: (CpHtmlContent new
+					html: 'The views are WebComponents - <a href="https://www.webcomponents.org/introduction" target="_blank">https://www.webcomponents.org</a>' ;
+					yourself) ;
+				yourself) ;
+			addBullet: (CpTextContent new
+				text: 'Let''s update a view live' ;
+				yourself) ;
+			addBullet: (CpBulletedContent new
+				addBullet: (CpTextContent new
+					text: 'Open a Browser on CpTitledSlideView' ;
+					yourself) ;
+				addBullet: (CpTextContent new
+					text: 'Go to the class method #style' ;
+					yourself) ;
+				addBullet: (CpTextContent new
+					text: 'It contains a CSS definition' ;
+					yourself) ;
+				addBullet: (CpTextContent new
+					text: 'Try changing font-size or color' ;
+					yourself) ;
+				addBullet: (CpTextContent new
+					text: 'As soon as you save the change the browser will update!' ;
+					yourself) ;
+				yourself) ;
+			yourself) ;
+		yourself
+]
+
+{ #category : #model }
 CpIntroductionPresentationWebApplication >> createPresentationModel [
 
 	"Create and answer the PresentationModel for the presentation"
@@ -211,9 +281,129 @@ CpIntroductionPresentationWebApplication >> createPresentationModel [
 		addSlide: self createIntroductionSlide ;
 		addSlide: self createExplanationSlide ;
 		addSlide: self createExplainApplicationSlide ;
-		addSlide: self createExplainModelSlide ;
-		addSlide: self createExplainModelSuccessSlide ;
+		addSlide: self createExplainMvpApplicationSlide ;
+		addSlide: self createWebApplicationClassSlide ;
+		addSlide: self createMvpWebApplicationClassSlide ;
+		addSlide: self createMvpWebClientBehaviorClassSlide ;
+		addSlide: self createViewClassSlide ;
+		addSlide: self createModelClassSlide ;
+		addSlide: self createPresenterClassSlide ;
 		addSlide: self createFinalSlide ;
+		yourself
+]
+
+{ #category : #model }
+CpIntroductionPresentationWebApplication >> createPresenterClassSlide [
+
+	^ CpTitledSlide new
+		title: 'CpPresenter class' ;
+		content: (CpBulletedContent new
+			addBullet: (CpTextContent new
+				text: 'The Presenter is our man in the middle' ;
+				yourself) ;
+			addBullet: (CpTextContent new
+				text: 'It handles announcements from the Model' ;
+				yourself) ;
+			addBullet: (CpTextContent new
+				text: 'It handles announcements from the View' ;
+				yourself) ;
+			addBullet: (CpTextContent new
+				text: 'It asks the Model to update' ;
+				yourself) ;
+			addBullet: (CpTextContent new
+				text: 'It asks the View to render information' ;
+				yourself) ;
+			addBullet: (CpTextContent new
+				text: 'Don''t make it too smart!' ;
+				yourself) ;
+			addBullet: (CpBulletedContent new
+				addBullet: (CpTextContent new
+					text: 'Don''t add business logic' ;
+					yourself) ;
+				addBullet: (CpTextContent new
+					text: 'Delegate as much as possible' ;
+					yourself) ;
+				addBullet: (CpTextContent new
+					text: 'To the Model or the View' ;
+					yourself) ;
+				yourself) ;
+			yourself) ;
+		yourself
+]
+
+{ #category : #model }
+CpIntroductionPresentationWebApplication >> createViewClassSlide [
+
+	^ CpTitledSlide new
+		title: 'CpView class' ;
+		content: (CpBulletedContent new
+			addBullet: (CpTextContent new
+				text: 'You already changed the appearance of a view' ;
+				yourself) ;
+			addBullet: (CpTextContent new
+				text: 'Now let''s add behavior live' ;
+				yourself) ;
+			addBullet: (CpBulletedContent new
+				addBullet: (CpTextContent new
+					text: 'Click near the top of the window, nothing happens' ;
+					yourself) ;
+				addBullet: (CpTextContent new
+					text: 'Open a Browser on CpTitledSlideView' ;
+					yourself) ;
+				addBullet: (CpTextContent new
+					text: 'Add the following instance method' ;
+					yourself) ;
+				addBullet: (CpDemoCodeContent new
+					code: ('handleClickEvent: aClickEvent
+	aClickEvent clickPoint y < 80
+		ifTrue: [ ^ self renderTitle: ''I am clicked'' ].
+
+	super handleClickEvent: aClickEvent
+' replaceAll: Character cr with: Character lf) ;
+					yourself) ;
+				addBullet: (CpTextContent new
+					text: 'Now click near the top of the window again' ;
+					yourself) ;
+				addBullet: (CpTextContent new
+					text: 'The method got installed dynamically (no need to reload)' ;
+					yourself) ;
+				yourself) ;
+			yourself) ;
+		yourself
+]
+
+{ #category : #model }
+CpIntroductionPresentationWebApplication >> createWebApplicationClassSlide [
+
+	^ CpTitledSlide new
+		title: 'CpWebApplication class' ;
+		content: (CpBulletedContent new
+			addBullet: (CpTextContent new
+				text: 'An instance is created for every session' ;
+				yourself) ;
+			addBullet: (CpTextContent new
+				text: 'Currently no session management implemented' ;
+				yourself) ;
+			addBullet: (CpTextContent new
+				text: 'Therefore use following to clean up sessions' ;
+				yourself) ;
+			addBullet: (CpBulletedContent new
+				addBullet: (CpDemoCodeContent new
+					code: 'CpWebApplication allSubInstances do: [ :each | each stop ]' ;
+					yourself) ;
+				yourself) ;
+			addBullet: (CpTextContent new
+				text: 'An Inspector is opened on this demo application' ;
+				yourself) ;
+			addBullet: (CpTextContent new
+				text: 'Interact with the application by executing (from Inspector)' ;
+				yourself) ;
+			addBullet: (CpBulletedContent new
+				addBullet: (CpDemoApplicationCodeContent new
+					code: 'self showNextSlide' ;
+					yourself) ;
+				yourself) ;
+			yourself) ;
 		yourself
 ]
 
@@ -229,4 +419,60 @@ CpIntroductionPresentationWebApplication >> load [
 	super load.
 
 	self inspect
+]
+
+{ #category : #actions }
+CpIntroductionPresentationWebApplication >> openInspector [
+
+	"Open an Inspector on the receiver and answer it"
+
+	^ self inspector
+]
+
+{ #category : #actions }
+CpIntroductionPresentationWebApplication >> openInspectorEvaluator [
+
+	"Answer the evaluator of a newly opened Inspector on the receiver"
+
+	self openInspector allMorphsDo: [ :morph |
+		(morph class name includesSubstring: 'TextMorph')
+			ifTrue: [ ^ morph ] ].
+
+	^ nil
+]
+
+{ #category : #actions }
+CpIntroductionPresentationWebApplication >> openInspectorEvaluatorWithSelectedText: aString [
+
+	"Open a new Inspector on the receiver and show selected text"
+
+	| evaluator |
+
+	evaluator := self openInspectorEvaluator ifNil: [ ^ self ].
+
+	evaluator
+		setTextWith: aString ;
+		selectAll
+]
+
+{ #category : #accessing }
+CpIntroductionPresentationWebApplication >> presentationModel [
+
+	"Answer the presentation Model.
+
+	Implementation: Only the presentation is added as a Model to the receiver."
+
+	^ self models first
+]
+
+{ #category : #actions }
+CpIntroductionPresentationWebApplication >> showNextSlide [
+
+	self presentationModel nextSlide
+]
+
+{ #category : #actions }
+CpIntroductionPresentationWebApplication >> showPreviousSlide [
+
+	self presentationModel previousSlide
 ]
