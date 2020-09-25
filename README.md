@@ -109,11 +109,12 @@ Smalltalk garbageCollect.
 
 If all went well you should be able to fire up a number of browser tabs/pages and start using the example applications. Profit warning: the examples are still very limited, but should allow some insight in what is possible and allow you to play with it yourself.
 
-The two applications can be reached using the following URLs:
+The example applications can be reached using the following URLs:
 * DOM Examples [http://localhost:8080/static/app.html?DOM-Examples](http://localhost:8080/static/app.html?DOM-Examples)
 * Component Examples [http://localhost:8080/static/app.html?Component-Examples](http://localhost:8080/static/app.html?Component-Examples)
 * Counter Example [http://localhost:8080/static/app.html?counter](http://localhost:8080/static/app.html?counter)
 * Fomantic Examples [http://localhost:8080/static/app.html?Fomantic-Examples](http://localhost:8080/static/app.html?Fomantic-Examples)
+* Introduction Presentation [http://localhost:8080/static/app.html?presentation](http://localhost:8080/static/app.html?presentation)
 
 ## Troubleshooting
 
