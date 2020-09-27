@@ -21,7 +21,7 @@ CpTitledSlideView class >> style [
 		.header {
 			width: 100%;
 			height: 1.6em;
-			font-size: 4.5vw;
+			font-size: 4.5em;
 			text-align: center;
 			overflow: hidden;
 			color: rgba(0, 105, 148, 1);

@@ -20,7 +20,7 @@ CpCarouselSlideView class >> style [
 			top: 50px;
 			border: 3px solid black;
 			border-radius: 2em;
-			font-size: .75em;
+			font-size: .6em;
 			transition: transform 1s, opacity 1s;
 			overflow: hidden;
 		}
