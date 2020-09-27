@@ -288,6 +288,7 @@ CpIntroductionPresentationWebApplication >> createPresentationModel [
 		addSlide: self createViewClassSlide ;
 		addSlide: self createModelClassSlide ;
 		addSlide: self createPresenterClassSlide ;
+		addSlide: self createSlideIndexSlide ;
 		addSlide: self createFinalSlide ;
 		yourself
 ]
@@ -326,6 +327,45 @@ CpIntroductionPresentationWebApplication >> createPresenterClassSlide [
 				addBullet: (CpTextContent new
 					text: 'To the Model or the View' ;
 					yourself) ;
+				yourself) ;
+			yourself) ;
+		yourself
+]
+
+{ #category : #model }
+CpIntroductionPresentationWebApplication >> createSlideIndexSlide [
+
+	^ CpTitledSlide new
+		title: 'WebComponent reuse' ;
+		content: (CpBulletedContent new
+			addBullet: (CpTextContent new
+				text: 'WebComponents should be reusable components' ;
+				yourself) ;
+			addBullet: (CpTextContent new
+				text: 'As a small example' ;
+				yourself) ;
+			addBullet: (CpBulletedContent new
+				addBullet: (CpTextContent new
+					text: 'Open a slide-index by pressing <i>' ;
+					yourself) ;
+				addBullet: (CpTextContent new
+					text: 'Use <Left>, <Right>, <Space> or <Backspace> to chose slide' ;
+					yourself) ;
+				addBullet: (CpTextContent new
+					text: 'Press <i> again to close slide-index and make selected slide current' ;
+					yourself) ;
+				addBullet: (CpTextContent new
+					text: 'Press <Escape> to close slide-index and return to current slide' ;
+					yourself) ;
+				yourself) ;
+			addBullet: (CpTextContent new
+				text: 'The slides within the slide-index are reused' ;
+				yourself) ;
+			addBullet: (CpTextContent new
+				text: 'They use the same Presenter/View as regular slides' ;
+				yourself) ;
+			addBullet: (CpTextContent new
+				text: 'They are still interactive (see code examples)' ;
 				yourself) ;
 			yourself) ;
 		yourself
