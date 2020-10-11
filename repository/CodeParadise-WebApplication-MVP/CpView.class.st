@@ -11,7 +11,6 @@ Class {
 	#name : #CpView,
 	#superclass : #CpTemplateComponent,
 	#instVars : [
-		'announcer',
 		'keymapper'
 	],
 	#category : #'CodeParadise-WebApplication-MVP-Core'
@@ -55,24 +54,11 @@ CpView class >> template [
 	^ '<div>&lt;empty&gt;</div>'
 ]
 
-{ #category : #announcing }
-CpView >> announce: anAnnouncement [
-
-	self announcer announce: anAnnouncement
-]
-
-{ #category : #accessing }
-CpView >> announcer [
-
-	^ announcer
-]
-
 { #category : #initialization }
 CpView >> initialize [
 
 	super initialize.
 
-	announcer := Announcer new.
 	keymapper := CpKeyMapper new.
 
 	self class defaultKeyMapping keysAndValuesDo: [ :key :value |
@@ -98,9 +84,6 @@ CpView >> performMessage: aMessage [
 { #category : #initialization }
 CpView >> release [
 
-	announcer ifNotNil: [
-		announcer subscriptions reset.
-		announcer := nil ].
 	keymapper ifNotNil: [
 		keymapper release.
 		keymapper := nil ].
@@ -118,22 +101,4 @@ CpView >> serverAnnounce: anAnnouncement [
 
 	CpClientEnvironment current
 		serverAnnounce: (CpViewAnnouncement forView: self announcing: anAnnouncement asAnnouncement)
-]
-
-{ #category : #announcing }
-CpView >> when: anAnnouncementClass do: aBlock [
-
-	"Let the sender subscribe to the specified announcement of the receiver.
-	See Announcer>>#when:do:"
-
-	^ self announcer when: anAnnouncementClass do: aBlock
-]
-
-{ #category : #announcing }
-CpView >> when: anAnnouncementClass send: aSymbol to: anObject [
-
-	"Let the sender subscribe to the specified announcement of the receiver.
-	See Announcer>>#when:send:to:"
-
-	^ self announcer when: anAnnouncementClass send: aSymbol to: anObject
 ]

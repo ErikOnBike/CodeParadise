@@ -9,12 +9,6 @@ Class {
 	#category : #'CodeParadise-WebApplication-MVP-Core'
 }
 
-{ #category : #accessing }
-CpMvpWebClientBehavior class >> eventHandlerClass [
-
-	^ CpViewEventHandler
-]
-
 { #category : #creating }
 CpMvpWebClientBehavior >> createView: viewClassName withId: identifier atParentId: parentIdentifier atSlotNamed: slotName [
 

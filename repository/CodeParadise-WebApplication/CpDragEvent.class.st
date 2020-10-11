@@ -2,18 +2,11 @@ Class {
 	#name : #CpDragEvent,
 	#superclass : #CpPointerEvent,
 	#instVars : [
-		'startPoint',
 		'tracePoints',
 		'endPoint'
 	],
 	#category : #'CodeParadise-WebApplication-Events'
 }
-
-{ #category : #visiting }
-CpDragEvent >> accept: aVisitor [
-
-	aVisitor dragEvent: self
-]
 
 { #category : #accessing }
 CpDragEvent >> addTracePoint: aPoint [
@@ -69,30 +62,16 @@ CpDragEvent >> offset: aPoint [
 CpDragEvent >> printOn: aStream [
 
 	super printOn: aStream.
-	aStream nextPutAll: ', startPoint: '.
-	self startPoint printOn: aStream.
 	aStream nextPutAll: ', endPoint: '.
 	self endPoint printOn: aStream.
 	aStream nextPutAll: ', offset: '.
 	self offset printOn: aStream
 ]
 
-{ #category : #sending }
+{ #category : #visiting }
 CpDragEvent >> sendTo: anObject [
 
 	anObject handleDragEvent: self
-]
-
-{ #category : #accessing }
-CpDragEvent >> startPoint [
-
-	^ startPoint
-]
-
-{ #category : #accessing }
-CpDragEvent >> startPoint: aPoint [
-
-	startPoint := aPoint
 ]
 
 { #category : #accessing }

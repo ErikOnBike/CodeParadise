@@ -254,12 +254,9 @@ CpDomExamplesClientBehavior >> exampleToDo [
 ]
 
 { #category : #events }
-CpDomExamplesClientBehavior >> handleEvent: anEvent [
+CpDomExamplesClientBehavior >> handleClickEvent: anEvent [
 
 	| selector output |
-
-	anEvent class = CpClickEvent
-		ifFalse: [ ^ self ].
 
 	"Find example selector"
 	selector := anEvent target
@@ -365,5 +362,5 @@ CpDomExamplesClientBehavior >> showIndex [
 			yourself).
 
 		"Register interest in events on the list item"
-		CpBrowserEventHandler current registerInterestIn: example ]
+		example when: CpClickEvent send: #handleClickEvent: to: self ]
 ]

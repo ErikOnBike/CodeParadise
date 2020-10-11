@@ -2,7 +2,6 @@ Class {
 	#name : #FuiElement,
 	#superclass : #CpTemplateComponent,
 	#instVars : [
-		'announcer',
 		'classes'
 	],
 	#category : #'CodeParadise-WebApplication-Fomantic-Elements'
@@ -125,12 +124,6 @@ FuiElement >> addVariation: aSymbol deferUpdates: aBoolean [
 
 	self addClass: aSymbol at: 3.
 	aBoolean ifFalse: [ self updateDom ]
-]
-
-{ #category : #announcing }
-FuiElement >> announce: anAnnouncement [
-
-	self announcer announce: anAnnouncement
 ]
 
 { #category : #accessing }
@@ -392,24 +385,6 @@ FuiElement >> variations [
 	"Answer the variation values of the receiver"
 
 	^ self classesAt: 3
-]
-
-{ #category : #announcing }
-FuiElement >> when: anAnnouncementClass do: aBlock [
-
-	"Let the sender subscribe to the specified announcement of the receiver.
-	See Announcer>>#when:do:"
-
-	^ self announcer when: anAnnouncementClass do: aBlock
-]
-
-{ #category : #announcing }
-FuiElement >> when: anAnnouncementClass send: aSymbol to: anObject [
-
-	"Let the sender subscribe to the specified announcement of the receiver.
-	See Announcer>>#when:send:to:"
-
-	^ self announcer when: anAnnouncementClass send: aSymbol to: anObject
 ]
 
 { #category : #'private - accessing' }

@@ -39,7 +39,7 @@ CpPresentationView >> handleClickEvent: aClickEvent [
 
 	| pointX clickWidth |
 
-	pointX := aClickEvent clickPoint x.
+	pointX := aClickEvent point x.
 	clickWidth := self width / 10.
 	pointX < clickWidth
 		ifTrue: [ self serverAnnounce: CpPreviousSlide ]
@@ -58,7 +58,7 @@ CpPresentationView >> handleKeyPressEvent: aKeyEvent [
 	Wrap received key in '|' to make sure a full match is found."
 
 	| key |
-
+	self crTrace: aKeyEvent printString.
 	key := '|', aKeyEvent key, '|'.
 	('|ArrowLeft|Backspace|,|' includesSubstring: key)
 		ifTrue: [ ^ self serverAnnounce: CpPreviousSlide ].
@@ -93,11 +93,8 @@ CpPresentationView >> initialize [
 			}' ;
 		yourself).
 
-	"Add a cursor so we retrieve key events, but put it outside the visible area"
-	self appendChild: (CpCursor new
-		styleAt: #position put: 'absolute' ;
-		styleAt: #top put: '-2rem' ;
-		yourself)
+	"Add a key event handler on the body (where all key events will end up at the moment)"
+	CpHtmlElement documentBody when: CpKeyPressEvent send: #handleKeyPressEvent: to: self
 ]
 
 { #category : #rendering }

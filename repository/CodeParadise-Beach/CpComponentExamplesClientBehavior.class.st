@@ -55,7 +55,7 @@ CpComponentExamplesClientBehavior >> exampleCheckboxes [
 	outputElement appendChild: (' ' inHtmlTag: #span).
 
 	outputElement appendChild: ((CpButton label: 'Make mixed')
-			when: CpEventAnnouncement do: [ checkbox makeMixed ] ;
+			when: CpClickEvent do: [ checkbox makeMixed ] ;
 			yourself).
 
 ]
@@ -98,12 +98,9 @@ CpComponentExamplesClientBehavior >> exampleTextField [
 ]
 
 { #category : #events }
-CpComponentExamplesClientBehavior >> handleEvent: anEvent [
+CpComponentExamplesClientBehavior >> handleClickEvent: anEvent [
 
 	| selector output |
-
-	anEvent class = CpClickEvent
-		ifFalse: [ ^ self ].
 
 	"Find example selector"
 	selector := anEvent target
@@ -230,7 +227,7 @@ CpComponentExamplesClientBehavior >> showIndex [
 				yourself).
 
 		"Register interest in events on the list item"
-		example when: CpEventAnnouncement do: [ :announcement | self handleEvent: announcement event ] ]
+		example when: CpClickEvent send: #handleClickEvent: to: self ]
 ]
 
 { #category : #explanation }

@@ -27,12 +27,6 @@ CpWebClientBehavior class >> createIn: aServerEnvironment [
 	aServerEnvironment clientCreateInstanceOf: self withId: self clientId
 ]
 
-{ #category : #accessing }
-CpWebClientBehavior class >> eventHandlerClass [
-
-	^ CpBaseEventHandler
-]
-
 { #category : #initialization }
 CpWebClientBehavior class >> installIn: aServerEnvironment [
 
@@ -63,25 +57,6 @@ CpWebClientBehavior class >> updateTemplateViewClass: aViewClass in: aServerEnvi
 		withArguments: { aViewClass name }
 		receiver: self clientId
 
-]
-
-{ #category : #initialization }
-CpWebClientBehavior >> initialize [
-
-	"Add special event handler for Views"
-
-	super initialize.
-
-	self installBrowserEventHandler
-]
-
-{ #category : #initialization }
-CpWebClientBehavior >> installBrowserEventHandler [
-
-	"Install the event handler for the receiver"
-
-	CpBrowserEventHandler current
-		delegate: self class eventHandlerClass new
 ]
 
 { #category : #updating }
