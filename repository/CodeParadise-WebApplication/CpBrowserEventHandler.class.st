@@ -202,6 +202,12 @@ CpBrowserEventHandler >> handleEvents [
 ]
 
 { #category : #'event handling' }
+CpBrowserEventHandler >> handleFocusEvent: aFocusEvent [
+
+	aFocusEvent dispatch
+]
+
+{ #category : #'event handling' }
 CpBrowserEventHandler >> handleInputEvent: anInputEvent [
 
 	anInputEvent dispatch

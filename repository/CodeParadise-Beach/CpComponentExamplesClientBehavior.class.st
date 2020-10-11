@@ -116,6 +116,12 @@ CpComponentExamplesClientBehavior >> handleClickEvent: anEvent [
 	[ self perform: selector asSymbol ] on: Error do: [ :error | output textContent: 'Error: ', error description ]
 ]
 
+{ #category : #events }
+CpComponentExamplesClientBehavior >> handleFocusEvent: aFocusEvent [
+
+	self crTrace: aFocusEvent printString
+]
+
 { #category : #initialization }
 CpComponentExamplesClientBehavior >> initialize [
 

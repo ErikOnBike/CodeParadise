@@ -101,6 +101,12 @@ CpCursor >> handleBeforeInputEvent: aBeforeInputEvent [
 	self parent handleBeforeInputEvent: aBeforeInputEvent
 ]
 
+{ #category : #events }
+CpCursor >> handleFocusEvent: aFocusEvent [
+
+	self crTrace: aFocusEvent printString
+]
+
 { #category : #'event handling' }
 CpCursor >> handleKeyPressEvent: aKeyPressEvent [
 
