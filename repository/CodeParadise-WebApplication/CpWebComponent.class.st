@@ -180,3 +180,12 @@ CpWebComponent >> handlePointerUpEvent: aPointerUpEvent [
 		ifTrue: [ parent handlePointerUpEvent: aPointerUpEvent ]
 
 ]
+
+{ #category : #querying }
+CpWebComponent >> shadowRoot [
+
+	"Answer the receiver's shadowRoot element or nil if the receiver does not have a shadowRoot"
+
+	<primitive: 'primitiveWebComponentShadowRoot' module: 'CpDOMPlugin'>
+	self primitiveFailed
+]

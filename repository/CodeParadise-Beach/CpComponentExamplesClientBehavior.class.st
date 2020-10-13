@@ -250,9 +250,7 @@ CpComponentExamplesClientBehavior >> textFieldExplanation [
 	by Smalltalk code. The blinking cursor is just a little bar with CSS styling
 	making it look like a blinking cursor. Only a few keystrokes are handled
 	at the moment: single characters, left and right arrow, delete and backspace.
-	You can set the cursor (not remove it) in both text fields. The keys are
-	send to all fields with a cursor. This is to allow both the feature of changing
-	a selection of text in multiple places as well as support multiple inputs in
-	collaboration environments.
+	You can only set the cursor and not remove it (visually) yet. Although only
+	one text field will have actual focus for input.
 	Still hope you have as much fun with it as I have :-)'
 ]

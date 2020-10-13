@@ -273,7 +273,7 @@ CpDomElement >> firstDescendantMatching: cssSelectorString [
 	self primitiveFailed
 ]
 
-{ #category : #'window management' }
+{ #category : #'text input' }
 CpDomElement >> focus [
 
 	"Set the focus to the receiver (ie take focus)"

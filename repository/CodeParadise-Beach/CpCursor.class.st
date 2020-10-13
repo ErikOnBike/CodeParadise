@@ -93,6 +93,14 @@ CpCursor class >> template [
 	^ '<div id="container"><div id="cursor"></div></div><input type="text">'
 ]
 
+{ #category : #'text input' }
+CpCursor >> focus [
+
+	"Delegate setting focus to the input field in the receiver's shadow DOM"
+
+	(self shadowRoot firstDescendantMatching: #input) focus
+]
+
 { #category : #'event handling' }
 CpCursor >> handleBeforeInputEvent: aBeforeInputEvent [
 
