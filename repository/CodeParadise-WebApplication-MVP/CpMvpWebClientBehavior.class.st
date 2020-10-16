@@ -1,5 +1,6 @@
 "
-I am application Behavior to be performed inside a ClientEnvironment. I work for a MvpWebApplication and according to a Model-View-Presenter pattern.
+I am application Behavior to be performed inside a ClientEnvironment.
+I work for a MvpWebApplication and according to a Model-View-Presenter pattern.
 I only live in a ClientEnvironment.
 "
 Class {
@@ -9,31 +10,32 @@ Class {
 }
 
 { #category : #creating }
-CpMvpWebClientBehavior class >> createPresenter: aPresenter in: aServerEnvironment [
+CpMvpWebClientBehavior >> createView: viewClassName withId: identifier atParentId: parentIdentifier atSlotNamed: slotName [
 
-	"Create a new Presenter in the ClientEnvironment belonging to the specified ServerEnvironment"
+	"Create a new View with the specified identifier (a String) and the specified
+	parent (a String or nil if the view does not have a specific parent).
+	If a slotName (aString or nil) is specified, the view is created at that slot in the parent.
+	The View to create is specified by its class name."
 
-	aServerEnvironment
-		addClass: aPresenter class ;
+	| parentView view |
 
-		clientPerform: #createPresenter:withId:
-		withArguments: { aPresenter class name . aPresenter id }
-		receiver: self clientId
-]
+	"Find the parent View based on the specified identifier"
+	parentView := parentIdentifier
+		ifNotNil: [ CpHtmlElement elementWithId: parentIdentifier ]
+		ifNil: [ CpHtmlElement documentBody ].
 
-{ #category : #creating }
-CpMvpWebClientBehavior >> createPresenter: aPresenterClass withId: identifier [
+	"Create instance of the View class specified"
+	view := (self viewClassForName: viewClassName) new
+		id: identifier ;	"Put id in view element for reference by the EventHandler"
+		yourself.
+	slotName
+		ifNotNil: [ parentView replaceChild: view atSlotNamed: slotName ]
+		ifNil: [ parentView appendChild: view ].
 
-	"Create a new Presenter with the specified identifier (a String).
-	The View for the Presenter is also created.
-	A proxy is created for the Model (which lives in the ServerEnvironment)."
+	"Register the view instance in ClientEnvironment"
+	CpClientEnvironment current objectRegistry
+		registerObject: view
+		withId: identifier.
 
-	| presenter |
-
-	presenter := CpClientEnvironment current createInstanceOf: aPresenterClass withId: identifier.
-	^ presenter
-		id: identifier ;
-		model: CpModelProxy new ;
-		createView ;
-		yourself
+	^ view
 ]

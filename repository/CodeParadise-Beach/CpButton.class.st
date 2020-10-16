@@ -32,19 +32,6 @@ CpButton class >> label: labelElement suffix: suffixElement [
 		yourself
 ]
 
-{ #category : #'instance creation' }
-CpButton class >> new [
-
-	"Answer new instance of the receiver.
-	Register interest in this instance for event handling."
-
-	| instance |
-
-	instance := super new.
-	CpBrowserEventHandler current registerInterestIn: instance.
-	^ instance
-]
-
 { #category : #accessing }
 CpButton class >> prefix: prefixElement label: labelElement [
 

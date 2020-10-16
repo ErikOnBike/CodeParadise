@@ -6,63 +6,101 @@ Class {
 	#name : #CpViewProxy,
 	#superclass : #Object,
 	#instVars : [
-		'environment'
+		'presenter',
+		'viewClass',
+		'announcer'
 	],
 	#category : #'CodeParadise-WebApplication-MVP-Core'
 }
 
-{ #category : #'reflective operations' }
-CpViewProxy class >> doesNotUnderstand: aMessage [
+{ #category : #'instance creation' }
+CpViewProxy class >> new [
 
-	| presenter |
-
-	presenter := thisContext sender receiver.
-
-	presenter webApplication
-		remotePerform: #viewClassPerform:
-		withArguments: {
-			presenter id.
-			aMessage selector.
-			aMessage arguments }
+	self shouldNotImplement
 ]
 
 { #category : #'instance creation' }
-CpViewProxy class >> newIn: anEnvironment [
+CpViewProxy class >> newFor: aPresenter [
 
-	^ self new
-		environment: anEnvironment ;
+	^ self basicNew
+		initializeWith: aPresenter ;
 		yourself
+]
+
+{ #category : #announcing }
+CpViewProxy >> announce: anAnnouncement [
+
+	self announcer announce: anAnnouncement
+]
+
+{ #category : #accessing }
+CpViewProxy >> announcer [
+
+	"Answer the Announcer of the receiver"
+
+	^ announcer
 ]
 
 { #category : #'reflective operations' }
 CpViewProxy >> doesNotUnderstand: aMessage [
 
-	| presenter |
+	"Let the presenter send the message to the actual view"
 
-	presenter := thisContext sender receiver.
+	self presenter sendMessageToView: aMessage
+]
 
-	self environment
-		clientPerform: #viewPerform:
-		withArguments: { { aMessage selector . aMessage arguments } }
-		receiver: presenter id
+{ #category : #initialization }
+CpViewProxy >> initialize [
+
+	super initialize.
+
+	announcer := Announcer new
+]
+
+{ #category : #initialization }
+CpViewProxy >> initializeWith: aPresenter [
+
+	self initialize.
+
+	presenter := aPresenter
 ]
 
 { #category : #accessing }
-CpViewProxy >> environment [
+CpViewProxy >> presenter [
 
-	^ environment
+	^ presenter
 ]
 
-{ #category : #accessing }
-CpViewProxy >> environment: anEnvironment [
-
-	environment := anEnvironment
-]
-
-{ #category : #dependencies }
+{ #category : #initialization }
 CpViewProxy >> release [
 
-	environment := nil.
+	announcer ifNotNil: [ 
+		announcer subscriptions reset.
+		announcer := nil ].
+	presenter := nil.
 
 	super release
+]
+
+{ #category : #accessing }
+CpViewProxy >> viewClass [
+
+	"Answer the Class of the View the receiver is proxying"
+
+	^ viewClass
+]
+
+{ #category : #accessing }
+CpViewProxy >> viewClass: aViewClass [
+
+	viewClass := aViewClass
+]
+
+{ #category : #announcing }
+CpViewProxy >> when: anAnnouncementClass send: aSymbol to: anObject [
+
+	"Let the sender subscribe to the specified announcement of the receiver.
+	See Announcer>>#when:send:to:"
+
+	^ self announcer when: anAnnouncementClass send: aSymbol to: anObject
 ]

@@ -1,6 +1,6 @@
 Class {
 	#name : #CpCompositionEvent,
-	#superclass : #CpEvent,
+	#superclass : #CpUserInterfaceEvent,
 	#instVars : [
 		'data'
 	],
@@ -17,12 +17,6 @@ CpCompositionEvent >> data [
 CpCompositionEvent >> data: aString [
 
 	data := aString
-]
-
-{ #category : #testing }
-CpCompositionEvent >> isTextEntryEvent [
-
-	^ true
 ]
 
 { #category : #printing }

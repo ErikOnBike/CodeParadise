@@ -4,7 +4,7 @@ For text entry please also have a look at InputEvent.
 "
 Class {
 	#name : #CpKeyEvent,
-	#superclass : #CpEvent,
+	#superclass : #CpUserInterfaceEvent,
 	#instVars : [
 		'modifiers',
 		'key',
@@ -47,12 +47,6 @@ CpKeyEvent >> isComposing [
 CpKeyEvent >> isComposing: aBoolean [
 
 	isComposing := aBoolean
-]
-
-{ #category : #testing }
-CpKeyEvent >> isTextEntryEvent [
-
-	^ true
 ]
 
 { #category : #accessing }

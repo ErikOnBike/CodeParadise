@@ -66,6 +66,7 @@ CpDomExamplesWebApplication register.
 CpComponentExamplesWebApplication register.
 CpCounterWebApplication register.
 CpFomanticExamplesWebApplication register.
+CpIntroductionPresentationWebApplication register.
 
 "Start the HTTP and WeSocket servers (use the path where you stored the ClientEnvironment)"
 CpWebApplicationServerStarter startUsingConfig: {
@@ -83,8 +84,8 @@ When you are done or want to reset the environment, the following code can be ex
 ```Smalltalk
 "Stop all server instances and applications"
 ZnServer allSubInstances do: [ :each | (each port = 8080 and: [ each isRunning]) ifTrue: [ each stop ] ].
-CpRemoteEnvironmentServer allInstances do: [ :each | each stop ].
 CpServerApplication allSubInstances do: [ :each | each stop ].
+CpRemoteEnvironmentServer allInstances do: [ :each | each stop ].
 
 "Unregister applications"
 CpDomExamplesWebApplication unregister.
@@ -92,6 +93,7 @@ CpComponentExamplesWebApplication unregister.
 CpCounterWebApplication unregister.
 CpCounterWebApplication release.
 CpFomanticExamplesWebApplication unregister.
+CpIntroductionPresentationWebApplication unregister.
 
 "Garbage collect works better in triples ;-)"
 Smalltalk garbageCollect.
@@ -107,11 +109,12 @@ Smalltalk garbageCollect.
 
 If all went well you should be able to fire up a number of browser tabs/pages and start using the example applications. Profit warning: the examples are still very limited, but should allow some insight in what is possible and allow you to play with it yourself.
 
-The two applications can be reached using the following URLs:
+The example applications can be reached using the following URLs:
 * DOM Examples [http://localhost:8080/static/app.html?DOM-Examples](http://localhost:8080/static/app.html?DOM-Examples)
 * Component Examples [http://localhost:8080/static/app.html?Component-Examples](http://localhost:8080/static/app.html?Component-Examples)
 * Counter Example [http://localhost:8080/static/app.html?counter](http://localhost:8080/static/app.html?counter)
 * Fomantic Examples [http://localhost:8080/static/app.html?Fomantic-Examples](http://localhost:8080/static/app.html?Fomantic-Examples)
+* Introduction Presentation [http://localhost:8080/static/app.html?presentation](http://localhost:8080/static/app.html?presentation)
 
 ## Troubleshooting
 

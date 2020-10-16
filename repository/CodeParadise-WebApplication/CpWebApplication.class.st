@@ -46,6 +46,22 @@ CpWebApplication class >> webResourcePragmaName [
 	^ #webResource:
 ]
 
+{ #category : #accessing }
+CpWebApplication >> clientBehaviorClass [
+
+	"Answer the class of the receiver's ClientBehavior"
+
+	^ self class clientBehaviorClass
+]
+
+{ #category : #accessing }
+CpWebApplication >> clientBehaviorId [
+
+	"Answer the id of the receiver's ClientBehaviour"
+
+	^ self clientBehaviorClass clientId
+]
+
 { #category : #installing }
 CpWebApplication >> installExtensionMethods [
 
@@ -65,8 +81,8 @@ CpWebApplication >> load [
 	"Install required extensions"
 	self installExtensionMethods.
 
-	"Install an instance the ClientBehavior in the ClientEnvironment"
-	self class clientBehaviorClass
+	"Install the ClientBehavior"
+	self clientBehaviorClass
 		installIn: self environment ;
 		createIn: self environment
 ]
@@ -107,26 +123,19 @@ CpWebApplication >> reload [
 
 	super reload.
 
-	"Create an instance of the ClientBehavior in the ClientEnvironment (class is already installed)"
-	self class clientBehaviorClass createIn: self environment
-]
-
-{ #category : #actions }
-CpWebApplication >> stop [
-
-	"Stop the receiver by releasing it"
-
-	self release
+	"Create an instance of the ClientBehavior in the ClientEnvironment
+	(class is already installed during initial #load)"
+	self clientBehaviorClass createIn: self environment
 ]
 
 { #category : #updating }
 CpWebApplication >> updateStyleViewClass: aViewClass [
 
-	self class clientBehaviorClass updateStyleViewClass: aViewClass in: self environment
+	self clientBehaviorClass updateStyleViewClass: aViewClass in: self environment
 ]
 
 { #category : #updating }
 CpWebApplication >> updateTemplateViewClass: aViewClass [
 
-	self class clientBehaviorClass updateTemplateViewClass: aViewClass in: self environment
+	self clientBehaviorClass updateTemplateViewClass: aViewClass in: self environment
 ]

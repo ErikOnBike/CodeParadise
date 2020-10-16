@@ -4,12 +4,6 @@ Class {
 	#category : #'CodeParadise-WebApplication-Fomantic-Examples'
 }
 
-{ #category : #accessing }
-CpFomanticExamplesClientBehavior class >> eventHandlerClass [
-
-	^ FuiEventHandler
-]
-
 { #category : #examples }
 CpFomanticExamplesClientBehavior >> exampleButton [
 
@@ -47,7 +41,7 @@ CpFomanticExamplesClientBehavior >> exampleButton [
 		textContent: 'Make loaded' ;
 		yourself).
 	CpBrowserEventHandler current registerInterestIn: loadButton.
-	loadButton when: CpEventAnnouncement do: [
+	loadButton when: CpClickEvent do: [
 		loadTargetButton beLoaded.
 		loadButton disable.
 		loadingButton enable ].
@@ -59,7 +53,7 @@ CpFomanticExamplesClientBehavior >> exampleButton [
 		disable ;
 		yourself).
 	CpBrowserEventHandler current registerInterestIn: loadingButton.
-	loadingButton when: CpEventAnnouncement do: [
+	loadingButton when: CpClickEvent do: [
 		loadTargetButton beLoading.
 		loadButton enable.
 		loadingButton disable ].
@@ -118,7 +112,7 @@ CpFomanticExamplesClientBehavior >> exampleCheckbox [
 		textContent: 'Check' ;
 		yourself).
 	CpBrowserEventHandler current registerInterestIn: checkButton.
-	checkButton when: CpEventAnnouncement do: [
+	checkButton when: CpClickEvent do: [
 		checkbox check.
 		checkButton disable.
 		uncheckButton enable. ].
@@ -129,7 +123,7 @@ CpFomanticExamplesClientBehavior >> exampleCheckbox [
 		textContent: 'Uncheck' ;
 		yourself).
 	CpBrowserEventHandler current registerInterestIn: uncheckButton.
-	uncheckButton when: CpEventAnnouncement do: [
+	uncheckButton when: CpClickEvent do: [
 		checkbox uncheck.
 		checkButton enable.
 		uncheckButton disable ].
@@ -141,8 +135,8 @@ CpFomanticExamplesClientBehavior >> exampleCheckbox [
 		yourself).
 	isCheckedLabel := outputElement appendChild: (CpHtmlElement newWithTag: #span).
 	CpBrowserEventHandler current registerInterestIn: isCheckedButton.
-	isCheckedButton when: CpEventAnnouncement do: [ isCheckedLabel textContent: ' ', checkbox isChecked printString ].
-	isCheckedButton announce: CpEventAnnouncement new. "trigger first update"
+	isCheckedButton when: CpClickEvent do: [ isCheckedLabel textContent: ' ', checkbox isChecked printString ].
+	isCheckedButton announce: CpClickEvent new. "trigger first update"
 
 	outputElement appendChild: ((CpHtmlElement newWithTag: #div) addClass: #separator ; yourself).
 
@@ -298,12 +292,9 @@ CpFomanticExamplesClientBehavior >> exampleInput2 [
 ]
 
 { #category : #events }
-CpFomanticExamplesClientBehavior >> handleEvent: anEvent [
+CpFomanticExamplesClientBehavior >> handleClickEvent: anEvent [
 
 	| selector output |
-
-	anEvent class = CpClickEvent
-		ifFalse: [ ^ self ].
 
 	"Find example selector"
 	selector := anEvent target
@@ -356,7 +347,7 @@ CpFomanticExamplesClientBehavior >> outputElement [
 { #category : #examples }
 CpFomanticExamplesClientBehavior >> showIndex [
 
-	"Beware: this method is not to be taken as exemplar for creating a UI.
+	"Beware: this method is NOT to be taken as exemplar for creating a UI.
 	This class is just a collection of examples of UI possibilities."
 
 	| body list items |
@@ -421,7 +412,7 @@ CpFomanticExamplesClientBehavior >> showIndex [
 		| example |
 				
 		example := FuiButton new
-			attributeAt: #id put: item key ;	"ie selector"
+			id: item key ;	"ie selector"
 			textContent: item value first ;	"ie title"
 			yourself.
 			
@@ -431,5 +422,5 @@ CpFomanticExamplesClientBehavior >> showIndex [
 
 		"Register interest in events on the list item"
 		CpBrowserEventHandler current registerInterestIn: example.
-		example when: CpEventAnnouncement do: [ :announcement | self handleEvent: announcement event ] ]
+		example when: CpClickEvent send: #handleClickEvent: to: self ]
 ]

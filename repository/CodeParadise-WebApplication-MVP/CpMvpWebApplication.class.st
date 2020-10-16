@@ -1,5 +1,6 @@
 "
 I am a WebApplication. I work with elements according to the Model-View-Presenter pattern.
+I only live in a ServerEnvironment.
 "
 Class {
 	#name : #CpMvpWebApplication,
@@ -10,6 +11,12 @@ Class {
 	],
 	#category : #'CodeParadise-WebApplication-MVP-Core'
 }
+
+{ #category : #accessing }
+CpMvpWebApplication class >> clientBehaviorClass [
+
+	^ CpMvpWebClientBehavior
+]
 
 { #category : #'adding/removing' }
 CpMvpWebApplication >> addModel: aModel [
@@ -24,35 +31,98 @@ CpMvpWebApplication >> addPresenter: aPresenter [
 ]
 
 { #category : #creating }
+CpMvpWebApplication >> clientCreateViewForPresenter: aPresenter [
+
+	"Create a new View in the ClientEnvironment for the specified Presenter"
+
+	self environment
+		addClass: aPresenter viewClass ;
+
+		clientPerform: #createView:withId:atParentId:atSlotNamed:
+		withArguments: {
+			aPresenter viewClass name .
+			aPresenter viewId .
+			aPresenter viewLocation .
+			aPresenter slotName }
+		receiver: self clientBehaviorId
+]
+
+{ #category : #creating }
+CpMvpWebApplication >> clientCreateViews [
+
+	"Create all the client Views for the Presenters of the receiver"
+
+	self presenters do: [ :each | self clientCreateViewForPresenter: each ]
+]
+
+{ #category : #actions }
+CpMvpWebApplication >> clientRenderViews [
+
+	"Render all the client Views for the Presenters of the receiver"
+
+	self presenters do: [ :each | each renderView ]
+]
+
+{ #category : #creating }
 CpMvpWebApplication >> createPresenter: aPresenterClass forModel: aModel [
 
 	"Create a new Presenter for the specified Model (both in the ServerEnvironment and the ClientEnvironment).
-	Implementation: it is assumed no two processes will update the same WebApplication simulataneously"
+	Implementation: it is assumed no two processes will update the same WebApplication simultaneously"
+
+	^ self createPresenter: aPresenterClass withParent: nil atSlotNamed: nil forModel: aModel
+]
+
+{ #category : #creating }
+CpMvpWebApplication >> createPresenter: aPresenterClass withParent: parentPresenter atSlotNamed: slotName forModel: aModel [
+
+	"Create a new Presenter for the specified Model in the specified parent
+	Presenter (or nil if the presenter should not have a parent).
+	Create the View for the Presenter as well. 
+
+	Implementation:
+	It is assumed no two processes will update the same WebApplication simultaneously"
 
 	| presenter |
 
-	"Create Presenter in ServerEnvironment"
-	presenter := aPresenterClass new
-		id: (IdentifierGenerator generateSatisfying: [ :id | (self presenters includesKey: id) not ]) asSymbol ;
+	"Create Presenter in the ServerEnvironment"
+	presenter := self addPresenter: (aPresenterClass new
+		id: self generatePresenterIdentifier ;
+		application: self ;
 		model: aModel ;
-		createViewProxyFor: self environment ;
-		yourself.
+		parent: parentPresenter ;
+		slotName: slotName ;
+		yourself).
 
-	aModel whenChangedDo: [ presenter modelChanged: #something ].
+	"Create and render the Presenter's View in the ClientEnvironment"
+	presenter createView.
 
-	^ self addPresenter: presenter
+	^ presenter
 ]
 
-{ #category : #'event handling' }
-CpMvpWebApplication >> handleMessageToProxy: aMessageToProxyReceived [
+{ #category : #creating }
+CpMvpWebApplication >> generatePresenterIdentifier [
 
-	"Handle the MessageToProxyReceived Announcement by sending the message to the actual Model"
+	"Generate an unique identifier for a presenter of the receiver"
 
-	| messageSend |
+	^ (IdentifierGenerator generateSatisfying: [ :id | (self presenters includesKey: id) not ]) asSymbol
+]
 
-	messageSend := aMessageToProxyReceived messageSend.
-	(self presenterWithId: messageSend receiver ifAbsent: [ self error: 'Message from unknown presenter' ])
-		sendMessageToModel: messageSend selector withArguments: messageSend arguments
+{ #category : #'announcement handling' }
+CpMvpWebApplication >> handleViewAnnouncement: aViewAnnouncement [
+
+	"Let the correct Presenter announce the announcement from the View.
+
+	Implementation:
+	A View and Presenter share the same id."
+
+	| presenter |
+
+	presenter := self
+		presenterWithId: aViewAnnouncement viewId
+		ifAbsent: [ self error: 'View Announcement received for Presenter which does not exist anymore' ].
+
+	"Let the Presenter's View do the Announcement"
+	presenter view announce: aViewAnnouncement announcement
 ]
 
 { #category : #initialization }
@@ -62,38 +132,6 @@ CpMvpWebApplication >> initialize [
 
 	models := OrderedCollection new.
 	presenters := OrderedIdentityDictionary new
-]
-
-{ #category : #installing }
-CpMvpWebApplication >> installPresenter: aPresenter [
-
-	"Install the specified Presenter in the ClientEnvironment"
-
-	self class clientBehaviorClass createPresenter: aPresenter in: self environment
-]
-
-{ #category : #installing }
-CpMvpWebApplication >> installPresenters [
-
-	"Install the presenters in the ClientEnvironment and render first time"
-
-	self presenters do: [ :each |
-		self installPresenter: each.
-		each renderView ]
-]
-
-{ #category : #actions }
-CpMvpWebApplication >> load [
-
-	"Perform the initial loading of the receiver"
-
-	super load.
-
-	"Ensure the receiver reacts to Announcements from the ClientEnvironment"
-	self environment when: CpMessageToProxyReceived send: #handleMessageToProxy: to: self.
-
-	"Install any default presenters"
-	self installPresenters
 ]
 
 { #category : #accessing }
@@ -137,8 +175,10 @@ CpMvpWebApplication >> reload [
 
 	super reload.
 
-	"Install the presenters"
-	self installPresenters
+	"Create and render the Views in the ClientEnvironment"
+	self
+		clientCreateViews ;
+		clientRenderViews
 ]
 
 { #category : #'adding/removing' }
@@ -151,4 +191,15 @@ CpMvpWebApplication >> removeModel: aModel [
 CpMvpWebApplication >> removePresenter: aPresenter [
 
 	^ self presenters removeKey: aPresenter id asSymbol
+]
+
+{ #category : #initialization }
+CpMvpWebApplication >> setUp [
+
+	"Setup the receiver to handle view events from client"
+
+	super setUp.
+
+	self environment
+		when: CpViewAnnouncement send: #handleViewAnnouncement: to: self
 ]

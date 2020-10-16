@@ -100,6 +100,10 @@ CpObjectDecoder >> decodeClass [
 
 	| newClass theSuperclass className superclassName instVarNames classVarNames |
 
+	"Raise error if the receiver is not running in the ClientEnvironment"
+	CpClientEnvironment isRunning
+		ifFalse: [ ^ self error: 'ClientEnvironment sent Class to ServerEnvironment' ].
+
 	"Read class and superclass name"
 	className := self readString asSymbol.
 	superclassName := self readString asSymbol.
@@ -163,6 +167,10 @@ CpObjectDecoder >> decodeCompiledMethod [
 	since this is one of the CompiledMethod's literals."
 
 	| method header bytecodeSize initialPC endPC |
+
+	"Raise error if the receiver is not running in the ClientEnvironment"
+	CpClientEnvironment isRunning
+		ifFalse: [ ^ self error: 'ClientEnvironment sent CompiledMethod to ServerEnvironment' ].
 
 	"Read header and bytecode size"
 	header := self readUInt32.
@@ -272,6 +280,16 @@ CpObjectDecoder >> decodeLargePositiveInteger [
 ]
 
 { #category : #decoding }
+CpObjectDecoder >> decodeMessage [
+
+	"Decode a Message (lookupClass is ignored"
+
+	^ Message
+		selector: self readString asSymbol
+		arguments: self decodeNext
+]
+
+{ #category : #decoding }
 CpObjectDecoder >> decodeMessageSend [
 
 	"Decode a MessageSend"
@@ -328,6 +346,7 @@ CpObjectDecoder >> decodeNext [
 		decodeClass
 		decodeAnnouncement
 		decodeMessageSend
+		decodeMessage
 	) at: type ifAbsent: [ self error: 'Unknown type in decode stream' ].
 
 	^ self perform: selector

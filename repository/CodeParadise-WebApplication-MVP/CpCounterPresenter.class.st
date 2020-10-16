@@ -13,30 +13,30 @@ CpCounterPresenter class >> defaultViewClass [
 	^ CpCounterView
 ]
 
-{ #category : #view }
-CpCounterPresenter >> createView [
+{ #category : #model }
+CpCounterPresenter >> modelDecrease [
 
-	super createView.
-
-	self view
-		when: CpCounterDecrease do: [ self model decrease ] ;
-		when: CpCounterIncrease do: [ self model increase ].
-
-	self eventHandler registerInterestIn: self view.
-
-	^ self view
+	self model decrease
 ]
 
 { #category : #model }
-CpCounterPresenter >> modelChanged: aSymbol [
+CpCounterPresenter >> modelIncrease [
 
-	super modelChanged: aSymbol.
-
-	self renderView
+	self model increase
 ]
 
 { #category : #view }
 CpCounterPresenter >> renderView [
 
 	self view renderValue: self model value
+]
+
+{ #category : #view }
+CpCounterPresenter >> viewCreated [
+
+	super viewCreated.
+
+	self view
+		when: CpCounterIncrease send: #modelIncrease to: self ;
+		when: CpCounterDecrease send: #modelDecrease to: self
 ]

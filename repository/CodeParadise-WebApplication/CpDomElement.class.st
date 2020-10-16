@@ -27,6 +27,9 @@ Almost all my methods are implemented using primitives, because I am the glue la
 Class {
 	#name : #CpDomElement,
 	#superclass : #Object,
+	#instVars : [
+		'announcer'
+	],
 	#category : #'CodeParadise-WebApplication-DOM'
 }
 
@@ -39,10 +42,28 @@ CpDomElement class >> document [
 	self primitiveFailed
 ]
 
+{ #category : #'acccessing-ui' }
+CpDomElement class >> elementWithId: aString [
+
+	"Answer an instance of the receiver representing the element with the specified id"
+
+	<primitive: 'primitiveDOMElementElementWithId:' module: 'CpDOMPlugin'>
+	self primitiveFailed
+]
+
+{ #category : #'acccessing-ui' }
+CpDomElement class >> elementsFromPoint: aPoint [
+
+	"Answer an Array with instances of the receiver representing the elements at the specified point"
+
+	<primitive: 'primitiveDOMElementElementsFromPoint:' module: 'CpDOMPlugin'>
+	self primitiveFailed
+]
+
 { #category : #'instance creation' }
 CpDomElement class >> new [
 
-	"Instances of the receiver are created through #newWithTag: or adding children to existing DOM elements
+	"Instances of the receiver are created through #newWithTag: or when querying children of existing DOM elements
 	or are created by querying the DOM using #firstDescendantMatching: or #allDescendantsMatching:"
 
 	self shouldNotImplement
@@ -132,6 +153,28 @@ CpDomElement >> allDescendantsMatching: cssSelectorString [
 	self primitiveFailed
 ]
 
+{ #category : #announcing }
+CpDomElement >> announce: anAnnouncement [
+
+	announcer ifNil: [ ^ self ].
+	announcer announce: anAnnouncement
+]
+
+{ #category : #announcing }
+CpDomElement >> announceEvent: anEvent [
+
+	announcer ifNil: [ ^ self ].
+	announcer announce: anEvent asAnnouncement
+]
+
+{ #category : #announcing }
+CpDomElement >> announcer [
+
+	^ announcer ifNil: [
+		CpBrowserEventHandler current registerInterestIn: self.
+		announcer := Announcer new ]
+]
+
 { #category : #'adding/removing' }
 CpDomElement >> appendChild: childElement [
 
@@ -209,6 +252,16 @@ CpDomElement >> clone [
 	self primitiveFailed
 ]
 
+{ #category : #removing }
+CpDomElement >> destroy [
+
+	"Remove the receiver from the DOM tree and release any dependents"
+
+	self
+		remove ;
+		release
+]
+
 { #category : #querying }
 CpDomElement >> firstDescendantMatching: cssSelectorString [
 
@@ -220,13 +273,37 @@ CpDomElement >> firstDescendantMatching: cssSelectorString [
 	self primitiveFailed
 ]
 
-{ #category : #'window management' }
+{ #category : #'text input' }
 CpDomElement >> focus [
 
 	"Set the focus to the receiver (ie take focus)"
 
 	<primitive: 'primitiveDOMElementFocus' module: 'CpDOMPlugin'>
 	self primitiveFailed
+]
+
+{ #category : #attributes }
+CpDomElement >> hasAttributeAt: nameString [
+
+	"Answer whether the receiver has a value set for the specified attribute"
+
+	^ (self attributeAt: nameString) notNil
+]
+
+{ #category : #properties }
+CpDomElement >> hasPropertyAt: nameString [
+
+	"Answer whether the receiver has a value set for the specified property"
+
+	^ (self propertyAt: nameString) notNil
+]
+
+{ #category : #styles }
+CpDomElement >> hasStyleAt: nameString [
+
+	"Answer whether the receiver has a value set for the specified style"
+
+	^ (self styleAt: nameString) notNil
 ]
 
 { #category : #'tag/id/classes' }
@@ -351,6 +428,16 @@ CpDomElement >> propertyAt: nameString put: valueString [
 
 	<primitive: 'primitiveDOMElementPropertyAt:put:' module: 'CpDOMPlugin'>
 	self primitiveFailed
+]
+
+{ #category : #dependencies }
+CpDomElement >> release [
+
+	announcer ifNotNil: [
+		announcer subscriptions reset.
+		announcer := nil ].
+
+	super release
 ]
 
 { #category : #removing }
@@ -478,4 +565,22 @@ CpDomElement >> textContent: aString [
 	<primitive: 'primitiveDOMElementTextContent:' module: 'CpDOMPlugin'>
 	self primitiveFailed
 
+]
+
+{ #category : #announcing }
+CpDomElement >> when: anAnnouncementClass do: aBlock [
+
+	"Let the sender subscribe to the specified announcement of the receiver.
+	See Announcer>>#when:do:"
+
+	^ self announcer when: anAnnouncementClass do: aBlock
+]
+
+{ #category : #announcing }
+CpDomElement >> when: anAnnouncementClass send: aSymbol to: anObject [
+
+	"Let the sender subscribe to the specified announcement of the receiver.
+	See Announcer>>#when:send:to:"
+
+	^ self announcer when: anAnnouncementClass send: aSymbol to: anObject
 ]

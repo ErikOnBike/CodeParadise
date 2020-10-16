@@ -1,14 +1,12 @@
+"
+I am the ClientBehavior for a Counter application.
+I only live in a ClientEnvironment.
+"
 Class {
 	#name : #CpCounterClientBehavior,
 	#superclass : #CpMvpWebClientBehavior,
 	#category : #'CodeParadise-WebApplication-MVP-Examples'
 }
-
-{ #category : #accessing }
-CpCounterClientBehavior class >> eventHandlerClass [
-
-	^ CpViewEventHandler
-]
 
 { #category : #accessing }
 CpCounterClientBehavior class >> introHtml [

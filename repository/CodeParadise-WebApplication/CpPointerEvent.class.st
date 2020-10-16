@@ -1,10 +1,8 @@
 Class {
 	#name : #CpPointerEvent,
-	#superclass : #CpEvent,
+	#superclass : #CpUserInterfaceEvent,
 	#instVars : [
-		'target',
 		'elementId',
-		'point',
 		'offset'
 	],
 	#category : #'CodeParadise-WebApplication-Events'
@@ -26,12 +24,6 @@ CpPointerEvent >> elementId: aString [
 	elementId := aString
 ]
 
-{ #category : #testing }
-CpPointerEvent >> isPointerEvent [
-
-	^ true
-]
-
 { #category : #accessing }
 CpPointerEvent >> offset [
 
@@ -44,18 +36,6 @@ CpPointerEvent >> offset: aPoint [
 	offset := aPoint
 ]
 
-{ #category : #accessing }
-CpPointerEvent >> point [
-
-	^ point
-]
-
-{ #category : #accessing }
-CpPointerEvent >> point: aPoint [
-
-	point := aPoint
-]
-
 { #category : #printing }
 CpPointerEvent >> printOn: aStream [
 
@@ -64,20 +44,6 @@ CpPointerEvent >> printOn: aStream [
 	self target printOn: aStream.
 	aStream nextPutAll: ', elementId: '.
 	self elementId printOn: aStream.
-	aStream nextPutAll: ', point: '.
-	self point printOn: aStream.
 	aStream nextPutAll: ', offset: '.
 	self offset printOn: aStream
-]
-
-{ #category : #accessing }
-CpPointerEvent >> target [
-
-	^ target
-]
-
-{ #category : #accessing }
-CpPointerEvent >> target: aDomElement [
-
-	target := aDomElement
 ]

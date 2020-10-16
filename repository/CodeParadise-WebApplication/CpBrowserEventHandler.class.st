@@ -12,7 +12,6 @@ Class {
 	#name : #CpBrowserEventHandler,
 	#superclass : #Object,
 	#instVars : [
-		'delegate',
 		'clickEvent',
 		'dragEvent',
 		'keyPressEvent'
@@ -53,7 +52,9 @@ CpBrowserEventHandler class >> eventClasses [
 		CpCompositionUpdateEvent .
 		CpCompositionEndEvent .
 		CpInputEvent .
-		CpBeforeInputEvent }
+		CpBeforeInputEvent .
+		CpFocusInEvent .
+		CpFocusOutEvent }
 ]
 
 { #category : #'instance creation' }
@@ -80,40 +81,10 @@ CpBrowserEventHandler class >> similarDistance [
 	^ 8
 ]
 
-{ #category : #'event handling' }
-CpBrowserEventHandler >> beforeInput: aBeforeInputEvent [
-
-	self dispatchEvent: aBeforeInputEvent
-]
-
-{ #category : #'event handling' }
-CpBrowserEventHandler >> click: aClickEvent [
-
-	self dispatchEvent: aClickEvent
-]
-
 { #category : #accessing }
 CpBrowserEventHandler >> clickEvent [
 
 	^ clickEvent
-]
-
-{ #category : #'event handling' }
-CpBrowserEventHandler >> compositionEnd: aCompositionEndEvent [
-
-	self dispatchEvent: aCompositionEndEvent
-]
-
-{ #category : #'event handling' }
-CpBrowserEventHandler >> compositionStart: aCompositionStartEvent [
-
-	self dispatchEvent: aCompositionStartEvent
-]
-
-{ #category : #'event handling' }
-CpBrowserEventHandler >> compositionUpdate: aCompositionUpdateEvent [
-
-	self dispatchEvent: aCompositionUpdateEvent
 ]
 
 { #category : #'event handling' }
@@ -122,7 +93,7 @@ CpBrowserEventHandler >> createClickEvent: aPointerDownEvent [
 	clickEvent := CpClickEvent new
 		target: aPointerDownEvent target ;
 		elementId: aPointerDownEvent elementId ;
-		clickPoint: aPointerDownEvent point ;
+		point: aPointerDownEvent point ;
 		yourself
 ]
 
@@ -132,7 +103,7 @@ CpBrowserEventHandler >> createDragEvent: aPointerDownEvent [
 	dragEvent := CpDragEvent new
 		target: aPointerDownEvent target ;
 		elementId: aPointerDownEvent elementId ;
-		startPoint: aPointerDownEvent point ;
+		point: aPointerDownEvent point ;
 		offset: aPointerDownEvent offset ;
 		yourself
 ]
@@ -156,7 +127,7 @@ CpBrowserEventHandler >> createEventHandlerProcess [
 		priority: Processor highestPriority.
 
 	"Register the event handler process so the VM (plugin) can activate it"
-	self primRegisterProcess: eventHandlerProcess.
+	self primRegisterEventProcess: eventHandlerProcess.
 
 	"Start the process (which will actually put it to sleep waiting for the first event)"
 	eventHandlerProcess resume
@@ -166,31 +137,11 @@ CpBrowserEventHandler >> createEventHandlerProcess [
 CpBrowserEventHandler >> createKeyPressEvent: aKeyDownEvent [
 
 	keyPressEvent := CpKeyPressEvent new
+		target: aKeyDownEvent target ; 
 		modifiers: aKeyDownEvent modifiers ;
 		key: aKeyDownEvent key ;
 		isComposing: aKeyDownEvent isComposing ;
 		yourself
-]
-
-{ #category : #accessing }
-CpBrowserEventHandler >> delegate [
-
-	^ delegate
-]
-
-{ #category : #accessing }
-CpBrowserEventHandler >> delegate: anObject [
-
-	delegate := anObject
-]
-
-{ #category : #'event handling' }
-CpBrowserEventHandler >> dispatchEvent: anEvent [
-
-	self hasDelegate
-		ifFalse: [ ^ self ].
-
-	self delegate handleEvent: anEvent
 ]
 
 { #category : #accessing }
@@ -206,37 +157,39 @@ CpBrowserEventHandler >> eventClass [
 ]
 
 { #category : #'event handling' }
-CpBrowserEventHandler >> handleClick: aPointerUpEvent [
+CpBrowserEventHandler >> handleBeforeInputEvent: aBeforeInputEvent [
 
-	(self point: self clickEvent clickPoint isSimilarTo: aPointerUpEvent point)
-		ifFalse: [ ^ self ].
-
-	self dispatchEvent: self clickEvent
+	aBeforeInputEvent dispatch
 ]
 
 { #category : #'event handling' }
-CpBrowserEventHandler >> handleDragEnd: aPointerUpEvent [
+CpBrowserEventHandler >> handleClickEvent: aClickEvent [
 
-	self dragEvent hasTracePoints
-		ifFalse: [ ^ self ].
-
-	self dispatchEvent: (self dragEvent
-		endPoint: aPointerUpEvent point ;
-		yourself)
+	aClickEvent dispatch
 ]
 
 { #category : #'event handling' }
-CpBrowserEventHandler >> handleDragOver: aPointerMoveEvent [
+CpBrowserEventHandler >> handleCompositionEndEvent: aCompositionEndEvent [
 
-	self dispatchEvent: (self dragEvent
-		addTracePoint: aPointerMoveEvent point ;
-		yourself)
+	aCompositionEndEvent dispatch
+]
+
+{ #category : #'event handling' }
+CpBrowserEventHandler >> handleCompositionStartEvent: aCompositionStartEvent [
+
+	aCompositionStartEvent dispatch
+]
+
+{ #category : #'event handling' }
+CpBrowserEventHandler >> handleCompositionUpdateEvent: aCompositionUpdateEvent [
+
+	aCompositionUpdateEvent dispatch
 ]
 
 { #category : #'event handling' }
 CpBrowserEventHandler >> handleEvent: anEvent [
 
-	[ anEvent accept: self ] on: Error do: [ :error | self crTrace: error description ]
+	[ anEvent sendTo: self ] on: Error do: [ :error | self crTrace: error description ]
 ]
 
 { #category : #'event handling' }
@@ -249,6 +202,37 @@ CpBrowserEventHandler >> handleEvents [
 ]
 
 { #category : #'event handling' }
+CpBrowserEventHandler >> handleFocusEvent: aFocusEvent [
+
+	aFocusEvent dispatch
+]
+
+{ #category : #'event handling' }
+CpBrowserEventHandler >> handleInputEvent: anInputEvent [
+
+	anInputEvent dispatch
+]
+
+{ #category : #'event handling' }
+CpBrowserEventHandler >> handleKeyDownEvent: aKeyDownEvent [
+
+	aKeyDownEvent dispatch.
+
+	"Key down can become a key press event, create it"
+	self hasKeyPressEvent
+		ifTrue: [
+			self keyPressEvent isComposing
+				ifTrue: [ self crTrace: 'Composing not handled yet' ]
+				ifFalse: [
+					self handleKeyPress: self keyPressEvent.
+					self keyPressEvent
+						modifiers: aKeyDownEvent modifiers ;
+						key: aKeyDownEvent key ;
+						isComposing: aKeyDownEvent isComposing ] ]
+		ifFalse: [ self createKeyPressEvent: aKeyDownEvent ]
+]
+
+{ #category : #'event handling' }
 CpBrowserEventHandler >> handleKeyPress: aKeyUpEvent [
 
 	(self keyPressEvent key = aKeyUpEvent key)
@@ -257,19 +241,73 @@ CpBrowserEventHandler >> handleKeyPress: aKeyUpEvent [
 				ifFalse: [ self handleKeyPress: self keyPressEvent ].
 			^ self ].
 
-	self dispatchEvent: self keyPressEvent
+	self keyPressEvent dispatch
+]
+
+{ #category : #'event handling' }
+CpBrowserEventHandler >> handleKeyPressEvent: aKeyPressEvent [
+
+	aKeyPressEvent dispatch
+]
+
+{ #category : #'event handling' }
+CpBrowserEventHandler >> handleKeyUpEvent: aKeyUpEvent [
+
+	aKeyUpEvent dispatch.
+
+	self hasKeyPressEvent
+		ifTrue: [
+			self
+				handleKeyPress: aKeyUpEvent ;
+				removeKeyPressEvent ]
+]
+
+{ #category : #'event handling' }
+CpBrowserEventHandler >> handlePointerDownEvent: aPointerDownEvent [
+
+	aPointerDownEvent dispatch.
+
+	"Pointer down can become both a click and a drag event, create both"
+	self
+		createClickEvent: aPointerDownEvent ;
+		createDragEvent: aPointerDownEvent
+]
+
+{ #category : #'event handling' }
+CpBrowserEventHandler >> handlePointerMoveEvent: aPointerMoveEvent [
+
+	aPointerMoveEvent dispatch.
+
+	"If mouse moved too far assume the earlier mouseDown will not become a click"
+	(self hasClickEvent and: [ (self point: self clickEvent point isSimilarTo: aPointerMoveEvent point) not ])
+		ifTrue: [ self removeClickEvent ].
+
+	self hasDragEvent
+		ifTrue: [ self simulateDragOverEvent: aPointerMoveEvent ]
+]
+
+{ #category : #'event handling' }
+CpBrowserEventHandler >> handlePointerUpEvent: aPointerUpEvent [
+
+	aPointerUpEvent dispatch.
+
+	self hasClickEvent
+		ifTrue: [
+			self
+				simulateClickEvent: aPointerUpEvent ;
+				removeClickEvent ].
+
+	self hasDragEvent
+		ifTrue: [
+			self
+				simulateDragEndEvent: aPointerUpEvent ;
+				removeDragEvent ]
 ]
 
 { #category : #testing }
 CpBrowserEventHandler >> hasClickEvent [
 
 	^ clickEvent notNil
-]
-
-{ #category : #testing }
-CpBrowserEventHandler >> hasDelegate [
-
-	^ delegate notNil
 ]
 
 { #category : #testing }
@@ -296,53 +334,10 @@ CpBrowserEventHandler >> initialize [
 		registerEventClasses
 ]
 
-{ #category : #'event handling' }
-CpBrowserEventHandler >> input: anInputEvent [
-
-	self dispatchEvent: anInputEvent
-]
-
-{ #category : #'event handling' }
-CpBrowserEventHandler >> keyDown: aKeyDownEvent [
-
-	self dispatchEvent: aKeyDownEvent.
-
-	"Key down can become a key press event, create it"
-	self hasKeyPressEvent
-		ifTrue: [
-			self keyPressEvent isComposing
-				ifTrue: [ self crTrace: 'Composing not handled yet' ]
-				ifFalse: [
-					self handleKeyPress: self keyPressEvent.
-					self keyPressEvent
-						modifiers: aKeyDownEvent modifiers ;
-						key: aKeyDownEvent key ;
-						isComposing: aKeyDownEvent isComposing ] ]
-		ifFalse: [ self createKeyPressEvent: aKeyDownEvent ]
-]
-
-{ #category : #'event handling' }
-CpBrowserEventHandler >> keyPress: aKeyPressEvent [
-
-	self dispatchEvent: aKeyPressEvent
-]
-
 { #category : #accessing }
 CpBrowserEventHandler >> keyPressEvent [
 
 	^ keyPressEvent
-]
-
-{ #category : #'event handling' }
-CpBrowserEventHandler >> keyUp: aKeyUpEvent [
-
-	self dispatchEvent: aKeyUpEvent.
-
-	self hasKeyPressEvent
-		ifTrue: [
-			self
-				handleKeyPress: aKeyUpEvent ;
-				removeKeyPressEvent ]
 ]
 
 { #category : #accessing }
@@ -357,48 +352,6 @@ CpBrowserEventHandler >> latestEvents [
 CpBrowserEventHandler >> point: aPoint isSimilarTo: otherPoint [
 
 	^ self class point: aPoint isSimilarTo: otherPoint
-]
-
-{ #category : #'event handling' }
-CpBrowserEventHandler >> pointerDown: aPointerDownEvent [
-
-	self dispatchEvent: aPointerDownEvent.
-
-	"Pointer down can become both a click and a drag event, create both"
-	self
-		createClickEvent: aPointerDownEvent ;
-		createDragEvent: aPointerDownEvent
-]
-
-{ #category : #'event handling' }
-CpBrowserEventHandler >> pointerMove: aPointerMoveEvent [
-
-	self dispatchEvent: aPointerMoveEvent.
-
-	"If mouse moved too far assume the earlier mouseDown will not become a click"
-	(self hasClickEvent and: [ (self point: self clickEvent clickPoint isSimilarTo: aPointerMoveEvent point) not ])
-		ifTrue: [ self removeClickEvent ].
-
-	self hasDragEvent
-		ifTrue: [ self handleDragOver: aPointerMoveEvent ]
-]
-
-{ #category : #'event handling' }
-CpBrowserEventHandler >> pointerUp: aPointerUpEvent [
-
-	self dispatchEvent: aPointerUpEvent.
-
-	self hasClickEvent
-		ifTrue: [
-			self
-				handleClick: aPointerUpEvent ;
-				removeClickEvent ].
-
-	self hasDragEvent
-		ifTrue: [
-			self
-				handleDragEnd: aPointerUpEvent ;
-				removeDragEvent ]
 ]
 
 { #category : #primitives }
@@ -418,18 +371,18 @@ CpBrowserEventHandler >> primRegisterEventClass: anEventClass [
 ]
 
 { #category : #primitives }
-CpBrowserEventHandler >> primRegisterInterestIn: aDomElement [
-
-	<primitive: 'primitiveEventHandlerRegisterInterestIn:' module: 'CpDOMPlugin'>
-	self primitiveFailed
-]
-
-{ #category : #primitives }
-CpBrowserEventHandler >> primRegisterProcess: eventHandlerProcess [
+CpBrowserEventHandler >> primRegisterEventProcess: eventHandlerProcess [
 
 	<primitive: 'primitiveEventHandlerRegisterProcess:' module: 'CpDOMPlugin'>
 	self primitiveFailed
 
+]
+
+{ #category : #primitives }
+CpBrowserEventHandler >> primRegisterInterestIn: aDomElement [
+
+	<primitive: 'primitiveEventHandlerRegisterInterestIn:' module: 'CpDOMPlugin'>
+	self primitiveFailed
 ]
 
 { #category : #initialization }
@@ -462,8 +415,36 @@ CpBrowserEventHandler >> removeDragEvent [
 	dragEvent := nil
 ]
 
-{ #category : #removing }
+{ #category : #'event handling' }
 CpBrowserEventHandler >> removeKeyPressEvent [
 
 	keyPressEvent := nil
+]
+
+{ #category : #'event handling' }
+CpBrowserEventHandler >> simulateClickEvent: aPointerUpEvent [
+
+	(self point: self clickEvent point isSimilarTo: aPointerUpEvent point)
+		ifFalse: [ ^ self ].
+
+	self clickEvent dispatch
+]
+
+{ #category : #'event handling' }
+CpBrowserEventHandler >> simulateDragEndEvent: aPointerUpEvent [
+
+	self dragEvent hasTracePoints
+		ifFalse: [ ^ self ].
+
+	self dragEvent
+		endPoint: aPointerUpEvent point ;
+		dispatch
+]
+
+{ #category : #'event handling' }
+CpBrowserEventHandler >> simulateDragOverEvent: aPointerMoveEvent [
+
+	self dragEvent
+		addTracePoint: aPointerMoveEvent point ;
+		dispatch
 ]

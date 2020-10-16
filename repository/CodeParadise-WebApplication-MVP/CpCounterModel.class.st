@@ -3,7 +3,7 @@ I am a Counter. I have a value which can be increased and decreased.
 "
 Class {
 	#name : #CpCounterModel,
-	#superclass : #Model,
+	#superclass : #CpModel,
 	#instVars : [
 		'value'
 	],

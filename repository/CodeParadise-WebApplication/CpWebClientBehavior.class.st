@@ -27,12 +27,6 @@ CpWebClientBehavior class >> createIn: aServerEnvironment [
 	aServerEnvironment clientCreateInstanceOf: self withId: self clientId
 ]
 
-{ #category : #accessing }
-CpWebClientBehavior class >> eventHandlerClass [
-
-	^ CpBaseEventHandler
-]
-
 { #category : #initialization }
 CpWebClientBehavior class >> installIn: aServerEnvironment [
 
@@ -65,39 +59,31 @@ CpWebClientBehavior class >> updateTemplateViewClass: aViewClass in: aServerEnvi
 
 ]
 
-{ #category : #initialization }
-CpWebClientBehavior >> initialize [
-
-	"Add special event handler for Views"
-
-	super initialize.
-
-	self installBrowserEventHandler
-]
-
-{ #category : #initialization }
-CpWebClientBehavior >> installBrowserEventHandler [
-
-	"Install the event handler for the receiver"
-
-	CpBrowserEventHandler current
-		delegate: self class eventHandlerClass new
-]
-
 { #category : #updating }
-CpWebClientBehavior >> updateStyleViewClass: aViewClassName [
+CpWebClientBehavior >> updateStyleViewClass: viewClassName [
 
 	"Update the style of the specified View"
 
-	(Smalltalk classNamed: aViewClassName)
+	(self viewClassForName: viewClassName)
 		updateStyle
 ]
 
 { #category : #updating }
-CpWebClientBehavior >> updateTemplateViewClass: aViewClassName [
+CpWebClientBehavior >> updateTemplateViewClass: viewClassName [
 
 	"Update the template of the specified View"
 
-	(Smalltalk classNamed: aViewClassName)
+	(self viewClassForName: viewClassName)
 		updateTemplate
+]
+
+{ #category : #support }
+CpWebClientBehavior >> viewClassForName: aSymbol [
+
+	"Answer the View class matching the specified Symbol.
+
+	Implementation:
+	It is assumed that if a Class exists it is a View class."
+
+	^ Smalltalk classNamed: aSymbol
 ]

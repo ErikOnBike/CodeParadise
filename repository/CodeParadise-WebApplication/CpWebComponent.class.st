@@ -39,6 +39,8 @@ CpWebComponent class >> tagName [
 
 	Implementation: the CamelCase naming will be replaced by dash-separated words
 	and if needed prepended by 'x-', since custom tags need at least one dash.
+	The postfix 'View' will be removed from the class name, allowing names like
+	'CpPersonView' to become 'cp-person' as tag name.
 	The resulting name will be fully lowercase.
 	Examples:
 		CpWindow -> cp-window
@@ -61,64 +63,129 @@ CpWebComponent >> canHandleEvents [
 { #category : #'event handling' }
 CpWebComponent >> handleBeforeInputEvent: aBeforeInputEvent [
 
+	| parent |
+
+	(parent := self parent) canHandleEvents
+		ifTrue: [ parent handleBeforeInputEvent: aBeforeInputEvent ]
 ]
 
 { #category : #'event handling' }
 CpWebComponent >> handleClickEvent: aClickEvent [
 
+	| parent |
+
+	(parent := self parent) canHandleEvents
+		ifTrue: [ parent handleClickEvent: aClickEvent ]
 ]
 
 { #category : #'event handling' }
 CpWebComponent >> handleCompositionEndEvent: aCompositionEndEvent [
 
+	| parent |
+
+	(parent := self parent) canHandleEvents
+		ifTrue: [ parent handleCompositionEndEvent: aCompositionEndEvent ]
 ]
 
 { #category : #'event handling' }
 CpWebComponent >> handleCompositionStartEvent: aCompositionStartEvent [
 
+	| parent |
+
+	(parent := self parent) canHandleEvents
+		ifTrue: [ parent handleCompositionStartEvent: aCompositionStartEvent ]
 ]
 
 { #category : #'event handling' }
 CpWebComponent >> handleCompositionUpdateEvent: aCompositionUpdateEvent [
 
+	| parent |
+
+	(parent := self parent) canHandleEvents
+		ifTrue: [ parent handleCompositionUpdateEvent: aCompositionUpdateEvent ]
 ]
 
 { #category : #'event handling' }
 CpWebComponent >> handleDragEvent: aDragEvent [
 
+	| parent |
+
+	(parent := self parent) canHandleEvents
+		ifTrue: [ parent handleDragEvent: aDragEvent ]
 ]
 
 { #category : #'event handling' }
 CpWebComponent >> handleInputEvent: anInputEvent [
+
+	| parent |
+
+	(parent := self parent) canHandleEvents
+		ifTrue: [ parent handleInputEvent: anInputEvent ]
 
 ]
 
 { #category : #'event handling' }
 CpWebComponent >> handleKeyDownEvent: aKeyDownEvent [
 
+	| parent |
+
+	(parent := self parent) canHandleEvents
+		ifTrue: [ parent handleKeyDownEvent: aKeyDownEvent ]
 ]
 
 { #category : #'event handling' }
 CpWebComponent >> handleKeyPressEvent: aKeyPressEvent [
 
+	| parent |
+
+	(parent := self parent) canHandleEvents
+		ifTrue: [ parent handleKeyPressEvent: aKeyPressEvent ]
 ]
 
 { #category : #'event handling' }
 CpWebComponent >> handleKeyUpEvent: aKeyUpEvent [
 
+	| parent |
+	
+	(parent := self parent) canHandleEvents
+		ifTrue: [ parent handleKeyUpEvent: aKeyUpEvent ]
 ]
 
 { #category : #'event handling' }
 CpWebComponent >> handlePointerDownEvent: aPointerDownEvent [
+
+	| parent |
+
+	(parent := self parent) canHandleEvents
+		ifTrue: [ parent handlePointerDownEvent: aPointerDownEvent ]
 
 ]
 
 { #category : #'event handling' }
 CpWebComponent >> handlePointerMoveEvent: aPointerMoveEvent [
 
+	| parent |
+
+	(parent := self parent) canHandleEvents
+		ifTrue: [ parent handlePointerMoveEvent: aPointerMoveEvent ]
+
 ]
 
 { #category : #'event handling' }
 CpWebComponent >> handlePointerUpEvent: aPointerUpEvent [
 
+	| parent |
+
+	(parent := self parent) canHandleEvents
+		ifTrue: [ parent handlePointerUpEvent: aPointerUpEvent ]
+
+]
+
+{ #category : #querying }
+CpWebComponent >> shadowRoot [
+
+	"Answer the receiver's shadowRoot element or nil if the receiver does not have a shadowRoot"
+
+	<primitive: 'primitiveWebComponentShadowRoot' module: 'CpDOMPlugin'>
+	self primitiveFailed
 ]

@@ -4,19 +4,13 @@ To distinguish individual key strokes please also have a look at KeyEvent.
 "
 Class {
 	#name : #CpInputEvent,
-	#superclass : #CpEvent,
+	#superclass : #CpUserInterfaceEvent,
 	#instVars : [
 		'data',
 		'inputType'
 	],
 	#category : #'CodeParadise-WebApplication-Events'
 }
-
-{ #category : #visiting }
-CpInputEvent >> accept: aVisitor [
-
-	aVisitor input: self
-]
 
 { #category : #accessing }
 CpInputEvent >> data [
@@ -42,12 +36,6 @@ CpInputEvent >> inputType: aString [
 	inputType := aString
 ]
 
-{ #category : #testing }
-CpInputEvent >> isTextEntryEvent [
-
-	^ true
-]
-
 { #category : #printing }
 CpInputEvent >> printOn: aStream [
 
@@ -58,7 +46,7 @@ CpInputEvent >> printOn: aStream [
 	self inputType printOn: aStream
 ]
 
-{ #category : #sending }
+{ #category : #visiting }
 CpInputEvent >> sendTo: anObject [
 
 	anObject handleInputEvent: self

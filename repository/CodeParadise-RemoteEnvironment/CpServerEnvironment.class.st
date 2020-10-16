@@ -79,11 +79,11 @@ CpServerEnvironment class >> encodedMessageForPerform: aSymbol withArguments: an
 ]
 
 { #category : #accessing }
-CpServerEnvironment class >> invalidSessionAlertMessage [
+CpServerEnvironment class >> invalidSessionMessage [
 
 	^ self
-		encodedMessageForPerform: #alert:
-		withArguments: { 'Session is no longer valid' }
+		encodedMessageForPerform: #invalidSession
+		withArguments: {}
 		receiver: nil
 ]
 

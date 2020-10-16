@@ -20,8 +20,9 @@ BaselineOfCodeParadise >> baseline: spec [
 			package: 'CodeParadise-RemoteEnvironment' with: [ spec requires: #('ZincHTTPComponents') ];
 			package: 'CodeParadise-WebApplication' with: [ spec requires: #('CodeParadise-RemoteEnvironment') ];
 			package: 'CodeParadise-WebApplication-MVP' with: [ spec requires: #('CodeParadise-WebApplication') ];
-			package: 'CodeParadise-WebApplication-Fomantic' with: [ spec requires: #('CodeParadise-WebApplication') ];
-			package: 'CodeParadise-Beach' with: [ spec requires: #('CodeParadise-WebApplication') ].
+			package: 'CodeParadise-WebApplication-Fomantic' with: [ spec requires: #('CodeParadise-WebApplication-MVP') ];
+			package: 'CodeParadise-WebApplication-Presentation' with: [ spec requires: #('CodeParadise-WebApplication-MVP') ];
+			package: 'CodeParadise-Beach' with: [ spec requires: #('CodeParadise-WebApplication-MVP') ].
 
 		"Pharo 9.x specific"
 		spec for: #'pharo9.x' do: [ spec package: 'CodeParadise-RemoteEnvironment-Pharo9' ] ]

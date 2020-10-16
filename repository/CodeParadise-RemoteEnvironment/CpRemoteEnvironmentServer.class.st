@@ -56,7 +56,7 @@ CpRemoteEnvironmentServer >> handleClientError: aClientError for: aServerEnviron
 	self flag: #todo.
 
 	"Show inspector with the error and environment"
-	{ aClientError . aServerEnvironment } inspect
+	{ 'An error occurred in the ClientEnvironment' . aClientError . aServerEnvironment } inspect
 ]
 
 { #category : #'message handling' }
@@ -83,7 +83,7 @@ CpRemoteEnvironmentServer >> handleMessageReceived: aByteArray on: aMessageChann
 			self
 				serverEnvironmentForId: id 
 				ifAbsent: [
-					aMessageChannel sendMessage: CpServerEnvironment invalidSessionAlertMessage.
+					aMessageChannel sendMessage: CpServerEnvironment invalidSessionMessage.
 					^ self ] ]
 		ifNil: [ self createServerEnvironment ].
 

@@ -279,6 +279,21 @@ CpObjectEncoder >> encodeLargePositiveInteger: anInteger [
 ]
 
 { #category : #encoding }
+CpObjectEncoder >> encodeMessage: aMessage [
+
+	"Encode aMessage using its selector and arguments (lookupClass is ignored).
+	The selector and all arguments should be encodable themselves."
+
+	writeStream nextPut: 28.
+
+	"Write selector (a Symbol)"
+	self writeString: aMessage selector.
+
+	"Encode arguments (either nil or Array)"
+	aMessage arguments cpEncodeWith: self
+]
+
+{ #category : #encoding }
 CpObjectEncoder >> encodeMessageSend: aMessageSend [
 
 	"Encode aMessageSend using its receiver, selector and arguments.

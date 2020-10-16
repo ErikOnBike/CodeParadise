@@ -26,19 +26,6 @@ CpTextField class >> defaultKeyMapping [
 		yourself
 ]
 
-{ #category : #'instance creation' }
-CpTextField class >> new [
-
-	"Answer new instance of the receiver.
-	Register interest in this instance for event handling."
-
-	| instance |
-
-	instance := super new.
-	CpBrowserEventHandler current registerInterestIn: instance.
-	^ instance
-]
-
 { #category : #'web resources' }
 CpTextField class >> style [
 
