@@ -115,6 +115,15 @@ CpWebComponent >> handleDragEvent: aDragEvent [
 ]
 
 { #category : #'event handling' }
+CpWebComponent >> handleFocusEvent: aFocusEvent [
+
+	| parent |
+	
+	(parent := self parent) canHandleEvents
+		ifTrue: [ parent handleFocusEvent: aFocusEvent ]
+]
+
+{ #category : #'event handling' }
 CpWebComponent >> handleInputEvent: anInputEvent [
 
 	| parent |
