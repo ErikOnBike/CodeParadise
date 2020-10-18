@@ -47,6 +47,14 @@ CpDragEvent >> isEnded [
 ]
 
 { #category : #accessing }
+CpDragEvent >> lastPoint [
+
+	^ self isEnded
+		ifTrue: [ self endPoint ]
+		ifFalse: [ self tracePoints last ]
+]
+
+{ #category : #accessing }
 CpDragEvent >> offset [
 
 	^ offset
