@@ -247,6 +247,12 @@ CpPresenter >> release [
 	super release
 ]
 
+{ #category : #presenter }
+CpPresenter >> reload [
+
+	"Perform any required behavior when reloading the receiver"
+]
+
 { #category : #view }
 CpPresenter >> removeView [
 

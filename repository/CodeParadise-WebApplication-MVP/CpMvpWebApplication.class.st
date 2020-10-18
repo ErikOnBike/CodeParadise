@@ -175,6 +175,9 @@ CpMvpWebApplication >> reload [
 
 	super reload.
 
+	"Let the presenters perfor any reload behavior"
+	self presenters do: [ :each | each reload ].
+
 	"Create and render the Views in the ClientEnvironment"
 	self
 		clientCreateViews ;
