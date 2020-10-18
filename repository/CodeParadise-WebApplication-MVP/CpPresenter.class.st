@@ -80,6 +80,10 @@ CpPresenter >> createView [
 	"Create View in the ClientEnvironment"
 	self application clientCreateViewForPresenter: self.
 
+	"Render view explicitly if receiver is a top level presenter"
+	self hasParent
+		ifFalse: [ self renderView ].
+
 	"Allow subclasses to perform further initialization"
 	self viewCreated
 ]
