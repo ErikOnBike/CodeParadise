@@ -34,12 +34,6 @@ CpWindow class >> template [
 ]
 
 { #category : #'event handling' }
-CpWindow >> handleClickEvent: clickEvent [
-
-	self crTrace: clickEvent printString
-]
-
-{ #category : #'event handling' }
 CpWindow >> handleDragEvent: aDragEvent [
 
 	| clientOffset point |
