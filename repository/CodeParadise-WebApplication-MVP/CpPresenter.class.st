@@ -327,6 +327,14 @@ CpPresenter >> view [
 ]
 
 { #category : #view }
+CpPresenter >> viewAnnounce: anAnnouncement [
+
+	"Let the server side View (ie ViewProxy) announce the specified Announcement"
+
+	self viewProxy announce: anAnnouncement
+]
+
+{ #category : #view }
 CpPresenter >> viewClass [
 
 	"Answer the Class of the View which represents my model best"

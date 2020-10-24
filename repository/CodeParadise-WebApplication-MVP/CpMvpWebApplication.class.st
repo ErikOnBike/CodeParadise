@@ -30,6 +30,14 @@ CpMvpWebApplication >> addPresenter: aPresenter [
 	^ self presenters at: aPresenter id asSymbol put: aPresenter
 ]
 
+{ #category : #converting }
+CpMvpWebApplication >> asCurrentDo: aBlock [
+
+	"Evaluate the specified Block in the context of the current Application (session)"
+
+	CpCurrentApplication value: self during: aBlock
+]
+
 { #category : #creating }
 CpMvpWebApplication >> clientCreateViewForPresenter: aPresenter [
 
@@ -110,19 +118,21 @@ CpMvpWebApplication >> generatePresenterIdentifier [
 { #category : #'announcement handling' }
 CpMvpWebApplication >> handleViewAnnouncement: aViewAnnouncement [
 
-	"Let the correct Presenter announce the announcement from the View.
+	"Let the server side view (ie ViewProxy) announce the announcement
+	from the client side View.
 
 	Implementation:
-	A View and Presenter share the same id."
+	A View and Presenter share the same id. Find the matching Presenter and
+	let its view do the announcement."
 
 	| presenter |
 
 	presenter := self
 		presenterWithId: aViewAnnouncement viewId
-		ifAbsent: [ self error: 'View Announcement received for Presenter which does not exist anymore' ].
+		ifAbsent: [ self error: 'View Announcement received from the client for a View which does not exist anymore on the server' ].
 
 	"Let the Presenter's View do the Announcement"
-	presenter view announce: aViewAnnouncement announcement
+	self asCurrentDo: [ presenter viewAnnounce: aViewAnnouncement announcement ]
 ]
 
 { #category : #initialization }
