@@ -49,6 +49,7 @@ CpWindow class >> style [
 			grid-template-columns: minmax(min-content, 1fr) auto minmax(min-content, 1fr);
 			grid-template-rows: auto;
 			background: linear-gradient(#eee, var(--window-background-color, #ddd));
+			cursor: move;
 		}
 		#controls {
 			height: calc(1.125em + 6px);
@@ -70,7 +71,9 @@ CpWindow class >> style [
 			text-overflow: ellipsis;
 			overflow: hidden;
 			color: var(--window-title-color, #333);
-			cursor: move;
+		}
+		#title * {
+			pointer-events: none;
 		}
 		#content {
 			width: 100%;
@@ -165,8 +168,8 @@ CpWindow class >> template [
 
 	^ '<div class="container">
 			<div id="titleBar">
-				<div id="controls"><slot name="controls">Xsd gkfdg ks</slot></div>
-				<div id="title"><slot name="title">Untitled untitled untitled untitled untitled untitled untitled</slot></div>
+				<div id="controls"><slot name="controls"></slot></div>
+				<div id="title"><slot name="title">Untitled</slot></div>
 			</div>
 			<div id="body">
 				<div id="content"><slot name="content"></slot></div>
@@ -192,7 +195,7 @@ CpWindow >> handleDragEvent: aDragEvent [
 
 	dragId := aDragEvent elementId.
 
-	dragId = #title
+	(#(#title #controls #titleBar) includes: dragId)
 		ifTrue: [ ^ self handleWindowMove: aDragEvent ].
 
 	(#(#top #left #bottom #right) includes: dragId)
@@ -344,6 +347,14 @@ CpWindow >> render [
 	self
 		updatePosition ;
 		updateSize
+]
+
+{ #category : #rendering }
+CpWindow >> renderTitle: aString [
+
+	self
+		replaceChild: (aString inHtmlTag: #span)
+		atSlotNamed: #title
 ]
 
 { #category : #accessing }
