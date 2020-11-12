@@ -135,14 +135,6 @@ CpButton class >> template [
 		</div>'
 ]
 
-{ #category : #'event handling' }
-CpButton >> handleClickEvent: aClickEvent [
-
-	"Announce the fact that receiver has been clicked"
-
-	self announce: aClickEvent asAnnouncement
-]
-
 { #category : #accessing }
 CpButton >> label [
 

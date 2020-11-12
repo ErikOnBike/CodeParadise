@@ -60,14 +60,6 @@ CpLink class >> template [
 	^ '<div id="container"><slot name="label"></slot></div>'
 ]
 
-{ #category : #'event handling' }
-CpLink >> handleClickEvent: aClickEvent [
-
-	"Announce the fact that receiver has been clicked"
-
-	self announce: aClickEvent asAnnouncement
-]
-
 { #category : #accessing }
 CpLink >> label [
 
