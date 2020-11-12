@@ -18,6 +18,18 @@ CpComponentExamplesWebApplication class >> clientBehaviorClass [
 	^ CpComponentExamplesClientBehavior
 ]
 
+{ #category : #actions }
+CpComponentExamplesWebApplication >> clientShowIndex [
+
+	"Show the index at the client (replacing default screen)"
+
+	self sendMessage: (MessageSend
+		receiver: self clientBehaviorClass clientId
+		selector: #showIndex
+		arguments: {})
+
+]
+
 { #category : #installing }
 CpComponentExamplesWebApplication >> installExtensionMethods [
 
@@ -29,4 +41,22 @@ CpComponentExamplesWebApplication >> installExtensionMethods [
 		self environment addMethod: each method ].
 	(Pragma allNamed: #webApplicationMaterialDesignExtension in: String) do: [ :each |
 		self environment addMethod: each method ]
+]
+
+{ #category : #actions }
+CpComponentExamplesWebApplication >> load [
+
+	super load.
+
+	self clientShowIndex
+
+]
+
+{ #category : #actions }
+CpComponentExamplesWebApplication >> reload [
+
+	super reload.
+
+	self clientShowIndex
+
 ]

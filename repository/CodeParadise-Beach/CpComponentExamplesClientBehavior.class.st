@@ -122,14 +122,6 @@ CpComponentExamplesClientBehavior >> handleFocusEvent: aFocusEvent [
 	self crTrace: aFocusEvent printString
 ]
 
-{ #category : #initialization }
-CpComponentExamplesClientBehavior >> initialize [
-
-	super initialize.
-
-	self showIndex
-]
-
 { #category : #accessing }
 CpComponentExamplesClientBehavior >> outputElement [
 

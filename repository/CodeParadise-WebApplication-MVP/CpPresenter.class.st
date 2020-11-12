@@ -43,19 +43,44 @@ CpPresenter >> application [
 { #category : #accessing }
 CpPresenter >> application: anApplication [
 
+	"Assign the Application the receiver is part of.
+	It is the Application's responsibility to assign this value
+	when registering the receiver at the application (see
+	#createChildPresenter:atSlotNamed:forModel:)."
+
 	application := anApplication
+]
+
+{ #category : #accessing }
+CpPresenter >> applicationPresenter [
+
+	^ self application applicationPresenter
 ]
 
 { #category : #presenter }
 CpPresenter >> createChildPresenter: aPresenterClass atSlotNamed: aString forModel: aModel [
 
-	"Create a child Presenter for the receiver on the specified model"
+	"Create a child Presenter for the receiver on the specified model.
 
-	^ self application
-		createPresenter: aPresenterClass
-		withParent: self
-		atSlotNamed: aString
-		forModel: aModel
+	Implementation:
+	Set the model last, just before creating the View, so any announcements from the model
+	can be handled by a fully operational Presenter instance."
+
+	| childPresenter |
+
+	childPresenter := aPresenterClass new
+		parent: self ;
+		slotName: aString ;
+		yourself.
+
+	self application registerPresenter: childPresenter.
+
+	childPresenter
+		model: aModel ;
+		createView.
+
+	^ childPresenter
+
 ]
 
 { #category : #presenter }
@@ -63,7 +88,21 @@ CpPresenter >> createChildPresenter: aPresenterClass forModel: aModel [
 
 	"Create a child Presenter for the receiver on the specified model"
 
-	^ self createChildPresenter: aPresenterClass atSlotNamed: nil forModel: aModel
+	^ self
+		createChildPresenter: aPresenterClass
+		atSlotNamed: nil
+		forModel: aModel
+]
+
+{ #category : #presenter }
+CpPresenter >> createChildPresenterForModel: aModel [
+
+	"Create a child Presenter for the receiver on the specified model"
+
+	^ self
+		createChildPresenter: (aModel defaultPresenterClassIn: self)
+		atSlotNamed: nil
+		forModel: aModel
 ]
 
 { #category : #view }
@@ -81,8 +120,7 @@ CpPresenter >> createView [
 	self application clientCreateViewForPresenter: self.
 
 	"Render view explicitly if receiver is a top level presenter"
-	self hasParent
-		ifFalse: [ self renderView ].
+	self renderView.
 
 	"Allow subclasses to perform further initialization"
 	self viewCreated
@@ -119,6 +157,12 @@ CpPresenter >> destroyViewProxy [
 		viewProxy := nil ]
 ]
 
+{ #category : #testing }
+CpPresenter >> hasId [
+
+	^ id notNil
+]
+
 { #category : #model }
 CpPresenter >> hasModel [
 
@@ -127,7 +171,7 @@ CpPresenter >> hasModel [
 	^ model notNil
 ]
 
-{ #category : #testing }
+{ #category : #presenter }
 CpPresenter >> hasParent [
 
 	^ parent notNil
@@ -147,6 +191,11 @@ CpPresenter >> id [
 
 { #category : #accessing }
 CpPresenter >> id: aString [
+
+	"Assign the id of the receiver which distinguishes it within its Application.
+	It is the Application's responsibility to assign this value
+	when registering the receiver at the application (see
+	#createChildPresenter:atSlotNamed:forModel:)."
 
 	id := aString
 ]
@@ -251,10 +300,11 @@ CpPresenter >> release [
 	super release
 ]
 
-{ #category : #presenter }
+{ #category : #actions }
 CpPresenter >> reload [
 
 	"Perform any required behavior when reloading the receiver"
+
 ]
 
 { #category : #view }
@@ -314,7 +364,7 @@ CpPresenter >> updateView [
 
 	"Update the receiver's view"
 
-	self viewProxy viewClass = self viewClass
+	viewProxy viewClass = self viewClass
 		ifFalse: [ self recreateView ]
 ]
 
@@ -326,7 +376,7 @@ CpPresenter >> view [
 	Implementation:
 	Since the View is accessed by a Proxy anwer the proxy."
 
-	^ self viewProxy
+	^ viewProxy
 ]
 
 { #category : #view }
@@ -334,7 +384,7 @@ CpPresenter >> viewAnnounce: anAnnouncement [
 
 	"Let the server side View (ie ViewProxy) announce the specified Announcement"
 
-	self viewProxy announce: anAnnouncement
+	viewProxy announce: anAnnouncement
 ]
 
 { #category : #view }
@@ -373,10 +423,4 @@ CpPresenter >> viewLocation [
 	^ self hasParent
 		ifTrue: [ self parent viewId ]
 		ifFalse: [ self defaultViewLocation ]
-]
-
-{ #category : #view }
-CpPresenter >> viewProxy [
-
-	^ viewProxy
 ]

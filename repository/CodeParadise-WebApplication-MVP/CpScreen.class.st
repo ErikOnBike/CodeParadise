@@ -7,33 +7,6 @@ Class {
 	#category : #'CodeParadise-WebApplication-MVP-Core'
 }
 
-{ #category : #accessing }
-CpScreen class >> id [
-
-	"Answer the unique id for the receiver's instance.
-
-	Implementation:
-	Keep a short id so it can not conflict with generated ids from CpWebIdentifierGenerator."
-
-	^ #scrn
-]
-
-{ #category : #dragging }
-CpScreen class >> makeDraggable: aView [
-
-	(CpHtmlElement elementWithId: self id)
-		addClass: #dragging.
-	aView addClass: #dragging
-]
-
-{ #category : #dragging }
-CpScreen class >> stopDragging: aView [
-
-	(CpHtmlElement elementWithId: self id)
-		removeClass: #dragging.
-	aView removeClass: #dragging
-]
-
 { #category : #'web resources' }
 CpScreen class >> style [
 
@@ -75,9 +48,6 @@ CpScreen >> initialize [
 
 	super initialize.
 
-	"Add id to the receiver"
-	self id: self class id.
-
 	"Add some default styling to the full document"
 	CpHtmlElement documentHead appendChild: ((CpHtmlElement newWithTag: #style)
 		textContent: '
@@ -90,4 +60,20 @@ CpScreen >> initialize [
 				font-family: "SF Pro Text", "Helvetica Neue", Helvetica, Arial, sans-serif;
 			}' ;
 		yourself)
+]
+
+{ #category : #dragging }
+CpScreen >> makeDraggable: aView [
+
+	(CpHtmlElement elementWithId: self id)
+		addClass: #dragging.
+	aView addClass: #dragging
+]
+
+{ #category : #dragging }
+CpScreen >> stopDragging: aView [
+
+	(CpHtmlElement elementWithId: self id)
+		removeClass: #dragging.
+	aView removeClass: #dragging
 ]

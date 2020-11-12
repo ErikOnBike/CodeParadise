@@ -34,91 +34,127 @@ CpWindow class >> style [
 			user-select: none;			
 		}
 		.container {
-			position: absolute;
+			display: grid;
+			grid-template-columns: auto;
+			grid-template-rows: minmax(1.2em, max-content) auto;
 			width: 100%;
 			height: 100%;
 			overflow: hidden;
+			border-radius: 8px;
+			border: var(--window-border-size, 1px) solid var(--window-border-color, #333);
+			background-color: var(--window-background-color, #ddd);
 		}
-		.container * {
-			background-color: var(--window-background-color, #ccc);
+		#titleBar {
+			display: grid;
+			grid-template-columns: minmax(min-content, 1fr) auto minmax(min-content, 1fr);
+			grid-template-rows: auto;
+			background: linear-gradient(#eee, var(--window-background-color, #ddd));
 		}
-		:host(.dragging) .container * {
-			background-color: var(--window-dragging-background-color, rgba(255, 0, 0, .1));
+		#controls {
+			height: calc(1.125em + 6px);
+			padding-left: 8px;
+			padding-right: 8px;
+			white-space: nowrap;
 		}
-		#topLeft, #topRight, #bottomLeft, #bottomRight {
-			position: absolute;
-			width: 8px;
-			height: 8px;
+		#controls ::slotted(cp-icon) {
+			display: inline-block;
+			width: calc(1.125em + 6px);
+			height: calc(1.125em + 6px);
+			cursor: pointer;
 		}
-		#top, #bottom {
-			position: absolute;
-			left: 8px;
-			width: calc(100% - 16px);
-			height: 8px;
+		#title {
+			padding-top: 3px;
+			padding-bottom: 3px;
+			text-align: center;
+			white-space: nowrap;
+			text-overflow: ellipsis;
+			overflow: hidden;
+			color: var(--window-title-color, #333);
 			cursor: move;
 		}
-		#left, #right {
+		#content {
+			width: 100%;
+			height: 100%;
+		}
+		#handles {
 			position: absolute;
-			top: 8px;
-			width: 8px;
-			height: calc(100% - 16px);
-			cursor: move;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			pointer-events: none;
 		}
 		#top {
-			top: 0;
-			border-top: 1px solid #000;
+			position: absolute;
+			top: -4px;
+			left: 12px;
+			width: calc(100% - 24px);
+			height: 8px;
+			cursor: ns-resize;
+			pointer-events: auto;
 		}
 		#bottom {
-			bottom: 0;
-			border-bottom: 1px solid #000;
+			position: absolute;
+			bottom: -4px;
+			left: 12px;
+			width: calc(100% - 24px);
+			height: 8px;
+			cursor: ns-resize;
+			pointer-events: auto;
 		}
 		#left {
-			left: 0;
-			border-left: 1px solid #000;
+			position: absolute;
+			top: 12px;
+			left: -4px;
+			width: 8px;
+			height: calc(100% - 24px);
+			cursor: ew-resize;
+			pointer-events: auto;
 		}
 		#right {
-			right: 0;
-			border-right: 1px solid #000;
+			position: absolute;
+			top: 12px;
+			right: -4px;
+			width: 8px;
+			height: calc(100% - 24px);
+			cursor: ew-resize;
+			pointer-events: auto;
 		}
 		#topLeft {
-			top: 0;
-			left: 0;
-			border-top: 1px solid #000;
-			border-left: 1px solid #000;
-			border-top-left-radius: 8px;
-			cursor: nw-resize;
+			position: absolute;
+			top: -4px;
+			left: -4px;
+			width: 16px;
+			height: 16px;
+			cursor: nwse-resize;
+			pointer-events: auto;
 		}
 		#topRight {
-			top: 0;
-			right: 0;
-			border-top: 1px solid #000;
-			border-right: 1px solid #000;
-			border-top-right-radius: 8px;
-			cursor: ne-resize;
+			position: absolute;
+			top: -4px;
+			right: -4px;
+			width: 16px;
+			height: 16px;
+			cursor: nesw-resize;
+			pointer-events: auto;
 		}
 		#bottomLeft {
-			bottom: 0;
-			left: 0;
-			border-bottom: 1px solid #000;
-			border-left: 1px solid #000;
-			border-bottom-left-radius: 8px;
-			cursor: sw-resize;
+			position: absolute;
+			bottom: -4px;
+			left: -4px;
+			width: 16px;
+			height: 16px;
+			cursor: nesw-resize;
+			pointer-events: auto;
 		}
 		#bottomRight {
-			bottom: 0;
-			right: 0;
-			border-bottom: 1px solid #000;
-			border-right: 1px solid #000;
-			border-bottom-right-radius: 8px;
-			cursor: se-resize;
-		}
-		slot[name="content"] {
-			display: block;
 			position: absolute;
-			top: 8px;
-			left: 8px;
-			width: calc(100% - 16px);
-			height: calc(100% - 16px);
+			bottom: -4px;
+			right: -4px;
+			width: 16px;
+			height: 16px;
+			cursor: nwse-resize;
+			pointer-events: auto;
 		}'
 ]
 
@@ -128,20 +164,42 @@ CpWindow class >> template [
 	<webResource: #html>
 
 	^ '<div class="container">
-			<div id="topLeft"></div><div id="top"></div><div id="topRight"></div>
-			<div id="left"></div><slot name="content"></slot><div id="right"></div>
-			<div id="bottomLeft"></div><div id="bottom"></div><div id="bottomRight"></div>
+			<div id="titleBar">
+				<div id="controls"><slot name="controls">Xsd gkfdg ks</slot></div>
+				<div id="title"><slot name="title">Untitled untitled untitled untitled untitled untitled untitled</slot></div>
+			</div>
+			<div id="body">
+				<div id="content"><slot name="content"></slot></div>
+			</div>
+			<div id="handles">
+				<div id="topLeft"></div><div id="top"></div><div id="topRight"></div>
+				<div id="left"></div><div id="right"></div>
+				<div id="bottomLeft"></div><div id="bottom"></div><div id="bottomRight"></div>
+			</div>
 		</div>'
+]
+
+{ #category : #actions }
+CpWindow >> close [
+
+	self serverAnnounce: CpWindowClose
 ]
 
 { #category : #'event handling' }
 CpWindow >> handleDragEvent: aDragEvent [
 
-	(#(#top #left #bottom #right) includes: aDragEvent elementId)
+	| dragId |
+
+	dragId := aDragEvent elementId.
+
+	dragId = #title
 		ifTrue: [ ^ self handleWindowMove: aDragEvent ].
 
-	(#(#topLeft #topRight #bottomLeft #bottomRight) includes: aDragEvent elementId)
-		ifTrue: [ ^ self handleWindowResize: aDragEvent ]
+	(#(#top #left #bottom #right) includes: dragId)
+		ifTrue: [ ^ self handleWindowResizeSide: aDragEvent ].
+
+	(#(#topLeft #topRight #bottomLeft #bottomRight) includes: dragId)
+		ifTrue: [ ^ self handleWindowResizeCorner: aDragEvent ]
 ]
 
 { #category : #'event handling' }
@@ -156,9 +214,10 @@ CpWindow >> handleWindowMove: aDragEvent [
 	| clientOffset point |
 
 	"Prevent other views from receiving events"
+	self flag: #todo. "Responsibility to handle draggability should be changed"
 	aDragEvent isEnded
-		ifTrue: [ CpScreen stopDragging: self ]
-		ifFalse: [ CpScreen makeDraggable: self ].
+		ifTrue: [ self parent stopDragging: self ]
+		ifFalse: [ self parent makeDraggable: self ].
 
 	clientOffset := aDragEvent offset.
 	point := aDragEvent lastPoint.
@@ -169,14 +228,15 @@ CpWindow >> handleWindowMove: aDragEvent [
 ]
 
 { #category : #'event handling' }
-CpWindow >> handleWindowResize: aDragEvent [
+CpWindow >> handleWindowResizeCorner: aDragEvent [
 
 	| point resizeCorner |
 
 	"Prevent other views from receiving events"
+	self flag: #todo. "Responsibility to handle draggability should be changed"
 	aDragEvent isEnded
-		ifTrue: [ CpScreen stopDragging: self ]
-		ifFalse: [ CpScreen makeDraggable: self ].
+		ifTrue: [ self parent stopDragging: self ]
+		ifFalse: [ self parent makeDraggable: self ].
 
 	point := aDragEvent lastPoint.
 	resizeCorner := aDragEvent elementId.
@@ -192,6 +252,36 @@ CpWindow >> handleWindowResize: aDragEvent [
 	self render
 ]
 
+{ #category : #'event handling' }
+CpWindow >> handleWindowResizeSide: aDragEvent [
+
+	| point resizeSide |
+
+	"Prevent other views from receiving events"
+	self flag: #todo. "Responsibility to handle draggability should be changed"
+	aDragEvent isEnded
+		ifTrue: [ self parent stopDragging: self ]
+		ifFalse: [ self parent makeDraggable: self ].
+
+	point := aDragEvent lastPoint.
+	resizeSide := aDragEvent elementId.
+
+	"Distinguish all four sides"
+	resizeSide = #left
+		ifTrue: [ self updateLeftSide: point x ]
+		ifFalse: [
+			resizeSide = #right
+				ifTrue: [ self updateRightSide: point x ]
+				ifFalse: [
+					resizeSide = #top
+						ifTrue: [ self updateTopSide: point y ]
+						ifFalse: [
+							resizeSide = #bottom
+								ifTrue: [ self updateBottomSide: point y ] ] ] ].
+
+	self render
+]
+
 { #category : #accessing }
 CpWindow >> height [
 
@@ -201,12 +291,19 @@ CpWindow >> height [
 { #category : #initialization }
 CpWindow >> initialize [
 
+	| closeControl |
+
 	super initialize.
 
 	position := 100 @ 100.
 	size := self minWidth @ self minHeight.
 
+	closeControl := CpIcon close
+		when: CpClickEvent send: #close to: self ;
+		yourself.
+
 	self
+		appendChild: closeControl atSlotNamed: #controls ; 
 		styleAt: #position put: #absolute ;
 		render
 ]

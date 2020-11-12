@@ -23,11 +23,10 @@ CpPresentationWebApplication >> load [
 
 	"Create PresentionModel and add it to the receiver"
 	presentation := self createPresentationModel.
-	self addModel: presentation.
 
 	"Create presentation presenter and add it to the receiver.
 	This presenter will be installed when #load or #reload is called on the receiver."
-	self createPresenter: CpPresentationPresenter forModel: presentation.
+	self applicationPresenter createChildPresenterForModel: presentation.
 
 	"Now everything is in place, start the presentation"
 	presentation start

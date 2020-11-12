@@ -78,6 +78,7 @@ CpViewProxy >> release [
 		announcer subscriptions reset.
 		announcer := nil ].
 	presenter := nil.
+	viewClass := nil.
 
 	super release
 ]
