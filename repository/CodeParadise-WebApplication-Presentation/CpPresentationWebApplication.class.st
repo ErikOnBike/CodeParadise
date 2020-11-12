@@ -26,7 +26,7 @@ CpPresentationWebApplication >> load [
 
 	"Create presentation presenter and add it to the receiver.
 	This presenter will be installed when #load or #reload is called on the receiver."
-	self applicationPresenter createChildPresenterForModel: presentation.
+	self applicationPresenter createChildPresenter: CpPresentationPresenter forModel: presentation.
 
 	"Now everything is in place, start the presentation"
 	presentation start

@@ -49,12 +49,6 @@ CpPresentation >> currentSlide [
 		ifEmpty: [ nil ]
 ]
 
-{ #category : #presenter }
-CpPresentation >> defaultPresenterClass [
-
-	^ CpPresentationPresenter
-]
-
 { #category : #api }
 CpPresentation >> goToSlide: aSlide [
 
