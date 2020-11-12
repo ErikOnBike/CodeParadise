@@ -99,13 +99,21 @@ CpEnvironment >> release [
 ]
 
 { #category : #'input/output' }
-CpEnvironment >> sendMessage: aByteArray [
+CpEnvironment >> sendEncodedMessage: aByteArray [
 
-	"Send (encoded) message to the server"
+	"Send encoded message to the connected party"
 
 	self hasCommunicator ifFalse: [ ^ self ].
 
 	self communicator sendMessage: aByteArray
+]
+
+{ #category : #'input/output' }
+CpEnvironment >> sendMessage: aMessageSend [
+
+	"Send the specified MessageSend to the server"
+
+	self sendEncodedMessage: aMessageSend cpEncoded
 ]
 
 { #category : #support }

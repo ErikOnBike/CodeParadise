@@ -5,7 +5,7 @@ I live in the ServerEnvironment and know the application I am running in.
 I share an id with my view which allows our binding across environments.
 
 Implementation:
-The view instance variable is actually a ViewProxy which allows regular message sends to my view.
+The viewProxy instance variable allows regular message sends to my view.
 The proxy will send the message to the ClientEnvironment environment.
 The fact that objects in the ClientEnvironment can't respond to a message send, does
 however mean that it is not possible to use the result (answer) of a message send. Or to put it
@@ -283,12 +283,15 @@ CpPresenter >> renderView [
 { #category : #view }
 CpPresenter >> sendMessageToView: aMessage [
 
-	"Send the specified message to the receiver's view"
+	"Send the specified message to the receiver's view.
 
-	self application environment
-		clientPerform: #performMessage:
-		withArguments: { aMessage }
+	Implementation:
+	The MessageSend's receiver is replaced by its id because of message serialization."
+
+	self application sendMessage: (MessageSend
 		receiver: self viewId
+		selector: #performMessage:
+		arguments: { aMessage })
 ]
 
 { #category : #accessing }

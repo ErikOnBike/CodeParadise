@@ -1,12 +1,17 @@
 "
 I am a WebApplication. I work with elements according to the Model-View-Presenter pattern.
 I only live in a ServerEnvironment.
+
+Implementation:
+My instance keeps track of all Presenters. This allows for:
+- Direct mapping of incoming ViewAnnouncements to the correct ViewProxy
+- Generating unique identifiers for new Presenters/Views (because new identifiers can be checked before being assigned)
+
 "
 Class {
 	#name : #CpMvpWebApplication,
 	#superclass : #CpWebApplication,
 	#instVars : [
-		'models',
 		'presenters'
 	],
 	#category : #'CodeParadise-WebApplication-MVP-Core'
@@ -38,21 +43,26 @@ CpMvpWebApplication >> asCurrentDo: aBlock [
 	CpCurrentApplication value: self during: aBlock
 ]
 
-{ #category : #creating }
+{ #category : #view }
 CpMvpWebApplication >> clientCreateViewForPresenter: aPresenter [
 
 	"Create a new View in the ClientEnvironment for the specified Presenter"
 
-	self environment
-		addClass: aPresenter viewClass ;
+	"First install View class"
+	self environment addClass: aPresenter viewClass.
 
-		clientPerform: #createView:withId:atParentId:atSlotNamed:
-		withArguments: {
+	"Then instantiate the View.
+	Implementation: The MessageSend's receiver is replaced by its id
+	because of message serialization."
+	self sendMessage: (MessageSend
+		receiver: self clientBehaviorClass clientId
+		selector: #createView:withId:atParentId:atSlotNamed:
+		arguments: {
 			aPresenter viewClass name .
 			aPresenter viewId .
 			aPresenter viewLocation .
-			aPresenter slotName }
-		receiver: self clientBehaviorId
+			aPresenter slotName })
+
 ]
 
 { #category : #creating }

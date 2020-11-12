@@ -49,14 +49,6 @@ CpWebApplication >> clientBehaviorClass [
 	^ self class clientBehaviorClass
 ]
 
-{ #category : #accessing }
-CpWebApplication >> clientBehaviorId [
-
-	"Answer the id of the receiver's ClientBehaviour"
-
-	^ self clientBehaviorClass clientId
-]
-
 { #category : #installing }
 CpWebApplication >> installExtensionMethods [
 
