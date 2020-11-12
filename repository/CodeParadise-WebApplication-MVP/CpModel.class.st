@@ -26,6 +26,14 @@ CpModel >> announcer [
 	^ announcer
 ]
 
+{ #category : #'as yet unclassified' }
+CpModel >> defaultPresenterClassIn: aPresenter [
+
+	"Answer the default Presenter Class for the receiver when being displayed inside the specified (parent) Presenter"
+
+	^ self defaultPresenterClass
+]
+
 { #category : #initialization }
 CpModel >> initialize [
 

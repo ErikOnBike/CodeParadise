@@ -49,8 +49,8 @@ CpPresentation >> currentSlide [
 		ifEmpty: [ nil ]
 ]
 
-{ #category : #'as yet unclassified' }
-CpPresentation >> defaultPresenterClassIn: aPresenter [
+{ #category : #presenter }
+CpPresentation >> defaultPresenterClass [
 
 	^ CpPresentationPresenter
 ]
