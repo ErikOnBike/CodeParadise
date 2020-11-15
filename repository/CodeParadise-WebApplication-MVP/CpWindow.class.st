@@ -350,10 +350,10 @@ CpWindow >> render [
 ]
 
 { #category : #rendering }
-CpWindow >> renderTitle: aString [
+CpWindow >> renderTitle: anElement [
 
 	self
-		replaceChild: (aString inHtmlTag: #span)
+		replaceChild: anElement asElement
 		atSlotNamed: #title
 ]
 

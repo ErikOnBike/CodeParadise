@@ -23,29 +23,18 @@ CpLink class >> style [
 
 	<webResource: #css>
 
-	^ ':host {
-			display: inline-flex;
-			position: relative;
-			white-space: nowrap;
-			font-size: .8rem;
-		}
-	
-		#container {
-			display: inline-flex;
-			width: 100%;
-			height: 100%;
+	^ '#container {
+			display: inline-block;
 			min-height: inherit;
 			color: var(--link-text-color);
 			background-color: var(--link-background-color);
 			cursor: pointer;
-		}
-	
+		}	
 		#container:hover {
 			text-decoration: underline;
 			color: var(--link-hovered-text-color);
 			background-color: var(--link-hovered-background-color);
 		}
-
 		#container:active {
 			color: var(--link-activated-text-color);
 			background-color: var(--link-activated-background-color);

@@ -46,6 +46,12 @@ CpAnimation >> block: aBlock [
 	block := aBlock
 ]
 
+{ #category : #actions }
+CpAnimation >> cancel [
+
+	CpBrowserAnimator current removeAnimation: self
+]
+
 { #category : #accessing }
 CpAnimation >> duration [
 

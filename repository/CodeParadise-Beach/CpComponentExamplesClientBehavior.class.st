@@ -83,7 +83,7 @@ CpComponentExamplesClientBehavior >> exampleTextField [
 
 	outputElement appendChild: (self textFieldExplanation inHtmlTag: #p).
 
-	outputElement appendChild: ((CpTextField new)
+	outputElement appendChild: ((CpRichTextField new)
 		styleAt: #width put: '20em' ;
 		text: 'Hello world' ;
 		yourself).
@@ -91,7 +91,7 @@ CpComponentExamplesClientBehavior >> exampleTextField [
 	"Separator"
 	outputElement appendChild: (CpHtmlElement newWithTag: #p).
 
-	outputElement appendChild: ((CpTextField new)
+	outputElement appendChild: ((CpRichTextField new)
 		styleAt: #width put: '20em' ;
 		text: '' ;
 		yourself)

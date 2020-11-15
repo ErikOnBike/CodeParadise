@@ -35,13 +35,13 @@ CpBrowserAnimator class >> new [
 	self shouldNotImplement
 ]
 
-{ #category : #adding }
+{ #category : #'adding/removing' }
 CpBrowserAnimator >> addAnimation: anAnimation [
 
 	^ self addAnimation: anAnimation delay: 0
 ]
 
-{ #category : #adding }
+{ #category : #'adding/removing' }
 CpBrowserAnimator >> addAnimation: anAnimation delay: anInteger [
 
 	"Add the specified Animation to the receiver and start animating after specified delay (in milliseconds)"
@@ -53,13 +53,13 @@ CpBrowserAnimator >> addAnimation: anAnimation delay: anInteger [
 	^ anAnimation
 ]
 
-{ #category : #adding }
+{ #category : #'adding/removing' }
 CpBrowserAnimator >> addAnimation: anAnimation inSyncWith: anotherAnimation [
 
 	^ self addAnimation: anAnimation inSyncWith: anotherAnimation delay: 0
 ]
 
-{ #category : #adding }
+{ #category : #'adding/removing' }
 CpBrowserAnimator >> addAnimation: anAnimation inSyncWith: anotherAnimation delay: anInteger [
 
 	"Add an Animation to the receiver and start animating a fixed time after anotherAnimation.
@@ -136,4 +136,12 @@ CpBrowserAnimator >> primRegisterAnimationProcess: animationProcess [
 	<primitive: 'primitiveAnimatorRegisterProcess:' module: 'CpDOMPlugin'>
 	self primitiveFailed
 
+]
+
+{ #category : #'adding/removing' }
+CpBrowserAnimator >> removeAnimation: anAnimation [
+
+	animations := animations copyWithout: anAnimation.
+
+	^ anAnimation
 ]
