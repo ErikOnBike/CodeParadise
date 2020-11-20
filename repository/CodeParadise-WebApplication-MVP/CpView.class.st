@@ -67,6 +67,15 @@ CpView >> initialize [
 	CpBrowserEventHandler current registerInterestIn: self
 ]
 
+{ #category : #initialization }
+CpView >> initializeChildren [
+
+	"Initialize any child Views"
+
+	(self shadowRoot allDescendantsMatching: '*')
+		do: [ :each | each initialize ]
+]
+
 { #category : #accessing }
 CpView >> keymapper [
 
