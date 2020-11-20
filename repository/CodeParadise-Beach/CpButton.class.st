@@ -80,8 +80,12 @@ CpButton class >> style [
 		slot {
 			display: inline-block;
 		}
+		slot[name="prefix"] {
+			width: 1.25em;
+			height: 1.25em;
+		}
 		slot[name="prefix"]::slotted(*) {
-			margin-right: 3px;		
+			margin-right: 3px;
 		}
 		slot[name="suffix"]::slotted(*) {
 			margin-left: 3px;
@@ -92,6 +96,7 @@ CpButton class >> style [
 			overflow: hidden;
 			text-overflow: ellipsis;
 		}
+		slot,
 		:slotted(*) {
 			pointer-events: none;
 			-webkit-user-select: none;
