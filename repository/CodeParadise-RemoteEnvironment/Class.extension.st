@@ -1,6 +1,17 @@
 Extension { #name : #Class }
 
 { #category : #'*CodeParadise-RemoteEnvironment' }
+Class >> beLoaded [
+
+	"Empty method, but referring to this method directly (ie [[[ CpTransition beLoaded ]]])
+	from a method to be installed in a ClientEnvironment will also install the receiver (class)
+	in the ClientEnvironment"
+
+	<clientEnvironment>
+
+]
+
+{ #category : #'*CodeParadise-RemoteEnvironment' }
 Class >> cpAllRequiredClassesMatching: matchBlock [
 
 	"Answer a collection of Classes the receiver is dependent on in the ClientEnvironment
