@@ -1,6 +1,16 @@
 Extension { #name : #CompiledMethod }
 
 { #category : #'*CodeParadise-RemoteEnvironment' }
+CompiledMethod >> bindClassVariables [
+
+	"Bind class variables to the receiver (replace literal association with class variable association).
+	Assume the receiver is already bound to a class."
+
+	self bindClassVariablesTo: self methodClass instanceSide
+
+]
+
+{ #category : #'*CodeParadise-RemoteEnvironment' }
 CompiledMethod >> bindClassVariablesTo: aClass [
 
 	"Bind class variables to the receiver (replace literal association with the
