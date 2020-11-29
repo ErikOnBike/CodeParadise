@@ -53,13 +53,12 @@ CpAnimationDemoContentView >> render [
 		styleAt: #'background-color' put: '#004E6E' ;
 		yourself).
 
-	CpBrowserAnimator current
-		addAnimation: (CpAnimation for: [ :p |
-			element1 styleAt: #transform put: 'rotate(', (360 * p) printString, 'deg)' ] duration: 1500)
-		delay: 1000 ;
-		addAnimation: (CpAnimation for: [ :p |
-			element2 styleAt: #transform put: 'translate(', ((1 - p) * 200) printString, 'px,0)' ] duration: 800)
-		delay: 1700
+	[ :p | element1 styleAt: #transform put: 'rotate(', (360 * p) printString, 'deg)' ] asTransition
+		duration: 1500 ;
+		startDelayedBy: 1000.
+	[ :p | element2 styleAt: #transform put: 'translate(', ((1 - p) * 200) printString, 'px,0)' ] asTransition
+		duration: 800 ;
+		startDelayedBy: 1700
 
 ]
 
@@ -131,8 +130,7 @@ CpAnimationDemoContentView >> renderMany [
 				styleAt: #'background-color' put: '#00384F' ;
 				yourself) ] ].
 
-	CpBrowserAnimator current
-		addAnimation: (CpAnimation for: [ :p |
+	[ :p |
 			| rotate |
 			rotate := String streamContents: [ :stream |
 				stream nextPutAll: 'rotate('.
@@ -158,6 +156,7 @@ CpAnimationDemoContentView >> renderMany [
 					stream nextPut: $) ].
 				eachChild
 					styleAt: #'background-color' put: color ;
-					styleAt: #transform put: scale ] ] ] duration: 1500)
-		delay: 1000
+					styleAt: #transform put: scale ] ] ] asTransition
+		duration: 1500 ;
+		startDelayedBy: 1000
 ]

@@ -34,10 +34,9 @@ CpDomExamplesClientBehavior >> exampleAnimationMany [
 			styleAt: #'background-color' put: '#C2B280' ;
 			yourself).
 
-		CpBrowserAnimator current
-			addAnimation: (CpAnimation for: [ :p |
-				element styleAt: #transform put: 'rotate(', (90 * p) printString, 'deg)' ] duration: 400)
-			delay: 1000 ]
+		[ :p | element styleAt: #transform put: 'rotate(', (90 * p) printString, 'deg)' ] asTransition
+			duration: 400 ;
+			startDelayedBy: 1000 ]
 ]
 
 { #category : #examples }
@@ -60,12 +59,12 @@ CpDomExamplesClientBehavior >> exampleAnimationSimple [
 		styleAt: #'background-color' put: '#B280C2' ;
 		yourself).
 
-	CpBrowserAnimator current
-		addAnimation: (CpAnimation for: [ :p |
-			element1 styleAt: #transform put: 'rotate(', (360 * p) printString, 'deg)' ] duration: 1500) ;
-		addAnimation: (CpAnimation for: [ :p |
-			element2 styleAt: #transform put: 'translate(', (200 * p) printString, 'px,0)' ] duration: 800)
-		delay: 700
+	[ :p | element1 styleAt: #transform put: 'rotate(', (360 * p) printString, 'deg)' ] asTransition
+		duration: 1500 ;
+		start.
+	[ :p | element2 styleAt: #transform put: 'translate(', (200 * p) printString, 'px,0)' ] asTransition
+		duration: 800 ;
+		startDelayedBy: 700
 
 ]
 
@@ -276,6 +275,8 @@ CpDomExamplesClientBehavior >> handleClickEvent: anEvent [
 CpDomExamplesClientBehavior >> initialize [
 
 	super initialize.
+
+	CpTransition beLoaded.
 
 	self showIndex
 ]
