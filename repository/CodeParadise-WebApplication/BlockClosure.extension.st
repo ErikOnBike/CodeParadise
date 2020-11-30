@@ -5,5 +5,5 @@ BlockClosure >> asTransition [
 
 	<webApplicationExtension>
 
-	^ CpTransition onBlock: self
+	^ (Smalltalk at: #CpTransition) onBlock: self
 ]
