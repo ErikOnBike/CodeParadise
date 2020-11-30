@@ -40,7 +40,7 @@ CpEvent >> dispatch [
 	self target canHandleEvents
 		ifTrue: [ self sendTo: self target ].
 
-	self target announceEvent: self
+	self target announce: self
 ]
 
 { #category : #testing }

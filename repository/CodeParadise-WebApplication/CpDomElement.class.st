@@ -161,13 +161,6 @@ CpDomElement >> announce: anAnnouncement [
 ]
 
 { #category : #announcing }
-CpDomElement >> announceEvent: anEvent [
-
-	announcer ifNil: [ ^ self ].
-	announcer announce: anEvent asAnnouncement
-]
-
-{ #category : #announcing }
 CpDomElement >> announcer [
 
 	^ announcer ifNil: [
