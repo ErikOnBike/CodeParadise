@@ -568,6 +568,14 @@ CpDomElement >> textContent: aString [
 ]
 
 { #category : #announcing }
+CpDomElement >> unsubscribe: anObject [
+
+	"Unsubscribe the specified Object from Announcements of the receiver"
+
+	^ self announcer unsubscribe: anObject
+]
+
+{ #category : #announcing }
 CpDomElement >> when: anAnnouncementClass do: aBlock [
 
 	"Let the sender subscribe to the specified announcement of the receiver.
