@@ -49,12 +49,6 @@ CpEvent >> hasTarget [
 	^ target notNil
 ]
 
-{ #category : #testing }
-CpEvent >> isPointerEvent [
-
-	^ false
-]
-
 { #category : #announcing }
 CpEvent >> prepareForDelivery [
 
