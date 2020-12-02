@@ -31,23 +31,23 @@ Class {
 	#category : #'CodeParadise-WebApplication-Transitions'
 }
 
-{ #category : #'handling - private' }
+{ #category : #'processing - private' }
 CpTransition class >> createTransitionProcess [
 
 	"Create a transition process, register it and start it"
 
 	| transitionProcess |
 
-	"Create process with high priority to handle transitions fast
-	(priority should be lower than event handler see CpEvent class >> #createEventHandlerProcess)"
+	"Create process with high priority to perform transitions fast
+	(priority should be lower than event handler see CpEvent class >> #createEventProcess)"
 	transitionProcess := Process
 		forContext: [ [
 
 			"Wait for next transition tick"
 			Processor activeProcess suspend.
 
-			"Handle the transitions (for single tick)"
-			self handleTransitions ] repeat ] asContext
+			"Perform the transitions (for single tick)"
+			self performTransitions ] repeat ] asContext
 		priority: Processor highIOPriority.
 
 	"Register the transition process so the VM (plugin) can activate it"
@@ -57,8 +57,36 @@ CpTransition class >> createTransitionProcess [
 	transitionProcess resume
 ]
 
-{ #category : #'handling - private' }
-CpTransition class >> handleTransitions [
+{ #category : #'accessing - private' }
+CpTransition class >> isRegisteredTransition: aTransition [
+
+	"Answer whether the specified Transition is being handled"
+
+	^ Transitions includes: aTransition
+]
+
+{ #category : #'instance creation' }
+CpTransition class >> new [
+
+	"Transitions should not be instantiated without a block.
+	See #onBlock: to create instances."
+
+	self shouldNotImplement
+]
+
+{ #category : #'instance creation' }
+CpTransition class >> onBlock: aBlock [
+
+	"Answer a new instance of the receiver with specified trasition block"
+
+	^ self basicNew
+		initialize ;
+		block: aBlock ;
+		yourself
+]
+
+{ #category : #'processing - private' }
+CpTransition class >> performTransitions [
 
 	"Handle 'ticking' all transitions of the receiver"
 
@@ -77,34 +105,6 @@ CpTransition class >> handleTransitions [
 
 ]
 
-{ #category : #'accessing - private' }
-CpTransition class >> isRegisteredTransition: aTransition [
-
-	"Answer whether the specified Transition is being handled"
-
-	^ Transitions includes: aTransition
-]
-
-{ #category : #'instance creation' }
-CpTransition class >> new [
-
-	"Transitions should not be instantiated without a duration or block.
-	See #for:duration: to create instances."
-
-	self shouldNotImplement
-]
-
-{ #category : #'instance creation' }
-CpTransition class >> onBlock: aBlock [
-
-	"Answer a new instance of the receiver with specified trasition block"
-
-	^ self basicNew
-		initialize ;
-		block: aBlock ;
-		yourself
-]
-
 { #category : #'class initialization' }
 CpTransition class >> postInstall [
 
@@ -112,11 +112,12 @@ CpTransition class >> postInstall [
 
 	Transitions := OrderedCollection new.
 
-	self createTransitionProcess
+	self == CpTransition
+		ifTrue: [ self createTransitionProcess ]
 
 ]
 
-{ #category : #'handling - private' }
+{ #category : #'processing - private' }
 CpTransition class >> primRegisterTransitionProcess: transitionProcess [
 
 	<primitive: 'primitiveTransitionRegisterProcess:' module: 'CpDOMPlugin'>
