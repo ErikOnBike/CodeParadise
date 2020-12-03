@@ -11,10 +11,53 @@ Class {
 	#instVars : [
 		'timeStamp',
 		'type',
-		'target'
+		'target',
+		'element'
 	],
 	#category : #'CodeParadise-WebApplication-Events'
 }
+
+{ #category : #'processing - private' }
+CpEvent class >> createEventProcess [
+
+	"Create an event process, register it and start it"
+
+	| eventProcess |
+
+	"Create process with highest priority to handle events as fast as possible"
+	eventProcess := Process
+		forContext: [ [
+
+			"Wait for events to become available"
+			Processor activeProcess suspend.
+
+			"Dispatch the events"
+			self dispatchEvents ] repeat ] asContext
+		priority: Processor highestPriority.
+
+	"Register the event process so the VM (plugin) can activate it"
+	self primRegisterEventProcess: eventProcess.
+
+	"Start the process (which will actually put it to sleep waiting for the first event)"
+	eventProcess resume
+]
+
+{ #category : #'processing - private' }
+CpEvent class >> dispatchEvent: anEvent [
+
+	[ anEvent dispatch ] on: Error do: [ :error | self crTrace: error description ]
+]
+
+{ #category : #'processing - private' }
+CpEvent class >> dispatchEvents [
+
+	"Handle events.
+	
+	Implementation:
+	Try to prevent long running synchronous calls for performance (jitter/yank in UI)."
+
+	self latestEvents do: [ :each | self dispatchEvent: each ]
+]
 
 { #category : #announcing }
 CpEvent class >> handlesAnnouncement: anAnnouncement [
@@ -27,6 +70,66 @@ CpEvent class >> handlesAnnouncement: anAnnouncement [
 ]
 
 { #category : #announcing }
+CpEvent class >> handlesEvents [
+
+	"Answer whether the receiver handles Event announcements"
+
+	^ true
+]
+
+{ #category : #'processing - private' }
+CpEvent class >> latestEvents [
+
+	<primitive: 'primitiveEventLatestEvents' module: 'CpDOMPlugin'>
+	^ #()
+
+]
+
+{ #category : #accessing }
+CpEvent class >> point: aPoint isSimilarTo: otherPoint [
+
+	| distance |
+
+	distance := aPoint dist: otherPoint.
+
+	^ distance < self similarDistance
+]
+
+{ #category : #'class initialization' }
+CpEvent class >> postInstall [
+
+	super postInstall.
+
+	"Create the event handler process once"
+	self == CpEvent
+		ifTrue: [ self createEventProcess ].
+
+	self primRegisterEventClass: self
+]
+
+{ #category : #'processing - private' }
+CpEvent class >> primRegisterEventClass: anEventClass [
+
+	<primitive: 'primitiveEventRegisterClass:' module: 'CpDOMPlugin'>
+	self primitiveFailed
+
+]
+
+{ #category : #'processing - private' }
+CpEvent class >> primRegisterEventProcess: eventHandlerProcess [
+
+	<primitive: 'primitiveEventRegisterProcess:' module: 'CpDOMPlugin'>
+	self primitiveFailed
+
+]
+
+{ #category : #accessing }
+CpEvent class >> similarDistance [
+
+	^ 8
+]
+
+{ #category : #announcing }
 CpEvent >> asAnnouncement [
 
 	^ self
@@ -35,18 +138,25 @@ CpEvent >> asAnnouncement [
 { #category : #sending }
 CpEvent >> dispatch [
 
-	self hasTarget
-		ifFalse: [ ^ self ].
-	self target canHandleEvents
-		ifTrue: [ self sendTo: self target ].
+	"Dispatch the receiver by announcing it through its element"
 
-	self target announce: self
+	self element announce: self
 ]
 
-{ #category : #testing }
-CpEvent >> hasTarget [
+{ #category : #accessing }
+CpEvent >> element [
 
-	^ target notNil
+	"Answer the DOM element which has interest in the event.
+	This might be different than the target (a descendant of the interested
+	element) which received the event."
+
+	^ element
+]
+
+{ #category : #accessing }
+CpEvent >> element: anElement [
+
+	element := anElement
 ]
 
 { #category : #announcing }
@@ -68,7 +178,9 @@ CpEvent >> printOn: aStream [
 	aStream nextPutAll: ', timeStamp: '.
 	self timeStamp printOn: aStream.
 	aStream nextPutAll: ', target: '.
-	self target printOn: aStream
+	self target printOn: aStream.
+	aStream nextPutAll: ', element: '.
+	self element printOn: aStream
 ]
 
 { #category : #visiting }
@@ -79,6 +191,10 @@ CpEvent >> sendTo: anObject [
 
 { #category : #accessing }
 CpEvent >> target [
+
+	"Answer the DOM element which received the event.
+	In contrast with regular browser events, this target
+	might be part of a shadow DOM."
 
 	^ target
 ]

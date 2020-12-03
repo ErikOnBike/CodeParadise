@@ -28,12 +28,11 @@ CpMvpWebClientBehavior >> createView: viewClassName withId: identifier atParentI
 	view := (self viewClassForName: viewClassName) new
 		id: identifier ;	"Put id in view element for reference by the EventHandler"
 		yourself.
+
+	"Add the view to its parent"
 	slotName
 		ifNotNil: [ parentView replaceChild: view atSlotNamed: slotName ]
 		ifNil: [ parentView appendChild: view ].
-
-	"Perform any initialization of child View elements"
-	view initializeChildren.
 
 	"Register the view instance in ClientEnvironment"
 	CpClientEnvironment current objectRegistry

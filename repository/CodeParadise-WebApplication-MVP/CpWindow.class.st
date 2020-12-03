@@ -193,7 +193,7 @@ CpWindow >> handleDragEvent: aDragEvent [
 
 	| dragId |
 
-	dragId := aDragEvent elementId.
+	dragId := aDragEvent target id.
 
 	(#(#title #controls #titleBar) includes: dragId)
 		ifTrue: [ ^ self handleWindowMove: aDragEvent ].
@@ -242,7 +242,7 @@ CpWindow >> handleWindowResizeCorner: aDragEvent [
 		ifFalse: [ self parent makeDraggable: self ].
 
 	point := aDragEvent lastPoint.
-	resizeCorner := aDragEvent elementId.
+	resizeCorner := aDragEvent target id.
 
 	"Distinguish all four corners by x and y axis"
 	(resizeCorner endsWith: #Left)
@@ -267,7 +267,7 @@ CpWindow >> handleWindowResizeSide: aDragEvent [
 		ifFalse: [ self parent makeDraggable: self ].
 
 	point := aDragEvent lastPoint.
-	resizeSide := aDragEvent elementId.
+	resizeSide := aDragEvent target id.
 
 	"Distinguish all four sides"
 	resizeSide = #left

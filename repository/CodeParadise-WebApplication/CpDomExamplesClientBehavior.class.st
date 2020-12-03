@@ -22,6 +22,7 @@ CpDomExamplesClientBehavior >> exampleAnimationMany [
 	| outputElement |
 	
 	outputElement := self outputElement.
+	outputElement textContent: ''.
 
 	100 timesRepeat: [
 		| element |
@@ -47,6 +48,7 @@ CpDomExamplesClientBehavior >> exampleAnimationSimple [
 	| outputElement element1 element2 |
 	
 	outputElement := self outputElement.
+	outputElement textContent: ''.
 
 	element1 := outputElement appendChild: ((CpHtmlElement newWithTag: #div)
 		styleAt: #width put: '50vmin' ;
@@ -76,6 +78,7 @@ CpDomExamplesClientBehavior >> exampleCreateRandomBlocks [
 	| outputElement |
 	
 	outputElement := self outputElement.
+	outputElement textContent: ''.
 
 	1000 timesRepeat: [
 		| block left top |
@@ -105,6 +108,7 @@ CpDomExamplesClientBehavior >> exampleCreateRandomEllipses [
 	| outputElement |
 	
 	outputElement := self outputElement.
+	outputElement textContent: ''.
 
 	1000 timesRepeat: [
 		| ellipse style left top width height |
@@ -149,6 +153,7 @@ CpDomExamplesClientBehavior >> exampleHelloWorld [
 	| outputElement |
 
 	outputElement := self outputElement.
+	outputElement textContent: ''.
 
 	outputElement appendChild: ((CpHtmlElement newWithTag: #h1)
 		textContent: 'Hello world' ;
@@ -170,6 +175,7 @@ CpDomExamplesClientBehavior >> exampleMathFormula [
 	| outputElement mathElement |
 
 	outputElement := self outputElement.
+	outputElement textContent: ''.
 
 	"Content is created through markup instead of DOM manipulation."
 	"Compare this with #exampleSVGSimple"
@@ -188,6 +194,7 @@ CpDomExamplesClientBehavior >> exampleSVGSimple [
 	| outputElement svgElement |
 	
 	outputElement := self outputElement.
+	outputElement textContent: ''.
 
 	"Content is created through DOM manipulation instead of markup."
 	"Compare this with #exampleMathFormula"
@@ -228,6 +235,7 @@ CpDomExamplesClientBehavior >> exampleToDo [
 	| outputElement listElement |
 	
 	outputElement := self outputElement.
+	outputElement textContent: ''.
 
 	outputElement appendChild: ((CpHtmlElement newWithTag: #h1)
 		textContent: 'ToDo List' ;
@@ -252,25 +260,6 @@ CpDomExamplesClientBehavior >> exampleToDo [
 		yourself) ]
 ]
 
-{ #category : #events }
-CpDomExamplesClientBehavior >> handleClickEvent: anEvent [
-
-	| selector output |
-
-	"Find example selector"
-	selector := anEvent target
-		ifNotNil: [ :target | target id ]
-		ifNil: [ ^ self ].
-
-	"Wipe out existing output"
-	output := self outputElement.
-	output ifNil: [ ^ self ].
-	output textContent: ''.
-
-	"Create new output by performing selector"
-	[ self perform: selector asSymbol ] on: Error do: [ :error | output textContent: 'Error: ', error description ]
-]
-
 { #category : #initialization }
 CpDomExamplesClientBehavior >> initialize [
 
@@ -279,15 +268,6 @@ CpDomExamplesClientBehavior >> initialize [
 	CpTransition beLoaded.
 
 	self showIndex
-]
-
-{ #category : #initialization }
-CpDomExamplesClientBehavior >> installBrowserEventHandler [
-
-	"Install receiver as actual event handler"
-
-	CpBrowserEventHandler current
-		delegate: self
 ]
 
 { #category : #accessing }
@@ -355,13 +335,10 @@ CpDomExamplesClientBehavior >> showIndex [
 
 	"Render items onto DOM"
 	items do: [ :item |
-		| example |
 				
-		example := list appendChild: ((CpHtmlElement newWithTag: 'li')
+		list appendChild: ((CpHtmlElement newWithTag: 'li')
 			id: item key ;	"ie selector"
 			textContent: item value first ;	"ie title"
-			yourself).
-
-		"Register interest in events on the list item"
-		example when: CpClickEvent send: #handleClickEvent: to: self ]
+			when: CpPointerUpEvent send: item key to: self ;
+			yourself) ]
 ]

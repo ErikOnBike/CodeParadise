@@ -51,13 +51,21 @@ CpCounterView >> handleClickEvent: clickEvent [
 
 	| buttonId |
 
-	(buttonId := clickEvent elementId)
+	(buttonId := clickEvent target id)
 		ifNil: [ ^ self ].
 
 	buttonId = #decrease
 		ifTrue: [ ^ self serverAnnounce: CpCounterDecrease ].
 	buttonId = #increase
 		ifTrue: [ ^ self serverAnnounce: CpCounterIncrease ]
+]
+
+{ #category : #'event handling' }
+CpCounterView >> initialize [
+
+	super initialize.
+
+	self when: CpPointerUpEvent send: #handleClickEvent: to: self
 ]
 
 { #category : #rendering }

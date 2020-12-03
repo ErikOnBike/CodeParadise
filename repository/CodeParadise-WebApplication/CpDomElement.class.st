@@ -77,7 +77,8 @@ CpDomElement class >> newWithTag: tagString [
 	See also #registerNamespace:forPrefix:"
 
 	^ (self primNewWithTag: tagString)
-		initialize
+		initialize ;
+		yourself
 ]
 
 { #category : #'class initialization' }
@@ -163,9 +164,7 @@ CpDomElement >> announce: anAnnouncement [
 { #category : #announcing }
 CpDomElement >> announcer [
 
-	^ announcer ifNil: [
-		CpBrowserEventHandler current registerInterestIn: self.
-		announcer := Announcer new ]
+	^ announcer ifNil: [ announcer := CpDomElementAnnouncer newFor: self ]
 ]
 
 { #category : #'adding/removing' }
@@ -423,6 +422,13 @@ CpDomElement >> propertyAt: nameString put: valueString [
 	self primitiveFailed
 ]
 
+{ #category : #'event registration' }
+CpDomElement >> registerInterestIn: anEventClass [
+
+	<primitive: 'primitiveDOMElementRegisterInterestIn:' module: 'CpDOMPlugin'>
+	self primitiveFailed
+]
+
 { #category : #dependencies }
 CpDomElement >> release [
 
@@ -558,6 +564,13 @@ CpDomElement >> textContent: aString [
 	<primitive: 'primitiveDOMElementTextContent:' module: 'CpDOMPlugin'>
 	self primitiveFailed
 
+]
+
+{ #category : #'event registration' }
+CpDomElement >> unregisterAllInterest [
+
+	<primitive: 'primitiveDOMElementUnregisterAllInterest' module: 'CpDOMPlugin'>
+	self primitiveFailed
 ]
 
 { #category : #announcing }

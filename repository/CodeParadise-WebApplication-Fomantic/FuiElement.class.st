@@ -126,12 +126,6 @@ FuiElement >> addVariation: aSymbol deferUpdates: aBoolean [
 	aBoolean ifFalse: [ self updateDom ]
 ]
 
-{ #category : #accessing }
-FuiElement >> announcer [
-
-	^ announcer
-]
-
 { #category : #'private - accessing' }
 FuiElement >> classesAt: usageIndex [
 
@@ -144,14 +138,6 @@ FuiElement >> classesAt: usageIndex [
 	classes ifNil: [ ^ #() ].
 
 	^ (classes at: usageIndex) ifNil: [ #() ]
-]
-
-{ #category : #initialization }
-FuiElement >> initialize [
-
-	super initialize.
-
-	announcer := Announcer new
 ]
 
 { #category : #'private - behavior' }
