@@ -1,7 +1,8 @@
 Class {
 	#name : #CpDragEvent,
-	#superclass : #CpPointerEvent,
+	#superclass : #CpUserInterfaceEvent,
 	#instVars : [
+		'offset',
 		'tracePoints',
 		'endPoint'
 	],
@@ -10,7 +11,7 @@ Class {
 
 { #category : #accessing }
 CpDragEvent >> addTracePoint: aPoint [
-tracePoints := OrderedCollection new.
+
 	^ self tracePoints add: aPoint
 ]
 
