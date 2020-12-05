@@ -12,6 +12,7 @@ CpComponentExamplesClientBehavior >> exampleButtons [
 	| outputElement |
 	
 	outputElement := self outputElement.
+	outputElement textContent: ''.
 
 	outputElement appendChild: (CpButton label: 'My label').
 
@@ -48,6 +49,7 @@ CpComponentExamplesClientBehavior >> exampleCheckboxes [
 	| outputElement checkbox |
 	
 	outputElement := self outputElement.
+	outputElement textContent: ''.
 
 	checkbox := outputElement appendChild: (CpCheckbox label: 'First selection').
 
@@ -61,6 +63,26 @@ CpComponentExamplesClientBehavior >> exampleCheckboxes [
 ]
 
 { #category : #examples }
+CpComponentExamplesClientBehavior >> exampleDraggableWindows [
+
+	<example: 'Draggable windows' order: 500>
+
+	| outputElement window |
+	
+	outputElement := self outputElement.
+	outputElement textContent: ''.
+
+	window := CpWindow new
+		replaceChild: 'Hello World' asElement atSlotNamed: #title ;
+		replaceChild: 'Drag me!' asElement atSlotNamed: #content ;
+		yourself.
+
+	(window childAtSlotNamed: #controls) remove.
+
+	CpHtmlElement documentBody appendChild: window
+]
+
+{ #category : #examples }
 CpComponentExamplesClientBehavior >> exampleLinks [
 
 	<example: 'Links' order: 100>
@@ -68,6 +90,7 @@ CpComponentExamplesClientBehavior >> exampleLinks [
 	| outputElement |
 	
 	outputElement := self outputElement.
+	outputElement textContent: ''.
 
 	outputElement appendChild: (CpLink label: 'My link')
 ]
@@ -80,6 +103,7 @@ CpComponentExamplesClientBehavior >> exampleTextField [
 	| outputElement |
 	
 	outputElement := self outputElement.
+	outputElement textContent: ''.
 
 	outputElement appendChild: (self textFieldExplanation inHtmlTag: #p).
 
@@ -95,25 +119,6 @@ CpComponentExamplesClientBehavior >> exampleTextField [
 		styleAt: #width put: '20em' ;
 		text: '' ;
 		yourself)
-]
-
-{ #category : #events }
-CpComponentExamplesClientBehavior >> handleClickEvent: anEvent [
-
-	| selector output |
-
-	"Find example selector"
-	selector := anEvent target
-		ifNotNil: [ :target | target id ]
-		ifNil: [ ^ self ].
-
-	"Wipe out existing output"
-	output := self outputElement.
-	output ifNil: [ ^ self ].
-	output textContent: ''.
-
-	"Create new output by performing selector"
-	[ self perform: selector asSymbol ] on: Error do: [ :error | output textContent: 'Error: ', error description ]
 ]
 
 { #category : #events }
@@ -225,7 +230,7 @@ CpComponentExamplesClientBehavior >> showIndex [
 				yourself).
 
 		"Register interest in events on the list item"
-		example when: CpClickEvent send: #handleClickEvent: to: self ]
+		example when: CpClickEvent send: item key to: self ]
 ]
 
 { #category : #explanation }

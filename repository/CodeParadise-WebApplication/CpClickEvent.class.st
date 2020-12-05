@@ -13,6 +13,11 @@ Class {
 { #category : #announcing }
 CpClickEvent class >> addListenerTo: anElement [
 
+	"Add a listener for the receiver to the specified DOM element.
+
+	Implementation:
+	Simulate a ClickEvent by using PointerDown/PointerMove/PointerUp events."
+
 	anElement
 		when: CpPointerDownEvent send: #clickStart: to: self ;
 		when: CpPointerMoveEvent send: #clickUpdate: to: self ;

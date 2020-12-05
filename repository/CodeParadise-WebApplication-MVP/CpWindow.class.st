@@ -175,9 +175,9 @@ CpWindow class >> template [
 				<div id="content"><slot name="content"></slot></div>
 			</div>
 			<div id="handles">
-				<div id="topLeft"></div><div id="top"></div><div id="topRight"></div>
-				<div id="left"></div><div id="right"></div>
-				<div id="bottomLeft"></div><div id="bottom"></div><div id="bottomRight"></div>
+				<div id="topLeft" class="corner"></div><div id="top"></div><div id="topRight" class="corner"></div>
+				<div id="left" class="side"></div><div id="right" class="side"></div>
+				<div id="bottomLeft" class="corner"></div><div id="bottom" class="side"></div><div id="bottomRight" class="corner"></div>
 			</div>
 		</div>'
 ]
@@ -186,23 +186,6 @@ CpWindow class >> template [
 CpWindow >> close [
 
 	self serverAnnounce: CpWindowClose
-]
-
-{ #category : #'event handling' }
-CpWindow >> handleDragEvent: aDragEvent [
-
-	| dragId |
-
-	dragId := aDragEvent target id.
-
-	(#(#title #controls #titleBar) includes: dragId)
-		ifTrue: [ ^ self handleWindowMove: aDragEvent ].
-
-	(#(#top #left #bottom #right) includes: dragId)
-		ifTrue: [ ^ self handleWindowResizeSide: aDragEvent ].
-
-	(#(#topLeft #topRight #bottomLeft #bottomRight) includes: dragId)
-		ifTrue: [ ^ self handleWindowResizeCorner: aDragEvent ]
 ]
 
 { #category : #'event handling' }
@@ -218,9 +201,9 @@ CpWindow >> handleWindowMove: aDragEvent [
 
 	"Prevent other views from receiving events"
 	self flag: #todo. "Responsibility to handle draggability should be changed"
-	aDragEvent isEnded
+"	aDragEvent isEnded
 		ifTrue: [ self parent stopDragging: self ]
-		ifFalse: [ self parent makeDraggable: self ].
+		ifFalse: [ self parent makeDraggable: self ]."
 
 	clientOffset := aDragEvent offset.
 	point := aDragEvent lastPoint.
@@ -237,9 +220,9 @@ CpWindow >> handleWindowResizeCorner: aDragEvent [
 
 	"Prevent other views from receiving events"
 	self flag: #todo. "Responsibility to handle draggability should be changed"
-	aDragEvent isEnded
+"	aDragEvent isEnded
 		ifTrue: [ self parent stopDragging: self ]
-		ifFalse: [ self parent makeDraggable: self ].
+		ifFalse: [ self parent makeDraggable: self ]."
 
 	point := aDragEvent lastPoint.
 	resizeCorner := aDragEvent target id.
@@ -262,9 +245,9 @@ CpWindow >> handleWindowResizeSide: aDragEvent [
 
 	"Prevent other views from receiving events"
 	self flag: #todo. "Responsibility to handle draggability should be changed"
-	aDragEvent isEnded
+"	aDragEvent isEnded
 		ifTrue: [ self parent stopDragging: self ]
-		ifFalse: [ self parent makeDraggable: self ].
+		ifFalse: [ self parent makeDraggable: self ]."
 
 	point := aDragEvent lastPoint.
 	resizeSide := aDragEvent target id.
@@ -308,7 +291,16 @@ CpWindow >> initialize [
 	self
 		appendChild: closeControl atSlotNamed: #controls ; 
 		styleAt: #position put: #absolute ;
-		render
+		render.
+
+	self shadowRoot
+		ifNotNil: [ :shadowRoot |
+			(shadowRoot allDescendantsMatching: '.corner')
+				do: [ :each | each when: CpDragEvent send: #handleWindowResizeCorner: to: self  ].
+			(shadowRoot allDescendantsMatching: '.side')
+				do: [ :each | each when: CpDragEvent send: #handleWindowResizeSide: to: self ].
+			(shadowRoot firstDescendantMatching: '#titleBar')
+				when: CpDragEvent send: #handleWindowMove: to: self ]
 ]
 
 { #category : #accessing }
