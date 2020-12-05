@@ -8,12 +8,6 @@ Class {
 }
 
 { #category : #accessing }
-CpRichTextField class >> cpRequiredClasses [
-
-	^ super cpRequiredClasses, { CpCursor }
-]
-
-{ #category : #accessing }
 CpRichTextField class >> defaultKeyMapping [
 
 	self flag: #todo.	"Handle OS specific keymappings better"

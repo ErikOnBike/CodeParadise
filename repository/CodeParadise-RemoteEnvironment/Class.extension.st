@@ -58,20 +58,9 @@ Class >> cpEncodeWith: anEncoder [
 ]
 
 { #category : #'*CodeParadise-RemoteEnvironment' }
-Class >> cpRequiredClasses [
-
-	"Answer a collection of Classes the receiver is dependent on in the ClientEnvironment"
-
-	^ #()
-]
-
-{ #category : #'*CodeParadise-RemoteEnvironment' }
 Class >> cpRequiredClassesDo: anOneArgBlock [
 
 	"Perform the specified Block on the receiver's required classes 'in order of dependency'"
-
-	"Handle required classes specified explicitly"
-	self cpRequiredClasses do: anOneArgBlock.
 
 	"Handle classes referenced in class and instance methods"
 	self classSide referencedClasses do: anOneArgBlock.
