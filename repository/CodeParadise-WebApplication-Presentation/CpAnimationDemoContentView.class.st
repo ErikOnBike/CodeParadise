@@ -28,7 +28,7 @@ CpAnimationDemoContentView >> render [
 		styleAt: #top put: '20%' ;
 		styleAt: #left put: '30%' ;
 		styleAt: #'background-color' put: '#C2B280' ;
-		when: CpPointerUpEvent send: #render to: self ;
+		when: CpClickEvent send: #render to: self ;
 		yourself).
 	element2 := canvas appendChild: ((CpHtmlElement newWithTag: #div)
 		styleAt: #cursor put: 'pointer' ;
@@ -39,7 +39,7 @@ CpAnimationDemoContentView >> render [
 		styleAt: #left put: 'calc(30% + 30%)' ;
 		styleAt: #transform put: 'translate(200px)'	 ;
 		styleAt: #'background-color' put: '#004E6E' ;
-		when: CpPointerUpEvent send: #renderMany to: self ;
+		when: CpClickEvent send: #renderMany to: self ;
 		yourself).
 
 	[ :p | element1 styleAt: #transform put: 'rotate(', (360 * p) printString, 'deg)' ] asTransition
@@ -68,7 +68,7 @@ CpAnimationDemoContentView >> renderMany [
 			styleAt: #height put: '30vmin' ;
 			styleAt: #bottom put: 'calc(50% + 2vmin)' ;
 			styleAt: #right put: 'calc(50% + 2vmin)' ;
-			when: CpPointerUpEvent send: #render to: self ;
+			when: CpClickEvent send: #render to: self ;
 			yourself)) ;
 		add: (self appendChild: ((CpHtmlElement newWithTag: #div)
 			styleAt: #cursor put: 'pointer' ;
@@ -77,7 +77,7 @@ CpAnimationDemoContentView >> renderMany [
 			styleAt: #height put: '30vmin' ;
 			styleAt: #bottom put: 'calc(50% + 2vmin)' ;
 			styleAt: #left put: 'calc(50% + 2vmin)' ;
-			when: CpPointerUpEvent send: #renderMany to: self ;
+			when: CpClickEvent send: #renderMany to: self ;
 			yourself)) ;
 		add: (self appendChild: ((CpHtmlElement newWithTag: #div)
 			styleAt: #position put: 'absolute' ;

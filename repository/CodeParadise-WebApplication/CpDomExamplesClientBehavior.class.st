@@ -339,6 +339,6 @@ CpDomExamplesClientBehavior >> showIndex [
 		list appendChild: ((CpHtmlElement newWithTag: 'li')
 			id: item key ;	"ie selector"
 			textContent: item value first ;	"ie title"
-			when: CpPointerUpEvent send: item key to: self ;
+			when: CpClickEvent send: item key to: self ;
 			yourself) ]
 ]

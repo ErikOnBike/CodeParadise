@@ -37,5 +37,5 @@ CpLinkedContentView >> initialize [
 
 	super initialize.
 
-	self when: CpPointerUpEvent send: #handleClickEvent: to: self
+	self when: CpClickEvent send: #handleClickEvent: to: self
 ]

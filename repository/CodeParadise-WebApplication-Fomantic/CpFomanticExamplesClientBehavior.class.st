@@ -401,5 +401,5 @@ CpFomanticExamplesClientBehavior >> showIndex [
 			yourself).
 
 		"Register interest in events on the list item"
-		example when: CpPointerUpEvent send: item key to: self ]
+		example when: CpClickEvent send: item key to: self ]
 ]
