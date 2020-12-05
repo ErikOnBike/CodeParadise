@@ -17,6 +17,14 @@ Class {
 	#category : #'CodeParadise-WebApplication-Events'
 }
 
+{ #category : #announcing }
+CpEvent class >> addListenerTo: anElement [
+
+	"Add a listener for the receiver to the specified DOM element"
+
+	self primAddListenerTo: anElement
+]
+
 { #category : #'processing - private' }
 CpEvent class >> createEventProcess [
 
@@ -69,14 +77,6 @@ CpEvent class >> handlesAnnouncement: anAnnouncement [
 	^ anAnnouncement class includesBehavior: self
 ]
 
-{ #category : #announcing }
-CpEvent class >> handlesEvents [
-
-	"Answer whether the receiver handles Event announcements"
-
-	^ true
-]
-
 { #category : #'processing - private' }
 CpEvent class >> latestEvents [
 
@@ -105,6 +105,13 @@ CpEvent class >> postInstall [
 		ifTrue: [ self createEventProcess ].
 
 	self primRegisterEventClass: self
+]
+
+{ #category : #'processing - private' }
+CpEvent class >> primAddListenerTo: anElement [
+
+	<primitive: 'primitiveEventAddListenerTo:' module: 'CpDOMPlugin'>
+	self primitiveFailed
 ]
 
 { #category : #'processing - private' }

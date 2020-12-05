@@ -1,9 +1,10 @@
 Extension { #name : #Announcement }
 
 { #category : #'*CodeParadise-WebApplication' }
-Announcement class >> handlesEvents [
+Announcement class >> addListenerTo: anElement [
 
-	"Answer whether the receiver handles Event announcements"
+	"Add a listener for the receiver to the specified DOM element.
 
-	^ false
+	Implementation:
+	For non-event Announcements this should be a no-op."
 ]

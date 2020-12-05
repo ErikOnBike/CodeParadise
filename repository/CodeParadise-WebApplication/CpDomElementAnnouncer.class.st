@@ -38,8 +38,7 @@ CpDomElementAnnouncer >> initializeWith: anElement [
 { #category : #'registration api' }
 CpDomElementAnnouncer >> when: anAnnouncementClass do: aBlock [
 
-	anAnnouncementClass handlesEvents
-		ifTrue: [ self element registerInterestIn: anAnnouncementClass ].
+	anAnnouncementClass addListenerTo: self element.
 
 	super when: anAnnouncementClass do: aBlock
 ]
@@ -47,8 +46,7 @@ CpDomElementAnnouncer >> when: anAnnouncementClass do: aBlock [
 { #category : #'registration api' }
 CpDomElementAnnouncer >> when: anAnnouncementClass send: aSymbol to: anObject [
 
-	anAnnouncementClass handlesEvents
-		ifTrue: [ self element registerInterestIn: anAnnouncementClass ].
+	anAnnouncementClass addListenerTo: self element.
 
 	super when: anAnnouncementClass send: aSymbol to: anObject
 ]
