@@ -142,7 +142,7 @@ CpEvent >> asAnnouncement [
 	^ self
 ]
 
-{ #category : #sending }
+{ #category : #dispatching }
 CpEvent >> dispatch [
 
 	"Dispatch the receiver by announcing it through its element"
@@ -174,6 +174,22 @@ CpEvent >> prepareForDelivery [
 	It allows to put some heavy initialization logic here. It will be executed only 
 	if there is interest on me
 	See Announcement >> #prepareForDelivery"
+]
+
+{ #category : #dispatching }
+CpEvent >> preventDefault [
+
+	"Prevent default browser behavior"
+
+	self primPreventDefault
+]
+
+{ #category : #'dispatching - private' }
+CpEvent >> primPreventDefault [
+
+	<primitive: 'primitiveEventPreventDefault' module: 'CpDOMPlugin'>
+	self primitiveFailed
+
 ]
 
 { #category : #printing }

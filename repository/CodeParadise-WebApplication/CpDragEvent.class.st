@@ -59,7 +59,10 @@ CpDragEvent class >> dragMove: aPointerMoveEvent [
 { #category : #'event handling - private' }
 CpDragEvent class >> dragStart: aPointerDownEvent [
 
-	DragInstances at: aPointerDownEvent pointerId put: (self newFromPointerEvent: aPointerDownEvent)
+	DragInstances at: aPointerDownEvent pointerId put: (self newFromPointerEvent: aPointerDownEvent).
+
+	"Prevent default browser behavior (like selecting text)"
+	aPointerDownEvent preventDefault
 ]
 
 { #category : #'instance creation' }
