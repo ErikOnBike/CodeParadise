@@ -18,6 +18,8 @@ CpClickEvent class >> addListenerTo: anElement [
 	Implementation:
 	Simulate a ClickEvent by using PointerDown/PointerMove/PointerUp events."
 
+	super addListenerTo: anElement.
+
 	anElement
 		when: CpPointerDownEvent send: #clickStart: to: self ;
 		when: CpPointerMoveEvent send: #clickUpdate: to: self ;
@@ -43,7 +45,12 @@ CpClickEvent class >> clickEnd: aPointerUpEvent [
 { #category : #'event handling - private' }
 CpClickEvent class >> clickStart: aPointerDownEvent [
 
-	ClickInstances at: aPointerDownEvent pointerId put: (self newFromPointerEvent: aPointerDownEvent)
+	| clickEvent |
+
+	clickEvent := ClickInstances at: aPointerDownEvent pointerId ifAbsent: [ nil ].
+
+	(clickEvent isNil or: [ (clickEvent hasSameOrigin: aPointerDownEvent) not ])
+		ifTrue: [ ClickInstances at: aPointerDownEvent pointerId put: (self newFromPointerEvent: aPointerDownEvent) ]
 ]
 
 { #category : #'event handling - private' }
@@ -68,7 +75,7 @@ CpClickEvent class >> newFromPointerEvent: aPointerEvent [
 		point: aPointerEvent point ;
 		offset: aPointerEvent offset ;
 		target: aPointerEvent target ;
-		element: aPointerEvent element ;
+		elements: aPointerEvent elements ;
 		yourself
 ]
 

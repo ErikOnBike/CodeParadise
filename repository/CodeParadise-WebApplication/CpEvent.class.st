@@ -12,7 +12,8 @@ Class {
 		'timeStamp',
 		'type',
 		'target',
-		'element'
+		'elements',
+		'currentElementIndex'
 	],
 	#category : #'CodeParadise-WebApplication-Events'
 }
@@ -142,28 +143,62 @@ CpEvent >> asAnnouncement [
 	^ self
 ]
 
+{ #category : #accessing }
+CpEvent >> currentElement [
+
+	"Answer the current (targetted) DOM element (similar to the DOM's currentTarget)"
+
+	^ self elements at: currentElementIndex ifAbsent: [ nil ]
+]
+
 { #category : #dispatching }
 CpEvent >> dispatch [
 
 	"Dispatch the receiver by announcing it through its element"
 
-	self element announce: self
+	(self currentElement ifNil: [ ^ self ])
+		announce: self.
+
+	"Bubble up to next interested element"
+	currentElementIndex := currentElementIndex + 1.
+	self dispatch
 ]
 
 { #category : #accessing }
-CpEvent >> element [
+CpEvent >> elements [
 
-	"Answer the DOM element which has interest in the event.
-	This might be different than the target (a descendant of the interested
-	element) which received the event."
+	"Answer the DOM elements (from descendant to ancestor) which are interested in the event.
+	This might be different than the target which received the event."
 
-	^ element
+	^ elements
 ]
 
 { #category : #accessing }
-CpEvent >> element: anElement [
+CpEvent >> elements: anArray [
 
-	element := anElement
+	elements := anArray
+]
+
+{ #category : #testing }
+CpEvent >> hasSameOrigin: anEvent [
+
+	"Answer whether the receiver and the specified Event share the same origin.
+
+	Implementation:
+	The same origin is shared if the event is targetted to the same DOM element and
+	has the same timestamp of occurrence."
+
+	^ self target = anEvent target and: [ self timeStamp = anEvent timeStamp ]
+]
+
+{ #category : #initialization }
+CpEvent >> initialize [
+
+	super initialize.
+
+	"By default start at the first element of the elements
+	(in #currentElement it is validated a first element exists)"
+	currentElementIndex := 1
 ]
 
 { #category : #announcing }
@@ -203,7 +238,15 @@ CpEvent >> printOn: aStream [
 	aStream nextPutAll: ', target: '.
 	self target printOn: aStream.
 	aStream nextPutAll: ', element: '.
-	self element printOn: aStream
+	self currentElement printOn: aStream
+]
+
+{ #category : #dispatching }
+CpEvent >> reset [
+
+	"Reset the receiver to allow dispatching again"
+
+	currentElementIndex := 1
 ]
 
 { #category : #visiting }

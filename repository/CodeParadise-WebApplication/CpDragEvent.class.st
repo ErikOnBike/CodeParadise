@@ -21,6 +21,8 @@ CpDragEvent class >> addListenerTo: anElement [
 	Simulate a DragEvent by using PointerDown/PointerMove/PointerUp events.
 	The PointerMove/PointerUp are registered in #postInstall. See comment there."
 
+	super addListenerTo: anElement.
+
 	anElement
 		when: CpPointerDownEvent send: #dragStart: to: self
 ]
@@ -52,14 +54,22 @@ CpDragEvent class >> dragMove: aPointerMoveEvent [
 	"Update the latest position of the drag event"
 	dragEvent addTracePoint: aPointerMoveEvent point.
 
-	"Dispatch the event to allow updates to take place"
-	dragEvent dispatch
+	"Dispatch the event to allow updates to take place
+	(and reset afterwards to allow dispatching again)"
+	dragEvent
+		dispatch ;
+		reset
 ]
 
 { #category : #'event handling - private' }
 CpDragEvent class >> dragStart: aPointerDownEvent [
 
-	DragInstances at: aPointerDownEvent pointerId put: (self newFromPointerEvent: aPointerDownEvent).
+	| dragEvent |
+
+	dragEvent := DragInstances at: aPointerDownEvent pointerId ifAbsent: [ nil ].
+
+	(dragEvent isNil or: [ (dragEvent hasSameOrigin: aPointerDownEvent) not ])
+		ifTrue: [ DragInstances at: aPointerDownEvent pointerId put: (self newFromPointerEvent: aPointerDownEvent) ].
 
 	"Prevent default browser behavior (like selecting text)"
 	aPointerDownEvent preventDefault
@@ -74,7 +84,7 @@ CpDragEvent class >> newFromPointerEvent: aPointerEvent [
 		point: aPointerEvent point ;
 		offset: aPointerEvent offset ;
 		target: aPointerEvent target ;
-		element: aPointerEvent element ;
+		elements: aPointerEvent elements ;
 		yourself
 ]
 

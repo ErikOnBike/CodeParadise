@@ -146,6 +146,46 @@ CpDomExamplesClientBehavior >> exampleCreateRandomEllipses [
 ]
 
 { #category : #examples }
+CpDomExamplesClientBehavior >> exampleEvents [
+
+	<example: 'Events' order: 900>
+
+	| outputElement |
+	
+	outputElement := self outputElement.
+	outputElement textContent: 'Click the blocks and check console messages'.
+
+	outputElement appendChild: ((CpHtmlElement newWithTag: #div)
+		styleAt: #position put: #relative ;
+		styleAt: #top put: '10%' ;
+		styleAt: #left put: '10%' ;
+		styleAt: #width put: '80%' ;
+		styleAt: #height put: '80%' ;
+		styleAt: #'background-color' put: 'rgba(255, 0, 0, .1)' ;
+		when: CpClickEvent send: #logOuter to: self ;
+		appendChild: ((CpHtmlElement newWithTag: #div)
+			styleAt: #position put: #relative ;
+			styleAt: #top put: '10%' ;
+			styleAt: #left put: '10%' ;
+			styleAt: #width put: '80%' ;
+			styleAt: #height put: '80%' ;
+			styleAt: #'background-color' put: 'rgba(0, 255, 0, .1)' ;
+			when: CpClickEvent send: #logMiddle to: self ;
+			appendChild: ((CpHtmlElement newWithTag: #div)
+				styleAt: #position put: #relative ;
+				styleAt: #top put: '10%' ;
+				styleAt: #left put: '10%' ;
+				styleAt: #width put: '80%' ;
+				styleAt: #height put: '80%' ;
+				styleAt: #'background-color' put: 'rgba(0, 0, 255, .1)' ;
+				when: CpClickEvent send: #logInner to: self ;
+				yourself) ;
+			yourself) ;
+		yourself).
+
+]
+
+{ #category : #examples }
 CpDomExamplesClientBehavior >> exampleHelloWorld [
 
 	<example: 'Hello world' order: 10>
@@ -268,6 +308,24 @@ CpDomExamplesClientBehavior >> initialize [
 	CpTransition beLoaded.
 
 	self showIndex
+]
+
+{ #category : #'as yet unclassified' }
+CpDomExamplesClientBehavior >> logInner [
+
+	self crTrace: 'Inner block'
+]
+
+{ #category : #'as yet unclassified' }
+CpDomExamplesClientBehavior >> logMiddle [
+
+	self crTrace: 'Middle block'
+]
+
+{ #category : #'as yet unclassified' }
+CpDomExamplesClientBehavior >> logOuter [
+
+	self crTrace: 'Out block'
 ]
 
 { #category : #accessing }

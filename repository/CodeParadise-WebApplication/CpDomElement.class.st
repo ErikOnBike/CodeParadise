@@ -422,13 +422,6 @@ CpDomElement >> propertyAt: nameString put: valueString [
 	self primitiveFailed
 ]
 
-{ #category : #'event registration' }
-CpDomElement >> registerInterestIn: anEventClass [
-
-	<primitive: 'primitiveDOMElementRegisterInterestIn:' module: 'CpDOMPlugin'>
-	self primitiveFailed
-]
-
 { #category : #dependencies }
 CpDomElement >> release [
 
