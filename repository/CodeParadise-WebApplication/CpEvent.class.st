@@ -159,7 +159,7 @@ CpEvent >> dispatch [
 	(self currentElement ifNil: [ ^ self ])
 		announce: self.
 
-	"Bubble up to next interested element"
+	"Propagate (bubble up to top level) to next interested element"
 	currentElementIndex := currentElementIndex + 1.
 	self dispatch
 ]
@@ -244,7 +244,7 @@ CpEvent >> printOn: aStream [
 { #category : #dispatching }
 CpEvent >> reset [
 
-	"Reset the receiver to allow dispatching again"
+	"Reset the receiver to allow dispatching again (from the deepest DOM element)"
 
 	currentElementIndex := 1
 ]
@@ -253,6 +253,14 @@ CpEvent >> reset [
 CpEvent >> sendTo: anObject [
 
 	self subclassResponsibility
+]
+
+{ #category : #dispatching }
+CpEvent >> stopPropagation [
+
+	"Stop propagation (bubbling) of the receiver"
+
+	currentElementIndex := self elements size
 ]
 
 { #category : #accessing }

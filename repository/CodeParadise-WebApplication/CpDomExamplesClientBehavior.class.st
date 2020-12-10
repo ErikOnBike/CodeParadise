@@ -170,7 +170,7 @@ CpDomExamplesClientBehavior >> exampleEvents [
 			styleAt: #width put: '80%' ;
 			styleAt: #height put: '80%' ;
 			styleAt: #'background-color' put: 'rgba(0, 255, 0, .1)' ;
-			when: CpClickEvent send: #logMiddle to: self ;
+			when: CpClickEvent send: #logMiddle: to: self ;
 			appendChild: ((CpHtmlElement newWithTag: #div)
 				styleAt: #position put: #relative ;
 				styleAt: #top put: '10%' ;
@@ -320,6 +320,13 @@ CpDomExamplesClientBehavior >> logInner [
 CpDomExamplesClientBehavior >> logMiddle [
 
 	self crTrace: 'Middle block'
+]
+
+{ #category : #'as yet unclassified' }
+CpDomExamplesClientBehavior >> logMiddle: anEvent [
+
+	self logMiddle.
+	anEvent stopPropagation
 ]
 
 { #category : #'as yet unclassified' }
