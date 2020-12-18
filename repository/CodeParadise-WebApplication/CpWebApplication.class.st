@@ -54,19 +54,13 @@ CpWebApplication >> clientBehaviorClass [
 	^ self class clientBehaviorClass
 ]
 
-{ #category : #accessing }
-CpWebApplication >> clientBehaviorId [
-
-	"Answer the id of the receiver's ClientBehaviour"
-
-	^ self clientBehaviorClass clientId
-]
-
 { #category : #installing }
 CpWebApplication >> installExtensionMethods [
 
 	"Install the extension methods from known Classes"
 
+	(Pragma allNamed: #webApplicationExtension in: BlockClosure) do: [ :each |
+		self environment addMethod: each method ].
 	(Pragma allNamed: #webApplicationExtension in: String) do: [ :each |
 		self environment addMethod: each method ]
 ]

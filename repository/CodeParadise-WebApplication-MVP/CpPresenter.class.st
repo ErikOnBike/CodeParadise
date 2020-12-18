@@ -5,7 +5,7 @@ I live in the ServerEnvironment and know the application I am running in.
 I share an id with my view which allows our binding across environments.
 
 Implementation:
-The view instance variable is actually a ViewProxy which allows regular message sends to my view.
+The viewProxy instance variable allows regular message sends to my view.
 The proxy will send the message to the ClientEnvironment environment.
 The fact that objects in the ClientEnvironment can't respond to a message send, does
 however mean that it is not possible to use the result (answer) of a message send. Or to put it
@@ -43,19 +43,44 @@ CpPresenter >> application [
 { #category : #accessing }
 CpPresenter >> application: anApplication [
 
+	"Assign the Application the receiver is part of.
+	It is the Application's responsibility to assign this value
+	when registering the receiver at the application (see
+	#createChildPresenter:atSlotNamed:forModel:)."
+
 	application := anApplication
+]
+
+{ #category : #accessing }
+CpPresenter >> applicationPresenter [
+
+	^ self application applicationPresenter
 ]
 
 { #category : #presenter }
 CpPresenter >> createChildPresenter: aPresenterClass atSlotNamed: aString forModel: aModel [
 
-	"Create a child Presenter for the receiver on the specified model"
+	"Create a child Presenter for the receiver on the specified model.
 
-	^ self application
-		createPresenter: aPresenterClass
-		withParent: self
-		atSlotNamed: aString
-		forModel: aModel
+	Implementation:
+	Set the model last, just before creating the View, so any announcements from the model
+	can be handled by a fully operational Presenter instance."
+
+	| childPresenter |
+
+	childPresenter := aPresenterClass new
+		parent: self ;
+		slotName: aString ;
+		yourself.
+
+	self application registerPresenter: childPresenter.
+
+	childPresenter
+		model: aModel ;
+		createView.
+
+	^ childPresenter
+
 ]
 
 { #category : #presenter }
@@ -63,7 +88,23 @@ CpPresenter >> createChildPresenter: aPresenterClass forModel: aModel [
 
 	"Create a child Presenter for the receiver on the specified model"
 
-	^ self createChildPresenter: aPresenterClass atSlotNamed: nil forModel: aModel
+	^ self
+		createChildPresenter: aPresenterClass
+		atSlotNamed: nil
+		forModel: aModel
+]
+
+{ #category : #presenter }
+CpPresenter >> createChildPresenterForModel: aModel [
+
+	"Create a child Presenter for the receiver on the specified model.
+	The model is assumed to know its default presenter (in the context of the receiver).
+	If this is not the case use #createChildPresenter:forModel:"
+
+	^ self
+		createChildPresenter: (aModel defaultPresenterClassIn: self)
+		atSlotNamed: nil
+		forModel: aModel
 ]
 
 { #category : #view }
@@ -79,6 +120,9 @@ CpPresenter >> createView [
 
 	"Create View in the ClientEnvironment"
 	self application clientCreateViewForPresenter: self.
+
+	"Render view explicitly if receiver is a top level presenter"
+	self renderView.
 
 	"Allow subclasses to perform further initialization"
 	self viewCreated
@@ -115,6 +159,12 @@ CpPresenter >> destroyViewProxy [
 		viewProxy := nil ]
 ]
 
+{ #category : #testing }
+CpPresenter >> hasId [
+
+	^ id notNil
+]
+
 { #category : #model }
 CpPresenter >> hasModel [
 
@@ -123,7 +173,7 @@ CpPresenter >> hasModel [
 	^ model notNil
 ]
 
-{ #category : #testing }
+{ #category : #presenter }
 CpPresenter >> hasParent [
 
 	^ parent notNil
@@ -143,6 +193,11 @@ CpPresenter >> id [
 
 { #category : #accessing }
 CpPresenter >> id: aString [
+
+	"Assign the id of the receiver which distinguishes it within its Application.
+	It is the Application's responsibility to assign this value
+	when registering the receiver at the application (see
+	#createChildPresenter:atSlotNamed:forModel:)."
 
 	id := aString
 ]
@@ -247,6 +302,13 @@ CpPresenter >> release [
 	super release
 ]
 
+{ #category : #actions }
+CpPresenter >> reload [
+
+	"Perform any required behavior when reloading the receiver"
+
+]
+
 { #category : #view }
 CpPresenter >> removeView [
 
@@ -273,12 +335,15 @@ CpPresenter >> renderView [
 { #category : #view }
 CpPresenter >> sendMessageToView: aMessage [
 
-	"Send the specified message to the receiver's view"
+	"Send the specified message to the receiver's view.
 
-	self application environment
-		clientPerform: #performMessage:
-		withArguments: { aMessage }
+	Implementation:
+	The MessageSend's receiver is replaced by its id because of message serialization."
+
+	self application sendMessage: (MessageSend
 		receiver: self viewId
+		selector: #performMessage:
+		arguments: { aMessage })
 ]
 
 { #category : #accessing }
@@ -301,7 +366,7 @@ CpPresenter >> updateView [
 
 	"Update the receiver's view"
 
-	self viewProxy viewClass = self viewClass
+	viewProxy viewClass = self viewClass
 		ifFalse: [ self recreateView ]
 ]
 
@@ -313,7 +378,15 @@ CpPresenter >> view [
 	Implementation:
 	Since the View is accessed by a Proxy anwer the proxy."
 
-	^ self viewProxy
+	^ viewProxy
+]
+
+{ #category : #view }
+CpPresenter >> viewAnnounce: anAnnouncement [
+
+	"Let the server side View (ie ViewProxy) announce the specified Announcement"
+
+	viewProxy announce: anAnnouncement
 ]
 
 { #category : #view }
@@ -352,10 +425,4 @@ CpPresenter >> viewLocation [
 	^ self hasParent
 		ifTrue: [ self parent viewId ]
 		ifFalse: [ self defaultViewLocation ]
-]
-
-{ #category : #view }
-CpPresenter >> viewProxy [
-
-	^ viewProxy
 ]

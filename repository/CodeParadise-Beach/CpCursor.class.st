@@ -101,24 +101,8 @@ CpCursor >> focus [
 	(self shadowRoot firstDescendantMatching: #input) focus
 ]
 
-{ #category : #'event handling' }
-CpCursor >> handleBeforeInputEvent: aBeforeInputEvent [
-
-	self flag: #todo.	"For now let the parent handle it, might need to change"
-
-	self parent handleBeforeInputEvent: aBeforeInputEvent
-]
-
 { #category : #events }
 CpCursor >> handleFocusEvent: aFocusEvent [
 
 	self crTrace: aFocusEvent printString
-]
-
-{ #category : #'event handling' }
-CpCursor >> handleKeyPressEvent: aKeyPressEvent [
-
-	self flag: #todo.	"For now let the parent handle it, might need to change"
-
-	self parent handleKeyPressEvent: aKeyPressEvent
 ]

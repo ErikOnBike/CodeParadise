@@ -11,10 +11,62 @@ Class {
 	#instVars : [
 		'timeStamp',
 		'type',
-		'target'
+		'target',
+		'elements',
+		'currentElementIndex'
 	],
 	#category : #'CodeParadise-WebApplication-Events'
 }
+
+{ #category : #announcing }
+CpEvent class >> addListenerTo: anElement [
+
+	"Add a listener for the receiver to the specified DOM element"
+
+	self primAddListenerTo: anElement
+]
+
+{ #category : #'processing - private' }
+CpEvent class >> createEventProcess [
+
+	"Create an event process, register it and start it"
+
+	| eventProcess |
+
+	"Create process with highest priority to handle events as fast as possible"
+	eventProcess := Process
+		forContext: [ [
+
+			"Wait for events to become available"
+			Processor activeProcess suspend.
+
+			"Dispatch the events"
+			self dispatchEvents ] repeat ] asContext
+		priority: Processor highestPriority.
+
+	"Register the event process so the VM (plugin) can activate it"
+	self primRegisterEventProcess: eventProcess.
+
+	"Start the process (which will actually put it to sleep waiting for the first event)"
+	eventProcess resume
+]
+
+{ #category : #'processing - private' }
+CpEvent class >> dispatchEvent: anEvent [
+
+	[ anEvent dispatch ] on: Error do: [ :error | self crTrace: error description ]
+]
+
+{ #category : #'processing - private' }
+CpEvent class >> dispatchEvents [
+
+	"Handle events.
+	
+	Implementation:
+	Try to prevent long running synchronous calls for performance (jitter/yank in UI)."
+
+	self latestEvents do: [ :each | self dispatchEvent: each ]
+]
 
 { #category : #announcing }
 CpEvent class >> handlesAnnouncement: anAnnouncement [
@@ -26,33 +78,127 @@ CpEvent class >> handlesAnnouncement: anAnnouncement [
 	^ anAnnouncement class includesBehavior: self
 ]
 
+{ #category : #'processing - private' }
+CpEvent class >> latestEvents [
+
+	<primitive: 'primitiveEventLatestEvents' module: 'CpDOMPlugin'>
+	^ #()
+
+]
+
+{ #category : #accessing }
+CpEvent class >> point: aPoint isSimilarTo: otherPoint [
+
+	| distance |
+
+	distance := aPoint dist: otherPoint.
+
+	^ distance < self similarDistance
+]
+
+{ #category : #'class initialization' }
+CpEvent class >> postInstall [
+
+	super postInstall.
+
+	"Create the event handler process once"
+	self == CpEvent
+		ifTrue: [ self createEventProcess ].
+
+	self primRegisterEventClass: self
+]
+
+{ #category : #'processing - private' }
+CpEvent class >> primAddListenerTo: anElement [
+
+	<primitive: 'primitiveEventAddListenerTo:' module: 'CpDOMPlugin'>
+	self primitiveFailed
+]
+
+{ #category : #'processing - private' }
+CpEvent class >> primRegisterEventClass: anEventClass [
+
+	<primitive: 'primitiveEventRegisterClass:' module: 'CpDOMPlugin'>
+	self primitiveFailed
+
+]
+
+{ #category : #'processing - private' }
+CpEvent class >> primRegisterEventProcess: eventHandlerProcess [
+
+	<primitive: 'primitiveEventRegisterProcess:' module: 'CpDOMPlugin'>
+	self primitiveFailed
+
+]
+
+{ #category : #accessing }
+CpEvent class >> similarDistance [
+
+	^ 8
+]
+
 { #category : #announcing }
 CpEvent >> asAnnouncement [
 
 	^ self
 ]
 
-{ #category : #sending }
+{ #category : #accessing }
+CpEvent >> currentElement [
+
+	"Answer the current (targetted) DOM element (similar to the DOM's currentTarget)"
+
+	^ self elements at: currentElementIndex ifAbsent: [ nil ]
+]
+
+{ #category : #dispatching }
 CpEvent >> dispatch [
 
-	self hasTarget
-		ifFalse: [ ^ self ].
-	self target canHandleEvents
-		ifTrue: [ self sendTo: self target ].
+	"Dispatch the receiver by announcing it through its element"
 
-	self target announceEvent: self
+	(self currentElement ifNil: [ ^ self ])
+		announce: self.
+
+	"Propagate (bubble up to top level) to next interested element"
+	currentElementIndex := currentElementIndex + 1.
+	self dispatch
+]
+
+{ #category : #accessing }
+CpEvent >> elements [
+
+	"Answer the DOM elements (from descendant to ancestor) which are interested in the event.
+	This might be different than the target which received the event."
+
+	^ elements
+]
+
+{ #category : #accessing }
+CpEvent >> elements: anArray [
+
+	elements := anArray
 ]
 
 { #category : #testing }
-CpEvent >> hasTarget [
+CpEvent >> hasSameOrigin: anEvent [
 
-	^ target notNil
+	"Answer whether the receiver and the specified Event share the same origin.
+
+	Implementation:
+	The same origin is shared if the event is targetted to the same DOM element and
+	has the same timestamp of occurrence."
+
+	^ self target = anEvent target and: [ self timeStamp = anEvent timeStamp ]
 ]
 
-{ #category : #testing }
-CpEvent >> isPointerEvent [
+{ #category : #initialization }
+CpEvent >> initialize [
 
-	^ false
+	super initialize.
+
+	"By default start at the first element of the elements
+	(in #currentElement it is validated a first element exists)"
+	currentElementIndex := 1
 ]
 
 { #category : #announcing }
@@ -65,6 +211,22 @@ CpEvent >> prepareForDelivery [
 	See Announcement >> #prepareForDelivery"
 ]
 
+{ #category : #dispatching }
+CpEvent >> preventDefault [
+
+	"Prevent default browser behavior"
+
+	self primPreventDefault
+]
+
+{ #category : #'dispatching - private' }
+CpEvent >> primPreventDefault [
+
+	<primitive: 'primitiveEventPreventDefault' module: 'CpDOMPlugin'>
+	self primitiveFailed
+
+]
+
 { #category : #printing }
 CpEvent >> printOn: aStream [
 
@@ -74,7 +236,17 @@ CpEvent >> printOn: aStream [
 	aStream nextPutAll: ', timeStamp: '.
 	self timeStamp printOn: aStream.
 	aStream nextPutAll: ', target: '.
-	self target printOn: aStream
+	self target printOn: aStream.
+	aStream nextPutAll: ', element: '.
+	self currentElement printOn: aStream
+]
+
+{ #category : #dispatching }
+CpEvent >> reset [
+
+	"Reset the receiver to allow dispatching again (from the deepest DOM element)"
+
+	currentElementIndex := 1
 ]
 
 { #category : #visiting }
@@ -83,8 +255,20 @@ CpEvent >> sendTo: anObject [
 	self subclassResponsibility
 ]
 
+{ #category : #dispatching }
+CpEvent >> stopPropagation [
+
+	"Stop propagation (bubbling) of the receiver"
+
+	currentElementIndex := self elements size
+]
+
 { #category : #accessing }
 CpEvent >> target [
+
+	"Answer the DOM element which received the event.
+	In contrast with regular browser events, this target
+	might be part of a shadow DOM."
 
 	^ target
 ]

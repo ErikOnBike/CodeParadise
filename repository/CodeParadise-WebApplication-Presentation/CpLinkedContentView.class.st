@@ -31,3 +31,11 @@ CpLinkedContentView >> handleClickEvent: aClickEvent [
 
 	self serverAnnounce: CpLinkActivated
 ]
+
+{ #category : #initialization }
+CpLinkedContentView >> initialize [
+
+	super initialize.
+
+	self when: CpClickEvent send: #handleClickEvent: to: self
+]

@@ -17,24 +17,10 @@ CpCounterWebApplication class >> app [
 	^ #counter
 ]
 
-{ #category : #accessing }
-CpCounterWebApplication class >> clientBehaviorClass [
-
-	^ CpCounterClientBehavior
-]
-
-{ #category : #accessing }
-CpCounterWebApplication class >> globalCounter [
-
-	^ GlobalCounter ifNil: [ GlobalCounter := CpCounterModel new ]
-]
-
-{ #category : #dependencies }
+{ #category : #'class initialization' }
 CpCounterWebApplication class >> release [
 
-	GlobalCounter ifNotNil: [
-		GlobalCounter release.
-		GlobalCounter := nil ].
+	CpCounterApplication release.
 
 	super release
 ]
@@ -48,8 +34,8 @@ CpCounterWebApplication >> load [
 
 	"Create one global and one application specific counter.
 	These presenters will be installed when #load or #reload is called on the receiver."
-	self createPresenter: CpCounterPresenter forModel: (self addModel: self class globalCounter).
-	self createPresenter: CpCounterPresenter forModel: (self addModel: CpCounterModel new).
+	self applicationPresenter
+		createChildPresenter: CpCounterApplicationPresenter forModel: CpCounterApplication new ;
+		renderView
 
-	self clientRenderViews
 ]

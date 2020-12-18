@@ -1,11 +1,6 @@
 Class {
 	#name : #CpButton,
 	#superclass : #CpView,
-	#instVars : [
-		'prefix',
-		'label',
-		'suffix'
-	],
 	#category : #'CodeParadise-Beach-Components'
 }
 
@@ -62,58 +57,51 @@ CpButton class >> style [
 
 	<webResource: #css>
 
-	^ ':host {
-			display: inline-flex;
-			position: relative;
-			white-space: nowrap;
-			font-size: .8rem;
-		}
-
-		#container {
-			display: inline-flex;
-			width: 100%;
-			height: 100%;
+	^ '#container {
+			display: inline-block;
 			min-height: inherit;
-			padding: .25rem;
-			border-radius: .25rem;
-			align-items: baseline;
-			justify-content: center;
+			padding: 3px;
+			border-radius: 3px;
 			color: var(--control-text-color);
-			background-color: var(--control-background-color);
+			background-color: var(--control-background-color, #fff);
 			cursor: pointer;
 			-webkit-user-select: none;
 			-moz-user-select: none;
 			user-select: none;
 		}
-
 		#container:hover {
 			color: var(--control-hovered-text-color); 
 			background-color: var(--control-hover-background-color);
 		}
-
 		#container:active {
 			color: var(--control-activated-text-color);
 			background-color: var(--control-activated-background-color);
 		}
-
-		#prefix,
-		#suffix {
+		slot {
 			display: inline-block;
 		}
-
-		#prefix ::slotted(*) {
-			margin-right: .25rem;		
+		slot[name="prefix"] {
+			width: 1.25em;
+			height: 1.25em;
 		}
-
-		#suffix ::slotted(*) {
-			margin-left: .25rem;
+		slot[name="prefix"]::slotted(*) {
+			margin-right: 3px;
 		}
-
-		#label {
+		slot[name="suffix"]::slotted(*) {
+			margin-left: 3px;
+		}
+		slot[name="label"] {
 			display: inline-block;
 			white-space: nowrap;
 			overflow: hidden;
 			text-overflow: ellipsis;
+		}
+		slot,
+		:slotted(*) {
+			pointer-events: none;
+			-webkit-user-select: none;
+			-moz-user-select: none;
+			user-select: none;
 		}'
 ]
 
@@ -122,33 +110,15 @@ CpButton class >> template [
 
 	<webResource: #html>
 
-	^ '<div id="container">
-			<div id="prefix">
-				<slot name="prefix"></slot>
-			</div>
-			<div id="label">
-				<slot name="label"></slot>
-			</div>
-			<div id="suffix">
-				<slot name="suffix"></slot>
-			</div>
-		</div>'
-]
-
-{ #category : #'event handling' }
-CpButton >> handleClickEvent: aClickEvent [
-
-	"Announce the fact that receiver has been clicked"
-
-	self announce: aClickEvent asAnnouncement
+	^ '<div id="container"><slot name="prefix"></slot><slot name="label"></slot><slot name="suffix"></slot></div>'
 ]
 
 { #category : #accessing }
 CpButton >> label [
 
-	"Answer label of receiver. If no label is set yet, check if label was set from a HTML string."
+	"Answer label of receiver"
 
-	^ label ifNil: [ label := self childAtSlotNamed: #label ]
+	^ self childAtSlotNamed: #label
 ]
 
 { #category : #accessing }
@@ -156,15 +126,15 @@ CpButton >> label: anElement [
 
 	"Set the specified element as the label of the receiver"
 
-	label := self replaceChild: anElement asElement atSlotNamed: #label
+	self replaceChild: anElement asElement atSlotNamed: #label
 ]
 
 { #category : #accessing }
 CpButton >> prefix [
 
-	"Answer prefix of receiver. If no prefix is set yet, check if prefix was set from a HTML string."
+	"Answer prefix of receiver"
 
-	^ prefix ifNil: [ prefix := self childAtSlotNamed: #prefix ]
+	^ self childAtSlotNamed: #prefix
 ]
 
 { #category : #accessing }
@@ -172,15 +142,15 @@ CpButton >> prefix: anElement [
 
 	"Set the specified element as the prefix of the receiver"
 
-	prefix := self replaceChild: anElement asElement atSlotNamed: #prefix
+	self replaceChild: anElement asElement atSlotNamed: #prefix
 ]
 
 { #category : #accessing }
 CpButton >> suffix [
 
-	"Answer suffix of receiver. If no suffix is set yet, check if suffix was set from a HTML string."
+	"Answer suffix of receiver"
 
-	^ suffix ifNil: [ suffix := self childAtSlotNamed: #suffix ]
+	^ self childAtSlotNamed: #suffix
 ]
 
 { #category : #accessing }
@@ -188,5 +158,5 @@ CpButton >> suffix: anElement [
 
 	"Set the specified element as the suffix of the receiver"
 
-	suffix := self replaceChild: anElement asElement atSlotNamed: #suffix
+	self replaceChild: anElement asElement atSlotNamed: #suffix
 ]

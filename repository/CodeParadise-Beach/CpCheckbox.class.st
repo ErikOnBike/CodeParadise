@@ -24,35 +24,23 @@ CpCheckbox class >> style [
 
 	<webResource: #css>
 
-	^ ':host {
-			display: inline-flex;
-			position: relative;
-			white-space: nowrap;
-			font-size: .8rem;
-		}
-
-		#container {
-			display: inline-flex;
-			width: 100%;
-			height: 100%;
+	^ '#container {
+			display: inline-block;
 			min-height: inherit;
-			align-items: baseline;
 			cursor: pointer;
 		}
-
 		#box {
 			display: inline-block;
 			position: relative;
-			top: .125rem;
-			width: .8rem;
-			height: .8rem;
-			margin-bottom: .25rem;
-			margin-right: .25rem;
-			border-radius: .25rem;
+			top: .125em;
+			width: .8em;
+			height: .8em;
+			margin-bottom: 3px;
+			margin-right: 3px;
+			border-radius: 3px;
 			border: 1px solid #333;
 			overflow: hidden;
 		}
-
 		#tick {
 			position: absolute;
 			left: -50%;
@@ -63,17 +51,11 @@ CpCheckbox class >> style [
 			transform: rotate(0) translate(0,100%);
 			transition: transform .5s;
 		}
-
 		:host([selected=""]) #tick {
 			transform: rotate(0) translate(0,0);
 		}
-		
 		:host([selected="mixed"]) #tick {
 			transform: rotate(-45deg) translate(0,50%);
-		}
-		
-		#label {
-			display: inline-flex;
 		}'
 ]
 
@@ -86,9 +68,7 @@ CpCheckbox class >> template [
 			<div id="box">
 				<div id="tick"></div>
 			</div>
-			<div id="label">
-				<slot name="label"></slot>
-			</div>
+			<slot name="label"></slot>
 		</div>'
 ]
 

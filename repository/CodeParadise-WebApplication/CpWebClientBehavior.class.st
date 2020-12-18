@@ -40,10 +40,10 @@ CpWebClientBehavior class >> updateStyleViewClass: aViewClass in: aServerEnviron
 
 	"Update the style of the specified View in the ClientEnvironment belonging to the specified ServerEnvironment"
 
-	aServerEnvironment
-		clientPerform: #updateStyleViewClass:
-		withArguments: { aViewClass name }
+	aServerEnvironment sendMessage: (MessageSend
 		receiver: self clientId
+		selector: #updateStyleViewClass:
+		arguments: { aViewClass name })
 
 ]
 
@@ -52,10 +52,10 @@ CpWebClientBehavior class >> updateTemplateViewClass: aViewClass in: aServerEnvi
 
 	"Update the template of the specified View in the ClientEnvironment belonging to the specified ServerEnvironment"
 
-	aServerEnvironment
-		clientPerform: #updateTemplateViewClass:
-		withArguments: { aViewClass name }
+	aServerEnvironment sendMessage: (MessageSend
 		receiver: self clientId
+		selector: #updateTemplateViewClass:
+		arguments: { aViewClass name })
 
 ]
 

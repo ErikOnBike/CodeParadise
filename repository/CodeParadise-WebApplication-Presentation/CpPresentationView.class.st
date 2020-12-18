@@ -45,8 +45,7 @@ CpPresentationView >> handleClickEvent: aClickEvent [
 		ifTrue: [ self serverAnnounce: CpPreviousSlide ]
 		ifFalse: [
 			pointX > (self width - clickWidth)
-				ifTrue: [ self serverAnnounce: CpNextSlide ]
-				ifFalse: [ super handleClickEvent: aClickEvent ] ]
+				ifTrue: [ self serverAnnounce: CpNextSlide ] ]
 ]
 
 { #category : #'event handling' }
@@ -93,8 +92,12 @@ CpPresentationView >> initialize [
 			}' ;
 		yourself).
 
-	"Add a key event handler on the body (where all key events will end up at the moment)"
-	CpHtmlElement documentBody when: CpKeyPressEvent send: #handleKeyPressEvent: to: self
+	"Add a key event handler on the body (where all key events will end up at the moment).
+	The KeyUpEvent is used, since it will prevent repeating keys and also supports
+	arrow keys (which do not generate a KeyPress event)."
+	CpHtmlElement documentBody
+		when: CpClickEvent send: #handleClickEvent: to: self ;
+		when: CpKeyUpEvent send: #handleKeyPressEvent: to: self
 ]
 
 { #category : #rendering }

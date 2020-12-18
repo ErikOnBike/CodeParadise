@@ -12,6 +12,7 @@ CpFomanticExamplesClientBehavior >> exampleButton [
 	| outputElement loadTargetButton loadButton loadingButton |
 
 	outputElement := self outputElement.
+	outputElement textContent: ''.
 
 	outputElement appendChild: ((CpHtmlElement newWithTag: #span)
 		textContent: 'Buttons have enabled state ' ;
@@ -40,7 +41,6 @@ CpFomanticExamplesClientBehavior >> exampleButton [
 	loadButton := outputElement appendChild: (FuiButton new
 		textContent: 'Make loaded' ;
 		yourself).
-	CpBrowserEventHandler current registerInterestIn: loadButton.
 	loadButton when: CpClickEvent do: [
 		loadTargetButton beLoaded.
 		loadButton disable.
@@ -52,7 +52,6 @@ CpFomanticExamplesClientBehavior >> exampleButton [
 		textContent: 'Make loading' ;
 		disable ;
 		yourself).
-	CpBrowserEventHandler current registerInterestIn: loadingButton.
 	loadingButton when: CpClickEvent do: [
 		loadTargetButton beLoading.
 		loadButton enable.
@@ -76,6 +75,7 @@ CpFomanticExamplesClientBehavior >> exampleCheckbox [
 	| outputElement checkbox checkButton uncheckButton isCheckedButton isCheckedLabel |
 
 	outputElement := self outputElement.
+	outputElement textContent: ''.
 
 	outputElement appendChild: ((CpHtmlElement newWithTag: #span)
 		textContent: 'Checkboxes have enabled state ' ;
@@ -111,7 +111,6 @@ CpFomanticExamplesClientBehavior >> exampleCheckbox [
 	checkButton := outputElement appendChild: (FuiButton new
 		textContent: 'Check' ;
 		yourself).
-	CpBrowserEventHandler current registerInterestIn: checkButton.
 	checkButton when: CpClickEvent do: [
 		checkbox check.
 		checkButton disable.
@@ -122,7 +121,6 @@ CpFomanticExamplesClientBehavior >> exampleCheckbox [
 	uncheckButton := outputElement appendChild: (FuiButton new
 		textContent: 'Uncheck' ;
 		yourself).
-	CpBrowserEventHandler current registerInterestIn: uncheckButton.
 	uncheckButton when: CpClickEvent do: [
 		checkbox uncheck.
 		checkButton enable.
@@ -134,7 +132,6 @@ CpFomanticExamplesClientBehavior >> exampleCheckbox [
 		textContent: 'Is checked' ;
 		yourself).
 	isCheckedLabel := outputElement appendChild: (CpHtmlElement newWithTag: #span).
-	CpBrowserEventHandler current registerInterestIn: isCheckedButton.
 	isCheckedButton when: CpClickEvent do: [ isCheckedLabel textContent: ' ', checkbox isChecked printString ].
 	isCheckedButton announce: CpClickEvent new. "trigger first update"
 
@@ -170,6 +167,7 @@ CpFomanticExamplesClientBehavior >> exampleCheckbox2 [
 	| outputElement |
 
 	outputElement := self outputElement.
+	outputElement textContent: ''.
 
 	outputElement
 		appendChild: ('Checkboxes can have 4 types: checkbox, slider, toggle, radio' inHtmlTag: #p) ;
@@ -222,6 +220,7 @@ CpFomanticExamplesClientBehavior >> exampleInput [
 	| outputElement |
 
 	outputElement := self outputElement.
+	outputElement textContent: ''.
 
 	outputElement
 		appendChild: ('Basic input ' inHtmlTag: #span) ;
@@ -252,6 +251,7 @@ CpFomanticExamplesClientBehavior >> exampleInput2 [
 	| outputElement |
 
 	outputElement := self outputElement.
+	outputElement textContent: ''.
 
 	outputElement
 		appendChild: ('Basic input' inHtmlTag: #p) ;
@@ -289,25 +289,6 @@ CpFomanticExamplesClientBehavior >> exampleInput2 [
 			leftIcon: #heart ;
 			beLoading ;
 			yourself).
-]
-
-{ #category : #events }
-CpFomanticExamplesClientBehavior >> handleClickEvent: anEvent [
-
-	| selector output |
-
-	"Find example selector"
-	selector := anEvent target
-		ifNotNil: [ :target | target id ]
-		ifNil: [ ^ self ].
-
-	"Wipe out existing output"
-	output := self outputElement.
-	output ifNil: [ ^ self ].
-	output textContent: ''.
-
-	"Create new output by performing selector"
-	[ self perform: selector asSymbol ] on: Error do: [ :error | output textContent: 'Error: ', error description ]
 ]
 
 { #category : #initialization }
@@ -412,7 +393,6 @@ CpFomanticExamplesClientBehavior >> showIndex [
 		| example |
 				
 		example := FuiButton new
-			id: item key ;	"ie selector"
 			textContent: item value first ;	"ie title"
 			yourself.
 			
@@ -421,6 +401,5 @@ CpFomanticExamplesClientBehavior >> showIndex [
 			yourself).
 
 		"Register interest in events on the list item"
-		CpBrowserEventHandler current registerInterestIn: example.
-		example when: CpClickEvent send: #handleClickEvent: to: self ]
+		example when: CpClickEvent send: item key to: self ]
 ]

@@ -182,23 +182,30 @@ CpServerEnvironment >> beLoaded [
 { #category : #'remote execution' }
 CpServerEnvironment >> clientAssignId [
 
-	"Assign the receiver's id to the client environment"
+	"Assign the receiver's id to the client environment.
 
-	self
-		clientPerform: #id:
-		withArguments: { self id }
+	Implementation:
+	Setting the receiver to nil indicates the ClientEnvironment as receiver."
+
+	self sendMessage: (MessageSend
 		receiver: nil
+		selector: #id:
+		arguments: { self id })
 ]
 
 { #category : #'remote execution' }
 CpServerEnvironment >> clientCreateInstanceOf: aClass withId: identifier [
 
-	"Let the ClientEnvironment create an instance of the specified class with the specified identifier (a String)"
+	"Let the ClientEnvironment create an instance of the specified class with the specified identifier.
 
-	self
-		clientPerform: #createInstanceOf:withId:
-		withArguments: { aClass name . identifier }
+	Implementation:
+	Setting the receiver to nil indicates the ClientEnvironment as receiver."
+
+	self sendMessage: (MessageSend
 		receiver: nil
+		selector: #createInstanceOf:withId:
+		arguments: { aClass name . identifier })
+
 ]
 
 { #category : #testing }
@@ -213,49 +220,14 @@ CpServerEnvironment >> clientKnowsClass: aClass [
 { #category : #'remote execution' }
 CpServerEnvironment >> clientPerform: aSymbol [
 
-	"Send message to client to perform the specified selector on the client environment"
+	"Send message to client to perform the specified selector on the client environment.
 
-	self clientPerform: aSymbol withArguments: {} receiver: nil
-]
+	Implementation:
+	Setting the receiver to nil indicates the ClientEnvironment as receiver."
 
-{ #category : #'remote execution' }
-CpServerEnvironment >> clientPerform: aSymbol receiver: identifier [
-
-	"Send message to client to perform the specified selector on the object specified by
-	the identifier. If the identifier is nil the client environment is assumed
-	to be the receiver of the message sent."
-
-	self clientPerform: aSymbol withArguments: {} receiver: identifier
-]
-
-{ #category : #'remote execution' }
-CpServerEnvironment >> clientPerform: aSymbol withArguments: anArray [
-
-	"Send message to client to perform the specified selector with arguments on the client environment"
-
-	self clientPerform: aSymbol withArguments: anArray receiver: nil
-]
-
-{ #category : #'remote execution' }
-CpServerEnvironment >> clientPerform: aSymbol withArguments: anArray receiver: identifier [
-
-	"Send message to client to perform the specified selector with arguments on the Object
-	specified by the identifier. If the identifier is nil the client environment is assumed
-	to be the receiver of the message sent."
-
-	| message |
-
-	"Create message structure"
-	message := self class
-		messageForPerform: aSymbol
-		withArguments: anArray
-		receiver: identifier.
-
-	"Either add message to existing encoder or encode message and send it directly"
-	encoderMutex critical: [
-		encoder
-			ifNotNil: [ encoder encode: message ]
-			ifNil: [ self sendMessage: message cpEncoded ] ]
+	self sendMessage: (MessageSend
+		receiver: nil
+		selector: aSymbol)
 ]
 
 { #category : #'event handling' }
@@ -273,7 +245,7 @@ CpServerEnvironment >> handleClientAnnouncement: anAnnouncement [
 		[ self announce: anAnnouncement.
 
 		"Send the aggregated messages to the client"
-		self sendMessage: encoder bytes ] ensure: [ encoder := nil ] ]
+		self sendEncodedMessage: encoder bytes ] ensure: [ encoder := nil ] ]
 ]
 
 { #category : #'event handling' }
@@ -326,22 +298,30 @@ CpServerEnvironment >> initialize [
 CpServerEnvironment >> installClass: aClass [
 
 	"Install the specified Class in the client environment.
-	To have the Class being reinstalled on reload, use #addClass:"
+	To have the Class being reinstalled on reload, use #addClass:.
 
-	self
-		clientPerform: #installClass:
-		withArguments: { aClass }
+	Implementation:
+	Setting the receiver to nil indicates the ClientEnvironment as receiver."
+
+	self sendMessage: (MessageSend
+		receiver: nil
+		selector: #installClass:
+		arguments: { aClass })
 ]
 
 { #category : #installing }
 CpServerEnvironment >> installMethod: aCompiledMethod [
 
 	"Install the specified CompiledMethod in the client environment.
-	To have the CompiledMethod being reinstalled on reload, use #addMethod:"
+	To have the CompiledMethod being reinstalled on reload, use #addMethod:.
 
-	self
-		clientPerform: #installMethod:
-		withArguments: { aCompiledMethod }
+	Implementation:
+	Setting the receiver to nil indicates the ClientEnvironment as receiver."
+
+	self sendMessage: (MessageSend
+		receiver: nil
+		selector: #installMethod:
+		arguments: { aCompiledMethod })
 ]
 
 { #category : #installing }
@@ -401,6 +381,18 @@ CpServerEnvironment >> release [
 	installationMutex := nil.
 
 	super release
+]
+
+{ #category : #'input/output' }
+CpServerEnvironment >> sendMessage: aMessageSend [
+
+	"Send the specified MessageSend to the server"
+
+	"Either add message to existing encoder or encode message and send it directly"
+	encoderMutex critical: [
+		encoder
+			ifNotNil: [ encoder encode: aMessageSend ]
+			ifNil: [ self sendEncodedMessage: aMessageSend cpEncoded ] ]
 ]
 
 { #category : #support }

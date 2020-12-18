@@ -34,6 +34,16 @@ CpModel >> initialize [
 	announcer := Announcer new
 ]
 
+{ #category : #dependencies }
+CpModel >> release [
+
+	announcer ifNotNil: [
+		announcer subscriptions reset.
+		announcer := nil ].
+
+	super release
+]
+
 { #category : #announcing }
 CpModel >> unsubscribe: anObject [
 

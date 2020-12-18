@@ -4,17 +4,6 @@ Class {
 	#category : #'CodeParadise-WebApplication-Presentation-View'
 }
 
-{ #category : #'event handling' }
-CpAnimationDemoContentView >> handleClickEvent: aClickEvent [
-
-	aClickEvent elementId = 'square1'
-		ifTrue: [ ^ self render ].
-	aClickEvent elementId = 'square2'
-		ifTrue: [ ^ self renderMany ].
-
-	super handleClickEvent: aClickEvent
-]
-
 { #category : #rendering }
 CpAnimationDemoContentView >> render [
 
@@ -32,7 +21,6 @@ CpAnimationDemoContentView >> render [
 		styleAt: #overflow put: 'hidden' ;
 		yourself).
 	element1 := canvas appendChild: ((CpHtmlElement newWithTag: #div)
-		id: 'square1' ;
 		styleAt: #cursor put: 'pointer' ;
 		styleAt: #position put: 'absolute' ;
 		styleAt: #width put: '30%' ;
@@ -40,9 +28,9 @@ CpAnimationDemoContentView >> render [
 		styleAt: #top put: '20%' ;
 		styleAt: #left put: '30%' ;
 		styleAt: #'background-color' put: '#C2B280' ;
+		when: CpClickEvent send: #render to: self ;
 		yourself).
 	element2 := canvas appendChild: ((CpHtmlElement newWithTag: #div)
-		id: 'square2' ;
 		styleAt: #cursor put: 'pointer' ;
 		styleAt: #position put: 'absolute' ;
 		styleAt: #width put: '20%' ;
@@ -51,15 +39,15 @@ CpAnimationDemoContentView >> render [
 		styleAt: #left put: 'calc(30% + 30%)' ;
 		styleAt: #transform put: 'translate(200px)'	 ;
 		styleAt: #'background-color' put: '#004E6E' ;
+		when: CpClickEvent send: #renderMany to: self ;
 		yourself).
 
-	CpBrowserAnimator current
-		addAnimation: (CpAnimation for: [ :p |
-			element1 styleAt: #transform put: 'rotate(', (360 * p) printString, 'deg)' ] duration: 1500)
-		delay: 1000 ;
-		addAnimation: (CpAnimation for: [ :p |
-			element2 styleAt: #transform put: 'translate(', ((1 - p) * 200) printString, 'px,0)' ] duration: 800)
-		delay: 1700
+	[ :p | element1 styleAt: #transform put: 'rotate(', (360 * p) printString, 'deg)' ] asTransition
+		duration: 1500 ;
+		startDelayedBy: 1000.
+	[ :p | element2 styleAt: #transform put: 'translate(', ((1 - p) * 200) printString, 'px,0)' ] asTransition
+		duration: 800 ;
+		startDelayedBy: 1700
 
 ]
 
@@ -74,22 +62,22 @@ CpAnimationDemoContentView >> renderMany [
 
 	elements := OrderedCollection new
 		add: (self appendChild: ((CpHtmlElement newWithTag: #div)
-			id: 'square1' ;
 			styleAt: #cursor put: 'pointer' ;
 			styleAt: #position put: 'absolute' ;
 			styleAt: #width put: '30vmin' ;
 			styleAt: #height put: '30vmin' ;
 			styleAt: #bottom put: 'calc(50% + 2vmin)' ;
 			styleAt: #right put: 'calc(50% + 2vmin)' ;
+			when: CpClickEvent send: #render to: self ;
 			yourself)) ;
 		add: (self appendChild: ((CpHtmlElement newWithTag: #div)
-			id: 'square2' ;
 			styleAt: #cursor put: 'pointer' ;
 			styleAt: #position put: 'absolute' ;
 			styleAt: #width put: '30vmin' ;
 			styleAt: #height put: '30vmin' ;
 			styleAt: #bottom put: 'calc(50% + 2vmin)' ;
 			styleAt: #left put: 'calc(50% + 2vmin)' ;
+			when: CpClickEvent send: #renderMany to: self ;
 			yourself)) ;
 		add: (self appendChild: ((CpHtmlElement newWithTag: #div)
 			styleAt: #position put: 'absolute' ;
@@ -131,8 +119,7 @@ CpAnimationDemoContentView >> renderMany [
 				styleAt: #'background-color' put: '#00384F' ;
 				yourself) ] ].
 
-	CpBrowserAnimator current
-		addAnimation: (CpAnimation for: [ :p |
+	[ :p |
 			| rotate |
 			rotate := String streamContents: [ :stream |
 				stream nextPutAll: 'rotate('.
@@ -158,6 +145,7 @@ CpAnimationDemoContentView >> renderMany [
 					stream nextPut: $) ].
 				eachChild
 					styleAt: #'background-color' put: color ;
-					styleAt: #transform put: scale ] ] ] duration: 1500)
-		delay: 1000
+					styleAt: #transform put: scale ] ] ] asTransition
+		duration: 1500 ;
+		startDelayedBy: 1000
 ]

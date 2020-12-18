@@ -57,13 +57,10 @@ CpDemoApplicationCodeContentView class >> template [
 { #category : #'event handling' }
 CpDemoApplicationCodeContentView >> handleClickEvent: aClickEvent [
 
-	aClickEvent elementId = #clipboard
+	aClickEvent target id = #clipboard
 		ifTrue: [ ^ self serverAnnounce: CpDemoCodeCopyClipboard ].
-	aClickEvent elementId = #inspector
-		ifTrue: [ ^ self serverAnnounce: CpDemoCodeOpenInspector ].
-
-	super handleClickEvent: aClickEvent
-
+	aClickEvent target id = #inspector
+		ifTrue: [ ^ self serverAnnounce: CpDemoCodeOpenInspector ]
 ]
 
 { #category : #'event handling' }
@@ -71,9 +68,17 @@ CpDemoApplicationCodeContentView >> handlePointerMoveEvent: aPointerEvent [
 
 	"Fix our little hack from #serverAnnounce:"
 
-	self removeClass: #'action-done'.
+	self removeClass: #'action-done'
+]
 
-	super handlePointerMoveEvent: aPointerEvent
+{ #category : #initialization }
+CpDemoApplicationCodeContentView >> initialize [
+
+	super initialize.
+
+	self
+		when: CpClickEvent send: #handleClickEvent: to: self ;
+		when: CpPointerMoveEvent send: #handlePointerMoveEvent: to: self
 ]
 
 { #category : #'event handling' }

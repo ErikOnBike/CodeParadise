@@ -18,7 +18,14 @@ CpScreen class >> style [
 		top: 0;
 		width: 100vw;
 		height: 100vh;
-		overflow: hidden;		
+		overflow: hidden;
+	}
+	.dragging * {
+		pointer-events: none;
+		-moz-user-select: none;
+		-webkit-user-select: none;
+		-ms-user-select: none;
+		user-select: none;
 	}
 	.container {
 		width: 100%;
@@ -41,6 +48,7 @@ CpScreen >> initialize [
 
 	super initialize.
 
+	"Add some default styling to the full document"
 	CpHtmlElement documentHead appendChild: ((CpHtmlElement newWithTag: #style)
 		textContent: '
 			*, *:before, *:after {
@@ -50,7 +58,22 @@ CpScreen >> initialize [
 				font-size: 100%;
 				-webkit-text-size-adjust: 100%;
 				font-family: "SF Pro Text", "Helvetica Neue", Helvetica, Arial, sans-serif;
-			}
-		' ;
+			}' ;
 		yourself)
+]
+
+{ #category : #dragging }
+CpScreen >> makeDraggable: aView [
+
+	(CpHtmlElement elementWithId: self id)
+		addClass: #dragging.
+	aView addClass: #dragging
+]
+
+{ #category : #dragging }
+CpScreen >> stopDragging: aView [
+
+	(CpHtmlElement elementWithId: self id)
+		removeClass: #dragging.
+	aView removeClass: #dragging
 ]

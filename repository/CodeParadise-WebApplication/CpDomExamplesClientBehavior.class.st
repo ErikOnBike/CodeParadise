@@ -22,6 +22,7 @@ CpDomExamplesClientBehavior >> exampleAnimationMany [
 	| outputElement |
 	
 	outputElement := self outputElement.
+	outputElement textContent: ''.
 
 	100 timesRepeat: [
 		| element |
@@ -34,10 +35,9 @@ CpDomExamplesClientBehavior >> exampleAnimationMany [
 			styleAt: #'background-color' put: '#C2B280' ;
 			yourself).
 
-		CpBrowserAnimator current
-			addAnimation: (CpAnimation for: [ :p |
-				element styleAt: #transform put: 'rotate(', (90 * p) printString, 'deg)' ] duration: 400)
-			delay: 1000 ]
+		[ :p | element styleAt: #transform put: 'rotate(', (90 * p) printString, 'deg)' ] asTransition
+			duration: 400 ;
+			startDelayedBy: 1000 ]
 ]
 
 { #category : #examples }
@@ -48,6 +48,7 @@ CpDomExamplesClientBehavior >> exampleAnimationSimple [
 	| outputElement element1 element2 |
 	
 	outputElement := self outputElement.
+	outputElement textContent: ''.
 
 	element1 := outputElement appendChild: ((CpHtmlElement newWithTag: #div)
 		styleAt: #width put: '50vmin' ;
@@ -60,12 +61,12 @@ CpDomExamplesClientBehavior >> exampleAnimationSimple [
 		styleAt: #'background-color' put: '#B280C2' ;
 		yourself).
 
-	CpBrowserAnimator current
-		addAnimation: (CpAnimation for: [ :p |
-			element1 styleAt: #transform put: 'rotate(', (360 * p) printString, 'deg)' ] duration: 1500) ;
-		addAnimation: (CpAnimation for: [ :p |
-			element2 styleAt: #transform put: 'translate(', (200 * p) printString, 'px,0)' ] duration: 800)
-		delay: 700
+	[ :p | element1 styleAt: #transform put: 'rotate(', (360 * p) printString, 'deg)' ] asTransition
+		duration: 1500 ;
+		start.
+	[ :p | element2 styleAt: #transform put: 'translate(', (200 * p) printString, 'px,0)' ] asTransition
+		duration: 800 ;
+		startDelayedBy: 700
 
 ]
 
@@ -77,6 +78,7 @@ CpDomExamplesClientBehavior >> exampleCreateRandomBlocks [
 	| outputElement |
 	
 	outputElement := self outputElement.
+	outputElement textContent: ''.
 
 	1000 timesRepeat: [
 		| block left top |
@@ -106,6 +108,7 @@ CpDomExamplesClientBehavior >> exampleCreateRandomEllipses [
 	| outputElement |
 	
 	outputElement := self outputElement.
+	outputElement textContent: ''.
 
 	1000 timesRepeat: [
 		| ellipse style left top width height |
@@ -143,6 +146,46 @@ CpDomExamplesClientBehavior >> exampleCreateRandomEllipses [
 ]
 
 { #category : #examples }
+CpDomExamplesClientBehavior >> exampleEvents [
+
+	<example: 'Events' order: 900>
+
+	| outputElement |
+	
+	outputElement := self outputElement.
+	outputElement textContent: 'Click the blocks and check console messages'.
+
+	outputElement appendChild: ((CpHtmlElement newWithTag: #div)
+		styleAt: #position put: #relative ;
+		styleAt: #top put: '10%' ;
+		styleAt: #left put: '10%' ;
+		styleAt: #width put: '80%' ;
+		styleAt: #height put: '80%' ;
+		styleAt: #'background-color' put: 'rgba(255, 0, 0, .1)' ;
+		when: CpClickEvent send: #logOuter to: self ;
+		appendChild: ((CpHtmlElement newWithTag: #div)
+			styleAt: #position put: #relative ;
+			styleAt: #top put: '10%' ;
+			styleAt: #left put: '10%' ;
+			styleAt: #width put: '80%' ;
+			styleAt: #height put: '80%' ;
+			styleAt: #'background-color' put: 'rgba(0, 255, 0, .1)' ;
+			when: CpClickEvent send: #logMiddle: to: self ;
+			appendChild: ((CpHtmlElement newWithTag: #div)
+				styleAt: #position put: #relative ;
+				styleAt: #top put: '10%' ;
+				styleAt: #left put: '10%' ;
+				styleAt: #width put: '80%' ;
+				styleAt: #height put: '80%' ;
+				styleAt: #'background-color' put: 'rgba(0, 0, 255, .1)' ;
+				when: CpClickEvent send: #logInner to: self ;
+				yourself) ;
+			yourself) ;
+		yourself).
+
+]
+
+{ #category : #examples }
 CpDomExamplesClientBehavior >> exampleHelloWorld [
 
 	<example: 'Hello world' order: 10>
@@ -150,6 +193,7 @@ CpDomExamplesClientBehavior >> exampleHelloWorld [
 	| outputElement |
 
 	outputElement := self outputElement.
+	outputElement textContent: ''.
 
 	outputElement appendChild: ((CpHtmlElement newWithTag: #h1)
 		textContent: 'Hello world' ;
@@ -171,6 +215,7 @@ CpDomExamplesClientBehavior >> exampleMathFormula [
 	| outputElement mathElement |
 
 	outputElement := self outputElement.
+	outputElement textContent: ''.
 
 	"Content is created through markup instead of DOM manipulation."
 	"Compare this with #exampleSVGSimple"
@@ -189,6 +234,7 @@ CpDomExamplesClientBehavior >> exampleSVGSimple [
 	| outputElement svgElement |
 	
 	outputElement := self outputElement.
+	outputElement textContent: ''.
 
 	"Content is created through DOM manipulation instead of markup."
 	"Compare this with #exampleMathFormula"
@@ -229,6 +275,7 @@ CpDomExamplesClientBehavior >> exampleToDo [
 	| outputElement listElement |
 	
 	outputElement := self outputElement.
+	outputElement textContent: ''.
 
 	outputElement appendChild: ((CpHtmlElement newWithTag: #h1)
 		textContent: 'ToDo List' ;
@@ -253,40 +300,39 @@ CpDomExamplesClientBehavior >> exampleToDo [
 		yourself) ]
 ]
 
-{ #category : #events }
-CpDomExamplesClientBehavior >> handleClickEvent: anEvent [
-
-	| selector output |
-
-	"Find example selector"
-	selector := anEvent target
-		ifNotNil: [ :target | target id ]
-		ifNil: [ ^ self ].
-
-	"Wipe out existing output"
-	output := self outputElement.
-	output ifNil: [ ^ self ].
-	output textContent: ''.
-
-	"Create new output by performing selector"
-	[ self perform: selector asSymbol ] on: Error do: [ :error | output textContent: 'Error: ', error description ]
-]
-
 { #category : #initialization }
 CpDomExamplesClientBehavior >> initialize [
 
 	super initialize.
 
+	CpTransition beLoaded.
+
 	self showIndex
 ]
 
-{ #category : #initialization }
-CpDomExamplesClientBehavior >> installBrowserEventHandler [
+{ #category : #'as yet unclassified' }
+CpDomExamplesClientBehavior >> logInner [
 
-	"Install receiver as actual event handler"
+	self crTrace: 'Inner block'
+]
 
-	CpBrowserEventHandler current
-		delegate: self
+{ #category : #'as yet unclassified' }
+CpDomExamplesClientBehavior >> logMiddle [
+
+	self crTrace: 'Middle block'
+]
+
+{ #category : #'as yet unclassified' }
+CpDomExamplesClientBehavior >> logMiddle: anEvent [
+
+	self logMiddle.
+	anEvent stopPropagation
+]
+
+{ #category : #'as yet unclassified' }
+CpDomExamplesClientBehavior >> logOuter [
+
+	self crTrace: 'Out block'
 ]
 
 { #category : #accessing }
@@ -354,13 +400,10 @@ CpDomExamplesClientBehavior >> showIndex [
 
 	"Render items onto DOM"
 	items do: [ :item |
-		| example |
 				
-		example := list appendChild: ((CpHtmlElement newWithTag: 'li')
+		list appendChild: ((CpHtmlElement newWithTag: 'li')
 			id: item key ;	"ie selector"
 			textContent: item value first ;	"ie title"
-			yourself).
-
-		"Register interest in events on the list item"
-		example when: CpClickEvent send: #handleClickEvent: to: self ]
+			when: CpClickEvent send: item key to: self ;
+			yourself) ]
 ]

@@ -77,7 +77,8 @@ CpDomElement class >> newWithTag: tagString [
 	See also #registerNamespace:forPrefix:"
 
 	^ (self primNewWithTag: tagString)
-		initialize
+		initialize ;
+		yourself
 ]
 
 { #category : #'class initialization' }
@@ -161,18 +162,9 @@ CpDomElement >> announce: anAnnouncement [
 ]
 
 { #category : #announcing }
-CpDomElement >> announceEvent: anEvent [
-
-	announcer ifNil: [ ^ self ].
-	announcer announce: anEvent asAnnouncement
-]
-
-{ #category : #announcing }
 CpDomElement >> announcer [
 
-	^ announcer ifNil: [
-		CpBrowserEventHandler current registerInterestIn: self.
-		announcer := Announcer new ]
+	^ announcer ifNil: [ announcer := CpDomElementAnnouncer newFor: self ]
 ]
 
 { #category : #'adding/removing' }
@@ -565,6 +557,21 @@ CpDomElement >> textContent: aString [
 	<primitive: 'primitiveDOMElementTextContent:' module: 'CpDOMPlugin'>
 	self primitiveFailed
 
+]
+
+{ #category : #'event registration' }
+CpDomElement >> unregisterAllInterest [
+
+	<primitive: 'primitiveDOMElementUnregisterAllInterest' module: 'CpDOMPlugin'>
+	self primitiveFailed
+]
+
+{ #category : #announcing }
+CpDomElement >> unsubscribe: anObject [
+
+	"Unsubscribe the specified Object from Announcements of the receiver"
+
+	^ self announcer unsubscribe: anObject
 ]
 
 { #category : #announcing }
