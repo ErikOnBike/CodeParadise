@@ -90,6 +90,14 @@ CpCheckbox >> handleClickEvent: anEvent [
 	self announce: (CpSelectionChanged element: self)
 ]
 
+{ #category : #initialization }
+CpCheckbox >> initialize [
+
+	super initialize.
+
+	self when: CpClickEvent send: #handleClickEvent: to: self
+]
+
 { #category : #accessing }
 CpCheckbox >> label [
 
