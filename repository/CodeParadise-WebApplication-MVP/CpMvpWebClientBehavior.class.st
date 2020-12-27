@@ -31,7 +31,7 @@ CpMvpWebClientBehavior >> createView: viewClassName withId: identifier atParentI
 
 	"Add the view to its parent"
 	slotName
-		ifNotNil: [ parentView replaceChild: view atSlotNamed: slotName ]
+		ifNotNil: [ parentView replaceAllChildrenWith: view atSlotNamed: slotName ]
 		ifNil: [ parentView appendChild: view ].
 
 	"Register the view instance in ClientEnvironment"

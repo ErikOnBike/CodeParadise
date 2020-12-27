@@ -492,6 +492,17 @@ CpDomElement >> removeStyleAt: nameString [
 ]
 
 { #category : #'adding/removing' }
+CpDomElement >> replaceAllChildrenWith: childElement [
+
+	"Set the specified element as child of the receiver.
+	Any existing children will be removed."
+
+	^ self
+		removeChildren ;
+		appendChild: childElement
+]
+
+{ #category : #'adding/removing' }
 CpDomElement >> replaceChild: childElement with: replacementElement [
 
 	"Replace the child element of the receiver with a replacement element. Answer the new (replacement)

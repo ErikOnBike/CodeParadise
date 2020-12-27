@@ -58,6 +58,6 @@ CpTitledSlideView class >> template [
 CpTitledSlideView >> renderTitle: aString [
 
 	self
-		replaceChild: (aString inHtmlTag: #span)
+		replaceAllChildrenWith: (aString inHtmlTag: #span)
 		atSlotNamed: #title
 ]

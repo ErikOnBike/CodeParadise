@@ -161,7 +161,7 @@ CpTemplateComponent >> removeChildrenAtSlotNamed: nameString [
 ]
 
 { #category : #'adding/removing' }
-CpTemplateComponent >> replaceChild: childElement atSlotNamed: nameString [
+CpTemplateComponent >> replaceAllChildrenWith: childElement atSlotNamed: nameString [
 
 	"Set the specified element as child of the receiver in the specified template slot.
 	Any existing children in the same slot will be removed."

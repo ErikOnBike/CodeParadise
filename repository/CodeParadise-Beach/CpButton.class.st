@@ -126,7 +126,7 @@ CpButton >> label: anElement [
 
 	"Set the specified element as the label of the receiver"
 
-	self replaceChild: anElement asElement atSlotNamed: #label
+	self replaceAllChildrenWith: anElement asElement atSlotNamed: #label
 ]
 
 { #category : #accessing }
@@ -142,7 +142,7 @@ CpButton >> prefix: anElement [
 
 	"Set the specified element as the prefix of the receiver"
 
-	self replaceChild: anElement asElement atSlotNamed: #prefix
+	self replaceAllChildrenWith: anElement asElement atSlotNamed: #prefix
 ]
 
 { #category : #accessing }
@@ -158,5 +158,5 @@ CpButton >> suffix: anElement [
 
 	"Set the specified element as the suffix of the receiver"
 
-	self replaceChild: anElement asElement atSlotNamed: #suffix
+	self replaceAllChildrenWith: anElement asElement atSlotNamed: #suffix
 ]

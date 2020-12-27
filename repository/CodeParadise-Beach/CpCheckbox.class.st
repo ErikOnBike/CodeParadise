@@ -103,7 +103,7 @@ CpCheckbox >> label: anElement [
 
 	"Set the specified element as the label of the receiver"
 
-	label := self replaceChild: anElement asElement atSlotNamed: #label
+	label := self replaceAllChildrenWith: anElement asElement atSlotNamed: #label
 ]
 
 { #category : #'state handling' }

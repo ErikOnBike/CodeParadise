@@ -73,8 +73,8 @@ CpComponentExamplesClientBehavior >> exampleDraggableWindows [
 	outputElement textContent: ''.
 
 	window := CpWindow new
-		replaceChild: 'Hello World' asElement atSlotNamed: #title ;
-		replaceChild: 'Drag me!' asElement atSlotNamed: #content ;
+		replaceAllChildrenWith: 'Hello World' asElement atSlotNamed: #title ;
+		replaceAllChildrenWith: 'Drag me!' asElement atSlotNamed: #content ;
 		yourself.
 
 	(window childAtSlotNamed: #controls) remove.
