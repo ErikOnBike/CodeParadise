@@ -81,6 +81,13 @@ CpComponentExamplesClientBehavior >> exampleCheckboxes [
 			when: CpClickEvent do: [ checkbox makeMixed ] ;
 			yourself).
 
+	outputElement appendChild: (CpHtmlElement newWithTag: #p).
+
+	{ 'One' . 'Two' . 'Three' } withIndexDo: [ :each :index |
+		| element |
+		outputElement appendChild: (element := CpCheckbox label: each).
+		index = 2
+			ifTrue: [ element disable ] ]
 ]
 
 { #category : #examples }
@@ -114,6 +121,38 @@ CpComponentExamplesClientBehavior >> exampleLinks [
 	outputElement textContent: ''.
 
 	outputElement appendChild: (CpLink label: 'My link')
+]
+
+{ #category : #examples }
+CpComponentExamplesClientBehavior >> exampleRadioButtons [
+
+	<example: 'Radio buttons' order: 310>
+
+	| outputElement bananas |
+	
+	outputElement := self outputElement.
+	outputElement textContent: ''.
+
+	(outputElement appendChild: CpRadioButtonGroup new)
+		appendChild: (CpRadioButton label: 'Apples') ;
+		appendChild: (CpRadioButton label: 'Oranges') ;
+		appendChild: (CpRadioButton label: 'Bananas') ;
+		appendChild: (CpRadioButton label: 'Pears').
+
+	outputElement appendChild: (CpHtmlElement newWithTag: #p).
+
+	(outputElement appendChild: (CpRadioButtonGroup new attributeAdd: #vertical ; yourself))
+		appendChild: (CpRadioButton label: 'Apples') ;
+		appendChild: (CpRadioButton label: 'Oranges') ;
+		appendChild: (bananas := (CpRadioButton label: 'Bananas') attributeAdd: #readonly ; yourself) ;
+		appendChild: (CpRadioButton label: 'Pears').
+
+	outputElement appendChild: (CpHtmlElement newWithTag: #p).
+
+	outputElement appendChild: ((CpButton label: 'Select bananas')
+		when: CpClickEvent do: [ bananas select ] ;
+		yourself)
+
 ]
 
 { #category : #examples }
