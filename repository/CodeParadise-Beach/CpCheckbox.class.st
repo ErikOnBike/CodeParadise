@@ -1,10 +1,6 @@
 Class {
 	#name : #CpCheckbox,
 	#superclass : #CpView,
-	#instVars : [
-		'state',
-		'label'
-	],
 	#category : #'CodeParadise-Beach-Components'
 }
 
@@ -101,9 +97,9 @@ CpCheckbox >> initialize [
 { #category : #accessing }
 CpCheckbox >> label [
 
-	"Answer label of receiver. If no label is set yet, check if label was set from a HTML string."
+	"Answer label of receiver"
 
-	^ label ifNil: [ label := self childAtSlotNamed: #label ]
+	^ self firstChildAtSlotNamed: #label
 ]
 
 { #category : #accessing }

@@ -118,7 +118,7 @@ CpButton >> label [
 
 	"Answer label of receiver"
 
-	^ self childAtSlotNamed: #label
+	^ self firstChildAtSlotNamed: #label
 ]
 
 { #category : #accessing }
@@ -134,7 +134,7 @@ CpButton >> prefix [
 
 	"Answer prefix of receiver"
 
-	^ self childAtSlotNamed: #prefix
+	^ self firstChildAtSlotNamed: #prefix
 ]
 
 { #category : #accessing }
@@ -150,7 +150,7 @@ CpButton >> suffix [
 
 	"Answer suffix of receiver"
 
-	^ self childAtSlotNamed: #suffix
+	^ self firstChildAtSlotNamed: #suffix
 ]
 
 { #category : #accessing }

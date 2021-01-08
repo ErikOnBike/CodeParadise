@@ -121,7 +121,16 @@ CpTemplateComponent >> appendChild: childElement atSlotNamed: nameString [
 ]
 
 { #category : #querying }
-CpTemplateComponent >> childAtSlotNamed: nameString [
+CpTemplateComponent >> childrenAtSlotNamed: nameString [
+
+	"Answer an Array with the child elements (in document order) of the receiver
+	which are located in the specified template slot"
+
+	^ self children select: [ :each | (each attributeAt: #slot) = nameString ]
+]
+
+{ #category : #querying }
+CpTemplateComponent >> firstChildAtSlotNamed: nameString [
 
 	"Answer the first child element (in document order) of the receiver
 	which is located in the specified template slot or nil if no such child is present"
@@ -129,15 +138,6 @@ CpTemplateComponent >> childAtSlotNamed: nameString [
 	^ (self childrenAtSlotNamed: nameString)
 		ifNotEmpty: [ :children | children first ]
 		ifEmpty: [ nil ]
-]
-
-{ #category : #querying }
-CpTemplateComponent >> childrenAtSlotNamed: nameString [
-
-	"Answer an Array with the child elements (in document order) of the receiver
-	which are located in the specified template slot"
-
-	^ self children select: [ :each | (each attributeAt: #slot) = nameString ]
 ]
 
 { #category : #'adding/removing' }

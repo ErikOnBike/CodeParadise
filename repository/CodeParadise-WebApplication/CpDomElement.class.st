@@ -255,6 +255,16 @@ CpDomElement >> destroy [
 ]
 
 { #category : #querying }
+CpDomElement >> firstChild [
+
+	"Answer the first child of the receiver or nil if none is present"
+
+	^ self children
+		ifNotEmpty: [ :children | children first ]
+		ifEmpty: [ nil ]
+]
+
+{ #category : #querying }
 CpDomElement >> firstDescendantMatching: cssSelectorString [
 
 	"Answer the first descendant of the receiver matching the specified CSS selector.
