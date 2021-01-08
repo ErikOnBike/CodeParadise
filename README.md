@@ -61,7 +61,7 @@ To start a web server allowing incoming HTTP and WebSockets the following code h
 "Configure the usage of ZnWebSocket as MessageChannel"
 CpMessageChannel environmentImplementation: CpZincWebSocketChannel.
 
-"Register the two example applications"
+"Register the example applications"
 CpDomExamplesWebApplication register.
 CpComponentExamplesWebApplication register.
 CpCounterWebApplication register.
@@ -122,7 +122,7 @@ The example applications can be reached using the following URLs:
 If you encounter any problems with connecting to the server, please check that no other web server is running on the port you are using/trying to use. If you have started a web server pointing to the wrong client environment, please first stop that instance. Otherwise you will keep on serving files from an empty or non-existing directory. Use the reset as described above to stop the server. You might want to check if all ZnServer instances are really stopped. Then create a new instance of the server.
 
 #### Unknown classes
-Once you have a client running and change code, the client environment might not know a class you are using. Please add this class to the #cpRequiredClasses method (see existing implementors to understand its usage). Just adding the class to this method will not also install it. You might need to manually install it in a running environment (you have to find the corresponding server environment and use #addClass: to add it). Or reload the page in your browser. In some cases this is not enough, because of the order in which classes are installed. In such case you have to close the tab/page and open a new browser tab/page. In a future version this should not be necessary anymore.
+Once you have a client running and change code, the client environment might not know a class you are using. Please add this class by using the #beLoaded method (see existing senders to understand its usage). You might need to manually install it in a running environment (you have to find the corresponding server environment and use #addClass: to add it). Or reload the page in your browser. In some cases this is not enough, because of the order in which classes are installed. In such case you have to close the tab/page and open a new browser tab/page. In a future version this should not be necessary anymore.
 
 ## Possible usage
 
@@ -138,6 +138,6 @@ For the mobile applications for example, the following could be done:
 
 ## Compatibility
 
-The means of installing (Compiled) code in the ClientEnvironment is by sending the relevant bytecode. The current implementation assumes that both the ServerEnvironment and the ClientEnvironment share the same bytecode set. Since the ClientEnvironment is running on SqueakJS VM, only bytecode sets supported by SqueakJS VM are usable. At the moment there is no support for the newer Sista bytecode set in SqueakJS VM. Therefore Pharo9 can't be used as a development platform. Support for Sista in SqueakJS VM is currently not foreseen. If anyone is interested to help out, please reach out to either Vanessa Freudenberg (developer and maintainer of SqueakJS VM) at [SqueakJS](https://github.com/codefrau/SqueakJS) or me.
+The means of installing (Compiled) code in the ClientEnvironment is by sending the relevant bytecode. The current implementation assumes that both the ServerEnvironment and the ClientEnvironment share the same bytecode set. Since the ClientEnvironment is running on SqueakJS VM, only bytecode sets supported by SqueakJS VM are usable. At the moment Pharo9 can't be used as a development platform, because it uses the newer Sista bytecode set. Support for Sista in SqueakJS VM has just been implemented, but is not tested with CodeParadise yet.
 
 There is no explicit list of supported browsers at the moment. Please use a recent browser version. If you have trouble using (the pre-Chrome based) Microsoft Edge, please consider switching to Chrome, Firefox or one of the derivatives.
