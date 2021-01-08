@@ -185,6 +185,16 @@ CpDomElement >> appendChild: childElement [
 ]
 
 { #category : #attributes }
+CpDomElement >> attributeAdd: nameString [
+
+	"Set the specified attribute (without value) of the receiver.
+
+	This is useful for attributes like 'selected' or 'readonly' which do not need a value."
+
+	self attributeAt: nameString put: ''
+]
+
+{ #category : #attributes }
 CpDomElement >> attributeAt: nameString [
 
 	"Answer the value (a String) of the specified attribute of the receiver
