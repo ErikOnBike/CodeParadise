@@ -20,22 +20,31 @@ CpCheckbox class >> style [
 
 	<webResource: #css>
 
-	^ '#container {
-			display: inline-block;
+	^ '*, *:before, *:after {
+			-moz-box-sizing: border-box;
+			-webkit-box-sizing: border-box;
+			box-sizing: border-box;
+		}
+		:host {
+			display: inline;
 			min-height: inherit;
+			white-space: nowrap;
 			cursor: pointer;
 		}
 		#box {
 			display: inline-block;
 			position: relative;
-			top: .125em;
-			width: .8em;
-			height: .8em;
-			margin-bottom: 3px;
-			margin-right: 3px;
-			border-radius: 3px;
-			border: 1px solid #333;
+			top: .08em;
+			width: .9em;
+			height: .9em;
+			border-radius: .2em;
+			border: 1px solid #ccc;
+			background-color: #fff;
 			overflow: hidden;
+			transition: border-color .1s;
+		}
+		:host(:not([selected]):hover) #box {
+			border-color: #666;
 		}
 		#tick {
 			position: absolute;
@@ -52,6 +61,32 @@ CpCheckbox class >> style [
 		}
 		:host([selected="mixed"]) #tick {
 			transform: rotate(-45deg) translate(0,50%);
+		}
+		:host([readonly]),
+		:host([disabled]) {
+			pointer-events: none;
+			cursor: auto;
+		}
+		:host([readonly]) #box,
+		:host([disabled]) #box {
+			color: #aaa;
+			border-color: #aaa;
+		}
+		:host([readonly]) #tick,
+		:host([disabled]) #tick {
+			background-color: #aaa;
+		}
+		:host([readonly]) slot,
+		:host([disabled]) slot {
+			color: #aaa;
+		}
+		/* Do not allow children to be clickable or selectable */
+		*:active,
+		::slotted(*:active) {
+			/* pointer-events: none; -- Bug in Safari prevents using this outside a layout container */
+			-webkit-user-select: none;
+			-moz-user-select: none;
+			user-select: none;
 		}'
 ]
 
@@ -60,30 +95,135 @@ CpCheckbox class >> template [
 
 	<webResource: #html>
 
-	^ '<div id="container">
-			<div id="box">
-				<div id="tick"></div>
-			</div>
-			<slot name="label"></slot>
-		</div>'
+	^ '<div id="box">
+			<div id="tick"></div>
+	</div>
+	<slot name="label"></slot>'
+]
+
+{ #category : #announcing }
+CpCheckbox >> announceChange [
+
+	self announce: (CpSelectionChanged element: self)
 ]
 
 { #category : #'state handling' }
 CpCheckbox >> deselect [
 
-	"Remove the selected attribute of the receiver"
+	"Make the receiver deselected.
 
-	self removeAttributeAt: #selected.
-	state := false
+	Implementation:
+	Remove the selected attribute of the receiver."
+
+	self ifNotSelected: [ ^ self ].
+
+	self
+		removeAttributeAt: #selected ;
+		announceChange
+]
+
+{ #category : #'state handling' }
+CpCheckbox >> disable [
+
+	self attributeAdd: #disabled
+]
+
+{ #category : #'state handling' }
+CpCheckbox >> enable [
+
+	self removeAttributeAt: #disabled
 ]
 
 { #category : #'event handling' }
 CpCheckbox >> handleClickEvent: anEvent [
 
-	"Announce the new state of the receiver"
+	"Handle click on the receiver"
 
-	self toggle.
-	self announce: (CpSelectionChanged element: self)
+	self ifNotSelectable: [ ^ self ].
+
+	self toggle
+]
+
+{ #category : #'testing - conditionals' }
+CpCheckbox >> ifMixed: aBlock [
+
+	"Evaluate the specified block if the receiver is mixed.
+
+	Implementation: a checkbox can be in state selected, deselected or mixed."
+
+	self ifSelected: [ "intentionally empty" ] ifMixed: aBlock ifNotSelected: [ "intentionally empty" ]
+]
+
+{ #category : #'testing - conditionals' }
+CpCheckbox >> ifNotSelectable: aBlock [
+
+	"Evaluate the specified block if the receiver is not selectable.
+
+	Implementation: a checkbox can be read-only or disabled."
+
+	self ifSelectable: [ "intentionally empty" ] ifNotSelectable: aBlock
+]
+
+{ #category : #'testing - conditionals' }
+CpCheckbox >> ifNotSelected: aBlock [
+
+	"Evaluate the specified block if the receiver is deselected.
+
+	Implementation: a checkbox can be in state selected, deselected or mixed."
+
+	self ifSelected: [ "intentionally empty" ] ifMixed: [ "intentionally empty" ] ifNotSelected: aBlock
+]
+
+{ #category : #'testing - conditionals' }
+CpCheckbox >> ifSelectable: aBlock [
+
+	"Evaluate the specified block if the receiver is selectable.
+
+	Implementation: a checkbox can be read-only or disabled."
+
+	self ifSelectable: aBlock ifNotSelectable: [ "intentionally empty" ]
+]
+
+{ #category : #'testing - conditionals' }
+CpCheckbox >> ifSelectable: selectableBlock ifNotSelectable: notSelectableBlock [
+
+	"Evaluate the block matching the receiver's selectability.
+
+	Implementation: a checkbox can be read-only or disabled."
+
+	(self attributeAt: #readonly)
+		ifNotNil: [ notSelectableBlock value ]
+		ifNil: [
+			(self attributeAt: #disabled)
+				ifNotNil: [ notSelectableBlock value ]
+				ifNil: [ selectableBlock value ] ]
+]
+
+{ #category : #'testing - conditionals' }
+CpCheckbox >> ifSelected: aBlock [
+
+	"Evaluate the specified block if the receiver is selected.
+
+	Implementation: a checkbox can be in state selected, deselected or mixed."
+
+	self ifSelected: aBlock ifMixed: [ "intentionally empty" ] ifNotSelected: [ "intentionally empty" ]
+]
+
+{ #category : #'testing - conditionals' }
+CpCheckbox >> ifSelected: selectedBlock ifMixed: mixedBlock ifNotSelected: deselectedBlock [
+
+	"Evaluate the block which represents the receiver's state.
+
+	Implementation:
+	A checkbox can be in state selected, deselected or mixed.
+	See the corresponding methods how state is represented."
+
+	(self attributeAt: #selected)
+		ifNotNil: [ :selected |
+			selected
+				ifEmpty: [ selectedBlock value ]
+				ifNotEmpty: [ mixedBlock value ] ]
+		ifNil: [ deselectedBlock value ]
 ]
 
 { #category : #initialization }
@@ -113,34 +253,54 @@ CpCheckbox >> label: anElement [
 { #category : #'state handling' }
 CpCheckbox >> makeMixed [
 
-	"Set #mixed as value of the selected attribute of the receiver"
+	"Make the receiver mixed (state 'between' selected and deselected).
 
-	self attributeAt: #selected put: #mixed.
-	state := #mixed
+	Implementation:
+	Set #mixed as value of the selected attribute of the receiver."
+
+	self ifMixed: [ ^ self ].
+
+	self
+		attributeAt: #selected put: #mixed ;
+		announceChange
+]
+
+{ #category : #'state handling' }
+CpCheckbox >> readOnly [
+
+	self attributeAdd: #readonly
+]
+
+{ #category : #'state handling' }
+CpCheckbox >> readWrite [
+
+	self removeAttributeAt: #readonly
 ]
 
 { #category : #'state handling' }
 CpCheckbox >> select [
 
-	"Add the selected attribute to the receiver"
+	"Make the receiver selected.
 
-	self attributeAt: #selected put: #''.
-	state := true
-]
+	Implementation:
+	Add the selected attribute to the receiver (with empty value)."
 
-{ #category : #accessing }
-CpCheckbox >> state [
+	self ifSelected: [ ^ self ].
 
-	^ state ifNil: [ state := (self attributeAt: #selected) notNil ]
+	self
+		attributeAdd: #selected ;
+		announceChange
 ]
 
 { #category : #'state handling' }
 CpCheckbox >> toggle [
 
 	"Toggle the state of the receiver.
-	Implementation: state can be true, false or #mixed."
+	The receiver becomes selected if not already selected (not selected or mixed) and
+	becomes not selected if already selected."
 
-	self state = true
-		ifTrue: [ self deselect ]
-		ifFalse: [ self select ]
+	self
+		ifSelected: [ self deselect ]
+		ifMixed: [ self select ]
+		ifNotSelected: [ self select ]
 ]
