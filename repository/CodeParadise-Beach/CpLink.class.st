@@ -20,19 +20,21 @@ CpLink class >> style [
 
 	<webResource: #css>
 
-	^ '#container {
-			display: inline-block;
+	^ ':host {
+			display: inline;
 			min-height: inherit;
 			color: var(--link-text-color);
 			background-color: var(--link-background-color);
 			cursor: pointer;
-		}	
-		#container:hover {
-			text-decoration: underline;
+		}
+		:host(:hover) {
 			color: var(--link-hovered-text-color);
 			background-color: var(--link-hovered-background-color);
 		}
-		#container:active {
+		:host(:hover) ::slotted(*) {
+			text-decoration: underline;
+		}
+		:host(:active) {
 			color: var(--link-activated-text-color);
 			background-color: var(--link-activated-background-color);
 		}'
@@ -43,7 +45,7 @@ CpLink class >> template [
 
 	<webResource: #html>
 
-	^ '<div id="container"><slot name="label"></slot></div>'
+	^ '<slot name="label"></slot>'
 ]
 
 { #category : #accessing }
