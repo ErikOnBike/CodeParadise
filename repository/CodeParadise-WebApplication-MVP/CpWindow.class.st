@@ -345,7 +345,7 @@ CpWindow >> render [
 CpWindow >> renderTitle: anElement [
 
 	self
-		replaceAllChildrenWith: anElement asElement
+		replaceAllChildrenWith: anElement asHtmlElement
 		atSlotNamed: #title
 ]
 

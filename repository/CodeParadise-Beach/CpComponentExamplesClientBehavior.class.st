@@ -19,26 +19,47 @@ CpComponentExamplesClientBehavior >> exampleButtons [
 	"Add separator"
 	outputElement appendChild: (CpHtmlElement newWithTag: #p).
 
-	outputElement appendChild: (CpButton label: #heart asRegularFontAwesomeIcon).
+	outputElement
+		appendChild: (CpButton icon: #heart asRegularFontAwesomeIcon) ;
+		appendChild: ' icon button' asHtmlElement.
 
 	"Add separator"
 	outputElement appendChild: (CpHtmlElement newWithTag: #p).
 
 	outputElement
 		appendChild: (CpButton label: 'Suffixed' suffix: #face asMaterialIcon) ;
-		appendChild: (' this is a Material (Design) Icon' inHtmlTag: #span).
+		appendChild: ' this is a Material (Design) Icon' asHtmlElement.
 
 	"Add separator"
 	outputElement appendChild: (CpHtmlElement newWithTag: #p).
 
 	outputElement
 		appendChild: (CpButton prefix: #backward asSolidFontAwesomeIcon label: 'Prefixed') ;
-		appendChild: (' this is a FontAwesome Icon' inHtmlTag: #span).
+		appendChild: ' this is a FontAwesome Icon' asHtmlElement.
 
 	"Add separator"
 	outputElement appendChild: (CpHtmlElement newWithTag: #p).
 
 	outputElement appendChild: (CpButton prefix: #'chevron-left' asSolidFontAwesomeIcon label: 'Both' suffix: #'chevron-right' asSolidFontAwesomeIcon).
+
+	"Add separator"
+	outputElement appendChild: (CpHtmlElement newWithTag: #p).
+
+	(outputElement appendChild: CpButtonGroup new)
+		appendChild: (CpButton label: 'One') ;
+		appendChild: (CpButton label: 'Two') ;
+		appendChild: (CpButton label: 'Three').
+	outputElement appendChild: ' in a button group' asHtmlElement.
+
+	"Add separator"
+	outputElement appendChild: (CpHtmlElement newWithTag: #p).
+
+	(outputElement appendChild: CpButtonGroup new)
+		attributeAdd: #vertical ;
+		appendChild: (CpButton label: 'One') ;
+		appendChild: (CpButton label: 'Two') ;
+		appendChild: (CpButton label: 'Three').
+	outputElement appendChild: ' in a vertical button group' asHtmlElement
 ]
 
 { #category : #examples }
@@ -73,11 +94,11 @@ CpComponentExamplesClientBehavior >> exampleDraggableWindows [
 	outputElement textContent: ''.
 
 	window := CpWindow new
-		replaceAllChildrenWith: 'Hello World' asElement atSlotNamed: #title ;
-		replaceAllChildrenWith: 'Drag me!' asElement atSlotNamed: #content ;
+		replaceAllChildrenWith: 'Hello World' asHtmlElement atSlotNamed: #title ;
+		replaceAllChildrenWith: 'Drag me!' asHtmlElement atSlotNamed: #content ;
 		yourself.
 
-	(window childAtSlotNamed: #controls) remove.
+	(window firstChildAtSlotNamed: #controls) remove.
 
 	CpHtmlElement documentBody appendChild: window
 ]

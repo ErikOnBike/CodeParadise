@@ -59,5 +59,5 @@ CpLink >> label: anElement [
 
 	"Set the specified element as the label of the receiver"
 
-	label := self replaceAllChildrenWith: anElement asElement atSlotNamed: #label
+	self replaceAllChildrenWith: anElement asHtmlElement atSlotNamed: #label
 ]

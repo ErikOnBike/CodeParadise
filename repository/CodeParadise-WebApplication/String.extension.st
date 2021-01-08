@@ -1,7 +1,7 @@
 Extension { #name : #String }
 
 { #category : #'*CodeParadise-WebApplication' }
-String >> asElement [
+String >> asHtmlElement [
 
 	<webApplicationExtension>
 
