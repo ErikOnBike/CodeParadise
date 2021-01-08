@@ -27,8 +27,8 @@ CpComponentExamplesClientBehavior >> exampleButtons [
 	outputElement appendChild: (CpHtmlElement newWithTag: #p).
 
 	outputElement
-		appendChild: (CpButton label: 'Suffixed' suffix: #face asMaterialIcon) ;
-		appendChild: ' this is a Material (Design) Icon' asHtmlElement.
+		appendChild: (CpButton label: 'Suffixed' suffix: #forward asSolidFontAwesomeIcon) ;
+		appendChild: ' this is a FontAwesome Icon' asHtmlElement.
 
 	"Add separator"
 	outputElement appendChild: (CpHtmlElement newWithTag: #p).
@@ -254,10 +254,6 @@ CpComponentExamplesClientBehavior >> showIndex [
 		attributeAt: #rel put: 'stylesheet' ;
 		attributeAt: #href put: 'https://use.fontawesome.com/releases/v5.0.7/css/all.css' ;
 		yourself).
-	CpHtmlElement documentHead appendChild: ((CpHtmlElement newWithTag: #link)
-		attributeAt: #rel put: 'stylesheet' ;
-		attributeAt: #href put: 'https://fonts.googleapis.com/icon?family=Material+Icons' ;
-      yourself).
 	body := CpHtmlElement documentBody.
 	body markupContent: '<h1>Component Examples</h1>
 		<div style="width: 100%; margin: 0; padding: 0;">
