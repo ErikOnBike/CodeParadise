@@ -29,6 +29,31 @@ Fui2Element class >> allVariations [
 ]
 
 { #category : #'private - accessing' }
+Fui2Element class >> storeClassFrom: aString into: classes [
+
+	| className |
+
+	className := aString asSymbol.
+
+	(self allTypes includes: className)
+		ifTrue: [
+			(classes at: 1) add: className.
+			^ true ]
+		ifFalse: [
+			(self allStates includes: className)
+				ifTrue: [
+					(classes at: 2) add: className.
+					^ true ]
+				ifFalse: [
+					(self allVariations includes: className)
+						ifTrue: [
+							(classes at: 3) add: className.
+							^ true ] ] ].
+
+	^ false
+]
+
+{ #category : #'private - accessing' }
 Fui2Element >> addClass: aSymbol at: usageIndex [
 
 	"Add a HTML class name (aSymbol) to the receiver at the specified usage index.
@@ -62,7 +87,7 @@ Fui2Element >> addClass: aSymbol rejecting: aCollection at: usageIndex [
 		ifTrue: [
 			usageClasses add: aSymbol.
 			classesChanged := true ].
-self crTrace: aSymbol, ' classesChanged ', classesChanged printString.
+
 	"Update receiver's class attribute (if changed)"
 	classesChanged
 		ifFalse: [ ^ self ].
@@ -138,7 +163,7 @@ Fui2Element >> classes: anArray [
 			printClasses: (anArray at: 2) on: stream ;
 			printClasses: (anArray at: 3) on: stream.
 		stream
-			space ;
+			nextPut: Character space ;
 			nextPutAll: self class type ])
 ]
 
@@ -292,26 +317,7 @@ Fui2Element >> states [
 { #category : #'private - accessing' }
 Fui2Element >> storeClassFrom: aString into: classes [
 
-	| className |
-
-	className := aString asSymbol.
-
-	(self class allTypes includes: className)
-		ifTrue: [
-			(classes at: 1) add: className.
-			^ true ]
-		ifFalse: [
-			(self class allStates includes: className)
-				ifTrue: [
-					(classes at: 2) add: className.
-					^ true ]
-				ifFalse: [
-					(self class allVariations includes: className)
-						ifTrue: [
-							(classes at: 3) add: className.
-							^ true ] ] ].
-
-	^ false
+	^ self class storeClassFrom: aString into: classes
 ]
 
 { #category : #'accessing - type' }
