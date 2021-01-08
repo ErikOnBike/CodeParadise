@@ -54,10 +54,15 @@ CpWebApplication >> installExtensionMethods [
 
 	"Install the extension methods from known Classes"
 
-	(Pragma allNamed: #webApplicationExtension in: BlockClosure) do: [ :each |
-		self environment addMethod: each method ].
-	(Pragma allNamed: #webApplicationExtension in: String) do: [ :each |
-		self environment addMethod: each method ]
+	{ BlockClosure . String . Announcement } do: [ :eachClass |
+
+		"Install instance methods"
+		(Pragma allNamed: #webApplicationExtension in: eachClass) do: [ :eachPragma |
+			self environment addMethod: eachPragma method ].
+
+		"Install class methods"
+		(Pragma allNamed: #webApplicationExtension in: eachClass class) do: [ :eachPragma |
+			self environment addMethod: eachPragma method ] ]
 ]
 
 { #category : #actions }
