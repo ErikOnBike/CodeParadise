@@ -126,7 +126,15 @@ CpFinder >> allImplementorsOf: aSymbol [
 { #category : #enumerating }
 CpFinder >> allMethodsDo: aBlock [
 
-	self allClassesDo: [ :each | each methodsDo: aBlock ]
+	"Perform specified Block on all methods in the image.
+
+	Implementation:
+	Perform the Block on all instance and class methods of every
+	class in the image."
+
+	self allClassesDo: [ :each |
+		each methodsDo: aBlock.
+		each class methodsDo: aBlock ]
 ]
 
 { #category : #api }
