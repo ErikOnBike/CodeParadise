@@ -25,6 +25,5 @@ CpFomanticExamplesWebApplication >> installExtensionMethods [
 
 	super installExtensionMethods.
 
-	(Pragma allNamed: #webApplicationFomanticExtension in: String) do: [ :each |
-		self environment addMethod: each method ]
+	self installExtensionMethodsFor: #webApplicationFomanticExtension
 ]
