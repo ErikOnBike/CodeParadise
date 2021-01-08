@@ -68,6 +68,61 @@ CpFomanticExamplesClientBehavior >> exampleButton [
 ]
 
 { #category : #examples }
+CpFomanticExamplesClientBehavior >> exampleButton2 [
+
+	<example: 'Button2' order: 100>
+
+	| outputElement loadTargetButton loadButton loadingButton |
+
+	outputElement := self outputElement.
+	outputElement textContent: ''.
+
+	outputElement appendChild: ((CpHtmlElement newWithTag: #span)
+		textContent: 'Buttons have enabled state ' ;
+		yourself).
+	outputElement appendChild: (Fui2Button newLabeled: 'Enabled').
+
+	outputElement appendChild: ((CpHtmlElement newWithTag: #span) textContent: ' ' ; yourself).
+
+	outputElement appendChild: ((Fui2Button newLabeled: 'Disabled')
+		disable ;
+		yourself).
+
+	outputElement appendChild: ((CpHtmlElement newWithTag: #div) addClass: #separator ; yourself).
+
+	outputElement appendChild: ((CpHtmlElement newWithTag: #span) textContent: 'Buttons have loading state ' ; yourself).
+	loadTargetButton := outputElement appendChild: ((Fui2Button newLabeled: 'Loaded')
+		beLoading ;
+		yourself).
+
+	outputElement appendChild: ((CpHtmlElement newWithTag: #span) textContent: ' ' ; yourself).
+
+	loadButton := outputElement appendChild: (Fui2Button newLabeled: 'Make loaded').
+	loadButton when: CpClickEvent do: [
+		loadTargetButton beLoaded.
+		loadButton disable.
+		loadingButton enable ].
+
+	outputElement appendChild: ((CpHtmlElement newWithTag: #span) textContent: ' ' ; yourself).
+
+	loadingButton := outputElement appendChild: ((Fui2Button newLabeled: 'Make loading')
+		disable ;
+		yourself).
+	loadingButton when: CpClickEvent do: [
+		loadTargetButton beLoading.
+		loadButton enable.
+		loadingButton disable ].
+
+	outputElement appendChild: ((CpHtmlElement newWithTag: #div) addClass: #separator ; yourself).
+
+	outputElement appendChild: ((CpHtmlElement newWithTag: #span) textContent: 'Buttons have colors ' ; yourself).
+	Fui2Button allColors do: [ :each |
+		outputElement appendChild: ((Fui2Button newLabeled: each)
+			beColor: each ;
+			yourself) ]
+]
+
+{ #category : #examples }
 CpFomanticExamplesClientBehavior >> exampleCheckbox [
 
 	<example: 'Checkbox' order: 100>
