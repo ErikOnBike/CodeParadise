@@ -1,6 +1,6 @@
 Class {
 	#name : #CpRadioButton,
-	#superclass : #CpView,
+	#superclass : #CpInputControl,
 	#category : #'CodeParadise-Beach-Components'
 }
 
@@ -42,6 +42,7 @@ CpRadioButton class >> style [
 			background-color: #fff;
 			overflow: hidden;
 			transition: border-color .1s;
+			-webkit-mask-image: -webkit-radial-gradient(white, black);
 		}
 		:host(:not([selected]):hover) #box {
 			border-color: #666;
@@ -62,8 +63,8 @@ CpRadioButton class >> style [
 		}
 		:host([readonly]),
 		:host([disabled]) {
-			pointer-events: none;
 			cursor: auto;
+			pointer-events: none;
 		}
 		:host([readonly]) #box,
 		:host([disabled]) #box {
