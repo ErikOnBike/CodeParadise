@@ -1,6 +1,6 @@
 Class {
 	#name : #CpLink,
-	#superclass : #CpView,
+	#superclass : #CpControl,
 	#category : #'CodeParadise-Beach-Components'
 }
 
@@ -24,19 +24,30 @@ CpLink class >> style [
 			display: inline;
 			min-height: inherit;
 			color: var(--link-text-color);
-			background-color: var(--link-background-color);
+			white-space: nowrap;
 			cursor: pointer;
 		}
-		:host(:hover) {
+		:host(:not([disabled]):hover) {
 			color: var(--link-hovered-text-color);
-			background-color: var(--link-hovered-background-color);
 		}
+		:host(:not([disabled]):active) {
+			color: var(--link-activated-text-color);
+		}
+		:host([disabled]) {
+			color: #aaa;
+			cursor: auto;
+		}
+		:host(:hover) slot,
 		:host(:hover) ::slotted(*) {
 			text-decoration: underline;
 		}
-		:host(:active) {
-			color: var(--link-activated-text-color);
-			background-color: var(--link-activated-background-color);
+		/* Do not allow children to be clickable or selectable */
+		*,
+		::slotted(*) {
+			/* pointer-events: none; -- Bug in Safari prevents using this outside a layout container */
+			-webkit-user-select: none;
+			-moz-user-select: none;
+			user-select: none;
 		}'
 ]
 
