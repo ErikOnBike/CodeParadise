@@ -9,7 +9,7 @@ CpComponentExamplesClientBehavior >> exampleButtons [
 
 	<example: 'Buttons' order: 200>
 
-	| outputElement |
+	| outputElement group1 group2 group3 button1a button1b button2a button2b button3a button3b |
 	
 	outputElement := self outputElement.
 	outputElement textContent: ''.
@@ -59,7 +59,91 @@ CpComponentExamplesClientBehavior >> exampleButtons [
 		appendChild: (CpButton label: 'One') ;
 		appendChild: (CpButton label: 'Two') ;
 		appendChild: (CpButton label: 'Three').
-	outputElement appendChild: ' in a vertical button group' asHtmlElement
+	outputElement appendChild: ' in a vertical button group' asHtmlElement.
+
+	"Add separator"
+	outputElement appendChild: (CpHtmlElement newWithTag: #p).
+
+	group1 := outputElement appendChild: CpControlGroup new.
+	button1a := group1 appendChild: ((CpButton label: 'Button1a')
+		when: CpClickEvent do: [ self crTrace: 'Button1a clicked' ] ;
+		yourself).
+	button1b := group1 appendChild: ((CpButton label: 'Button1b')
+		when: CpClickEvent do: [ self crTrace: 'Button1b clicked' ] ;
+		yourself).
+	group2 := group1 appendChild: CpControlGroup new.
+	group2
+		styleAt: #display put: #block ;
+		styleAt: #'margin-left' put: '3em'.
+	button2a := group2 appendChild: ((CpButton label: 'Button2a')
+		when: CpClickEvent do: [ self crTrace: 'Button2a clicked' ] ;
+		yourself).
+	button2b := group2 appendChild: ((CpButton label: 'Button2b')
+		when: CpClickEvent do: [ self crTrace: 'Button2b clicked' ] ;
+		yourself).
+	group3 := group2 appendChild: CpControlGroup new.
+	group3
+		styleAt: #display put: #block ;
+		styleAt: #'margin-left' put: '6em'.
+	button3a := group3 appendChild: ((CpButton label: 'Button3a')
+		when: CpClickEvent do: [ self crTrace: 'Button3a clicked' ] ;
+		yourself).
+	button3b := group3 appendChild: ((CpButton label: 'Button3b')
+		when: CpClickEvent do: [ self crTrace: 'Button3b clicked' ] ;
+		yourself).
+
+	"Add separator"
+	outputElement appendChild: (CpHtmlElement newWithTag: #p).
+
+	(outputElement appendChild: (CpButton label: 'Disable group1'))
+		when: CpClickEvent do: [ group1 disable ].
+	(outputElement appendChild: (CpButton label: 'Enable group1'))
+		when: CpClickEvent do: [ group1 enable ].
+	(outputElement appendChild: (CpButton label: 'Disable group2'))
+		when: CpClickEvent do: [ group2 disable ].
+	(outputElement appendChild: (CpButton label: 'Enable group2'))
+		when: CpClickEvent do: [ group2 enable ].
+	(outputElement appendChild: (CpButton label: 'Disable group3'))
+		when: CpClickEvent do: [ group3 disable ].
+	(outputElement appendChild: (CpButton label: 'Enable group3'))
+		when: CpClickEvent do: [ group3 enable ].
+
+	"Add separator"
+	outputElement appendChild: (CpHtmlElement newWithTag: #p).
+
+	(outputElement appendChild: (CpButton label: 'Disable button1a'))
+		when: CpClickEvent do: [ button1a disable ].
+	(outputElement appendChild: (CpButton label: 'Enable button1a'))
+		when: CpClickEvent do: [ button1a enable ].
+	(outputElement appendChild: (CpButton label: 'Disable button1b'))
+		when: CpClickEvent do: [ button1b disable ].
+	(outputElement appendChild: (CpButton label: 'Enable button1b'))
+		when: CpClickEvent do: [ button1b enable ].
+
+	"Add separator"
+	outputElement appendChild: (CpHtmlElement newWithTag: #p).
+
+	(outputElement appendChild: (CpButton label: 'Disable button2a'))
+		when: CpClickEvent do: [ button2a disable ].
+	(outputElement appendChild: (CpButton label: 'Enable button2a'))
+		when: CpClickEvent do: [ button2a enable ].
+	(outputElement appendChild: (CpButton label: 'Disable button2b'))
+		when: CpClickEvent do: [ button2b disable ].
+	(outputElement appendChild: (CpButton label: 'Enable button2b'))
+		when: CpClickEvent do: [ button2b enable ].
+
+	"Add separator"
+	outputElement appendChild: (CpHtmlElement newWithTag: #p).
+
+	(outputElement appendChild: (CpButton label: 'Disable button3a'))
+		when: CpClickEvent do: [ button3a disable ].
+	(outputElement appendChild: (CpButton label: 'Enable button3a'))
+		when: CpClickEvent do: [ button3a enable ].
+	(outputElement appendChild: (CpButton label: 'Disable button3b'))
+		when: CpClickEvent do: [ button3b disable ].
+	(outputElement appendChild: (CpButton label: 'Enable button3b'))
+		when: CpClickEvent do: [ button3b enable ].
+
 ]
 
 { #category : #examples }
@@ -120,7 +204,9 @@ CpComponentExamplesClientBehavior >> exampleLinks [
 	outputElement := self outputElement.
 	outputElement textContent: ''.
 
-	outputElement appendChild: (CpLink label: 'My link')
+	outputElement appendChild: (CpLink label: 'My link').
+	outputElement appendChild: ' ' asHtmlElement.
+	outputElement appendChild: ((CpLink label: 'Disabled link') disable ; yourself)
 ]
 
 { #category : #examples }
@@ -128,7 +214,7 @@ CpComponentExamplesClientBehavior >> exampleRadioButtons [
 
 	<example: 'Radio buttons' order: 310>
 
-	| outputElement bananas |
+	| outputElement apples bananas |
 	
 	outputElement := self outputElement.
 	outputElement textContent: ''.
@@ -142,13 +228,16 @@ CpComponentExamplesClientBehavior >> exampleRadioButtons [
 	outputElement appendChild: (CpHtmlElement newWithTag: #p).
 
 	(outputElement appendChild: (CpRadioButtonGroup new attributeAdd: #vertical ; yourself))
-		appendChild: (CpRadioButton label: 'Apples') ;
+		appendChild: (apples := (CpRadioButton label: 'Apples (disabled)') disable ; yourself) ;
 		appendChild: (CpRadioButton label: 'Oranges') ;
-		appendChild: (bananas := (CpRadioButton label: 'Bananas') attributeAdd: #readonly ; yourself) ;
+		appendChild: (bananas := (CpRadioButton label: 'Bananas (readonly)') beReadOnly ; yourself) ;
 		appendChild: (CpRadioButton label: 'Pears').
 
 	outputElement appendChild: (CpHtmlElement newWithTag: #p).
 
+	outputElement appendChild: ((CpButton label: 'Select apples')
+		when: CpClickEvent do: [ apples select ] ;
+		yourself).
 	outputElement appendChild: ((CpButton label: 'Select bananas')
 		when: CpClickEvent do: [ bananas select ] ;
 		yourself)
@@ -156,9 +245,9 @@ CpComponentExamplesClientBehavior >> exampleRadioButtons [
 ]
 
 { #category : #examples }
-CpComponentExamplesClientBehavior >> exampleTextField [
+CpComponentExamplesClientBehavior >> exampleRichTextField [
 
-	<example: 'Text fields' order: 400>
+	<example: 'Rich text fields' order: 400>
 
 	| outputElement |
 	
@@ -177,6 +266,32 @@ CpComponentExamplesClientBehavior >> exampleTextField [
 
 	outputElement appendChild: ((CpRichTextField new)
 		styleAt: #width put: '20em' ;
+		text: '' ;
+		yourself)
+]
+
+{ #category : #examples }
+CpComponentExamplesClientBehavior >> exampleTextField [
+
+	<example: 'Text fields' order: 400>
+
+	| outputElement text1 text2 |
+	
+	outputElement := self outputElement.
+	outputElement textContent: ''.
+
+	outputElement appendChild: ((text1 := CpTextField new)
+		styleAt: #width put: '20em' ;
+		when: CpInputEvent do: [ self crTrace: 'Text 1: ', text1 text ] ;
+		text: 'Hello world' ;
+		yourself).
+
+	"Separator"
+	outputElement appendChild: (CpHtmlElement newWithTag: #p).
+
+	outputElement appendChild: ((text2 := CpTextField new)
+		styleAt: #width put: '20em' ;
+		when: CpInputEvent do: [ self crTrace: 'Text 2: ', text2 text ] ;
 		text: '' ;
 		yourself)
 ]
