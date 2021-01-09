@@ -1,6 +1,6 @@
 Class {
 	#name : #CpCheckbox,
-	#superclass : #CpView,
+	#superclass : #CpInputControl,
 	#category : #'CodeParadise-Beach-Components'
 }
 
@@ -42,6 +42,7 @@ CpCheckbox class >> style [
 			background-color: #fff;
 			overflow: hidden;
 			transition: border-color .1s;
+			-webkit-mask-image: -webkit-radial-gradient(white, black);
 		}
 		:host(:not([selected]):hover) #box {
 			border-color: #666;
@@ -81,8 +82,8 @@ CpCheckbox class >> style [
 			color: #aaa;
 		}
 		/* Do not allow children to be clickable or selectable */
-		*:active,
-		::slotted(*:active) {
+		*,
+		::slotted(*) {
 			/* pointer-events: none; -- Bug in Safari prevents using this outside a layout container */
 			-webkit-user-select: none;
 			-moz-user-select: none;
@@ -120,18 +121,6 @@ CpCheckbox >> deselect [
 	self
 		removeAttributeAt: #selected ;
 		announceChange
-]
-
-{ #category : #'state handling' }
-CpCheckbox >> disable [
-
-	self attributeAdd: #disabled
-]
-
-{ #category : #'state handling' }
-CpCheckbox >> enable [
-
-	self removeAttributeAt: #disabled
 ]
 
 { #category : #'event handling' }
@@ -263,18 +252,6 @@ CpCheckbox >> makeMixed [
 	self
 		attributeAt: #selected put: #mixed ;
 		announceChange
-]
-
-{ #category : #'state handling' }
-CpCheckbox >> readOnly [
-
-	self attributeAdd: #readonly
-]
-
-{ #category : #'state handling' }
-CpCheckbox >> readWrite [
-
-	self removeAttributeAt: #readonly
 ]
 
 { #category : #'state handling' }
