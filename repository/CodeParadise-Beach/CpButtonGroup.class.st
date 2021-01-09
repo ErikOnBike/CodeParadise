@@ -1,6 +1,6 @@
 Class {
 	#name : #CpButtonGroup,
-	#superclass : #CpView,
+	#superclass : #CpControlGroup,
 	#category : #'CodeParadise-Beach-Components'
 }
 
