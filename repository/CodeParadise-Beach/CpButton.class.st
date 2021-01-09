@@ -1,6 +1,6 @@
 Class {
 	#name : #CpButton,
-	#superclass : #CpView,
+	#superclass : #CpControl,
 	#category : #'CodeParadise-Beach-Components'
 }
 
@@ -89,13 +89,18 @@ CpButton class >> style [
 		:host(.icon) {
 			padding: 4px;
 		}
-		:host(:hover) {
+		:host(:not([disabled]):hover) {
 			color: var(--control-hovered-text-color); 
 			background-color: var(--control-hover-background-color);
 		}
-		:host(:active) {
+		:host(:not([disabled]):active) {
 			color: var(--control-activated-text-color);
 			background-color: var(--control-activated-background-color);
+		}
+		:host([disabled]) {
+			color: #aaa;
+			pointer-events: none;
+			cursor: auto;
 		}
 		#prefix,
 		#label,
