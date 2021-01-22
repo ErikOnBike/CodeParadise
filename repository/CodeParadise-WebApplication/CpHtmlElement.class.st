@@ -82,3 +82,11 @@ CpHtmlElement class >> prefix [
 
 	^ #xhtml
 ]
+
+{ #category : #converting }
+CpHtmlElement >> asHtmlElement [
+
+	"Answer the receiver as DOM element"
+
+	^ self
+]

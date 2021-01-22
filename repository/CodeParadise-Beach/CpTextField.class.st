@@ -1,9 +1,6 @@
 Class {
 	#name : #CpTextField,
-	#superclass : #CpView,
-	#instVars : [
-		'text'
-	],
+	#superclass : #CpInputControl,
 	#category : #'CodeParadise-Beach-Components'
 }
 
@@ -12,21 +9,37 @@ CpTextField class >> style [
 
 	<webResource: #css>
 
-	^ '#container {
-			display: inline-block;
-			width: 100%;
-			height: 100%;
-			min-height: inherit;
-			overflow: hidden;
+	^ '*, *:before, *:after {
+			-moz-box-sizing: border-box;
+			-webkit-box-sizing: border-box;
+			box-sizing: border-box;
 		}
-		#container input {
+		:host {
+			display: inline;
+			min-height: inherit;
+			white-space: nowrap;
+			cursor: text;
+		}
+		::slotted(input) {
 			margin: 0;
-			border-radius: .25rem;
+			border-radius: 4px;
 			border: 1px solid #333;
 			padding: 3px;
 			font-size: 1em;
 		}
-		#container input:focus {
+		:host(:hover) ::slotted(input) {
+			border-color: #666;
+		}
+		:host([disabled]) ::slotted(input) {
+			pointer-events: none;
+			-webkit-user-select: none;
+			-moz-user-select: none;
+			user-select: none;
+		}
+		:host([readonly]) ::slotted(input) {
+			/* ? */
+		}
+		::slotted(input:focus) {
 			outline: none;
 		}'
 ]
@@ -36,17 +49,27 @@ CpTextField class >> template [
 
 	<webResource: #html>
 
-	^ '<div id="container"><input type="text"></div>'
+	^ '<slot></slot>'
+]
+
+{ #category : #initialization }
+CpTextField >> initialize [
+
+	super initialize.
+
+	self appendChild: ((CpHtmlElement newWithTag: #input)
+		attributeAt: #type put: #text ;
+		yourself)
 ]
 
 { #category : #accessing }
 CpTextField >> text [
 
-	^ (self shadowRoot firstDescendantMatching: 'input') propertyAt: #value
+	^ self firstChild propertyAt: #value
 ]
 
 { #category : #accessing }
 CpTextField >> text: aString [
 
-	(self shadowRoot firstDescendantMatching: 'input') propertyAt: #value put: aString
+	self firstChild propertyAt: #value put: aString
 ]

@@ -1,11 +1,11 @@
 Class {
-	#name : #CpCheckbox,
+	#name : #CpRadioButton,
 	#superclass : #CpInputControl,
 	#category : #'CodeParadise-Beach-Components'
 }
 
 { #category : #accessing }
-CpCheckbox class >> label: labelElement [
+CpRadioButton class >> label: labelElement [
 
 	"Answer a new instance of the receiver with the specified label.
 	Label can be a String in which case it is wrapped inside a <span> tag."
@@ -16,7 +16,7 @@ CpCheckbox class >> label: labelElement [
 ]
 
 { #category : #'web resources' }
-CpCheckbox class >> style [
+CpRadioButton class >> style [
 
 	<webResource: #css>
 
@@ -37,7 +37,7 @@ CpCheckbox class >> style [
 			top: .08em;
 			width: .9em;
 			height: .9em;
-			border-radius: .2em;
+			border-radius: 50%;
 			border: 1px solid #ccc;
 			background-color: #fff;
 			overflow: hidden;
@@ -49,24 +49,22 @@ CpCheckbox class >> style [
 		}
 		#tick {
 			position: absolute;
-			left: -50%;
-			top: -50%;
-			right: -50%;
-			bottom: -50%;
+			left: 0;
+			top: 0;
+			right: 0;
+			bottom: 0;
+			border-radius: 50%;
 			background-color: var(--control-activated-background-color);
-			transform: rotate(0) translate(0,100%);
+			transform: scale(0);
 			transition: transform .5s;
 		}
-		:host([selected=""]) #tick {
-			transform: rotate(0) translate(0,0);
-		}
-		:host([selected="mixed"]) #tick {
-			transform: rotate(-45deg) translate(0,50%);
+		:host([selected]) #tick {
+			transform: scale(1);
 		}
 		:host([readonly]),
 		:host([disabled]) {
-			pointer-events: none;
 			cursor: auto;
+			pointer-events: none;
 		}
 		:host([readonly]) #box,
 		:host([disabled]) #box {
@@ -92,7 +90,7 @@ CpCheckbox class >> style [
 ]
 
 { #category : #'web resources' }
-CpCheckbox class >> template [
+CpRadioButton class >> template [
 
 	<webResource: #html>
 
@@ -103,18 +101,15 @@ CpCheckbox class >> template [
 ]
 
 { #category : #announcing }
-CpCheckbox >> announceChange [
+CpRadioButton >> announceChange [
 
 	self announce: (CpSelectionChanged element: self)
 ]
 
 { #category : #'state handling' }
-CpCheckbox >> deselect [
+CpRadioButton >> deselect [
 
-	"Make the receiver deselected.
-
-	Implementation:
-	Remove the selected attribute of the receiver."
+	"Remove the selected attribute of the receiver"
 
 	self ifNotSelected: [ ^ self ].
 
@@ -124,61 +119,51 @@ CpCheckbox >> deselect [
 ]
 
 { #category : #'event handling' }
-CpCheckbox >> handleClickEvent: anEvent [
+CpRadioButton >> handleClickEvent: anEvent [
 
 	"Handle click on the receiver"
 
 	self ifNotSelectable: [ ^ self ].
 
-	self toggle
+	self select
 ]
 
 { #category : #'testing - conditionals' }
-CpCheckbox >> ifMixed: aBlock [
-
-	"Evaluate the specified block if the receiver is mixed.
-
-	Implementation: a checkbox can be in state selected, deselected or mixed."
-
-	self ifSelected: [ "intentionally empty" ] ifMixed: aBlock ifNotSelected: [ "intentionally empty" ]
-]
-
-{ #category : #'testing - conditionals' }
-CpCheckbox >> ifNotSelectable: aBlock [
+CpRadioButton >> ifNotSelectable: aBlock [
 
 	"Evaluate the specified block if the receiver is not selectable.
 
-	Implementation: a checkbox can be read-only or disabled."
+	Implementation: a radio button can be read-only or disabled."
 
 	self ifSelectable: [ "intentionally empty" ] ifNotSelectable: aBlock
 ]
 
 { #category : #'testing - conditionals' }
-CpCheckbox >> ifNotSelected: aBlock [
+CpRadioButton >> ifNotSelected: aBlock [
 
-	"Evaluate the specified block if the receiver is deselected.
+	"Evaluate the specified block if the receiver is not selected.
 
-	Implementation: a checkbox can be in state selected, deselected or mixed."
+	Implementation: a radio button can be in state selected or deselected."
 
-	self ifSelected: [ "intentionally empty" ] ifMixed: [ "intentionally empty" ] ifNotSelected: aBlock
+	self ifSelected: [ "intentionally empty" ] ifNotSelected: aBlock
 ]
 
 { #category : #'testing - conditionals' }
-CpCheckbox >> ifSelectable: aBlock [
+CpRadioButton >> ifSelectable: aBlock [
 
 	"Evaluate the specified block if the receiver is selectable.
 
-	Implementation: a checkbox can be read-only or disabled."
+	Implementation: a radio button can be read-only or disabled."
 
 	self ifSelectable: aBlock ifNotSelectable: [ "intentionally empty" ]
 ]
 
 { #category : #'testing - conditionals' }
-CpCheckbox >> ifSelectable: selectableBlock ifNotSelectable: notSelectableBlock [
+CpRadioButton >> ifSelectable: selectableBlock ifNotSelectable: notSelectableBlock [
 
 	"Evaluate the block matching the receiver's selectability.
 
-	Implementation: a checkbox can be read-only or disabled."
+	Implementation: a radio button can be read-only or disabled."
 
 	(self attributeAt: #readonly)
 		ifNotNil: [ notSelectableBlock value ]
@@ -189,34 +174,31 @@ CpCheckbox >> ifSelectable: selectableBlock ifNotSelectable: notSelectableBlock 
 ]
 
 { #category : #'testing - conditionals' }
-CpCheckbox >> ifSelected: aBlock [
+CpRadioButton >> ifSelected: aBlock [
 
 	"Evaluate the specified block if the receiver is selected.
 
-	Implementation: a checkbox can be in state selected, deselected or mixed."
+	Implementation: a radio button can be in state selected or deselected."
 
-	self ifSelected: aBlock ifMixed: [ "intentionally empty" ] ifNotSelected: [ "intentionally empty" ]
+	self ifSelected: aBlock ifNotSelected: [ "intentionally empty" ]
 ]
 
 { #category : #'testing - conditionals' }
-CpCheckbox >> ifSelected: selectedBlock ifMixed: mixedBlock ifNotSelected: deselectedBlock [
+CpRadioButton >> ifSelected: selectedBlock ifNotSelected: deselectedBlock [
 
 	"Evaluate the block which represents the receiver's state.
 
 	Implementation:
-	A checkbox can be in state selected, deselected or mixed.
+	A radio button can be in state selected or deselected.
 	See the corresponding methods how state is represented."
 
 	(self attributeAt: #selected)
-		ifNotNil: [ :selected |
-			selected
-				ifEmpty: [ selectedBlock value ]
-				ifNotEmpty: [ mixedBlock value ] ]
+		ifNotNil: [ selectedBlock value ]
 		ifNil: [ deselectedBlock value ]
 ]
 
 { #category : #initialization }
-CpCheckbox >> initialize [
+CpRadioButton >> initialize [
 
 	super initialize.
 
@@ -224,7 +206,7 @@ CpCheckbox >> initialize [
 ]
 
 { #category : #accessing }
-CpCheckbox >> label [
+CpRadioButton >> label [
 
 	"Answer label of receiver"
 
@@ -232,7 +214,7 @@ CpCheckbox >> label [
 ]
 
 { #category : #accessing }
-CpCheckbox >> label: anElement [
+CpRadioButton >> label: anElement [
 
 	"Set the specified element as the label of the receiver"
 
@@ -240,44 +222,13 @@ CpCheckbox >> label: anElement [
 ]
 
 { #category : #'state handling' }
-CpCheckbox >> makeMixed [
+CpRadioButton >> select [
 
-	"Make the receiver mixed (state 'between' selected and deselected).
-
-	Implementation:
-	Set #mixed as value of the selected attribute of the receiver."
-
-	self ifMixed: [ ^ self ].
-
-	self
-		attributeAt: #selected put: #mixed ;
-		announceChange
-]
-
-{ #category : #'state handling' }
-CpCheckbox >> select [
-
-	"Make the receiver selected.
-
-	Implementation:
-	Add the selected attribute to the receiver (with empty value)."
+	"Add the selected attribute to the receiver"
 
 	self ifSelected: [ ^ self ].
 
 	self
 		attributeAdd: #selected ;
 		announceChange
-]
-
-{ #category : #'state handling' }
-CpCheckbox >> toggle [
-
-	"Toggle the state of the receiver.
-	The receiver becomes selected if not already selected (not selected or mixed) and
-	becomes not selected if already selected."
-
-	self
-		ifSelected: [ self deselect ]
-		ifMixed: [ self select ]
-		ifNotSelected: [ self select ]
 ]

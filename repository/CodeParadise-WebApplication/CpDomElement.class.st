@@ -184,12 +184,14 @@ CpDomElement >> appendChild: childElement [
 	self primitiveFailed
 ]
 
-{ #category : #converting }
-CpDomElement >> asElement [
+{ #category : #attributes }
+CpDomElement >> attributeAdd: nameString [
 
-	"Answer the receiver as DOM element"
+	"Set the specified attribute (without value) of the receiver.
 
-	^ self
+	This is useful for attributes like 'selected' or 'readonly' which do not need a value."
+
+	self attributeAt: nameString put: ''
 ]
 
 { #category : #attributes }
@@ -252,6 +254,16 @@ CpDomElement >> destroy [
 	self
 		remove ;
 		release
+]
+
+{ #category : #querying }
+CpDomElement >> firstChild [
+
+	"Answer the first child of the receiver or nil if none is present"
+
+	^ self children
+		ifNotEmpty: [ :children | children first ]
+		ifEmpty: [ nil ]
 ]
 
 { #category : #querying }
@@ -489,6 +501,17 @@ CpDomElement >> removeStyleAt: nameString [
 	<primitive: 'primitiveDOMElementRemoveStyleAt:' module: 'CpDOMPlugin'>
 	self primitiveFailed
 
+]
+
+{ #category : #'adding/removing' }
+CpDomElement >> replaceAllChildrenWith: childElement [
+
+	"Set the specified element as child of the receiver.
+	Any existing children will be removed."
+
+	^ self
+		removeChildren ;
+		appendChild: childElement
 ]
 
 { #category : #'adding/removing' }

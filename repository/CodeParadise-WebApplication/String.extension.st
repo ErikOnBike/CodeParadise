@@ -1,22 +1,11 @@
 Extension { #name : #String }
 
 { #category : #'*CodeParadise-WebApplication' }
-String >> asElement [
+String >> asHtmlElement [
 
 	<webApplicationExtension>
 
 	^ self inHtmlTag: #span
-]
-
-{ #category : #'*CodeParadise-WebApplication' }
-String >> asMaterialIcon [
-
-	<webApplicationMaterialDesignExtension>
-
-	^ ((Smalltalk classNamed: #CpHtmlElement) newWithTag: #i)
-		attributeAt: #class put: 'material-icons' ;
-		textContent: self ;
-		yourself
 ]
 
 { #category : #'*CodeParadise-WebApplication' }

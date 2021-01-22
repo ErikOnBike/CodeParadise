@@ -45,13 +45,13 @@ CpWindowTitle class >> template [
 { #category : #rendering }
 CpWindowTitle >> renderIcon: anIconName [
 
-	self replaceChild: (CpIcon perform: anIconName) atSlotNamed: #icon
+	self replaceAllChildrenWith: (CpIcon perform: anIconName) atSlotNamed: #icon
 ]
 
 { #category : #rendering }
 CpWindowTitle >> renderTitle: aString [
 
 	(aString notNil and: [ aString notEmpty ])
-		ifTrue: [ self replaceChild: (aString inHtmlTag: #span) atSlotNamed: #title ]
+		ifTrue: [ self replaceAllChildrenWith: (aString inHtmlTag: #span) atSlotNamed: #title ]
 		ifFalse: [ self removeChildrenAtSlotNamed: #title ]
 ]

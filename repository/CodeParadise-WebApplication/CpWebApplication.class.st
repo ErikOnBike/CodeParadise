@@ -59,10 +59,30 @@ CpWebApplication >> installExtensionMethods [
 
 	"Install the extension methods from known Classes"
 
-	(Pragma allNamed: #webApplicationExtension in: BlockClosure) do: [ :each |
-		self environment addMethod: each method ].
-	(Pragma allNamed: #webApplicationExtension in: String) do: [ :each |
-		self environment addMethod: each method ]
+	self installExtensionMethodsFor: #webApplicationExtension
+]
+
+{ #category : #installing }
+CpWebApplication >> installExtensionMethodsFor: aSymbol [
+
+	"Install the extension methods for specified (pragma) Symbol.
+
+	Implementation:
+	First find senders of specified Symbol and then explicitly check for
+	pragma in both instance and class methods."
+
+	((CpFinder allSendersOf: aSymbol) collect: [ :each | each realClass ]) asSet
+		do: [ :eachClass |
+
+			"Install instance methods"
+			(Pragma allNamed: aSymbol in: eachClass) do: [ :eachPragma |
+self crTrace: 'Install ', eachPragma method selector, ' from ', eachClass printString.
+				self environment addMethod: eachPragma method ].
+
+			"Install class methods"
+			(Pragma allNamed: aSymbol in: eachClass class) do: [ :eachPragma |
+self crTrace: 'Install ', eachPragma method selector, ' from ', eachClass printString, ' class'.
+				self environment addMethod: eachPragma method ] ]
 ]
 
 { #category : #actions }

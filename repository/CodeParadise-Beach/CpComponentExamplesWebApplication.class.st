@@ -37,10 +37,7 @@ CpComponentExamplesWebApplication >> installExtensionMethods [
 
 	super installExtensionMethods.
 
-	(Pragma allNamed: #webApplicationFontAwesomeExtension in: String) do: [ :each |
-		self environment addMethod: each method ].
-	(Pragma allNamed: #webApplicationMaterialDesignExtension in: String) do: [ :each |
-		self environment addMethod: each method ]
+	self installExtensionMethodsFor: #webApplicationFontAwesomeExtension
 ]
 
 { #category : #actions }

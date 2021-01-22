@@ -1,9 +1,6 @@
 Class {
 	#name : #CpLink,
-	#superclass : #CpView,
-	#instVars : [
-		'label'
-	],
+	#superclass : #CpControl,
 	#category : #'CodeParadise-Beach-Components'
 }
 
@@ -23,21 +20,34 @@ CpLink class >> style [
 
 	<webResource: #css>
 
-	^ '#container {
-			display: inline-block;
+	^ ':host {
+			display: inline;
 			min-height: inherit;
 			color: var(--link-text-color);
-			background-color: var(--link-background-color);
+			white-space: nowrap;
 			cursor: pointer;
-		}	
-		#container:hover {
-			text-decoration: underline;
-			color: var(--link-hovered-text-color);
-			background-color: var(--link-hovered-background-color);
 		}
-		#container:active {
+		:host(:not([disabled]):hover) {
+			color: var(--link-hovered-text-color);
+		}
+		:host(:not([disabled]):active) {
 			color: var(--link-activated-text-color);
-			background-color: var(--link-activated-background-color);
+		}
+		:host([disabled]) {
+			color: #aaa;
+			cursor: auto;
+		}
+		:host(:hover) slot,
+		:host(:hover) ::slotted(*) {
+			text-decoration: underline;
+		}
+		/* Do not allow children to be clickable or selectable */
+		*,
+		::slotted(*) {
+			/* pointer-events: none; -- Bug in Safari prevents using this outside a layout container */
+			-webkit-user-select: none;
+			-moz-user-select: none;
+			user-select: none;
 		}'
 ]
 
@@ -46,15 +56,15 @@ CpLink class >> template [
 
 	<webResource: #html>
 
-	^ '<div id="container"><slot name="label"></slot></div>'
+	^ '<slot name="label"></slot>'
 ]
 
 { #category : #accessing }
 CpLink >> label [
 
-	"Answer label of receiver. If no label is set yet, check if label was set from a HTML string."
+	"Answer label of receiver"
 
-	^ label ifNil: [ label := self childAtSlotNamed: #label ]
+	^ self firstChildAtSlotNamed: #label
 ]
 
 { #category : #accessing }
@@ -62,5 +72,5 @@ CpLink >> label: anElement [
 
 	"Set the specified element as the label of the receiver"
 
-	label := self replaceChild: anElement asElement atSlotNamed: #label
+	self replaceAllChildrenWith: anElement asHtmlElement atSlotNamed: #label
 ]
