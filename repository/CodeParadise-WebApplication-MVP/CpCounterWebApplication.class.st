@@ -35,7 +35,7 @@ CpCounterWebApplication >> load [
 	"Create one global and one application specific counter.
 	These presenters will be installed when #load or #reload is called on the receiver."
 	self applicationPresenter
-		createChildPresenter: CpCounterApplicationPresenter forModel: CpCounterApplication new ;
-		renderView
+		createChildPresenter: CpCounterApplicationPresenter
+		forModel: CpCounterApplication new
 
 ]
