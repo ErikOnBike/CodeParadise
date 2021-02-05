@@ -219,7 +219,7 @@ CpFomanticExamplesClientBehavior >> exampleCheckbox2 [
 
 	<example: 'Checkbox2' order: 100>
 
-	| outputElement |
+	| outputElement checkbox |
 
 	outputElement := self outputElement.
 	outputElement textContent: ''.
@@ -228,7 +228,19 @@ CpFomanticExamplesClientBehavior >> exampleCheckbox2 [
 		appendChild: ('Checkboxes can have 4 types: checkbox, slider, toggle, radio' inHtmlTag: #p) ;
 		appendChild: ('' inHtmlTag: #p) ;
 		appendChild: ('Chechbox (default):' inHtmlTag: #p) ;	
-		appendChild: (Fui2Checkbox newNamed: #myCheck withLabel: 'My checkbox').
+		appendChild: (checkbox := Fui2Checkbox newNamed: #myCheck withLabel: 'My checkbox').
+
+	outputElement
+		appendChild: ('' inHtmlTag: #p) ;
+		appendChild: ((Fui2Button newLabeled: 'Be toogle')
+			when: CpClickEvent do: [ :event | checkbox beToggle. self crTrace: event printString ] ;
+			yourself) ;
+		appendChild: ((Fui2Button newLabeled: 'Be slider')
+			when: CpClickEvent do: [ :event | checkbox beSlider ] ;
+			yourself) ;
+		appendChild: ((Fui2Button newLabeled: 'Be checkbox')
+			when: CpClickEvent do: [ :event | checkbox beRegular ] ;
+			yourself).
 
 	outputElement
 		appendChild: ('' inHtmlTag: #p) ;
