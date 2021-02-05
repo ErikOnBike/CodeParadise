@@ -26,12 +26,22 @@ CpModel >> announcer [
 	^ announcer
 ]
 
+{ #category : #accessing }
+CpModel >> application [ 
+	^ self presenterContext application
+]
+
 { #category : #initialization }
 CpModel >> initialize [
 
 	super initialize.
 
 	announcer := Announcer new
+]
+
+{ #category : #'as yet unclassified' }
+CpModel >> presenterContext [ 
+	^ CpCurrentPresenterContext value
 ]
 
 { #category : #dependencies }

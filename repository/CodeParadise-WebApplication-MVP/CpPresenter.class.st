@@ -387,7 +387,8 @@ CpPresenter >> viewAnnounce: anAnnouncement [
 
 	"Let the server side View (ie ViewProxy) announce the specified Announcement"
 
-	viewProxy announce: anAnnouncement
+	CpCurrentPresenterContext value: self during: [ 
+		viewProxy announce: anAnnouncement ].
 ]
 
 { #category : #view }
