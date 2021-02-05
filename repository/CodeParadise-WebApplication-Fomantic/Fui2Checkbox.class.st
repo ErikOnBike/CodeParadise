@@ -103,6 +103,12 @@ Fui2Checkbox >> beReadWrite [
 ]
 
 { #category : #'accessing - types' }
+Fui2Checkbox >> beRegular [
+
+	^ self setType: nil ofTypes: self class allTypes
+]
+
+{ #category : #'accessing - types' }
 Fui2Checkbox >> beSlider [
 
 	self setType: #slider ofTypes: self class allTypes.
