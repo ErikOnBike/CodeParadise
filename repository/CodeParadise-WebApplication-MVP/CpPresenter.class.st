@@ -267,9 +267,9 @@ CpPresenter >> privateModelChanged [
 
 	"The receiver's model has changed, render the view to make change visible"
 
-	self modelChanged.
-	self hasView
-		ifTrue: [ self updateView ]
+	self
+		modelChanged ;
+		updateView
 ]
 
 { #category : #view }
@@ -362,6 +362,9 @@ CpPresenter >> slotName: aString [
 CpPresenter >> updateView [
 
 	"Update the receiver's view"
+
+	self hasView
+		ifFalse: [ ^ self ].
 
 	viewProxy viewClass = self viewClass
 		ifTrue: [  self renderView ]
