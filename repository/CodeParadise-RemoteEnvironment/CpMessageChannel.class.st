@@ -115,7 +115,7 @@ CpMessageChannel >> createMessageHandler [
 	[
 		self runMessageHandler.
 
-		"TODO: Fix this in tiney image. Probably better handling of Processes.
+		"TODO: Fix this in tiny image. Probably better handling of Processes.
 		The current tiny image requires the Process to be terminated.
 		Otherwise it fails with a #cannotReturn:"
 		Processor activeProcess terminate ] forkAt: Processor highIOPriority
