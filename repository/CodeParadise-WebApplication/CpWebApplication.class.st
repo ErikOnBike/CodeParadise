@@ -23,6 +23,11 @@ CpWebApplication class >> initialize [
 	IdentifierGenerator := CpWebIdentifierGenerator new
 ]
 
+{ #category : #'as yet unclassified' }
+CpWebApplication class >> openInBrowser [
+	WebBrowser openOn: 'http://localhost:8080/static/app.html?' , self app
+]
+
 { #category : #accessing }
 CpWebApplication class >> webResourceCSS [
 
