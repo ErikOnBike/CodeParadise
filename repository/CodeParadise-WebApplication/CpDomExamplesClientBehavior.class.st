@@ -11,6 +11,84 @@ Class {
 	#category : #'CodeParadise-WebApplication-Examples'
 }
 
+{ #category : #'as yet unclassified' }
+CpDomExamplesClientBehavior class >> gearPathForRaduis: radius teeth: teethCount asAnnulus: aBoolean [
+
+	| path innerRadius outerRadius axelRadius arcDelta arc |
+
+	innerRadius := radius - 8.
+	outerRadius := radius + 8.
+	axelRadius := 20.
+	arcDelta := Float pi / teethCount.
+	arc := Float pi negated / 2.
+
+	path := String streamContents: [ :stream |
+
+		"Set start position"
+		stream nextPut: $M.
+		innerRadius * arc cos printOn: stream.
+		stream nextPut: $,.
+		innerRadius * arc sin printOn: stream.
+
+		"Create all teeth"
+		teethCount timesRepeat: [
+
+			"Inner/lower part of tooth"
+			stream nextPut: $A.
+			innerRadius printOn: stream.
+			stream nextPut: $,.
+			innerRadius printOn: stream.
+			stream nextPutAll: ' 0 0,1  '.
+			innerRadius * (arc := arc + arcDelta) cos printOn: stream.
+			stream nextPut: $,.
+			innerRadius * arc sin printOn: stream.
+			stream nextPut: $L.
+			radius * arc cos printOn: stream.
+			stream nextPut: $,.
+			radius * arc sin printOn: stream.
+			stream nextPut: $L.
+			outerRadius * (arc := arc + (arcDelta / 3)) cos printOn: stream.
+			stream nextPut: $,.
+			outerRadius * arc sin printOn: stream.
+
+			"Outer/higher part of tooth"
+			stream nextPut: $A.
+			outerRadius printOn: stream.
+			stream nextPut: $,.
+			outerRadius printOn: stream.
+			stream nextPutAll: ' 0 0,1 '.
+			outerRadius * (arc := arc + (arcDelta / 3)) cos printOn: stream.
+			stream nextPut: $,.
+			outerRadius * arc sin printOn: stream.
+			stream nextPut: $L.
+			radius * (arc := arc + (arcDelta / 3)) cos printOn: stream.
+			stream nextPut: $,.
+			radius * arc sin printOn: stream.
+			stream nextPut: $L.
+			innerRadius * arc cos printOn: stream.
+			stream nextPut: $,.
+			innerRadius * arc sin printOn: stream].
+
+		"Create axel hole"
+		stream nextPutAll: 'M0,'.
+		axelRadius negated printOn: stream.
+		stream nextPut: $A.
+		axelRadius printOn: stream.
+		stream nextPut: $,.
+		axelRadius printOn: stream.
+		stream nextPutAll: ' 0 0,0 0,'.
+		axelRadius printOn: stream.
+		stream nextPut: $A.
+		axelRadius printOn: stream.
+		stream nextPut: $,.
+		axelRadius printOn: stream.
+		stream nextPutAll: ' 0 0,0 0,'.
+		axelRadius negated printOn: stream.
+		stream nextPut: $Z ].
+
+	^ path
+]
+
 { #category : #examples }
 CpDomExamplesClientBehavior class >> someValue [
 
@@ -235,6 +313,86 @@ CpDomExamplesClientBehavior >> exampleMathFormula [
 
 	mathElement := outputElement appendChild: (CpMathElement newWithTag: #math).
 	mathElement markupContent: '<mtable columnalign="left"><mtr><mtd><mrow><mrow><mrow><mrow> <mi>a</mi> <msup> <mi>x</mi> <mn>2</mn> </msup></mrow> <mo> + </mo> <mi>b</mi> <mi>x</mi> </mrow> <mo> + </mo> <mi>c</mi> </mrow> <mo>=</mo> <mn>0</mn> </mrow> </mtd> </mtr> <mtr> <mtd> <mrow> <mrow> <mspace depth="1ex" height="0.5ex" width="2.5ex"></mspace> <mi>a</mi> <msup> <mi>x</mi> <mn>2</mn> </msup></mrow> <mo> + </mo> <mi>b</mi> <mi>x</mi> <mspace depth="1ex" height="0.5ex" width="2.5ex"></mspace> </mrow> <mo>=</mo> <mo>-</mo><mi> c</mi><mspace depth="1ex" height="0.5ex" width="2.5ex"></mspace> </mtd> </mtr> <mtr> <mtd> <mrow> <mrow> <mspace depth="1ex" height="0.5ex" width="2.5ex"></mspace> <msup> <mi>x</mi> <mn>2</mn> </msup></mrow> <mo> + </mo> <mfrac> <mrow> <mi>b</mi> </mrow> <mi>a</mi> </mfrac> <mi>x</mi> </mrow> <mspace depth="1ex" height="0.5ex" width="2.5ex"></mspace> <mo>=</mo> <mfrac> <mrow> <mo>-</mo><mi>c</mi> </mrow> <mi>a</mi> </mfrac> <mspace depth="1ex" height="0.5ex" width="2ex"></mspace><mrow><mtext mathcolor="red" mathsize="10pt">Divide out leading coefficient.</mtext> </mrow> </mtd> </mtr> <mtr> <mtd> <mrow> <mrow> <mrow> <mspace depth="1ex" height="0.5ex" width="2.5ex"></mspace> <msup> <mi>x</mi> <mn>2</mn> </msup></mrow> <mo> + </mo> <mfrac> <mrow> <mi>b</mi> </mrow> <mi>a</mi> </mfrac> <mi>x</mi> <mo> + </mo> <msup> <mfenced> <mfrac> <mrow> <mi>b</mi> </mrow> <mrow> <mn>2</mn> <mi>a</mi> </mrow> </mfrac> </mfenced> <mn>2</mn> </msup> </mrow> <mo>=</mo> <mfrac> <mrow> <mo>-</mo> <mi>c</mi> <mo>(</mo> <mn>4</mn> <mi>a</mi> <mo>)</mo> </mrow> <mrow> <mi>a</mi> <mo>(</mo> <mn>4</mn> <mi>a</mi> <mo>)</mo> </mrow></mfrac> </mrow> <mo> + </mo> <mfrac> <mrow> <msup> <mi>b</mi> <mn>2</mn> </msup> </mrow> <mrow> <mn>4</mn> <msup> <mi>a</mi> <mn>2</mn> </msup> </mrow></mfrac> <mspace depth="1ex" height="0.5ex" width="2ex"></mspace><mrow><mtext mathcolor="red" mathsize="10pt">Complete the square.</mtext> </mrow> </mtd> </mtr> <mtr> <mtd> <mrow> <mrow> <mspace depth="1ex" height="0.5ex" width="2.5ex"></mspace> <mo>(</mo> <mi>x</mi> <mo> + </mo> <mfrac> <mrow> <mi>b</mi> </mrow> <mrow> <mn>2</mn> <mi>a</mi> </mrow></mfrac> <mo>)</mo> <mo>(</mo> <mi>x</mi> <mo> + </mo> <mfrac> <mrow> <mi>b</mi> </mrow> <mrow> <mn>2</mn> <mi>a</mi> </mrow></mfrac> <mo>)</mo> <mo>=</mo> <mfrac> <mrow> <msup> <mi>b</mi> <mn>2</mn> </msup> <mo> - </mo> <mn>4</mn> <mi>a</mi> <mi>c</mi> </mrow> <mrow> <mn>4</mn> <msup> <mi>a</mi> <mn>2</mn> </msup> </mrow></mfrac> </mrow> <mspace depth="1ex" height="0.5ex" width="2ex"></mspace><mrow><mtext mathcolor="red" mathsize="10pt">Discriminant revealed.</mtext> </mrow> </mrow> </mtd> </mtr> <mtr> <mtd> <mrow> <mrow> <mspace depth="1ex" height="0.5ex" width="2.5ex"></mspace> <msup> <mrow> <mo>(</mo> <mi>x</mi> <mo> + </mo> <mfrac> <mrow> <mi>b</mi> </mrow> <mrow> <mn>2</mn> <mi>a</mi> </mrow></mfrac> <mo>)</mo> </mrow> <mn>2</mn> </msup> <mo>=</mo> <mfrac> <mrow> <msup> <mi>b</mi> <mn>2</mn> </msup> <mo> - </mo> <mn>4</mn> <mi>a</mi> <mi>c</mi> </mrow> <mrow> <mn>4</mn> <msup> <mi>a</mi> <mn>2</mn> </msup> </mrow></mfrac> </mrow> <mspace depth="1ex" height="0.5ex" width="2ex"></mspace><mrow><mtext mathcolor="red" mathsize="10pt"></mtext> </mrow> </mrow> </mtd> </mtr> <mtr> <mtd> <mrow> <mrow> <mspace depth="1ex" height="0.5ex" width="2.5ex"></mspace> <mrow> <mi>x</mi> <mo> + </mo> <mfrac> <mrow> <mi>b</mi> </mrow> <mrow> <mn>2</mn> <mi>a</mi> </mrow></mfrac> </mrow> <mo>=</mo> <msqrt> <mfrac> <mrow> <msup> <mi>b</mi> <mn>2</mn> </msup> <mo> - </mo> <mn>4</mn> <mi>a</mi> <mi>c</mi> </mrow> <mrow> <mn>4</mn> <msup> <mi>a</mi> <mn>2</mn> </msup> </mrow></mfrac> </msqrt> </mrow> <mspace depth="1ex" height="0.5ex" width="2ex"></mspace><mrow><mtext mathcolor="red" mathsize="10pt"></mtext> </mrow> </mrow> </mtd> </mtr> <mtr> <mtd> <mrow> <mrow> <mspace depth="1ex" height="0.5ex" width="2.5ex"></mspace> <mrow> <mi>x</mi> </mrow> <mo>=</mo> <mfrac> <mrow> <mo>-</mo><mi>b</mi> </mrow> <mrow> <mn>2</mn> <mi>a</mi> </mrow></mfrac> <mo>±</mo><mrow><mo>{</mo><mi>C</mi><mo>}</mo></mrow> <msqrt> <mfrac> <mrow> <msup> <mi>b</mi> <mn>2</mn> </msup> <mo> - </mo> <mn>4</mn> <mi>a</mi> <mi>c</mi> </mrow> <mrow> <mn>4</mn> <msup> <mi>a</mi> <mn>2</mn> </msup> </mrow></mfrac> </msqrt> </mrow> <mspace depth="1ex" height="0.5ex" width="2ex"></mspace><mrow><mtext mathcolor="red" mathsize="10pt">There''s the vertex formula.</mtext> </mrow> </mrow> </mtd> </mtr> <mtr> <mtd> <mrow> <mrow> <mspace depth="1ex" height="0.5ex" width="2.5ex"></mspace> <mrow> <mi>x</mi> </mrow> <mo>=</mo> <mfrac> <mrow> <mo>-</mo> <mi> b</mi> <mo>±</mo><mrow><mo>{</mo><mi>C</mi><mo>}</mo></mrow> <msqrt> <msup> <mi>b</mi> <mn>2</mn> </msup> <mo> - </mo> <mn>4</mn> <mi>a</mi> <mi>c</mi> </msqrt></mrow> <mrow> <mn>2</mn> <mi>a</mi> </mrow></mfrac> </mrow> <mspace depth="1ex" height="0.5ex" width="2ex"></mspace> <mrow><mtext mathcolor="red" mathsize="10pt"></mtext> </mrow> </mrow> </mtd> </mtr> </mtable>'
+]
+
+{ #category : #examples }
+CpDomExamplesClientBehavior >> exampleSVGGears [
+
+	<example: 'SVG Gears (animated)' order: 210>
+
+	| outputElement svgElement middleElement topElement leftElement rightElement x y speed |
+	
+	self clearOutput.
+	outputElement := self outputElement.
+
+	"Add speed decrease/increase buttons"
+	speed := 5.
+	outputElement appendChild: ((CpHtmlElement newWithTag: #button)
+		textContent: '-' ;
+		when: CpClickEvent do: [ speed := speed + 1 ] ;
+		yourself).
+	outputElement appendChild: ((CpHtmlElement newWithTag: #button)
+		textContent: '+' ;
+		when: CpClickEvent do: [ speed := (speed - 1) max: 2 ] ;
+		yourself).
+	outputElement appendChild: (CpHtmlElement newWithTag: #p). "Separator"
+
+	"Content is created through DOM manipulation instead of markup."
+	"Compare this with #exampleMathFormula"
+	svgElement := outputElement appendChild: ((CpSvgElement newWithTag: #svg)
+		attributeAt: #viewBox put: '0 0 500 500' ;
+		attributeAt: #width put: '500px' ;
+		attributeAt: #height put: '500px' ;
+		yourself).
+
+	x := (2 * Float pi / 3) sin.
+	y := (2 * Float pi / 3) cos.
+
+	svgElement appendChild: ((CpSvgElement newWithTag: #g)
+		attributeAt: #transform put: 'translate(250,250)scale(.55)' ;
+		appendChild: ((CpSvgElement newWithTag: #g)
+			appendChild: (middleElement := (CpSvgElement newWithTag: #path)
+				attributeAt: #d put: (self class gearPathForRaduis: 80 teeth: 16 asAnnulus: false) ;
+				attributeAt: #fill put: '#ff0000' ;
+				yourself) ;
+			yourself) ;
+
+		appendChild: ((CpSvgElement newWithTag: #g)
+			attributeAt: #transform put: 'translate(0,-240)' ;
+			appendChild: (topElement := (CpSvgElement newWithTag: #path)
+				attributeAt: #d put: (self class gearPathForRaduis: 160 teeth: 32 asAnnulus: false) ;
+				attributeAt: #fill put: '#0000ff' ;
+				yourself) ;
+			yourself) ;
+
+		appendChild: ((CpSvgElement newWithTag: #g)
+			attributeAt: #transform put: 'translate(', (-240 * x) printString, ',', (-240 * y) printString, ')' ;
+			appendChild: (leftElement := (CpSvgElement newWithTag: #path)
+				attributeAt: #d put: (self class gearPathForRaduis: 160 teeth: 32 asAnnulus: false) ;
+				attributeAt: #fill put: '#00ffff' ;
+				yourself) ;
+			yourself) ;
+
+		appendChild: ((CpSvgElement newWithTag: #g)
+			attributeAt: #transform put: 'translate(', (240 * x) printString, ',', (-240 * y) printString, ')' ;
+			appendChild: (rightElement := (CpSvgElement newWithTag: #path)
+				attributeAt: #d put: (self class gearPathForRaduis: 160 teeth: 32 asAnnulus: false) ;
+				attributeAt: #fill put: '#ff00ff' ;
+				yourself) ;
+			yourself) ;
+	
+		yourself).
+
+	(transition := CpTransition onBlock: [ :p :t |
+		| transform1 transform2 |
+		transform1 := 'rotate(', (t / speed) printString, ')'.
+		transform2 := 'rotate(', (t / (-2 * speed)) printString, ')'.
+		middleElement attributeAt: #transform put: transform1.
+		topElement attributeAt: #transform put: transform2.
+		leftElement attributeAt: #transform put: transform2.
+		rightElement attributeAt: #transform put: transform2 ])
+			duration: Float infinity ;
+			startDelayedBy: 1000
 ]
 
 { #category : #examples }
