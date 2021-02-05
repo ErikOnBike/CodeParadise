@@ -5,6 +5,9 @@ I only live in the ClientEnvironment.
 Class {
 	#name : #CpDomExamplesClientBehavior,
 	#superclass : #CpWebClientBehavior,
+	#instVars : [
+		'transition'
+	],
 	#category : #'CodeParadise-WebApplication-Examples'
 }
 
@@ -14,6 +17,14 @@ CpDomExamplesClientBehavior class >> someValue [
 	^ 3 + 4
 ]
 
+{ #category : #accessing }
+CpDomExamplesClientBehavior >> clearOutput [
+
+	transition ifNotNil: [ transition stop ].
+
+	self outputElement textContent: ''
+]
+
 { #category : #examples }
 CpDomExamplesClientBehavior >> exampleAnimationMany [
 
@@ -21,8 +32,8 @@ CpDomExamplesClientBehavior >> exampleAnimationMany [
 
 	| outputElement |
 	
+	self clearOutput.
 	outputElement := self outputElement.
-	outputElement textContent: ''.
 
 	100 timesRepeat: [
 		| element |
@@ -47,8 +58,8 @@ CpDomExamplesClientBehavior >> exampleAnimationSimple [
 
 	| outputElement element1 element2 |
 	
+	self clearOutput.
 	outputElement := self outputElement.
-	outputElement textContent: ''.
 
 	element1 := outputElement appendChild: ((CpHtmlElement newWithTag: #div)
 		styleAt: #width put: '50vmin' ;
@@ -77,8 +88,8 @@ CpDomExamplesClientBehavior >> exampleCreateRandomBlocks [
 
 	| outputElement |
 	
+	self clearOutput.
 	outputElement := self outputElement.
-	outputElement textContent: ''.
 
 	1000 timesRepeat: [
 		| block left top |
@@ -107,8 +118,8 @@ CpDomExamplesClientBehavior >> exampleCreateRandomEllipses [
 
 	| outputElement |
 	
+	self clearOutput.
 	outputElement := self outputElement.
-	outputElement textContent: ''.
 
 	1000 timesRepeat: [
 		| ellipse style left top width height |
@@ -152,8 +163,8 @@ CpDomExamplesClientBehavior >> exampleEvents [
 
 	| outputElement |
 	
+	self clearOutput.
 	outputElement := self outputElement.
-	outputElement textContent: 'Click the blocks and check console messages'.
 
 	outputElement appendChild: ((CpHtmlElement newWithTag: #div)
 		styleAt: #position put: #relative ;
@@ -192,8 +203,8 @@ CpDomExamplesClientBehavior >> exampleHelloWorld [
 
 	| outputElement |
 
+	self clearOutput.
 	outputElement := self outputElement.
-	outputElement textContent: ''.
 
 	outputElement appendChild: ((CpHtmlElement newWithTag: #h1)
 		textContent: 'Hello world' ;
@@ -214,8 +225,8 @@ CpDomExamplesClientBehavior >> exampleMathFormula [
 
 	| outputElement mathElement |
 
+	self clearOutput.
 	outputElement := self outputElement.
-	outputElement textContent: ''.
 
 	"Content is created through markup instead of DOM manipulation."
 	"Compare this with #exampleSVGSimple"
@@ -233,8 +244,8 @@ CpDomExamplesClientBehavior >> exampleSVGSimple [
 
 	| outputElement svgElement |
 	
+	self clearOutput.
 	outputElement := self outputElement.
-	outputElement textContent: ''.
 
 	"Content is created through DOM manipulation instead of markup."
 	"Compare this with #exampleMathFormula"
@@ -274,8 +285,8 @@ CpDomExamplesClientBehavior >> exampleToDo [
 
 	| outputElement listElement |
 	
+	self clearOutput.
 	outputElement := self outputElement.
-	outputElement textContent: ''.
 
 	outputElement appendChild: ((CpHtmlElement newWithTag: #h1)
 		textContent: 'ToDo List' ;
