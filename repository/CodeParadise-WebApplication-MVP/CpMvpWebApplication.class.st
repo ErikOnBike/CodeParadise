@@ -64,14 +64,6 @@ CpMvpWebApplication >> clientCreateViews [
 	self presenters do: [ :each | self clientCreateViewForPresenter: each ]
 ]
 
-{ #category : #view }
-CpMvpWebApplication >> clientRenderViews [
-
-	"Render all the client Views for the Presenters of the receiver"
-
-	self presenters do: [ :each | each renderView ]
-]
-
 { #category : #presenter }
 CpMvpWebApplication >> createApplicationPresenter [
 
@@ -183,9 +175,7 @@ CpMvpWebApplication >> reload [
 	self presenters do: [ :each | each reload ].
 
 	"Create and render the Views in the ClientEnvironment"
-	self
-		clientCreateViews ;
-		clientRenderViews
+	self clientCreateViews
 ]
 
 { #category : #accessing }

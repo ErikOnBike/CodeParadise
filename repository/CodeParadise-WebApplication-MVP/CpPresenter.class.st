@@ -121,7 +121,7 @@ CpPresenter >> createView [
 	"Create View in the ClientEnvironment"
 	self application clientCreateViewForPresenter: self.
 
-	"Render view explicitly if receiver is a top level presenter"
+	"Render view"
 	self renderView.
 
 	"Allow subclasses to perform further initialization"
@@ -269,10 +269,7 @@ CpPresenter >> privateModelChanged [
 
 	self modelChanged.
 	self hasView
-		ifTrue: [
-			self
-				updateView ;
-				renderView ]
+		ifTrue: [ self updateView ]
 ]
 
 { #category : #view }
@@ -367,6 +364,7 @@ CpPresenter >> updateView [
 	"Update the receiver's view"
 
 	viewProxy viewClass = self viewClass
+		ifTrue: [  self renderView ]
 		ifFalse: [ self recreateView ]
 ]
 
