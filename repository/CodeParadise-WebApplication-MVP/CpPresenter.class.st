@@ -98,11 +98,11 @@ CpPresenter >> createChildPresenter: aPresenterClass forModel: aModel [
 CpPresenter >> createChildPresenterForModel: aModel [
 
 	"Create a child Presenter for the receiver on the specified model.
-	The model is assumed to know its default presenter (in the context of the receiver).
+	The model is assumed to know its preferred presenter (in the context of the receiver).
 	If this is not the case use #createChildPresenter:forModel:"
 
 	^ self
-		createChildPresenter: (aModel defaultPresenterClassIn: self)
+		createChildPresenter: (aModel preferredPresenterClassIn: self)
 		atSlotNamed: nil
 		forModel: aModel
 ]

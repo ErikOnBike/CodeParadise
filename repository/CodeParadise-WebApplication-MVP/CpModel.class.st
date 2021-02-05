@@ -39,7 +39,19 @@ CpModel >> initialize [
 	announcer := Announcer new
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #presenter }
+CpModel >> preferredPresenterClass [
+
+	self subclassResponsibility
+]
+
+{ #category : #presenter }
+CpModel >> preferredPresenterClassIn: aPresenter [
+
+	^ self preferredPresenterClass
+]
+
+{ #category : #presenter }
 CpModel >> presenterContext [ 
 	^ CpCurrentPresenterContext value
 ]
