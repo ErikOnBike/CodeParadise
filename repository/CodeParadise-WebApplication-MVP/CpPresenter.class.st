@@ -159,6 +159,15 @@ CpPresenter >> destroyViewProxy [
 		viewProxy := nil ]
 ]
 
+{ #category : #view }
+CpPresenter >> handleViewAnnouncement: anAnnouncement [
+
+	"Let the server side View (ie ViewProxy) announce the specified Announcement"
+
+	CpCurrentPresenterContext value: self during: [ 
+		viewProxy announce: anAnnouncement ].
+]
+
 { #category : #testing }
 CpPresenter >> hasId [
 
@@ -380,15 +389,6 @@ CpPresenter >> view [
 	Since the View is accessed by a Proxy anwer the proxy."
 
 	^ viewProxy
-]
-
-{ #category : #view }
-CpPresenter >> viewAnnounce: anAnnouncement [
-
-	"Let the server side View (ie ViewProxy) announce the specified Announcement"
-
-	CpCurrentPresenterContext value: self during: [ 
-		viewProxy announce: anAnnouncement ].
 ]
 
 { #category : #view }
