@@ -73,7 +73,7 @@ CpFomanticExamplesClientBehavior >> exampleCheckbox2 [
 		appendChild: ('Checkboxes can have 4 types: checkbox, slider, toggle, radio' inHtmlTag: #p) ;
 		appendChild: ('' inHtmlTag: #p) ;
 		appendChild: ('Chechbox (default):' inHtmlTag: #p) ;	
-		appendChild: (checkbox := Fui2Checkbox newNamed: #myCheck withLabel: 'My checkbox').
+		appendChild: (checkbox := Fui2Checkbox newNamed: #myCheck andLabeled: 'My checkbox').
 
 	outputElement
 		appendChild: ('' inHtmlTag: #p) ;
@@ -90,7 +90,7 @@ CpFomanticExamplesClientBehavior >> exampleCheckbox2 [
 	outputElement
 		appendChild: ('' inHtmlTag: #p) ;
 		appendChild: ('Slider (readonly and disabled):' inHtmlTag: #p) ;
-		appendChild: ((Fui2Checkbox newNamed: #myOtherCheck withLabel: 'My slider')
+		appendChild: ((Fui2Checkbox newNamed: #myOtherCheck andLabeled: 'My slider')
 			beSlider ;
 			beReadOnly ;
 			disable ;
@@ -99,26 +99,26 @@ CpFomanticExamplesClientBehavior >> exampleCheckbox2 [
 	outputElement
 		appendChild: ('' inHtmlTag: #p) ;
 		appendChild: ('Toggle:' inHtmlTag: #p) ;
-		appendChild: ((Fui2Checkbox newNamed: #myThirdCheck withLabel: 'My toggle')
+		appendChild: ((Fui2Checkbox newNamed: #myThirdCheck andLabeled: 'My toggle')
 			beToggle ;
 			yourself).
 
 	outputElement
 		appendChild: ('' inHtmlTag: #p) ;
 		appendChild: ('Radio:' inHtmlTag: #p) ;
-		appendChild: ((Fui2Checkbox newNamed: #someCheck withLabel: 'Apples')
+		appendChild: ((Fui2Checkbox newNamed: #someCheck andLabeled: 'Apples')
 			beRadio ;
 			disable ;
 			enable ;
 			yourself).
 	outputElement
 		appendChild: ('' inHtmlTag: #p) ;
-		appendChild: ((Fui2Checkbox newNamed: #someCheck withLabel: 'Pears')
+		appendChild: ((Fui2Checkbox newNamed: #someCheck andLabeled: 'Pears')
 			beRadio ;
 			yourself).
 	outputElement
 		appendChild: ('' inHtmlTag: #p) ;
-		appendChild: ((Fui2Checkbox newNamed: #someCheck withLabel: 'Bananas')
+		appendChild: ((Fui2Checkbox newNamed: #someCheck andLabeled: 'Bananas')
 			beRadio ;
 			yourself).
 

@@ -19,10 +19,17 @@ Fui2Button class >> allStates [
 ]
 
 { #category : #'instance creation' }
-Fui2Button class >> newLabeled: aString [
+Fui2Button class >> new [
 
 	^ (self newWithTag: #button)
 		attributeAt: #class put: 'ui button' ;
+		yourself
+]
+
+{ #category : #'instance creation' }
+Fui2Button class >> newLabeled: aString [
+
+	^ self new
 		textContent: aString ;
 		yourself
 ]

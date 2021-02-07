@@ -41,30 +41,55 @@ Fui2Input class >> allVariations [
 ]
 
 { #category : #'instance creation' }
-Fui2Input class >> newNamed: aSymbol [
+Fui2Input class >> new [
 
-	"Answer a new HTML element for the input field named (aSymbol) with specified label"
+	"Answer a new HTML element for the text input field"
 
 	^ (self newWithTag: #div)
 		attributeAt: #class put: 'ui input' ;
 		appendChild: ((CpHtmlElement newWithTag: #input)
 			propertyAt: #type put: #text ;
-			propertyAt: #name put: aSymbol ;
 			yourself) ;
+		yourself
+]
+
+{ #category : #'instance creation' }
+Fui2Input class >> newNamed: aSymbol [
+
+	"Answer a new HTML element for the text input field named (aSymbol)"
+
+	| textInput |
+
+	textInput := self new.
+	(textInput firstDescendantMatching: #input)
+		ifNotNil: [ :input | input propertyAt: #name put: aSymbol ].
+
+	^ textInput
+]
+
+{ #category : #'instance creation' }
+Fui2Input class >> newTextarea [
+
+	"Answer a new HTML element for the textarea input field"
+
+	^ (self newWithTag: #div)
+		attributeAt: #class put: 'ui input' ;
+		appendChild: (CpHtmlElement newWithTag: #textarea)
 		yourself
 ]
 
 { #category : #'instance creation' }
 Fui2Input class >> newTextareaNamed: aSymbol [
 
-	"Answer a new HTML element for the textarea named (aSymbol) with specified label"
+	"Answer a new HTML element for the textarea input field named (aSymbol)"
 
-	^ (self newWithTag: #div)
-		attributeAt: #class put: 'ui input' ;
-		appendChild: ((CpHtmlElement newWithTag: #textarea)
-			propertyAt: #name put: aSymbol ;
-			yourself) ;
-		yourself
+	| textareaInput |
+
+	textareaInput := self new.
+	(textareaInput firstDescendantMatching: #textarea)
+		ifNotNil: [ :textarea | textarea propertyAt: #name put: aSymbol ].
+
+	^ textareaInput
 ]
 
 { #category : #accessing }

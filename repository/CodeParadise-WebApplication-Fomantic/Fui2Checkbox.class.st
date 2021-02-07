@@ -23,21 +23,43 @@ Fui2Checkbox class >> allVariations [
 ]
 
 { #category : #'instance creation' }
-Fui2Checkbox class >> newNamed: aSymbol withLabel: aString [
+Fui2Checkbox class >> new [
 
-	"Answer a new HTML element for the input field named (aSymbol) with specified label"
+	"Answer a new HTML element for the checkbox input field"
 
 	^ (self newWithTag: #div)
 		attributeAt: #class put: 'ui checkbox' ;
 		appendChild: ((CpHtmlElement newWithTag: #input)
 			propertyAt: #type put: #checkbox ;
-			propertyAt: #name put: aSymbol ;
-			yourself) ;
-		appendChild: ((CpHtmlElement newWithTag: #label)
-			textContent: aString ;
 			yourself) ;
 		performOnElement: nil ; "No properties"
 		yourself
+]
+
+{ #category : #'instance creation' }
+Fui2Checkbox class >> newLabeled: aString [
+
+	"Answer a new HTML element for the checkbox input field with specified label"
+
+	^ self new
+		appendChild: ((CpHtmlElement newWithTag: #label)
+			textContent: aString ;
+			yourself) ;
+		yourself
+]
+
+{ #category : #'instance creation' }
+Fui2Checkbox class >> newNamed: aSymbol andLabeled: aString [
+
+	"Answer a new HTML element for the checkbox input field named (aSymbol) with specified label"
+
+	| checkbox |
+
+	checkbox := self newLabeled: aString.
+	(checkbox firstDescendantMatching: #input)
+		ifNotNil: [ :input | input propertyAt: #name put: aSymbol ].
+
+	^ checkbox
 ]
 
 { #category : #accessing }
