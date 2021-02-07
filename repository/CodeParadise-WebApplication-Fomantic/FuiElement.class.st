@@ -1,11 +1,11 @@
 Class {
-	#name : #Fui2Element,
+	#name : #FuiElement,
 	#superclass : #CpHtmlElement,
 	#category : #'CodeParadise-WebApplication-Fomantic-Elements'
 }
 
 { #category : #accessing }
-Fui2Element class >> allStates [
+FuiElement class >> allStates [
 
 	"Answer a collection (of Symbols) representing all states of the receiver"
 
@@ -13,7 +13,7 @@ Fui2Element class >> allStates [
 ]
 
 { #category : #accessing }
-Fui2Element class >> allTypes [
+FuiElement class >> allTypes [
 
 	"Answer a collection (of Symbols) representing all types of the receiver"
 
@@ -21,7 +21,7 @@ Fui2Element class >> allTypes [
 ]
 
 { #category : #accessing }
-Fui2Element class >> allVariations [
+FuiElement class >> allVariations [
 
 	"Answer a collection (of Symbols) representing all variations of the receiver"
 
@@ -29,7 +29,7 @@ Fui2Element class >> allVariations [
 ]
 
 { #category : #'private - accessing' }
-Fui2Element class >> storeClassFrom: aString into: classes [
+FuiElement class >> storeClassFrom: aString into: classes [
 
 	| className |
 
@@ -54,7 +54,7 @@ Fui2Element class >> storeClassFrom: aString into: classes [
 ]
 
 { #category : #'private - accessing' }
-Fui2Element >> addClass: aSymbol at: usageIndex [
+FuiElement >> addClass: aSymbol at: usageIndex [
 
 	"Add a HTML class name (aSymbol) to the receiver at the specified usage index.
 	HTML classes are stored per usage (Type, State and Variation).
@@ -64,7 +64,7 @@ Fui2Element >> addClass: aSymbol at: usageIndex [
 ]
 
 { #category : #'private - accessing' }
-Fui2Element >> addClass: aSymbol rejecting: aCollection at: usageIndex [
+FuiElement >> addClass: aSymbol rejecting: aCollection at: usageIndex [
 
 	"Add a HTML class name (aSymbol) to the receiver at the specified usage index.
 	Reject any existing classes within aCollection (representing mutually
@@ -96,7 +96,7 @@ Fui2Element >> addClass: aSymbol rejecting: aCollection at: usageIndex [
 ]
 
 { #category : #'accessing - state' }
-Fui2Element >> addState: aSymbol [
+FuiElement >> addState: aSymbol [
 
 	"Add specified state to the receiver"
 
@@ -104,7 +104,7 @@ Fui2Element >> addState: aSymbol [
 ]
 
 { #category : #'accessing - type' }
-Fui2Element >> addType: aSymbol [
+FuiElement >> addType: aSymbol [
 
 	"Add specified type to the receiver"
 
@@ -112,7 +112,7 @@ Fui2Element >> addType: aSymbol [
 ]
 
 { #category : #'accessing - variation' }
-Fui2Element >> addVariation: aSymbol [
+FuiElement >> addVariation: aSymbol [
 
 	"Add specified variation to the receiver"
 
@@ -120,7 +120,7 @@ Fui2Element >> addVariation: aSymbol [
 ]
 
 { #category : #'private - accessing' }
-Fui2Element >> classes [
+FuiElement >> classes [
 
 	"Answer an Array with an OrderedCollection of class names (Symbols) of the receiver as elements.
 	The Array has 3 elements for class names representing Type, States and Variations (with values
@@ -140,7 +140,7 @@ Fui2Element >> classes [
 ]
 
 { #category : #'private - accessing' }
-Fui2Element >> classes: anArray [
+FuiElement >> classes: anArray [
 
 	"Update the HTML class attribute of the receiver using the class names
 	specified. anArray should have 3 elements each being an OrderedCollection
@@ -168,7 +168,7 @@ Fui2Element >> classes: anArray [
 ]
 
 { #category : #'private - accessing' }
-Fui2Element >> classesFrom: aString [
+FuiElement >> classesFrom: aString [
 
 	| classes readStream |
 
@@ -204,7 +204,7 @@ Fui2Element >> classesFrom: aString [
 ]
 
 { #category : #'private - behavior' }
-Fui2Element >> performOnElement: behavior [
+FuiElement >> performOnElement: behavior [
 
 	"Perform the specified behavior (a Dictionary or Symbol) on the receiver's element"
 
@@ -212,7 +212,7 @@ Fui2Element >> performOnElement: behavior [
 ]
 
 { #category : #'private - behavior' }
-Fui2Element >> performOnElement: behavior as: type [
+FuiElement >> performOnElement: behavior as: type [
 
 	"Perform the specified behavior (a Dictionary or Symbol) on the receiver's element with the specified type (a Symbol)"
 
@@ -222,7 +222,7 @@ Fui2Element >> performOnElement: behavior as: type [
 ]
 
 { #category : #'private - accessing' }
-Fui2Element >> printClasses: aCollection on: aStream [
+FuiElement >> printClasses: aCollection on: aStream [
 
 	"Print all HTML class names (Symbols) in the Collection on the specified stream"
 
@@ -233,7 +233,7 @@ Fui2Element >> printClasses: aCollection on: aStream [
 ]
 
 { #category : #'private - accessing' }
-Fui2Element >> removeClass: aSymbol at: usageIndex [
+FuiElement >> removeClass: aSymbol at: usageIndex [
 
 	"Remove a HTML class name (aSymbol) from the receiver at the specified usage index.
 	HTML class names are stored per usage (Type, State and Variation).
@@ -251,7 +251,7 @@ Fui2Element >> removeClass: aSymbol at: usageIndex [
 ]
 
 { #category : #'accessing - state' }
-Fui2Element >> removeState: aSymbol [
+FuiElement >> removeState: aSymbol [
 
 	"Remove specified state from the receiver"
 
@@ -259,7 +259,7 @@ Fui2Element >> removeState: aSymbol [
 ]
 
 { #category : #'accessing - type' }
-Fui2Element >> removeType: aSymbol [
+FuiElement >> removeType: aSymbol [
 
 	"Remove specified type from the receiver"
 
@@ -267,7 +267,7 @@ Fui2Element >> removeType: aSymbol [
 ]
 
 { #category : #'accessing - variation' }
-Fui2Element >> removeVariation: aSymbol [
+FuiElement >> removeVariation: aSymbol [
 
 	"Remove specified variation from the receiver"
 
@@ -276,7 +276,7 @@ Fui2Element >> removeVariation: aSymbol [
 ]
 
 { #category : #'accessing - state' }
-Fui2Element >> setState: aSymbol ofStates: aCollection [
+FuiElement >> setState: aSymbol ofStates: aCollection [
 
 	"Add specified state to the receiver replacing any occurence of states
 	as specified (aCollection of Symbols). This is to set a state from a collection
@@ -286,7 +286,7 @@ Fui2Element >> setState: aSymbol ofStates: aCollection [
 ]
 
 { #category : #'accessing - type' }
-Fui2Element >> setType: aSymbol ofTypes: aCollection [
+FuiElement >> setType: aSymbol ofTypes: aCollection [
 
 	"Add specified type to the receiver replacing any occurence of types
 	as specified (aCollection of Symbols). This is to set a type from a collection
@@ -296,7 +296,7 @@ Fui2Element >> setType: aSymbol ofTypes: aCollection [
 ]
 
 { #category : #'accessing - variation' }
-Fui2Element >> setVariation: aSymbol ofVariations: aCollection [
+FuiElement >> setVariation: aSymbol ofVariations: aCollection [
 
 	"Add specified variation to the receiver replacing any occurence of variation
 	as specified (aCollection of Symbols). This is to set a variation from a collection
@@ -307,7 +307,7 @@ Fui2Element >> setVariation: aSymbol ofVariations: aCollection [
 ]
 
 { #category : #'accessing - state' }
-Fui2Element >> states [
+FuiElement >> states [
 
 	"Answer the state values of the receiver"
 
@@ -315,13 +315,13 @@ Fui2Element >> states [
 ]
 
 { #category : #'private - accessing' }
-Fui2Element >> storeClassFrom: aString into: classes [
+FuiElement >> storeClassFrom: aString into: classes [
 
 	^ self class storeClassFrom: aString into: classes
 ]
 
 { #category : #'accessing - type' }
-Fui2Element >> types [
+FuiElement >> types [
 
 	"Answer the type values of the receiver"
 
@@ -329,7 +329,7 @@ Fui2Element >> types [
 ]
 
 { #category : #'accessing - variation' }
-Fui2Element >> variations [
+FuiElement >> variations [
 
 	"Answer the variation values of the receiver"
 

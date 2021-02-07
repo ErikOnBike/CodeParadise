@@ -1,47 +1,47 @@
 Class {
-	#name : #Fui2Input,
-	#superclass : #Fui2Element,
+	#name : #FuiInput,
+	#superclass : #FuiElement,
 	#category : #'CodeParadise-WebApplication-Fomantic-Elements'
 }
 
 { #category : #accessing }
-Fui2Input class >> allActionVariations [
+FuiInput class >> allActionVariations [
 
 	^ #(#action #'left action')
 ]
 
 { #category : #accessing }
-Fui2Input class >> allIconVariations [
+FuiInput class >> allIconVariations [
 
 	^ #(#icon #'left icon')
 ]
 
 { #category : #accessing }
-Fui2Input class >> allLabelVariations [
+FuiInput class >> allLabelVariations [
 
 	^ #(#labeled #'right labeled')
 ]
 
 { #category : #accessing }
-Fui2Input class >> allSizeVariations [
+FuiInput class >> allSizeVariations [
 
 	^ #(#mini #small #large #big #huge #massive)
 ]
 
 { #category : #accessing }
-Fui2Input class >> allStates [
+FuiInput class >> allStates [
 
 	^ #(#focus #loading #disabled #error)
 ]
 
 { #category : #accessing }
-Fui2Input class >> allVariations [
+FuiInput class >> allVariations [
 
 	^ #(#icon #'left icon' #labeled #'right labeled' #action #'left action' #transparent #inverted #fluid #mini #small #large #big #huge #massive)
 ]
 
 { #category : #'instance creation' }
-Fui2Input class >> new [
+FuiInput class >> new [
 
 	"Answer a new HTML element for the text input field"
 
@@ -54,7 +54,7 @@ Fui2Input class >> new [
 ]
 
 { #category : #'instance creation' }
-Fui2Input class >> newNamed: aSymbol [
+FuiInput class >> newNamed: aSymbol [
 
 	"Answer a new HTML element for the text input field named (aSymbol)"
 
@@ -68,7 +68,7 @@ Fui2Input class >> newNamed: aSymbol [
 ]
 
 { #category : #'instance creation' }
-Fui2Input class >> newTextarea [
+FuiInput class >> newTextarea [
 
 	"Answer a new HTML element for the textarea input field"
 
@@ -79,7 +79,7 @@ Fui2Input class >> newTextarea [
 ]
 
 { #category : #'instance creation' }
-Fui2Input class >> newTextareaNamed: aSymbol [
+FuiInput class >> newTextareaNamed: aSymbol [
 
 	"Answer a new HTML element for the textarea input field named (aSymbol)"
 
@@ -93,73 +93,73 @@ Fui2Input class >> newTextareaNamed: aSymbol [
 ]
 
 { #category : #accessing }
-Fui2Input class >> type [
+FuiInput class >> type [
 
 	^ #input
 ]
 
 { #category : #'accessing - variation' }
-Fui2Input >> beFluid [
+FuiInput >> beFluid [
 
 	self addVariation: #fluid
 ]
 
 { #category : #'accessing - state' }
-Fui2Input >> beInError [
+FuiInput >> beInError [
 
 	self addState: #error
 ]
 
 { #category : #'accessing - state' }
-Fui2Input >> beInFocus [
+FuiInput >> beInFocus [
 
 	self addState: #focus
 ]
 
 { #category : #'accessing - variation' }
-Fui2Input >> beInverted [
+FuiInput >> beInverted [
 
 	self addVariation: #inverted
 ]
 
 { #category : #'accessing - state' }
-Fui2Input >> beLoaded [
+FuiInput >> beLoaded [
 
 	self removeState: #loading
 ]
 
 { #category : #'accessing - state' }
-Fui2Input >> beLoading [
+FuiInput >> beLoading [
 
 	self addState: #loading
 ]
 
 { #category : #'accessing - variation' }
-Fui2Input >> beNotFluid [
+FuiInput >> beNotFluid [
 
 	self removeVariation: #fluid
 ]
 
 { #category : #'accessing - state' }
-Fui2Input >> beNotInError [
+FuiInput >> beNotInError [
 
 	self removeState: #error
 ]
 
 { #category : #'accessing - state' }
-Fui2Input >> beNotInFocus [
+FuiInput >> beNotInFocus [
 
 	self removeState: #focus
 ]
 
 { #category : #'accessing - variation' }
-Fui2Input >> beNotInverted [
+FuiInput >> beNotInverted [
 
 	self removeVariation: #inverted
 ]
 
 { #category : #'accessing - variation' }
-Fui2Input >> beNotTextarea [
+FuiInput >> beNotTextarea [
 
 	| textareaElement |
 
@@ -174,49 +174,49 @@ Fui2Input >> beNotTextarea [
 ]
 
 { #category : #'accessing - variation' }
-Fui2Input >> beNotTransparent [
+FuiInput >> beNotTransparent [
 
 	self removeVariation: #transparent
 ]
 
 { #category : #'accessing - variation' }
-Fui2Input >> beSizeBig [
+FuiInput >> beSizeBig [
 
 	self setVariation: #big ofVariations: self class allSizeVariations
 ]
 
 { #category : #'accessing - variation' }
-Fui2Input >> beSizeHuge [
+FuiInput >> beSizeHuge [
 
 	self setVariation: #huge ofVariations: self class allSizeVariations
 ]
 
 { #category : #'accessing - variation' }
-Fui2Input >> beSizeLarge [
+FuiInput >> beSizeLarge [
 
 	self setVariation: #large ofVariations: self class allSizeVariations
 ]
 
 { #category : #'accessing - variation' }
-Fui2Input >> beSizeMassive [
+FuiInput >> beSizeMassive [
 
 	self setVariation: #massive ofVariations: self class allSizeVariations
 ]
 
 { #category : #'accessing - variation' }
-Fui2Input >> beSizeMini [
+FuiInput >> beSizeMini [
 
 	self setVariation: #mini ofVariations: self class allSizeVariations
 ]
 
 { #category : #'accessing - variation' }
-Fui2Input >> beSizeSmall [
+FuiInput >> beSizeSmall [
 
 	self setVariation: #small ofVariations: self class allSizeVariations
 ]
 
 { #category : #'accessing - variation' }
-Fui2Input >> beTextarea [
+FuiInput >> beTextarea [
 
 	| inputElement |
 
@@ -230,25 +230,25 @@ Fui2Input >> beTextarea [
 ]
 
 { #category : #'accessing - variation' }
-Fui2Input >> beTransparent [
+FuiInput >> beTransparent [
 
 	self addVariation: #transparent
 ]
 
 { #category : #'accessing - state' }
-Fui2Input >> disable [
+FuiInput >> disable [
 
 	self addState: #disabled
 ]
 
 { #category : #'accessing - state' }
-Fui2Input >> enable [
+FuiInput >> enable [
 
 	self removeState: #disabled
 ]
 
 { #category : #'accessing - variation' }
-Fui2Input >> leftAction: newButtonElement [
+FuiInput >> leftAction: newButtonElement [
 
 	| buttonElement |
 
@@ -272,7 +272,7 @@ Fui2Input >> leftAction: newButtonElement [
 ]
 
 { #category : #'accessing - variation' }
-Fui2Input >> leftIcon: aSymbol [
+FuiInput >> leftIcon: aSymbol [
 
 	| iconElement |
 
@@ -296,7 +296,7 @@ Fui2Input >> leftIcon: aSymbol [
 ]
 
 { #category : #'accessing - variation' }
-Fui2Input >> leftLabel: newLabelElement [
+FuiInput >> leftLabel: newLabelElement [
 
 	| labelElement |
 
@@ -320,25 +320,25 @@ Fui2Input >> leftLabel: newLabelElement [
 ]
 
 { #category : #'accessing - variation' }
-Fui2Input >> removeButtons [
+FuiInput >> removeButtons [
 
 	(self allDescendantsMatching: ':scope > .button') do: [ :each | each remove ]
 ]
 
 { #category : #'accessing - variation' }
-Fui2Input >> removeIcons [
+FuiInput >> removeIcons [
 
 	(self allDescendantsMatching: ':scope > .icon') do: [ :each | each remove ]
 ]
 
 { #category : #'accessing - variation' }
-Fui2Input >> removeLabels [
+FuiInput >> removeLabels [
 
 	(self allDescendantsMatching: ':scope > .label') do: [ :each | each remove ]
 ]
 
 { #category : #'accessing - variation' }
-Fui2Input >> removeLeftAction [
+FuiInput >> removeLeftAction [
 
 	| buttonElement |
 
@@ -350,7 +350,7 @@ Fui2Input >> removeLeftAction [
 ]
 
 { #category : #'accessing - variation' }
-Fui2Input >> removeLeftIcon [
+FuiInput >> removeLeftIcon [
 
 	| iconElement |
 
@@ -362,7 +362,7 @@ Fui2Input >> removeLeftIcon [
 ]
 
 { #category : #'accessing - variation' }
-Fui2Input >> removeLeftLabel [
+FuiInput >> removeLeftLabel [
 
 	| labelElement |
 
@@ -374,28 +374,28 @@ Fui2Input >> removeLeftLabel [
 ]
 
 { #category : #'accessing - variation' }
-Fui2Input >> removeRightAction [
+FuiInput >> removeRightAction [
 
 	(self firstDescendantMatching: ':scope > input ~ .button')
 		ifNotNil: [ :buttonElement | buttonElement remove ]
 ]
 
 { #category : #'accessing - variation' }
-Fui2Input >> removeRightIcon [
+FuiInput >> removeRightIcon [
 
 	(self firstDescendantMatching: ':scope > input ~ .icon')
 		ifNotNil: [ :iconElement | iconElement remove ]
 ]
 
 { #category : #'accessing - variation' }
-Fui2Input >> removeRightLabel [
+FuiInput >> removeRightLabel [
 
 	(self firstDescendantMatching: ':scope > input ~ .label')
 		ifNotNil: [ :labelElement | labelElement remove ]
 ]
 
 { #category : #'accessing - variation' }
-Fui2Input >> rightAction: newButtonElement [
+FuiInput >> rightAction: newButtonElement [
 
 	| buttonElement |
 
@@ -415,7 +415,7 @@ Fui2Input >> rightAction: newButtonElement [
 ]
 
 { #category : #'accessing - variation' }
-Fui2Input >> rightIcon: aSymbol [
+FuiInput >> rightIcon: aSymbol [
 
 	| iconElement |
 
@@ -435,7 +435,7 @@ Fui2Input >> rightIcon: aSymbol [
 ]
 
 { #category : #'accessing - variation' }
-Fui2Input >> rightLabel: newRightLabel [
+FuiInput >> rightLabel: newRightLabel [
 
 	| labelElement |
 

@@ -1,17 +1,17 @@
 Class {
-	#name : #Fui2Button,
-	#superclass : #Fui2Element,
+	#name : #FuiButton,
+	#superclass : #FuiElement,
 	#category : #'CodeParadise-WebApplication-Fomantic-Elements'
 }
 
 { #category : #'accessing - colors' }
-Fui2Button class >> allColors [
+FuiButton class >> allColors [
 
 	^ #(#primary #secondary #tertiary #positive #negative #orange #yellow #olive #green #teal #blue #violet #purple #pink #brown #grey)
 ]
 
 { #category : #accessing }
-Fui2Button class >> allStates [
+FuiButton class >> allStates [
 
 	"Answer a collection (of Symbols) representing all states of the receiver"
 
@@ -19,7 +19,7 @@ Fui2Button class >> allStates [
 ]
 
 { #category : #'instance creation' }
-Fui2Button class >> new [
+FuiButton class >> new [
 
 	^ (self newWithTag: #button)
 		attributeAt: #class put: 'ui button' ;
@@ -27,7 +27,7 @@ Fui2Button class >> new [
 ]
 
 { #category : #'instance creation' }
-Fui2Button class >> newLabeled: aString [
+FuiButton class >> newLabeled: aString [
 
 	^ self new
 		textContent: aString ;
@@ -35,61 +35,61 @@ Fui2Button class >> newLabeled: aString [
 ]
 
 { #category : #accessing }
-Fui2Button class >> type [
+FuiButton class >> type [
 
 	^ #button
 ]
 
 { #category : #'accessing - variation' }
-Fui2Button >> beColor: colorSymbol [
+FuiButton >> beColor: colorSymbol [
 
 	self setVariation: colorSymbol ofVariations: self class allColors
 ]
 
 { #category : #'accessing - state' }
-Fui2Button >> beLoaded [
+FuiButton >> beLoaded [
 
 	self removeState: #loading
 ]
 
 { #category : #'accessing - state' }
-Fui2Button >> beLoading [
+FuiButton >> beLoading [
 
 	self addState: #loading
 ]
 
 { #category : #'accessing - state' }
-Fui2Button >> disable [
+FuiButton >> disable [
 
 	self addState: #disabled
 ]
 
 { #category : #'accessing - state' }
-Fui2Button >> enable [
+FuiButton >> enable [
 
 	self removeState: #disabled
 ]
 
 { #category : #'accessing - variation' }
-Fui2Button >> primary [
+FuiButton >> primary [
 
 	self beColor: #primary
 ]
 
 { #category : #'accessing - variation' }
-Fui2Button >> regular [
+FuiButton >> regular [
 
 	self beColor: nil
 ]
 
 { #category : #'accessing - variation' }
-Fui2Button >> secondary [
+FuiButton >> secondary [
 
 	self beColor: #secondary
 ]
 
 { #category : #'accessing - variation' }
-Fui2Button >> tertiary [
+FuiButton >> tertiary [
 
 	self beColor: #tertiary
 ]

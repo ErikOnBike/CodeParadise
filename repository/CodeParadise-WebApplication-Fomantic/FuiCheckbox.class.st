@@ -1,29 +1,29 @@
 Class {
-	#name : #Fui2Checkbox,
-	#superclass : #Fui2Element,
+	#name : #FuiCheckbox,
+	#superclass : #FuiElement,
 	#category : #'CodeParadise-WebApplication-Fomantic-Elements'
 }
 
 { #category : #accessing }
-Fui2Checkbox class >> allStates [
+FuiCheckbox class >> allStates [
 
 	^ #(#'read-only' #checked #indeterminate #disabled)
 ]
 
 { #category : #accessing }
-Fui2Checkbox class >> allTypes [
+FuiCheckbox class >> allTypes [
 
 	^ #(#slider #toggle #radio)
 ]
 
 { #category : #accessing }
-Fui2Checkbox class >> allVariations [
+FuiCheckbox class >> allVariations [
 
 	^ #(#fitted #inverted)
 ]
 
 { #category : #'instance creation' }
-Fui2Checkbox class >> new [
+FuiCheckbox class >> new [
 
 	"Answer a new HTML element for the checkbox input field"
 
@@ -37,7 +37,7 @@ Fui2Checkbox class >> new [
 ]
 
 { #category : #'instance creation' }
-Fui2Checkbox class >> newLabeled: aString [
+FuiCheckbox class >> newLabeled: aString [
 
 	"Answer a new HTML element for the checkbox input field with specified label"
 
@@ -49,7 +49,7 @@ Fui2Checkbox class >> newLabeled: aString [
 ]
 
 { #category : #'instance creation' }
-Fui2Checkbox class >> newNamed: aSymbol andLabeled: aString [
+FuiCheckbox class >> newNamed: aSymbol andLabeled: aString [
 
 	"Answer a new HTML element for the checkbox input field named (aSymbol) with specified label"
 
@@ -63,49 +63,49 @@ Fui2Checkbox class >> newNamed: aSymbol andLabeled: aString [
 ]
 
 { #category : #accessing }
-Fui2Checkbox class >> type [
+FuiCheckbox class >> type [
 
 	^ #checkbox
 ]
 
 { #category : #'accessing - state' }
-Fui2Checkbox >> beDeterminate [
+FuiCheckbox >> beDeterminate [
 
 	^ self performOnElement: 'set determinate'
 ]
 
 { #category : #'accessing - variation' }
-Fui2Checkbox >> beFitted [
+FuiCheckbox >> beFitted [
 
 	self addVariation: #fitted
 ]
 
 { #category : #'accessing - state' }
-Fui2Checkbox >> beIndeterminate [
+FuiCheckbox >> beIndeterminate [
 
 	^ self performOnElement: 'set indeterminate'
 ]
 
 { #category : #'accessing - variation' }
-Fui2Checkbox >> beInverted [
+FuiCheckbox >> beInverted [
 
 	self addVariation: #inverted
 ]
 
 { #category : #'accessing - variation' }
-Fui2Checkbox >> beNotFitted [
+FuiCheckbox >> beNotFitted [
 
 	self removeVariation: #fitted
 ]
 
 { #category : #'accessing - variation' }
-Fui2Checkbox >> beNotInverted [
+FuiCheckbox >> beNotInverted [
 
 	self removeVariation: #inverted
 ]
 
 { #category : #'accessing - types' }
-Fui2Checkbox >> beRadio [
+FuiCheckbox >> beRadio [
 
 	self setType: #radio ofTypes: self class allTypes.
 	(self firstDescendantMatching: #input)
@@ -113,25 +113,25 @@ Fui2Checkbox >> beRadio [
 ]
 
 { #category : #'accessing - state' }
-Fui2Checkbox >> beReadOnly [
+FuiCheckbox >> beReadOnly [
 
 	^ self addState: #'read-only'
 ]
 
 { #category : #'accessing - state' }
-Fui2Checkbox >> beReadWrite [
+FuiCheckbox >> beReadWrite [
 
 	^ self removeState: #'read-only'
 ]
 
 { #category : #'accessing - types' }
-Fui2Checkbox >> beRegular [
+FuiCheckbox >> beRegular [
 
 	^ self setType: nil ofTypes: self class allTypes
 ]
 
 { #category : #'accessing - types' }
-Fui2Checkbox >> beSlider [
+FuiCheckbox >> beSlider [
 
 	self setType: #slider ofTypes: self class allTypes.
 	(self firstDescendantMatching: #input)
@@ -139,7 +139,7 @@ Fui2Checkbox >> beSlider [
 ]
 
 { #category : #'accessing - types' }
-Fui2Checkbox >> beToggle [
+FuiCheckbox >> beToggle [
 
 	self setType: #toggle ofTypes: self class allTypes.
 	(self firstDescendantMatching: #input)
@@ -147,25 +147,25 @@ Fui2Checkbox >> beToggle [
 ]
 
 { #category : #'accessing - state' }
-Fui2Checkbox >> check [
+FuiCheckbox >> check [
 
 	^ self performOnElement: 'set checked'
 ]
 
 { #category : #'accessing - state' }
-Fui2Checkbox >> disable [
+FuiCheckbox >> disable [
 
 	^ self performOnElement: 'set disabled'
 ]
 
 { #category : #'accessing - state' }
-Fui2Checkbox >> enable [
+FuiCheckbox >> enable [
 
 	^ self performOnElement: 'set enabled'
 ]
 
 { #category : #'accessing - state' }
-Fui2Checkbox >> uncheck [
+FuiCheckbox >> uncheck [
 
 	^ self performOnElement: 'set unchecked'
 ]
