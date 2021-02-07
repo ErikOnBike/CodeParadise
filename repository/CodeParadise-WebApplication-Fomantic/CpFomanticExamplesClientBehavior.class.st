@@ -170,6 +170,10 @@ CpFomanticExamplesClientBehavior >> exampleInput2 [
 			leftIcon: #heart ;
 			beLoading ;
 			yourself).
+
+	outputElement
+		appendChild: ('Textarea input' inHtmlTag: #p) ;
+		appendChild: (Fui2Input newTextareaNamed: #bigText).
 ]
 
 { #category : #initialization }

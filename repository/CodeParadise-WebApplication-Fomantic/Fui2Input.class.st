@@ -74,7 +74,7 @@ Fui2Input class >> newTextarea [
 
 	^ (self newWithTag: #div)
 		attributeAt: #class put: 'ui input' ;
-		appendChild: (CpHtmlElement newWithTag: #textarea)
+		appendChild: (CpHtmlElement newWithTag: #textarea) ;
 		yourself
 ]
 
@@ -85,7 +85,7 @@ Fui2Input class >> newTextareaNamed: aSymbol [
 
 	| textareaInput |
 
-	textareaInput := self new.
+	textareaInput := self newTextarea.
 	(textareaInput firstDescendantMatching: #textarea)
 		ifNotNil: [ :textarea | textarea propertyAt: #name put: aSymbol ].
 
