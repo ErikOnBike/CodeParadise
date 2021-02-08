@@ -69,6 +69,14 @@ CpWebComponent >> handleBeforeInputEvent: aBeforeInputEvent [
 ]
 
 { #category : #'event handling' }
+CpWebComponent >> handleChangeEvent: aChangeEvent [
+
+	self parent ifNotNil: [ :parent |
+		parent canHandleEvents
+			ifTrue: [ parent handleChangeEvent: aChangeEvent ] ]
+]
+
+{ #category : #'event handling' }
 CpWebComponent >> handleClickEvent: aClickEvent [
 
 	self parent ifNotNil: [ :parent |
