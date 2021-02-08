@@ -169,3 +169,10 @@ FuiCheckbox >> uncheck [
 
 	^ self performOnElement: 'set unchecked'
 ]
+
+{ #category : #events }
+FuiCheckbox >> whenChangedSend: aSelector to: anObject [
+
+	^ (self firstDescendantMatching: #input)
+		when: CpChangeEvent send: aSelector to: anObject
+]

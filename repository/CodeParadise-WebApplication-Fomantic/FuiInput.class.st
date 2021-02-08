@@ -453,3 +453,24 @@ FuiInput >> rightLabel: newRightLabel [
 			self setVariation: #'right labeled' ofVariations: self class allLabelVariations ]
 		ifNil: [ self removeRightLabel ]
 ]
+
+{ #category : #accessing }
+FuiInput >> value [
+
+	^ (self firstDescendantMatching: #input)
+		propertyAt: #value
+]
+
+{ #category : #accessing }
+FuiInput >> value: aString [
+
+	(self firstDescendantMatching: #input)
+		propertyAt: #value put: aString
+]
+
+{ #category : #events }
+FuiInput >> whenChangedSend: aSelector to: anObject [
+
+	^ (self firstDescendantMatching: #input)
+		when: CpChangeEvent send: aSelector to: anObject
+]
