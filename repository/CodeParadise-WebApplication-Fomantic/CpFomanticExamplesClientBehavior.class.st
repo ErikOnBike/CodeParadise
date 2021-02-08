@@ -5,9 +5,9 @@ Class {
 }
 
 { #category : #examples }
-CpFomanticExamplesClientBehavior >> exampleButton2 [
+CpFomanticExamplesClientBehavior >> exampleButton [
 
-	<example: 'Button2' order: 100>
+	<example: 'Button' order: 100>
 
 	| outputElement loadTargetButton loadButton loadingButton |
 
@@ -17,24 +17,24 @@ CpFomanticExamplesClientBehavior >> exampleButton2 [
 	outputElement appendChild: ((CpHtmlElement newWithTag: #span)
 		textContent: 'Buttons have enabled state ' ;
 		yourself).
-	outputElement appendChild: (Fui2Button newLabeled: 'Enabled').
+	outputElement appendChild: (FuiButton newLabeled: 'Enabled').
 
 	outputElement appendChild: ((CpHtmlElement newWithTag: #span) textContent: ' ' ; yourself).
 
-	outputElement appendChild: ((Fui2Button newLabeled: 'Disabled')
+	outputElement appendChild: ((FuiButton newLabeled: 'Disabled')
 		disable ;
 		yourself).
 
 	outputElement appendChild: ((CpHtmlElement newWithTag: #div) addClass: #separator ; yourself).
 
 	outputElement appendChild: ((CpHtmlElement newWithTag: #span) textContent: 'Buttons have loading state ' ; yourself).
-	loadTargetButton := outputElement appendChild: ((Fui2Button newLabeled: 'Loaded')
+	loadTargetButton := outputElement appendChild: ((FuiButton newLabeled: 'Loaded')
 		beLoading ;
 		yourself).
 
 	outputElement appendChild: ((CpHtmlElement newWithTag: #span) textContent: ' ' ; yourself).
 
-	loadButton := outputElement appendChild: (Fui2Button newLabeled: 'Make loaded').
+	loadButton := outputElement appendChild: (FuiButton newLabeled: 'Make loaded').
 	loadButton when: CpClickEvent do: [
 		loadTargetButton beLoaded.
 		loadButton disable.
@@ -42,7 +42,7 @@ CpFomanticExamplesClientBehavior >> exampleButton2 [
 
 	outputElement appendChild: ((CpHtmlElement newWithTag: #span) textContent: ' ' ; yourself).
 
-	loadingButton := outputElement appendChild: ((Fui2Button newLabeled: 'Make loading')
+	loadingButton := outputElement appendChild: ((FuiButton newLabeled: 'Make loading')
 		disable ;
 		yourself).
 	loadingButton when: CpClickEvent do: [
@@ -53,16 +53,16 @@ CpFomanticExamplesClientBehavior >> exampleButton2 [
 	outputElement appendChild: ((CpHtmlElement newWithTag: #div) addClass: #separator ; yourself).
 
 	outputElement appendChild: ((CpHtmlElement newWithTag: #span) textContent: 'Buttons have colors ' ; yourself).
-	Fui2Button allColors do: [ :each |
-		outputElement appendChild: ((Fui2Button newLabeled: each)
+	FuiButton allColors do: [ :each |
+		outputElement appendChild: ((FuiButton newLabeled: each)
 			beColor: each ;
 			yourself) ]
 ]
 
 { #category : #examples }
-CpFomanticExamplesClientBehavior >> exampleCheckbox2 [
+CpFomanticExamplesClientBehavior >> exampleCheckbox [
 
-	<example: 'Checkbox2' order: 100>
+	<example: 'Checkbox' order: 100>
 
 	| outputElement checkbox |
 
@@ -73,24 +73,24 @@ CpFomanticExamplesClientBehavior >> exampleCheckbox2 [
 		appendChild: ('Checkboxes can have 4 types: checkbox, slider, toggle, radio' inHtmlTag: #p) ;
 		appendChild: ('' inHtmlTag: #p) ;
 		appendChild: ('Chechbox (default):' inHtmlTag: #p) ;	
-		appendChild: (checkbox := Fui2Checkbox newNamed: #myCheck andLabeled: 'My checkbox').
+		appendChild: (checkbox := FuiCheckbox newNamed: #myCheck andLabeled: 'My checkbox').
 
 	outputElement
 		appendChild: ('' inHtmlTag: #p) ;
-		appendChild: ((Fui2Button newLabeled: 'Be toogle')
+		appendChild: ((FuiButton newLabeled: 'Be toogle')
 			when: CpClickEvent do: [ :event | checkbox beToggle. self crTrace: event printString ] ;
 			yourself) ;
-		appendChild: ((Fui2Button newLabeled: 'Be slider')
+		appendChild: ((FuiButton newLabeled: 'Be slider')
 			when: CpClickEvent do: [ :event | checkbox beSlider ] ;
 			yourself) ;
-		appendChild: ((Fui2Button newLabeled: 'Be checkbox')
+		appendChild: ((FuiButton newLabeled: 'Be checkbox')
 			when: CpClickEvent do: [ :event | checkbox beRegular ] ;
 			yourself).
 
 	outputElement
 		appendChild: ('' inHtmlTag: #p) ;
 		appendChild: ('Slider (readonly and disabled):' inHtmlTag: #p) ;
-		appendChild: ((Fui2Checkbox newNamed: #myOtherCheck andLabeled: 'My slider')
+		appendChild: ((FuiCheckbox newNamed: #myOtherCheck andLabeled: 'My slider')
 			beSlider ;
 			beReadOnly ;
 			disable ;
@@ -99,35 +99,35 @@ CpFomanticExamplesClientBehavior >> exampleCheckbox2 [
 	outputElement
 		appendChild: ('' inHtmlTag: #p) ;
 		appendChild: ('Toggle:' inHtmlTag: #p) ;
-		appendChild: ((Fui2Checkbox newNamed: #myThirdCheck andLabeled: 'My toggle')
+		appendChild: ((FuiCheckbox newNamed: #myThirdCheck andLabeled: 'My toggle')
 			beToggle ;
 			yourself).
 
 	outputElement
 		appendChild: ('' inHtmlTag: #p) ;
 		appendChild: ('Radio:' inHtmlTag: #p) ;
-		appendChild: ((Fui2Checkbox newNamed: #someCheck andLabeled: 'Apples')
+		appendChild: ((FuiCheckbox newNamed: #someCheck andLabeled: 'Apples')
 			beRadio ;
 			disable ;
 			enable ;
 			yourself).
 	outputElement
 		appendChild: ('' inHtmlTag: #p) ;
-		appendChild: ((Fui2Checkbox newNamed: #someCheck andLabeled: 'Pears')
+		appendChild: ((FuiCheckbox newNamed: #someCheck andLabeled: 'Pears')
 			beRadio ;
 			yourself).
 	outputElement
 		appendChild: ('' inHtmlTag: #p) ;
-		appendChild: ((Fui2Checkbox newNamed: #someCheck andLabeled: 'Bananas')
+		appendChild: ((FuiCheckbox newNamed: #someCheck andLabeled: 'Bananas')
 			beRadio ;
 			yourself).
 
 ]
 
 { #category : #examples }
-CpFomanticExamplesClientBehavior >> exampleInput2 [
+CpFomanticExamplesClientBehavior >> exampleInput [
 
-	<example: 'Input2' order: 200>
+	<example: 'Input' order: 200>
 
 	| outputElement |
 
@@ -136,44 +136,45 @@ CpFomanticExamplesClientBehavior >> exampleInput2 [
 
 	outputElement
 		appendChild: ('Basic input' inHtmlTag: #p) ;
-		appendChild: (Fui2Input newNamed: #myText).
+		appendChild: (FuiInput newNamed: #myText).
 
 	outputElement
 		appendChild: ('Input with left icon' inHtmlTag: #p) ;
-		appendChild: ((Fui2Input newNamed: #leftIconedText)
+		appendChild: ((FuiInput newNamed: #leftIconedText)
 			leftIcon: #heart ;
 			yourself).
 
 	outputElement
 		appendChild: ('Input with right icon' inHtmlTag: #p) ;
-		appendChild: ((Fui2Input newNamed: #rightIconedText)
+		appendChild: ((FuiInput newNamed: #rightIconedText)
 			rightIcon: #search ;
 			yourself).
 
 	outputElement
 		appendChild: ('Input with left and right icon (only right will remain)' inHtmlTag: #p) ;
-		appendChild: ((Fui2Input newNamed: #leftAndRightIconedText)
+		appendChild: ((FuiInput newNamed: #leftAndRightIconedText)
 			leftIcon: #'angle left' ;
 			rightIcon: #'angle right' ;
 			yourself).
 
 	outputElement
 		appendChild: ('Input with right and left icon (only left will remain)' inHtmlTag: #p) ;
-		appendChild: ((Fui2Input newNamed: #rightAndLeftIconedText)
+		appendChild: ((FuiInput newNamed: #rightAndLeftIconedText)
 			rightIcon: #'arrow right' ;
 			leftIcon: #'arrow left' ;
 			yourself).
 
 	outputElement
 		appendChild: ('Input is loading' inHtmlTag: #p) ;
-		appendChild: ((Fui2Input newNamed: #loading)
+		appendChild: ((FuiInput newNamed: #loading)
 			leftIcon: #heart ;
 			beLoading ;
 			yourself).
 
 	outputElement
 		appendChild: ('Textarea input' inHtmlTag: #p) ;
-		appendChild: (Fui2Input newTextareaNamed: #bigText).
+		appendChild: (FuiInput newTextareaNamed: #bigText).
+
 ]
 
 { #category : #initialization }
@@ -277,7 +278,7 @@ CpFomanticExamplesClientBehavior >> showIndex [
 	items do: [ :item |
 		| example |
 
-		example := Fui2Button new
+		example := FuiButton new
 			textContent: item value first ;	"ie title"
 			yourself.
 
