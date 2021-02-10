@@ -238,7 +238,9 @@ CpPresenter >> model: anObject [
 	"Set the model of the receiver.
 	Removing and adding interest in the old and new model."
 
-	"Implementation: An unsubscribe method is missing in Model"
+	"Implementation: An unsubscribe method is missing in Model"	
+	model == anObject ifTrue: [ ^ self ].
+
 	model
 		ifNotNil: [ 	model announcer unsubscribe: self ].
 
