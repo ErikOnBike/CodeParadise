@@ -13,6 +13,12 @@ Class {
 }
 
 { #category : #announcing }
+CpModel class >> whenChangedSend: selector to: anObject [
+
+	"Intentionally left blank"
+]
+
+{ #category : #announcing }
 CpModel >> announce: anAnnouncement [
 
 	"Let the receiver announce the specified Announcement"
@@ -48,7 +54,9 @@ CpModel >> preferredPresenterClass [
 { #category : #presenter }
 CpModel >> preferredPresenterClassIn: aPresenter [
 
-	^ self preferredPresenterClass
+	^ aPresenter hasParent
+		ifTrue: [ self preferredPresenterClass ]
+		ifFalse: [ CpWindowPresenter ]
 ]
 
 { #category : #presenter }
