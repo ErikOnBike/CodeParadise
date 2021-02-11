@@ -83,6 +83,13 @@ CpViewProxy >> release [
 	super release
 ]
 
+{ #category : #removing }
+CpViewProxy >> remove [ 
+	self flag: #todo. "Workaround for proxy subclassing Object, which has a #remove method 
+	when Voyage is loaded."
+	self doesNotUnderstand: (Message selector: #remove)
+]
+
 { #category : #accessing }
 CpViewProxy >> viewClass [
 

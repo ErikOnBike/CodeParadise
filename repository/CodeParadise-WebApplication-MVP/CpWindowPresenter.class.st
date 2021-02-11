@@ -49,6 +49,9 @@ CpWindowPresenter >> destroy [
 
 	"Destroy the receiver, but first its children"
 
+	self flag: #todo. "Also destroy title presenter. Perhaps do this in 1 go with implementing 
+	presenter (value holder) patterns."
+	"self destroyTitlePresenter."
 	self destroyContentPresenter.
 
 	super destroy

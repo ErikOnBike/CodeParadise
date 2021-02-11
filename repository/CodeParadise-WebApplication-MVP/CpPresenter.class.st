@@ -300,9 +300,7 @@ CpPresenter >> release [
 	If a view is present, release it. Do not release model because it can be shared amongst presenters."
 
 	model := nil.
-	viewProxy ifNotNil: [
-		viewProxy release.
-		viewProxy := nil ].
+	self destroyViewProxy.
 	parent := nil.
 	application := nil.
 	id := nil.
