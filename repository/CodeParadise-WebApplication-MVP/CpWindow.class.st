@@ -288,6 +288,7 @@ CpWindow >> initialize [
 
 	self shadowRoot
 		ifNotNil: [ :shadowRoot |
+			shadowRoot when: CpPointerDownEvent send: #handlePointerDownEvent: to: self.
 			(shadowRoot allDescendantsMatching: '.corner')
 				do: [ :each | each when: CpDragEvent send: #handleWindowResizeCorner: to: self  ].
 			(shadowRoot allDescendantsMatching: '.side')
@@ -304,6 +305,10 @@ CpWindow >> left [
 
 { #category : #updating }
 CpWindow >> makeTopWindow [
+
+	"Make receiver top window by making it the last child within its parent"
+
+	self nextSibling ifNil: [ ^ self ].
 
 	self parent appendChild: self remove
 ]
