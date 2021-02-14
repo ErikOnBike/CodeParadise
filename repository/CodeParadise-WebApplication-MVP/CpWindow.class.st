@@ -206,7 +206,7 @@ CpWindow >> handleWindowMove: aDragEvent [
 		ifFalse: [ self parent makeDraggable: self ]."
 
 	clientOffset := aDragEvent offset.
-	point := aDragEvent lastPoint.
+	point := aDragEvent point.
 
 	position := (point x - clientOffset x) @ (point y - clientOffset y).
 
@@ -224,7 +224,7 @@ CpWindow >> handleWindowResizeCorner: aDragEvent [
 		ifTrue: [ self parent stopDragging: self ]
 		ifFalse: [ self parent makeDraggable: self ]."
 
-	point := aDragEvent lastPoint.
+	point := aDragEvent point.
 	resizeCorner := aDragEvent target id.
 
 	"Distinguish all four corners by x and y axis"
@@ -249,7 +249,7 @@ CpWindow >> handleWindowResizeSide: aDragEvent [
 		ifTrue: [ self parent stopDragging: self ]
 		ifFalse: [ self parent makeDraggable: self ]."
 
-	point := aDragEvent lastPoint.
+	point := aDragEvent point.
 	resizeSide := aDragEvent target id.
 
 	"Distinguish all four sides"

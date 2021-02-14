@@ -107,7 +107,10 @@ CpDragEvent class >> postInstall [
 { #category : #accessing }
 CpDragEvent >> addTracePoint: aPoint [
 
-	^ self tracePoints add: aPoint
+	self tracePoints add: aPoint.
+	self point: aPoint.
+
+	^ aPoint
 ]
 
 { #category : #accessing }
@@ -119,7 +122,8 @@ CpDragEvent >> endPoint [
 { #category : #accessing }
 CpDragEvent >> endPoint: aPoint [
 
-	endPoint := aPoint
+	endPoint := aPoint.
+	self point: aPoint
 ]
 
 { #category : #testing }
@@ -140,14 +144,6 @@ CpDragEvent >> initialize [
 CpDragEvent >> isEnded [
 
 	^ self endPoint notNil
-]
-
-{ #category : #accessing }
-CpDragEvent >> lastPoint [
-
-	^ self isEnded
-		ifTrue: [ self endPoint ]
-		ifFalse: [ self tracePoints last ]
 ]
 
 { #category : #accessing }
