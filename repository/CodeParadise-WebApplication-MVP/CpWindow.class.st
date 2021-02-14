@@ -175,7 +175,7 @@ CpWindow class >> template [
 				<div id="content"><slot name="content"></slot></div>
 			</div>
 			<div id="handles">
-				<div id="topLeft" class="corner"></div><div id="top"></div><div id="topRight" class="corner"></div>
+				<div id="topLeft" class="corner"></div><div id="top" class="side"></div><div id="topRight" class="corner"></div>
 				<div id="left" class="side"></div><div id="right" class="side"></div>
 				<div id="bottomLeft" class="corner"></div><div id="bottom" class="side"></div><div id="bottomRight" class="corner"></div>
 			</div>
