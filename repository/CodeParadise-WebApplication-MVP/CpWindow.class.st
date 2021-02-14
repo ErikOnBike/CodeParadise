@@ -197,20 +197,18 @@ CpWindow >> handlePointerDownEvent: aPointerDownEvent [
 { #category : #'event handling' }
 CpWindow >> handleWindowMove: aDragEvent [
 
-	| clientOffset point |
+	"Move the receiver according to the specified DragEvent.
+	Dragging can start anywhere inside the titlebar. Therefore take offset
+	of drag position into account."
 
-	"Prevent other views from receiving events"
-	self flag: #todo. "Responsibility to handle draggability should be changed"
-"	aDragEvent isEnded
-		ifTrue: [ self parent stopDragging: self ]
-		ifFalse: [ self parent makeDraggable: self ]."
+	| point offset |
 
-	clientOffset := aDragEvent offset.
 	point := aDragEvent point.
+	offset := aDragEvent offset.
 
-	position := (point x - clientOffset x) @ (point y - clientOffset y).
+	position := (point x - offset x) @ (point y - offset y).
 
-	self updatePosition
+	self renderPosition
 ]
 
 { #category : #'event handling' }
@@ -218,16 +216,11 @@ CpWindow >> handleWindowResizeCorner: aDragEvent [
 
 	| point resizeCorner |
 
-	"Prevent other views from receiving events"
-	self flag: #todo. "Responsibility to handle draggability should be changed"
-"	aDragEvent isEnded
-		ifTrue: [ self parent stopDragging: self ]
-		ifFalse: [ self parent makeDraggable: self ]."
-
 	point := aDragEvent point.
 	resizeCorner := aDragEvent target id.
 
-	"Distinguish all four corners by x and y axis"
+	"Distinguish all four corners (topLeft, topRight, bottomLeft, bottomRight)
+	and map onto x or y axis"
 	(resizeCorner endsWith: #Left)
 		ifTrue: [ self updateLeftSide: point x ]
 		ifFalse: [ self updateRightSide: point x ].
@@ -235,7 +228,10 @@ CpWindow >> handleWindowResizeCorner: aDragEvent [
 		ifTrue: [ self updateTopSide: point y ]
 		ifFalse: [ self updateBottomSide: point y ].
 
+	"Assume position and size have changed and re-render
+	(although in fact only one might have changed)"
 	self render
+
 ]
 
 { #category : #'event handling' }
@@ -243,16 +239,10 @@ CpWindow >> handleWindowResizeSide: aDragEvent [
 
 	| point resizeSide |
 
-	"Prevent other views from receiving events"
-	self flag: #todo. "Responsibility to handle draggability should be changed"
-"	aDragEvent isEnded
-		ifTrue: [ self parent stopDragging: self ]
-		ifFalse: [ self parent makeDraggable: self ]."
-
 	point := aDragEvent point.
 	resizeSide := aDragEvent target id.
 
-	"Distinguish all four sides"
+	"Distinguish all four sides (left, right, top, bottom)"
 	resizeSide = #left
 		ifTrue: [ self updateLeftSide: point x ]
 		ifFalse: [
@@ -265,7 +255,10 @@ CpWindow >> handleWindowResizeSide: aDragEvent [
 							resizeSide = #bottom
 								ifTrue: [ self updateBottomSide: point y ] ] ] ].
 
+	"Assume position and size have changed and re-render
+	(although in fact only one might have changed)"
 	self render
+
 ]
 
 { #category : #accessing }
@@ -337,8 +330,25 @@ CpWindow >> position [
 CpWindow >> render [
 
 	self
-		updatePosition ;
-		updateSize
+		renderPosition ;
+		renderSize
+]
+
+{ #category : #updating }
+CpWindow >> renderPosition [
+
+	self
+		styleAt: #top put: self top ;
+		styleAt: #left put: self left
+
+]
+
+{ #category : #updating }
+CpWindow >> renderSize [
+
+	self
+		styleAt: #width put: self width ;
+		styleAt: #height put: self height
 ]
 
 { #category : #rendering }
@@ -382,28 +392,11 @@ CpWindow >> updateLeftSide: positionLeft [
 ]
 
 { #category : #updating }
-CpWindow >> updatePosition [
-
-	self
-		styleAt: #top put: self top ;
-		styleAt: #left put: self left
-
-]
-
-{ #category : #updating }
 CpWindow >> updateRightSide: positionRight [
 
 	size := (positionRight - position x) >= self minWidth
 		ifTrue: [ (positionRight - position x) @ size y ]
 		ifFalse: [ self minWidth @ size y ]
-]
-
-{ #category : #updating }
-CpWindow >> updateSize [
-
-	self
-		styleAt: #width put: self width ;
-		styleAt: #height put: self height
 ]
 
 { #category : #updating }
