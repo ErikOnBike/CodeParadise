@@ -130,5 +130,5 @@ CpModel >> whenChangedSend: aSymbol to: anObject [
 	Implementation:
 	This method is for compatibility with Model and NewValueHolder"
 
-	self when: ValueChanged send: aSymbol to: anObject
+	^ self when: ValueChanged send: aSymbol to: anObject
 ]
