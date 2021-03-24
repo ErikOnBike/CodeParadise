@@ -24,55 +24,6 @@ CpBulletPresenter >> contentModel [
 	^ self model
 ]
 
-{ #category : #presenter }
-CpBulletPresenter >> contentPresenter [
-
-	^ contentPresenter
-]
-
-{ #category : #presenter }
-CpBulletPresenter >> createContentPresenter [
-
-	"Create a new SlideContent Presenter for the receiver's model"
-
-	| contentModel |
-
-	contentModel := self contentModel.
-
-	self destroyContentPresenter.
-	contentPresenter := self
-		createChildPresenter: contentModel preferredPresenterClass
-		forModel: contentModel
-]
-
-{ #category : #deleting }
-CpBulletPresenter >> destroy [
-
-	"Destroy the receiver, but first its children"
-
-	self destroyContentPresenter.
-
-	super destroy
-]
-
-{ #category : #presenter }
-CpBulletPresenter >> destroyContentPresenter [
-
-	"Destroy the SlideContent Presenter of the receiver's model"
-
-	contentPresenter
-		ifNil: [ ^ self ].
-
-	contentPresenter destroy.
-	contentPresenter := nil
-]
-
-{ #category : #presenter }
-CpBulletPresenter >> hasContentPresenter [
-
-	^ self contentPresenter notNil
-]
-
 { #category : #view }
 CpBulletPresenter >> renderView [
 
@@ -84,31 +35,11 @@ CpBulletPresenter >> renderView [
 		ifFalse: [ self view removeClass: #sub ]. 
 
 	"Delegate rendering to child presenter(s)"
-	self updateContentPresenter.
-	self contentPresenter renderView
-
+	self renderChildViewForModel: self contentModel
 ]
 
 { #category : #'user interaction' }
 CpBulletPresenter >> slideSelected: aSlide [
 
 	self parent slideSelected: aSlide
-]
-
-{ #category : #presenter }
-CpBulletPresenter >> updateContentPresenter [
-
-	"Update the SlideContent Presenter.
-	If necessary a new Presenter is created or the existing is updated."
-
-	| contentModel |
-
-	(contentModel := self contentModel)
-		ifNil: [ ^ self destroyContentPresenter ].
-
-	(self hasContentPresenter and: [ self contentPresenter class = self contentModel preferredPresenterClass ])
-		ifTrue: [
-				self contentPresenter model ~= contentModel
-					ifTrue: [ self contentPresenter model: contentModel ] ]
-		ifFalse: [ self createContentPresenter ]
 ]

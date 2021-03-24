@@ -26,7 +26,8 @@ CpPresentationView class >> template [
 	<webResource: #html>
 
 	^ '<div class="container">
-			<slot></slot>
+			<slot name="slides"></slot>
+			<slot name="carousel"></slot>
 		</div>'
 ]
 
@@ -57,7 +58,7 @@ CpPresentationView >> handleKeyPressEvent: aKeyEvent [
 	Wrap received key in '|' to make sure a full match is found."
 
 	| key |
-	self crTrace: aKeyEvent printString.
+
 	key := '|', aKeyEvent key, '|'.
 	('|ArrowLeft|Backspace|,|' includesSubstring: key)
 		ifTrue: [ ^ self serverAnnounce: CpPreviousSlide ].

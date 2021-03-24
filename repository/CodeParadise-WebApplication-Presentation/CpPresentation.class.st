@@ -85,6 +85,12 @@ CpPresentation >> nextSlide [
 	self valueChanged
 ]
 
+{ #category : #presenter }
+CpPresentation >> preferredPresenterClass [
+
+	^ CpPresentationPresenter
+]
+
 { #category : #api }
 CpPresentation >> previousSlide [
 
@@ -101,6 +107,14 @@ CpPresentation >> previousSlide [
 	self slideStack removeLast.
 
 	self valueChanged
+]
+
+{ #category : #presenter }
+CpPresentation >> rootPresenterClass [
+
+	"The receiver's root Presenter class equals the preferred Presenter class"
+
+	^ self preferredPresenterClass
 ]
 
 { #category : #accessing }

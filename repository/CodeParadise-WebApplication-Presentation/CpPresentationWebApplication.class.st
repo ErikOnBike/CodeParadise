@@ -21,13 +21,11 @@ CpPresentationWebApplication >> load [
 
 	super load.
 
-	"Create PresentionModel and add it to the receiver"
+	"Create PresentionModel and start it (sets first slide)"
 	presentation := self createPresentationModel.
+	presentation start.
 
 	"Create presentation presenter and add it to the receiver.
 	This presenter will be installed when #load or #reload is called on the receiver."
-	self applicationPresenter createChildPresenter: CpPresentationPresenter forModel: presentation.
-
-	"Now everything is in place, start the presentation"
-	presentation start
+	self applicationPresenter createChildPresenterForModel: presentation
 ]
