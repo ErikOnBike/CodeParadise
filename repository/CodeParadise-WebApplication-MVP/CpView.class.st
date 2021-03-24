@@ -54,6 +54,21 @@ CpView class >> template [
 	^ '<div>&lt;empty&gt;</div>'
 ]
 
+{ #category : #removing }
+CpView >> destroy [
+
+	"Destroy the receiver.
+
+	Implementation:
+	Unregister from the client environment.
+	See: CpMvpWebClientBehavior >> #createView:withId:atParentId:atSlotNamed:atIndex"
+
+	super destroy.
+
+	CpClientEnvironment current objectRegistry
+		unregisterObject: self
+]
+
 { #category : #initialization }
 CpView >> initialize [
 
