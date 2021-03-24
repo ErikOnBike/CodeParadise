@@ -1,10 +1,6 @@
 Class {
 	#name : #CpCounterApplicationPresenter,
 	#superclass : #CpPresenter,
-	#instVars : [
-		'localPresenter',
-		'globalPresenter'
-	],
 	#category : #'CodeParadise-WebApplication-MVP-Examples'
 }
 
@@ -17,7 +13,7 @@ CpCounterApplicationPresenter class >> defaultViewClass [
 { #category : #view }
 CpCounterApplicationPresenter >> renderView [
 
-	localPresenter ifNil: [ localPresenter := self createChildPresenter: CpCounterPresenter atSlotNamed: #local forModel: self model local ].
-	globalPresenter ifNil: [ globalPresenter := self createChildPresenter: CpCounterPresenter atSlotNamed: #global forModel: self model global ]
-
+	self
+		renderChildViewForModel: self model local atSlotNamed: #local ;
+		renderChildViewForModel: self model global atSlotNamed: #global
 ]

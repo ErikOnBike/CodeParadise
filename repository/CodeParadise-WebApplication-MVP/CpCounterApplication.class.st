@@ -47,3 +47,15 @@ CpCounterApplication >> local [
 
 	^ local
 ]
+
+{ #category : #presenter }
+CpCounterApplication >> preferredPresenterClass [
+
+	^ CpCounterApplicationPresenter
+]
+
+{ #category : #accessing }
+CpCounterApplication >> title [
+
+	^ 'Counter example'
+]
