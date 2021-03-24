@@ -177,10 +177,25 @@ CpTemplateComponent >> replaceChild: childElement with: replacementElement atSlo
 	"Replace the specified child element with the specified replacement element
 	and place it in the specified template slot.
 	Answer the new (replacement) child.
-	An error is raised if the (original) child element is not position at specified slot."
+	An error is raised if the (original) child element is not positioned at specified slot."
 
 	(childElement attributeAt: #slot) = nameString
 		ifFalse: [ self error: 'Failed to replace a child element, because it is not present at the specified slot' ].
 	replacementElement attributeAt: #slot put: nameString.
 	^ self replaceChild: childElement with: replacementElement
+]
+
+{ #category : #'adding/removing' }
+CpTemplateComponent >> replaceChildAtIndex: anInteger with: replacementElement atSlotNamed: nameString [
+
+	"Replace the child at the specified location with the specified replacement element
+	and place it in the specified template slot.
+	Answer the new (replacement) child.
+	An error is raised if the specified location is not used."
+
+	| childElement |
+
+	childElement := (self childrenAtSlotNamed: nameString) at: anInteger ifAbsent: [ self error: 'No child present at specified location' ].
+
+	^ self replaceChild: childElement with: replacementElement atSlotNamed: nameString
 ]

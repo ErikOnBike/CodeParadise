@@ -517,14 +517,30 @@ CpDomElement >> replaceAllChildrenWith: childElement [
 { #category : #'adding/removing' }
 CpDomElement >> replaceChild: childElement with: replacementElement [
 
-	"Replace the child element of the receiver with a replacement element. Answer the new (replacement)
-	child element.
+	"Replace the child element of the receiver with a replacement element.
+	Answer the new (replacement) child element.
 	If the replacement element was child of another element, it will be moved to the receiver
 	and no longer be accessible from its previous parent (that is, no clone is made).
 	The primitive will fail if child element is not a child of the receiver."
 
 	<primitive: 'primitiveDOMElementReplaceChild:with:' module: 'CpDOMPlugin'>
 	self primitiveFailed
+]
+
+{ #category : #'adding/removing' }
+CpDomElement >> replaceChildAtIndex: anInteger with: replacementElement [
+
+	"Replace the child element of the receiver at the specified location with a replacement element.
+	Answer the new (replacement) child element.
+	If the replacement element was child of another element, it will be moved to the receiver
+	and no longer be accessible from its previous parent (that is, no clone is made).
+	Raise an error if there is no child element at the specified location."
+
+	| childElement |
+
+	childElement := self children at: anInteger ifAbsent: [ self error: 'No child element at specified location' ].
+
+	self replaceChild: childElement with: replacementElement
 ]
 
 { #category : #styles }
