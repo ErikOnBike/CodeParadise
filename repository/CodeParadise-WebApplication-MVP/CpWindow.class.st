@@ -182,9 +182,24 @@ CpWindow class >> template [
 		</div>'
 ]
 
+{ #category : #'event handling' }
+CpWindow >> announceUpdate [
+
+	"Announce the receiver updated, if the receiver is not closing)"
+
+	(self isClassed: #closing)
+		ifFalse: [ self serverAnnounce: (CpWindowUpdate position: position size: size) ]
+]
+
 { #category : #actions }
 CpWindow >> close [
 
+	"Send close announcement to server.
+
+	Implementation:
+	Set class on receiver to show the receiver is closing."
+
+	self addClass: #closing.
 	self serverAnnounce: CpWindowClose
 ]
 
@@ -208,7 +223,10 @@ CpWindow >> handleWindowMove: aDragEvent [
 
 	position := (point x - offset x) @ (point y - offset y).
 
-	self renderPosition
+	self renderPosition.
+
+	aDragEvent isEnded
+		ifTrue: [ self announceUpdate ]
 ]
 
 { #category : #'event handling' }
@@ -230,8 +248,10 @@ CpWindow >> handleWindowResizeCorner: aDragEvent [
 
 	"Assume position and size have changed and re-render
 	(although in fact only one might have changed)"
-	self render
+	self render.
 
+	aDragEvent isEnded
+		ifTrue: [ self announceUpdate ]
 ]
 
 { #category : #'event handling' }
@@ -257,8 +277,10 @@ CpWindow >> handleWindowResizeSide: aDragEvent [
 
 	"Assume position and size have changed and re-render
 	(although in fact only one might have changed)"
-	self render
+	self render.
 
+	aDragEvent isEnded
+		ifTrue: [ self announceUpdate ]
 ]
 
 { #category : #accessing }
@@ -349,11 +371,25 @@ CpWindow >> renderPosition [
 ]
 
 { #category : #updating }
+CpWindow >> renderPosition: aPoint [
+
+	position := aPoint.
+	self renderPosition
+]
+
+{ #category : #updating }
 CpWindow >> renderSize [
 
 	self
 		styleAt: #width put: self width ;
 		styleAt: #height put: self height
+]
+
+{ #category : #updating }
+CpWindow >> renderSize: aPoint [
+
+	size := aPoint.
+	self renderSize
 ]
 
 { #category : #rendering }

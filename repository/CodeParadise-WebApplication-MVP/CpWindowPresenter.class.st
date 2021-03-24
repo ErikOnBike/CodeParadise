@@ -45,11 +45,21 @@ CpWindowPresenter >> renderView [
 		renderChildViewForModel: self model atSlotNamed: #content
 ]
 
+{ #category : #private }
+CpWindowPresenter >> updateWindow: aWindowUpdate [
+
+	"Update the Window information by storing it in the receiver's instance variables"
+
+	position := aWindowUpdate position.
+	size := aWindowUpdate size
+]
+
 { #category : #view }
 CpWindowPresenter >> viewCreated [
 
 	super viewCreated.
 
 	self view
-		when: CpWindowClose send: #closeWindow to: self
+		when: CpWindowClose send: #closeWindow to: self ;
+		when: CpWindowUpdate send: #updateWindow: to: self
 ]
