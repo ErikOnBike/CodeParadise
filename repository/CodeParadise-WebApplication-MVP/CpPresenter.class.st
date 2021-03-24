@@ -1,8 +1,12 @@
 "
 I am a Presenter in a Model-View-Presenter pattern.
-I have a model and a view and optionally a parent Presenter.
+I have a model and a view and optionally a parent Presenter and/or child Presenters.
 I live in the ServerEnvironment and know the application I am running in.
 I share an id with my view which allows our binding across environments.
+
+For rendering my view, implement the #renderView method. The #renderChildViewForModel:
+and #renderAllChildViewsForModels: can be used to create/update child Presenters
+and render their respective Views.
 
 Implementation:
 The viewProxy instance variable allows regular message sends to my view.
@@ -20,6 +24,7 @@ Class {
 		'model',
 		'viewProxy',
 		'parent',
+		'children',
 		'slotName',
 		'application'
 	],
@@ -238,11 +243,10 @@ CpPresenter >> model: anObject [
 	"Set the model of the receiver.
 	Removing and adding interest in the old and new model."
 
-	"Implementation: An unsubscribe method is missing in Model"	
 	model == anObject ifTrue: [ ^ self ].
 
 	model
-		ifNotNil: [ 	model announcer unsubscribe: self ].
+		ifNotNil: [ 	model unsubscribe: self ].
 
 	(model := anObject)
 		ifNotNil: [ model whenChangedSend: #privateModelChanged to: self ]
