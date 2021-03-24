@@ -76,12 +76,10 @@ CpWebApplication >> installExtensionMethodsFor: aSymbol [
 
 			"Install instance methods"
 			(Pragma allNamed: aSymbol in: eachClass) do: [ :eachPragma |
-self crTrace: 'Install ', eachPragma method selector, ' from ', eachClass printString.
 				self environment addMethod: eachPragma method ].
 
 			"Install class methods"
 			(Pragma allNamed: aSymbol in: eachClass class) do: [ :eachPragma |
-self crTrace: 'Install ', eachPragma method selector, ' from ', eachClass printString, ' class'.
 				self environment addMethod: eachPragma method ] ]
 ]
 
