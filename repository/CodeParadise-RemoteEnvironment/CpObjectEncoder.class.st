@@ -327,6 +327,17 @@ CpObjectEncoder >> encodeNil [
 ]
 
 { #category : #encoding }
+CpObjectEncoder >> encodePoint: aPoint [
+
+	"Encode aPoint using its x and y value (allowing non integers as well)"
+
+	writeStream nextPut: 29.
+
+	aPoint x cpEncodeWith: self.
+	aPoint y cpEncodeWith: self
+]
+
+{ #category : #encoding }
 CpObjectEncoder >> encodePragma: aPragma [
 
 	writeStream nextPut: 20.
@@ -454,14 +465,10 @@ CpObjectEncoder >> writeLength: anInteger [
 { #category : #writing }
 CpObjectEncoder >> writeString: aString [
 
-	"Write aString (can be Symbol) using UTF-8.
-	The end of string is marked by the byte 16rff (which can't be part of an UTF-8 string).
-	"
+	"Write aString (can be Symbol) using UTF-8"
 
-	aString do: [ :char | self writeUTF8CodePoint: char asUnicode ].
-
-	"Write end of string marker"
-	writeStream nextPut: 16rff
+	self writeLength: aString size.
+	aString do: [ :char | self writeUTF8CodePoint: char asUnicode ]
 ]
 
 { #category : #writing }

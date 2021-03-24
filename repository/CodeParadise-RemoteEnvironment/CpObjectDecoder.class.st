@@ -89,7 +89,7 @@ CpObjectDecoder >> decodeCharacter [
 
 	"Decode a Character based on a Unicode value written using UTF-8"
 
-	^ self readUTF8CodePoint
+	^ Character value: self readUTF8CodePoint
 ]
 
 { #category : #decoding }
@@ -347,6 +347,7 @@ CpObjectDecoder >> decodeNext [
 		decodeAnnouncement
 		decodeMessageSend
 		decodeMessage
+		decodePoint
 	) at: type ifAbsent: [ self error: 'Unknown type in decode stream' ].
 
 	^ self perform: selector
@@ -356,6 +357,14 @@ CpObjectDecoder >> decodeNext [
 CpObjectDecoder >> decodeNil [
 
 	^ nil
+]
+
+{ #category : #decoding }
+CpObjectDecoder >> decodePoint [
+
+	"Decode a Point"
+
+	^ Point x: self decodeNext y: self decodeNext
 ]
 
 { #category : #decoding }
@@ -528,30 +537,16 @@ CpObjectDecoder >> readPositiveIntegerWithSize: byteSize [
 { #category : #reading }
 CpObjectDecoder >> readString [
 
-	"Read a String consisting of UTF-8 characters.
-	The end of the String is marked by a 16rff byte value (which cannot be part of an UTF-8 encoding).
-	Its position (and therefore character count) is calculated before actually decoding the characters."
+	"Read a String consisting of UTF-8 characters"
 
-	| string characterCount byte |
-
-	"Find length of string"
-	characterCount := 0.
-	self doPeek: [
-		[ readStream atEnd not and: [ (byte := readStream next) ~= 16rff ] ]
-			whileTrue: [
-				"Only count bytes which are not continuations of a character"
-				(byte bitAnd: 16rc0) = 16r80
-					ifFalse: [ characterCount := characterCount + 1 ] ] ].
+	| string characterCount |
 
 	"Create and fill the string"
-	string := String new: characterCount.
+	characterCount := self readLength.
+	string := WordArray new: characterCount.
 	1 to: characterCount do: [  :index | string at: index put: self readUTF8CodePoint ].
 
-	"Skip the end of string marker"
-	(readStream peekFor: 16rff)
-		ifFalse: [ self errorMalformedUTF8 ].
-
-	^ string
+	^ string asString
 ]
 
 { #category : #reading }
@@ -565,7 +560,7 @@ CpObjectDecoder >> readUInt32 [
 { #category : #reading }
 CpObjectDecoder >> readUTF8CodePoint [
 
-	"Read a Character based on a Unicode value written using UTF-8.
+	"Read a Unicode value written using UTF-8.
 	See also https://en.wikipedia.org/wiki/UTF-8"
 
 	| unicode |
@@ -597,7 +592,7 @@ CpObjectDecoder >> readUTF8CodePoint [
 					ifFalse: [ self errorMalformedUTF8 ].
 				unicode := (unicode bitShift: 6) bitOr: (byte bitAnd: 16r3f) ] ].
 
-	^ Character value: unicode
+	^ unicode
 ]
 
 { #category : #accessing }
