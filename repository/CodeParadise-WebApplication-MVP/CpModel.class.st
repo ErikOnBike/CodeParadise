@@ -52,14 +52,6 @@ CpModel >> preferredPresenterClass [
 ]
 
 { #category : #presenter }
-CpModel >> preferredPresenterClassIn: aPresenter [
-
-	^ aPresenter hasParent
-		ifTrue: [ self preferredPresenterClass ]
-		ifFalse: [ CpWindowPresenter ]
-]
-
-{ #category : #presenter }
 CpModel >> presenterContext [ 
 	^ CpCurrentPresenterContext value
 ]
@@ -72,6 +64,14 @@ CpModel >> release [
 		announcer := nil ].
 
 	super release
+]
+
+{ #category : #presenter }
+CpModel >> rootPresenterClass [
+
+	"Answer the root (top level) Presenter class for displaying the receiver"
+
+	^ CpWindowPresenter
 ]
 
 { #category : #announcing }

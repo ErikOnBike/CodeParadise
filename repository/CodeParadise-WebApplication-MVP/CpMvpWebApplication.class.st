@@ -44,12 +44,13 @@ CpMvpWebApplication >> clientCreateViewForPresenter: aPresenter [
 	because of message serialization."
 	self sendMessage: (MessageSend
 		receiver: self clientBehaviorClass clientId
-		selector: #createView:withId:atParentId:atSlotNamed:
+		selector: #createView:withId:atParentId:atSlotNamed:atIndex:
 		arguments: {
 			aPresenter viewClass name .
 			aPresenter viewId .
 			aPresenter viewLocation .
-			aPresenter slotName })
+			aPresenter slotName .
+			aPresenter indexInParent })
 
 ]
 

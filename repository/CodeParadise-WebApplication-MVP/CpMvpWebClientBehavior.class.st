@@ -41,3 +41,44 @@ CpMvpWebClientBehavior >> createView: viewClassName withId: identifier atParentI
 
 	^ view
 ]
+
+{ #category : #creating }
+CpMvpWebClientBehavior >> createView: viewClassName withId: identifier atParentId: parentIdentifier atSlotNamed: slotName atIndex: anInteger [
+
+	"Create a new View with the specified identifier (a String) and the specified
+	parent (a String or nil if the view does not have a specific parent).
+	If a slotName (aString or nil) is specified, the view is created at that slot in the parent.
+	The index (anInteger) specifies the child number within the slot (multiple views can be
+	present within a single slot).
+	The View to create is specified by its class name."
+
+	| parentView view |
+
+	"Find the parent View based on the specified identifier"
+	parentView := parentIdentifier
+		ifNotNil: [ CpHtmlElement elementWithId: parentIdentifier ]
+		ifNil: [ CpHtmlElement documentBody ].
+
+	"Create instance of the View class specified"
+	view := (self viewClassForName: viewClassName) new
+		id: identifier ;	"Put id in view element for reference by the EventHandler"
+		yourself.
+
+	"Add the view to its parent"
+	slotName
+		ifNotNil: [
+			(anInteger > 0 and: [ (parentView childrenAtSlotNamed: slotName) size >= anInteger ])
+				ifTrue: [ parentView replaceChildAtIndex: anInteger with: view atSlotNamed: slotName ]
+				ifFalse: [ parentView appendChild: view atSlotNamed: slotName ] ]
+		ifNil: [
+			(anInteger > 0 and: [ parentView children size >= anInteger ])
+				ifTrue: [ parentView replaceChildAtIndex: anInteger with: view ]
+				ifFalse: [ parentView appendChild: view ] ].
+
+	"Register the view instance in ClientEnvironment"
+	CpClientEnvironment current objectRegistry
+		registerObject: view
+		withId: identifier.
+
+	^ view
+]

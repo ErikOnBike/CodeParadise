@@ -62,24 +62,55 @@ CpPresenter >> applicationPresenter [
 	^ self application applicationPresenter
 ]
 
-{ #category : #presenter }
-CpPresenter >> createChildPresenter: aPresenterClass atSlotNamed: aString forModel: aModel [
+{ #category : #presenters }
+CpPresenter >> childPresenters [
 
-	"Create a child Presenter for the receiver on the specified model.
+	"Answer all child presenters in the default slot"
+
+	^ self childPresentersAtSlotNamed: nil
+]
+
+{ #category : #presenters }
+CpPresenter >> childPresentersAtSlotNamed: aString [
+
+	"Answer all child presenters in the specified slot"
+
+	^ children at: aString ifAbsent: [ #() ]
+]
+
+{ #category : #'presenters - private' }
+CpPresenter >> createChildPresenter: aPresenterClass atSlotNamed: aString atIndex: anInteger forModel: aModel [
+
+	"Create a child Presenter of the specified class for the receiver on the specified model.
+	This will also create the View belonging to the presenter.
+	The child Presenter is stored at the specified index in the collection of child Presenters
+	(at the specified slot). If the specified index is 1 above the current maximum index
+	of the collection of child Presenters, a new element is added to the collection.
+	If the index is even bigger or less then 1, an error is raised.
 
 	Implementation:
 	Set the model last, just before creating the View, so any announcements from the model
-	can be handled by a fully operational Presenter instance."
+	can be handled by a fully operational Presenter/View combination."
 
-	| childPresenter |
+	| childPresenters childPresenter |
 
-	childPresenter := aPresenterClass new
+	"Retrieve collection of child Presenters at specified slot"
+	childPresenters := children at: aString ifAbsentPut: [ OrderedCollection new ].
+
+	"If the next child Presenter is added, create room for it (special case)"
+	anInteger = (childPresenters size + 1)
+		ifTrue: [ childPresenters add: nil ].
+
+	"Create new child Presenter and put it in the collection"
+	childPresenter := childPresenters at: anInteger put: (aPresenterClass new
 		parent: self ;
 		slotName: aString ;
-		yourself.
+		yourself).
 
+	"Register the child Presenter in the Application (session)"
 	self application registerPresenter: childPresenter.
 
+	"Set the model and finally create the view"
 	childPresenter
 		model: aModel ;
 		createView.
@@ -88,10 +119,31 @@ CpPresenter >> createChildPresenter: aPresenterClass atSlotNamed: aString forMod
 
 ]
 
-{ #category : #presenter }
+{ #category : #presenters }
+CpPresenter >> createChildPresenter: aPresenterClass atSlotNamed: aString forModel: aModel [
+
+	"Create a child Presenter for the receiver on the specified model
+	at the specified location using the specified Presenter class.
+	This will also create the View belonging to the presenter."
+
+	| childPresenters |
+
+	childPresenters := self childPresentersAtSlotNamed: aString.
+
+	self
+		createChildPresenter: aPresenterClass
+		atSlotNamed: aString
+		atIndex: childPresenters size + 1
+		forModel: aModel
+
+]
+
+{ #category : #presenters }
 CpPresenter >> createChildPresenter: aPresenterClass forModel: aModel [
 
-	"Create a child Presenter for the receiver on the specified model"
+	"Create a child Presenter for the receiver on the specified model
+	using the specified Presenter class.
+	This will also create the View belonging to the presenter."
 
 	^ self
 		createChildPresenter: aPresenterClass
@@ -99,16 +151,27 @@ CpPresenter >> createChildPresenter: aPresenterClass forModel: aModel [
 		forModel: aModel
 ]
 
-{ #category : #presenter }
+{ #category : #presenters }
 CpPresenter >> createChildPresenterForModel: aModel [
 
 	"Create a child Presenter for the receiver on the specified model.
-	The model is assumed to know its preferred presenter (in the context of the receiver).
-	If this is not the case use #createChildPresenter:forModel:"
+	This will also create the View belonging to the presenter."
 
 	^ self
-		createChildPresenter: (aModel preferredPresenterClassIn: self)
+		createChildPresenter: (self presenterClassFor: aModel atSlotNamed: nil)
 		atSlotNamed: nil
+		forModel: aModel
+]
+
+{ #category : #presenters }
+CpPresenter >> createChildPresenterForModel: aModel atSlotNamed: aString [
+
+	"Create a child Presenter for the receiver on the specified model at the specified slot.
+	This will also create the View belonging to the presenter."
+
+	^ self
+		createChildPresenter: (self presenterClassFor: aModel atSlotNamed: aString)
+		atSlotNamed: aString
 		forModel: aModel
 ]
 
@@ -147,16 +210,60 @@ CpPresenter >> defaultViewLocation [
 { #category : #deleting }
 CpPresenter >> destroy [
 
-	"Destroy the receiver by removing it from its application and releasing its references"
+	"Destroy the receiver.
+
+	Implementation:
+	Remove receiver from its application and its parent first to prevent
+	recursive updates."
 
 	application
 		ifNotNil: [ application removePresenter: self ].
+
+	self hasParent
+		ifTrue: [ self parent removeChildPresenter: self ].
+
 	self
-		removeView ;
+		destroyChildPresenters ;
+		destroyView ;
 		release
 ]
 
+{ #category : #'presenters - private' }
+CpPresenter >> destroyChildPresenter: aPresenter [
+
+	"Remove the specified child presenter from the receiver"
+
+	(self removeChildPresenter: aPresenter) destroy
+
+]
+
+{ #category : #'presenters - private' }
+CpPresenter >> destroyChildPresenters [
+
+	"Remove all child presenters from the receiver"
+
+	children do: [ :childPresenters |
+		[ childPresenters notEmpty ] whileTrue: [ self destroyChildPresenter: childPresenters first ] ].
+
+]
+
 { #category : #view }
+CpPresenter >> destroyView [
+
+	"Destroy the receiver's view.
+	
+	Implementation:
+	First destroy the view in the ClientEnvironment and then remove the
+	receiver's proxy."
+
+	viewProxy
+		ifNil: [ ^ self ].
+
+	viewProxy destroy.	"Will remove the view in the ClientEnvironment"
+	self destroyViewProxy
+]
+
+{ #category : #'view - private' }
 CpPresenter >> destroyViewProxy [
 
 	viewProxy ifNotNil: [
@@ -164,7 +271,27 @@ CpPresenter >> destroyViewProxy [
 		viewProxy := nil ]
 ]
 
-{ #category : #view }
+{ #category : #presenters }
+CpPresenter >> firstChildPresenter [
+
+	"Answer the first child presenter in the default slot
+	or nil if such presenter does not exist"
+
+	^ self firstChildPresenterAtSlotNamed: nil
+]
+
+{ #category : #presenters }
+CpPresenter >> firstChildPresenterAtSlotNamed: aString [
+
+	"Answer the first child presenter in the specified slot
+	or nil if such presenter does not exist"
+
+	^ (self childPresentersAtSlotNamed: aString)
+		ifNotEmpty: [ :presenters | presenters first ]
+		ifEmpty: [ nil ]
+]
+
+{ #category : #'view - private' }
 CpPresenter >> handleViewAnnouncement: anAnnouncement [
 
 	"Let the server side View (ie ViewProxy) announce the specified Announcement"
@@ -187,7 +314,7 @@ CpPresenter >> hasModel [
 	^ model notNil
 ]
 
-{ #category : #presenter }
+{ #category : #testing }
 CpPresenter >> hasParent [
 
 	^ parent notNil
@@ -214,6 +341,35 @@ CpPresenter >> id: aString [
 	#createChildPresenter:atSlotNamed:forModel:)."
 
 	id := aString
+]
+
+{ #category : #accessing }
+CpPresenter >> indexInParent [
+
+	"Answer the receiver's index in the parent's collection of child presenters.
+	Answer 0 if the receiver has no parent."
+
+	self hasParent
+		ifFalse: [ ^ 0 ].
+
+	^ self parent indexOfChildPresenter: self
+]
+
+{ #category : #accessing }
+CpPresenter >> indexOfChildPresenter: aPresenter [
+
+	"Answer the index of the specified presenter within the receiver's child collections"
+
+	^ (children at: aPresenter slotName ifAbsent: [ self error: 'Presenter is not a child of the receiver' ])
+		indexOf: aPresenter
+]
+
+{ #category : #initialization }
+CpPresenter >> initialize [
+
+	super initialize.
+
+	children := Dictionary new
 ]
 
 { #category : #initialization }
@@ -258,7 +414,7 @@ CpPresenter >> modelChanged [
 	"The receiver's model has changed perform any necessary operations.
 
 	Implementation:
-	The view will be updated after this method has finished execution,
+	The view is going to be updated after this method has finished execution,
 	so there is no need to render the view explicitly."
 
 ]
@@ -277,7 +433,16 @@ CpPresenter >> parent: aPresenter [
 	parent := aPresenter
 ]
 
-{ #category : #model }
+{ #category : #presenters }
+CpPresenter >> presenterClassFor: aModel atSlotNamed: aString [
+
+	"Answer the Presenter class for the specified Model in the specified slot
+	as a child Presenter of the receiver"
+
+	^ aModel preferredPresenterClass
+]
+
+{ #category : #'model - private' }
 CpPresenter >> privateModelChanged [
 
 	"The receiver's model has changed, render the view to make change visible"
@@ -306,6 +471,7 @@ CpPresenter >> release [
 	model := nil.
 	self destroyViewProxy.
 	parent := nil.
+	children := nil.
 	application := nil.
 	id := nil.
 
@@ -317,6 +483,19 @@ CpPresenter >> reload [
 
 	"Perform any required behavior when reloading the receiver"
 
+]
+
+{ #category : #'presenters - private' }
+CpPresenter >> removeChildPresenter: aPresenter [
+
+	"Remove the specified child presenter from the receiver"
+
+	(children at: aPresenter slotName ifAbsent: [ self error: 'Trying to remove child element from non-existing slot' ])
+		remove: aPresenter ifAbsent: [ self error: 'Trying to remove element which is not a child element' ].
+
+	aPresenter parent: nil.
+
+	^ aPresenter
 ]
 
 { #category : #view }
@@ -335,14 +514,108 @@ CpPresenter >> removeView [
 	self destroyViewProxy
 ]
 
-{ #category : #view }
+{ #category : #rendering }
+CpPresenter >> renderAllChildViewsForModels: aCollection [
+
+	"Render all the child views for the Models in the specified collection.
+	The views are rendered in the default slot of the receiver's view.
+	If necessary the child Presenters are created or updated before the Views
+	are rendered."
+
+	self renderAllChildViewsForModels: aCollection atSlotNamed: nil
+]
+
+{ #category : #rendering }
+CpPresenter >> renderAllChildViewsForModels: aCollection atSlotNamed: aString [
+
+	"Render all the child views for the Models in the specified collection.
+	The views are rendered in the specified slot of the receiver's view.
+	If the specified slot name is nil, the default slot is used.
+	If necessary the child Presenters are created or updated before the Views
+	are rendered.
+
+	Implementation:
+	There is currently no optimization for when (only) the order has changed.
+	This might lead to unnecessary re-creation and/or re-rendering of views."
+
+	| childPresenters |
+
+	childPresenters := children at: aString ifAbsentPut: [ OrderedCollection new ].
+
+	"Handle child presenters in order (allowing to add missing child presenters)"
+	aCollection withIndexDo: [ :aModel :index |
+
+		| preferredPresenterClass |
+
+		preferredPresenterClass := self presenterClassFor: aModel atSlotNamed: aString.
+		childPresenters size < index
+			ifTrue: [
+
+				"Since child presenters are handled in order, simply add a new child presenter"
+				self createChildPresenter: preferredPresenterClass atSlotNamed: aString atIndex: index forModel: aModel ]
+			ifFalse: [
+
+				| existingChildPresenter |
+
+				"Distinguish between re-render or re-creation of child presenter and view"
+				(existingChildPresenter := childPresenters at: index) class = preferredPresenterClass
+					ifTrue: [
+
+						"Update model (if it changed) before re-rendering"
+						existingChildPresenter
+							model: aModel ;
+							renderView ]
+					ifFalse: [
+
+						"Create new child presenter (which will thereby render the view)"
+						self createChildPresenter: preferredPresenterClass atSlotNamed: aString atIndex: index forModel: aModel.
+
+						"Remove reference to parent from the old presenter first, because its spot is taken by the new child presenter"
+						existingChildPresenter parent: nil.
+						existingChildPresenter destroy ] ] ].
+
+	"Remove superfluous child presenters and views"
+	[ childPresenters size > aCollection size ]
+		whileTrue: [ childPresenters last destroy ]
+]
+
+{ #category : #rendering }
+CpPresenter >> renderChildViewForModel: aModel [
+
+	"Render child view for the specified model.
+	The view is rendered in the default slot of the receiver's view.
+	If necessary a child Presenter is created or updated before the View
+	is rendered."
+
+	self
+		renderAllChildViewsForModels: (Array with: aModel)
+		atSlotNamed: nil 
+
+]
+
+{ #category : #rendering }
+CpPresenter >> renderChildViewForModel: aModel atSlotNamed: aString [
+
+	"Render child view for the specified model.
+	The view is rendered in the specified slot of the receiver's view.
+	If the specified slot name is nil, the default slot is used.
+	If necessary a child Presenter is created or updated before the View
+	is rendered."
+
+	self
+		renderAllChildViewsForModels: (Array with: aModel)
+		atSlotNamed: aString
+
+]
+
+{ #category : #rendering }
 CpPresenter >> renderView [
 
 	"Render the view of the receiver.
 	Subclasses should add relevant behavior."
 ]
 
-{ #category : #view }
+{ #category : #'view - private' }
 CpPresenter >> sendMessageToView: aMessage [
 
 	"Send the specified message to the receiver's view.

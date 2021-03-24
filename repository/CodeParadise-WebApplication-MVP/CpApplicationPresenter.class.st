@@ -29,3 +29,11 @@ CpApplicationPresenter >> initialize [
 
 	id := self class id
 ]
+
+{ #category : #presenters }
+CpApplicationPresenter >> presenterClassFor: aModel atSlotNamed: aString [
+
+	"Answer the specified Model's root Presenter class for children of the ApplicationPresenter"
+
+	^ aModel rootPresenterClass
+]
