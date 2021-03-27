@@ -23,7 +23,7 @@ CpWindowPresenter >> closeWindow [
 ]
 
 { #category : #presenters }
-CpWindowPresenter >> presenterClassFor: aModel atSlotNamed: aString [
+CpWindowPresenter >> presenterClassForModel: aModel atSlotNamed: aString [
 
 	^ aString = #title
 		ifTrue: [ CpWindowTitlePresenter ]

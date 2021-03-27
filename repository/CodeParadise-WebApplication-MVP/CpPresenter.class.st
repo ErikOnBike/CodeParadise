@@ -24,8 +24,8 @@ Class {
 		'model',
 		'viewProxy',
 		'parent',
-		'children',
 		'slotName',
+		'childPresentersBySlotName',
 		'application'
 	],
 	#category : #'CodeParadise-WebApplication-MVP-Core'
@@ -434,7 +434,7 @@ CpPresenter >> parent: aPresenter [
 ]
 
 { #category : #presenters }
-CpPresenter >> presenterClassFor: aModel atSlotNamed: aString [
+CpPresenter >> presenterClassForModel: aModel atSlotNamed: aString [
 
 	"Answer the Presenter class for the specified Model in the specified slot
 	as a child Presenter of the receiver"

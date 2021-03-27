@@ -29,7 +29,7 @@ CpPresentationPresenter >> nextSlide [
 ]
 
 { #category : #presenters }
-CpPresentationPresenter >> presenterClassFor: aModel atSlotNamed: aString [
+CpPresentationPresenter >> presenterClassForModel: aModel atSlotNamed: aString [
 
 	"Answer the Presenter class for displaying the specified model.
 	The SlidesCarouselPresenter is answered explicitly."

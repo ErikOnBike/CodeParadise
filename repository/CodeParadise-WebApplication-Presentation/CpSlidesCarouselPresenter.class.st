@@ -49,7 +49,7 @@ CpSlidesCarouselPresenter >> nextSlide [
 ]
 
 { #category : #presenters }
-CpSlidesCarouselPresenter >> presenterClassFor: aModel atSlotNamed: aString [
+CpSlidesCarouselPresenter >> presenterClassForModel: aModel atSlotNamed: aString [
 
 	"All my models should be presented using a CarouselSlidePresenter"
 
