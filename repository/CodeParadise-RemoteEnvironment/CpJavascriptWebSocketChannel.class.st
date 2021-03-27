@@ -17,7 +17,7 @@ Class {
 }
 
 { #category : #'public api' }
-CpJavascriptWebSocketChannel class >> for: ownerObject connectedToUrl: urlString [
+CpJavascriptWebSocketChannel class >> forOwner: ownerObject connectedToUrl: urlString [
 
 	"Create for the specified owner, a new instance of the receiver which is connected
 	to the specified URL.
@@ -44,13 +44,13 @@ CpJavascriptWebSocketChannel class >> newForOwner: ownerObject [
 
 	"Answer a new instance of the receiver with the specified owner"
 
-	^ self new
-		owner: ownerObject ;
+	^ self basicNew
+		initializeWithOwner: ownerObject ;
 		yourself
 ]
 
 { #category : #'public api' }
-CpJavascriptWebSocketChannel class >> startServerOnPort: anInteger path: aString do: aValuable [
+CpJavascriptWebSocketChannel class >> startServerForOwner: ownerObject onPort: anInteger path: aString [
 
 	"Create a server listening on the specified port and path.
 	When a new connection is made a new instance of the receiver is created for the
@@ -60,6 +60,9 @@ CpJavascriptWebSocketChannel class >> startServerOnPort: anInteger path: aString
 	"A Javascript implementation for Node.js is in the making. There will not be
 	a web browser implementation, since web browsers should not allow incoming network
 	connections (because of security reasons)."
+
+	self flag: #todo.
+
 	Error signal: 'Currently the Javascript implementation is still missing'
 ]
 

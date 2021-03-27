@@ -169,7 +169,7 @@ CpRemoteEnvironmentServer >> startOnPort: anInteger path: aString [
 
 	self stop.
 
-	server := CpMessageChannel startServerFor: self onPort: anInteger path: aString
+	server := CpMessageChannel startServerForOwner: self onPort: anInteger path: aString
 ]
 
 { #category : #'starting/stopping' }

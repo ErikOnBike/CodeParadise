@@ -35,7 +35,7 @@ CpMessageChannelTest >> testLocalClientServer [
 			serverEvents add: #close.
 			semaphore signal ] ;
 		yourself.
-	server := CpMessageChannel startServerFor: serverOwner onPort: 1701 path: '/test'.
+	server := CpMessageChannel startServerForOwner: serverOwner onPort: 1701 path: '/test'.
 
 	"Start client (clients do not receive 'open' message)"
 	clientOwner := CpMessageHandler new
@@ -47,7 +47,7 @@ CpMessageChannelTest >> testLocalClientServer [
 			clientEvents add: #close.
 			semaphore signal ]
 		yourself.
-	client := CpMessageChannel for: clientOwner connectedToUrl: 'ws://localhost:1701/test'.
+	client := CpMessageChannel forOwner: clientOwner connectedToUrl: 'ws://localhost:1701/test'.
 
 	"Validate connection established"
 	self

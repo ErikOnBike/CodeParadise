@@ -29,8 +29,8 @@ CpCommunicator class >> newForOwner: ownerObject [
 	The owner is responsible for handling the message received and should therefore
 	accept the message: #handleMessageReceived:"
 
-	^ self new
-		owner: ownerObject ;
+	^ self basicNew
+		initializeWithOwner: ownerObject ;
 		yourself
 ]
 
@@ -97,6 +97,18 @@ CpCommunicator >> initialize [
 	unsentMessagesMutex := Mutex new
 ]
 
+{ #category : #initialization }
+CpCommunicator >> initializeWithOwner: ownerObject [
+
+	"Initialize the receiver with the specified owner.
+	The owner is responsible to handle the messages received by the receiver.
+	Therefore ownerObject should accept the message: #handleMessageReceived:"
+
+	self initialize.
+
+	owner := ownerObject
+]
+
 { #category : #accessing }
 CpCommunicator >> messageChannel [
 
@@ -128,16 +140,6 @@ CpCommunicator >> owner [
 	"Answer the owner of the receiver"
 
 	^ owner
-]
-
-{ #category : #accessing }
-CpCommunicator >> owner: ownerObject [
-
-	"Set the owner of the receiver.
-	The owner is responsible to handle the messages received by the receiver.
-	Therefore ownerObject should accept the message: #handleMessageReceived:"
-
-	owner := ownerObject
 ]
 
 { #category : #initialization }

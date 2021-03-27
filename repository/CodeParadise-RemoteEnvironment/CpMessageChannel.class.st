@@ -73,7 +73,7 @@ CpMessageChannel class >> environmentImplementation: aClass [
 ]
 
 { #category : #'public api' }
-CpMessageChannel class >> for: ownerObject connectedToUrl: urlString [
+CpMessageChannel class >> forOwner: ownerObject connectedToUrl: urlString [
 
 	"Create for the specified owner, a new instance of the receiver which is connected
 	to the specified URL.
@@ -82,12 +82,12 @@ CpMessageChannel class >> for: ownerObject connectedToUrl: urlString [
 
 	"Use the environment's specific implementation or raise an error"
 	self environmentImplementation
-		ifNotNil: [ :implementationClass | ^ implementationClass for: ownerObject connectedToUrl: urlString ]
+		ifNotNil: [ :implementationClass | ^ implementationClass forOwner: ownerObject connectedToUrl: urlString ]
 		ifNil: [ Error signal: 'No implementation class set for MessageChannel' ]
 ]
 
 { #category : #'public api' }
-CpMessageChannel class >> startServerFor: ownerObject onPort: anInteger path: aString [
+CpMessageChannel class >> startServerForOwner: ownerObject onPort: anInteger path: aString [
 
 	"Create a server listening on the specified port and path for the specified owner.
 	The owner Object will need to handle the relevant events. See #owner:."
@@ -95,7 +95,7 @@ CpMessageChannel class >> startServerFor: ownerObject onPort: anInteger path: aS
 	"Use the environment's specific implementation or raise an error"
 	self environmentImplementation
 		ifNotNil: [ :implementationClass |
-			^ implementationClass startServerFor: ownerObject onPort: anInteger path: aString ]
+			^ implementationClass startServerForOwner: ownerObject onPort: anInteger path: aString ]
 		ifNil: [ Error signal: 'No implementation class set for MessageChannel' ]
 ]
 
@@ -159,6 +159,20 @@ CpMessageChannel >> handleNextMessage [
 
 ]
 
+{ #category : #accessing }
+CpMessageChannel >> initializeWithOwner: ownerObject [
+
+	"Initialize the receiver with the specified owner.
+	The owner should accept the message #handleMessageReceived:on: which receives a
+	message as the first argument and the receiver as the second argument.
+	When the receiver is closed, the above message is sent to the owner with nil as
+	argument for both message and message channel to indicate the connection has closed."
+
+	self initialize.
+
+	owner := ownerObject
+]
+
 { #category : #'public api' }
 CpMessageChannel >> isOpen [
 
@@ -173,18 +187,6 @@ CpMessageChannel >> owner [
 	"Answer the receiver's owner"
 
 	^ owner
-]
-
-{ #category : #accessing }
-CpMessageChannel >> owner: anObject [
-
-	"Set the receiver's owner to the specified Object.
-	The owner should accept the message #handleMessageReceived:on: which receives a
-	message as the first argument and the receiver as the second argument.
-	When the receiver is closed, the above message is sent to the owner with nil as
-	argument for both message and message channel to indicate the connection has closed."
-
-	owner := anObject
 ]
 
 { #category : #'message handling' }

@@ -38,12 +38,12 @@ CpServerApplication class >> clientLoaded: anAnnouncement [
 		ifFalse: [ ^ self ].
 
 	"Create new instance and call the load handler (faking the loaded event which triggered this invocation)"
-	(self newIn: anAnnouncement environment)
+	(self newInEnvironment: anAnnouncement environment)
 		load
 ]
 
 { #category : #'instance creation' }
-CpServerApplication class >> newIn: aServerEnvironment [
+CpServerApplication class >> newInEnvironment: aServerEnvironment [
 
 	"Create new instance of the receiver"
 

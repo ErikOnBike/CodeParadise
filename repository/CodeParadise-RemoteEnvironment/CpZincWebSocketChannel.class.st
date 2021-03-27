@@ -12,17 +12,17 @@ Class {
 }
 
 { #category : #'public api' }
-CpZincWebSocketChannel class >> for: ownerObject connectedToUrl: urlString [
+CpZincWebSocketChannel class >> forOwner: ownerObject connectedToUrl: urlString [
 
 	"Create for the specified owner, a new instance of the receiver which is connected
 	to the specified URL."
 
-	^ [ self newForOwner: ownerObject on: (ZnWebSocket to: (ZnUrl fromString: urlString)) ]
+	^ [ self newForOwner: ownerObject onWebSocket: (ZnWebSocket to: (ZnUrl fromString: urlString)) ]
 		on: Error do: [ nil ]
 ]
 
 { #category : #private }
-CpZincWebSocketChannel class >> newForOwner: ownerObject on: znWebSocket [
+CpZincWebSocketChannel class >> newForOwner: ownerObject onWebSocket: znWebSocket [
 
 	"Answer a new instance of the receiver for the specified owner and using the specified Zinc
 	WebSocket.
@@ -30,13 +30,13 @@ CpZincWebSocketChannel class >> newForOwner: ownerObject on: znWebSocket [
 	directly after the instance is created. Start the instance's message handler directly as well."
 
 	^ self basicNew
-		initializeFor: ownerObject with: znWebSocket ;
+		initializeForOwner: ownerObject andWebSocket: znWebSocket ;
 		createMessageHandler ;
 		yourself
 ]
 
 { #category : #'public api' }
-CpZincWebSocketChannel class >> startServerFor: ownerObject onPort: anInteger path: aString [
+CpZincWebSocketChannel class >> startServerForOwner: ownerObject onPort: anInteger path: aString [
 
 	"Create a server listening on the specified port and path.
 	When a new connection is made a new instance of the receiver is created for the
@@ -50,7 +50,7 @@ CpZincWebSocketChannel class >> startServerFor: ownerObject onPort: anInteger pa
 	^ ZnWebSocket startServerOn: anInteger prefix: aString do: [ :znWebSocket |
 
 		"Create a new running server instance and wait for it to close/stop"
-		(self newForOwner: ownerObject on: znWebSocket)
+		(self newForOwner: ownerObject onWebSocket: znWebSocket)
 			serverWait ]
 ]
 
@@ -74,13 +74,12 @@ CpZincWebSocketChannel >> close [
 ]
 
 { #category : #initialization }
-CpZincWebSocketChannel >> initializeFor: ownerObject with: aZnWebSocket [
+CpZincWebSocketChannel >> initializeForOwner: ownerObject andWebSocket: aZnWebSocket [
 
 	"Initialize the receiver with the specified ZnWebSocket"
 
-	self initialize.
+	self initializeWithOwner: ownerObject.
 
-	owner := ownerObject.
 	znWebSocket := aZnWebSocket.
 
 	"If receiver runs as server, create Semaphore to allow waiting until receiver closes"

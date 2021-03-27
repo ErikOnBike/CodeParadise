@@ -36,7 +36,7 @@ CpCommunicatorTest >> testClientSendBeforeConnection [
 	client := CpClientCommunicator newForOwner: clientOwner.
 
 	"Create a server for incoming connections and have the server side Communicator own it"
-	CpMessageChannel startServerFor: server onPort: 1701 path: '/test'.
+	CpMessageChannel startServerForOwner: server onPort: 1701 path: '/test'.
 
 	originalClientMessages do: [ :each | client sendMessage: each ].
 
@@ -68,7 +68,7 @@ CpCommunicatorTest >> testConnectionStrategies [
 	client := CpClientCommunicator newForOwner: clientOwner.
 
 	"Create a server for incoming connections and have the server side Communicator own it"
-	CpMessageChannel startServerFor: server onPort: 1701 path: '/test'.
+	CpMessageChannel startServerForOwner: server onPort: 1701 path: '/test'.
 
 	"Make connection"
 	client connectToUrl: 'ws://localhost:1701/test'.
@@ -117,7 +117,7 @@ CpCommunicatorTest >> testReconnectStrategy [
 		yourself.
 
 	"Create a server for incoming connections and have the server side Communicator own it"
-	CpMessageChannel startServerFor: server onPort: 1701 path: '/test'.
+	CpMessageChannel startServerForOwner: server onPort: 1701 path: '/test'.
 
 	"Make connection"
 	client connectToUrl: 'ws://localhost:1701/test'.
@@ -172,7 +172,7 @@ CpCommunicatorTest >> testSendReceive [
 	client := CpClientCommunicator newForOwner: clientOwner.
 
 	"Create a server for incoming connections and have the server side Communicator own it"
-	CpMessageChannel startServerFor: server onPort: 1701 path: '/test'.
+	CpMessageChannel startServerForOwner: server onPort: 1701 path: '/test'.
 
 	"Make connection"
 	client connectToUrl: 'ws://localhost:1701/test'.
@@ -213,7 +213,7 @@ CpCommunicatorTest >> testSendWithReconnects [
 	client := CpClientCommunicator newForOwner: clientOwner.
 
 	"Create a server for incoming connections and have the server side Communicator own it"
-	CpMessageChannel startServerFor: server onPort: 1701 path: '/test'.
+	CpMessageChannel startServerForOwner: server onPort: 1701 path: '/test'.
 
 	"Make connection"
 	client connectToUrl: 'ws://localhost:1701/test'.
@@ -274,7 +274,7 @@ CpCommunicatorTest >> testServerSendBeforeConnection [
 	client := CpClientCommunicator newForOwner: clientOwner.
 
 	"Create a server for incoming connections and have the server side Communicator own it"
-	CpMessageChannel startServerFor: server onPort: 1701 path: '/test'.
+	CpMessageChannel startServerForOwner: server onPort: 1701 path: '/test'.
 
 	originalServerMessages do: [ :each | server sendMessage: each ].
 
