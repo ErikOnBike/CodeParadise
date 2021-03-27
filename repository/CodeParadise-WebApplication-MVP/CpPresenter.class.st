@@ -1,12 +1,22 @@
 "
 I am a Presenter in a Model-View-Presenter pattern.
+My responsibility is to keep a Model and its View in sync. I do this by listening
+to changes on the Model and then (re)rendering the View and by listening to
+Announcements of the View and then updating the Model.
 I have a model and a view and optionally a parent Presenter and/or child Presenters.
 I live in the ServerEnvironment and know the application I am running in.
 I share an id with my view which allows our binding across environments.
 
 For rendering my view, implement the #renderView method. The #renderChildViewForModel:
 and #renderAllChildViewsForModels: can be used to create/update child Presenters
-and render their respective Views.
+and render their respective Views. If a specific child Presenter/View is required,
+implement #presenterClassForModel:atSlotNamed: and preferrable let it ask the Model
+for a type of presenter.
+
+For listening to View Announcements, implement #viewCreated and add subscriptions
+to the View.
+
+By default the Presenter will listen to the Model for ValueChanged events.
 
 Implementation:
 The viewProxy instance variable allows regular message sends to my view.
