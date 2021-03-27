@@ -390,7 +390,7 @@ CpPresenter >> initializeViewProxy [
 	viewProxy
 		ifNotNil: [ self error: 'View already created' ].
 
-	viewProxy := (CpViewProxy newFor: self)
+	viewProxy := (CpViewProxy newForPresenter: self)
 		viewClass: self viewClass ;
 		yourself
 ]

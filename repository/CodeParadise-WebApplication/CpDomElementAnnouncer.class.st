@@ -14,10 +14,10 @@ CpDomElementAnnouncer class >> new [
 ]
 
 { #category : #'instance creation' }
-CpDomElementAnnouncer class >> newFor: anElement [
+CpDomElementAnnouncer class >> newForElement: anElement [
 
 	^ self basicNew
-		initializeWith: anElement ;
+		initializeWithElement: anElement ;
 		yourself
 ]
 
@@ -28,7 +28,7 @@ CpDomElementAnnouncer >> element [
 ]
 
 { #category : #initialization }
-CpDomElementAnnouncer >> initializeWith: anElement [
+CpDomElementAnnouncer >> initializeWithElement: anElement [
 
 	self initialize.
 

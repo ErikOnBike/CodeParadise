@@ -20,10 +20,10 @@ CpViewProxy class >> new [
 ]
 
 { #category : #'instance creation' }
-CpViewProxy class >> newFor: aPresenter [
+CpViewProxy class >> newForPresenter: aPresenter [
 
 	^ self basicNew
-		initializeWith: aPresenter ;
+		initializeWithPresenter: aPresenter ;
 		yourself
 ]
 
@@ -58,7 +58,7 @@ CpViewProxy >> initialize [
 ]
 
 { #category : #initialization }
-CpViewProxy >> initializeWith: aPresenter [
+CpViewProxy >> initializeWithPresenter: aPresenter [
 
 	self initialize.
 

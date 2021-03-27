@@ -164,7 +164,7 @@ CpDomElement >> announce: anAnnouncement [
 { #category : #announcing }
 CpDomElement >> announcer [
 
-	^ announcer ifNil: [ announcer := CpDomElementAnnouncer newFor: self ]
+	^ announcer ifNil: [ announcer := CpDomElementAnnouncer newForElement: self ]
 ]
 
 { #category : #'adding/removing' }

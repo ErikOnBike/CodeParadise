@@ -27,7 +27,7 @@ CpJavascriptWebSocketChannel class >> for: ownerObject connectedToUrl: urlString
 
 	| instance |
 
-	instance := self newFor: ownerObject.
+	instance := self newForOwner: ownerObject.
 	(instance connectToUrl: urlString)
 		ifFalse: [
 			instance release.
@@ -40,7 +40,7 @@ CpJavascriptWebSocketChannel class >> for: ownerObject connectedToUrl: urlString
 ]
 
 { #category : #'instance creation' }
-CpJavascriptWebSocketChannel class >> newFor: ownerObject [
+CpJavascriptWebSocketChannel class >> newForOwner: ownerObject [
 
 	"Answer a new instance of the receiver with the specified owner"
 

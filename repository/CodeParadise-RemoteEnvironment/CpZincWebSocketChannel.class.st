@@ -17,12 +17,12 @@ CpZincWebSocketChannel class >> for: ownerObject connectedToUrl: urlString [
 	"Create for the specified owner, a new instance of the receiver which is connected
 	to the specified URL."
 
-	^ [ self newFor: ownerObject on: (ZnWebSocket to: (ZnUrl fromString: urlString)) ]
+	^ [ self newForOwner: ownerObject on: (ZnWebSocket to: (ZnUrl fromString: urlString)) ]
 		on: Error do: [ nil ]
 ]
 
 { #category : #private }
-CpZincWebSocketChannel class >> newFor: ownerObject on: znWebSocket [
+CpZincWebSocketChannel class >> newForOwner: ownerObject on: znWebSocket [
 
 	"Answer a new instance of the receiver for the specified owner and using the specified Zinc
 	WebSocket.
@@ -50,7 +50,7 @@ CpZincWebSocketChannel class >> startServerFor: ownerObject onPort: anInteger pa
 	^ ZnWebSocket startServerOn: anInteger prefix: aString do: [ :znWebSocket |
 
 		"Create a new running server instance and wait for it to close/stop"
-		(self newFor: ownerObject on: znWebSocket)
+		(self newForOwner: ownerObject on: znWebSocket)
 			serverWait ]
 ]
 

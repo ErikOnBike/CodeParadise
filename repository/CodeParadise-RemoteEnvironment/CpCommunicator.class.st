@@ -23,7 +23,7 @@ Class {
 }
 
 { #category : #'instance creation' }
-CpCommunicator class >> newFor: ownerObject [
+CpCommunicator class >> newForOwner: ownerObject [
 
 	"Answer a new instance of the receiver for the specified owner.
 	The owner is responsible for handling the message received and should therefore

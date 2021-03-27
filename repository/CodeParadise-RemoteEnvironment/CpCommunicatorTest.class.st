@@ -24,7 +24,7 @@ CpCommunicatorTest >> testClientSendBeforeConnection [
 			serverMessages size = 3
 				ifTrue: [ semaphore signal ] ] ;
 		yourself.
-	server := CpServerCommunicator newFor: serverOwner.
+	server := CpServerCommunicator newForOwner: serverOwner.
 
 	clientMessages := OrderedCollection new.
 	clientOwner := CpMessageHandler new
@@ -33,7 +33,7 @@ CpCommunicatorTest >> testClientSendBeforeConnection [
 			clientMessages size = 4
 				ifTrue: [ semaphore signal ] ] ;
 		yourself.
-	client := CpClientCommunicator newFor: clientOwner.
+	client := CpClientCommunicator newForOwner: clientOwner.
 
 	"Create a server for incoming connections and have the server side Communicator own it"
 	CpMessageChannel startServerFor: server onPort: 1701 path: '/test'.
@@ -62,10 +62,10 @@ CpCommunicatorTest >> testConnectionStrategies [
 
 	"Server and client do not receive messages, so empty owners"
 	serverOwner := CpMessageHandler new.
-	server := CpServerCommunicator newFor: serverOwner.
+	server := CpServerCommunicator newForOwner: serverOwner.
 
 	clientOwner := CpMessageHandler new.
-	client := CpClientCommunicator newFor: clientOwner.
+	client := CpClientCommunicator newForOwner: clientOwner.
 
 	"Create a server for incoming connections and have the server side Communicator own it"
 	CpMessageChannel startServerFor: server onPort: 1701 path: '/test'.
@@ -108,11 +108,11 @@ CpCommunicatorTest >> testReconnectStrategy [
 			serverMessages size >= 2
 				ifTrue: [ semaphore signal ] ] ;
 		yourself.
-	server := CpServerCommunicator newFor: serverOwner.
+	server := CpServerCommunicator newForOwner: serverOwner.
 
 	"Client does not receive messages, so empty owner"
 	clientOwner := CpMessageHandler new.
-	client := (CpClientCommunicator newFor: clientOwner)
+	client := (CpClientCommunicator newForOwner: clientOwner)
 		reconnectStrategy: CpCommunicatorReconnectStrategy new ;
 		yourself.
 
@@ -160,7 +160,7 @@ CpCommunicatorTest >> testSendReceive [
 			serverMessages size = 3
 				ifTrue: [ semaphore signal ] ] ;
 		yourself.
-	server := CpServerCommunicator newFor: serverOwner.
+	server := CpServerCommunicator newForOwner: serverOwner.
 
 	clientMessages := OrderedCollection new.
 	clientOwner := CpMessageHandler new
@@ -169,7 +169,7 @@ CpCommunicatorTest >> testSendReceive [
 			clientMessages size = 4
 				ifTrue: [ semaphore signal ] ] ;
 		yourself.
-	client := CpClientCommunicator newFor: clientOwner.
+	client := CpClientCommunicator newForOwner: clientOwner.
 
 	"Create a server for incoming connections and have the server side Communicator own it"
 	CpMessageChannel startServerFor: server onPort: 1701 path: '/test'.
@@ -206,11 +206,11 @@ CpCommunicatorTest >> testSendWithReconnects [
 			serverMessages size = 4
 				ifTrue: [ semaphore signal ] ] ;
 		yourself.
-	server := CpServerCommunicator newFor: serverOwner.
+	server := CpServerCommunicator newForOwner: serverOwner.
 
 	"Client does not receive messages, so empty owner"
 	clientOwner := CpMessageHandler new.
-	client := CpClientCommunicator newFor: clientOwner.
+	client := CpClientCommunicator newForOwner: clientOwner.
 
 	"Create a server for incoming connections and have the server side Communicator own it"
 	CpMessageChannel startServerFor: server onPort: 1701 path: '/test'.
@@ -262,7 +262,7 @@ CpCommunicatorTest >> testServerSendBeforeConnection [
 			serverMessages size = 3
 				ifTrue: [ semaphore signal ] ] ;
 		yourself.
-	server := CpServerCommunicator newFor: serverOwner.
+	server := CpServerCommunicator newForOwner: serverOwner.
 
 	clientMessages := OrderedCollection new.
 	clientOwner := CpMessageHandler new
@@ -271,7 +271,7 @@ CpCommunicatorTest >> testServerSendBeforeConnection [
 			clientMessages size = 4
 				ifTrue: [ semaphore signal ] ] ;
 		yourself.
-	client := CpClientCommunicator newFor: clientOwner.
+	client := CpClientCommunicator newForOwner: clientOwner.
 
 	"Create a server for incoming connections and have the server side Communicator own it"
 	CpMessageChannel startServerFor: server onPort: 1701 path: '/test'.
