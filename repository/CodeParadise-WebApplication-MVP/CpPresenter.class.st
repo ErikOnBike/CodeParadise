@@ -75,7 +75,7 @@ CpPresenter >> childPresentersAtSlotNamed: aString [
 
 	"Answer all child presenters in the specified slot"
 
-	^ children at: aString ifAbsent: [ #() ]
+	^ childPresentersBySlotName at: aString ifAbsent: [ #() ]
 ]
 
 { #category : #'presenters - private' }
@@ -95,7 +95,7 @@ CpPresenter >> createChildPresenter: aPresenterClass atSlotNamed: aString atInde
 	| childPresenters childPresenter |
 
 	"Retrieve collection of child Presenters at specified slot"
-	childPresenters := children at: aString ifAbsentPut: [ OrderedCollection new ].
+	childPresenters := childPresentersBySlotName at: aString ifAbsentPut: [ OrderedCollection new ].
 
 	"If the next child Presenter is added, create room for it (special case)"
 	anInteger = (childPresenters size + 1)
@@ -158,7 +158,7 @@ CpPresenter >> createChildPresenterForModel: aModel [
 	This will also create the View belonging to the presenter."
 
 	^ self
-		createChildPresenter: (self presenterClassFor: aModel atSlotNamed: nil)
+		createChildPresenter: (self presenterClassForModel: aModel atSlotNamed: nil)
 		atSlotNamed: nil
 		forModel: aModel
 ]
@@ -170,7 +170,7 @@ CpPresenter >> createChildPresenterForModel: aModel atSlotNamed: aString [
 	This will also create the View belonging to the presenter."
 
 	^ self
-		createChildPresenter: (self presenterClassFor: aModel atSlotNamed: aString)
+		createChildPresenter: (self presenterClassForModel: aModel atSlotNamed: aString)
 		atSlotNamed: aString
 		forModel: aModel
 ]
@@ -242,7 +242,7 @@ CpPresenter >> destroyChildPresenters [
 
 	"Remove all child presenters from the receiver"
 
-	children do: [ :childPresenters |
+	childPresentersBySlotName do: [ :childPresenters |
 		[ childPresenters notEmpty ] whileTrue: [ self destroyChildPresenter: childPresenters first ] ].
 
 ]
@@ -360,7 +360,7 @@ CpPresenter >> indexOfChildPresenter: aPresenter [
 
 	"Answer the index of the specified presenter within the receiver's child collections"
 
-	^ (children at: aPresenter slotName ifAbsent: [ self error: 'Presenter is not a child of the receiver' ])
+	^ (childPresentersBySlotName at: aPresenter slotName ifAbsent: [ self error: 'Presenter is not a child of the receiver' ])
 		indexOf: aPresenter
 ]
 
@@ -369,7 +369,7 @@ CpPresenter >> initialize [
 
 	super initialize.
 
-	children := Dictionary new
+	childPresentersBySlotName := Dictionary new
 ]
 
 { #category : #initialization }
@@ -471,7 +471,7 @@ CpPresenter >> release [
 	model := nil.
 	self destroyViewProxy.
 	parent := nil.
-	children := nil.
+	childPresentersBySlotName := nil.
 	application := nil.
 	id := nil.
 
@@ -490,7 +490,7 @@ CpPresenter >> removeChildPresenter: aPresenter [
 
 	"Remove the specified child presenter from the receiver"
 
-	(children at: aPresenter slotName ifAbsent: [ self error: 'Trying to remove child element from non-existing slot' ])
+	(childPresentersBySlotName at: aPresenter slotName ifAbsent: [ self error: 'Trying to remove child element from non-existing slot' ])
 		remove: aPresenter ifAbsent: [ self error: 'Trying to remove element which is not a child element' ].
 
 	aPresenter parent: nil.
@@ -540,14 +540,14 @@ CpPresenter >> renderAllChildViewsForModels: aCollection atSlotNamed: aString [
 
 	| childPresenters |
 
-	childPresenters := children at: aString ifAbsentPut: [ OrderedCollection new ].
+	childPresenters := childPresentersBySlotName at: aString ifAbsentPut: [ OrderedCollection new ].
 
 	"Handle child presenters in order (allowing to add missing child presenters)"
 	aCollection withIndexDo: [ :aModel :index |
 
 		| preferredPresenterClass |
 
-		preferredPresenterClass := self presenterClassFor: aModel atSlotNamed: aString.
+		preferredPresenterClass := self presenterClassForModel: aModel atSlotNamed: aString.
 		childPresenters size < index
 			ifTrue: [
 
