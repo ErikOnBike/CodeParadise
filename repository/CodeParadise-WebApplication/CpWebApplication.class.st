@@ -121,11 +121,13 @@ CpWebApplication >> methodChanged: anAnnouncement [
 	resourceType := pragma argumentAt: 1.
 	resourceType == self class webResourceCSS
 		ifTrue: [
-			self updateStyleViewClass: methodClass.
+			methodClass withAllSubclassesDo: [ :c |
+				self updateStyleViewClass: c ].
 			^ true ].
 	resourceType == self class webResourceHTML
 		ifTrue: [
-			self updateTemplateViewClass: methodClass.
+			methodClass withAllSubclassesDo: [ :c |
+				self updateTemplateViewClass: c ].
 			^ true ].
 
 	^ true
