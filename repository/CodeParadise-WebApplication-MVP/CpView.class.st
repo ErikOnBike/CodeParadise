@@ -67,6 +67,7 @@ CpView >> destroy [
 
 	CpClientEnvironment current objectRegistry
 		unregisterObject: self
+		ifAbsent: [ "Ignore. Some Views are not created via CpMvpWebClientBehavior and will therefore not be registered" ]
 ]
 
 { #category : #initialization }

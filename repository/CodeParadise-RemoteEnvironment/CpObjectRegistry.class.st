@@ -82,10 +82,17 @@ CpObjectRegistry >> unregisterObject: anObject [
 	"Unregister the specified Object. Answer the unregistered Object.
 	An error is raised if the Object is not registered."
 
-	objectsMutex critical: [
-		objects
-			removeKey: anObject
-			ifAbsent: [ Error signal: 'Unregistering an Object which is not registered: ', anObject printString ] ].
+	^ self
+		unregisterObject: anObject
+		ifAbsent: [ Error signal: 'Unregistering an Object which is not registered: ', anObject printString ]
+]
+
+{ #category : #'public api' }
+CpObjectRegistry >> unregisterObject: anObject ifAbsent: aBlock [
+
+	"Unregister the specified Object. Answer the unregistered Object"
+
+	objectsMutex critical: [ objects removeKey: anObject ifAbsent: aBlock ].
 
 	^ anObject
 ]

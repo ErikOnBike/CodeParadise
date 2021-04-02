@@ -251,9 +251,13 @@ CpDomElement >> destroy [
 
 	"Remove the receiver from the DOM tree and release any dependents"
 
-	self
-		remove ;
-		release
+	"Remove receiver from parent (take it out of visible DOM)"
+	self remove.
+
+	"Destroy all children explicitly as well"
+	self children do: [ :each | each destroy ].
+
+	self release
 ]
 
 { #category : #querying }
