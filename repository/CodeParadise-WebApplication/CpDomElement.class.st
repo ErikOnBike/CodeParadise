@@ -216,14 +216,6 @@ CpDomElement >> attributeAt: nameString put: valueString [
 
 ]
 
-{ #category : #testing }
-CpDomElement >> canHandleEvents [
-
-	"Answer whether the receiver can handle events (autonomously)"
-
-	^ false
-]
-
 { #category : #querying }
 CpDomElement >> children [
 

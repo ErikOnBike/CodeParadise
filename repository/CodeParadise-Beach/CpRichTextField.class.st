@@ -224,6 +224,14 @@ CpRichTextField >> handleKeyPressEvent: aKeyPressEvent [
 
 ]
 
+{ #category : #initialization }
+CpRichTextField >> initialize [
+
+	super initialize.
+
+	self flag: #todo "This class needs fixing: handlers are not installed by default anymore"
+]
+
 { #category : #accessing }
 CpRichTextField >> text: aString [
 

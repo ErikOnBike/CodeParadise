@@ -100,9 +100,3 @@ CpCursor >> focus [
 
 	(self shadowRoot firstDescendantMatching: #input) focus
 ]
-
-{ #category : #events }
-CpCursor >> handleFocusEvent: aFocusEvent [
-
-	self crTrace: aFocusEvent printString
-]
