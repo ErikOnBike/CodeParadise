@@ -23,7 +23,16 @@ Getting started requires a few steps:
 
 ### Setup ClientEnvironment
 
-To download the ClientEnvironment clone [CP-ClientEnvironment](https://github.com/ErikOnBike/CP-ClientEnvironment) or copy the 3 raw files in the html directory. Remember the directory in which the 3 files `app.html`, `squeak_headless_bundle.js` and `client-environment.image` are written. You will need this location in the third step when running the server.
+Either install the ClientEnvironment through Metacello in Pharo or download the ClientEnvironment manually. For Metacello use:
+
+```Smalltalk
+Metacello new
+  repository: 'github://ErikOnBike/CP-ClientEnvironment';
+  baseline: 'CpClientEnvironment';
+  load.
+```
+
+To download the ClientEnvironment (ie manual install) clone [CP-ClientEnvironment](https://github.com/ErikOnBike/CP-ClientEnvironment) or copy the 3 raw files in the html directory. Remember the directory in which the 3 files `app.html`, `squeak_headless_bundle.js` and `client-environment.image` are written. You will need this location in the third step when running the server.
 
 The files:
 * `app.html` contains a few lines of code to start the Squeak JS VM and specify which Smalltalk image to run
@@ -45,7 +54,7 @@ The ServerEnvironment should be run from a Pharo7 or Pharo8 image (**Pharo9 can'
 Loading the ServerEnvironment can be done using:
 ```Smalltalk
 Metacello new
-  repository: 'github://ErikOnBike/CodeParadise/repository';
+  repository: 'github://ErikOnBike/CodeParadise';
   baseline: 'CodeParadise';
   load.
 ```
