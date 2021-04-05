@@ -1,7 +1,7 @@
 Class {
 	#name : #CpDevTools,
 	#superclass : #Object,
-	#category : #'CodeParadise-Beach-DevTools'
+	#category : #'CodeParadise-WebApplication-DevTools'
 }
 
 { #category : #accessing }
