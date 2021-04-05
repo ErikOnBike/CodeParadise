@@ -88,7 +88,7 @@ CpShoelaceExamplesClientBehavior >> exampleCode [
 
 	<example: 'Code' order: 900>
 
-	| outputElement checkbox input |
+	| outputElement checkbox input button |
 
 	"Clear content"
 	outputElement := self outputElement.
@@ -96,7 +96,7 @@ CpShoelaceExamplesClientBehavior >> exampleCode [
 
 	outputElement
 		appendChild: ('Here is an example of HTML code containing WebComponents which can be queried using Smalltalk code' inHtmlTag: #p) ;
-		appendChild: ((CpHtmlElement newWithTag: #div) markupContent: '<div><sl-button primary>Primary</sl-button> <sl-button><sl-icon name="emoji-smile" slot="prefix"></sl-icon>Smile!</sl-button></div><div><sl-checkbox>I am happy</sl-checkbox> <sl-input label="What is your name?"></sl-input>' ; yourself) ;
+		appendChild: ((CpHtmlElement newWithTag: #div) markupContent: '<div><sl-button type="primary">Primary</sl-button> <sl-button><sl-icon name="emoji-smile" slot="prefix"></sl-icon>Smile!</sl-button></div><div><sl-checkbox>I am happy</sl-checkbox></div><div><sl-input label="What is your name?"></sl-input>' ; yourself) ;
 		appendChild: ('Leave the above input field to trigger a "changed" event. The input content will be displayed below.' inHtmlTag: #p) ;
 		appendChild: (('' inHtmlTag: #p) id: #result ; yourself).
 
@@ -104,9 +104,15 @@ CpShoelaceExamplesClientBehavior >> exampleCode [
 	checkbox := outputElement firstDescendantMatching: 'sl-checkbox'.
 	checkbox beChecked.
 
+	"Show we receive a genuine SlInput element"
 	input := outputElement firstDescendantMatching: 'sl-input'.
 	input value: 'initial value received from code'.
-	input when: CpChangeEvent do: [ (outputElement firstDescendantMatching: '#result') textContent: input value ]
+	input when: CpChangeEvent do: [ (outputElement firstDescendantMatching: '#result') textContent: input value ].
+
+	"Show we receive a genuine SlButton element"
+	button := CpDomElement newWithTag: 'sl-button'.
+	button label: 'I am created dynamically. I am a ', button class name ; info.
+	outputElement insertChild: button before: (outputElement firstDescendantMatching: #div).
 ]
 
 { #category : #examples }
@@ -223,6 +229,9 @@ CpShoelaceExamplesClientBehavior >> showIndex [
 				position: relative;
 				width: 100%;
 				height: 100%;
+			}
+			#output div {
+				padding-top: 1em;
 			}
 			div.separator {
 				height: 1em;
