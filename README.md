@@ -65,6 +65,7 @@ CpMessageChannel environmentImplementation: CpZincWebSocketChannel.
 CpDomExamplesWebApplication register.
 CpComponentExamplesWebApplication register.
 CpCounterWebApplication register.
+CpShoelaceExamplesWebApplication register.
 CpFomanticExamplesWebApplication register.
 CpIntroductionPresentationWebApplication register.
 
@@ -92,6 +93,7 @@ CpDomExamplesWebApplication unregister.
 CpComponentExamplesWebApplication unregister.
 CpCounterWebApplication unregister.
 CpCounterWebApplication release.
+CpShoelaceExamplesWebApplication unregister.
 CpFomanticExamplesWebApplication unregister.
 CpIntroductionPresentationWebApplication unregister.
 
