@@ -11,6 +11,17 @@ Class {
 	#category : #'CodeParadise-WebApplication-DOM'
 }
 
+{ #category : #primitives }
+CpWebComponent class >> isRegistered: aString [
+
+	"Answer whether the specified tag name (a String) is registered as a WebComponent in the browser
+	(relevant for external WebComponent libraries)"
+
+	<primitive: 'primitiveWebComponentIsRegistered:' module: 'CpDOMPlugin'>
+	self primitiveFailed
+
+]
+
 { #category : #'class initialization' }
 CpWebComponent class >> postInstall [
 
@@ -50,6 +61,95 @@ CpWebComponent class >> tagName [
 
 	<primitive: 'primitiveWebComponentTagName' module: 'CpDOMPlugin'>
 	self primitiveFailed
+]
+
+{ #category : #'adding/removing' }
+CpWebComponent >> appendChild: childElement atSlotNamed: nameString [
+
+	"Append the specified element as child of the receiver in the specified template slot"
+
+	childElement attributeAt: #slot put: nameString.
+	^ self appendChild: childElement
+]
+
+{ #category : #querying }
+CpWebComponent >> childrenAtSlotNamed: nameString [
+
+	"Answer an Array with the child elements (in document order) of the receiver
+	which are located in the specified template slot"
+
+	^ self children select: [ :each | (each attributeAt: #slot) = nameString ]
+]
+
+{ #category : #querying }
+CpWebComponent >> firstChildAtSlotNamed: nameString [
+
+	"Answer the first child element (in document order) of the receiver
+	which is located in the specified template slot or nil if no such child is present"
+
+	^ (self childrenAtSlotNamed: nameString)
+		ifNotEmpty: [ :children | children first ]
+		ifEmpty: [ nil ]
+]
+
+{ #category : #'adding/removing' }
+CpWebComponent >> insertChild: childElement before: siblingElement atSlotNamed: nameString [
+
+	"Insert the specified element as child of the receiver before the specified sibling
+	and in the specified template slot"
+
+	childElement attributeAt: #slot put: nameString.
+	^ self insertChild: childElement before: siblingElement
+]
+
+{ #category : #'adding/removing' }
+CpWebComponent >> removeChildrenAtSlotNamed: nameString [
+
+	"Remove all children at the specified slot name"
+
+	self children do: [ :each |
+		(each attributeAt: #slot) = nameString
+			ifTrue: [ self removeChild: each ] ]
+]
+
+{ #category : #'adding/removing' }
+CpWebComponent >> replaceAllChildrenWith: childElement atSlotNamed: nameString [
+
+	"Set the specified element as child of the receiver in the specified template slot.
+	Any existing children in the same slot will be removed."
+
+	^ self
+		removeChildrenAtSlotNamed: nameString ;
+		appendChild: childElement atSlotNamed: nameString
+]
+
+{ #category : #'adding/removing' }
+CpWebComponent >> replaceChild: childElement with: replacementElement atSlotNamed: nameString [
+
+	"Replace the specified child element with the specified replacement element
+	and place it in the specified template slot.
+	Answer the new (replacement) child.
+	An error is raised if the (original) child element is not positioned at specified slot."
+
+	(childElement attributeAt: #slot) = nameString
+		ifFalse: [ self error: 'Failed to replace a child element, because it is not present at the specified slot' ].
+	replacementElement attributeAt: #slot put: nameString.
+	^ self replaceChild: childElement with: replacementElement
+]
+
+{ #category : #'adding/removing' }
+CpWebComponent >> replaceChildAtIndex: anInteger with: replacementElement atSlotNamed: nameString [
+
+	"Replace the child at the specified location with the specified replacement element
+	and place it in the specified template slot.
+	Answer the new (replacement) child.
+	An error is raised if the specified location is not used."
+
+	| childElement |
+
+	childElement := (self childrenAtSlotNamed: nameString) at: anInteger ifAbsent: [ self error: 'No child present at specified location' ].
+
+	^ self replaceChild: childElement with: replacementElement atSlotNamed: nameString
 ]
 
 { #category : #querying }
