@@ -84,6 +84,32 @@ CpShoelaceExamplesClientBehavior >> exampleCheckbox [
 ]
 
 { #category : #examples }
+CpShoelaceExamplesClientBehavior >> exampleCode [
+
+	<example: 'Code' order: 900>
+
+	| outputElement checkbox input |
+
+	"Clear content"
+	outputElement := self outputElement.
+	outputElement textContent: ''.
+
+	outputElement
+		appendChild: ('Here is an example of HTML code containing WebComponents which can be queried using Smalltalk code' inHtmlTag: #p) ;
+		appendChild: ((CpHtmlElement newWithTag: #div) markupContent: '<div><sl-button primary>Primary</sl-button> <sl-button><sl-icon name="emoji-smile" slot="prefix"></sl-icon>Smile!</sl-button></div><div><sl-checkbox>I am happy</sl-checkbox> <sl-input label="What is your name?"></sl-input>' ; yourself) ;
+		appendChild: ('Leave the above input field to trigger a "changed" event. The input content will be displayed below.' inHtmlTag: #p) ;
+		appendChild: (('' inHtmlTag: #p) id: #result ; yourself).
+
+	"Show we receive a genuine SlCheckbox element"
+	checkbox := outputElement firstDescendantMatching: 'sl-checkbox'.
+	checkbox beChecked.
+
+	input := outputElement firstDescendantMatching: 'sl-input'.
+	input value: 'initial value received from code'.
+	input when: CpChangeEvent do: [ (outputElement firstDescendantMatching: '#result') textContent: input value ]
+]
+
+{ #category : #examples }
 CpShoelaceExamplesClientBehavior >> exampleIcon [
 
 	<example: 'Icon' order: 100>
