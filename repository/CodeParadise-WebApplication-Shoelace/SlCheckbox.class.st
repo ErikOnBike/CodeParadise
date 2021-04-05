@@ -87,11 +87,11 @@ SlCheckbox >> name: aString [
 { #category : #'accessing control' }
 SlCheckbox >> value [
 
-	^ self attributeAt: #value
+	^ self propertyAt: #value
 ]
 
 { #category : #'accessing control' }
 SlCheckbox >> value: aString [
 
-	self attributeAt: #value put: aString
+	self propertyAt: #value put: aString
 ]
