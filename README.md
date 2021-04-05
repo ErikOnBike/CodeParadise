@@ -115,6 +115,7 @@ The example applications can be reached using the following URLs:
 * DOM Examples [http://localhost:8080/static/app.html?DOM-Examples](http://localhost:8080/static/app.html?DOM-Examples)
 * Component Examples [http://localhost:8080/static/app.html?Component-Examples](http://localhost:8080/static/app.html?Component-Examples)
 * Counter Example [http://localhost:8080/static/app.html?counter](http://localhost:8080/static/app.html?counter)
+* Shoelace Examples [http://localhost:8080/static/app.html?Shoelace-Examples](http://localhost:8080/static/app.html?Shoelace-Examples)
 * Fomantic Examples [http://localhost:8080/static/app.html?Fomantic-Examples](http://localhost:8080/static/app.html?Fomantic-Examples)
 * Introduction Presentation [http://localhost:8080/static/app.html?presentation](http://localhost:8080/static/app.html?presentation)
 
