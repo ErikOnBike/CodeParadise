@@ -20,6 +20,12 @@ CpBulletedContentPresenter >> bulletModels [
 	^ self model bullets
 ]
 
+{ #category : #presenters }
+CpBulletedContentPresenter >> presenterClassForModel: aModel atSlotNamed: aString [
+
+	^ CpBulletPresenter
+]
+
 { #category : #view }
 CpBulletedContentPresenter >> renderView [
 

@@ -32,7 +32,7 @@ CpTitledSlideView class >> style [
 			width: 100%;
 			height: calc(100% - 1.6em);
 			padding: 2.5% 2.5% 2.5% 2.5%;
-			font-size: 3em;
+			font-size: 2em;
 			overflow: hidden;
 			color: rgba(255, 255, 255, 1);
 			background-color: rgba(0, 105, 148, .7);
