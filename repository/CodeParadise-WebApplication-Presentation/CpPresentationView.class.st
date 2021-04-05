@@ -69,9 +69,7 @@ CpPresentationView >> handleKeyPressEvent: aKeyEvent [
 	('|i|I|g|G|' includesSubstring: key)
 		ifTrue: [ ^ self serverAnnounce: CpSlideIndex ].
 	('|Escape|' includesSubstring: key)
-		ifTrue: [ ^ self serverAnnounce: CpRemoveSlideIndex ].
-
-	super handleKeyPressEvent: aKeyEvent
+		ifTrue: [ ^ self serverAnnounce: CpRemoveSlideIndex ]
 ]
 
 { #category : #initialization }
