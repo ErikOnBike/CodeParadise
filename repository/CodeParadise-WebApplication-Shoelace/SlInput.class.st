@@ -4,7 +4,7 @@ Class {
 	#category : #'CodeParadise-WebApplication-Shoelace-Elements'
 }
 
-{ #category : #'accessing style' }
+{ #category : #'accessing control' }
 SlInput >> beClearable [
 
 	self attributeAt: #clearable put: ''
@@ -22,7 +22,7 @@ SlInput >> beNoPill [
 	self removeAttributeAt: #pill
 ]
 
-{ #category : #'accessing style' }
+{ #category : #'accessing control' }
 SlInput >> beNotClearable [
 
 	self removeAttributeAt: #clearable
@@ -46,7 +46,7 @@ SlInput >> email [
 	self type: #email
 ]
 
-{ #category : #'accessing style' }
+{ #category : #'accessing control' }
 SlInput >> hasTogglePassword [
 
 	^ (self attributeAt: #'toggle-password') notNil
@@ -82,7 +82,7 @@ SlInput >> helpText: aString [
 	self attributeAt: #'help-text' put: aString
 ]
 
-{ #category : #'accessing style' }
+{ #category : #'accessing control' }
 SlInput >> isClearable [
 
 	^ (self attributeAt: #clearable) notNil
@@ -124,7 +124,7 @@ SlInput >> medium [
 	self size: #medium
 ]
 
-{ #category : #'accessing style' }
+{ #category : #'accessing control' }
 SlInput >> noTogglePassword [
 
 	self removeAttributeAt: #'toggle-password'
@@ -142,13 +142,13 @@ SlInput >> password [
 	self type: #password
 ]
 
-{ #category : #'accessing style' }
+{ #category : #'accessing control' }
 SlInput >> placeholder [
 
 	^ self attributeAt: #placeholder
 ]
 
-{ #category : #'accessing style' }
+{ #category : #'accessing control' }
 SlInput >> placeholder: aString [
 
 	self attributeAt: #placeholder put: aString
@@ -214,7 +214,7 @@ SlInput >> text [
 	self type: #text
 ]
 
-{ #category : #'accessing style' }
+{ #category : #'accessing control' }
 SlInput >> togglePassword [
 
 	self attributeAt: #'toggle-password' put: ''

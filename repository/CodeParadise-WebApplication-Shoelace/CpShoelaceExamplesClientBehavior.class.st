@@ -61,6 +61,25 @@ CpShoelaceExamplesClientBehavior >> exampleButton [
 ]
 
 { #category : #examples }
+CpShoelaceExamplesClientBehavior >> exampleButtonGroup [
+
+	<example: 'ButtonGroup' order: 100>
+
+	| outputElement |
+
+	"Clear content"
+	outputElement := self outputElement.
+	outputElement textContent: ''.
+
+	outputElement appendChild: (SlButtonGroup new
+		appendChild: (SlButton new label: 'First' ; yourself) ;
+		appendChild: (SlButton new label: 'Second' ; yourself) ;
+		appendChild: (SlButton new label: 'Third' ; yourself) ;
+		yourself)
+
+]
+
+{ #category : #examples }
 CpShoelaceExamplesClientBehavior >> exampleCheckbox [
 
 	<example: 'Checkbox' order: 100>
@@ -179,6 +198,99 @@ CpShoelaceExamplesClientBehavior >> exampleInput [
 	pillState when: CpChangeEvent do: [ pillState isChecked ifTrue: [ input bePill ] ifFalse: [ input beNoPill ] ].
 	clearableState when: CpChangeEvent do: [ clearableState isChecked ifTrue: [ input beClearable ] ifFalse: [ input beNotClearable ] ].
 
+]
+
+{ #category : #examples }
+CpShoelaceExamplesClientBehavior >> exampleSwitch [
+
+	<example: 'Switch' order: 100>
+
+	| outputElement |
+
+	"Clear content"
+	outputElement := self outputElement.
+	outputElement textContent: ''.
+
+	outputElement
+		appendChild: ('Some switches' inHtmlTag: #p) ;
+		appendChild: SlSwitch new ;
+		appendChild: (SlSwitch new beChecked ; yourself) ;
+		appendChild: (SlSwitch new beDisabled ; yourself) ;
+		appendChild: (SlSwitch new beDisabled ; beChecked ; yourself)
+]
+
+{ #category : #examples }
+CpShoelaceExamplesClientBehavior >> exampleTextarea [
+
+	<example: 'Textarea' order: 100>
+
+	| outputElement input disabledState resizeableState |
+
+	"Clear content"
+	outputElement := self outputElement.
+	outputElement textContent: ''.
+
+	outputElement appendChild: (SlTextarea new label: 'Need your input' ; yourself).
+
+	outputElement appendChild: (CpHtmlElement newWithTag: #p).
+
+	outputElement appendChild: (SlTextarea new placeholder: 'Your first name' ; yourself).
+
+	outputElement appendChild: (CpHtmlElement newWithTag: #p).
+
+	outputElement appendChild: (SlTextarea new helpText: 'I''m here to help you' ; label: 'Textarea with help text' ; placeholder: 'Anything you want to share?' ; yourself).
+
+	outputElement appendChild: (CpHtmlElement newWithTag: #p).
+
+	outputElement appendChild: (SlTextarea new
+		help: ((CpHtmlElement newWithTag: #span) appendChild: ('Happy help ' inHtmlTag: #span) ; appendChild: (SlIcon name: 'emoji-smile') ; yourself) ;
+		label: 'Happy textarea (with help HTML and icons)' ;
+		placeholder: 'Anything you want to share?' ;
+		yourself).
+
+	outputElement appendChild: (CpHtmlElement newWithTag: #p).
+
+	input := outputElement appendChild: (SlTextarea new label: 'Need more input').
+	outputElement appendChild: (disabledState := SlCheckbox label: 'Disabled').
+	outputElement appendChild: (resizeableState := SlCheckbox label: 'Resizeable').
+	disabledState when: CpChangeEvent do: [ disabledState isChecked ifTrue: [ input beDisabled ] ifFalse: [ input beNotDisabled ] ].
+	resizeableState when: CpChangeEvent do: [ resizeableState isChecked ifTrue: [ input autoResize ] ifFalse: [ input noResize ] ].
+
+]
+
+{ #category : #examples }
+CpShoelaceExamplesClientBehavior >> exampleTooltip [
+
+	<example: 'Tooltip' order: 100>
+
+	| outputElement |
+
+	"Clear content"
+	outputElement := self outputElement.
+	outputElement textContent: ''.
+
+	outputElement
+		appendChild: (SlTooltip new contentText: 'This is one funny icon' ; appendChild: (SlIcon name: 'emoji-smile') ; yourself) ;
+		appendChild: ('' inHtmlTag: #p) ;
+		appendChild: (SlTooltip new contentText: 'topStart' ; topStart ; appendChild: (SlButton label: 'topStart') ; yourself) ;
+		appendChild: (SlTooltip new contentText: 'top' ; top ; appendChild: (SlButton label: 'top') ; yourself) ;
+		appendChild: (SlTooltip new contentText: 'topEnd' ; topEnd ; appendChild: (SlButton label: 'topEnd') ; yourself) ;
+		appendChild: ('' inHtmlTag: #p) ;
+		appendChild: (SlTooltip new contentText: 'rightStart' ; rightStart ; appendChild: (SlButton label: 'rightStart') ; yourself) ;
+		appendChild: (SlTooltip new contentText: 'right' ; right ; appendChild: (SlButton label: 'right') ; yourself) ;
+		appendChild: (SlTooltip new contentText: 'rightEnd' ; rightEnd ; appendChild: (SlButton label: 'rightEnd') ; yourself) ;
+		appendChild: ('' inHtmlTag: #p) ;
+		appendChild: (SlTooltip new contentText: 'bottomStart' ; bottomStart ; appendChild: (SlButton label: 'bottomStart') ; yourself) ;
+		appendChild: (SlTooltip new contentText: 'bottom' ; bottom ; appendChild: (SlButton label: 'bottom') ; yourself) ;
+		appendChild: (SlTooltip new contentText: 'bottomEnd' ; bottomEnd ; appendChild: (SlButton label: 'bottomEnd') ; yourself) ;
+		appendChild: ('' inHtmlTag: #p) ;
+		appendChild: (SlTooltip new contentText: 'leftStart' ; leftStart ; appendChild: (SlButton label: 'leftStart') ; yourself) ;
+		appendChild: (SlTooltip new contentText: 'left' ; left ; appendChild: (SlButton label: 'left') ; yourself) ;
+		appendChild: (SlTooltip new contentText: 'leftEnd' ; leftEnd ; appendChild: (SlButton label: 'leftEnd') ; yourself) ;
+		appendChild: ('' inHtmlTag: #p) ;
+		appendChild: (SlTooltip new content: (SlIcon name: 'emoji-smile') ; appendChild: (SlButton label: 'HTML in tooltip') ; yourself) ;
+		appendChild: ('' inHtmlTag: #p) ;
+		appendChild: (SlTooltip new contentText: 'You clicked for me?' ; triggerClick ; appendChild: (SlButton label: 'Tooltip via click') ; yourself)
 ]
 
 { #category : #initialization }
