@@ -61,6 +61,8 @@ Metacello new
 
 ### Run HTTP and WebSocket Server
 
+Thanks to [Tim](https://github.com/macta) there is a menu 'Paradise' now in Pharo's menubar which allows starting the environment. First select 'Reset' from the 'Paradise' menu and then open one of the existing applications through 'Open'. Some more explanation follows.
+
 The ServerEnvironment provides a HTTP server (using [Zinc HTTP Components](https://github.com/svenvc/zinc)) for a number of static files. You can use any other web server for this if you prefer.
 
 The ServerEnvironment provides a WebSocket server (again using [Zinc HTTP Components](https://github.com/svenvc/zinc)) for the interactive communication between ClientEnvironment and ServerEnvironment.
@@ -150,6 +152,6 @@ For the mobile applications for example, the following could be done:
 
 ## Compatibility
 
-The means of installing (Compiled) code in the ClientEnvironment is by sending the relevant bytecode. The current implementation assumes that both the ServerEnvironment and the ClientEnvironment share the same bytecode set. Since the ClientEnvironment is running on SqueakJS VM, only bytecode sets supported by SqueakJS VM are usable. At the moment Pharo9 can't be used as a development platform, because it uses the newer Sista bytecode set. Support for Sista in SqueakJS VM has just been implemented, but is not tested with CodeParadise yet.
+The means of installing (Compiled) code in the ClientEnvironment is by sending the relevant bytecode. The current implementation assumes that both the ServerEnvironment and the ClientEnvironment share the same bytecode set. Since the ClientEnvironment is running on SqueakJS VM, only bytecode sets supported by SqueakJS VM are usable. At the moment Pharo9 can't be used as a development platform, because it uses the newer Sista bytecode set. Support for Sista in SqueakJS VM has been implemented recently, but is not tested with CodeParadise yet.
 
 There is no explicit list of supported browsers at the moment. Please use a recent browser version. If you have trouble using (the pre-Chrome based) Microsoft Edge, please consider switching to Chrome, Firefox or one of the derivatives.
