@@ -124,18 +124,6 @@ SlInput >> medium [
 	self size: #medium
 ]
 
-{ #category : #'accessing control' }
-SlInput >> name [
-
-	^ self propertyAt: #name
-]
-
-{ #category : #'accessing control' }
-SlInput >> name: aString [
-
-	self propertyAt: #name put: aString
-]
-
 { #category : #'accessing style' }
 SlInput >> noTogglePassword [
 
@@ -248,16 +236,4 @@ SlInput >> type: aString [
 SlInput >> url [
 
 	self type: #url
-]
-
-{ #category : #'accessing control' }
-SlInput >> value [
-
-	^ self propertyAt: #value
-]
-
-{ #category : #'accessing control' }
-SlInput >> value: aString [
-
-	self propertyAt: #value put: aString
 ]

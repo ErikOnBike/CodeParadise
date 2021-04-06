@@ -71,27 +71,3 @@ SlCheckbox >> label: aString [
 
 	self textContent: aString
 ]
-
-{ #category : #'accessing control' }
-SlCheckbox >> name [
-
-	^ self attributeAt: #name
-]
-
-{ #category : #'accessing control' }
-SlCheckbox >> name: aString [
-
-	self attributeAt: #name put: aString
-]
-
-{ #category : #'accessing control' }
-SlCheckbox >> value [
-
-	^ self propertyAt: #value
-]
-
-{ #category : #'accessing control' }
-SlCheckbox >> value: aString [
-
-	self propertyAt: #value put: aString
-]
