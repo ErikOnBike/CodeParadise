@@ -48,6 +48,15 @@ CpClientCommunicator >> hasReconnectStrategy [
 	^ reconnectStrategy notNil
 ]
 
+{ #category : #initialization }
+CpClientCommunicator >> initialize [
+
+	super initialize.
+
+	"By default always use reconnect strategy"
+	self reconnectStrategy: CpCommunicatorReconnectStrategy new
+]
+
 { #category : #accessing }
 CpClientCommunicator >> messageChannel: aMessageChannel [
 
