@@ -61,19 +61,3 @@ CpScreen >> initialize [
 			}' ;
 		yourself)
 ]
-
-{ #category : #dragging }
-CpScreen >> makeDraggable: aView [
-
-	(CpHtmlElement elementWithId: self id)
-		addClass: #dragging.
-	aView addClass: #dragging
-]
-
-{ #category : #dragging }
-CpScreen >> stopDragging: aView [
-
-	(CpHtmlElement elementWithId: self id)
-		removeClass: #dragging.
-	aView removeClass: #dragging
-]
