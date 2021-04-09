@@ -28,8 +28,194 @@ FuiElement class >> allVariations [
 	^ #()
 ]
 
+{ #category : #accessing }
+FuiElement class >> baseElementTagName [
+
+	"Answer the HTML element tag name the receiver is based upon.
+	Eg: #div or #span or #button"
+
+	self subclassResponsibility
+]
+
+{ #category : #accessing }
+FuiElement class >> cssSelector [
+
+	"Answer the CSS selector (a String) which specifies the receiver should
+	be used as representation for DOM elements matching that CSS selector"
+
+	^ '.ui.', self elementName
+]
+
+{ #category : #accessing }
+FuiElement class >> elementClass [
+
+	"Answer the minimal CSS class representing the receiver
+	(ie no Types, States or Variations are taken into account)"
+
+	^ 'ui ', self elementName
+]
+
+{ #category : #accessing }
+FuiElement class >> elementName [
+
+	"Answer the (Fomantic) name of the receiver.
+	Current implementation assumes the Class name represents the element name.
+	Eg: FuiButton -> button, FuiInput -> input"
+
+	^ (self name asString allButFirst: 3) asLowercase
+]
+
+{ #category : #'class initialization' }
+FuiElement class >> installFomanticPlugin [
+
+	"Install the Fomantic plugin which allows HTML elements to be
+	mapped to Smalltalk classes"
+
+	CpHtmlElement documentHead appendChild: ((CpDomElement newWithTag: #script)
+		textContent: '"use strict";
+			Squeak.registerExternalModule("CpFomanticPlugin", {
+				getModuleName: function() {  return "CpFomanticPlugin"; },
+				interpreterProxy: null,
+				domPlugin: null,
+				setInterpreter: function(anInterpreter) {
+					this.interpreterProxy = anInterpreter;
+					this.domPlugin = Squeak.externalModules.CpDOMPlugin;
+					return true;
+				},
+				withJQuery: function(callback) {
+					// jQuery and Fomantic might not be loaded yet, retry until loaded
+					if(window.jQuery && window.jQuery.prototype.calendar) {
+						return callback(window.jQuery);
+					} else {
+console.log("Waiting for Fomantic library to load");
+						let thisHandle = this;
+						window.setTimeout(function() {
+							thisHandle.withJQuery(callback);
+						}, 100);
+					}
+				},
+				"primitiveFUIElementRegisterForSelector:": function(argCount) {
+					if(argCount !== 1) return false;
+					let receiver = this.interpreterProxy.stackValue(argCount);
+					let selector = this.interpreterProxy.stackValue(0).bytesAsString();
+					this.domPlugin.addElementClassMapper(function(element) {
+						return (element.matches && element.matches(selector)) ? receiver : null;
+					});
+					this.domPlugin.answerSelf(argCount);
+				},
+				"primitiveFUIElementAsFomanticElement": function(argCount) {
+					if(argCount !== 0) return false;
+					let domElement = this.interpreterProxy.stackValue(argCount).domElement;
+					if(!domElement) return false;
+
+					// Remove existing element temporarily from DOM plugin
+					let instance = this.domPlugin.getElement(domElement);
+					if(instance) {
+						this.domPlugin.discardElement(domElement);
+					}
+					let result = this.domPlugin.instanceForElement(domElement);
+					if(instance && instance.sqClass === result.sqClass) {
+						// Restore original, nothing changed
+						this.domPlugin.setElement(domElement, instance);
+						result = instance;
+					}
+					return this.domPlugin.answer(argCount, result);
+				},
+				"primitiveFUIElementPerformOnElement:as:": function(argCount) {
+					if(argCount !== 2) return false;
+					let properties = this.domPlugin.asJavascriptObject(this.interpreterProxy.stackValue(1));
+					let elementName = this.interpreterProxy.stackValue(0).bytesAsString();
+					if(!elementName) return false;
+					let receiver = this.interpreterProxy.stackValue(argCount);
+
+					// Perform behavior
+					let result = this.withJQuery(function(jQuery) {
+						let jQueryElement = jQuery(receiver.domElement);
+						try {
+							return jQueryElement[elementName](properties);
+						} catch(e) {
+							throw Error("Unsupported elementName " + elementName + " or error " + e.message);
+						}
+					});
+
+					// If result looks like the component itself, answer "self"
+					if(typeof result[elementName] === "function") {
+						result = receiver;
+					}
+					return this.domPlugin.answer(argCount, result);
+				}
+			});
+		' ;
+		yourself)
+]
+
+{ #category : #initialization }
+FuiElement class >> loadFomantic [
+
+	"Load Fomantic library ("
+
+	CpHtmlElement documentHead
+		appendChild: ((CpHtmlElement newWithTag: #script)
+			attributeAt: #src put: 'https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js' ;
+			yourself) ;
+		appendChild: ((CpHtmlElement newWithTag: #link)
+			attributeAt: #rel put: 'stylesheet' ;
+			attributeAt: #type put: 'text/css' ;
+			attributeAt: #href put: 'https://cdn.jsdelivr.net/npm/fomantic-ui@2.8.7/dist/semantic.min.css' ;
+			yourself) ;
+		appendChild: ((CpHtmlElement newWithTag: #script)
+			attributeAt: #src put: 'https://cdn.jsdelivr.net/npm/fomantic-ui@2.8.7/dist/semantic.min.js' ;
+			yourself)
+]
+
+{ #category : #'instance creation' }
+FuiElement class >> new [
+
+	"Answer a new instance of the receiver.
+
+	Implementation:
+	When creating a new HTML element it is not recognized as Fomantic element yet.
+	Therefore set its CSS class (making it recognizable) and answer the correct instance."
+
+	^ (self newWithTag: self baseElementTagName)
+		attributeAt: #class put: self elementClass ;
+		asFomanticElement
+
+]
+
+{ #category : #'class initialization' }
+FuiElement class >> postInstall [
+
+	super postInstall.
+
+	self = FuiElement
+		ifTrue: [ self loadFomantic ; installFomanticPlugin ]
+		ifFalse: [ self registerElement ]
+]
+
+{ #category : #'class initialization' }
+FuiElement class >> primRegisterForSelector: aString [
+
+	<primitive: 'primitiveFUIElementRegisterForSelector:' module: 'CpFomanticPlugin'>
+	self primitiveFailed
+
+]
+
+{ #category : #'class initialization' }
+FuiElement class >> registerElement [
+
+	"Register the receiver as a Fomantic element"
+
+	self primRegisterForSelector: self cssSelector
+]
+
 { #category : #'private - accessing' }
 FuiElement class >> storeClassFrom: aString into: classes [
+
+	"Store the specified CSS class into the Array of classes
+	(indexed 1 -> Types, 2 -> States, 3 -> Variations).
+	Answer a Boolean stating whether the specified CSS class is recognized and
+	stored appropriately."
 
 	| className |
 
@@ -126,7 +312,7 @@ FuiElement >> classes [
 	The Array has 3 elements for class names representing Type, States and Variations (with values
 	as defined by Fomantic docs).
 
-	For example the tag <div class='ui read-only checked slider checkbox'>...</div> will result in:
+	For example the tag <div class='ui checkbox read-only checked slider'>...</div> will result in:
 		Array
 			with: (OrderedCollection with: #slider)
 			with: (OrderedCollection with: #'read-only' with: #checked)
@@ -147,7 +333,7 @@ FuiElement >> classes: anArray [
 	with class names (Symbols).
 
 	The result is a class attribute following the rule:
-		'ui <type-name> <state-name1> ... <state-nameX> <variation-name1> ... <variation-nameY> <type>'
+		'ui <type> <type-name> <state-name1> ... <state-nameX> <variation-name1> ... <variation-nameY>'
 
 	The previous order is not strictly necessary, but beware that some State or Variation
 	classes can consist of two names like 'left icon' or 'very padded'.
@@ -157,14 +343,13 @@ FuiElement >> classes: anArray [
 	"
 
 	self attributeAt: #class put: (String streamContents: [ :stream |
-		stream nextPutAll: 'ui'.
+		stream nextPutAll: self class elementClass.
+
+		"Add Types, States. Variations"
 		self
 			printClasses: (anArray at: 1) on: stream ;
 			printClasses: (anArray at: 2) on: stream ;
-			printClasses: (anArray at: 3) on: stream.
-		stream
-			nextPut: Character space ;
-			nextPutAll: self class type ])
+			printClasses: (anArray at: 3) on: stream ])
 ]
 
 { #category : #'private - accessing' }
@@ -183,7 +368,7 @@ FuiElement >> classesFrom: aString [
 		| token |
 
 		token := readStream lookAheadAt: 1.
-		(token = 'ui' or: [ token = self class type ])
+		(token = 'ui' or: [ token = self class elementName ])
 			ifTrue: [ readStream skip ]
 			ifFalse: [
 				(self storeClassFrom: token into: classes)
@@ -197,7 +382,7 @@ FuiElement >> classesFrom: aString [
 							ifFalse: [
 
 								"Unknown token"
-								self crTrace: 'Unknown class "', readStream peek, '" for Fomantic UI element ', self class type.
+								self crTrace: 'Unknown class "', readStream peek, '" for Fomantic UI element ', self class elementName.
 								readStream skip ] ] ] ].
 
 	^ classes
@@ -208,7 +393,7 @@ FuiElement >> performOnElement: behavior [
 
 	"Perform the specified behavior (a Dictionary or Symbol) on the receiver's element"
 
-	^ self performOnElement: behavior as: self class type
+	^ self performOnElement: behavior as: self class elementName
 ]
 
 { #category : #'private - behavior' }

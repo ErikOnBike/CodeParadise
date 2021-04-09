@@ -18,12 +18,10 @@ FuiButton class >> allStates [
 	^ #(#loading #disabled)
 ]
 
-{ #category : #'instance creation' }
-FuiButton class >> new [
+{ #category : #accessing }
+FuiButton class >> baseElementTagName [
 
-	^ (self newWithTag: #button)
-		attributeAt: #class put: 'ui button' ;
-		yourself
+	^ #button
 ]
 
 { #category : #'instance creation' }
@@ -32,12 +30,6 @@ FuiButton class >> newLabeled: aString [
 	^ self new
 		textContent: aString ;
 		yourself
-]
-
-{ #category : #accessing }
-FuiButton class >> type [
-
-	^ #button
 ]
 
 { #category : #'accessing - variation' }

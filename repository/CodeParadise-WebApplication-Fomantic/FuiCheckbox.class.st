@@ -22,13 +22,18 @@ FuiCheckbox class >> allVariations [
 	^ #(#fitted #inverted)
 ]
 
+{ #category : #accessing }
+FuiCheckbox class >> baseElementTagName [
+
+	^ #div
+]
+
 { #category : #'instance creation' }
 FuiCheckbox class >> new [
 
 	"Answer a new HTML element for the checkbox input field"
 
-	^ (self newWithTag: #div)
-		attributeAt: #class put: 'ui checkbox' ;
+	^ super new
 		appendChild: ((CpHtmlElement newWithTag: #input)
 			propertyAt: #type put: #checkbox ;
 			yourself) ;
@@ -41,11 +46,18 @@ FuiCheckbox class >> newLabeled: aString [
 
 	"Answer a new HTML element for the checkbox input field with specified label"
 
-	^ self new
-		appendChild: ((CpHtmlElement newWithTag: #label)
-			textContent: aString ;
-			yourself) ;
-		yourself
+	| checkbox |
+
+	checkbox := self new.
+	(checkbox firstDescendantMatching: #label)
+		ifNotNil: [ :label | label textContent: aString ]
+		ifNil: [
+			checkbox
+				appendChild: ((CpHtmlElement newWithTag: #label)
+				textContent: aString ;
+				yourself) ].
+
+	^ checkbox
 ]
 
 { #category : #'instance creation' }
@@ -60,12 +72,6 @@ FuiCheckbox class >> newNamed: aSymbol andLabeled: aString [
 		ifNotNil: [ :input | input propertyAt: #name put: aSymbol ].
 
 	^ checkbox
-]
-
-{ #category : #accessing }
-FuiCheckbox class >> type [
-
-	^ #checkbox
 ]
 
 { #category : #'accessing - state' }

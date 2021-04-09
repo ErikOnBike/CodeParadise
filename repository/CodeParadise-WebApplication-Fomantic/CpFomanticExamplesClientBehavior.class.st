@@ -77,8 +77,8 @@ CpFomanticExamplesClientBehavior >> exampleCheckbox [
 
 	outputElement
 		appendChild: ('' inHtmlTag: #p) ;
-		appendChild: ((FuiButton newLabeled: 'Be toogle')
-			when: CpClickEvent do: [ :event | checkbox beToggle. self crTrace: event printString ] ;
+		appendChild: ((FuiButton newLabeled: 'Be toggle')
+			when: CpClickEvent do: [ :event | checkbox beToggle ] ;
 			yourself) ;
 		appendChild: ((FuiButton newLabeled: 'Be slider')
 			when: CpClickEvent do: [ :event | checkbox beSlider ] ;
@@ -185,30 +185,10 @@ CpFomanticExamplesClientBehavior >> initialize [
 	self showIndex
 ]
 
-{ #category : #initialization }
-CpFomanticExamplesClientBehavior >> loadFomantic [
-
-	"Load Fomantic UI from jsDelivr CDN"
-
-	CpHtmlElement documentHead
-		appendChild: ((CpHtmlElement newWithTag: #script)
-			attributeAt: #src put: 'https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js' ;
-			attributeAt: #async put: 'false' ;
-			yourself) ;
-		appendChild: ((CpHtmlElement newWithTag: #link)
-			attributeAt: #rel put: 'stylesheet' ;
-			attributeAt: #type put: 'text/css' ;
-			attributeAt: #href put: 'https://cdn.jsdelivr.net/npm/fomantic-ui@2.8.6/dist/semantic.min.css' ;
-			yourself) ;
-		appendChild: ((CpHtmlElement newWithTag: #script)
-			attributeAt: #src put: 'https://cdn.jsdelivr.net/npm/fomantic-ui@2.8.6/dist/semantic.min.js' ;
-			yourself)
-]
-
 { #category : #accessing }
 CpFomanticExamplesClientBehavior >> outputElement [
 
-	^ CpHtmlElement documentBody firstDescendantMatching: '#output'
+	^ CpHtmlElement document elementWithId: #output
 ]
 
 { #category : #examples }
@@ -218,8 +198,6 @@ CpFomanticExamplesClientBehavior >> showIndex [
 	This class is just a collection of examples of UI possibilities."
 
 	| body list items |
-
-	self loadFomantic.
 
 	CpHtmlElement documentHead appendChild: ((CpHtmlElement newWithTag: #style)
 		textContent: '

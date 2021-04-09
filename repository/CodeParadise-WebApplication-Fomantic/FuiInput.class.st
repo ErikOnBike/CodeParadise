@@ -40,13 +40,18 @@ FuiInput class >> allVariations [
 	^ #(#icon #'left icon' #labeled #'right labeled' #action #'left action' #transparent #inverted #fluid #mini #small #large #big #huge #massive)
 ]
 
+{ #category : #accessing }
+FuiInput class >> baseElementTagName [
+
+	^ #div
+]
+
 { #category : #'instance creation' }
 FuiInput class >> new [
 
 	"Answer a new HTML element for the text input field"
 
-	^ (self newWithTag: #div)
-		attributeAt: #class put: 'ui input' ;
+	^ super new
 		appendChild: ((CpHtmlElement newWithTag: #input)
 			propertyAt: #type put: #text ;
 			yourself) ;
@@ -72,8 +77,7 @@ FuiInput class >> newTextarea [
 
 	"Answer a new HTML element for the textarea input field"
 
-	^ (self newWithTag: #div)
-		attributeAt: #class put: 'ui input' ;
+	^ super new
 		appendChild: (CpHtmlElement newWithTag: #textarea) ;
 		yourself
 ]
@@ -90,12 +94,6 @@ FuiInput class >> newTextareaNamed: aSymbol [
 		ifNotNil: [ :textarea | textarea propertyAt: #name put: aSymbol ].
 
 	^ textareaInput
-]
-
-{ #category : #accessing }
-FuiInput class >> type [
-
-	^ #input
 ]
 
 { #category : #'accessing - variation' }
