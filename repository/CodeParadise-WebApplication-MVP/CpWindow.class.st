@@ -72,6 +72,7 @@ CpWindow class >> style [
 			overflow: hidden;
 			color: var(--window-title-color, #333);
 		}
+		#title,
 		#title * {
 			pointer-events: none;
 		}
@@ -315,7 +316,7 @@ CpWindow >> initialize [
 				do: [ :each | each when: CpDragEvent send: #handleWindowResizeCorner: to: self  ].
 			(shadowRoot allDescendantsMatching: '.side')
 				do: [ :each | each when: CpDragEvent send: #handleWindowResizeSide: to: self ].
-			(shadowRoot firstDescendantMatching: '#titleBar')
+			(shadowRoot elementWithId: #titleBar)
 				when: CpDragEvent send: #handleWindowMove: to: self ]
 ]
 
