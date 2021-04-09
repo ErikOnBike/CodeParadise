@@ -43,15 +43,6 @@ CpDomElement class >> document [
 ]
 
 { #category : #'acccessing-ui' }
-CpDomElement class >> elementWithId: aString [
-
-	"Answer an instance of the receiver representing the element with the specified id"
-
-	<primitive: 'primitiveDOMElementElementWithId:' module: 'CpDOMPlugin'>
-	self primitiveFailed
-]
-
-{ #category : #'acccessing-ui' }
 CpDomElement class >> elementsFromPoint: aPoint [
 
 	"Answer an Array with instances of the receiver representing the elements at the specified point"
@@ -250,6 +241,17 @@ CpDomElement >> destroy [
 	self children do: [ :each | each destroy ].
 
 	self release
+]
+
+{ #category : #querying }
+CpDomElement >> elementWithId: aString [
+
+	"Answer an instance of the receiver representing the element with the specified id.
+	This method should be called from a root element (either the document or the shadow root)
+	otherwise it will fail."
+
+	<primitive: 'primitiveDOMElementElementWithId:' module: 'CpDOMPlugin'>
+	self primitiveFailed
 ]
 
 { #category : #querying }
