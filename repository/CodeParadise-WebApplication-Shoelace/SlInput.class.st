@@ -41,6 +41,13 @@ SlInput >> bePill [
 ]
 
 { #category : #'accessing type' }
+SlInput >> date [
+	"Causes a popup date selector, however the date type might not be supported on all browsers"
+	
+	self type: #date
+]
+
+{ #category : #'accessing type' }
 SlInput >> email [
 
 	self type: #email
