@@ -68,7 +68,7 @@ CpWebComponent >> appendChild: childElement atSlotNamed: nameString [
 
 	"Append the specified element as child of the receiver in the specified template slot"
 
-	childElement attributeAt: #slot put: nameString.
+	childElement slot: nameString.
 	^ self appendChild: childElement
 ]
 
@@ -78,7 +78,7 @@ CpWebComponent >> childrenAtSlotNamed: nameString [
 	"Answer an Array with the child elements (in document order) of the receiver
 	which are located in the specified template slot"
 
-	^ self children select: [ :each | (each attributeAt: #slot) = nameString ]
+	^ self children select: [ :each | each slot = nameString ]
 ]
 
 { #category : #querying }
@@ -98,7 +98,7 @@ CpWebComponent >> insertChild: childElement before: siblingElement atSlotNamed: 
 	"Insert the specified element as child of the receiver before the specified sibling
 	and in the specified template slot"
 
-	childElement attributeAt: #slot put: nameString.
+	childElement slot: nameString.
 	^ self insertChild: childElement before: siblingElement
 ]
 
@@ -108,7 +108,7 @@ CpWebComponent >> removeChildrenAtSlotNamed: nameString [
 	"Remove all children at the specified slot name"
 
 	self children do: [ :each |
-		(each attributeAt: #slot) = nameString
+		each slot = nameString
 			ifTrue: [ self removeChild: each ] ]
 ]
 
@@ -131,9 +131,9 @@ CpWebComponent >> replaceChild: childElement with: replacementElement atSlotName
 	Answer the new (replacement) child.
 	An error is raised if the (original) child element is not positioned at specified slot."
 
-	(childElement attributeAt: #slot) = nameString
+	childElement slot = nameString
 		ifFalse: [ self error: 'Failed to replace a child element, because it is not present at the specified slot' ].
-	replacementElement attributeAt: #slot put: nameString.
+	replacementElement slot: nameString.
 	^ self replaceChild: childElement with: replacementElement
 ]
 

@@ -90,3 +90,20 @@ CpHtmlElement >> asHtmlElement [
 
 	^ self
 ]
+
+{ #category : #accessing }
+CpHtmlElement >> slot [
+
+	"Answer the slot within the receiver's parent in which the receiver lives
+	(or nil if it lives outside a named slot)"
+
+	^ self attributeAt: #slot
+]
+
+{ #category : #accessing }
+CpHtmlElement >> slot: aString [
+
+	"Assign receiver to the specified slot (within the receiver's parent)"
+
+	self attributeAt: #slot put: aString
+]
