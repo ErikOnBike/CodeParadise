@@ -228,7 +228,7 @@ CpDomExamplesClientBehavior >> exampleCreateRandomEllipses [
 			stream nextPut: $,.
 			255 atRandom printOn: stream.
 			stream nextPutAll: ');' ].
-		ellipse attributeAt: #style put: style.
+		ellipse style: style.
 
 		"Only append DOM element once it is fully constructed (to prevent redrawing)"
 		outputElement appendChild: ellipse ]

@@ -540,6 +540,22 @@ CpDomElement >> replaceChildAtIndex: anInteger with: replacementElement [
 ]
 
 { #category : #styles }
+CpDomElement >> style [
+
+	"Convenience method to retrieve style attribute"
+
+	^ self attributeAt: #style
+]
+
+{ #category : #styles }
+CpDomElement >> style: aString [
+
+	"Convenience method to set style attribute"
+
+	self attributeAt: #style put: aString
+]
+
+{ #category : #styles }
 CpDomElement >> styleAt: nameString [
 
 	"Answer the value (a String) of the specified style of the receiver or nil if such a style does not exist.
