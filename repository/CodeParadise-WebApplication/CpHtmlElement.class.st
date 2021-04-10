@@ -57,7 +57,7 @@ CpHtmlElement class >> documentBody [
 	"Answer an instance of the receiver representing the <body> element of
 	the current (browser tab) HTML document"
 
-	<primitive: 'primitiveHTMLElementDocumentBody' module: 'CpDOMPlugin'>
+	<primitive: 'primitiveHtmlElementDocumentBody' module: 'CpDOMPlugin'>
 	self primitiveFailed
 ]
 
@@ -67,7 +67,7 @@ CpHtmlElement class >> documentHead [
 	"Answer an instance of the receiver representing the <head> element of
 	the current (browser tab) HTML document"
 
-	<primitive: 'primitiveHTMLElementDocumentHead' module: 'CpDOMPlugin'>
+	<primitive: 'primitiveHtmlElementDocumentHead' module: 'CpDOMPlugin'>
 	self primitiveFailed
 ]
 

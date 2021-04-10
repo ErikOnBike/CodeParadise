@@ -38,7 +38,7 @@ CpDomElement class >> document [
 
 	"Answer an instance of the receiver representing the current (browser tab) document"
 
-	<primitive: 'primitiveDOMElementDocument' module: 'CpDOMPlugin'>
+	<primitive: 'primitiveDomElementDocument' module: 'CpDOMPlugin'>
 	self primitiveFailed
 ]
 
@@ -47,7 +47,7 @@ CpDomElement class >> elementsFromPoint: aPoint [
 
 	"Answer an Array with instances of the receiver representing the elements at the specified point"
 
-	<primitive: 'primitiveDOMElementElementsFromPoint:' module: 'CpDOMPlugin'>
+	<primitive: 'primitiveDomElementElementsFromPoint:' module: 'CpDOMPlugin'>
 	self primitiveFailed
 ]
 
@@ -90,7 +90,7 @@ CpDomElement class >> primNewWithTag: tagString [
 	If the specified tag contains a (known) prefix, an instance for that prefix type is answered.
 	See also #registerNamespace:forPrefix:"
 
-	<primitive: 'primitiveDOMElementNewWithTag:' module: 'CpDOMPlugin'>
+	<primitive: 'primitiveDomElementNewWithTag:' module: 'CpDOMPlugin'>
 	self primitiveFailed
 ]
 
@@ -103,7 +103,7 @@ CpDomElement class >> registerNamespace: namespaceString forPrefix: prefixString
 	Namespaces are required for creating SVG or MathML elements within the HTML DOM for example.
 	See also https://developer.mozilla.org/en-US/docs/Web/API/document/createElementNS"
 
-	<primitive: 'primitiveDOMElementRegisterNamespace:forPrefix:' module: 'CpDOMPlugin'>
+	<primitive: 'primitiveDomElementRegisterNamespace:forPrefix:' module: 'CpDOMPlugin'>
 	self primitiveFailed
 ]
 
@@ -129,7 +129,7 @@ CpDomElement >> addClass: aString [
 	"Add the specified class value to the receiver.
 	If the receiver already has the specified class, nothing will happen."
 
-	<primitive: 'primitiveDOMElementAddClass:' module: 'CpDOMPlugin'>
+	<primitive: 'primitiveDomElementAddClass:' module: 'CpDOMPlugin'>
 	self primitiveFailed
 
 ]
@@ -141,7 +141,7 @@ CpDomElement >> allDescendantsMatching: cssSelectorString [
 	The order of the elements is based on their position within the document (tree, pre-order depth-first search).
 	See also https://developer.mozilla.org/en-US/docs/Web/API/Document/querySelectorAll"
 
-	<primitive: 'primitiveDOMElementAllDescendantsMatching:' module: 'CpDOMPlugin'>
+	<primitive: 'primitiveDomElementAllDescendantsMatching:' module: 'CpDOMPlugin'>
 	self primitiveFailed
 ]
 
@@ -171,7 +171,7 @@ CpDomElement >> appendChild: childElement [
 	If the child element was child of another element, it will be moved to the receiver
 	and no longer be accessible from its previous parent (that is, no clone is made)."
 
-	<primitive: 'primitiveDOMElementAppendChild:' module: 'CpDOMPlugin'>
+	<primitive: 'primitiveDomElementAppendChild:' module: 'CpDOMPlugin'>
 	self primitiveFailed
 ]
 
@@ -191,7 +191,7 @@ CpDomElement >> attributeAt: nameString [
 	"Answer the value (a String) of the specified attribute of the receiver
 	or nil if attribute is not present"
 
-	<primitive: 'primitiveDOMElementAttributeAt:' module: 'CpDOMPlugin'>
+	<primitive: 'primitiveDomElementAttributeAt:' module: 'CpDOMPlugin'>
 	self primitiveFailed
 
 ]
@@ -202,7 +202,7 @@ CpDomElement >> attributeAt: nameString put: valueString [
 	"Set the value of the specified attribute of the receiver.
 	If the value nil is used the attribute is removed from the receiver."
 
-	<primitive: 'primitiveDOMElementAttributeAt:put:' module: 'CpDOMPlugin'>
+	<primitive: 'primitiveDomElementAttributeAt:put:' module: 'CpDOMPlugin'>
 	self primitiveFailed
 
 ]
@@ -213,7 +213,7 @@ CpDomElement >> children [
 	"Answer an Array with the child elements (in document order) of the receiver.
 	If the receiver has no children, an empty Array is answered."
 
-	<primitive: 'primitiveDOMElementChildren' module: 'CpDOMPlugin'>
+	<primitive: 'primitiveDomElementChildren' module: 'CpDOMPlugin'>
 	self primitiveFailed
 ]
 
@@ -225,7 +225,7 @@ CpDomElement >> clone [
 	The clone will not have a parent and therefore needs to be added to a visible element,
 	before becoming visible."
 
-	<primitive: 'primitiveDOMElementClone' module: 'CpDOMPlugin'>
+	<primitive: 'primitiveDomElementClone' module: 'CpDOMPlugin'>
 	self primitiveFailed
 ]
 
@@ -250,7 +250,7 @@ CpDomElement >> elementWithId: aString [
 	This method should be called from a root element (either the document or the shadow root)
 	otherwise it will fail."
 
-	<primitive: 'primitiveDOMElementElementWithId:' module: 'CpDOMPlugin'>
+	<primitive: 'primitiveDomElementElementWithId:' module: 'CpDOMPlugin'>
 	self primitiveFailed
 ]
 
@@ -271,7 +271,7 @@ CpDomElement >> firstDescendantMatching: cssSelectorString [
 	'First' is based on the position of the elements within the document (tree, pre-order depth-first search).
 	See also https://developer.mozilla.org/en-US/docs/Web/API/Document/querySelector"
 
-	<primitive: 'primitiveDOMElementFirstDescendantMatching:' module: 'CpDOMPlugin'>
+	<primitive: 'primitiveDomElementFirstDescendantMatching:' module: 'CpDOMPlugin'>
 	self primitiveFailed
 ]
 
@@ -280,7 +280,7 @@ CpDomElement >> focus [
 
 	"Set the focus to the receiver (ie take focus)"
 
-	<primitive: 'primitiveDOMElementFocus' module: 'CpDOMPlugin'>
+	<primitive: 'primitiveDomElementFocus' module: 'CpDOMPlugin'>
 	self primitiveFailed
 ]
 
@@ -313,7 +313,7 @@ CpDomElement >> id [
 
 	"Answer the id of the receiver or nil if none is set"
 
-	<primitive: 'primitiveDOMElementId' module: 'CpDOMPlugin'>
+	<primitive: 'primitiveDomElementId' module: 'CpDOMPlugin'>
 	self primitiveFailed
 ]
 
@@ -325,7 +325,7 @@ CpDomElement >> id: aString [
 	Element id's (if not nil nor empty) should be unique, but no checks are performed to guarantee this.
 	The senders of this message should take care of assuring uniqueness of id's."
 
-	<primitive: 'primitiveDOMElementId:' module: 'CpDOMPlugin'>
+	<primitive: 'primitiveDomElementId:' module: 'CpDOMPlugin'>
 	self primitiveFailed
 ]
 
@@ -340,7 +340,7 @@ CpDomElement >> insertChild: childElement before: siblingElement [
 	Use #appendChild to add a child element after the last existing child (or as a new first child).
 	The primitive will fail if siblingElement is nil or not a child of the receiver."
 
-	<primitive: 'primitiveDOMElementInsertChild:before:' module: 'CpDOMPlugin'>
+	<primitive: 'primitiveDomElementInsertChild:before:' module: 'CpDOMPlugin'>
 	self primitiveFailed
 ]
 
@@ -349,7 +349,7 @@ CpDomElement >> isClassed: aString [
 
 	"Answer whether the receiver has the specified class value"
 
-	<primitive: 'primitiveDOMElementIsClassed:' module: 'CpDOMPlugin'>
+	<primitive: 'primitiveDomElementIsClassed:' module: 'CpDOMPlugin'>
 	self primitiveFailed
 
 ]
@@ -359,7 +359,7 @@ CpDomElement >> markupContent [
 
 	"Answer a String representation of the DOM fragment of the receiver's children"
 
-	<primitive: 'primitiveDOMElementMarkupContent' module: 'CpDOMPlugin'>
+	<primitive: 'primitiveDomElementMarkupContent' module: 'CpDOMPlugin'>
 	self primitiveFailed
 
 ]
@@ -369,7 +369,7 @@ CpDomElement >> markupContent: aString [
 
 	"Replace the receiver's children by the DOM fragment specified (using a String representation)"
 
-	<primitive: 'primitiveDOMElementMarkupContent:' module: 'CpDOMPlugin'>
+	<primitive: 'primitiveDomElementMarkupContent:' module: 'CpDOMPlugin'>
 	self primitiveFailed
 
 ]
@@ -379,7 +379,7 @@ CpDomElement >> nextSibling [
 
 	"Answer the receiver's next sibling element or nil if the receiver does not have one"
 
-	<primitive: 'primitiveDOMElementNextSibling' module: 'CpDOMPlugin'>
+	<primitive: 'primitiveDomElementNextSibling' module: 'CpDOMPlugin'>
 	self primitiveFailed
 ]
 
@@ -390,7 +390,7 @@ CpDomElement >> parent [
 	When elements are created using #newWithTag: they do not have a parent yet and need
 	to be added to a descendant of the [[[CpDomElement >> #document]]] to become visible."
 
-	<primitive: 'primitiveDOMElementParent' module: 'CpDOMPlugin'>
+	<primitive: 'primitiveDomElementParent' module: 'CpDOMPlugin'>
 	self primitiveFailed
 ]
 
@@ -399,7 +399,7 @@ CpDomElement >> previousSibling [
 
 	"Answer the receiver's previous sibling element or nil if the receiver does not have one"
 
-	<primitive: 'primitiveDOMElementPreviousSibling' module: 'CpDOMPlugin'>
+	<primitive: 'primitiveDomElementPreviousSibling' module: 'CpDOMPlugin'>
 	self primitiveFailed
 ]
 
@@ -418,7 +418,7 @@ CpDomElement >> propertyAt: nameString [
 
 	"Answer the value (String, Number, Boolean or nil) of the specified property of the receiver"
 
-	<primitive: 'primitiveDOMElementPropertyAt:' module: 'CpDOMPlugin'>
+	<primitive: 'primitiveDomElementPropertyAt:' module: 'CpDOMPlugin'>
 	self primitiveFailed
 
 ]
@@ -428,7 +428,7 @@ CpDomElement >> propertyAt: nameString put: valueString [
 
 	"Set the value (String, Number, Boolean or nil) of the specified property of the receiver"
 
-	<primitive: 'primitiveDOMElementPropertyAt:put:' module: 'CpDOMPlugin'>
+	<primitive: 'primitiveDomElementPropertyAt:put:' module: 'CpDOMPlugin'>
 	self primitiveFailed
 ]
 
@@ -456,7 +456,7 @@ CpDomElement >> removeAttributeAt: attributeName [
 	"Remove the specified attribute from the receiver.
 	Nothing will happen if the receiver does not have the specified attribute."
 
-	<primitive: 'primitiveDOMElementRemoveAttributeAt:' module: 'CpDOMPlugin'>
+	<primitive: 'primitiveDomElementRemoveAttributeAt:' module: 'CpDOMPlugin'>
 	self primitiveFailed
 
 ]
@@ -467,7 +467,7 @@ CpDomElement >> removeChild: childElement [
 	"Remove the child element from the receiver. Answer the removed child.
 	The primitive will fail if child element is not a child of the receiver."
 
-	<primitive: 'primitiveDOMElementRemoveChild:' module: 'CpDOMPlugin'>
+	<primitive: 'primitiveDomElementRemoveChild:' module: 'CpDOMPlugin'>
 	self primitiveFailed
 ]
 
@@ -483,7 +483,7 @@ CpDomElement >> removeClass: aString [
 	"Remove the specified class value from the receiver.
 	Nothing will happen if the receiver does not have the specified value."
 
-	<primitive: 'primitiveDOMElementRemoveClass:' module: 'CpDOMPlugin'>
+	<primitive: 'primitiveDomElementRemoveClass:' module: 'CpDOMPlugin'>
 	self primitiveFailed
 
 ]
@@ -496,7 +496,7 @@ CpDomElement >> removeStyleAt: nameString [
 	by setting these to the value #auto or #inheret using the method #styleAt:put:.
 	Nothing will happen if the specified style is not set on the receiver."
 
-	<primitive: 'primitiveDOMElementRemoveStyleAt:' module: 'CpDOMPlugin'>
+	<primitive: 'primitiveDomElementRemoveStyleAt:' module: 'CpDOMPlugin'>
 	self primitiveFailed
 
 ]
@@ -521,7 +521,7 @@ CpDomElement >> replaceChild: childElement with: replacementElement [
 	and no longer be accessible from its previous parent (that is, no clone is made).
 	The primitive will fail if child element is not a child of the receiver."
 
-	<primitive: 'primitiveDOMElementReplaceChild:with:' module: 'CpDOMPlugin'>
+	<primitive: 'primitiveDomElementReplaceChild:with:' module: 'CpDOMPlugin'>
 	self primitiveFailed
 ]
 
@@ -564,7 +564,7 @@ CpDomElement >> styleAt: nameString [
 	The style value will be the one set explicitly on the element or its computed value if none is set.
 	In the later case this value might be specified through a stylesheet rule."
 
-	<primitive: 'primitiveDOMElementStyleAt:' module: 'CpDOMPlugin'>
+	<primitive: 'primitiveDomElementStyleAt:' module: 'CpDOMPlugin'>
 	self primitiveFailed
 
 ]
@@ -576,7 +576,7 @@ CpDomElement >> styleAt: nameString put: valueString [
 	If the value nil is used, the explicit style is removed from the receiver
 	(see als #removeStyleAt:)."
 
-	<primitive: 'primitiveDOMElementStyleAt:put:' module: 'CpDOMPlugin'>
+	<primitive: 'primitiveDomElementStyleAt:put:' module: 'CpDOMPlugin'>
 	self primitiveFailed
 
 ]
@@ -586,7 +586,7 @@ CpDomElement >> tag [
 
 	"Answer the tag of the receiver"
 
-	<primitive: 'primitiveDOMElementTag' module: 'CpDOMPlugin'>
+	<primitive: 'primitiveDomElementTag' module: 'CpDOMPlugin'>
 	self primitiveFailed
 ]
 
@@ -596,7 +596,7 @@ CpDomElement >> textContent [
 	"Answer the textual content of the receiver.
 	This will answer an aggregated value for all descendants."
 
-	<primitive: 'primitiveDOMElementTextContent' module: 'CpDOMPlugin'>
+	<primitive: 'primitiveDomElementTextContent' module: 'CpDOMPlugin'>
 	self primitiveFailed
 
 ]
@@ -607,7 +607,7 @@ CpDomElement >> textContent: aString [
 	"Set the text of the receiver to the specified value.
 	Any existing content is removed, including any child elements."
 
-	<primitive: 'primitiveDOMElementTextContent:' module: 'CpDOMPlugin'>
+	<primitive: 'primitiveDomElementTextContent:' module: 'CpDOMPlugin'>
 	self primitiveFailed
 
 ]
@@ -615,7 +615,7 @@ CpDomElement >> textContent: aString [
 { #category : #'event registration' }
 CpDomElement >> unregisterAllInterest [
 
-	<primitive: 'primitiveDOMElementUnregisterAllInterest' module: 'CpDOMPlugin'>
+	<primitive: 'primitiveDomElementUnregisterAllInterest' module: 'CpDOMPlugin'>
 	self primitiveFailed
 ]
 
