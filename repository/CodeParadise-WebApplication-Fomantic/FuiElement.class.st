@@ -62,7 +62,9 @@ FuiElement class >> elementName [
 	Current implementation assumes the Class name represents the element name.
 	Eg: FuiButton -> button, FuiInput -> input"
 
-	^ (self name asString allButFirst: 3) asLowercase
+	<primitive: 'primitiveFuiElementElementName' module: 'CpFomanticPlugin'>
+	self primitiveFailed
+
 ]
 
 { #category : #'class initialization' }
@@ -77,10 +79,27 @@ FuiElement class >> installFomanticPlugin [
 				getModuleName: function() {  return "CpFomanticPlugin"; },
 				interpreterProxy: null,
 				domPlugin: null,
+				elementClassMap: [],
 				setInterpreter: function(anInterpreter) {
 					this.interpreterProxy = anInterpreter;
 					this.domPlugin = Squeak.externalModules.CpDOMPlugin;
+					let elementClassMap = this.elementClassMap;
+					this.domPlugin.addElementClassMapper(function(element) {
+						let classList = element.classList;
+						if(classList && classList.contains("ui")) {
+							for(let i = 0; i < elementClassMap.length; i++) {
+								if(classList.contains(elementClassMap[i].elementName)) {
+									// Answer Smalltalk class
+									return elementClassMap[i].elementClass;
+								}
+							}
+						}
+						return null;
+					});
 					return true;
+				},
+				elementNameFromClass: function(fuiElementClass) {
+					return fuiElementClass.className().replace(/^Fui/, "").toLowerCase();
 				},
 				withJQuery: function(callback) {
 					// jQuery and Fomantic might not be loaded yet, retry until loaded
@@ -94,34 +113,33 @@ console.log("Waiting for Fomantic library to load");
 						}, 100);
 					}
 				},
-				"primitiveFUIElementRegisterForSelector:": function(argCount) {
-					if(argCount !== 1) return false;
+				"primitiveFuiElementElementName": function(argCount) {
+					if(argCount !== 0) return false;
 					let receiver = this.interpreterProxy.stackValue(argCount);
-					let selector = this.interpreterProxy.stackValue(0).bytesAsString();
-					this.domPlugin.addElementClassMapper(function(element) {
-						return (element.matches && element.matches(selector)) ? receiver : null;
-					});
+					let elementName = this.elementNameFromClass(receiver);
+					return this.domPlugin.answer(argCount, elementName);
+				},
+				"primitiveFuiElementRegister": function(argCount) {
+					if(argCount !== 0) return false;
+					let receiver = this.interpreterProxy.stackValue(argCount);
+					let elementName = this.elementNameFromClass(receiver);
+					this.elementClassMap.push({ elementName: elementName, elementClass: receiver });
 					this.domPlugin.answerSelf(argCount);
 				},
-				"primitiveFUIElementAsFomanticElement": function(argCount) {
-					if(argCount !== 0) return false;
-					let domElement = this.interpreterProxy.stackValue(argCount).domElement;
-					if(!domElement) return false;
+				"primitiveFuiElementNewWithTag:": function(argCount) {
+					if(argCount !== 1) return false;
+					let tagName = this.interpreterProxy.stackValue(0).bytesAsString();
+					if(!tagName) return false;
+					let receiver = this.interpreterProxy.stackValue(argCount);
 
-					// Remove existing element temporarily from DOM plugin
-					let instance = this.domPlugin.getElement(domElement);
-					if(instance) {
-						this.domPlugin.discardElement(domElement);
-					}
-					let result = this.domPlugin.instanceForElement(domElement);
-					if(instance && instance.sqClass === result.sqClass) {
-						// Restore original, nothing changed
-						this.domPlugin.setElement(domElement, instance);
-						result = instance;
-					}
-					return this.domPlugin.answer(argCount, result);
+					// Create DOM element with the CSS class (denoting its type) of the receiver
+					let domElement = document.createElement(tagName);
+					domElement.setAttribute("class", "ui " + this.elementNameFromClass(receiver));
+
+					// Answer instance through DOM plugin since it will cache instances					
+					return this.domPlugin.answer(argCount, this.domPlugin.instanceForElement(domElement));
 				},
-				"primitiveFUIElementPerformOnElement:as:": function(argCount) {
+				"primitiveFuiElementPerformOnElement:as:": function(argCount) {
 					if(argCount !== 2) return false;
 					let properties = this.domPlugin.asJavascriptObject(this.interpreterProxy.stackValue(1));
 					let elementName = this.interpreterProxy.stackValue(0).bytesAsString();
@@ -149,7 +167,7 @@ console.log("Waiting for Fomantic library to load");
 		yourself)
 ]
 
-{ #category : #initialization }
+{ #category : #'class initialization' }
 FuiElement class >> loadFomantic [
 
 	"Load Fomantic library ("
@@ -173,13 +191,19 @@ FuiElement class >> new [
 
 	"Answer a new instance of the receiver.
 
-	Implementation:
-	When creating a new HTML element it is not recognized as Fomantic element yet.
-	Therefore set its CSS class (making it recognizable) and answer the correct instance."
+	Beware: do NOT use CpDomElement >> #newWithTag: to create Fomantic instances manually.
+	This does not work properly. FuiElement has a special #newWithTag: implementation."
 
-	^ (self newWithTag: self baseElementTagName)
-		attributeAt: #class put: self elementClass ;
-		asFomanticElement
+	^ self newWithTag: self baseElementTagName
+]
+
+{ #category : #'class initialization' }
+FuiElement class >> newWithTag: aString [
+
+	"Create a new instance of the receiver using the specified tag"
+
+	<primitive: 'primitiveFuiElementNewWithTag:' module: 'CpFomanticPlugin'>
+	self primitiveFailed
 
 ]
 
@@ -190,23 +214,17 @@ FuiElement class >> postInstall [
 
 	self = FuiElement
 		ifTrue: [ self loadFomantic ; installFomanticPlugin ]
-		ifFalse: [ self registerElement ]
+		ifFalse: [ self register ]
 ]
 
 { #category : #'class initialization' }
-FuiElement class >> primRegisterForSelector: aString [
-
-	<primitive: 'primitiveFUIElementRegisterForSelector:' module: 'CpFomanticPlugin'>
-	self primitiveFailed
-
-]
-
-{ #category : #'class initialization' }
-FuiElement class >> registerElement [
+FuiElement class >> register [
 
 	"Register the receiver as a Fomantic element"
 
-	self primRegisterForSelector: self cssSelector
+	<primitive: 'primitiveFuiElementRegister' module: 'CpFomanticPlugin'>
+	self primitiveFailed
+
 ]
 
 { #category : #'private - accessing' }
@@ -401,7 +419,7 @@ FuiElement >> performOnElement: behavior as: type [
 
 	"Perform the specified behavior (a Dictionary or Symbol) on the receiver's element with the specified type (a Symbol)"
 
-	<primitive: 'primitiveFUIElementPerformOnElement:as:' module: 'CpFomanticPlugin'>
+	<primitive: 'primitiveFuiElementPerformOnElement:as:' module: 'CpFomanticPlugin'>
 	self primitiveFailed
 
 ]
