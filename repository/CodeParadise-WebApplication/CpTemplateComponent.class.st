@@ -130,3 +130,21 @@ CpTemplateComponent class >> updateTemplate [
 
 	self installTemplate: self template
 ]
+
+{ #category : #initialization }
+CpTemplateComponent >> initialize [
+
+	super initialize.
+
+	self primEnsureShadowRoot
+]
+
+{ #category : #initialization }
+CpTemplateComponent >> primEnsureShadowRoot [
+
+	"Ensure the ShadowRoot is present.
+	This is required, because nested WebComponents are initialized through asynchronous callbacks."
+
+	<primitive: 'primitiveTemplateComponentEnsureShadowRoot' module: 'CpDOMPlugin'>
+	self primitiveFailed
+]
