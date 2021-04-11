@@ -83,9 +83,12 @@ FuiElement class >> installFomanticPlugin [
 				setInterpreter: function(anInterpreter) {
 					this.interpreterProxy = anInterpreter;
 					this.domPlugin = Squeak.externalModules.CpDOMPlugin;
+
+					// Add element class mapper which allows to specify which Smalltalk class
+					// represents a given DOM element
 					let elementClassMap = this.elementClassMap;
-					this.domPlugin.addElementClassMapper(function(element) {
-						let classList = element.classList;
+					this.domPlugin.addElementClassMapper(function(domElement) {
+						let classList = domElement.classList;
 						if(classList && classList.contains("ui")) {
 							for(let i = 0; i < elementClassMap.length; i++) {
 								if(classList.contains(elementClassMap[i].elementName)) {
