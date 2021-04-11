@@ -285,7 +285,7 @@ CpDomExamplesClientBehavior >> exampleHelloWorld [
 	outputElement := self outputElement.
 
 	outputElement appendChild: ((CpHtmlElement newWithTag: #h1)
-		textContent: 'Hello world' ;
+		textContent: 'Hello 😀 world' ;
 		yourself).
 	outputElement appendChild: ((CpHtmlElement newWithTag: #section)
 		markupContent: '<p>Change <code>', self class name, ' >> #someValue</code> in the ServerEnvironment, save it and then click again on my link in the menu on the left. Without needing to reload this page, the application has updated this ClientEnvironment.</p><p>Remember that all methods in this class are actually executed in the ClientEnvironment (here in the browser). This means there are many restrictions on what you can do. Trying to show an inspector will not work yet...</p><p>Please do try this out on other examples as well.</p><p>Since this code is still work in progress, some things might break. Please register any issues and/or consider contributing any fixes you find.</p>' ;
