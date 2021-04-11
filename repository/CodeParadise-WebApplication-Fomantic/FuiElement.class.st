@@ -131,7 +131,7 @@ console.log("Waiting for Fomantic library to load");
 				},
 				"primitiveFuiElementNewWithTag:": function(argCount) {
 					if(argCount !== 1) return false;
-					let tagName = this.interpreterProxy.stackValue(0).bytesAsString();
+					let tagName = this.interpreterProxy.stackValue(0).asString();
 					if(!tagName) return false;
 					let receiver = this.interpreterProxy.stackValue(argCount);
 
@@ -145,7 +145,7 @@ console.log("Waiting for Fomantic library to load");
 				"primitiveFuiElementPerformOnElement:as:": function(argCount) {
 					if(argCount !== 2) return false;
 					let properties = this.domPlugin.asJavascriptObject(this.interpreterProxy.stackValue(1));
-					let elementName = this.interpreterProxy.stackValue(0).bytesAsString();
+					let elementName = this.interpreterProxy.stackValue(0).asString();
 					if(!elementName) return false;
 					let receiver = this.interpreterProxy.stackValue(argCount);
 
