@@ -539,14 +539,19 @@ CpObjectDecoder >> readString [
 
 	"Read a String consisting of UTF-8 characters"
 
-	| string characterCount |
+	| wordArray characterCount isWideString |
 
 	"Create and fill the string"
 	characterCount := self readLength.
-	string := WordArray new: characterCount.
-	1 to: characterCount do: [  :index | string at: index put: self readUTF8CodePoint ].
+	wordArray := WordArray new: characterCount.
+	isWideString := false.
+	1 to: characterCount do: [  :index |
+		(wordArray at: index put: self readUTF8CodePoint) >= 256
+			ifTrue: [ isWideString := true ] ].
 
-	^ string asString
+	^ isWideString
+		ifTrue: [ WideString fromWordArray: wordArray ]
+		ifFalse: [ ByteString fromWordArray: wordArray ]
 ]
 
 { #category : #reading }
