@@ -1,7 +1,7 @@
 Class {
 	#name : #CpWindowTitle,
 	#superclass : #CpView,
-	#category : #'CodeParadise-WebApplication-MVP-Core'
+	#category : #'CodeParadise-Beach-Components'
 }
 
 { #category : #'web resources' }

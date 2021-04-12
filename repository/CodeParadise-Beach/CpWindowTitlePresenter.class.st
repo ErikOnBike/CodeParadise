@@ -1,7 +1,7 @@
 Class {
 	#name : #CpWindowTitlePresenter,
 	#superclass : #CpPresenter,
-	#category : #'CodeParadise-WebApplication-MVP-Core'
+	#category : #'CodeParadise-Beach-Presenters'
 }
 
 { #category : #accessing }

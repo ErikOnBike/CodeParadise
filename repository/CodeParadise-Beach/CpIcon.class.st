@@ -5,7 +5,7 @@ SVG icons used from: https://getuikit.com/docs/icon
 Class {
 	#name : #CpIcon,
 	#superclass : #CpView,
-	#category : #'CodeParadise-WebApplication-MVP-Core'
+	#category : #'CodeParadise-Beach-Components'
 }
 
 { #category : #icons }

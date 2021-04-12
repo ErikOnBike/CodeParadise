@@ -5,7 +5,7 @@ Class {
 		'position',
 		'size'
 	],
-	#category : #'CodeParadise-WebApplication-MVP-Core'
+	#category : #'CodeParadise-Beach-Components'
 }
 
 { #category : #'web resources' }
@@ -15,23 +15,6 @@ CpWindow class >> style [
 
 	^ '* {
 			box-sizing: border-box;
-		}
-		.dragging * {
-			pointer-events: none;
-			-moz-user-select: none;
-			-webkit-user-select: none;
-			-ms-user-select: none;
-			user-select: none;
-		}
-		:host(.dragging) {
-			pointer-events: auto;
-		}
-		:host(.dragging) * {
-			pointer-events: none;
-			-moz-user-select: none;
-			-webkit-user-select: none;
-			-ms-user-select: none;
-			user-select: none;			
 		}
 		.container {
 			display: grid;
