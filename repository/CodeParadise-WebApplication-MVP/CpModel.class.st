@@ -33,8 +33,25 @@ CpModel >> announcer [
 ]
 
 { #category : #accessing }
-CpModel >> application [ 
-	^ self presenterContext application
+CpModel >> application [
+
+	"Answer the application in which the receiver is running
+	(in the context of the Presenter currently executing
+	as a result of an announcement from the View)"
+
+	^ self presenterContext ifNotNil: [ :presenter | presenter application ]
+]
+
+{ #category : #presenter }
+CpModel >> display [
+
+	self displayIn: self application applicationPresenter
+]
+
+{ #category : #presenter }
+CpModel >> displayIn: aPresenter [
+
+	aPresenter createChildPresenterForModel: self
 ]
 
 { #category : #initialization }
@@ -52,7 +69,8 @@ CpModel >> preferredPresenterClass [
 ]
 
 { #category : #presenter }
-CpModel >> presenterContext [ 
+CpModel >> presenterContext [
+
 	^ CpCurrentPresenterContext value
 ]
 
@@ -64,14 +82,6 @@ CpModel >> release [
 		announcer := nil ].
 
 	super release
-]
-
-{ #category : #presenter }
-CpModel >> rootPresenterClass [
-
-	"Answer the root (top level) Presenter class for displaying the receiver"
-
-	^ CpWindowPresenter
 ]
 
 { #category : #announcing }

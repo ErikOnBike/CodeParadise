@@ -43,7 +43,11 @@ CpCounterView class >> template [
 
 	<webResource: #html>
 
-	^ '<div><span id="decrease" class="button">--</span> <span class="counter"><slot></slot></span> <span id="increase" class="button">++</span></div>'
+	^ '<div>
+		<span id="decrease" class="button">--</span>
+		<span class="counter"><slot></slot></span>
+		<span id="increase" class="button">++</span>
+	</div>'
 ]
 
 { #category : #'event handling' }

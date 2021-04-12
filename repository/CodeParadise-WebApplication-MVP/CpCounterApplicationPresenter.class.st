@@ -14,6 +14,6 @@ CpCounterApplicationPresenter class >> defaultViewClass [
 CpCounterApplicationPresenter >> renderView [
 
 	self
-		renderChildViewForModel: self model local atSlotNamed: #local ;
-		renderChildViewForModel: self model global atSlotNamed: #global
+		renderChildViewForModel: self model localCounter atSlotNamed: #local ;
+		renderChildViewForModel: self model globalCounter atSlotNamed: #global
 ]

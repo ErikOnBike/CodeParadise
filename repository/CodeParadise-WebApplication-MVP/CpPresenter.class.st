@@ -44,7 +44,7 @@ Class {
 { #category : #accessing }
 CpPresenter class >> defaultViewClass [
 
-	^ CpView
+	self subclassResponsibility
 ]
 
 { #category : #accessing }
@@ -447,7 +447,7 @@ CpPresenter >> parent: aPresenter [
 CpPresenter >> presenterClassForModel: aModel atSlotNamed: aString [
 
 	"Answer the Presenter class for the specified Model in the specified slot
-	as a child Presenter of the receiver"
+	as a child Presenter of the receiver. Subclasses might override this."
 
 	^ aModel preferredPresenterClass
 ]

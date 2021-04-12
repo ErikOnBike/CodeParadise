@@ -1,8 +1,17 @@
 Class {
 	#name : #CpPresentationWebApplication,
 	#superclass : #CpMvpWebApplication,
+	#instVars : [
+		'presentation'
+	],
 	#category : #'CodeParadise-WebApplication-Presentation-Application'
 }
+
+{ #category : #presenter }
+CpPresentationWebApplication >> applicationPresenterClass [
+
+	^ CpPresentationApplicationPresenter
+]
 
 { #category : #model }
 CpPresentationWebApplication >> createPresentationModel [
@@ -13,19 +22,27 @@ CpPresentationWebApplication >> createPresentationModel [
 ]
 
 { #category : #actions }
-CpPresentationWebApplication >> load [
+CpPresentationWebApplication >> initialize [
 
 	"Set up the receiver with a single presenter and single model"
 
-	| presentation |
-
-	super load.
+	super initialize.
 
 	"Create PresentionModel and start it (sets first slide)"
 	presentation := self createPresentationModel.
-	presentation start.
+	presentation start
+]
 
-	"Create presentation presenter and add it to the receiver.
-	This presenter will be installed when #load or #reload is called on the receiver."
-	self applicationPresenter createChildPresenterForModel: presentation
+{ #category : #presenter }
+CpPresentationWebApplication >> preferredPresenterClass [
+
+	"Answer the preferred Presenter class for the content of the receiver"
+
+	^ CpPresentationPresenter
+]
+
+{ #category : #accessing }
+CpPresentationWebApplication >> presentation [
+
+	^ presentation
 ]

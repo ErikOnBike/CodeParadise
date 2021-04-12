@@ -12,7 +12,9 @@ Class {
 	#name : #CpMvpWebApplication,
 	#superclass : #CpWebApplication,
 	#instVars : [
-		'presenters'
+		'announcer',
+		'presenters',
+		'applicationPresenter'
 	],
 	#category : #'CodeParadise-WebApplication-MVP-Core'
 }
@@ -24,11 +26,30 @@ CpMvpWebApplication class >> clientBehaviorClass [
 ]
 
 { #category : #accessing }
+CpMvpWebApplication >> announcer [
+
+	^ announcer
+]
+
+{ #category : #presenter }
 CpMvpWebApplication >> applicationPresenter [
 
 	"Answer the ApplicationPresenter of the receiver"
 
-	^ self presenterWithId: CpApplicationPresenter id ifAbsent: [ nil ]
+	^ applicationPresenter
+]
+
+{ #category : #presenter }
+CpMvpWebApplication >> applicationPresenterClass [
+
+	"Answer the ApplicationPresenter class of the receiver. Subclasses can override this.
+
+	Implementation:
+	By default a PagesApplicationPresenter is answered. It will use PagePresenters to
+	present the content of the receiver to the user. The PagePresenters in turn will
+	ask the receiver for its #preferredPresenterClass which will represent the content."
+
+	^ CpPagesApplicationPresenter
 ]
 
 { #category : #view }
@@ -70,16 +91,6 @@ CpMvpWebApplication >> clientCreateViews [
 ]
 
 { #category : #presenter }
-CpMvpWebApplication >> createApplicationPresenter [
-
-	"Create and answer the ApplicationPresenter for the receiver"
-
-	^ CpApplicationPresenter new
-		application: self ;
-		yourself
-]
-
-{ #category : #presenter }
 CpMvpWebApplication >> generatePresenterIdentifier [
 
 	"Generate an unique identifier for a presenter of the receiver"
@@ -115,6 +126,7 @@ CpMvpWebApplication >> initialize [
 
 	super initialize.
 
+	announcer := Announcer new.
 	presenters := OrderedIdentityDictionary new
 ]
 
@@ -125,18 +137,26 @@ CpMvpWebApplication >> load [
 
 	super load.
 
-	self registerPresenter: (self createApplicationPresenter
-		createView ;
-		yourself)
+	(applicationPresenter := self registerPresenter: self applicationPresenterClass new)
+		model: self ;
+		createView
 ]
 
-{ #category : #accessing }
+{ #category : #presenter }
+CpMvpWebApplication >> preferredPresenterClass [
+
+	"Answer the preferred Presenter class for the content of the receiver"
+
+	self subclassResponsibility
+]
+
+{ #category : #presenter }
 CpMvpWebApplication >> presenterWithId: identifier ifAbsent: aBlock [
 
 	^ self presenters at: identifier ifAbsent: aBlock
 ]
 
-{ #category : #accessing }
+{ #category : #presenter }
 CpMvpWebApplication >> presenters [
 
 	^ presenters
@@ -145,7 +165,7 @@ CpMvpWebApplication >> presenters [
 { #category : #presenter }
 CpMvpWebApplication >> registerPresenter: aPresenter [
 
-	"Register the specified Presenter.
+	"Register the specified Presenter and answer the Presenter.
 
 	Implementation:
 	Set both the application and id of the Presenter (see Class Comment)."
@@ -166,6 +186,10 @@ CpMvpWebApplication >> release [
 		presenters do: [ :each | each release ].
 		presenters := nil ].
 
+	"The ApplicationPresenter is part of the presenters collection.
+	So it is released above and does not need to be released here again."
+	applicationPresenter := nil.
+
 	super release
 ]
 
@@ -183,7 +207,7 @@ CpMvpWebApplication >> reload [
 	self clientCreateViews
 ]
 
-{ #category : #accessing }
+{ #category : #presenter }
 CpMvpWebApplication >> removePresenter: aPresenter [
 
 	^ self presenters removeKey: aPresenter id asSymbol
@@ -204,4 +228,32 @@ CpMvpWebApplication >> setUp [
 
 	self environment
 		when: CpViewAnnouncement send: #handleViewAnnouncement: to: self
+]
+
+{ #category : #announcing }
+CpMvpWebApplication >> unsubscribe: anObject [
+
+	"Unsubscribe the specified Object from Announcements of the receiver"
+
+	^ self announcer unsubscribe: anObject
+]
+
+{ #category : #announcing }
+CpMvpWebApplication >> when: anAnnouncementClass send: aSymbol to: anObject [
+
+	"Let the sender subscribe to the specified announcement of the receiver.
+	See Announcer>>#when:send:to:"
+
+	^ self announcer when: anAnnouncementClass send: aSymbol to: anObject
+]
+
+{ #category : #announcing }
+CpMvpWebApplication >> whenChangedSend: aSymbol to: anObject [
+
+	"Let the sender subscribe to the value changed announcement of the receiver
+
+	Implementation:
+	This method is for compatibility with Model and NewValueHolder"
+
+	^ self when: ValueChanged send: aSymbol to: anObject
 ]

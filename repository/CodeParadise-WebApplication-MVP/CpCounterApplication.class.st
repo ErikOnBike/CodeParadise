@@ -1,9 +1,12 @@
+"
+I am a simple WebApplication based on Model-View-Presenter pattern.
+I only live in the ServerEnvironment.
+"
 Class {
 	#name : #CpCounterApplication,
-	#superclass : #CpModel,
+	#superclass : #CpMvpWebApplication,
 	#instVars : [
-		'local',
-		'global'
+		'localCounter'
 	],
 	#classVars : [
 		'GlobalCounter'
@@ -12,12 +15,18 @@ Class {
 }
 
 { #category : #accessing }
+CpCounterApplication class >> app [
+
+	^ #counter
+]
+
+{ #category : #accessing }
 CpCounterApplication class >> globalCounter [
 
 	^ GlobalCounter ifNil: [ GlobalCounter := CpCounterModel new ]
 ]
 
-{ #category : #dependencies }
+{ #category : #'class initialization' }
 CpCounterApplication class >> release [
 
 	GlobalCounter ifNotNil: [
@@ -28,9 +37,9 @@ CpCounterApplication class >> release [
 ]
 
 { #category : #accessing }
-CpCounterApplication >> global [
+CpCounterApplication >> globalCounter [
 
-	^ global
+	^ self class globalCounter
 ]
 
 { #category : #initialization }
@@ -38,24 +47,21 @@ CpCounterApplication >> initialize [
 
 	super initialize.
 
-	local := CpCounterModel new.
-	global := self class globalCounter
+	localCounter := CpCounterModel new
 ]
 
 { #category : #accessing }
-CpCounterApplication >> local [
+CpCounterApplication >> localCounter [
 
-	^ local
+	^ localCounter
 ]
 
-{ #category : #presenter }
+{ #category : #accessing }
 CpCounterApplication >> preferredPresenterClass [
 
+	"Answer the preferred Presenter class for the content of the receiver.
+	This will be used to display the receiver's content in the PagePresenter.
+	(See also #applicationPresenterClass)"
+
 	^ CpCounterApplicationPresenter
-]
-
-{ #category : #accessing }
-CpCounterApplication >> title [
-
-	^ 'Counter example'
 ]

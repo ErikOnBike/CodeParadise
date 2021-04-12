@@ -109,14 +109,6 @@ CpPresentation >> previousSlide [
 	self valueChanged
 ]
 
-{ #category : #presenter }
-CpPresentation >> rootPresenterClass [
-
-	"The receiver's root Presenter class equals the preferred Presenter class"
-
-	^ self preferredPresenterClass
-]
-
 { #category : #accessing }
 CpPresentation >> slideDeck [
 
