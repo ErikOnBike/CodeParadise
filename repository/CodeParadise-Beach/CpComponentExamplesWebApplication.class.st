@@ -1,6 +1,6 @@
 Class {
 	#name : #CpComponentExamplesWebApplication,
-	#superclass : #CpMvpWebApplication,
+	#superclass : #CpWebApplication,
 	#category : #'CodeParadise-Beach-Examples'
 }
 
@@ -18,18 +18,6 @@ CpComponentExamplesWebApplication class >> clientBehaviorClass [
 	^ CpComponentExamplesClientBehavior
 ]
 
-{ #category : #actions }
-CpComponentExamplesWebApplication >> clientShowIndex [
-
-	"Show the index at the client (replacing default screen)"
-
-	self sendMessage: (MessageSend
-		receiver: self clientBehaviorClass clientId
-		selector: #showIndex
-		arguments: {})
-
-]
-
 { #category : #installing }
 CpComponentExamplesWebApplication >> installExtensionMethods [
 
@@ -38,22 +26,4 @@ CpComponentExamplesWebApplication >> installExtensionMethods [
 	super installExtensionMethods.
 
 	self installExtensionMethodsFor: #webApplicationFontAwesomeExtension
-]
-
-{ #category : #actions }
-CpComponentExamplesWebApplication >> load [
-
-	super load.
-
-	self clientShowIndex
-
-]
-
-{ #category : #actions }
-CpComponentExamplesWebApplication >> reload [
-
-	super reload.
-
-	self clientShowIndex
-
 ]
