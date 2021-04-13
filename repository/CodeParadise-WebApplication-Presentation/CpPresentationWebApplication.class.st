@@ -7,10 +7,18 @@ Class {
 	#category : #'CodeParadise-WebApplication-Presentation-Application'
 }
 
+{ #category : #accessing }
+CpPresentationWebApplication >> applicationModel [
+
+	"Answer the Model for the receiver"
+
+	^ presentation
+]
+
 { #category : #presenter }
 CpPresentationWebApplication >> applicationPresenterClass [
 
-	^ CpPresentationApplicationPresenter
+	^ CpPresentationPresenter
 ]
 
 { #category : #model }
@@ -31,14 +39,6 @@ CpPresentationWebApplication >> initialize [
 	"Create PresentionModel and start it (sets first slide)"
 	presentation := self createPresentationModel.
 	presentation start
-]
-
-{ #category : #presenter }
-CpPresentationWebApplication >> preferredPresenterClass [
-
-	"Answer the preferred Presenter class for the content of the receiver"
-
-	^ CpPresentationPresenter
 ]
 
 { #category : #accessing }

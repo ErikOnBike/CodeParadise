@@ -31,6 +31,14 @@ CpMvpWebApplication >> announcer [
 	^ announcer
 ]
 
+{ #category : #accessing }
+CpMvpWebApplication >> applicationModel [
+
+	"Answer the Model for the receiver. It might be the receiver itself!"
+
+	self subclassResponsibility
+]
+
 { #category : #presenter }
 CpMvpWebApplication >> applicationPresenter [
 
@@ -138,16 +146,8 @@ CpMvpWebApplication >> load [
 	super load.
 
 	(applicationPresenter := self registerPresenter: self applicationPresenterClass new)
-		model: self ;
+		model: self applicationModel ;
 		createView
-]
-
-{ #category : #presenter }
-CpMvpWebApplication >> preferredPresenterClass [
-
-	"Answer the preferred Presenter class for the content of the receiver"
-
-	self subclassResponsibility
 ]
 
 { #category : #presenter }

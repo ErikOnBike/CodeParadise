@@ -37,6 +37,14 @@ CpCounterApplication class >> release [
 ]
 
 { #category : #accessing }
+CpCounterApplication >> applicationModel [
+
+	"Answer the Model for the receiver, which is the receiver itself"
+
+	^ self
+]
+
+{ #category : #accessing }
 CpCounterApplication >> globalCounter [
 
 	^ self class globalCounter
