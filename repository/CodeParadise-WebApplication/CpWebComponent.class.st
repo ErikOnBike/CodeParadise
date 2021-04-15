@@ -160,3 +160,27 @@ CpWebComponent >> shadowRoot [
 	<primitive: 'primitiveWebComponentShadowRoot' module: 'CpDOMPlugin'>
 	self primitiveFailed
 ]
+
+{ #category : #querying }
+CpWebComponent >> shadowedAllDescendantsMatching: cssSelectorString [
+
+	"Answer all elements inside the shadow DOM matching the specified CSS selector"
+
+	^ self shadowRoot firstDescendantMatching: cssSelectorString
+]
+
+{ #category : #querying }
+CpWebComponent >> shadowedElementWithId: aString [
+
+	"Answer the element inside the shadow DOM having the specified id"
+
+	^ self shadowRoot elementWithId: aString
+]
+
+{ #category : #querying }
+CpWebComponent >> shadowedFirstDescendantMatching: cssSelectorString [
+
+	"Answer the first element inside the shadow DOM matching the specified CSS selector"
+
+	^ self shadowRoot firstDescendantMatching: cssSelectorString
+]
