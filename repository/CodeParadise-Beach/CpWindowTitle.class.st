@@ -51,7 +51,7 @@ CpWindowTitle >> renderIcon: anIconName [
 { #category : #rendering }
 CpWindowTitle >> renderTitle: aString [
 
-	(aString notNil and: [ aString notEmpty ])
+	(aString notNil and: [ aString isNotEmpty ])
 		ifTrue: [ self replaceAllChildrenWith: (aString inHtmlTag: #span) atSlotNamed: #title ]
 		ifFalse: [ self removeChildrenAtSlotNamed: #title ]
 ]

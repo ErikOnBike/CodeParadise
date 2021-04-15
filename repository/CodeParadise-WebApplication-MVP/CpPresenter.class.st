@@ -253,7 +253,7 @@ CpPresenter >> destroyChildPresenters [
 	"Remove all child presenters from the receiver"
 
 	childPresentersBySlotName do: [ :childPresenters |
-		[ childPresenters notEmpty ] whileTrue: [ self destroyChildPresenter: childPresenters first ] ].
+		[ childPresenters isNotEmpty ] whileTrue: [ self destroyChildPresenter: childPresenters first ] ].
 
 ]
 
