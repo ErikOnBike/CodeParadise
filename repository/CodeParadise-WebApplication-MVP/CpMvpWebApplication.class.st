@@ -91,10 +91,9 @@ CpMvpWebApplication >> clientCreateViews [
 	Implementation:
 	Do not use 'each createView' since it will try to create the server side ViewProxy as well."
 
-
 	self presenters do: [ :each | self clientCreateViewForPresenter: each ].
 
-	self flag: #todo. "Creatting/rendering are mixed in #createChildPresenter but not here. Make consistent."
+	"Render the newly created (client side) views"
 	self presenters do: [ :each | each renderView ]
 ]
 
