@@ -36,7 +36,8 @@ Class {
 		'parent',
 		'slotName',
 		'childPresentersBySlotName',
-		'application'
+		'application',
+		'needsRendering'
 	],
 	#category : #'CodeParadise-WebApplication-MVP-Core'
 }
@@ -201,6 +202,7 @@ CpPresenter >> createView [
 
 	"Render view"
 	self renderView.
+	needsRendering := false.
 
 	"Allow subclasses to perform further initialization"
 	self viewCreated
@@ -379,7 +381,8 @@ CpPresenter >> initialize [
 
 	super initialize.
 
-	childPresentersBySlotName := Dictionary new
+	childPresentersBySlotName := Dictionary new.
+	needsRendering := false
 ]
 
 { #category : #initialization }
@@ -415,7 +418,9 @@ CpPresenter >> model: anObject [
 		ifNotNil: [ 	model unsubscribe: self ].
 
 	(model := anObject)
-		ifNotNil: [ model whenChangedSend: #privateModelChanged to: self ]
+		ifNotNil: [ model whenChangedSend: #privateModelChanged to: self ].
+
+	needsRendering := true
 ]
 
 { #category : #model }
@@ -456,6 +461,8 @@ CpPresenter >> presenterClassForModel: aModel atSlotNamed: aString [
 CpPresenter >> privateModelChanged [
 
 	"The receiver's model has changed, render the view to make change visible"
+
+	needsRendering := true.
 
 	self
 		modelChanged ;
@@ -574,7 +581,7 @@ CpPresenter >> renderAllChildViewsForModels: aCollection atSlotNamed: aString [
 						"Update model (if it changed) before re-rendering"
 						existingChildPresenter
 							model: aModel ;
-							renderView ]
+							updateView ]
 					ifFalse: [
 
 						"Create new child presenter (which will thereby render the view)"
@@ -663,8 +670,12 @@ CpPresenter >> updateView [
 		ifFalse: [ ^ self ].
 
 	viewProxy viewClass = self viewClass
-		ifTrue: [  self renderView ]
-		ifFalse: [ self recreateView ]
+		ifTrue: [
+			needsRendering
+				ifTrue: [ self renderView ] ]
+		ifFalse: [ self recreateView ].
+
+	needsRendering := false
 ]
 
 { #category : #view }
