@@ -12,7 +12,7 @@ CpPresentationWebApplication >> applicationModel [
 
 	"Answer the Model for the receiver"
 
-	^ presentation
+	^ self presentation
 ]
 
 { #category : #presenter }
@@ -29,7 +29,7 @@ CpPresentationWebApplication >> createPresentationModel [
 	self subclassResponsibility
 ]
 
-{ #category : #actions }
+{ #category : #initialization }
 CpPresentationWebApplication >> initialize [
 
 	"Set up the receiver with a single presenter and single model"
