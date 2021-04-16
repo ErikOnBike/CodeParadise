@@ -40,15 +40,18 @@ CpRadioButtonGroup class >> template [
 ]
 
 { #category : #'adding/removing' }
-CpRadioButtonGroup >> appendChild: anElement [
+CpRadioButtonGroup >> appendChild: childElement [
 
 	"Append radio button to the receiver"
 
 	"If newly added item is selected, prevent others from being selected"
-	anElement ifSelected: [ self deselectAll ].
+	childElement ifSelected: [ self deselectAll ].
 
-	self registerEventHandlerFor: anElement.
-	^ super appendChild: anElement
+	super appendChild: childElement.
+
+	self registerEventHandlerFor: childElement.
+
+	^ childElement
 ]
 
 { #category : #'state handling' }
@@ -120,14 +123,30 @@ CpRadioButtonGroup >> insertChild: childElement before: siblingElement [
 	"If newly inserted item is selected, prevent others from being selected"
 	childElement ifSelected: [ self deselectAll ].
 
+	super insertChild: childElement before: siblingElement.
+
 	self registerEventHandlerFor: childElement.
-	^ super insertChild: childElement before: siblingElement
+
+	^ childElement
 ]
 
-{ #category : #'adding/removing' }
+{ #category : #'event handling' }
 CpRadioButtonGroup >> registerEventHandlerFor: anElement [
 
 	anElement when: CpSelectionChanged send: #handleSelectionChanged: to: self
+]
+
+{ #category : #'adding/removing' }
+CpRadioButtonGroup >> removeChild: childElement [
+
+	"Remove the child element from the receiver. Answer the removed child."
+
+	super removeChild: childElement.
+
+	"Unregister event handler"
+	self unregisterEventHandlerFor: childElement.
+
+	^ childElement
 ]
 
 { #category : #'adding/removing' }
@@ -138,6 +157,19 @@ CpRadioButtonGroup >> replaceChild: childElement with: replacementElement [
 	"If newly replaced item is selected, prevent others from being selected"
 	replacementElement ifSelected: [ self deselectAllBut: childElement ].
 
-	self registerEventHandlerFor: replacementElement.
-	^ super replaceChild: childElement with: replacementElement
+	"Replace child element"
+	super replaceChild: childElement with: replacementElement.
+
+	"Update event handlers"
+	self
+		unregisterEventHandlerFor: childElement ;
+		registerEventHandlerFor: replacementElement.
+
+	^ replacementElement
+]
+
+{ #category : #'event handling' }
+CpRadioButtonGroup >> unregisterEventHandlerFor: anElement [
+
+	anElement unsubscribe: self
 ]
