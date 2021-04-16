@@ -182,10 +182,10 @@ CpIntroductionPresentationWebApplication >> createModelClassSlide [
 				yourself) ;
 			addBullet: (CpBulletedContent new
 				addBullet: (CpDemoApplicationCodeContent new
-					code: 'self presentationModel currentSlide title: ''Change!''' ;
+					code: 'self presentation currentSlide title: ''Change!''' ;
 					yourself) ;
 				addBullet: (CpDemoApplicationCodeContent new
-					code: ('self presentationModel currentSlide content
+					code: ('self presentation currentSlide content
 	addBullet: (CpTextContent text: ''Added dynamically'')' replaceAll: Character cr with: Character lf) ;
 					yourself) ;
 				yourself) ;
@@ -378,35 +378,19 @@ CpIntroductionPresentationWebApplication >> createViewClassSlide [
 		title: 'CpView class' ;
 		content: (CpBulletedContent new
 			addBullet: (CpTextContent new
-				text: 'You already changed the appearance of a view' ;
+				text: 'A View is an UI element' ;
 				yourself) ;
 			addBullet: (CpTextContent new
-				text: 'Now let''s add behavior live' ;
+				text: 'Views are only present client-side in the browser' ;
 				yourself) ;
-			addBullet: (CpBulletedContent new
-				addBullet: (CpTextContent new
-					text: 'Click near the top of the window, nothing happens' ;
-					yourself) ;
-				addBullet: (CpTextContent new
-					text: 'Open a Browser on CpTitledSlideView' ;
-					yourself) ;
-				addBullet: (CpTextContent new
-					text: 'Add the following instance method' ;
-					yourself) ;
-				addBullet: (CpDemoCodeContent new
-					code: ('handleClickEvent: aClickEvent
-	aClickEvent clickPoint y < 80
-		ifTrue: [ ^ self renderTitle: ''I am clicked'' ].
-
-	super handleClickEvent: aClickEvent
-' replaceAll: Character cr with: Character lf) ;
-					yourself) ;
-				addBullet: (CpTextContent new
-					text: 'Now click near the top of the window again' ;
-					yourself) ;
-				addBullet: (CpTextContent new
-					text: 'The method got installed dynamically (no need to reload)' ;
-					yourself) ;
+			addBullet: (CpTextContent new
+				text: 'Views should not contain any business logic' ;
+				yourself) ;
+			addBullet: (CpTextContent new
+				text: 'Views should be seen as native rendering elements' ;
+				yourself) ;
+			addBullet: (CpTextContent new
+				text: 'Views should preferrably only work with Strings, Numbers and Points' ;
 				yourself) ;
 			yourself) ;
 		yourself
@@ -495,24 +479,14 @@ CpIntroductionPresentationWebApplication >> openInspectorEvaluatorWithSelectedTe
 		selectAll
 ]
 
-{ #category : #accessing }
-CpIntroductionPresentationWebApplication >> presentationModel [
-
-	"Answer the presentation Model.
-
-	Implementation: Only the presentation is added as a Model to the receiver."
-
-	^ self models first
-]
-
 { #category : #actions }
 CpIntroductionPresentationWebApplication >> showNextSlide [
 
-	self presentationModel nextSlide
+	self presentation nextSlide
 ]
 
 { #category : #actions }
 CpIntroductionPresentationWebApplication >> showPreviousSlide [
 
-	self presentationModel previousSlide
+	self presentation previousSlide
 ]
