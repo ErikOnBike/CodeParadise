@@ -244,3 +244,15 @@ SlInput >> url [
 
 	self type: #url
 ]
+
+{ #category : #accessing }
+SlInput >> value [
+
+	^ self attributeAt: #value
+]
+
+{ #category : #accessing }
+SlInput >> value: aString [
+
+	self attributeAt: #value put: aString
+]
