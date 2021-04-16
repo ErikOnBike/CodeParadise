@@ -25,15 +25,15 @@ CpControlGroup class >> template [
 ]
 
 { #category : #'adding/removing' }
-CpControlGroup >> appendChild: anElement [
+CpControlGroup >> appendChild: childElement [
 
 	"Append group element to the receiver"
 
 	"If receiver is disabled make group member also (secundary) disabled"
 	(self attributeAt: #disabled)
-		ifNotNil: [ anElement disableSecundary ].
+		ifNotNil: [ childElement disableSecundary ].
 
-	^ super appendChild: anElement
+	^ super appendChild: childElement
 ]
 
 { #category : #'adding/removing' }
