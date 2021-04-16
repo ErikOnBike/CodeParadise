@@ -26,6 +26,7 @@ CpWindow class >> style [
 			border-radius: 8px;
 			border: var(--window-border-size, 1px) solid var(--window-border-color, #333);
 			background-color: var(--window-background-color, #ddd);
+			box-shadow: 16px 16px 24px 8px rgba(0, 0, 0, .1);
 		}
 		#titleBar {
 			display: grid;
@@ -62,6 +63,7 @@ CpWindow class >> style [
 		#content {
 			width: 100%;
 			height: 100%;
+			background-color: #fff;
 		}
 		#handles {
 			position: absolute;
