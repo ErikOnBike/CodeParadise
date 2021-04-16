@@ -12,7 +12,7 @@ SlElement class >> eventMappingJS [
 			console.log("mapping sl-change event...");
 
          // Create new known event, and redispatch
-         var changeEvent = new Event("change", { bubbles: true });
+         var changeEvent = new Event("change", { bubbles: true, composed: true });
          evt.target.dispatchEvent(changeEvent);
       });
 
@@ -20,7 +20,7 @@ SlElement class >> eventMappingJS [
 			console.log("mapping sl-show event...");
 
          // Create new known event, and redispatch
-         var changeEvent = new Event("change", { bubbles: true });
+         var changeEvent = new Event("change", { bubbles: true, composed: true });
          evt.target.dispatchEvent(changeEvent);
       });'
 
