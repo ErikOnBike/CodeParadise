@@ -110,7 +110,7 @@ FuiCheckbox >> beNotInverted [
 	self removeVariation: #inverted
 ]
 
-{ #category : #'accessing - types' }
+{ #category : #'accessing - type' }
 FuiCheckbox >> beRadio [
 
 	self setType: #radio ofTypes: self class allTypes.
@@ -130,13 +130,13 @@ FuiCheckbox >> beReadWrite [
 	^ self removeState: #'read-only'
 ]
 
-{ #category : #'accessing - types' }
+{ #category : #'accessing - type' }
 FuiCheckbox >> beRegular [
 
 	^ self setType: nil ofTypes: self class allTypes
 ]
 
-{ #category : #'accessing - types' }
+{ #category : #'accessing - type' }
 FuiCheckbox >> beSlider [
 
 	self setType: #slider ofTypes: self class allTypes.
@@ -144,7 +144,7 @@ FuiCheckbox >> beSlider [
 		propertyAt: #type put: #checkbox
 ]
 
-{ #category : #'accessing - types' }
+{ #category : #'accessing - type' }
 FuiCheckbox >> beToggle [
 
 	self setType: #toggle ofTypes: self class allTypes.

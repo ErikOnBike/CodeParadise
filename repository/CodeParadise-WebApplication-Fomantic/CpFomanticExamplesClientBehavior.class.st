@@ -177,6 +177,73 @@ CpFomanticExamplesClientBehavior >> exampleInput [
 
 ]
 
+{ #category : #examples }
+CpFomanticExamplesClientBehavior >> exampleMenu [
+
+	<example: 'Menu' order: 300>
+
+	| outputElement |
+
+	outputElement := self outputElement.
+	outputElement textContent: ''.
+
+	outputElement
+		appendChild: (FuiMenu new
+			appendChild: (('First' inHtmlTag: #a) addClass: #item ; addClass: #active ; yourself) ;
+			appendChild: (('Second' inHtmlTag: #a) addClass: #item ; yourself) ;
+			appendChild: (('Third' inHtmlTag: #a) addClass: #item ; yourself) ;
+			yourself).
+
+	outputElement
+		appendChild: (FuiMenu new
+			beDivided: 3 ;
+			appendChild: (('First' inHtmlTag: #a) addClass: #item ; addClass: #active ; yourself) ;
+			appendChild: (('Second' inHtmlTag: #a) addClass: #item ; yourself) ;
+			appendChild: (('Third' inHtmlTag: #a) addClass: #item ; yourself) ;
+			yourself).
+
+	outputElement
+		appendChild: (FuiMenu new
+			beText ;
+			appendChild: (('First' inHtmlTag: #a) addClass: #item ; addClass: #active ; yourself) ;
+			appendChild: (('Second' inHtmlTag: #a) addClass: #item ; yourself) ;
+			appendChild: (('Third' inHtmlTag: #a) addClass: #item ; yourself) ;
+			yourself).
+
+	outputElement
+		appendChild: (FuiMenu new
+			bePointing ;
+			appendChild: (('First' inHtmlTag: #a) addClass: #item ; addClass: #active ; yourself) ;
+			appendChild: (('Second' inHtmlTag: #a) addClass: #item ; yourself) ;
+			appendChild: (('Third' inHtmlTag: #a) addClass: #item ; yourself) ;
+			yourself).
+
+	outputElement
+		appendChild: (FuiMenu new
+			beTabular ;
+			appendChild: (('First' inHtmlTag: #a) addClass: #item ; addClass: #active ; yourself) ;
+			appendChild: (('Second' inHtmlTag: #a) addClass: #item ; yourself) ;
+			appendChild: (('Third' inHtmlTag: #a) addClass: #item ; yourself) ;
+			yourself).
+
+	outputElement
+		appendChild: (FuiMenu new
+			beVertical ;
+			appendChild: (('First' inHtmlTag: #a) addClass: #item ; addClass: #active ; yourself) ;
+			appendChild: (('Second' inHtmlTag: #a) addClass: #item ; yourself) ;
+			appendChild: (('Third' inHtmlTag: #a) addClass: #item ; yourself) ;
+			yourself).
+
+	outputElement
+		appendChild: (FuiMenu new
+			beVertical ; beSecundary ; bePointing ;
+			appendChild: (('First' inHtmlTag: #a) addClass: #item ; addClass: #active ; yourself) ;
+			appendChild: (('Second' inHtmlTag: #a) addClass: #item ; yourself) ;
+			appendChild: (('Third' inHtmlTag: #a) addClass: #item ; yourself) ;
+			yourself).
+
+]
+
 { #category : #initialization }
 CpFomanticExamplesClientBehavior >> initialize [
 

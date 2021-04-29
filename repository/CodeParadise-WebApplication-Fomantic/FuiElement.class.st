@@ -481,6 +481,14 @@ FuiElement >> removeVariation: aSymbol [
 
 ]
 
+{ #category : #'accessing - variation' }
+FuiElement >> removeVariations: aCollection [
+
+	"Remove specified variations from the receiver"
+
+	self addClass: nil rejecting: aCollection at: 3
+]
+
 { #category : #'accessing - state' }
 FuiElement >> setState: aSymbol ofStates: aCollection [
 
