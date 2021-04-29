@@ -236,7 +236,7 @@ CpFomanticExamplesClientBehavior >> exampleMenu [
 
 	outputElement
 		appendChild: (FuiMenu new
-			beVertical ; beSecundary ; bePointing ;
+			beVertical ; beSecondary ; bePointing ;
 			appendChild: (('First' inHtmlTag: #a) addClass: #item ; addClass: #active ; yourself) ;
 			appendChild: (('Second' inHtmlTag: #a) addClass: #item ; yourself) ;
 			appendChild: (('Third' inHtmlTag: #a) addClass: #item ; yourself) ;

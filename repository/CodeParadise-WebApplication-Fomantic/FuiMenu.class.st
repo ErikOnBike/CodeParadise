@@ -13,13 +13,13 @@ FuiMenu class >> allSizeVariations [
 { #category : #accessing }
 FuiMenu class >> allTypes [
 
-	^ #(#secundary #pointing #tabular #text #vertical #pagination)
+	^ #(#secondary #tabular #text #pagination)
 ]
 
 { #category : #accessing }
 FuiMenu class >> allVariations [
 
-	^ #(#fixed #stackable #inverted #icon #'labeled icon' #fluid #compact #'two item' #'three item' #'four item' #'five item' #'six item' #'seven item' #'eight item' #'nine item' #'ten item' #'eleven item' #'twelve item' #attached #'top attached' #'bottom attached' #tiny #mini #small #large #huge #massive #fitted #borderless)
+	^ #(#vertical #pointing #fixed #stackable #inverted #icon #'labeled icon' #fluid #compact #'two item' #'three item' #'four item' #'five item' #'six item' #'seven item' #'eight item' #'nine item' #'ten item' #'eleven item' #'twelve item' #attached #'top attached' #'bottom attached' #tiny #mini #small #large #huge #massive #fitted #borderless)
 ]
 
 { #category : #accessing }
@@ -166,16 +166,16 @@ FuiMenu >> beNotStackable [
 	self removeVariation: #stackable
 ]
 
-{ #category : #'accessing - type' }
+{ #category : #'accessing - variation' }
 FuiMenu >> bePointing [
 
-	self setType: #pointing ofTypes: self class allTypes
+	self addVariation: #pointing
 ]
 
 { #category : #'accessing - type' }
-FuiMenu >> beSecundary [
+FuiMenu >> beSecondary [
 
-	self setType: #secundary ofTypes: self class allTypes
+	self setType: #secondary ofTypes: self class allTypes
 ]
 
 { #category : #'accessing - variation' }
@@ -232,10 +232,10 @@ FuiMenu >> beTopAttached [
 	self addVariation: #'top attached'
 ]
 
-{ #category : #'accessing - type' }
+{ #category : #'accessing - variation' }
 FuiMenu >> beVertical [
 
-	self setType: #vertical ofTypes: self class allTypes
+	self addVariation: #vertical 
 ]
 
 { #category : #'accessing - variation' }
