@@ -244,6 +244,38 @@ CpFomanticExamplesClientBehavior >> exampleMenu [
 
 ]
 
+{ #category : #examples }
+CpFomanticExamplesClientBehavior >> examplePopup [
+
+	<example: 'Popup' order: 400>
+
+	| outputElement activator |
+
+	outputElement := self outputElement.
+	outputElement textContent: ''.
+
+	outputElement 
+		appendChild: (activator := FuiButton newLabeled: 'Open me!').
+
+	outputElement
+		appendChild: ((FuiPopup new 
+			activateOnElement: activator withOptions: { 
+				#inline -> true.
+				#hoverable -> true.
+				#position -> 'bottom right'.
+				#delay -> { #show -> 300. #hide -> 1500 } asDictionary.
+			 } asDictionary) 
+			appendChild: (FuiMenu new 
+				beSecondary ;
+				beVertical ;
+				appendChild: (('First' inHtmlTag: #a) addClass: #item ; yourself) ;
+				appendChild: (('Second' inHtmlTag: #a) addClass: #item ; yourself) ;
+				appendChild: (('Third' inHtmlTag: #a) addClass: #item ; yourself) ;
+				yourself) ;
+			yourself).
+
+]
+
 { #category : #initialization }
 CpFomanticExamplesClientBehavior >> initialize [
 

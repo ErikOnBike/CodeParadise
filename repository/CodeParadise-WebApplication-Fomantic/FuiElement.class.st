@@ -32,6 +32,7 @@ FuiElement class >> allVariations [
 FuiElement class >> baseElementTagName [
 
 	"Answer the HTML element tag name the receiver is based upon.
+	Preferably use a Symbol here, to reduce number of object instances.
 	Eg: #div or #span or #button"
 
 	self subclassResponsibility
