@@ -161,13 +161,34 @@ FuiMenu >> beNotLabeledIcon [
 ]
 
 { #category : #'accessing - variation' }
+FuiMenu >> beNotPointing [
+
+	"Be aware: pointing is actually a Fomantic type, but seems to coexist with other types making it
+	more like a variation"
+
+	self removeVariation: #pointing
+]
+
+{ #category : #'accessing - variation' }
 FuiMenu >> beNotStackable [
 
 	self removeVariation: #stackable
 ]
 
 { #category : #'accessing - variation' }
+FuiMenu >> beNotVertical [
+
+	"Be aware: vertical is actually a Fomantic type, but seems to coexist with other types making it
+	more like a variation"
+
+	self removeVariation: #vertical 
+]
+
+{ #category : #'accessing - variation' }
 FuiMenu >> bePointing [
+
+	"Be aware: pointing is actually a Fomantic type, but seems to coexist with other types making it
+	more like a variation"
 
 	self addVariation: #pointing
 ]
@@ -234,6 +255,9 @@ FuiMenu >> beTopAttached [
 
 { #category : #'accessing - variation' }
 FuiMenu >> beVertical [
+
+	"Be aware: vertical is actually a Fomantic type, but seems to coexist with other types making it
+	more like a variation"
 
 	self addVariation: #vertical 
 ]
