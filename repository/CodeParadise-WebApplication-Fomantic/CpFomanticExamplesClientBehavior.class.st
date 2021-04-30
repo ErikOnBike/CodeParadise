@@ -263,7 +263,7 @@ CpFomanticExamplesClientBehavior >> examplePopup [
 				#inline -> true.
 				#hoverable -> true.
 				#position -> 'bottom right'.
-				#delay -> { #show -> 300. #hide -> 1500 } asDictionary.
+				#delay -> { #show -> 300. #hide -> 600 } asDictionary.
 			 } asDictionary) 
 			appendChild: (FuiMenu new 
 				beSecondary ;

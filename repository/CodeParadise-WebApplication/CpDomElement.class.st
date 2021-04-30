@@ -562,7 +562,10 @@ CpDomElement >> styleAt: nameString [
 
 	"Answer the value (a String) of the specified style of the receiver or nil if such a style does not exist.
 	The style value will be the one set explicitly on the element or its computed value if none is set.
-	In the later case this value might be specified through a stylesheet rule."
+	In the later case this value might be specified through a stylesheet rule.
+	
+	For example:
+	myElement styleAt: #display."
 
 	<primitive: 'primitiveDomElementStyleAt:' module: 'CpDOMPlugin'>
 	self primitiveFailed

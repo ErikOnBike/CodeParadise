@@ -141,6 +141,12 @@ CpDragEvent >> initialize [
 ]
 
 { #category : #testing }
+CpDragEvent >> isAtStart [ 
+
+	^ tracePoints size = 1 
+]
+
+{ #category : #testing }
 CpDragEvent >> isEnded [
 
 	^ self endPoint notNil
