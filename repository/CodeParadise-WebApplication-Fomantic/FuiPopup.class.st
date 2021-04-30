@@ -10,14 +10,6 @@ FuiPopup class >> baseElementTagName [
 	^ #div
 ]
 
-{ #category : #'instance creation' }
-FuiPopup class >> newWithOptions: aDictionary [ 
-
-	^ self new 
-		performOnElement: aDictionary ;
-		yourself
-]
-
 { #category : #'as yet unclassified' }
 FuiPopup >> activateOnElement: anElement withOptions: aDictionary [ 
 
