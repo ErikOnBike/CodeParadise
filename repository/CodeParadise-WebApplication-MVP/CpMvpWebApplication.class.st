@@ -13,8 +13,8 @@ Class {
 	#superclass : #CpWebApplication,
 	#instVars : [
 		'announcer',
-		'presenters',
-		'applicationPresenter'
+		'applicationPresenter',
+		'presentersById'
 	],
 	#category : #'CodeParadise-WebApplication-MVP-Core'
 }
@@ -134,7 +134,7 @@ CpMvpWebApplication >> initialize [
 	super initialize.
 
 	announcer := Announcer new.
-	presenters := OrderedIdentityDictionary new
+	presentersById := OrderedIdentityDictionary new
 ]
 
 { #category : #actions }
@@ -158,7 +158,13 @@ CpMvpWebApplication >> presenterWithId: identifier ifAbsent: aBlock [
 { #category : #presenter }
 CpMvpWebApplication >> presenters [
 
-	^ presenters
+	^ presentersById
+]
+
+{ #category : #presenter }
+CpMvpWebApplication >> presentersDo: aBlock [
+
+	presentersById do: aBlock
 ]
 
 { #category : #presenter }
@@ -181,9 +187,9 @@ CpMvpWebApplication >> release [
 
 	"Release the receivers resources"
 
-	presenters ifNotNil: [
-		presenters do: [ :each | each release ].
-		presenters := nil ].
+	presentersById ifNotNil: [
+		presentersById do: [ :each | each release ].
+		presentersById := nil ].
 
 	"The ApplicationPresenter is part of the presenters collection.
 	So it is released above and does not need to be released here again."
