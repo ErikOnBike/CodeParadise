@@ -424,9 +424,9 @@ CpDomElement >> propertyAt: nameString [
 ]
 
 { #category : #properties }
-CpDomElement >> propertyAt: nameString put: valueString [
+CpDomElement >> propertyAt: nameString put: anObject [
 
-	"Set the value (String, Number, Boolean or nil) of the specified property of the receiver"
+	"Set the value (String, Number, Boolean, nil or Dictionary) of the specified property of the receiver"
 
 	<primitive: 'primitiveDomElementPropertyAt:put:' module: 'CpDOMPlugin'>
 	self primitiveFailed
