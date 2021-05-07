@@ -12,6 +12,22 @@ Class >> beLoaded [
 ]
 
 { #category : #'*CodeParadise-RemoteEnvironment' }
+Class >> containsDebuggingCode [
+
+	| checkPresence |
+
+	checkPresence := [ :compiledMethod |
+		(compiledMethod hasBreakpoint or: [ compiledMethod containsHalt ])
+			ifTrue: [ ^ true ] ].
+
+	self methodDictionary do: checkPresence.
+	self class methodDictionary do: checkPresence.
+
+	^ false
+
+]
+
+{ #category : #'*CodeParadise-RemoteEnvironment' }
 Class >> cpAllRequiredClassesMatching: matchBlock [
 
 	"Answer a collection of Classes the receiver is dependent on in the ClientEnvironment
