@@ -65,7 +65,7 @@ CpRadioButtonGroup >> beReadOnly [
 	(self attributeAt: #readonly)
 		ifNil: [
 			self attributeAdd: #readonly.
-			self children do: [ :each | each beReadOnlySecundary ] ]
+			self children do: [ :each | each beReadOnlySecondary ] ]
 ]
 
 { #category : #'state handling' }
@@ -79,7 +79,7 @@ CpRadioButtonGroup >> beWritable [
 	(self attributeAt: #readonly)
 		ifNotNil: [
 			self removeAttributeAt: #readonly.
-			self children do: [ :each | each beWritableSecundary ] ]
+			self children do: [ :each | each beWritableSecondary ] ]
 ]
 
 { #category : #'state handling' }

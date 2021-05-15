@@ -18,7 +18,7 @@ CpInputControl >> beReadOnly [
 ]
 
 { #category : #private }
-CpInputControl >> beReadOnlySecundary [
+CpInputControl >> beReadOnlySecondary [
 
 	"Make the receiver read only because an ancestor is read only.
 	
@@ -53,7 +53,7 @@ CpInputControl >> beWritable [
 ]
 
 { #category : #private }
-CpInputControl >> beWritableSecundary [
+CpInputControl >> beWritableSecondary [
 
 	"Make the receiver writable because an ancestor is writable.
 	

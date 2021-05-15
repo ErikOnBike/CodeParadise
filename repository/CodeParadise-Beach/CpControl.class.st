@@ -20,11 +20,11 @@ CpControl >> disable [
 				ifTrue: [ self attributeAdd: #disabled ] ]
 		ifNil: [
 			self attributeAdd: #disabled.
-			self children do: [ :each | each disableSecundary ] ]
+			self children do: [ :each | each disableSecondary ] ]
 ]
 
 { #category : #private }
-CpControl >> disableSecundary [
+CpControl >> disableSecondary [
 
 	"Disable the receiver because an ancestor is disabled.
 	
@@ -34,7 +34,7 @@ CpControl >> disableSecundary [
 	(self attributeAt: #disabled)
 		ifNil: [
 			self attributeAt: #disabled put: #parent.
-			self children do: [ :each | each disableSecundary ] ]
+			self children do: [ :each | each disableSecondary ] ]
 ]
 
 { #category : #'state handling' }
@@ -58,11 +58,11 @@ CpControl >> enable [
 						ifNotNil: [ self attributeAt: #disabled put: #parent ]
 						ifNil: [
 							self removeAttributeAt: #disabled.
-							self children do: [ :each | each enableSecundary ] ] ] ]
+							self children do: [ :each | each enableSecondary ] ] ] ]
 ]
 
 { #category : #private }
-CpControl >> enableSecundary [
+CpControl >> enableSecondary [
 
 	"Enable the receiver because an ancestor is enabled.
 	
@@ -77,7 +77,7 @@ CpControl >> enableSecundary [
 			disabled = #parent
 				ifTrue: [
 					self removeAttributeAt: #disabled.
-					self children do: [ :each | each enableSecundary ] ] ]
+					self children do: [ :each | each enableSecondary ] ] ]
 ]
 
 { #category : #'testing - conditionals' }

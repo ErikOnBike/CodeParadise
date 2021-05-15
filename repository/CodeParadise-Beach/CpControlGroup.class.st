@@ -31,7 +31,7 @@ CpControlGroup >> appendChild: childElement [
 
 	"If receiver is disabled make group member also (secundary) disabled"
 	(self attributeAt: #disabled)
-		ifNotNil: [ childElement disableSecundary ].
+		ifNotNil: [ childElement disableSecondary ].
 
 	^ super appendChild: childElement
 ]
@@ -43,7 +43,7 @@ CpControlGroup >> insertChild: childElement before: siblingElement [
 
 	"If receiver is disabled make group member also (secundary) disabled"
 	(self attributeAt: #disabled)
-		ifNotNil: [ childElement disableSecundary ].
+		ifNotNil: [ childElement disableSecondary ].
 
 	^ super insertChild: childElement before: siblingElement
 ]
@@ -55,7 +55,7 @@ CpControlGroup >> replaceChild: childElement with: replacementElement [
 
 	"If receiver is disabled make group member also (secundary) disabled"
 	(self attributeAt: #disabled)
-		ifNotNil: [ replacementElement disableSecundary ].
+		ifNotNil: [ replacementElement disableSecondary ].
 
 	^ super replaceChild: childElement with: replacementElement
 ]

@@ -1,13 +1,13 @@
 Extension { #name : #CpHtmlElement }
 
 { #category : #'*CodeParadise-Beach' }
-CpHtmlElement >> disableSecundary [
+CpHtmlElement >> disableSecondary [
 
 	"Ignore for regular HTML elements"
 ]
 
 { #category : #'*CodeParadise-Beach' }
-CpHtmlElement >> enableSecundary [
+CpHtmlElement >> enableSecondary [
 
 	"Ignore for regular HTML elements"
 ]
