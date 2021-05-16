@@ -84,6 +84,7 @@ FuiElement class >> installFomanticPlugin [
 				setInterpreter: function(anInterpreter) {
 					this.interpreterProxy = anInterpreter;
 					this.domPlugin = Squeak.externalModules.CpDOMPlugin;
+					this.systemPlugin = Squeak.externalModules.CpSystemPlugin;
 
 					// Add element class mapper which allows to specify which Smalltalk class
 					// represents a given DOM element
@@ -145,7 +146,7 @@ console.log("Waiting for Fomantic library to load");
 				},
 				"primitiveFuiElementPerformOnElement:as:": function(argCount) {
 					if(argCount !== 2) return false;
-					let properties = this.domPlugin.asJavascriptObject(this.interpreterProxy.stackValue(1));
+					let properties = this.systemPlugin.asJavascriptObject(this.interpreterProxy.stackValue(1));
 					let elementName = this.interpreterProxy.stackValue(0).asString();
 					if(!elementName) return false;
 					let receiver = this.interpreterProxy.stackValue(argCount);
