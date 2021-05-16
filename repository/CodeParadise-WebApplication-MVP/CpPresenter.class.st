@@ -200,12 +200,12 @@ CpPresenter >> createView [
 	"Create View in the ClientEnvironment"
 	self application clientCreateViewForPresenter: self.
 
+	"Allow subclasses to perform further initialization"
+	self viewCreated.
+
 	"Render view"
 	self renderView.
-	needsRendering := false.
-
-	"Allow subclasses to perform further initialization"
-	self viewCreated
+	needsRendering := false
 ]
 
 { #category : #view }
