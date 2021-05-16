@@ -184,7 +184,8 @@ CpClientEnvironment >> alert: aString [
 
 	"Alert user with specified message (please use sparsely)"
 
-	self primAlert: aString
+	<primitive: 'primitiveEnvironmentAlert:' module: 'CpSystemPlugin'>
+	^ self
 
 ]
 
@@ -203,7 +204,8 @@ CpClientEnvironment >> confirm: aString [
 
 	"Confirm specified message with user (please use sparsely)"
 
-	self primConfirm: aString
+	<primitive: 'primitiveEnvironmentConfirm:' module: 'CpSystemPlugin'>
+	^ false
 
 ]
 
@@ -373,7 +375,8 @@ CpClientEnvironment >> log: aString [
 
 	"Log message on Transcript/console"
 
-	self primLog: aString
+	<primitive: 'primitiveEnvironmentLog:' module: 'CpSystemPlugin'>
+	^ self
 
 ]
 
@@ -384,38 +387,6 @@ CpClientEnvironment >> objectRegistry [
 	to be able to address individual objects in the receiver."
 
 	^ objectRegistry
-]
-
-{ #category : #primitives }
-CpClientEnvironment >> primAlert: aString [
-
-	<primitive: 'primitiveEnvironmentAlert:' module: 'CpSystemPlugin'>
-	^ self
-
-]
-
-{ #category : #primitives }
-CpClientEnvironment >> primConfirm: aString [
-
-	<primitive: 'primitiveEnvironmentConfirm:' module: 'CpSystemPlugin'>
-	^ false
-
-]
-
-{ #category : #primitives }
-CpClientEnvironment >> primLog: aString [
-
-	<primitive: 'primitiveEnvironmentLog:' module: 'CpSystemPlugin'>
-	^ self
-
-]
-
-{ #category : #primitives }
-CpClientEnvironment >> primReload [
-
-	<primitive: 'primitiveEnvironmentReload' module: 'CpSystemPlugin'>
-	^ self
-
 ]
 
 { #category : #initialization }
@@ -433,7 +404,9 @@ CpClientEnvironment >> reload [
 
 	"Reload the receiver (changes might get lost, use sparsely)"
 
-	self primReload
+	<primitive: 'primitiveEnvironmentReload' module: 'CpSystemPlugin'>
+	^ self
+
 ]
 
 { #category : #accessing }
