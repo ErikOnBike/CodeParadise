@@ -175,6 +175,15 @@ CpDomElement >> appendChild: childElement [
 	self primitiveFailed
 ]
 
+{ #category : #performing }
+CpDomElement >> apply: aSymbol withArguments: anArray [
+
+	"Perform the specified symbol as JS function on the receiver with the specified arguments"
+
+	<primitive: 'primitiveDomElementApply:withArguments:' module: 'CpDOMPlugin'>
+	self primitiveFailed
+]
+
 { #category : #attributes }
 CpDomElement >> attributeAdd: nameString [
 
@@ -280,8 +289,7 @@ CpDomElement >> focus [
 
 	"Set the focus to the receiver (ie take focus)"
 
-	<primitive: 'primitiveDomElementFocus' module: 'CpDOMPlugin'>
-	self primitiveFailed
+	self apply: #focus withArguments: #()
 ]
 
 { #category : #attributes }
