@@ -262,6 +262,17 @@ CpClientEnvironment >> fatal: aString [
 	self alert: 'FATAL: ', aString
 ]
 
+{ #category : #performing }
+CpClientEnvironment >> globalApply: aSymbol withArguments: anArray [
+
+	"Perform the specified symbol on the global scope (ie 'window' in the browser
+	environment) with the specified arguments"
+
+	<primitive: 'primitiveEnvironmentGlobalApply:withArguments:' module: 'CpSystemPlugin'>
+	self primitiveFailed
+
+]
+
 { #category : #'input/output' }
 CpClientEnvironment >> handleMessageReceived: aByteArray [
 
