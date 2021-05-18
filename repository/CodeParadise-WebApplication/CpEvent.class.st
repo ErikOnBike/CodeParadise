@@ -54,7 +54,10 @@ CpEvent class >> createEventProcess [
 { #category : #'processing - private' }
 CpEvent class >> dispatchEvent: anEvent [
 
-	[ anEvent dispatch ] on: Error do: [ :error | self crTrace: error description ]
+	[ anEvent dispatch ] on: Error do: [ :error |
+		self crTrace: 'Error when handling event ', anEvent printString.
+		self crTrace: error description.
+		self crTrace: error signalerContext printString ]
 ]
 
 { #category : #'processing - private' }
@@ -230,7 +233,7 @@ CpEvent >> primPreventDefault [
 { #category : #printing }
 CpEvent >> printOn: aStream [
 
-	self class name printOn: aStream.
+	aStream nextPutAll: self class name.
 	aStream nextPutAll: ', type: '.
 	self type printOn: aStream.
 	aStream nextPutAll: ', timeStamp: '.

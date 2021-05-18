@@ -299,29 +299,31 @@ CpClientEnvironment >> handleMessageReceived: aByteArray [
 
 { #category : #accessing }
 CpClientEnvironment >> handleMessageSend: aMessageSend [
+
 	"Perform the MessageSend assuming the MessageSend's receiver is encoded as
 	either nil, indicating the ClientEnvironment as receiver
 	or an identifier, indicating an Object registered"
 
 	| receiverId |
+
 	receiverId := aMessageSend receiver.
-	aMessageSend
-		receiver:
-			(receiverId
-				ifNotNil: [ self objectRegistry objectWithId: receiverId ]
-				ifNil: [ self ]).
+	aMessageSend receiver: (receiverId
+		ifNotNil: [ self objectRegistry objectWithId: receiverId ]
+		ifNil: [ self ]).
 
 	"Perform the message send"
-	[ aMessageSend value ]
-		on: Error
-		do: [ :error | 
-			"Restore receiver id and send Announcement of error to server"
-			aMessageSend receiver: receiverId.
-			self
-				serverAnnounce:
-					(CpClientMessageSendFailed
-						messageSend: aMessageSend
-						description: error description) ]
+	[ aMessageSend value ] on: Error do: [ :error |
+
+		self crTrace: 'Error when sent message ', aMessageSend selector, ' to ', aMessageSend receiver printString.
+		self crTrace: error printString.
+		self crTrace: error signalerContext printString.
+
+		"Restore receiver id and send Announcement of error to server"
+		aMessageSend receiver: receiverId.
+		self serverAnnounce: (CpClientMessageSendFailed
+			messageSend: aMessageSend
+			description: error description) ]
+
 ]
 
 { #category : #accessing }
