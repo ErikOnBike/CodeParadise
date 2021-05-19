@@ -5,6 +5,48 @@ Class {
 }
 
 { #category : #'accessing control' }
+SlInput >> autocapitalize [
+
+	self attributeAt: #autocapitalize put: 'on'
+]
+
+{ #category : #'accessing control' }
+SlInput >> autocapitalizeCharacters [
+
+	self attributeAt: #autocapitalize put: 'characters'
+]
+
+{ #category : #'accessing control' }
+SlInput >> autocapitalizeSentences [
+
+	self attributeAt: #autocapitalize put: 'sentences'
+]
+
+{ #category : #'accessing control' }
+SlInput >> autocapitalizeWords [
+
+	self attributeAt: #autocapitalize put: 'words'
+]
+
+{ #category : #'accessing control' }
+SlInput >> autocomplete [
+
+	self attributeAt: #autocomplete put: ''
+]
+
+{ #category : #'accessing control' }
+SlInput >> autocorrect [
+
+	self attributeAt: #autocorrect put: ''
+]
+
+{ #category : #'accessing control' }
+SlInput >> autofocus [
+
+	self attributeAt: #autofocus put: ''
+]
+
+{ #category : #'accessing control' }
 SlInput >> beClearable [
 
 	self attributeAt: #clearable put: ''
@@ -35,9 +77,40 @@ SlInput >> beNotDisabled [
 ]
 
 { #category : #'accessing style' }
+SlInput >> beNotReadonly [
+
+	self removeAttributeAt: #readonly
+]
+
+{ #category : #'accessing control' }
+SlInput >> beNotRequired [
+
+	self removeAttributeAt: #required 
+]
+
+{ #category : #'accessing style' }
 SlInput >> bePill [
 
 	self attributeAt: #pill put: ''
+]
+
+{ #category : #'accessing style' }
+SlInput >> beReadonly [
+
+	self attributeAt: #readonly put: 'on'
+]
+
+{ #category : #'accessing control' }
+SlInput >> beRequired [
+
+	self attributeAt: #required put: 'on'
+]
+
+{ #category : #'accessing control' }
+SlInput >> customValidityMessage: aString [ 
+	"Sets a custom validation message. If message is not empty, the field will be considered invalid."
+
+	self apply: #setCustomValidity: withArguments: { aString }
 ]
 
 { #category : #'accessing type' }
@@ -101,10 +174,22 @@ SlInput >> isDisabled [
 	^ (self attributeAt: #disabled) notNil
 ]
 
+{ #category : #'accessing control' }
+SlInput >> isInvalid [
+
+	^ (self attributeAt: #invalid) notNil
+]
+
 { #category : #'accessing style' }
 SlInput >> isPill [
 
 	^ (self attributeAt: #pill) notNil
+]
+
+{ #category : #'accessing style' }
+SlInput >> isReadonly [
+
+	^ (self attributeAt: #readonly) notNil
 ]
 
 { #category : #accessing }
@@ -125,10 +210,77 @@ SlInput >> large [
 	self size: #large
 ]
 
+{ #category : #'accessing control' }
+SlInput >> max [
+
+	self attributeAt: #max
+]
+
+{ #category : #'accessing control' }
+SlInput >> max: aNumber [
+
+	self attributeAt: #max put: aNumber printString
+]
+
+{ #category : #'accessing control' }
+SlInput >> maxlength [
+
+	self attributeAt: #maxlength
+]
+
+{ #category : #'accessing control' }
+SlInput >> maxlength: aNumber [
+
+	self attributeAt: #maxlength put: aNumber printString
+
+]
+
 { #category : #'accessing size' }
 SlInput >> medium [
 
 	self size: #medium
+]
+
+{ #category : #'accessing control' }
+SlInput >> min [
+
+	self attributeAt: #min
+]
+
+{ #category : #'accessing control' }
+SlInput >> min: aNumber [
+
+	self attributeAt: #min put: aNumber printString
+]
+
+{ #category : #'accessing control' }
+SlInput >> noAutocapitalize [
+
+	self attributeAt: #autocapitalize put: 'off'
+]
+
+{ #category : #'accessing control' }
+SlInput >> noAutocomplete [
+
+	self attributeAt: #autocomplete put: 'off'
+]
+
+{ #category : #'accessing control' }
+SlInput >> noAutocorrect [
+
+	self attributeAt: #autocorrect put: 'off'
+]
+
+{ #category : #'accessing control' }
+SlInput >> noAutofocus [
+
+	self attributeAt: #autofocus put: 'off'
+]
+
+{ #category : #'accessing control' }
+SlInput >> noSpellcheck [
+
+	self attributeAt: #spellcheck put: 'off'
 ]
 
 { #category : #'accessing control' }
@@ -147,6 +299,19 @@ SlInput >> number [
 SlInput >> password [
 
 	self type: #password
+]
+
+{ #category : #'accessing control' }
+SlInput >> pattern [
+
+	self attributeAt: #pattern
+]
+
+{ #category : #'accessing control' }
+SlInput >> pattern: aString [
+	"A pattern to validate input against."
+
+	self attributeAt: #pattern put: aString
 ]
 
 { #category : #'accessing control' }
@@ -173,10 +338,24 @@ SlInput >> prefix: anElement [
 	self replaceAllChildrenWith: anElement atSlotNamed: #prefix
 ]
 
+{ #category : #'accessing control' }
+SlInput >> reportValidity [ 
+	"Checks for validity and shows the browser's validation message if the control is invalid."
+
+	self apply: #reportValidity withArguments: #()
+]
+
 { #category : #'accessing type' }
 SlInput >> search [
 
 	self type: #search
+]
+
+{ #category : #'accessing control' }
+SlInput >> select [ 
+	"Select all the text in the field"
+
+	self apply: #select withArguments: #()
 ]
 
 { #category : #'accessing size' }
@@ -186,15 +365,29 @@ SlInput >> size [
 ]
 
 { #category : #'accessing size' }
-SlInput >> size: aString [
-
-	self attributeAt: #size put: aString
+SlInput >> size: sizeString [
+	"Set the field size to either: small, medium, large"
+	
+	self attributeAt: #size put: sizeString
 ]
 
 { #category : #'accessing size' }
 SlInput >> small [
 
 	self size: #small
+]
+
+{ #category : #'accessing control' }
+SlInput >> spellcheck [
+
+	self attributeAt: #spellcheck put: ''
+]
+
+{ #category : #'accessing control' }
+SlInput >> step: aNumber [
+	"The input's step attribute."
+	
+	self attributeAt: #step put: aNumber printString
 ]
 
 { #category : #accessing }
