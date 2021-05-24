@@ -9,20 +9,29 @@ SlElement class >> eventMappingJS [
 	"Javascript fragment to map Shoelace events to known CP JS events"
 	
 	^ 'document.body.addEventListener("sl-change", function(evt) {
-			console.log("mapping sl-change event...");
-
-         // Create new known event, and redispatch
-         var changeEvent = new Event("change", { bubbles: true, composed: true });
-         evt.target.dispatchEvent(changeEvent);
+			console.log("mapping sl-change to change...");
+         var cpEvent = new Event("change", { bubbles: true, composed: true });
+         evt.target.dispatchEvent(cpEvent);
       });
 
 		document.body.addEventListener("sl-show", function(evt) {
-			console.log("mapping sl-show event...");
+			console.log("mapping sl-show to change...");
+         var cpEvent = new Event("change", { bubbles: true, composed: true });
+         evt.target.dispatchEvent(cpEvent);
+      });
 
-         // Create new known event, and redispatch
-         var changeEvent = new Event("change", { bubbles: true, composed: true });
-         evt.target.dispatchEvent(changeEvent);
-      });'
+		function _cpslPreventEventDefault(element, eventName) {  
+			element.addEventListener(eventName, event => event.preventDefault());
+		};
+		
+		function _cpslSetFocusOnEventOf(focusElement, eventName, eventElement) {  
+			eventElement.addEventListener(eventName, event => {
+    			event.preventDefault();
+    			focusElement.focus(); 
+			});
+		};
+
+'
 
 ]
 
@@ -106,4 +115,12 @@ SlElement class >> waitForLibrary [
 
 	"After resume do final check"
 	resumed ifFalse: [ self error: 'Failed to load Shoelace library' ]
+]
+
+{ #category : #'text input' }
+SlElement >> focus: optionsArray [
+	"Set the focus to the receiver (ie take focus) with @options
+		e.g. { 'preventScroll' -> true } "
+
+	self apply: #focus withArguments: optionsArray asDictionary
 ]
