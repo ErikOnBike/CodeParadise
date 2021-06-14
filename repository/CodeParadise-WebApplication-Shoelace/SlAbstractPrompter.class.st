@@ -73,9 +73,10 @@ SlAbstractPrompter >> showFocusing: anElement [
 
 { #category : #'ui dialogs' }
 SlAbstractPrompter >> showModally [
-	"Make the dialog open modally"
-
+	"Show the receiver modally"
+		
 	self
+		beNoHeader;	
 		preventOverlayDismiss;
 		show
 ]
