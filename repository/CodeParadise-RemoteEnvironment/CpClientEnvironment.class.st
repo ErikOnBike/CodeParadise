@@ -299,29 +299,31 @@ CpClientEnvironment >> handleMessageReceived: aByteArray [
 
 { #category : #accessing }
 CpClientEnvironment >> handleMessageSend: aMessageSend [
+
 	"Perform the MessageSend assuming the MessageSend's receiver is encoded as
 	either nil, indicating the ClientEnvironment as receiver
 	or an identifier, indicating an Object registered"
 
 	| receiverId |
+
 	receiverId := aMessageSend receiver.
-	aMessageSend
-		receiver:
-			(receiverId
-				ifNotNil: [ self objectRegistry objectWithId: receiverId ]
-				ifNil: [ self ]).
+	aMessageSend receiver: (receiverId
+		ifNotNil: [ self objectRegistry objectWithId: receiverId ]
+		ifNil: [ self ]).
 
 	"Perform the message send"
-	[ aMessageSend value ]
-		on: Error
-		do: [ :error | 
-			"Restore receiver id and send Announcement of error to server"
-			aMessageSend receiver: receiverId.
-			self
-				serverAnnounce:
-					(CpClientMessageSendFailed
-						messageSend: aMessageSend
-						description: error description) ]
+	[ aMessageSend value ] on: Error do: [ :error |
+
+		self crTrace: 'Error when sent message ', aMessageSend selector, ' to ', aMessageSend receiver printString.
+		self crTrace: error printString.
+		self crTrace: error signalerContext printString.
+
+		"Restore receiver id and send Announcement of error to server"
+		aMessageSend receiver: receiverId.
+		self serverAnnounce: (CpClientMessageSendFailed
+			messageSend: aMessageSend
+			description: error description) ]
+
 ]
 
 { #category : #accessing }
@@ -400,6 +402,29 @@ CpClientEnvironment >> objectRegistry [
 	^ objectRegistry
 ]
 
+{ #category : #accessing }
+CpClientEnvironment >> persistentVariableAt: nameString [
+
+	"Answer the value (a String) of the persisted environment variable with the specified name
+	or nil if a variable with the specified name does not exist.
+	Persisted variables will, in contrast with regular variables, survive beyond the session lifetime.
+	Case sensitivity is not defined, for compatibilty best use all uppercase names."
+
+	<primitive: 'primitiveEnvironmentPersistentVariableAt:' module: 'CpSystemPlugin'>
+	^ nil
+]
+
+{ #category : #accessing }
+CpClientEnvironment >> persistentVariableAt: nameString put: valueString [
+
+	"Set the persisted environment variable with the specified name to the specified value.
+	Persisted variables will, in contrast with regular variables, survive beyond the session lifetime.
+	Case sensitivity is not defined, for compatibilty best use all uppercase names."
+
+	<primitive: 'primitiveEnvironmentPersistentVariableAt:put:' module: 'CpSystemPlugin'>
+	self primitiveFailed
+]
+
 { #category : #initialization }
 CpClientEnvironment >> release [
 
@@ -418,6 +443,17 @@ CpClientEnvironment >> reload [
 	<primitive: 'primitiveEnvironmentReload' module: 'CpSystemPlugin'>
 	^ self
 
+]
+
+{ #category : #accessing }
+CpClientEnvironment >> removePersistentVariableAt: nameString [
+
+	"Remove the persisted environment variable with the specified name.
+	Persisted variables will, in contrast with regular variables, survive beyond the session lifetime.
+	Case sensitivity is not defined, for compatibilty best use all uppercase names."
+
+	<primitive: 'primitiveEnvironmentRemovePersistentVariableAt:' module: 'CpSystemPlugin'>
+	^ self
 ]
 
 { #category : #accessing }
