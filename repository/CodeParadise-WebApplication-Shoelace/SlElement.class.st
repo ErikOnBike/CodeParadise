@@ -6,23 +6,40 @@ Class {
 
 { #category : #initialization }
 SlElement class >> eventMappingJS [
-	"Javascript fragment to map Shoelace events to known CP JS events"
+	"Javascript fragment to map Shoelace events to known CP events"
 	
 	^ 'document.body.addEventListener("sl-change", function(evt) {
-			console.log("mapping sl-change event...");
-
-         // Create new known event, and redispatch
-         var changeEvent = new Event("change", { bubbles: true, composed: true });
-         evt.target.dispatchEvent(changeEvent);
+			console.log("mapping sl-change to change...");
+         var cpEvent = new Event("change", { bubbles: true, composed: true });
+         evt.target.dispatchEvent(cpEvent);
       });
 
 		document.body.addEventListener("sl-show", function(evt) {
-			console.log("mapping sl-show event...");
+			console.log("mapping sl-show to focus...");
+         var cpEvent = new Event("focus", { bubbles: true, composed: true });
+         evt.target.dispatchEvent(cpEvent);
+      });
 
-         // Create new known event, and redispatch
-         var changeEvent = new Event("change", { bubbles: true, composed: true });
-         evt.target.dispatchEvent(changeEvent);
-      });'
+		function _cpslPreventEventDefault(element, eventName) {  
+			element.addEventListener(eventName, event => event.preventDefault());
+		};
+		
+		function _cpslShowSettingFocusOn(promptElement, focusElement) {  
+			console.log("show: ", promptElement, " focusing: ", focusElement);
+			
+			Promise.all([
+  				customElements.whenDefined(promptElement.localName),
+  				customElements.whenDefined(focusElement.localName)
+  			]).then(() => {
+    			promptElement.addEventListener("sl-initial-focus", event => {
+      				event.preventDefault();
+					console.log("focusing: ", focusElement);
+      				focusElement.focus({ preventScroll: true });
+    			});
+  				promptElement.show();  
+			});
+		};
+'
 
 ]
 
@@ -40,13 +57,13 @@ SlElement class >> loadLibrary [
 		appendChild:
 			((CpHtmlElement newWithTag: #script)
 				attributeAt: #type put: 'module' ;
-				attributeAt: #src put: 'https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.0.0-beta.36/dist/shoelace.js' ;
+				attributeAt: #src put: 'https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.0.0-beta.43/dist/shoelace.js' ;
 				yourself) ;
 		appendChild:
 			((CpHtmlElement newWithTag: #link)
 				attributeAt: #rel put: 'stylesheet' ;
 				attributeAt: #type put: 'text/css' ;
-				attributeAt: #href put: 'https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.0.0-beta.36/dist/themes/base.css' ;
+				attributeAt: #href put: 'https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.0.0-beta.43/dist/themes/base.css' ;
 				yourself) ;
 		appendChild:
 			((CpHtmlElement newWithTag: #script)
@@ -106,4 +123,12 @@ SlElement class >> waitForLibrary [
 
 	"After resume do final check"
 	resumed ifFalse: [ self error: 'Failed to load Shoelace library' ]
+]
+
+{ #category : #'text input' }
+SlElement >> focus: optionsArray [
+	"Set the focus to the receiver (ie take focus) with @options
+		e.g. { 'preventScroll' -> true } "
+
+	self apply: #focus withArguments: optionsArray asDictionary
 ]
