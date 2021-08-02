@@ -20,25 +20,25 @@ SlDrawer class >> label: aString [
 { #category : #accessing }
 SlDrawer >> beBottom [
 
-	self placement: 'bottom'
+	self placement: #bottom
 ]
 
 { #category : #accessing }
 SlDrawer >> beLeft [
 
-	self placement: 'left'
+	self placement: #left
 ]
 
 { #category : #accessing }
 SlDrawer >> beRight [
 
-	self placement: 'right'
+	self placement: #right
 ]
 
 { #category : #accessing }
 SlDrawer >> beTop [
 
-	self placement: 'top'
+	self placement: #top
 ]
 
 { #category : #accessing }
@@ -56,8 +56,8 @@ SlDrawer >> placement [
 ]
 
 { #category : #accessing }
-SlDrawer >> placement: stringDirection [
-	"The direction from which the drawer will open.	'top' | 'right' | 'bottom' | 'left'"
+SlDrawer >> placement: symbolDirection [
+	"The direction from which the drawer will open.	#top | #right | #bottom | #left"
 
-	self attributeAt: #placement put: stringDirection 
+	self attributeAt: #placement put: symbolDirection
 ]

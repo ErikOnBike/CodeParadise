@@ -13,7 +13,7 @@ SlAbstractPrompter >> beHeader [
 { #category : #accessing }
 SlAbstractPrompter >> beNoHeader [
 
-	self attributeAt: #'no-header' put: 'on'
+	self attributeAt: #'no-header' put: #on
 ]
 
 { #category : #accessing }
