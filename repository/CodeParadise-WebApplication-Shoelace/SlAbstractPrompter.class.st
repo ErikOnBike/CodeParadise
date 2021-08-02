@@ -44,10 +44,49 @@ SlAbstractPrompter >> open: aBoolean [
 
 ]
 
+{ #category : #'ui dialogs' }
+SlAbstractPrompter >> preventOverlayDismiss [
+	"Add an event handle to cancel the dismiss overlay dismiss event"
+	
+	CpClientEnvironment current
+		globalApply: '_cpslPreventEventDefault'
+		withArguments: {self. 'sl-overlay-dismiss'}
+]
+
 { #category : #accessing }
 SlAbstractPrompter >> show [ 
 	"Show the element"
 
 	self apply: #show withArguments: #()
 
+]
+
+{ #category : #accessing }
+SlAbstractPrompter >> showFocusing: anElement [
+	"Show the receiver and set focus on @anElement"
+
+	CpClientEnvironment current
+		globalApply: '_cpslShowSettingFocusOn'
+		withArguments: {self. anElement}.
+
+]
+
+{ #category : #'ui dialogs' }
+SlAbstractPrompter >> showModally [
+	"Show the receiver modally"
+		
+	self
+		beNoHeader;	
+		preventOverlayDismiss;
+		show
+]
+
+{ #category : #'ui dialogs' }
+SlAbstractPrompter >> showModallyFocusing: anElement [
+	"Show the receiver modally and set focus on @anElement. NOTE: event ordering is very finicky here, hence this specialised method. Any browser devTools can also affect focusing"
+
+	self
+		beNoHeader;	
+		preventOverlayDismiss;
+		showFocusing: anElement
 ]
