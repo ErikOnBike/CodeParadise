@@ -19,7 +19,7 @@ CpWindow class >> style [
 		.container {
 			display: grid;
 			grid-template-columns: auto;
-			grid-template-rows: minmax(1.2em, max-content) auto;
+			grid-template-rows: fit-content(4em) auto;
 			width: 100%;
 			height: 100%;
 			overflow: hidden;
