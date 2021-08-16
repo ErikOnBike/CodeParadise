@@ -32,7 +32,7 @@ CpWebApplicationServerStarter class >> startUsingConfig: configuration [
 			(optional, no default value, an error will be signaled if this configuration item is missing but #staticFilesPath is given)
 	"
 
-	| server serverDelegate ioPath portNumber staticFilesPath staticFilesDirectory staticFilesDelegate |
+	| ioPath portNumber staticFilesPath staticFilesDirectory remoteEnvironmentServer staticFilesDelegate |
 
 	"Create reference to static file directory (if available)"
 	staticFilesDirectory := (configuration at: #staticFilesDirectoryName ifAbsent: [ nil ])
@@ -67,9 +67,8 @@ CpWebApplicationServerStarter class >> startUsingConfig: configuration [
 	(ZnServer allSubInstances select: [ :each | each port = portNumber and: [ each isRunning ] ]) do: [ :each | each stop ].
 	Delay forMilliseconds: 200.
 
-	"Create new server"
-	CpRemoteEnvironmentServer newOnPort: portNumber path: '/'.
-	server := (ZnServer allSubInstances select: [ :each | each port = portNumber and: [ each isRunning ] ]) first.
+	"Create new remote environment server"
+	remoteEnvironmentServer := CpRemoteEnvironmentServer newOnPort: portNumber path: '/'.
 
 	"Create delegate for handling static file requests"
 	staticFilesDelegate := ZnStaticFileServerDelegate new
@@ -77,14 +76,13 @@ CpWebApplicationServerStarter class >> startUsingConfig: configuration [
 		yourself.
 
 	"Add static file delegate to server"
-	serverDelegate := server delegate.
-	server
+	remoteEnvironmentServer server
 		stop ;
 		delegate: (ZnPrefixMappingDelegate new
-			map: ioPath to: serverDelegate ;
+			map: ioPath to: remoteEnvironmentServer server delegate ;
 			map: staticFilesPath to: staticFilesDelegate ;
 			yourself) ;
 		start.
 
-	^ server
+	^ remoteEnvironmentServer 
 ]

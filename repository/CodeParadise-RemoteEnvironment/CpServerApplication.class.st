@@ -180,6 +180,6 @@ CpServerApplication >> stop [
 	"Perform any actions needed when the ClientEnvironment belonging to the receiver stopped.
 	The receiver is unusable after being stopped."
 
-	self environment ifNotNil: [ :remoteEnvironment | remoteEnvironment unsubscribe: self ].
+	self environment ifNotNil: [ :remoteEnvironment | remoteEnvironment release ].
 	self release
 ]

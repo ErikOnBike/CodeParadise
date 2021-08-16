@@ -145,6 +145,12 @@ CpRemoteEnvironmentServer >> removeServerEnvironment: aServerEnvironment [
 ]
 
 { #category : #accessing }
+CpRemoteEnvironmentServer >> server [ 
+
+	^ server
+]
+
+{ #category : #accessing }
 CpRemoteEnvironmentServer >> serverEnvironmentForId: id ifAbsent: aBlock [
 
 	"Answer the ServerEnvironment with the specified id or evaluate the specified Block if such
