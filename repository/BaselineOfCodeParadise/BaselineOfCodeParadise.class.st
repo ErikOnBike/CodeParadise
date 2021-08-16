@@ -42,14 +42,14 @@ BaselineOfCodeParadise >> baseline: spec [
 			group: 'default' with: #( 'Core' 'Shoelace' 'Fomantic' 'Presentation' 'Beach' 'Tests' );
 
 			group: 'Core' with: #( 'CodeParadise-WebApplication' );
-			group: 'Tests' with: #( 'CodeParadise-WebApplication-Tests' 'CodeParadise-RemoteEnvironment-Tests' 'CodeParadise-WebApplication-Beach-Tests' );
+			group: 'Tests' with: #( 'CodeParadise-WebApplication-Tests' 'CodeParadise-RemoteEnvironment-Tests' 'CodeParadise-Beach-Tests' );
 
 			group: 'MVP' with: #( 'CodeParadise-WebApplication-MVP' );
 
 			group: 'Shoelace' with: #( 'CodeParadise-WebApplication-Shoelace' );
 			group: 'Fomantic' with: #( 'CodeParadise-WebApplication-Fomantic' );
 			group: 'Presentation' with: #( 'CodeParadise-WebApplication-Presentation' );
-			group: 'Beach' with: #( 'CodeParadise-WebApplication-Beach' );
+			group: 'Beach' with: #( 'CodeParadise-Beach' );
 
 			group: 'CI' with: #( 'Tests' ).
 	 ]
