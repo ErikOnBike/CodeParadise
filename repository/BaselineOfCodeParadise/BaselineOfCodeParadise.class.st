@@ -13,11 +13,12 @@ BaselineOfCodeParadise >> baseline: spec [
 
 		"Dependencies"
 		spec
+			baseline: 'CpClientEnvironment' with: [ spec repository: 'github://ErikOnBike/CP-ClientEnvironment' ];
 			baseline: 'ZincHTTPComponents' with: [ spec loads: #('Core' 'WebSocket') ; repository: 'github://svenvc/zinc' ].
 
 		"Packages"
 		spec
-			package: 'CodeParadise-RemoteEnvironment' with: [ spec requires: #('ZincHTTPComponents') ];
+			package: 'CodeParadise-RemoteEnvironment' with: [ spec requires: #('CpClientEnvironment' 'ZincHTTPComponents') ];
 			package: 'CodeParadise-WebApplication' with: [ spec requires: #('CodeParadise-RemoteEnvironment') ];
 
 			package: 'CodeParadise-WebApplication-MVP' with: [ spec requires: #('CodeParadise-WebApplication') ];
