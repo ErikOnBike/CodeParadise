@@ -5,7 +5,7 @@ Class {
 		'position',
 		'size'
 	],
-	#category : #'CodeParadise-WebApplication-MVP-Core'
+	#category : #'CodeParadise-Beach-Components'
 }
 
 { #category : #initialization }
