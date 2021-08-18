@@ -141,7 +141,7 @@ CpPresenter >> createChildPresenter: aPresenterClass atSlotNamed: aString forMod
 
 	childPresenters := self childPresentersAtSlotNamed: aString.
 
-	self
+	^ self
 		createChildPresenter: aPresenterClass
 		atSlotNamed: aString
 		atIndex: childPresenters size + 1
