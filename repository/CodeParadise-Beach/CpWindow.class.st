@@ -204,7 +204,7 @@ CpWindow >> handleWindowMove: aDragEvent [
 
 	| point offset |
 
-	point := aDragEvent point.
+	point := self translateToLocalPoint: aDragEvent point.
 	offset := aDragEvent offset.
 
 	position := (point x - offset x) @ (point y - offset y).
@@ -212,7 +212,10 @@ CpWindow >> handleWindowMove: aDragEvent [
 	self renderPosition.
 
 	aDragEvent isEnded
-		ifTrue: [ self announceUpdate ]
+		ifTrue: [ self announceUpdate ].
+
+	"The event is handled, stop further propagation"
+	aDragEvent stopPropagation
 ]
 
 { #category : #'event handling' }
@@ -220,7 +223,7 @@ CpWindow >> handleWindowResizeCorner: aDragEvent [
 
 	| point resizeCorner |
 
-	point := aDragEvent point.
+	point := self translateToLocalPoint: aDragEvent point.
 	resizeCorner := aDragEvent target id.
 
 	"Distinguish all four corners (topLeft, topRight, bottomLeft, bottomRight)
@@ -237,7 +240,10 @@ CpWindow >> handleWindowResizeCorner: aDragEvent [
 	self render.
 
 	aDragEvent isEnded
-		ifTrue: [ self announceUpdate ]
+		ifTrue: [ self announceUpdate ].
+
+	"The event is handled, stop further propagation"
+	aDragEvent stopPropagation
 ]
 
 { #category : #'event handling' }
@@ -245,7 +251,7 @@ CpWindow >> handleWindowResizeSide: aDragEvent [
 
 	| point resizeSide |
 
-	point := aDragEvent point.
+	point := self translateToLocalPoint: aDragEvent point.
 	resizeSide := aDragEvent target id.
 
 	"Distinguish all four sides (left, right, top, bottom)"
@@ -266,7 +272,10 @@ CpWindow >> handleWindowResizeSide: aDragEvent [
 	self render.
 
 	aDragEvent isEnded
-		ifTrue: [ self announceUpdate ]
+		ifTrue: [ self announceUpdate ].
+
+	"The event is handled, stop further propagation"
+	aDragEvent stopPropagation
 ]
 
 { #category : #accessing }
