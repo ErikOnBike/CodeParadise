@@ -168,7 +168,7 @@ CpWindow class >> template [
 		</div>'
 ]
 
-{ #category : #'event handling' }
+{ #category : #announcing }
 CpWindow >> announceUpdate [
 
 	"Announce the receiver updated, if the receiver is not closing)"
