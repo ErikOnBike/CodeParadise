@@ -153,6 +153,20 @@ CpDragEvent >> isEnded [
 ]
 
 { #category : #accessing }
+CpDragEvent >> lastDelta [
+
+	| lastPoint penultimatePoint |
+
+	self tracePoints size < 2
+		ifTrue: [ ^ 0 @ 0 ].
+
+	lastPoint := self tracePoints last.
+	penultimatePoint := self tracePoints nextToLast.
+
+	^ lastPoint - penultimatePoint
+]
+
+{ #category : #accessing }
 CpDragEvent >> offset [
 
 	^ offset
