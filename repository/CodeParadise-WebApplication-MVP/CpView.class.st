@@ -138,3 +138,11 @@ CpView >> serverAnnounce: anAnnouncement [
 	CpClientEnvironment current
 		serverAnnounce: (CpViewAnnouncement forView: self announcing: anAnnouncement asAnnouncement)
 ]
+
+{ #category : #transforming }
+CpView >> translateToLocalPoint: screenPoint [
+
+	"Answer the Point which represents the position of the screenPoint relative to the receiver"
+
+	^ self parent translateToLocalPoint: screenPoint
+]
