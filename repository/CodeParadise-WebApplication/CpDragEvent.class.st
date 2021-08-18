@@ -69,10 +69,7 @@ CpDragEvent class >> dragStart: aPointerDownEvent [
 	dragEvent := DragInstances at: aPointerDownEvent pointerId ifAbsent: [ nil ].
 
 	(dragEvent isNil or: [ (dragEvent hasSameOrigin: aPointerDownEvent) not ])
-		ifTrue: [ DragInstances at: aPointerDownEvent pointerId put: (self newFromPointerEvent: aPointerDownEvent) ].
-
-	"Prevent default browser behavior (like selecting text)"
-	aPointerDownEvent preventDefault
+		ifTrue: [ DragInstances at: aPointerDownEvent pointerId put: (self newFromPointerEvent: aPointerDownEvent) ]
 ]
 
 { #category : #'instance creation' }
