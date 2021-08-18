@@ -48,6 +48,9 @@ CpViewport >> handleViewportMove: aDragEvent [
 	and this Viewport movement changes the world beneath is, only use the
 	last delta of the DragEvent."
 
+	aDragEvent hasMultipleInterestedElements
+		ifTrue: [ ^ self ].
+
 	position := position - aDragEvent lastDelta.
 
 	self render.
@@ -76,9 +79,10 @@ CpViewport >> initialize [
 
 	position := 0 @ 0.
 
-	self
-		when: CpWheelEvent send: #handleWheelEvent: to: self ;
-		when: CpDragEvent send: #handleViewportMove: to: self
+	self shadowRoot ifNotNil: [ :shadowRoot |
+		shadowRoot
+			when: CpWheelEvent send: #handleWheelEvent: to: self ;
+			when: CpDragEvent send: #handleViewportMove: to: self ]
 ]
 
 { #category : #rendering }

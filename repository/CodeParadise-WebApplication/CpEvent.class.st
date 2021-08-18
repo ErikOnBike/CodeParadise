@@ -183,6 +183,12 @@ CpEvent >> elements: anArray [
 ]
 
 { #category : #testing }
+CpEvent >> hasMultipleInterestedElements [
+
+	^ self elements size > 1
+]
+
+{ #category : #testing }
 CpEvent >> hasSameOrigin: anEvent [
 
 	"Answer whether the receiver and the specified Event share the same origin.
