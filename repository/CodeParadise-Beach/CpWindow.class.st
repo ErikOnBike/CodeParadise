@@ -204,6 +204,9 @@ CpWindow >> handleWindowMove: aDragEvent [
 
 	| point offset |
 
+	aDragEvent isCanceled
+		ifTrue: [ ^ self ].
+
 	point := self translateToLocalPoint: aDragEvent point.
 	offset := aDragEvent offset.
 
@@ -222,6 +225,9 @@ CpWindow >> handleWindowMove: aDragEvent [
 CpWindow >> handleWindowResizeCorner: aDragEvent [
 
 	| point resizeCorner |
+
+	aDragEvent isCanceled
+		ifTrue: [ ^ self ].
 
 	point := self translateToLocalPoint: aDragEvent point.
 	resizeCorner := aDragEvent target id.
@@ -250,6 +256,9 @@ CpWindow >> handleWindowResizeCorner: aDragEvent [
 CpWindow >> handleWindowResizeSide: aDragEvent [
 
 	| point resizeSide |
+
+	aDragEvent isCanceled
+		ifTrue: [ ^ self ].
 
 	point := self translateToLocalPoint: aDragEvent point.
 	resizeSide := aDragEvent target id.

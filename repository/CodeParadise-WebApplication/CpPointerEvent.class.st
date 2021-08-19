@@ -4,10 +4,29 @@ Class {
 	#instVars : [
 		'offset',
 		'pointerId',
-		'pointerType'
+		'pointerType',
+		'buttons'
 	],
 	#category : #'CodeParadise-WebApplication-Events'
 }
+
+{ #category : #testing }
+CpPointerEvent >> isButtonPressed [
+
+	^ buttons ~= 0
+]
+
+{ #category : #testing }
+CpPointerEvent >> isOnlyPrimaryButtonPressed [
+
+	^ buttons = 1
+]
+
+{ #category : #testing }
+CpPointerEvent >> isPrimaryButtonPressed [
+
+	^ buttons anyMask: 1
+]
 
 { #category : #accessing }
 CpPointerEvent >> offset [
@@ -53,6 +72,6 @@ CpPointerEvent >> printOn: aStream [
 	self offset printOn: aStream.
 	aStream nextPutAll: ', pointerId: '.
 	self pointerId printOn: aStream.
-	aStream nextPutAll: ', pointerType: '.
-	self pointerType printOn: aStream
+	aStream nextPutAll: ', buttons: '.
+	buttons printOn: aStream
 ]

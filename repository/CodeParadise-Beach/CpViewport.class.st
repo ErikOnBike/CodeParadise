@@ -42,15 +42,15 @@ CpViewport >> announceUpdate [
 { #category : #'event handling' }
 CpViewport >> handleViewportMove: aDragEvent [
 
-	"Move the receiver according to the specified DragEvent.
+	"Move the receiver according to the specified DragEvent"
 
-	Implementation: Since the DragEvent keeps track of a fixed position
-	and this Viewport movement changes the world beneath is, only use the
-	last delta of the DragEvent."
-
-	aDragEvent hasMultipleInterestedElements
+	"Validate dragging is still active and no overlapping elements"
+	(aDragEvent isCanceled or: [ aDragEvent hasMultipleInterestedElements ])
 		ifTrue: [ ^ self ].
 
+	"Implementation: Since the DragEvent keeps track of a fixed position
+	and this Viewport movement changes the world beneath is, only use the
+	last delta of the DragEvent."
 	position := position - aDragEvent lastDelta.
 
 	self render.

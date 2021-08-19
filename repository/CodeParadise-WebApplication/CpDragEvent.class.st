@@ -4,7 +4,8 @@ Class {
 	#instVars : [
 		'offset',
 		'tracePoints',
-		'endPoint'
+		'endPoint',
+		'canceled'
 	],
 	#classVars : [
 		'DragInstances'
@@ -28,9 +29,40 @@ CpDragEvent class >> addListenerTo: anElement [
 ]
 
 { #category : #'event handling - private' }
+CpDragEvent class >> dragCancel: aPointerEvent [
+
+	| dragEvent |
+
+	dragEvent := DragInstances at: aPointerEvent pointerId ifAbsent: [ ^ self ].
+
+	"Remove temporary storage (for all situations)"
+	DragInstances removeKey: aPointerEvent pointerId.
+
+	"Cancel the drag event"
+	dragEvent cancel.
+
+	"Dispatch the event to allow updates to take place"
+	dragEvent dispatch
+]
+
+{ #category : #'event handling - private' }
+CpDragEvent class >> dragContinued: aPointerEnterEvent [
+
+	"Validate there is still a drag (ie primary pointer is still down)"
+	(aPointerEnterEvent isPrimaryButtonPressed)
+		ifTrue: [ self dragMove: aPointerEnterEvent ]
+		ifFalse: [ self dragCancel: aPointerEnterEvent ]
+]
+
+{ #category : #'event handling - private' }
 CpDragEvent class >> dragEnd: aPointerUpEvent [
 
 	| dragEvent |
+
+	"Implementation: Ignore pointer up when a combination of buttons was pressed and
+	a secondary button is released."
+	aPointerUpEvent isPrimaryButtonPressed
+		ifTrue: [ ^ self ].
 
 	dragEvent := DragInstances at: aPointerUpEvent pointerId ifAbsent: [ ^ self ].
 
@@ -49,6 +81,10 @@ CpDragEvent class >> dragMove: aPointerMoveEvent [
 
 	| dragEvent |
 
+	"Implementation: Only accept dragging if the primary button is still down."
+	aPointerMoveEvent isPrimaryButtonPressed
+		ifFalse: [ ^ self ].
+
 	dragEvent := DragInstances at: aPointerMoveEvent pointerId ifAbsent: [ ^ self ].
 
 	"Update the latest position of the drag event"
@@ -64,7 +100,12 @@ CpDragEvent class >> dragMove: aPointerMoveEvent [
 { #category : #'event handling - private' }
 CpDragEvent class >> dragStart: aPointerDownEvent [
 
+	"Start a drag event if only the primary button is pressed"
+
 	| dragEvent |
+
+	aPointerDownEvent isOnlyPrimaryButtonPressed
+		ifFalse: [ ^ self ].
 
 	dragEvent := DragInstances at: aPointerDownEvent pointerId ifAbsent: [ nil ].
 
@@ -95,10 +136,16 @@ CpDragEvent class >> postInstall [
 	"Add dragmove/dragend at the toplevel element of the document,
 	since dragging might move the pointer outside the drag target
 	and therefore loose control. Handling it on the toplevel element
-	will always succeed."
+	will always succeed.
+	Dragging outside the browser area will keep the element in a
+	dragged state, until the pointer enters the document again.
+	In the future leaving the document could set a timer which
+	could cancel the drag after some period of time."
 	CpHtmlElement documentBody
 		when: CpPointerMoveEvent send: #dragMove: to: self ;
-		when: CpPointerUpEvent send: #dragEnd: to: self
+		when: CpPointerUpEvent send: #dragEnd: to: self ;
+		when: CpPointerEnterEvent send: #dragContinued: to: self" ;
+		when: CpPointerLeaveEvent send: #dragInterrupted: to: self"
 ]
 
 { #category : #accessing }
@@ -108,6 +155,12 @@ CpDragEvent >> addTracePoint: aPoint [
 	self point: aPoint.
 
 	^ aPoint
+]
+
+{ #category : #actions }
+CpDragEvent >> cancel [
+
+	canceled := true
 ]
 
 { #category : #accessing }
@@ -134,13 +187,20 @@ CpDragEvent >> initialize [
 
 	super initialize.
 
-	tracePoints := OrderedCollection new
+	tracePoints := OrderedCollection new.
+	canceled := false
 ]
 
 { #category : #testing }
 CpDragEvent >> isAtStart [ 
 
 	^ tracePoints size = 1 
+]
+
+{ #category : #testing }
+CpDragEvent >> isCanceled [
+
+	^ canceled
 ]
 
 { #category : #testing }
