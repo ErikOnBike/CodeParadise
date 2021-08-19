@@ -79,10 +79,9 @@ CpViewport >> initialize [
 
 	position := 0 @ 0.
 
-	self shadowRoot ifNotNil: [ :shadowRoot |
-		shadowRoot
-			when: CpWheelEvent send: #handleWheelEvent: to: self ;
-			when: CpDragEvent send: #handleViewportMove: to: self ]
+	self
+		when: CpWheelEvent send: #handleWheelEvent: to: self ;
+		when: CpDragEvent send: #handleViewportMove: to: self
 ]
 
 { #category : #rendering }

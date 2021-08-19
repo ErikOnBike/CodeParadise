@@ -58,6 +58,9 @@ CpScreen >> initialize [
 				font-size: 100%;
 				-webkit-text-size-adjust: 100%;
 				font-family: "SF Pro Text", "Helvetica Neue", Helvetica, Arial, sans-serif;
+			}
+			body {
+				overscroll-behavior-x: none; /* Prevent Chrome from navigating back on swipe */
 			}' ;
 		yourself)
 ]
