@@ -23,6 +23,13 @@ CpScreen class >> style [
 	#container {
 		width: 100%;
 		height: 100%;
+	}
+	/* Do not allow children to be selectable */
+	*,
+	::slotted(*) {
+		-webkit-user-select: none;
+		-moz-user-select: none;
+		user-select: none;
 	}'
 ]
 
