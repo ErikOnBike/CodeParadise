@@ -397,7 +397,7 @@ CpObjectEncoder >> writeInteger: anInteger forBaseType: baseType [
 	"Create positive integer with same bit representation as anInteger.
 	(for negative integers this will require 5 bytes, but this fifth byte won't be written)"
 	remainingValue := anInteger negative
-		ifTrue: [ 16r100000000 + anInteger ]
+		ifTrue: [ (anInteger + 1) negated bitXor: 16rffffffff ]
 		ifFalse: [ anInteger ].
 
 	"Write integer in little endian order"
