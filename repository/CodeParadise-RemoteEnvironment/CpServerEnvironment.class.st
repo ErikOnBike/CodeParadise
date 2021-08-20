@@ -234,6 +234,16 @@ CpServerEnvironment >> clientPerform: aSymbol [
 		selector: aSymbol)
 ]
 
+{ #category : #'input/output' }
+CpServerEnvironment >> flushSendMessages [
+
+	"Send any pending messages"
+
+	encoder ifNil: [ ^ self ].
+
+	[ self sendEncodedMessage: encoder bytes ] ensure: [ encoder := nil ]
+]
+
 { #category : #'event handling' }
 CpServerEnvironment >> handleClientAnnouncement: anAnnouncement [
 
@@ -249,7 +259,7 @@ CpServerEnvironment >> handleClientAnnouncement: anAnnouncement [
 		[ self announce: anAnnouncement.
 
 		"Send the aggregated messages to the client"
-		self sendEncodedMessage: encoder bytes ] ensure: [ encoder := nil ] ]
+		self flushSendMessages ] ensure: [ encoder := nil ] ]
 ]
 
 { #category : #'event handling' }
@@ -436,6 +446,7 @@ CpServerEnvironment >> stop [
 	"Stop the receiver. The receiver is unusable after being stopped."
 
 	self
+		flushSendMessages ;
 		stopCommunication ;
 		release
 ]
