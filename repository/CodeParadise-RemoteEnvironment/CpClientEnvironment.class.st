@@ -240,12 +240,6 @@ CpClientEnvironment >> createInstanceOf: className withId: identifier [
 	^ instance
 ]
 
-{ #category : #performing }
-CpClientEnvironment >> endSession [
-
-	self removeVariableAt: #CLIENT_ID
-]
-
 { #category : #support }
 CpClientEnvironment >> exit [
 
@@ -254,9 +248,8 @@ CpClientEnvironment >> exit [
 
 	self
 		stopCommunication ;
-		variableAt: #CLIENT_ID put: nil.
-
-	self release
+		removeSession ;
+		release
 ]
 
 { #category : #'error signalling' }
@@ -386,7 +379,7 @@ CpClientEnvironment >> invalidSession [
 
 	"End current session and (fully) reload"
 	self
-		endSession ;
+		removeSession ;
 		reload
 ]
 
@@ -461,6 +454,12 @@ CpClientEnvironment >> removePersistentVariableAt: nameString [
 
 	<primitive: 'primitiveEnvironmentRemovePersistentVariableAt:' module: 'CpSystemPlugin'>
 	^ self
+]
+
+{ #category : #performing }
+CpClientEnvironment >> removeSession [
+
+	self removeVariableAt: #CLIENT_ID
 ]
 
 { #category : #accessing }
