@@ -385,8 +385,9 @@ CpClientEnvironment >> invalidSession [
 		ifFalse: [ ^ self ].
 
 	"End current session and (fully) reload"
-	self endSession.
-	self reload
+	self
+		endSession ;
+		reload
 ]
 
 { #category : #logging }
