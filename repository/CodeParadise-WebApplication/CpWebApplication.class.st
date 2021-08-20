@@ -57,6 +57,27 @@ CpWebApplication >> clientBehaviorClass [
 	^ self class clientBehaviorClass
 ]
 
+{ #category : #actions }
+CpWebApplication >> clientEndSession [
+
+	self sendMessage: (MessageSend
+		receiver: self clientBehaviorClass clientId
+		selector: #endSession)
+]
+
+{ #category : #actions }
+CpWebApplication >> end [
+
+	"End the receiver by asking the client to end the session.
+
+	Ending the receiver will result in stopping the receiver.
+	When done the client will announce it has ended.
+	This in turn will perform server side cleanup.
+	Therefore no need to perform any cleanup here."
+
+	self clientEndSession
+]
+
 { #category : #installing }
 CpWebApplication >> installExtensionMethods [
 
