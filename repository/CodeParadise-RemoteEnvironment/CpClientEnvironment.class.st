@@ -240,6 +240,12 @@ CpClientEnvironment >> createInstanceOf: className withId: identifier [
 	^ instance
 ]
 
+{ #category : #performing }
+CpClientEnvironment >> endSession [
+
+	self removeVariableAt: #CLIENT_ID
+]
+
 { #category : #support }
 CpClientEnvironment >> exit [
 
@@ -378,8 +384,8 @@ CpClientEnvironment >> invalidSession [
 	(self confirm: 'The session is invalid. Start new session?')
 		ifFalse: [ ^ self ].
 
-	"Reset client identifier and (fully) reload"
-	self removeVariableAt: #CLIENT_ID.
+	"End current session and (fully) reload"
+	self endSession.
 	self reload
 ]
 
