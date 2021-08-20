@@ -183,12 +183,6 @@ CpEvent >> elements: anArray [
 ]
 
 { #category : #testing }
-CpEvent >> hasMultipleInterestedElements [
-
-	^ self elements size > 1
-]
-
-{ #category : #testing }
 CpEvent >> hasSameOrigin: anEvent [
 
 	"Answer whether the receiver and the specified Event share the same origin.
@@ -208,6 +202,14 @@ CpEvent >> initialize [
 	"By default start at the first element of the elements
 	(in #currentElement it is validated a first element exists)"
 	currentElementIndex := 1
+]
+
+{ #category : #testing }
+CpEvent >> isDirectedAt: anElement [
+
+	"Answer whether the specified element is the first element interested in the receiver"
+
+	^ self elements first = anElement
 ]
 
 { #category : #announcing }

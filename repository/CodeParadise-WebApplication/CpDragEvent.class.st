@@ -177,6 +177,20 @@ CpDragEvent >> endPoint: aPoint [
 ]
 
 { #category : #testing }
+CpDragEvent >> hasNoTracePoints [
+
+	^ tracePoints isEmpty
+]
+
+{ #category : #testing }
+CpDragEvent >> hasSingleTracePoint [
+
+	"Answer whether the receiver has a single tracepoint (ie first movement taken place)"
+
+	^ tracePoints size = 1
+]
+
+{ #category : #testing }
 CpDragEvent >> hasTracePoints [
 
 	^ tracePoints isEmpty not
@@ -189,12 +203,6 @@ CpDragEvent >> initialize [
 
 	tracePoints := OrderedCollection new.
 	canceled := false
-]
-
-{ #category : #testing }
-CpDragEvent >> isAtStart [ 
-
-	^ tracePoints size = 1 
 ]
 
 { #category : #testing }

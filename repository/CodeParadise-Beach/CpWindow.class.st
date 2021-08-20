@@ -207,6 +207,10 @@ CpWindow >> handleWindowMove: aDragEvent [
 	aDragEvent isCanceled
 		ifTrue: [ ^ self ].
 
+	"Validate event is directed at receiver"
+	(aDragEvent hasNoTracePoints and: [ (aDragEvent isDirectedAt: self) not ])
+		ifTrue: [ ^ self ].
+
 	point := self translateToLocalPoint: aDragEvent point.
 	offset := aDragEvent offset.
 

@@ -45,7 +45,7 @@ CpViewport >> handleViewportMove: aDragEvent [
 	"Move the receiver according to the specified DragEvent"
 
 	"Validate dragging is still active and no overlapping elements"
-	(aDragEvent isCanceled or: [ aDragEvent hasMultipleInterestedElements ])
+	(aDragEvent isCanceled or: [ (aDragEvent isDirectedAt: self) not ])
 		ifTrue: [ ^ self ].
 
 	"Implementation: Since the DragEvent keeps track of a fixed position
