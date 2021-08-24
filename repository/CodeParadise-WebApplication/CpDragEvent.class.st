@@ -253,12 +253,6 @@ CpDragEvent >> printOn: aStream [
 	self offset printOn: aStream
 ]
 
-{ #category : #visiting }
-CpDragEvent >> sendTo: anObject [
-
-	anObject handleDragEvent: self
-]
-
 { #category : #accessing }
 CpDragEvent >> tracePoints [
 

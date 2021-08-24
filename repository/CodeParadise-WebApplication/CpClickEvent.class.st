@@ -98,9 +98,3 @@ CpClickEvent >> offset: aPoint [
 
 	offset := aPoint
 ]
-
-{ #category : #visiting }
-CpClickEvent >> sendTo: anObject [
-
-	anObject handleClickEvent: self
-]

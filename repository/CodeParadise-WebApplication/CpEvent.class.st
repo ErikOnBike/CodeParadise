@@ -260,12 +260,6 @@ CpEvent >> reset [
 	currentElementIndex := 1
 ]
 
-{ #category : #visiting }
-CpEvent >> sendTo: anObject [
-
-	self subclassResponsibility
-]
-
 { #category : #dispatching }
 CpEvent >> stopPropagation [
 

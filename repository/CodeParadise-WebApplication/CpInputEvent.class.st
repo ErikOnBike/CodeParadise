@@ -45,9 +45,3 @@ CpInputEvent >> printOn: aStream [
 	aStream nextPutAll: ', inputType: '.
 	self inputType printOn: aStream
 ]
-
-{ #category : #visiting }
-CpInputEvent >> sendTo: anObject [
-
-	anObject handleInputEvent: self
-]

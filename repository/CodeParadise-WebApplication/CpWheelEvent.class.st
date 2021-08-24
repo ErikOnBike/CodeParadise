@@ -61,9 +61,3 @@ CpWheelEvent >> printOn: aStream [
 	aStream nextPutAll: ', deltaMode: '.
 	self deltaMode printOn: aStream
 ]
-
-{ #category : #visiting }
-CpWheelEvent >> sendTo: anObject [
-
-	anObject handleWheelEvent: self
-]
