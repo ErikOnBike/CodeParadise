@@ -90,11 +90,8 @@ CpDragEvent class >> dragMove: aPointerMoveEvent [
 	"Update the latest position of the drag event"
 	dragEvent addTracePoint: aPointerMoveEvent point.
 
-	"Dispatch the event to allow updates to take place
-	(and reset afterwards to allow dispatching again)"
-	dragEvent
-		dispatch ;
-		reset
+	"Dispatch the event to allow updates to take place"
+	dragEvent dispatch
 ]
 
 { #category : #'event handling - private' }

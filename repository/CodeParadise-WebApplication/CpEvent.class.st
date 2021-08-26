@@ -213,14 +213,6 @@ CpEvent >> initialize [
 	currentElementIndex := 1
 ]
 
-{ #category : #testing }
-CpEvent >> isDirectedAt: anElement [
-
-	"Answer whether the specified element is the first element interested in the receiver"
-
-	^ self elements first = anElement
-]
-
 { #category : #announcing }
 CpEvent >> prepareForDelivery [
 
