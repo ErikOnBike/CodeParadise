@@ -310,7 +310,7 @@ CpEvent >> target: aDomElement [
 { #category : #accessing }
 CpEvent >> timeStamp [
 
-	"Answer the relative timestamp (a Number) for when the receiver was triggered"
+	"Answer the relative timestamp (an Integer in millisecond resolution) for when the receiver was triggered"
 
 	^ timeStamp
 ]
