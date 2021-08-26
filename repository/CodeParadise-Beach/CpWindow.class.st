@@ -36,15 +36,15 @@ CpWindow class >> style [
 			cursor: move;
 		}
 		#controls {
-			height: calc(1.125em + 6px);
+			height: calc(1.2em + 6px);
 			padding-left: 8px;
 			padding-right: 8px;
 			white-space: nowrap;
 		}
 		#controls ::slotted(cp-icon) {
 			display: inline-block;
-			width: calc(1.125em + 6px);
-			height: calc(1.125em + 6px);
+			width: calc(1.2em + 6px);
+			height: calc(1.2em + 6px);
 			cursor: pointer;
 		}
 		#title {
@@ -207,10 +207,7 @@ CpWindow >> handleWindowMove: aDragEvent [
 	aDragEvent isCanceled
 		ifTrue: [ ^ self ].
 
-	"Validate event is directed at receiver"
-	(aDragEvent hasNoTracePoints and: [ (aDragEvent isDirectedAt: self) not ])
-		ifTrue: [ ^ self ].
-
+	self makeTopWindow.
 	point := self translateToLocalPoint: aDragEvent point.
 	offset := aDragEvent offset.
 
@@ -219,10 +216,7 @@ CpWindow >> handleWindowMove: aDragEvent [
 	self renderPosition.
 
 	aDragEvent isEnded
-		ifTrue: [ self announceUpdate ].
-
-	"The event is handled, stop further propagation"
-	aDragEvent stopPropagation
+		ifTrue: [ self announceUpdate ]
 ]
 
 { #category : #'event handling' }
@@ -233,6 +227,7 @@ CpWindow >> handleWindowResizeCorner: aDragEvent [
 	aDragEvent isCanceled
 		ifTrue: [ ^ self ].
 
+	self makeTopWindow.
 	point := self translateToLocalPoint: aDragEvent point.
 	resizeCorner := aDragEvent target id.
 
@@ -250,10 +245,7 @@ CpWindow >> handleWindowResizeCorner: aDragEvent [
 	self render.
 
 	aDragEvent isEnded
-		ifTrue: [ self announceUpdate ].
-
-	"The event is handled, stop further propagation"
-	aDragEvent stopPropagation
+		ifTrue: [ self announceUpdate ]
 ]
 
 { #category : #'event handling' }
@@ -264,6 +256,7 @@ CpWindow >> handleWindowResizeSide: aDragEvent [
 	aDragEvent isCanceled
 		ifTrue: [ ^ self ].
 
+	self makeTopWindow.
 	point := self translateToLocalPoint: aDragEvent point.
 	resizeSide := aDragEvent target id.
 
@@ -285,10 +278,7 @@ CpWindow >> handleWindowResizeSide: aDragEvent [
 	self render.
 
 	aDragEvent isEnded
-		ifTrue: [ self announceUpdate ].
-
-	"The event is handled, stop further propagation"
-	aDragEvent stopPropagation
+		ifTrue: [ self announceUpdate ]
 ]
 
 { #category : #accessing }
@@ -316,9 +306,11 @@ CpWindow >> initialize [
 		styleAt: #position put: #absolute ;
 		render.
 
+	self when: CpPointerDownEvent send: #handlePointerDownEvent: to: self.
+
 	self shadowRoot
 		ifNotNil: [ :shadowRoot |
-			shadowRoot when: CpPointerDownEvent send: #handlePointerDownEvent: to: self.
+"			shadowRoot when: CpPointerDownEvent send: #handlePointerDownEvent: to: self."
 			(shadowRoot allDescendantsMatching: '.corner')
 				do: [ :each | each when: CpDragEvent send: #handleWindowResizeCorner: to: self  ].
 			(shadowRoot allDescendantsMatching: '.side')

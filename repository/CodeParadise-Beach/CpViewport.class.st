@@ -44,8 +44,8 @@ CpViewport >> handleViewportMove: aDragEvent [
 
 	"Move the receiver according to the specified DragEvent"
 
-	"Validate dragging is still active and no overlapping elements"
-	(aDragEvent isCanceled or: [ (aDragEvent isDirectedAt: self) not ])
+	"Validate dragging is still active"
+	aDragEvent isCanceled
 		ifTrue: [ ^ self ].
 
 	"Implementation: Since the DragEvent keeps track of a fixed position
@@ -56,10 +56,7 @@ CpViewport >> handleViewportMove: aDragEvent [
 	self render.
 
 	aDragEvent isEnded
-		ifTrue: [ self announceUpdate ].
-
-	"The event is handled, stop further propagation"
-	aDragEvent stopPropagation
+		ifTrue: [ self announceUpdate ]
 ]
 
 { #category : #'event handling' }
@@ -67,9 +64,12 @@ CpViewport >> handleWheelEvent: aWheelEvent [
 
 	position := position + aWheelEvent delta.
 
-	self
-		render ;
-		announceUpdate
+	self render.
+
+	"Let items that are currently being dragged update"
+	CpDragEvent updateAll.
+
+	self announceUpdate
 ]
 
 { #category : #initialization }

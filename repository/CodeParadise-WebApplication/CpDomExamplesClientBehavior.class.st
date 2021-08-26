@@ -495,7 +495,7 @@ CpDomExamplesClientBehavior >> logMiddle [
 CpDomExamplesClientBehavior >> logMiddle: anEvent [
 
 	self logMiddle.
-	anEvent stopPropagation
+	anEvent propagate
 ]
 
 { #category : #'as yet unclassified' }
