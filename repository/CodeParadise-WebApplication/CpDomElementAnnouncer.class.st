@@ -46,7 +46,11 @@ CpDomElementAnnouncer >> when: anAnnouncementClass do: aBlock [
 { #category : #'registration api' }
 CpDomElementAnnouncer >> when: anAnnouncementClass send: aSymbol to: anObject [
 
-	anAnnouncementClass addListenerTo: self element.
+	"Declare that when anAnnouncementClass is raised, anObject should receive the message aSelector.
 
-	super when: anAnnouncementClass send: aSymbol to: anObject
+	Implementation:
+	Simply perform the same behavior as the superclass. Do NOT add a listener here as in the
+	method #when:do: because then it will be added twice."
+
+	self when: anAnnouncementClass do: (MessageSend receiver: anObject selector: aSymbol)
 ]
