@@ -4,6 +4,8 @@ I am the base class for Events. I also implement the same protocol as the Announ
 Implementation:
 My class name should match the browser's event type (Event.type, see https://wiki.developer.mozilla.org/en-US/docs/Web/API/Event/type). So event type ""pointermove"" did become CpPointerMoveEvent. The class name prefix #Cp and the class name postfix #Event are discarded for comparison. Please prevent having similar names like #CpPointerMove or #CpPointermoveEvent, because only one will be used (more specific, last being installed in the ClientEnvironment).
 
+Beware: CpPointerEnterEvent and CpPointerLeaveEvent work slightly differently than expected. These can only be used on the <body> tag.
+
 "
 Class {
 	#name : #CpEvent,
@@ -146,10 +148,17 @@ CpEvent >> asAnnouncement [
 	^ self
 ]
 
+{ #category : #testing }
+CpEvent >> autoPropagate [
+
+	^ false
+]
+
 { #category : #accessing }
 CpEvent >> currentElement [
 
-	"Answer the current (targetted) DOM element (similar to the DOM's currentTarget)"
+	"Answer the current (targetted) DOM element (similar to the DOM's currentTarget).
+	Answer nil if the receiver has been dispatched to all interested elements."
 
 	^ self elements at: currentElementIndex ifAbsent: [ nil ]
 ]
@@ -163,8 +172,8 @@ CpEvent >> dispatch [
 		announce: self.
 
 	"Propagate (bubble up to top level) to next interested element"
-	currentElementIndex := currentElementIndex + 1.
-	self dispatch
+	self autoPropagate
+		ifTrue: [ self propagate ]
 ]
 
 { #category : #accessing }
@@ -250,6 +259,28 @@ CpEvent >> printOn: aStream [
 	self target printOn: aStream.
 	aStream nextPutAll: ', element: '.
 	self currentElement printOn: aStream
+]
+
+{ #category : #dispatching }
+CpEvent >> propagate [
+
+	"Propagate the receiver to the next interested element"
+
+	currentElementIndex > self elements size
+		ifTrue: [ ^ self ].
+
+	currentElementIndex := currentElementIndex + 1.
+	self dispatch
+]
+
+{ #category : #dispatching }
+CpEvent >> redispatch [
+
+	"Dispatch the receiver again (any current propagation is ignored)"
+
+	self
+		reset ;
+		dispatch
 ]
 
 { #category : #dispatching }
