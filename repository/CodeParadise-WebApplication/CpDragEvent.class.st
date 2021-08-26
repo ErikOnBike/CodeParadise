@@ -145,6 +145,14 @@ CpDragEvent class >> postInstall [
 		when: CpPointerLeaveEvent send: #dragInterrupted: to: self"
 ]
 
+{ #category : #'updating screen' }
+CpDragEvent class >> updateAll [
+
+	"Update all instances by dispatching the most recent event"
+
+	DragInstances valuesDo: [ :each | each redispatch ]
+]
+
 { #category : #accessing }
 CpDragEvent >> addTracePoint: aPoint [
 
