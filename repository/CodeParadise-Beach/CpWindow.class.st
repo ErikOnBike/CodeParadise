@@ -36,15 +36,15 @@ CpWindow class >> style [
 			cursor: move;
 		}
 		#controls {
-			height: calc(1.125em + 6px);
+			height: calc(1.2em + 6px);
 			padding-left: 8px;
 			padding-right: 8px;
 			white-space: nowrap;
 		}
 		#controls ::slotted(cp-icon) {
 			display: inline-block;
-			width: calc(1.125em + 6px);
-			height: calc(1.125em + 6px);
+			width: calc(1.2em + 6px);
+			height: calc(1.2em + 6px);
 			cursor: pointer;
 		}
 		#title {
