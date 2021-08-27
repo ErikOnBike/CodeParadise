@@ -45,7 +45,7 @@ CpWindowTitle class >> template [
 { #category : #rendering }
 CpWindowTitle >> renderIcon: anIconName [
 
-	self replaceAllChildrenWith: (CpIcon perform: anIconName) atSlotNamed: #icon
+	self replaceAllChildrenWith: (CpIcon named: anIconName) atSlotNamed: #icon
 ]
 
 { #category : #rendering }

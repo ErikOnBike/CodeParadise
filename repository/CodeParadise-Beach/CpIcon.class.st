@@ -208,20 +208,6 @@ CpIcon class >> desktopMarkup [
 	^ '<svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><rect x="8" y="15" width="1" height="2"/><rect x="11" y="15" width="1" height="2"/><rect x="5" y="16" width="10" height="1"/><rect fill="none" stroke="#000" x="1.5" y="3.5" width="17" height="11"/></svg>'
 ]
 
-{ #category : #'instance creation' }
-CpIcon class >> doesNotUnderstand: aMessage [
-
-	| markup |
-
-	(aMessage selector endsWith: #Markup)
-		ifTrue: [ ^ super doesNotUnderstand: aMessage ].
-
-	(markup := self markupFor: aMessage selector)
-		ifNil: [ ^ super doesNotUnderstand: aMessage ].
-
-	^ self newFromMarkup: markup
-]
-
 { #category : #icons }
 CpIcon class >> downloadMarkup [
 
@@ -518,6 +504,18 @@ CpIcon class >> moreVerticalMarkup [
 CpIcon class >> moveMarkup [
 
 	^ '<svg viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><polygon points="4,5 1,5 1,9 2,9 2,6 4,6"/><polygon points="1,16 2,16 2,18 4,18 4,19 1,19"/><polygon points="14,16 14,19 11,19 11,18 13,18 13,16"/><rect fill="none" stroke="#000" x="5.5" y="1.5" width="13" height="13"/><rect x="1" y="11" width="1" height="3"/><rect x="6" y="18" width="3" height="1"/></svg>'
+]
+
+{ #category : #'instance creation' }
+CpIcon class >> named: aString [
+
+	| markup |
+
+	markup := self markupFor: aString.
+	markup
+		ifNil: [ self error: 'No known icon named: ', aString ].
+
+	^ self newFromMarkup: markup
 ]
 
 { #category : #'instance creation' }
