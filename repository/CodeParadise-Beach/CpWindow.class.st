@@ -16,7 +16,10 @@ CpWindow class >> style [
 	^ '* {
 			box-sizing: border-box;
 		}
-		.container {
+		:host {
+			position: absolute;
+		}
+		#container {
 			display: grid;
 			grid-template-columns: auto;
 			grid-template-rows: fit-content(4em) auto;
@@ -152,7 +155,7 @@ CpWindow class >> template [
 
 	<webResource: #html>
 
-	^ '<div class="container">
+	^ '<div id="container">
 			<div id="titleBar">
 				<div id="controls"><slot name="controls"></slot></div>
 				<div id="title"><slot name="title">Untitled</slot></div>
@@ -297,20 +300,17 @@ CpWindow >> initialize [
 	position := 100 @ 100.
 	size := self minWidth @ self minHeight.
 
-	closeControl := CpIcon close
+	closeControl := (CpIcon named: #close)
 		when: CpClickEvent send: #close to: self ;
 		yourself.
 
-	self
-		appendChild: closeControl atSlotNamed: #controls ; 
-		styleAt: #position put: #absolute ;
-		render.
+	self appendChild: closeControl atSlotNamed: #controls.
+	self render.
 
 	self when: CpPointerDownEvent send: #handlePointerDownEvent: to: self.
 
 	self shadowRoot
 		ifNotNil: [ :shadowRoot |
-"			shadowRoot when: CpPointerDownEvent send: #handlePointerDownEvent: to: self."
 			(shadowRoot allDescendantsMatching: '.corner')
 				do: [ :each | each when: CpDragEvent send: #handleWindowResizeCorner: to: self  ].
 			(shadowRoot allDescendantsMatching: '.side')
