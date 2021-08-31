@@ -3,7 +3,8 @@ Class {
 	#superclass : #CpPresenter,
 	#instVars : [
 		'position',
-		'size'
+		'width',
+		'height'
 	],
 	#category : #'CodeParadise-Beach-Presenters'
 }
@@ -35,9 +36,9 @@ CpWindowPresenter >> renderView [
 
 	"Render view of the receiver"
 
-	"Update size and position (if known)"
+	"Update position (if known) and size"
 	position ifNotNil: [ self view renderPosition: position ].
-	size ifNotNil: [ self view renderSize: size ].
+	self view renderWidth: width height: height.
 
 	"Render title and content"
 	self
@@ -51,7 +52,8 @@ CpWindowPresenter >> updateWindow: aWindowUpdate [
 	"Update the Window information by storing it in the receiver's instance variables"
 
 	position := aWindowUpdate position.
-	size := aWindowUpdate size
+	width := aWindowUpdate width.
+	height := aWindowUpdate height
 ]
 
 { #category : #view }

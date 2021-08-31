@@ -3,7 +3,8 @@ Class {
 	#superclass : #CpView,
 	#instVars : [
 		'position',
-		'size'
+		'width',
+		'height'
 	],
 	#category : #'CodeParadise-Beach-Components'
 }
@@ -177,7 +178,7 @@ CpWindow >> announceUpdate [
 	"Announce the receiver updated, if the receiver is not closing)"
 
 	(self isClassed: #closing)
-		ifFalse: [ self serverAnnounce: (CpWindowUpdate position: position size: size) ]
+		ifFalse: [ self serverAnnounce: (CpWindowUpdate position: position width: width height: height) ]
 ]
 
 { #category : #actions }
@@ -287,7 +288,7 @@ CpWindow >> handleWindowResizeSide: aDragEvent [
 { #category : #accessing }
 CpWindow >> height [
 
-	^ self size y printString, 'px'
+	^ height
 ]
 
 { #category : #initialization }
@@ -298,7 +299,6 @@ CpWindow >> initialize [
 	super initialize.
 
 	position := 100 @ 100.
-	size := self minWidth @ self minHeight.
 
 	closeControl := (CpIcon named: #close)
 		when: CpClickEvent send: #close to: self ;
@@ -319,12 +319,6 @@ CpWindow >> initialize [
 				when: CpDragEvent send: #handleWindowMove: to: self ]
 ]
 
-{ #category : #accessing }
-CpWindow >> left [
-
-	^ self position x printString, 'px'
-]
-
 { #category : #updating }
 CpWindow >> makeTopWindow [
 
@@ -338,13 +332,13 @@ CpWindow >> makeTopWindow [
 { #category : #accessing }
 CpWindow >> minHeight [
 
-	^ 200
+	^ 64
 ]
 
 { #category : #accessing }
 CpWindow >> minWidth [
 
-	^ 400
+	^ 128
 ]
 
 { #category : #accessing }
@@ -358,38 +352,40 @@ CpWindow >> render [
 
 	self
 		renderPosition ;
-		renderSize
+		renderWidth ;
+		renderHeight
 ]
 
-{ #category : #updating }
+{ #category : #rendering }
+CpWindow >> renderHeight [
+
+	self styleAt: #height put: (height ifNotNil: [ height asString, 'px' ])
+]
+
+{ #category : #rendering }
+CpWindow >> renderHeight: anInteger [
+
+	"Set the height of the receiver to anInteger. anInteger might be nil in which case the
+	height is decided by the receiver's content."
+
+	height := anInteger.
+	self renderHeight
+]
+
+{ #category : #rendering }
 CpWindow >> renderPosition [
 
 	self
-		styleAt: #top put: self top ;
-		styleAt: #left put: self left
+		styleAt: #left put: position x asString, 'px' ;
+		styleAt: #top put: position y asString, 'px'
 
 ]
 
-{ #category : #updating }
+{ #category : #rendering }
 CpWindow >> renderPosition: aPoint [
 
 	position := aPoint.
 	self renderPosition
-]
-
-{ #category : #updating }
-CpWindow >> renderSize [
-
-	self
-		styleAt: #width put: self width ;
-		styleAt: #height put: self height
-]
-
-{ #category : #updating }
-CpWindow >> renderSize: aPoint [
-
-	size := aPoint.
-	self renderSize
 ]
 
 { #category : #rendering }
@@ -400,60 +396,77 @@ CpWindow >> renderTitle: anElement [
 		atSlotNamed: #title
 ]
 
-{ #category : #accessing }
-CpWindow >> size [
+{ #category : #rendering }
+CpWindow >> renderWidth [
 
-	^ size
+	self styleAt: #width put: (width ifNotNil: [ width asString, 'px' ])
 ]
 
-{ #category : #accessing }
-CpWindow >> top [
+{ #category : #rendering }
+CpWindow >> renderWidth: anInteger [
 
-	^ self position y printString, 'px'
+	"Set the width of the receiver to anInteger. anInteger might be nil in which case the
+	width is decided by the receiver's content."
+
+	width := anInteger.
+	self renderWidth
+]
+
+{ #category : #rendering }
+CpWindow >> renderWidth: widthInteger height: heightInteger [
+
+	"Convenience method to set both width and height.
+	See #renderWidth: and #renderHeight: for explanation about arguments."
+
+	self
+		renderWidth: widthInteger ;
+		renderHeight: heightInteger
 ]
 
 { #category : #updating }
 CpWindow >> updateBottomSide: positionBottom [
 
-	size := (positionBottom - position y) >= self minHeight
-		ifTrue: [ size x @ (positionBottom - position y) ]
-		ifFalse: [ size x @ self minHeight ]
+	height := (positionBottom - position y) max: self minHeight
 ]
 
 { #category : #updating }
 CpWindow >> updateLeftSide: positionLeft [
 
-	(position x + size x) >= (positionLeft + self minWidth)
+	width
+		ifNil: [ width := self propertyAt: #offsetWidth ].
+
+	(position x + width) >= (positionLeft + self minWidth)
 		ifTrue: [
-			size := (size x + (position x - positionLeft)) @ size y.
+			width := width + (position x - positionLeft).
 			position := positionLeft @ position y ]
 		ifFalse: [
-			position := (position x + size x - self minWidth) @ position y.
-			size := self minWidth @ size y ]
+			position := (position x + width - self minWidth) @ position y.
+			width := self minWidth ]
 ]
 
 { #category : #updating }
 CpWindow >> updateRightSide: positionRight [
 
-	size := (positionRight - position x) >= self minWidth
-		ifTrue: [ (positionRight - position x) @ size y ]
-		ifFalse: [ self minWidth @ size y ]
+	width := (positionRight - position x) max: self minWidth
 ]
 
 { #category : #updating }
 CpWindow >> updateTopSide: positionTop [
 
-	(position y + size y) >= (positionTop + self minHeight)
+	height
+		ifNil: [ height := self propertyAt: #offsetHeight ].
+
+	(position y + height) >= (positionTop + self minHeight)
 		ifTrue: [
-			size := size x @ (size y + (position y - positionTop)).
+			height := height + (position y - positionTop).
 			position := position x @ positionTop ]
 		ifFalse: [
-			position := position x @ (position y + size y - self minHeight).
-			size := size x @ self minHeight ]
+			position := position x @ (position y + height - self minHeight).
+			height := self minHeight ]
 ]
 
 { #category : #accessing }
 CpWindow >> width [
 
-	^ self size x printString, 'px'
+	^ width
 ]
