@@ -38,8 +38,10 @@ CpMvpWebClientBehavior >> createView: viewClassName withId: identifier atParentI
 				ifTrue: [ parentView replaceChildAtIndex: anInteger with: view atSlotNamed: slotName ]
 				ifFalse: [ parentView appendChild: view atSlotNamed: slotName ] ]
 		ifNil: [
-			(anInteger > 0 and: [ parentView children size >= anInteger ])
-				ifTrue: [ parentView replaceChildAtIndex: anInteger with: view ]
+			| nonSlottedChildren |
+			nonSlottedChildren := parentView children reject: [ :each | each hasAttributeAt: #slot ].
+			(anInteger > 0 and: [ nonSlottedChildren size >= anInteger ])
+				ifTrue: [ parentView replaceChild: (nonSlottedChildren at: anInteger) with: view ]
 				ifFalse: [ parentView appendChild: view ] ].
 
 	"Register the view instance in ClientEnvironment"
