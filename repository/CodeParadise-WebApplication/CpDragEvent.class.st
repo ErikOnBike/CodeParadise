@@ -119,7 +119,7 @@ CpDragEvent class >> newFromPointerEvent: aPointerEvent [
 		point: aPointerEvent point ;
 		offset: aPointerEvent offset ;
 		target: aPointerEvent target ;
-		elements: aPointerEvent elements ;
+		elements: aPointerEvent elements copy ;
 		yourself
 ]
 
