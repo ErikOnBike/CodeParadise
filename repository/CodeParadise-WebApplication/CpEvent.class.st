@@ -210,6 +210,7 @@ CpEvent >> initialize [
 
 	"By default start at the first element of the elements
 	(in #currentElement it is validated a first element exists)"
+	elements := #().
 	currentElementIndex := 1
 ]
 

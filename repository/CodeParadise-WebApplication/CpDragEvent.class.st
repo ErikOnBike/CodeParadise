@@ -73,7 +73,11 @@ CpDragEvent class >> dragEnd: aPointerUpEvent [
 	dragEvent endPoint: aPointerUpEvent point.
 
 	"Dispatch the event to allow updates to take place"
-	dragEvent dispatch
+	dragEvent dispatch.
+
+	"If drag is finished successfully (and not canceled during ending), create a drop event"
+	dragEvent isCanceled
+		ifFalse: [ CpDropEvent dispatchInstanceForDragEvent: dragEvent ]
 ]
 
 { #category : #'event handling - private' }
@@ -108,7 +112,11 @@ CpDragEvent class >> dragStart: aPointerDownEvent [
 	dragEvent := DragInstances at: aPointerDownEvent pointerId ifAbsent: [ nil ].
 
 	(dragEvent isNil or: [ (dragEvent hasSameOrigin: aPointerDownEvent) not ])
-		ifTrue: [	 dragEvent := DragInstances at: aPointerDownEvent pointerId put: (self newFromPointerEvent: aPointerDownEvent) ].
+		ifTrue: [
+
+			"Create new DragEvent instance and prepare a DropEvent (logically following a drag)"
+			dragEvent := DragInstances at: aPointerDownEvent pointerId put: (self newFromPointerEvent: aPointerDownEvent).
+			CpDropEvent prepareInstanceForDragEvent: dragEvent withPointerId: aPointerDownEvent pointerId ].
 
 	"Dispatch the new DragEvent"
 	dragEvent dispatch
@@ -170,7 +178,9 @@ CpDragEvent >> addTracePoint: aPoint [
 { #category : #actions }
 CpDragEvent >> cancel [
 
-	canceled := true
+	canceled := true.
+
+	CpDropEvent resetInstanceForDragEvent: self
 ]
 
 { #category : #accessing }
