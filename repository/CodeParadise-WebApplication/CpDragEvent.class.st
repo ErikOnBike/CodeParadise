@@ -156,7 +156,7 @@ CpDragEvent class >> updateAll [
 { #category : #accessing }
 CpDragEvent >> addTracePoint: aPoint [
 
-	self tracePoints add: aPoint.
+	self tracePoints add: self point.
 	self point: aPoint.
 
 	^ aPoint
@@ -181,26 +181,6 @@ CpDragEvent >> endPoint: aPoint [
 	self point: aPoint
 ]
 
-{ #category : #testing }
-CpDragEvent >> hasNoTracePoints [
-
-	^ tracePoints isEmpty
-]
-
-{ #category : #testing }
-CpDragEvent >> hasSingleTracePoint [
-
-	"Answer whether the receiver has a single tracepoint (ie first movement taken place)"
-
-	^ tracePoints size = 1
-]
-
-{ #category : #testing }
-CpDragEvent >> hasTracePoints [
-
-	^ tracePoints isEmpty not
-]
-
 { #category : #initialization }
 CpDragEvent >> initialize [
 
@@ -220,6 +200,16 @@ CpDragEvent >> isCanceled [
 CpDragEvent >> isEnded [
 
 	^ self endPoint notNil
+]
+
+{ #category : #testing }
+CpDragEvent >> isStarted [
+
+	"Answer whether the receiver is just started and made its first move.
+
+	Implementation: Receiver has a single tracepoint (ie one movement taken place)"
+
+	^ tracePoints size = 1
 ]
 
 { #category : #accessing }
@@ -259,7 +249,17 @@ CpDragEvent >> printOn: aStream [
 ]
 
 { #category : #accessing }
+CpDragEvent >> startPoint [
+
+	^ self tracePoints first
+		ifNil: [ self point ]
+]
+
+{ #category : #accessing }
 CpDragEvent >> tracePoints [
+
+	"Answer a collection of Points representing the trace the drag made.
+	The trace points will include the 'historic' point, ie not the current drag point."
 
 	^ tracePoints
 ]
