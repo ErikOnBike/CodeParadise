@@ -238,6 +238,18 @@ CpDragEvent >> offset: aPoint [
 	offset := aPoint
 ]
 
+{ #category : #copying }
+CpDragEvent >> postCopy [
+
+	"Create a full copy of the receiver without shared state, to allow the copy to be dispatched
+	or propagated without influencing the (original) receiver"
+
+	super postCopy.
+
+	"Implementation: Only tracepoints need to be 'deep' copied, other fields can be shared."
+	tracePoints := tracePoints copy
+]
+
 { #category : #printing }
 CpDragEvent >> printOn: aStream [
 

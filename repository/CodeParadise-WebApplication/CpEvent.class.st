@@ -213,6 +213,18 @@ CpEvent >> initialize [
 	currentElementIndex := 1
 ]
 
+{ #category : #copying }
+CpEvent >> postCopy [
+
+	"Create a full copy of the receiver without shared state, to allow the copy to be dispatched
+	or propagated without influencing the (original) receiver"
+
+	super postCopy.
+
+	"Implementation: Only elements need to be 'deep' copied, other fields can be shared."
+	elements := elements copy
+]
+
 { #category : #announcing }
 CpEvent >> prepareForDelivery [
 
