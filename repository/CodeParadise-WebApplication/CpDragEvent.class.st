@@ -89,6 +89,7 @@ CpDragEvent class >> dragMove: aPointerMoveEvent [
 
 	"Update the latest position of the drag event"
 	dragEvent addTracePoint: aPointerMoveEvent point.
+	dragEvent timeStamp: aPointerMoveEvent timeStamp.
 
 	"Dispatch the event to allow updates to take place"
 	dragEvent dispatch
