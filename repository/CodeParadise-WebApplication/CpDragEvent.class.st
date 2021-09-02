@@ -108,7 +108,11 @@ CpDragEvent class >> dragStart: aPointerDownEvent [
 	dragEvent := DragInstances at: aPointerDownEvent pointerId ifAbsent: [ nil ].
 
 	(dragEvent isNil or: [ (dragEvent hasSameOrigin: aPointerDownEvent) not ])
-		ifTrue: [ DragInstances at: aPointerDownEvent pointerId put: (self newFromPointerEvent: aPointerDownEvent) ]
+		ifTrue: [	 dragEvent := DragInstances at: aPointerDownEvent pointerId put: (self newFromPointerEvent: aPointerDownEvent) ].
+
+	"Dispatch the new DragEvent"
+	dragEvent dispatch
+
 ]
 
 { #category : #'instance creation' }
