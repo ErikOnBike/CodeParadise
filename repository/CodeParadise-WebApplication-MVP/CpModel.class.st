@@ -45,13 +45,13 @@ CpModel >> application [
 { #category : #presenter }
 CpModel >> display [
 
-	self displayIn: self application applicationPresenter
+	^ self displayIn: self application applicationPresenter
 ]
 
 { #category : #presenter }
 CpModel >> displayIn: aPresenter [
 
-	aPresenter createChildPresenterForModel: self
+	^ aPresenter createChildPresenterForModel: self
 ]
 
 { #category : #initialization }
