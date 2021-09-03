@@ -45,8 +45,7 @@ CpViewport >> handleViewportMove: aDragEvent [
 	"Move the receiver according to the specified DragEvent"
 
 	"Validate dragging is still active"
-	aDragEvent isCanceled
-		ifTrue: [ ^ self ].
+	aDragEvent ifCanceled: [ ^ self ].
 
 	"Implementation: Since the DragEvent keeps track of a fixed position
 	and this Viewport movement changes the world beneath is, only use the
@@ -55,8 +54,7 @@ CpViewport >> handleViewportMove: aDragEvent [
 
 	self render.
 
-	aDragEvent isEnded
-		ifTrue: [ self announceUpdate ]
+	aDragEvent ifEnded: [ self announceUpdate ]
 ]
 
 { #category : #'event handling' }

@@ -208,8 +208,7 @@ CpWindow >> handleWindowMove: aDragEvent [
 
 	| point offset |
 
-	aDragEvent isCanceled
-		ifTrue: [ ^ self ].
+	aDragEvent ifCanceled: [ ^ self ].
 
 	self makeTopWindow.
 	point := self translateToLocalPoint: aDragEvent point.
@@ -219,8 +218,7 @@ CpWindow >> handleWindowMove: aDragEvent [
 
 	self renderPosition.
 
-	aDragEvent isEnded
-		ifTrue: [ self announceUpdate ]
+	aDragEvent ifEnded: [ self announceUpdate ]
 ]
 
 { #category : #'event handling' }
@@ -228,8 +226,7 @@ CpWindow >> handleWindowResizeCorner: aDragEvent [
 
 	| point resizeCorner |
 
-	aDragEvent isCanceled
-		ifTrue: [ ^ self ].
+	aDragEvent ifCanceled: [ ^ self ].
 
 	self makeTopWindow.
 	point := self translateToLocalPoint: aDragEvent point.
@@ -248,8 +245,7 @@ CpWindow >> handleWindowResizeCorner: aDragEvent [
 	(although in fact only one might have changed)"
 	self render.
 
-	aDragEvent isEnded
-		ifTrue: [ self announceUpdate ]
+	aDragEvent ifEnded: [ self announceUpdate ]
 ]
 
 { #category : #'event handling' }
@@ -257,8 +253,7 @@ CpWindow >> handleWindowResizeSide: aDragEvent [
 
 	| point resizeSide |
 
-	aDragEvent isCanceled
-		ifTrue: [ ^ self ].
+	aDragEvent ifCanceled: [ ^ self ].
 
 	self makeTopWindow.
 	point := self translateToLocalPoint: aDragEvent point.
@@ -281,8 +276,7 @@ CpWindow >> handleWindowResizeSide: aDragEvent [
 	(although in fact only one might have changed)"
 	self render.
 
-	aDragEvent isEnded
-		ifTrue: [ self announceUpdate ]
+	aDragEvent ifEnded: [ self announceUpdate ]
 ]
 
 { #category : #accessing }

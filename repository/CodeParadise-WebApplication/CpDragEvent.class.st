@@ -76,8 +76,8 @@ CpDragEvent class >> dragEnd: aPointerUpEvent [
 	dragEvent dispatch.
 
 	"If drag is finished successfully (and not canceled during ending), create a drop event"
-	dragEvent isCanceled
-		ifFalse: [ CpDropEvent dispatchInstanceForDragEvent: dragEvent ]
+	dragEvent ifCanceled: [ ^ self ].
+	CpDropEvent dispatchInstanceForDragEvent: dragEvent
 ]
 
 { #category : #'event handling - private' }
@@ -196,6 +196,32 @@ CpDragEvent >> endPoint: aPoint [
 	self point: aPoint
 ]
 
+{ #category : #testing }
+CpDragEvent >> ifCanceled: aBlock [
+
+	^ canceled
+		ifTrue: [ aBlock value ]
+		ifFalse: [ self ]
+]
+
+{ #category : #testing }
+CpDragEvent >> ifEnded: aBlock [
+
+	^ endPoint
+		ifNotNil: [ aBlock value ]
+		ifNil: [ self ]
+]
+
+{ #category : #testing }
+CpDragEvent >> ifStarted: aBlock [
+
+	"Evaluate the specified Block if the receiver is just started and made its first move"
+
+	^ self isStarted
+		ifTrue: [ aBlock value ]
+		ifFalse: [ self ]
+]
+
 { #category : #initialization }
 CpDragEvent >> initialize [
 
@@ -214,7 +240,7 @@ CpDragEvent >> isCanceled [
 { #category : #testing }
 CpDragEvent >> isEnded [
 
-	^ self endPoint notNil
+	^ endPoint notNil
 ]
 
 { #category : #testing }
