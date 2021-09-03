@@ -205,6 +205,12 @@ CpWindow >> close [
 	self serverAnnounce: CpWindowClose
 ]
 
+{ #category : #accessing }
+CpWindow >> defaultPosition [
+
+	^ 100 @ 100
+]
+
 { #category : #'event handling' }
 CpWindow >> handlePointerDownEvent: aPointerDownEvent [
 
@@ -304,7 +310,7 @@ CpWindow >> initialize [
 
 	super initialize.
 
-	position := 100 @ 100.
+	position := self defaultPosition.
 
 	closeControl := (CpIcon named: #close)
 		when: CpClickEvent send: #close to: self ;
