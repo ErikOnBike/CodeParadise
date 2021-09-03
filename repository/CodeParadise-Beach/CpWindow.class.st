@@ -181,6 +181,18 @@ CpWindow >> announceUpdate [
 		ifFalse: [ self serverAnnounce: (CpWindowUpdate position: position width: width height: height) ]
 ]
 
+{ #category : #accessing }
+CpWindow >> calculatedHeight [
+
+	^ self propertyAt: #offsetHeight
+]
+
+{ #category : #accessing }
+CpWindow >> calculatedWidth [
+
+	^ self propertyAt: #offsetWidth
+]
+
 { #category : #actions }
 CpWindow >> close [
 
@@ -426,8 +438,7 @@ CpWindow >> updateBottomSide: positionBottom [
 { #category : #updating }
 CpWindow >> updateLeftSide: positionLeft [
 
-	width
-		ifNil: [ width := self propertyAt: #offsetWidth ].
+	width ifNil: [ width := self calculatedWidth ].
 
 	(position x + width) >= (positionLeft + self minWidth)
 		ifTrue: [
@@ -447,8 +458,7 @@ CpWindow >> updateRightSide: positionRight [
 { #category : #updating }
 CpWindow >> updateTopSide: positionTop [
 
-	height
-		ifNil: [ height := self propertyAt: #offsetHeight ].
+	height ifNil: [ height := self calculatedHeight ].
 
 	(position y + height) >= (positionTop + self minHeight)
 		ifTrue: [
