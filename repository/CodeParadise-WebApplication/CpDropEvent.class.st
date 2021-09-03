@@ -60,7 +60,8 @@ CpDropEvent class >> dropped: aPointerUpEvent [
 		type: #drop ;
 		timeStamp: aPointerUpEvent timeStamp ;
 		target: aPointerUpEvent target ;
-		elements: aPointerUpEvent elements copy
+		elements: aPointerUpEvent elements copy ;
+		point: aPointerUpEvent point copy
 ]
 
 { #category : #'instance creation' }
