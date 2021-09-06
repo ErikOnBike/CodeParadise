@@ -222,6 +222,7 @@ CpJavascriptWebSocketChannel >> updateState [
 	the correct state of the receiver. No need to wait for another event if state is 3 (closed)."
 	(state := self primWebSocketReadyState) = 3
 		ifTrue: [ ^ self ].
+	eventSemaphore ifNil: [ ^ self ].
 	eventSemaphore wait.
 	state := self primWebSocketReadyState
 ]
