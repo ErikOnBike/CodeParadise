@@ -24,8 +24,8 @@ CpWindow class >> style [
 			display: grid;
 			grid-template-columns: auto;
 			grid-template-rows: fit-content(4em) auto;
-			width: 100%;
-			height: 100%;
+			width: max-content;
+			height: max-content;
 			overflow: hidden;
 			border-radius: 8px;
 			border: var(--window-border-size, 1px) solid var(--window-border-color, #333);
