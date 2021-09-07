@@ -114,21 +114,25 @@ CpTemplateComponent class >> template [
 ]
 
 { #category : #updating }
-CpTemplateComponent class >> updateStyle [
+CpTemplateComponent class >> updateAllInstances [
 
-	self installStyle: self style
+	self allInstancesDo: [ :each | each initializeShadowRoot ]
 ]
 
 { #category : #updating }
-CpTemplateComponent class >> updateStyleAndTemplate [
+CpTemplateComponent class >> updateStyle [
 
-	self installStyle: self style andTemplate: self template 
+	self installStyle: self style.
+
+	self updateAllInstances
 ]
 
 { #category : #updating }
 CpTemplateComponent class >> updateTemplate [
 
-	self installTemplate: self template
+	self installTemplate: self template.
+
+	self updateAllInstances
 ]
 
 { #category : #initialization }
@@ -136,7 +140,15 @@ CpTemplateComponent >> initialize [
 
 	super initialize.
 
-	self primEnsureShadowRoot
+	self primEnsureShadowRoot.
+
+	self initializeShadowRoot
+]
+
+{ #category : #initialization }
+CpTemplateComponent >> initializeShadowRoot [ 
+
+	"Override in subclass when desired"
 ]
 
 { #category : #initialization }

@@ -319,16 +319,22 @@ CpWindow >> initialize [
 	self appendChild: closeControl atSlotNamed: #controls.
 	self render.
 
-	self when: CpPointerDownEvent send: #handlePointerDownEvent: to: self.
+	self when: CpPointerDownEvent send: #handlePointerDownEvent: to: self
+]
 
-	self shadowRoot
-		ifNotNil: [ :shadowRoot |
-			(shadowRoot allDescendantsMatching: '.corner')
-				do: [ :each | each when: CpDragEvent send: #handleWindowResizeCorner: to: self  ].
-			(shadowRoot allDescendantsMatching: '.side')
-				do: [ :each | each when: CpDragEvent send: #handleWindowResizeSide: to: self ].
-			(shadowRoot elementWithId: #titleBar)
-				when: CpDragEvent send: #handleWindowMove: to: self ]
+{ #category : #initialization }
+CpWindow >> initializeShadowRoot [
+
+	| shadowRoot |
+
+	shadowRoot := self shadowRoot.
+
+	(shadowRoot allDescendantsMatching: '.corner')
+		do: [ :each | each when: CpDragEvent send: #handleWindowResizeCorner: to: self  ].
+	(shadowRoot allDescendantsMatching: '.side')
+		do: [ :each | each when: CpDragEvent send: #handleWindowResizeSide: to: self ].
+	(shadowRoot elementWithId: #titleBar)
+		when: CpDragEvent send: #handleWindowMove: to: self
 ]
 
 { #category : #updating }
