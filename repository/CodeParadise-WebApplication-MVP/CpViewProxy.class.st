@@ -49,6 +49,12 @@ CpViewProxy >> doesNotUnderstand: aMessage [
 	self presenter sendMessageToView: aMessage
 ]
 
+{ #category : #accessing }
+CpViewProxy >> id [
+
+	^ self presenter id
+]
+
 { #category : #initialization }
 CpViewProxy >> initialize [
 
