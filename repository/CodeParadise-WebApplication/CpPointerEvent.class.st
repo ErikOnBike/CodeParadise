@@ -5,10 +5,41 @@ Class {
 		'offset',
 		'pointerId',
 		'pointerType',
-		'buttons'
+		'buttons',
+		'modifiers'
 	],
 	#category : #'CodeParadise-WebApplication-Events'
 }
+
+{ #category : #testing }
+CpPointerEvent >> hasAltModifier [
+
+	^ (self modifiers bitAnd: 1) ~= 0
+]
+
+{ #category : #testing }
+CpPointerEvent >> hasCtrlModifier [
+
+	^ (self modifiers bitAnd: 2) ~= 0
+]
+
+{ #category : #testing }
+CpPointerEvent >> hasMetaModifier [
+
+	^ (self modifiers bitAnd: 4) ~= 0
+]
+
+{ #category : #testing }
+CpPointerEvent >> hasModifiers [
+
+	^ self modifiers ~= 0
+]
+
+{ #category : #testing }
+CpPointerEvent >> hasShiftModifier [
+
+	^ (self modifiers bitAnd: 8) ~= 0
+]
 
 { #category : #testing }
 CpPointerEvent >> isButtonPressed [
@@ -26,6 +57,25 @@ CpPointerEvent >> isOnlyPrimaryButtonPressed [
 CpPointerEvent >> isPrimaryButtonPressed [
 
 	^ buttons anyMask: 1
+]
+
+{ #category : #accessing }
+CpPointerEvent >> modifiers [
+
+	"Answer an Integer specifying the different modifiers pressed.
+	Combine the following individual numbers:
+		1 - alt
+		2 - ctrl
+		4 - meta
+		8 - shift"
+
+	^ modifiers
+]
+
+{ #category : #accessing }
+CpPointerEvent >> modifiers: anInteger [
+
+	modifiers := anInteger
 ]
 
 { #category : #accessing }

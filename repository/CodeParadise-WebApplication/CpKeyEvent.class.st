@@ -32,6 +32,12 @@ CpKeyEvent >> hasMetaModifier [
 ]
 
 { #category : #testing }
+CpKeyEvent >> hasModifiers [
+
+	^ self modifiers ~= 0
+]
+
+{ #category : #testing }
 CpKeyEvent >> hasShiftModifier [
 
 	^ (self modifiers bitAnd: 8) ~= 0

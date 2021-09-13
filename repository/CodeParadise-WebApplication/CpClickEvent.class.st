@@ -2,7 +2,8 @@ Class {
 	#name : #CpClickEvent,
 	#superclass : #CpUserInterfaceEvent,
 	#instVars : [
-		'offset'
+		'offset',
+		'modifiers'
 	],
 	#classVars : [
 		'ClickInstances'
@@ -76,6 +77,7 @@ CpClickEvent class >> newFromPointerEvent: aPointerEvent [
 		offset: aPointerEvent offset ;
 		target: aPointerEvent target ;
 		elements: aPointerEvent elements ;
+		modifiers: aPointerEvent modifiers ;
 		yourself
 ]
 
@@ -85,6 +87,55 @@ CpClickEvent class >> postInstall [
 	super postInstall.
 
 	ClickInstances := Dictionary new
+]
+
+{ #category : #testing }
+CpClickEvent >> hasAltModifier [
+
+	^ (self modifiers bitAnd: 1) ~= 0
+]
+
+{ #category : #testing }
+CpClickEvent >> hasCtrlModifier [
+
+	^ (self modifiers bitAnd: 2) ~= 0
+]
+
+{ #category : #testing }
+CpClickEvent >> hasMetaModifier [
+
+	^ (self modifiers bitAnd: 4) ~= 0
+]
+
+{ #category : #testing }
+CpClickEvent >> hasModifiers [
+
+	^ self modifiers ~= 0
+]
+
+{ #category : #testing }
+CpClickEvent >> hasShiftModifier [
+
+	^ (self modifiers bitAnd: 8) ~= 0
+]
+
+{ #category : #accessing }
+CpClickEvent >> modifiers [
+
+	"Answer an Integer specifying the different modifiers pressed.
+	Combine the following individual numbers:
+		1 - alt
+		2 - ctrl
+		4 - meta
+		8 - shift"
+
+	^ modifiers
+]
+
+{ #category : #accessing }
+CpClickEvent >> modifiers: anInteger [
+
+	modifiers := anInteger
 ]
 
 { #category : #accessing }
