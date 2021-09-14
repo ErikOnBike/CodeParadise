@@ -24,11 +24,9 @@ CpWindowPresenter >> closeWindow [
 ]
 
 { #category : #presenters }
-CpWindowPresenter >> presenterClassForModel: aModel atSlotNamed: aString [
+CpWindowPresenter >> preferredTitlePresenterClass [
 
-	^ aString = #title
-		ifTrue: [ CpWindowTitlePresenter ]
-		ifFalse: [ aModel preferredPresenterClass ]
+	^ CpWindowTitlePresenter
 ]
 
 { #category : #view }
@@ -42,8 +40,13 @@ CpWindowPresenter >> renderView [
 
 	"Render title and content"
 	self
-		renderChildViewForModel: self model atSlotNamed: #title ;
-		renderChildViewForModel: self model atSlotNamed: #content
+		renderChildViewForModel: self model
+		usingPresenter: [ :each | self preferredTitlePresenterClass ]
+		atSlotNamed: #title.
+
+	self
+		renderChildViewForModel: self model
+		atSlotNamed: #content
 ]
 
 { #category : #private }
