@@ -418,13 +418,13 @@ CpPresenter >> model: anObject [
 		ifNotNil: [ 	model unsubscribe: self ].
 
 	(model := anObject)
-		ifNotNil: [ model whenChangedSend: #privateModelChanged to: self ].
+		ifNotNil: [ model whenChangedSend: #privateModelChanged: to: self ].
 
 	needsRendering := true
 ]
 
 { #category : #model }
-CpPresenter >> modelChanged [
+CpPresenter >> modelChanged: aValueChanged [
 
 	"The receiver's model has changed perform any necessary operations.
 
@@ -458,14 +458,14 @@ CpPresenter >> presenterClassForModel: aModel atSlotNamed: aString [
 ]
 
 { #category : #'model - private' }
-CpPresenter >> privateModelChanged [
+CpPresenter >> privateModelChanged: aValueChanged [
 
 	"The receiver's model has changed, render the view to make change visible"
 
 	needsRendering := true.
 
 	self
-		modelChanged ;
+		modelChanged: aValueChanged ;
 		updateView
 ]
 
