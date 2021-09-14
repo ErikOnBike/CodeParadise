@@ -545,6 +545,24 @@ CpPresenter >> renderAllChildViewsForModels: aCollection [
 { #category : #rendering }
 CpPresenter >> renderAllChildViewsForModels: aCollection atSlotNamed: aString [
 
+	^ self 
+		renderAllChildViewsForModels: aCollection 
+		usingPresenter: [ :each | self presenterClassForModel: each atSlotNamed: aString ] 
+		atSlotNamed: aString
+]
+
+{ #category : #rendering }
+CpPresenter >> renderAllChildViewsForModels: aCollection usingPresenter: aBlock [ 
+
+	self 
+		renderAllChildViewsForModels: aCollection 
+		usingPresenter: aBlock 
+		atSlotNamed: nil
+]
+
+{ #category : #rendering }
+CpPresenter >> renderAllChildViewsForModels: aCollection usingPresenter: aBlock atSlotNamed: aString [ 
+
 	"Render all the child views for the Models in the specified collection.
 	The views are rendered in the specified slot of the receiver's view.
 	If the specified slot name is nil, the default slot is used.
@@ -562,20 +580,20 @@ CpPresenter >> renderAllChildViewsForModels: aCollection atSlotNamed: aString [
 	"Handle child presenters in order (allowing to add missing child presenters)"
 	aCollection withIndexDo: [ :aModel :index |
 
-		| preferredPresenterClass |
+		| childPresenterClass |
 
-		preferredPresenterClass := self presenterClassForModel: aModel atSlotNamed: aString.
+		childPresenterClass := aBlock cull: aModel.
 		childPresenters size < index
 			ifTrue: [
 
 				"Since child presenters are handled in order, simply add a new child presenter"
-				self createChildPresenter: preferredPresenterClass atSlotNamed: aString atIndex: index forModel: aModel ]
+				self createChildPresenter: childPresenterClass atSlotNamed: aString atIndex: index forModel: aModel ]
 			ifFalse: [
 
 				| existingChildPresenter |
 
 				"Distinguish between re-render or re-creation of child presenter and view"
-				(existingChildPresenter := childPresenters at: index) class = preferredPresenterClass
+				(existingChildPresenter := childPresenters at: index) class = childPresenterClass
 					ifTrue: [
 
 						"Update model (if it changed) before re-rendering"
@@ -585,7 +603,7 @@ CpPresenter >> renderAllChildViewsForModels: aCollection atSlotNamed: aString [
 					ifFalse: [
 
 						"Create new child presenter (which will thereby render the view)"
-						self createChildPresenter: preferredPresenterClass atSlotNamed: aString atIndex: index forModel: aModel.
+						self createChildPresenter: childPresenterClass atSlotNamed: aString atIndex: index forModel: aModel.
 
 						"Remove reference to parent from the old presenter first, because its spot is taken by the new child presenter"
 						existingChildPresenter parent: nil.
@@ -621,6 +639,31 @@ CpPresenter >> renderChildViewForModel: aModel atSlotNamed: aString [
 
 	self
 		renderAllChildViewsForModels: (Array with: aModel)
+		atSlotNamed: aString
+
+]
+
+{ #category : #rendering }
+CpPresenter >> renderChildViewForModel: aModel usingPresenter: aBlock [ 
+
+	self
+		renderAllChildViewsForModels: (Array with: aModel) 
+		usingPresenter: aBlock 
+		atSlotNamed: nil 
+]
+
+{ #category : #rendering }
+CpPresenter >> renderChildViewForModel: aModel usingPresenter: aBlock atSlotNamed: aString [
+
+	"Render child view for the specified model.
+	The view is rendered in the specified slot of the receiver's view.
+	If the specified slot name is nil, the default slot is used.
+	If necessary a child Presenter is created or updated before the View
+	is rendered."
+
+	self
+		renderAllChildViewsForModels: (Array with: aModel) 
+		usingPresenter: aBlock 
 		atSlotNamed: aString
 
 ]
