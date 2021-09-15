@@ -178,6 +178,23 @@ FuiInput >> beNotTransparent [
 ]
 
 { #category : #'accessing - variation' }
+FuiInput >> beReadOnly [ 
+
+	| element |
+
+	element := self firstDescendantMatching: ':scope > input'.
+	element ifNil: [ 
+		element := self firstDescendantMatching: ':scope > textarea'.
+		element ifNil: [ ^ self ] ].
+
+	"Note that I'm setting attribute 'disabled', not 'readonly'. 
+	This is a conscious design decision. A disabled input is more intuitive."
+
+	element 
+		attributeAt: #disabled put: ''
+]
+
+{ #category : #'accessing - variation' }
 FuiInput >> beSizeBig [
 
 	self setVariation: #big ofVariations: self class allSizeVariations
