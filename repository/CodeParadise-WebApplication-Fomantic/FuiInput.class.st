@@ -250,6 +250,23 @@ FuiInput >> beTransparent [
 	self addVariation: #transparent
 ]
 
+{ #category : #'accessing - variation' }
+FuiInput >> beWritable [
+
+	| element |
+
+	element := self firstDescendantMatching: ':scope > input'.
+	element ifNil: [ 
+		element := self firstDescendantMatching: ':scope > textarea'.
+		element ifNil: [ ^ self ] ].
+
+	"Note that I'm removing attribute 'disabled', not 'readonly'. 
+	This is a conscious design decision. A disabled input is more intuitive.
+	See also #beReadOnly"
+
+	element removeAttributeAt: #disabled
+]
+
 { #category : #'accessing - state' }
 FuiInput >> disable [
 
@@ -260,6 +277,28 @@ FuiInput >> disable [
 FuiInput >> enable [
 
 	self removeState: #disabled
+]
+
+{ #category : #testing }
+FuiInput >> isReadOnly [
+
+	| element |
+
+	element := self firstDescendantMatching: ':scope > input'.
+	element ifNil: [ 
+		element := self firstDescendantMatching: ':scope > textarea'.
+		element ifNil: [ ^ self ] ].
+
+	"Note that I'm checking attribute 'disabled', not 'readonly'. 
+	This is a conscious design decision. A disabled input is more intuitive."
+
+	^ element hasAttributeAt: #disabled
+]
+
+{ #category : #testing }
+FuiInput >> isWritable [
+
+	^ self isReadOnly not
 ]
 
 { #category : #'accessing - variation' }
