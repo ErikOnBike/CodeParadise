@@ -52,6 +52,12 @@ Class {
 }
 
 { #category : #'acccessing-ui' }
+CpHtmlElement class >> activeElement [
+
+	^ self document propertyAt: #activeElement
+]
+
+{ #category : #'acccessing-ui' }
 CpHtmlElement class >> documentBody [
 
 	"Answer an instance of the receiver representing the <body> element of
