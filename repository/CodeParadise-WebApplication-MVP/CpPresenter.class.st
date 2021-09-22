@@ -89,8 +89,40 @@ CpPresenter >> childPresentersAtSlotNamed: aString [
 	^ childPresentersBySlotName at: aString ifAbsent: [ #() ]
 ]
 
+{ #category : #presenters }
+CpPresenter >> createChildPresenter: aPresenterClass forModel: aModel [
+
+	"Create a child Presenter for the receiver on the specified model
+	using the specified Presenter class.
+	This will also create the View belonging to the presenter."
+
+	^ self
+		createChildPresenter: aPresenterClass
+		forModel: aModel
+		atSlotNamed: nil
+]
+
+{ #category : #presenters }
+CpPresenter >> createChildPresenter: aPresenterClass forModel: aModel atSlotNamed: aString [
+
+	"Create a child Presenter for the receiver on the specified model
+	at the specified location using the specified Presenter class.
+	This will also create the View belonging to the presenter."
+
+	| childPresenters |
+
+	childPresenters := self childPresentersAtSlotNamed: aString.
+
+	^ self
+		createChildPresenter: aPresenterClass
+		forModel: aModel
+		atSlotNamed: aString
+		atIndex: childPresenters size + 1
+
+]
+
 { #category : #'presenters - private' }
-CpPresenter >> createChildPresenter: aPresenterClass atSlotNamed: aString atIndex: anInteger forModel: aModel [
+CpPresenter >> createChildPresenter: aPresenterClass forModel: aModel atSlotNamed: aString atIndex: anInteger [
 
 	"Create a child Presenter of the specified class for the receiver on the specified model.
 	This will also create the View belonging to the presenter.
@@ -131,38 +163,6 @@ CpPresenter >> createChildPresenter: aPresenterClass atSlotNamed: aString atInde
 ]
 
 { #category : #presenters }
-CpPresenter >> createChildPresenter: aPresenterClass atSlotNamed: aString forModel: aModel [
-
-	"Create a child Presenter for the receiver on the specified model
-	at the specified location using the specified Presenter class.
-	This will also create the View belonging to the presenter."
-
-	| childPresenters |
-
-	childPresenters := self childPresentersAtSlotNamed: aString.
-
-	^ self
-		createChildPresenter: aPresenterClass
-		atSlotNamed: aString
-		atIndex: childPresenters size + 1
-		forModel: aModel
-
-]
-
-{ #category : #presenters }
-CpPresenter >> createChildPresenter: aPresenterClass forModel: aModel [
-
-	"Create a child Presenter for the receiver on the specified model
-	using the specified Presenter class.
-	This will also create the View belonging to the presenter."
-
-	^ self
-		createChildPresenter: aPresenterClass
-		atSlotNamed: nil
-		forModel: aModel
-]
-
-{ #category : #presenters }
 CpPresenter >> createChildPresenterForModel: aModel [
 
 	"Create a child Presenter for the receiver on the specified model.
@@ -170,8 +170,8 @@ CpPresenter >> createChildPresenterForModel: aModel [
 
 	^ self
 		createChildPresenter: (self presenterClassForModel: aModel atSlotNamed: nil)
-		atSlotNamed: nil
 		forModel: aModel
+		atSlotNamed: nil
 ]
 
 { #category : #presenters }
@@ -182,8 +182,8 @@ CpPresenter >> createChildPresenterForModel: aModel atSlotNamed: aString [
 
 	^ self
 		createChildPresenter: (self presenterClassForModel: aModel atSlotNamed: aString)
-		atSlotNamed: aString
 		forModel: aModel
+		atSlotNamed: aString
 ]
 
 { #category : #view }
@@ -589,7 +589,7 @@ CpPresenter >> renderAllChildViewsForModels: aCollection usingPresenter: aBlock 
 			ifTrue: [
 
 				"Since child presenters are handled in order, simply add a new child presenter"
-				self createChildPresenter: childPresenterClass atSlotNamed: aString atIndex: index forModel: aModel ]
+				self createChildPresenter: childPresenterClass forModel: aModel atSlotNamed: aString atIndex: index ]
 			ifFalse: [
 
 				| existingChildPresenter |
@@ -605,7 +605,7 @@ CpPresenter >> renderAllChildViewsForModels: aCollection usingPresenter: aBlock 
 					ifFalse: [
 
 						"Create new child presenter (which will thereby render the view)"
-						self createChildPresenter: childPresenterClass atSlotNamed: aString atIndex: index forModel: aModel.
+						self createChildPresenter: childPresenterClass forModel: aModel atSlotNamed: aString atIndex: index.
 
 						"Remove reference to parent from the old presenter first, because its spot is taken by the new child presenter"
 						existingChildPresenter parent: nil.
