@@ -15,5 +15,5 @@ CpPagesApplicationPresenter >> renderView [
 
 	self
 		renderChildViewForModel: self model
-		usingPresenter: [ CpPagePresenter ]
+		usingPresenter: CpPagePresenter
 ]
