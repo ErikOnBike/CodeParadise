@@ -57,6 +57,59 @@ CpTransition class >> createTransitionProcess [
 	transitionProcess resume
 ]
 
+{ #category : #easing }
+CpTransition class >> easeInOutBack: aFloat [
+
+	"Algorithm taken from: https://easings.net"
+
+	| c |
+
+	c := 2.5949095. "1.70158 * 1.525".
+
+	^ aFloat < 0.5
+		ifTrue: [ (2 * aFloat raisedTo: 2) * ((((c + 1) * 2 * aFloat)) - c) / 2 ]
+		ifFalse: [ ((2 * aFloat - 2 raisedTo: 2) * ((c + 1) * (aFloat * 2 - 2) + c) + 2) / 2 ]
+]
+
+{ #category : #easing }
+CpTransition class >> easeInOutElastic: aFloat [
+
+	"Algorithm taken from: https://easings.net"
+
+	| c |
+
+	c := 1.3962634015954636. "2 * Float pi / 4.5"
+
+	(aFloat == 0.0 or: [ aFloat == 1.0 ])
+		ifTrue: [ ^ aFloat ].
+
+	^ aFloat < 0.5
+		ifTrue: [ ((2 raisedTo: (20 * aFloat - 10)) * ((20 * aFloat - 11.125) * c) sin) / -2 ]
+		ifFalse: [ ((2 raisedTo: (-20 * aFloat + 10)) * ((20 * aFloat - 11.125) * c) sin) / 2 + 1 ]
+
+]
+
+{ #category : #easing }
+CpTransition class >> easeOutBack: aFloat [
+
+	"Algorithm taken from: https://easings.net"
+
+	| c1 c3 |
+
+	c1 := 1.70158.
+	c3 := c1 + 1.
+
+	^ 1 + (c3 * (aFloat - 1 raisedTo: 3)) + (c1 * (aFloat - 1 raisedTo: 2))
+]
+
+{ #category : #easing }
+CpTransition class >> easeOutSine: aFloat [
+
+	"Algorithm taken from: https://easings.net"
+
+	^ (aFloat * Float pi / 2) sin
+]
+
 { #category : #'accessing - private' }
 CpTransition class >> isRegisteredTransition: aTransition [
 
