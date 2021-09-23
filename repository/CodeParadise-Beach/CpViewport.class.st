@@ -102,6 +102,18 @@ CpViewport >> renderPosition: aPoint [
 	self renderPosition
 ]
 
+{ #category : #initialization }
+CpViewport >> resetPosition [
+
+	| from |
+
+	from := position.
+
+	[ :p | self renderPosition: from - (from * (CpTransition easeOutBack: p)) ] asTransition
+		duration: 700 ;
+		start
+]
+
 { #category : #transforming }
 CpViewport >> translateToLocalPoint: screenPoint [
 

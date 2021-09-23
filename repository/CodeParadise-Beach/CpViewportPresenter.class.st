@@ -22,6 +22,12 @@ CpViewportPresenter >> renderView [
 	position ifNotNil: [ self view renderPosition: position ]
 ]
 
+{ #category : #initialization }
+CpViewportPresenter >> resetPosition [
+
+	self view resetPosition
+]
+
 { #category : #private }
 CpViewportPresenter >> updateViewport: aViewportUpdate [
 
