@@ -111,6 +111,7 @@ CpViewport >> resetPosition [
 
 	[ :p | self renderPosition: from - (from * (CpTransition easeOutBack: p)) ] asTransition
 		duration: 700 ;
+		when: CpTransitionEnded send: #announceUpdate to: self ;
 		start
 ]
 

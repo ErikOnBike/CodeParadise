@@ -208,6 +208,24 @@ CpTransition class >> unregisterTransition: aTransition [
 	^ Transitions remove: aTransition ifAbsent: [ nil ]
 ]
 
+{ #category : #announcing }
+CpTransition >> announce: anAnnouncement [
+
+	"Announce the specified Announcement"
+
+	"Only announce something when interest is shown in the receiver (which will have resulted
+	in the creation of the Announcer"
+	announcer ifNil: [ ^ self ].
+
+	announcer announce: anAnnouncement
+]
+
+{ #category : #'accessing - private' }
+CpTransition >> announcer [
+
+	^ announcer ifNil: [ announcer := Announcer new ]
+]
+
 { #category : #accessing }
 CpTransition >> block [
 
@@ -255,11 +273,18 @@ CpTransition >> handleTick: anInteger [
 	The specified Integer represents the number of milliseconds the transition is running.
 	See the class comment for further explanation."
 
+	started
+		ifFalse: [
+			started := true.
+			self announce: CpTransitionStarted ].
+
 	self block cull: (self progressAt: anInteger) cull: anInteger.
 
 	"Prevent further handling if the receiver has finished"
 	anInteger >= self duration
-		ifTrue: [ startTick := nil ]
+		ifTrue: [
+			startTick := nil.
+			self announce: CpTransitionEnded ]
 
 ]
 
@@ -307,6 +332,17 @@ CpTransition >> progressAt: anInteger [
 	^ (anInteger / self duration) min: 1.0
 ]
 
+{ #category : #initialization }
+CpTransition >> release [
+
+	announcer ifNotNil: [
+		announcer subscriptions reset.
+		announcer := nil ].
+	block := nil.
+
+	super release
+]
+
 { #category : #actions }
 CpTransition >> start [
 
@@ -316,6 +352,7 @@ CpTransition >> start [
 { #category : #actions }
 CpTransition >> startDelayedBy: anInteger [
 
+	started := false.
 	startTick := self class tickCount + anInteger.
 
 	^ self class registerTransition: self
@@ -333,6 +370,7 @@ CpTransition >> startInSyncWith: anotherTransition delayedBy: anInteger [
 	anotherTransition isScheduled
 		ifFalse: [ ^ self error: 'Unscheduled or stopped transition given for synchronous execution' ].
 
+	started := false.
 	startTick := anotherTransition startTick + anInteger.
 
 	^ self class registerTransition: self
@@ -351,4 +389,25 @@ CpTransition >> stop [
 
 	startTick := nil.
 	self class unregisterTransition: self
+]
+
+{ #category : #announcing }
+CpTransition >> unsubscribe: anObject [
+
+	self announcer
+		unsubscribe: anObject
+]
+
+{ #category : #announcing }
+CpTransition >> when: anAnnouncement do: aBlock [
+
+	self announcer
+		when: anAnnouncement do: aBlock
+]
+
+{ #category : #announcing }
+CpTransition >> when: anAnnouncement send: aSymbol to: anObject [
+
+	self announcer
+		when: anAnnouncement send: aSymbol to: anObject
 ]
