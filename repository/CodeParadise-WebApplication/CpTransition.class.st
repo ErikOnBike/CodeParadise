@@ -23,7 +23,9 @@ Class {
 	#instVars : [
 		'block',
 		'duration',
-		'startTick'
+		'startTick',
+		'started',
+		'announcer'
 	],
 	#classVars : [
 		'Transitions'
@@ -152,8 +154,11 @@ CpTransition class >> performTransitions [
 
 		each startTick
 			ifNotNil: [ :startTick |
-				each handleTick: currentTick - startTick.
-				each startTick notNil "remove transition if finished" ]
+				startTick <= currentTick
+					ifTrue: [
+						each handleTick: currentTick - startTick.
+						each startTick notNil "remove transition if finished" ]
+					ifFalse: [ true "keep transition because it runs in the future" ] ]
 			ifNil: [ false "remove transition because it has no start time" ] ]
 
 ]
