@@ -66,83 +66,83 @@ CpComponentExamplesClientBehavior >> exampleButtons [
 
 	group1 := outputElement appendChild: CpControlGroup new.
 	button1a := group1 appendChild: ((CpButton label: 'Button1a')
-		when: CpClickEvent do: [ self crTrace: 'Button1a clicked' ] ;
+		when: CpPrimaryClickEvent do: [ self crTrace: 'Button1a clicked' ] ;
 		yourself).
 	button1b := group1 appendChild: ((CpButton label: 'Button1b')
-		when: CpClickEvent do: [ self crTrace: 'Button1b clicked' ] ;
+		when: CpPrimaryClickEvent do: [ self crTrace: 'Button1b clicked' ] ;
 		yourself).
 	group2 := group1 appendChild: CpControlGroup new.
 	group2
 		styleAt: #display put: #block ;
 		styleAt: #'margin-left' put: '3em'.
 	button2a := group2 appendChild: ((CpButton label: 'Button2a')
-		when: CpClickEvent do: [ self crTrace: 'Button2a clicked' ] ;
+		when: CpPrimaryClickEvent do: [ self crTrace: 'Button2a clicked' ] ;
 		yourself).
 	button2b := group2 appendChild: ((CpButton label: 'Button2b')
-		when: CpClickEvent do: [ self crTrace: 'Button2b clicked' ] ;
+		when: CpPrimaryClickEvent do: [ self crTrace: 'Button2b clicked' ] ;
 		yourself).
 	group3 := group2 appendChild: CpControlGroup new.
 	group3
 		styleAt: #display put: #block ;
 		styleAt: #'margin-left' put: '6em'.
 	button3a := group3 appendChild: ((CpButton label: 'Button3a')
-		when: CpClickEvent do: [ self crTrace: 'Button3a clicked' ] ;
+		when: CpPrimaryClickEvent do: [ self crTrace: 'Button3a clicked' ] ;
 		yourself).
 	button3b := group3 appendChild: ((CpButton label: 'Button3b')
-		when: CpClickEvent do: [ self crTrace: 'Button3b clicked' ] ;
+		when: CpPrimaryClickEvent do: [ self crTrace: 'Button3b clicked' ] ;
 		yourself).
 
 	"Add separator"
 	outputElement appendChild: (CpHtmlElement newWithTag: #p).
 
 	(outputElement appendChild: (CpButton label: 'Disable group1'))
-		when: CpClickEvent do: [ group1 disable ].
+		when: CpPrimaryClickEvent do: [ group1 disable ].
 	(outputElement appendChild: (CpButton label: 'Enable group1'))
-		when: CpClickEvent do: [ group1 enable ].
+		when: CpPrimaryClickEvent do: [ group1 enable ].
 	(outputElement appendChild: (CpButton label: 'Disable group2'))
-		when: CpClickEvent do: [ group2 disable ].
+		when: CpPrimaryClickEvent do: [ group2 disable ].
 	(outputElement appendChild: (CpButton label: 'Enable group2'))
-		when: CpClickEvent do: [ group2 enable ].
+		when: CpPrimaryClickEvent do: [ group2 enable ].
 	(outputElement appendChild: (CpButton label: 'Disable group3'))
-		when: CpClickEvent do: [ group3 disable ].
+		when: CpPrimaryClickEvent do: [ group3 disable ].
 	(outputElement appendChild: (CpButton label: 'Enable group3'))
-		when: CpClickEvent do: [ group3 enable ].
+		when: CpPrimaryClickEvent do: [ group3 enable ].
 
 	"Add separator"
 	outputElement appendChild: (CpHtmlElement newWithTag: #p).
 
 	(outputElement appendChild: (CpButton label: 'Disable button1a'))
-		when: CpClickEvent do: [ button1a disable ].
+		when: CpPrimaryClickEvent do: [ button1a disable ].
 	(outputElement appendChild: (CpButton label: 'Enable button1a'))
-		when: CpClickEvent do: [ button1a enable ].
+		when: CpPrimaryClickEvent do: [ button1a enable ].
 	(outputElement appendChild: (CpButton label: 'Disable button1b'))
-		when: CpClickEvent do: [ button1b disable ].
+		when: CpPrimaryClickEvent do: [ button1b disable ].
 	(outputElement appendChild: (CpButton label: 'Enable button1b'))
-		when: CpClickEvent do: [ button1b enable ].
+		when: CpPrimaryClickEvent do: [ button1b enable ].
 
 	"Add separator"
 	outputElement appendChild: (CpHtmlElement newWithTag: #p).
 
 	(outputElement appendChild: (CpButton label: 'Disable button2a'))
-		when: CpClickEvent do: [ button2a disable ].
+		when: CpPrimaryClickEvent do: [ button2a disable ].
 	(outputElement appendChild: (CpButton label: 'Enable button2a'))
-		when: CpClickEvent do: [ button2a enable ].
+		when: CpPrimaryClickEvent do: [ button2a enable ].
 	(outputElement appendChild: (CpButton label: 'Disable button2b'))
-		when: CpClickEvent do: [ button2b disable ].
+		when: CpPrimaryClickEvent do: [ button2b disable ].
 	(outputElement appendChild: (CpButton label: 'Enable button2b'))
-		when: CpClickEvent do: [ button2b enable ].
+		when: CpPrimaryClickEvent do: [ button2b enable ].
 
 	"Add separator"
 	outputElement appendChild: (CpHtmlElement newWithTag: #p).
 
 	(outputElement appendChild: (CpButton label: 'Disable button3a'))
-		when: CpClickEvent do: [ button3a disable ].
+		when: CpPrimaryClickEvent do: [ button3a disable ].
 	(outputElement appendChild: (CpButton label: 'Enable button3a'))
-		when: CpClickEvent do: [ button3a enable ].
+		when: CpPrimaryClickEvent do: [ button3a enable ].
 	(outputElement appendChild: (CpButton label: 'Disable button3b'))
-		when: CpClickEvent do: [ button3b disable ].
+		when: CpPrimaryClickEvent do: [ button3b disable ].
 	(outputElement appendChild: (CpButton label: 'Enable button3b'))
-		when: CpClickEvent do: [ button3b enable ].
+		when: CpPrimaryClickEvent do: [ button3b enable ].
 
 ]
 
@@ -162,7 +162,7 @@ CpComponentExamplesClientBehavior >> exampleCheckboxes [
 	outputElement appendChild: (' ' inHtmlTag: #span).
 
 	outputElement appendChild: ((CpButton label: 'Make mixed')
-			when: CpClickEvent do: [ checkbox makeMixed ] ;
+			when: CpPrimaryClickEvent do: [ checkbox makeMixed ] ;
 			yourself).
 
 	outputElement appendChild: (CpHtmlElement newWithTag: #p).
@@ -236,10 +236,10 @@ CpComponentExamplesClientBehavior >> exampleRadioButtons [
 	outputElement appendChild: (CpHtmlElement newWithTag: #p).
 
 	outputElement appendChild: ((CpButton label: 'Select apples')
-		when: CpClickEvent do: [ apples select ] ;
+		when: CpPrimaryClickEvent do: [ apples select ] ;
 		yourself).
 	outputElement appendChild: ((CpButton label: 'Select bananas')
-		when: CpClickEvent do: [ bananas select ] ;
+		when: CpPrimaryClickEvent do: [ bananas select ] ;
 		yourself)
 
 ]
@@ -409,7 +409,7 @@ CpComponentExamplesClientBehavior >> showIndex [
 				yourself).
 
 		"Register interest in events on the list item"
-		example when: CpClickEvent send: item key to: self ]
+		example when: CpPrimaryClickEvent send: item key to: self ]
 ]
 
 { #category : #explanation }

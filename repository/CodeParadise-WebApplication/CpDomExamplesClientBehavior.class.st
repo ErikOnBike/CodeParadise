@@ -251,7 +251,7 @@ CpDomExamplesClientBehavior >> exampleEvents [
 		styleAt: #width put: '80%' ;
 		styleAt: #height put: '80%' ;
 		styleAt: #'background-color' put: 'rgba(255, 0, 0, .1)' ;
-		when: CpClickEvent send: #logOuter to: self ;
+		when: CpPrimaryClickEvent send: #logOuter to: self ;
 		appendChild: ((CpHtmlElement newWithTag: #div)
 			styleAt: #position put: #relative ;
 			styleAt: #top put: '10%' ;
@@ -259,7 +259,7 @@ CpDomExamplesClientBehavior >> exampleEvents [
 			styleAt: #width put: '80%' ;
 			styleAt: #height put: '80%' ;
 			styleAt: #'background-color' put: 'rgba(0, 255, 0, .1)' ;
-			when: CpClickEvent send: #logMiddle: to: self ;
+			when: CpPrimaryClickEvent send: #logMiddle: to: self ;
 			appendChild: ((CpHtmlElement newWithTag: #div)
 				styleAt: #position put: #relative ;
 				styleAt: #top put: '10%' ;
@@ -267,7 +267,7 @@ CpDomExamplesClientBehavior >> exampleEvents [
 				styleAt: #width put: '80%' ;
 				styleAt: #height put: '80%' ;
 				styleAt: #'background-color' put: 'rgba(0, 0, 255, .1)' ;
-				when: CpClickEvent send: #logInner to: self ;
+				when: CpPrimaryClickEvent send: #logInner to: self ;
 				yourself) ;
 			yourself) ;
 		yourself).
@@ -329,11 +329,11 @@ CpDomExamplesClientBehavior >> exampleSVGGears [
 	speed := 5.
 	outputElement appendChild: ((CpHtmlElement newWithTag: #button)
 		textContent: '-' ;
-		when: CpClickEvent do: [ speed := speed + 1 ] ;
+		when: CpPrimaryClickEvent do: [ speed := speed + 1 ] ;
 		yourself).
 	outputElement appendChild: ((CpHtmlElement newWithTag: #button)
 		textContent: '+' ;
-		when: CpClickEvent do: [ speed := (speed - 1) max: 2 ] ;
+		when: CpPrimaryClickEvent do: [ speed := (speed - 1) max: 2 ] ;
 		yourself).
 	outputElement appendChild: (CpHtmlElement newWithTag: #p). "Separator"
 
@@ -573,6 +573,6 @@ CpDomExamplesClientBehavior >> showIndex [
 		list appendChild: ((CpHtmlElement newWithTag: 'li')
 			id: item key ;	"ie selector"
 			textContent: item value first ;	"ie title"
-			when: CpClickEvent send: item key to: self ;
+			when: CpPrimaryClickEvent send: item key to: self ;
 			yourself) ]
 ]

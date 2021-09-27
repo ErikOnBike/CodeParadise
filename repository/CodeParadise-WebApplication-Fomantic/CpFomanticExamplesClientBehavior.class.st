@@ -35,7 +35,7 @@ CpFomanticExamplesClientBehavior >> exampleButton [
 	outputElement appendChild: ((CpHtmlElement newWithTag: #span) textContent: ' ' ; yourself).
 
 	loadButton := outputElement appendChild: (FuiButton newLabeled: 'Make loaded').
-	loadButton when: CpClickEvent do: [
+	loadButton when: CpPrimaryClickEvent do: [
 		loadTargetButton beLoaded.
 		loadButton disable.
 		loadingButton enable ].
@@ -45,7 +45,7 @@ CpFomanticExamplesClientBehavior >> exampleButton [
 	loadingButton := outputElement appendChild: ((FuiButton newLabeled: 'Make loading')
 		disable ;
 		yourself).
-	loadingButton when: CpClickEvent do: [
+	loadingButton when: CpPrimaryClickEvent do: [
 		loadTargetButton beLoading.
 		loadButton enable.
 		loadingButton disable ].
@@ -78,13 +78,13 @@ CpFomanticExamplesClientBehavior >> exampleCheckbox [
 	outputElement
 		appendChild: ('' inHtmlTag: #p) ;
 		appendChild: ((FuiButton newLabeled: 'Be toggle')
-			when: CpClickEvent do: [ :event | checkbox beToggle ] ;
+			when: CpPrimaryClickEvent do: [ :event | checkbox beToggle ] ;
 			yourself) ;
 		appendChild: ((FuiButton newLabeled: 'Be slider')
-			when: CpClickEvent do: [ :event | checkbox beSlider ] ;
+			when: CpPrimaryClickEvent do: [ :event | checkbox beSlider ] ;
 			yourself) ;
 		appendChild: ((FuiButton newLabeled: 'Be checkbox')
-			when: CpClickEvent do: [ :event | checkbox beRegular ] ;
+			when: CpPrimaryClickEvent do: [ :event | checkbox beRegular ] ;
 			yourself).
 
 	outputElement
@@ -364,5 +364,5 @@ CpFomanticExamplesClientBehavior >> showIndex [
 			yourself).
 
 		"Register interest in events on the list item"
-		example when: CpClickEvent send: item key to: self ]
+		example when: CpPrimaryClickEvent send: item key to: self ]
 ]
