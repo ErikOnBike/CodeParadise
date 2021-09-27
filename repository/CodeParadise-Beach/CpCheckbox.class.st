@@ -220,7 +220,7 @@ CpCheckbox >> initialize [
 
 	super initialize.
 
-	self when: CpClickEvent send: #handleClickEvent: to: self
+	self when: CpPrimaryClickEvent send: #handleClickEvent: to: self
 ]
 
 { #category : #accessing }

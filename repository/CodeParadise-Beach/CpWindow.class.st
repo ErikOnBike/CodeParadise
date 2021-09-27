@@ -313,7 +313,7 @@ CpWindow >> initialize [
 	position := self defaultPosition.
 
 	closeControl := (CpIcon named: #close)
-		when: CpClickEvent send: #close to: self ;
+		when: CpPrimaryClickEvent send: #close to: self ;
 		yourself.
 
 	self appendChild: closeControl atSlotNamed: #controls.

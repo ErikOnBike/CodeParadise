@@ -89,5 +89,5 @@ FuiButton >> tertiary [
 { #category : #events }
 FuiButton >> whenClickedSend: aSelector to: anObject [
 
-	^ self when: CpClickEvent send: aSelector to: anObject
+	^ self when: CpPrimaryClickEvent send: aSelector to: anObject
 ]
