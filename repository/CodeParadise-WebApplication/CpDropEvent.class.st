@@ -16,12 +16,14 @@ CpDropEvent class >> addListenerTo: anElement [
 
 	"Add a listener for the receiver to the specified DOM element.
 
-	Implementation: Simulate a DropgEvent by using a PointerUp event."
+	Implementation: Simulate a DropEvent by using a PointerUp event.
+	This allows the event to be set on an element and furthermore receive
+	necessary information like a target, timestamp and elements."
 
 	super addListenerTo: anElement.
 
 	anElement
-		when: CpPointerUpEvent send: #dropped: to: self
+		when: CpPointerUpEvent send: #updateInstanceFromPointerEvent: to: self
 ]
 
 { #category : #'event handling' }
@@ -41,27 +43,6 @@ CpDropEvent class >> dispatchInstanceForDragEvent: aDragEvent [
 	DropInstances removeKey: dropAssoc key.
 
 	dropEvent dispatch
-]
-
-{ #category : #'event handling' }
-CpDropEvent class >> dropped: aPointerUpEvent [
-
-	"A possible drop event has occurred, check if one exists and update it.
-	The drop event is not dispatched yet. It will be dispatched by the
-	drag event belonging to it. This ensures correct order of events.
-	First drags are ended and then drops are performed."
-
-	| dropEvent |
-
-	dropEvent := DropInstances at: aPointerUpEvent pointerId ifAbsent: [ ^ self ].
-
-	"Update the latest info"
-	dropEvent
-		type: #drop ;
-		timeStamp: aPointerUpEvent timeStamp ;
-		target: aPointerUpEvent target ;
-		elements: aPointerUpEvent elements copy ;
-		point: aPointerUpEvent point copy
 ]
 
 { #category : #'instance creation' }
@@ -100,6 +81,24 @@ CpDropEvent class >> resetInstanceForDragEvent: aDragEvent [
 	"Reset the receiver for the fact that a DragEvent is no longer valid"
 
 	DropInstances removeAllSuchThat: [ :each | each isForDragEvent: aDragEvent ]
+]
+
+{ #category : #'event handling' }
+CpDropEvent class >> updateInstanceFromPointerEvent: aPointerEvent [
+
+	"Update the instance of the receiver matching the specified Pointer Event."
+
+	| dropEvent |
+
+	dropEvent := DropInstances at: aPointerEvent pointerId ifAbsent: [ ^ self ].
+
+	"Update the latest info"
+	dropEvent
+		type: #drop ;
+		timeStamp: aPointerEvent timeStamp ;
+		target: aPointerEvent target ;
+		elements: aPointerEvent elements copy ;
+		point: aPointerEvent point copy
 ]
 
 { #category : #accessing }
