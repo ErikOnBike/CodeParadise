@@ -52,7 +52,9 @@ CpClickEvent class >> clickStart: aPointerDownEvent [
 	clickEvent := ClickInstances at: aPointerDownEvent pointerId ifAbsent: [ nil ].
 
 	(clickEvent isNil or: [ (clickEvent hasSameOrigin: aPointerDownEvent) not ])
-		ifTrue: [ ClickInstances at: aPointerDownEvent pointerId put: (self newFromPointerEvent: aPointerDownEvent) ]
+		ifTrue: [
+			(self newFromPointerEvent: aPointerDownEvent) ifNotNil: [ :pointerEvent |
+				ClickInstances at: aPointerDownEvent pointerId put: pointerEvent ] ]
 ]
 
 { #category : #'event handling - private' }
@@ -71,7 +73,11 @@ CpClickEvent class >> clickUpdate: aPointerMoveEvent [
 { #category : #'instance creation' }
 CpClickEvent class >> newFromPointerEvent: aPointerEvent [
 
-	| clickEventClass |
+	"Answer a new instance of the receiver (or a subclass) matching the
+	specified pointer event.
+	In case no matching instance can be created, answer nil."
+
+	| clickEventClass elements |
 
 	"Find the correct click event class. For convenience
 	the PrimaryClickEvent and SecondaryClickEvent are
@@ -91,13 +97,18 @@ CpClickEvent class >> newFromPointerEvent: aPointerEvent [
 						ifTrue: [ Smalltalk at: #CpSecondaryClickEvent ]
 						ifFalse: [ self ] ] ].
 
+	"Validate the elements are actually listening to the specific click event"
+	elements := aPointerEvent elements
+		select: [ :each | clickEventClass isListenedToOn: each ].
+	elements ifEmpty: [ ^ nil ].
+
 	^ clickEventClass new
 		type: #click ;
 		timeStamp: aPointerEvent timeStamp ;
 		point: aPointerEvent point ;
 		offset: aPointerEvent offset ;
 		target: aPointerEvent target ;
-		elements: aPointerEvent elements ;
+		elements: elements ;
 		buttons: aPointerEvent buttons ;
 		modifiers: aPointerEvent modifiers ;
 		yourself

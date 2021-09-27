@@ -83,6 +83,12 @@ CpEvent class >> handlesAnnouncement: anAnnouncement [
 	^ anAnnouncement class includesBehavior: self
 ]
 
+{ #category : #testing }
+CpEvent class >> isListenedToOn: anElement [
+
+	^ self primIsListenedToOn: anElement
+]
+
 { #category : #'processing - private' }
 CpEvent class >> latestEvents [
 
@@ -117,6 +123,13 @@ CpEvent class >> postInstall [
 CpEvent class >> primAddListenerTo: anElement [
 
 	<primitive: 'primitiveEventAddListenerTo:' module: 'CpDOMPlugin'>
+	self primitiveFailed
+]
+
+{ #category : #'processing - private' }
+CpEvent class >> primIsListenedToOn: anElement [
+
+	<primitive: 'primitiveEventIsListenedToOn:' module: 'CpDOMPlugin'>
 	self primitiveFailed
 ]
 
@@ -262,7 +275,7 @@ CpEvent >> printOn: aStream [
 	self timeStamp printOn: aStream.
 	aStream nextPutAll: ', target: '.
 	self target printOn: aStream.
-	aStream nextPutAll: ', element: '.
+	aStream nextPutAll: ', currentElement: '.
 	self currentElement printOn: aStream
 ]
 
