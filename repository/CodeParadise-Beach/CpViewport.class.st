@@ -13,13 +13,12 @@ CpViewport class >> style [
 	<webResource: #css>
 
 	^ ':host {
+			position: absolute;
+			top: 0;
+			left: 0;
 			width: 100%;
 			height: 100%;
 			overflow: hidden;
-		}
-		#container {
-			width: 100%;
-			height: 100%;
 		}'
 ]
 
@@ -37,6 +36,17 @@ CpViewport class >> template [
 CpViewport >> announceUpdate [
 
 	self serverAnnounce: (CpViewportUpdate position: position)
+]
+
+{ #category : #'event handling' }
+CpViewport >> handleDropEvent: aDropEvent [
+
+	"Handle the drop event on the receiver.
+	Delegate this to the first child which might handle it.
+	This is needed in an unlimited workspace for example, where
+	there is no actual surface to receive the drop event."
+
+	self firstChild onDrop: aDropEvent
 ]
 
 { #category : #'event handling' }
@@ -77,9 +87,14 @@ CpViewport >> initialize [
 
 	position := 0 @ 0.
 
+	"Handle drag/wheel events to move the receiver and also
+	handle drop event to allow child to receive a drop event
+	even though it might have moved off screen (an unlimited
+	workspace for example)."
 	self
 		when: CpWheelEvent send: #handleWheelEvent: to: self ;
-		when: CpDragEvent send: #handleViewportMove: to: self
+		when: CpDragEvent send: #handleViewportMove: to: self ;
+		when: CpDropEvent send: #handleDropEvent: to: self
 ]
 
 { #category : #rendering }
