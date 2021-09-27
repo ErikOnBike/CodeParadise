@@ -3,6 +3,7 @@ Class {
 	#superclass : #CpUserInterfaceEvent,
 	#instVars : [
 		'offset',
+		'buttons',
 		'modifiers'
 	],
 	#classVars : [
@@ -70,13 +71,34 @@ CpClickEvent class >> clickUpdate: aPointerMoveEvent [
 { #category : #'instance creation' }
 CpClickEvent class >> newFromPointerEvent: aPointerEvent [
 
-	^ self new
+	| clickEventClass |
+
+	"Find the correct click event class. For convenience
+	the PrimaryClickEvent and SecondaryClickEvent are
+	available which represent clicks without modifiers
+	(and without additional buttons being pressed).
+	
+	Implementation: Since subclasses will be defined
+	after base classes, use indirect reference to
+	subclasses (for usage in RemoveEnvironment)."
+	clickEventClass := aPointerEvent hasModifiers
+		ifTrue: [ self ]
+		ifFalse: [
+			aPointerEvent isOnlyPrimaryButtonPressed
+				ifTrue: [ Smalltalk at: #CpPrimaryClickEvent ]
+				ifFalse: [
+					aPointerEvent isOnlySecondaryButtonPressed
+						ifTrue: [ Smalltalk at: #CpSecondaryClickEvent ]
+						ifFalse: [ self ] ] ].
+
+	^ clickEventClass new
 		type: #click ;
 		timeStamp: aPointerEvent timeStamp ;
 		point: aPointerEvent point ;
 		offset: aPointerEvent offset ;
 		target: aPointerEvent target ;
 		elements: aPointerEvent elements ;
+		buttons: aPointerEvent buttons ;
 		modifiers: aPointerEvent modifiers ;
 		yourself
 ]
@@ -87,6 +109,32 @@ CpClickEvent class >> postInstall [
 	super postInstall.
 
 	ClickInstances := Dictionary new
+]
+
+{ #category : #accessing }
+CpClickEvent >> buttonCount [
+
+	^ self buttons bitCount
+]
+
+{ #category : #accessing }
+CpClickEvent >> buttons [
+
+	"Answer an Integer specifying the different buttons pressed.
+	Combine the following individual numbers:
+		1 - primary button
+		2 - secondary button
+		4 - third (auxiliary) button (like wheel mouse or middle button)
+		8 - fourth button
+		16 - fifth button"
+
+	^ buttons
+]
+
+{ #category : #accessing }
+CpClickEvent >> buttons: anInteger [
+
+	buttons := anInteger
 ]
 
 { #category : #testing }
@@ -119,6 +167,54 @@ CpClickEvent >> hasShiftModifier [
 	^ (self modifiers bitAnd: 8) ~= 0
 ]
 
+{ #category : #testing }
+CpClickEvent >> isFifthButtonPressed [
+
+	^ buttons anyMask: 16
+]
+
+{ #category : #testing }
+CpClickEvent >> isFourthButtonPressed [
+
+	^ buttons anyMask: 8
+]
+
+{ #category : #testing }
+CpClickEvent >> isOnlyPrimaryButtonPressed [
+
+	^ buttons = 1
+]
+
+{ #category : #testing }
+CpClickEvent >> isOnlySecondaryButtonPressed [
+
+	^ buttons = 2
+]
+
+{ #category : #testing }
+CpClickEvent >> isPrimaryButtonPressed [
+
+	^ buttons anyMask: 1
+]
+
+{ #category : #testing }
+CpClickEvent >> isSecondaryButtonPressed [
+
+	^ buttons anyMask: 2
+]
+
+{ #category : #testing }
+CpClickEvent >> isThirdButtonPressed [
+
+	^ buttons anyMask: 4
+]
+
+{ #category : #accessing }
+CpClickEvent >> modifierCount [
+
+	^ self modifiers bitCount
+]
+
 { #category : #accessing }
 CpClickEvent >> modifiers [
 
@@ -148,4 +244,16 @@ CpClickEvent >> offset [
 CpClickEvent >> offset: aPoint [
 
 	offset := aPoint
+]
+
+{ #category : #printing }
+CpClickEvent >> printOn: aStream [
+
+	super printOn: aStream.
+	aStream nextPutAll: ', offset: '.
+	self offset printOn: aStream.
+	aStream nextPutAll: ', buttons: '.
+	buttons printOn: aStream.
+	aStream nextPutAll: ', modifiers: '.
+	modifiers printOn: aStream
 ]

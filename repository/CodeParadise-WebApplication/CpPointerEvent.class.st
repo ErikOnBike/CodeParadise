@@ -11,6 +11,26 @@ Class {
 	#category : #'CodeParadise-WebApplication-Events'
 }
 
+{ #category : #accessing }
+CpPointerEvent >> buttonCount [
+
+	^ self buttons bitCount
+]
+
+{ #category : #accessing }
+CpPointerEvent >> buttons [
+
+	"Answer an Integer specifying the different buttons pressed.
+	Combine the following individual numbers:
+		1 - primary button
+		2 - secondary button
+		4 - third (auxiliary) button (like wheel mouse or middle button)
+		8 - fourth button
+		16 - fifth button"
+
+	^ buttons
+]
+
 { #category : #testing }
 CpPointerEvent >> hasAltModifier [
 
@@ -48,15 +68,51 @@ CpPointerEvent >> isButtonPressed [
 ]
 
 { #category : #testing }
+CpPointerEvent >> isFifthButtonPressed [
+
+	^ buttons anyMask: 16
+]
+
+{ #category : #testing }
+CpPointerEvent >> isFourthButtonPressed [
+
+	^ buttons anyMask: 8
+]
+
+{ #category : #testing }
 CpPointerEvent >> isOnlyPrimaryButtonPressed [
 
 	^ buttons = 1
 ]
 
 { #category : #testing }
+CpPointerEvent >> isOnlySecondaryButtonPressed [
+
+	^ buttons = 2
+]
+
+{ #category : #testing }
 CpPointerEvent >> isPrimaryButtonPressed [
 
 	^ buttons anyMask: 1
+]
+
+{ #category : #testing }
+CpPointerEvent >> isSecondaryButtonPressed [
+
+	^ buttons anyMask: 2
+]
+
+{ #category : #testing }
+CpPointerEvent >> isThirdButtonPressed [
+
+	^ buttons anyMask: 4
+]
+
+{ #category : #accessing }
+CpPointerEvent >> modifierCount [
+
+	^ self modifiers bitCount
 ]
 
 { #category : #accessing }
@@ -70,12 +126,6 @@ CpPointerEvent >> modifiers [
 		8 - shift"
 
 	^ modifiers
-]
-
-{ #category : #accessing }
-CpPointerEvent >> modifiers: anInteger [
-
-	modifiers := anInteger
 ]
 
 { #category : #accessing }
