@@ -108,7 +108,6 @@ CpDragEvent class >> dragStart: aPointerDownEvent [
 
 	aPointerDownEvent isOnlyPrimaryButtonPressed
 		ifFalse: [ ^ self ].
-	aPointerDownEvent preventDefault.	"Prevent default behavior (like native drag on Firefox)"
 
 	dragEvent := DragInstances at: aPointerDownEvent pointerId ifAbsent: [ nil ].
 
