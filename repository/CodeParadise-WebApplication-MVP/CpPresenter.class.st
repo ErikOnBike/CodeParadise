@@ -201,7 +201,9 @@ CpPresenter >> createView [
 	self application clientCreateViewForPresenter: self.
 
 	"Allow subclasses to perform further initialization"
-	self viewCreated.
+	self
+		viewCreated ;
+		viewInitialized.
 
 	"Render view"
 	self renderView.
@@ -746,7 +748,9 @@ CpPresenter >> viewClass [
 CpPresenter >> viewCreated [
 
 	"The receiver's view is created, perform any additional setup
-	(most notably subscribe to view announcements)"
+	(most notably subscribe to view announcements). This method will
+	not be executed on reload. For setup needed on both initial load
+	AND reload, please use #viewInitialized"
 
 ]
 
@@ -759,6 +763,16 @@ CpPresenter >> viewId [
 	Presenters and Views share the same id, therefor use the Presenter's id as reference to the view"
 
 	^ self id
+]
+
+{ #category : #view }
+CpPresenter >> viewInitialized [
+
+	"The client side view is initialized, perform any additional setup
+	(most notably instruct the client side view to perform operations).
+	This method will be executed on initial load AND on reload.
+	For setup needed only on initial load use #viewCreated."
+
 ]
 
 { #category : #view }
