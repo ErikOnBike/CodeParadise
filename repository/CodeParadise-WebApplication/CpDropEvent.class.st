@@ -5,100 +5,26 @@ Class {
 		'dragEvent',
 		'pointerId'
 	],
-	#classVars : [
-		'DropInstances'
-	],
 	#category : #'CodeParadise-WebApplication-Events'
 }
 
-{ #category : #announcing }
-CpDropEvent class >> addListenerTo: anElement [
-
-	"Add a listener for the receiver to the specified DOM element.
-
-	Implementation: Simulate a DropEvent by using a PointerUp event.
-	This allows the event to be set on an element and furthermore receive
-	necessary information like a target, timestamp and elements."
-
-	super addListenerTo: anElement.
-
-	anElement
-		when: CpPointerUpEvent send: #updateInstanceFromPointerEvent: to: self
-]
-
 { #category : #'event handling' }
-CpDropEvent class >> dispatchInstanceForDragEvent: aDragEvent [
+CpDropEvent class >> dispatchInstanceForDragEvent: aDragEvent pointerEvent: aPointerEvent [
 
 	"Dispatch an instance of the receiver based on the specified DragEvent"
 
-	| dropEvent dropAssoc |
-
-	"Find the drop event belonging to the specified drag event"
-	dropAssoc := DropInstances associations
-		detect: [ :each | each value isForDragEvent: aDragEvent ]
-		ifNone: [ ^ self ].
-	dropEvent := dropAssoc value.
-
-	"Remove drop instance to prevent multiple dispatches"
-	DropInstances removeKey: dropAssoc key.
-
-	dropEvent dispatch
+	(self newFromDragEvent: aDragEvent withPointerEvent: aPointerEvent)
+		dispatch
 ]
 
 { #category : #'instance creation' }
-CpDropEvent class >> newFromDragEvent: aDragEvent withPointerId: anObject [
+CpDropEvent class >> newFromDragEvent: aDragEvent withPointerEvent: aPointerEvent [
 
-	"Create a new instance of the receiver from the specified DragEvent and pointer id.
-
-	Implementation: This method will not answer a full DropEvent instance. Dispatching it
-	will not have any effect. See #dropped: where DropEvent is fulfilled and dispatched."
+	"Create a new instance of the receiver from the specified DragEvent and PointerEvent"
 
 	^ self basicNew
-		initializeWithDragEvent: aDragEvent pointerId: anObject ;
+		initializeWithDragEvent: aDragEvent pointerEvent: aPointerEvent ;
 		yourself
-]
-
-{ #category : #'class initialization' }
-CpDropEvent class >> postInstall [
-
-	super postInstall.
-
-	DropInstances := Dictionary new
-]
-
-{ #category : #support }
-CpDropEvent class >> prepareInstanceForDragEvent: aDragEvent withPointerId: aNumber [
-
-	"Prepare the receiver that a DropEvent is going to be needed, based on the fact
-	that a DragEvent exists using a specific pointer"
-
-	DropInstances at: aNumber put: (self newFromDragEvent: aDragEvent withPointerId: aNumber)
-]
-
-{ #category : #support }
-CpDropEvent class >> resetInstanceForDragEvent: aDragEvent [
-
-	"Reset the receiver for the fact that a DragEvent is no longer valid"
-
-	DropInstances removeAllSuchThat: [ :each | each isForDragEvent: aDragEvent ]
-]
-
-{ #category : #'event handling' }
-CpDropEvent class >> updateInstanceFromPointerEvent: aPointerEvent [
-
-	"Update the instance of the receiver matching the specified Pointer Event."
-
-	| dropEvent |
-
-	dropEvent := DropInstances at: aPointerEvent pointerId ifAbsent: [ ^ self ].
-
-	"Update the latest info"
-	dropEvent
-		type: #drop ;
-		timeStamp: aPointerEvent timeStamp ;
-		target: aPointerEvent target ;
-		elements: aPointerEvent elements copy ;
-		point: aPointerEvent point copy
 ]
 
 { #category : #accessing }
@@ -123,6 +49,27 @@ CpDropEvent >> dragStartPoint [
 CpDropEvent >> dragTracePoints [
 
 	^ dragEvent tracePoints
+]
+
+{ #category : #initialization }
+CpDropEvent >> initialize [
+
+	super initialize.
+
+	type := #drop
+]
+
+{ #category : #initialization }
+CpDropEvent >> initializeWithDragEvent: aDragEvent pointerEvent: aPointerEvent [
+
+	self initialize.
+
+	dragEvent := aDragEvent.
+	pointerId := aPointerEvent pointerId.
+	timeStamp := aPointerEvent timeStamp.
+	target := aPointerEvent target.
+	elements := aPointerEvent elements copy.
+	point := aPointerEvent point copy
 ]
 
 { #category : #initialization }
