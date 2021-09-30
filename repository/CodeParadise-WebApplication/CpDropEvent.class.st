@@ -8,6 +8,22 @@ Class {
 	#category : #'CodeParadise-WebApplication-Events'
 }
 
+{ #category : #announcing }
+CpDropEvent class >> addListenerTo: anElement [
+
+	"Add a listener for the receiver to the specified DOM element.
+
+	Implementation: Simulate a DropEvent by using a PointerUp event.
+	This allows the drop event to be set on an element and be recognized as such.
+	This is needed because there is no equivalent drop event in browsers."
+
+	super addListenerTo: anElement.
+
+	"Implementation: Send meaningless message to self, since there is no need to handle the event itself"
+	anElement
+		when: CpPointerUpEvent send: #doNothing to: self
+]
+
 { #category : #'event handling' }
 CpDropEvent class >> dispatchInstanceForDragEvent: aDragEvent pointerEvent: aPointerEvent [
 
@@ -15,6 +31,13 @@ CpDropEvent class >> dispatchInstanceForDragEvent: aDragEvent pointerEvent: aPoi
 
 	(self newFromDragEvent: aDragEvent withPointerEvent: aPointerEvent)
 		dispatch
+]
+
+{ #category : #actions }
+CpDropEvent class >> doNothing [
+
+	"This method is present to allow the receiver to be recognized as native event.
+	See self >> #addListener:"
 ]
 
 { #category : #'instance creation' }
