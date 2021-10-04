@@ -3,7 +3,7 @@ Extension { #name : #ReadStream }
 { #category : #'*CodeParadise-WebApplication' }
 ReadStream >> lookAheadAt: index [
 
-	"Answer the element at the specified (delta) position or nil if outside the receiver boundaries."
+	"Answer the element at the specified (delta) position or nil if outside the receiver's boundaries."
 
 	| lookPosition |
 
