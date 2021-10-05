@@ -7,7 +7,7 @@ ReadStream >> lookAheadAt: index [
 
 	| lookPosition |
 
-	lookPosition := position + index.
+	lookPosition := position + 1 + index.	"The #position is 0-based"
 	(lookPosition < 1 or: [ lookPosition > readLimit ])
 		ifTrue: [ ^ nil ].
 

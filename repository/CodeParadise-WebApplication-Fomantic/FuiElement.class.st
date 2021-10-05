@@ -390,7 +390,7 @@ FuiElement >> classesFrom: aString [
 
 		| token |
 
-		token := readStream lookAheadAt: 1.
+		token := readStream lookAheadAt: 0.
 		(token = 'ui' or: [ token = self class elementName ])
 			ifTrue: [ readStream skip ]
 			ifFalse: [
@@ -399,7 +399,7 @@ FuiElement >> classesFrom: aString [
 					ifFalse: [
 
 						"Token might be combined token like 'left icon' or 'very padded'"
-						token := token, ' ', (readStream lookAheadAt: 2).
+						token := token, ' ', (readStream lookAheadAt: 1).
 						(self storeClassFrom: token into: classes)
 							ifTrue: [ readStream skip: 2 ]
 							ifFalse: [

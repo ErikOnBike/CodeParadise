@@ -92,7 +92,7 @@ CpSmalltalkParser >> parseLiteralNumber [
 		radix := self parseDigitsWithRadix: 10 into: stream.
 
 		"Parse (optional) radix"
-		(parseStream peek = $r and: [ self class isDigit: (parseStream lookAheadAt: 2) withRadix: radix ])
+		(parseStream peek = $r and: [ self class isDigit: (parseStream lookAheadAt: 1) withRadix: radix ])
 			ifTrue: [
 				stream nextPut: parseStream next.	"Skip $r"
 
@@ -106,13 +106,13 @@ CpSmalltalkParser >> parseLiteralNumber [
 			ifFalse: [ radix := 10 ].
 
 		"Parse (optional) decimal part"
-		(parseStream peek = $. and: [ self class isDigit: (parseStream lookAheadAt: 2) withRadix: radix ])
+		(parseStream peek = $. and: [ self class isDigit: (parseStream lookAheadAt: 1) withRadix: radix ])
 			ifTrue: [
 				stream nextPut: parseStream next.	"skip $."
 				self parseDigitsWithRadix: radix into: stream ].
 
 		"Parse (optional) exponent part"
-		(parseStream peek = $e and: [ self class isDigit: (parseStream lookAheadAt: 2) ])
+		(parseStream peek = $e and: [ self class isDigit: (parseStream lookAheadAt: 1) ])
 			ifTrue: [
 				stream nextPut: parseStream next.	"skip $e"
 				self parseDigitsWithRadix: 10 into: stream ] ].
