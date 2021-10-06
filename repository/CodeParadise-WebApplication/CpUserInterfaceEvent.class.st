@@ -23,7 +23,8 @@ CpUserInterfaceEvent >> point: aPoint [
 CpUserInterfaceEvent >> printOn: aStream [
 
 	super printOn: aStream.
-	aStream nextPutAll: ', point: '.
-	self point printOn: aStream.
+	aStream
+		nextPutAll: ', point: ' ;
+		print: self point
 
 ]

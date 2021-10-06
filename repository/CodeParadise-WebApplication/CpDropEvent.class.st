@@ -120,8 +120,9 @@ CpDropEvent >> isForDragEvent: aDragEvent [
 CpDropEvent >> printOn: aStream [
 
 	super printOn: aStream.
-	aStream nextPutAll: ', dragEvent: '.
-	dragEvent printOn: aStream.
-	aStream nextPutAll: ', pointerId: '.
-	pointerId printOn: aStream
+	aStream
+		nextPutAll: ', dragEvent: ' ;
+		print: dragEvent ;
+		nextPutAll: ', pointerId: ' ;
+		print: pointerId
 ]

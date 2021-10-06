@@ -54,10 +54,11 @@ CpWheelEvent >> offset: aPoint [
 CpWheelEvent >> printOn: aStream [
 
 	super printOn: aStream.
-	aStream nextPutAll: ', offset: '.
-	self offset printOn: aStream.
-	aStream nextPutAll: ', delta: '.
-	self delta printOn: aStream.
-	aStream nextPutAll: ', deltaMode: '.
-	self deltaMode printOn: aStream
+	aStream
+		nextPutAll: ', offset: ' ;
+		print: self offset ;
+		nextPutAll: ', delta: ' ;
+		print: self delta ;
+		nextPutAll: ', deltaMode: ' ;
+		print: self deltaMode
 ]

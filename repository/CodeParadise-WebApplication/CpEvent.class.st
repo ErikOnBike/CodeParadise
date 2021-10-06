@@ -268,15 +268,16 @@ CpEvent >> primPreventDefault [
 { #category : #printing }
 CpEvent >> printOn: aStream [
 
-	aStream nextPutAll: self class name.
-	aStream nextPutAll: ', type: '.
-	self type printOn: aStream.
-	aStream nextPutAll: ', timeStamp: '.
-	self timeStamp printOn: aStream.
-	aStream nextPutAll: ', target: '.
-	self target printOn: aStream.
-	aStream nextPutAll: ', currentElement: '.
-	self currentElement printOn: aStream
+	aStream
+		nextPutAll: self class name ;
+		nextPutAll: ', type: ' ;
+		print: self type ;
+		nextPutAll: ', timeStamp: ' ;
+		print: self timeStamp ;
+		nextPutAll: ', target: ' ;
+		print: self target ;
+		nextPutAll: ', currentElement: ' ;
+		print: self currentElement
 ]
 
 { #category : #dispatching }

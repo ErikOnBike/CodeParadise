@@ -40,8 +40,9 @@ CpInputEvent >> inputType: aString [
 CpInputEvent >> printOn: aStream [
 
 	super printOn: aStream.
-	aStream nextPutAll: ', data: '.
-	self data printOn: aStream.
-	aStream nextPutAll: ', inputType: '.
-	self inputType printOn: aStream
+	aStream
+		nextPutAll: ', data: ' ;
+		print: self data ;
+		nextPutAll: ', inputType: ' ;
+		print: self inputType
 ]

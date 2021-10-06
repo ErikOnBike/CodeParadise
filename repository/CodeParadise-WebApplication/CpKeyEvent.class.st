@@ -110,10 +110,11 @@ CpKeyEvent >> modifiers: anInteger [
 CpKeyEvent >> printOn: aStream [
 
 	super printOn: aStream.
-	aStream nextPutAll: ', modifiers: '.
-	self modifiers printOn: aStream.
-	aStream nextPutAll: ', key: '.
-	self key printOn: aStream.
-	aStream nextPutAll: ', isComposing: '.
-	self isComposing printOn: aStream
+	aStream
+		nextPutAll: ', modifiers: ' ;
+		print: self modifiers ;
+		nextPutAll: ', key: ' ;
+		print: self key ;
+		nextPutAll: ', isComposing: ' ;
+		print: self isComposing
 ]

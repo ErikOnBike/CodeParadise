@@ -176,10 +176,11 @@ CpPointerEvent >> pointerType: aString [
 CpPointerEvent >> printOn: aStream [
 
 	super printOn: aStream.
-	aStream nextPutAll: ', offset: '.
-	self offset printOn: aStream.
-	aStream nextPutAll: ', pointerId: '.
-	self pointerId printOn: aStream.
-	aStream nextPutAll: ', buttons: '.
-	buttons printOn: aStream
+	aStream
+		nextPutAll: ', offset: ' ;
+		print: self offset ;
+		nextPutAll: ', pointerId: ' ;
+		print: self pointerId ;
+		nextPutAll: ', buttons: ' ;
+		print: buttons
 ]

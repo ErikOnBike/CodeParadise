@@ -289,10 +289,11 @@ CpDragEvent >> postCopy [
 CpDragEvent >> printOn: aStream [
 
 	super printOn: aStream.
-	aStream nextPutAll: ', endPoint: '.
-	self endPoint printOn: aStream.
-	aStream nextPutAll: ', offset: '.
-	self offset printOn: aStream
+	aStream
+		nextPutAll: ', endPoint: ' ;
+		print: self endPoint ;
+		nextPutAll: ', offset: ' ;
+		print: self offset
 ]
 
 { #category : #accessing }

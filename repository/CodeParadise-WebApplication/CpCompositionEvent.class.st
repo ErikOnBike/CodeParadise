@@ -23,6 +23,7 @@ CpCompositionEvent >> data: aString [
 CpCompositionEvent >> printOn: aStream [
 
 	super printOn: aStream.
-	aStream nextPutAll: ', data: '.
-	self data printOn: aStream
+	aStream
+		nextPutAll: ', data: ' ;
+		print: self data
 ]

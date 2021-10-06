@@ -261,10 +261,11 @@ CpClickEvent >> offset: aPoint [
 CpClickEvent >> printOn: aStream [
 
 	super printOn: aStream.
-	aStream nextPutAll: ', offset: '.
-	self offset printOn: aStream.
-	aStream nextPutAll: ', buttons: '.
-	buttons printOn: aStream.
-	aStream nextPutAll: ', modifiers: '.
-	modifiers printOn: aStream
+	aStream
+		nextPutAll: ', offset: ' ;
+		print: self offset ;
+		nextPutAll: ', buttons: ' ;
+		print: buttons ;
+		nextPutAll: ', modifiers: ' ;
+		print: modifiers
 ]
