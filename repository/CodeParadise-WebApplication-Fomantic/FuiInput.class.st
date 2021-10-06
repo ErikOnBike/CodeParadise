@@ -279,6 +279,13 @@ FuiInput >> enable [
 	self removeState: #disabled
 ]
 
+{ #category : #'text input' }
+FuiInput >> focus [
+
+	self crTrace: 'Focus on ', (self firstDescendantMatching: #input) printString.
+	(self firstDescendantMatching: #input) focus
+]
+
 { #category : #testing }
 FuiInput >> isReadOnly [
 
