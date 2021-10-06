@@ -43,6 +43,12 @@ CpScreen class >> template [
 		</div>'
 ]
 
+{ #category : #sizing }
+CpScreen >> height [
+
+	^ self propertyAt: #clientHeight
+]
+
 { #category : #initialization }
 CpScreen >> initialize [
 
@@ -63,4 +69,10 @@ CpScreen >> initialize [
 				overscroll-behavior-x: none; /* Prevent Chrome from navigating back on swipe */
 			}' ;
 		yourself)
+]
+
+{ #category : #sizing }
+CpScreen >> width [
+
+	^ self propertyAt: #clientWidth
 ]

@@ -33,6 +33,12 @@ Class {
 	#category : #'CodeParadise-WebApplication-DOM'
 }
 
+{ #category : #'accessing - state' }
+CpDomElement class >> beLoaded [
+
+	CpDomRectangle beLoaded
+]
+
 { #category : #'acccessing-ui' }
 CpDomElement class >> document [
 
@@ -214,6 +220,15 @@ CpDomElement >> attributeAt: nameString put: valueString [
 	<primitive: 'primitiveDomElementAttributeAt:put:' module: 'CpDOMPlugin'>
 	self primitiveFailed
 
+]
+
+{ #category : #sizing }
+CpDomElement >> boundingClientRectangle [
+
+	"Answer a DomRectangle describing the bounds of the receiver, relative to the visible screen"
+
+	<primitive: 'primitiveDomElementBoundingClientRectangle' module: 'CpDOMPlugin'>
+	self primitiveFailed
 ]
 
 { #category : #querying }
