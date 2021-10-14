@@ -506,6 +506,19 @@ CpPresenter >> reload [
 
 ]
 
+{ #category : #presenters }
+CpPresenter >> removeAllChildPresenters [
+
+	self removeAllChildPresentersAtSlotNamed: nil
+]
+
+{ #category : #presenters }
+CpPresenter >> removeAllChildPresentersAtSlotNamed: aSymbol [
+
+	(self childPresentersAtSlotNamed: aSymbol) do: [ :each |
+		self removeChildPresenter: each ]
+]
+
 { #category : #'presenters - private' }
 CpPresenter >> removeChildPresenter: aPresenter [
 
