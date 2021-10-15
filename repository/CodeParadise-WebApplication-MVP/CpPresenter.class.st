@@ -582,7 +582,7 @@ CpPresenter >> renderAllChildViewsForModels: aCollection usingPresenter: aBlock 
 	childPresenters := childPresentersBySlotName at: aString ifAbsentPut: [ OrderedCollection new ].
 
 	"Handle child presenters in order (allowing to add missing child presenters)"
-	aCollection withIndexDo: [ :aModel :index |
+	aCollection asArray withIndexDo: [ :aModel :index |
 
 		| childPresenterClass |
 
