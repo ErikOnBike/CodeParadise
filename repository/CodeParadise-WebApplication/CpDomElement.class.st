@@ -140,6 +140,15 @@ CpDomElement >> addClass: aString [
 
 ]
 
+{ #category : #'tag/id/classes' }
+CpDomElement >> addClasses: aCollection [
+
+	"Add the specified classes to the receiver."
+
+	aCollection do: [ :each | self addClass: each ]
+
+]
+
 { #category : #querying }
 CpDomElement >> allDescendantsMatching: cssSelectorString [
 
