@@ -45,7 +45,17 @@ Class {
 { #category : #accessing }
 CpPresenter class >> defaultViewClass [
 
-	self subclassResponsibility
+	| suffix baseName viewClass | 
+
+	suffix := 'Presenter'.
+	baseName := self name withoutSuffix: suffix.
+	viewClass := Smalltalk classNamed: baseName , 'View'.
+
+	"If no valid View class is found, raise an error to indicate subclass should implement #defaultViewClass"
+	(viewClass isNotNil and: [ viewClass inheritsFrom: CpView ])
+		ifFalse: [ self shouldBeImplemented ].
+
+	^ viewClass
 ]
 
 { #category : #accessing }
