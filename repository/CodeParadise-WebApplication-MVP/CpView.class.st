@@ -57,14 +57,6 @@ CpView class >> isPlatformWindows [
 	^ self currentPlatform = #windows
 ]
 
-{ #category : #'web resources' }
-CpView class >> template [
-
-	<webResource: #html>
-
-	^ '<div>&lt;empty&gt;</div>'
-]
-
 { #category : #removing }
 CpView >> destroy [
 
