@@ -1,6 +1,14 @@
 Extension { #name : #String }
 
 { #category : #'*CodeParadise-RemoteEnvironment' }
+String >> asHtmlTag [ 
+
+	<webApplicationExtension>
+
+	^ (Smalltalk classNamed: #CpHtmlElement) newWithTag: self
+]
+
+{ #category : #'*CodeParadise-RemoteEnvironment' }
 String >> cpEncodeWith: anEncoder [
 
 	<clientEnvironment>
