@@ -7,6 +7,7 @@ Code Paradise is the name of a project and future platform. Code Paradise as pro
 The project offers a `RemoteEnvironment` and a `ServerApplication` controlling it. The `RemoteEnvironment` consists of a `ClientEnvironment` and a `ServerEnvironment`. The `ClientEnvironment` is a Smalltalk environment running inside a Javascript environment like a web browser or Node.js instance. The `ServerEnvironment` is (currently) a Pharo Smalltalk environment running on or as a web server. The two environments communicatie using WebSockets, allowing interactive  (instead of request-response style) communication. The `ServerApplication` can install code (`Classes` and `CompiledMethods`) in the `ClientEnvironment` on-the-fly thereby creating a dynamic environment (somewhat) similar to the live coding experience of a regular Smalltalk environment. The `ClientEnvironment` can only send back `Announcements` to the `ServerEnvironment` (explicit design decision I'll try to document in the near future).
 
 A few online videos:
+* UK Smalltalk UG [demo] (https://vimeo.com/457353130)
 * short introduction [video](https://youtu.be/qvY7R6te7go) (it is a little outdated)
 * first two components [link and button](https://youtu.be/nxQSlf4kFs8) - 2:18 minutes
 * animated [checkbox](https://youtu.be/-l0S03jZTtc) 25 seconds
