@@ -318,7 +318,7 @@ FuiInput >> leftAction: newButtonElement [
 			buttonElement := self firstDescendantMatching: ':scope > .button'.
 
 			"Only keep descendant as left button element if it has a sibling and that sibling is an input element"
-			(buttonElement notNil and: [ buttonElement nextSibling ifNotNil: [ :nextElement | nextElement tag ~= #input ] ifNil: [ true ] ])
+			(buttonElement notNil and: [ buttonElement nextSibling ifNotNil: [ :nextElement | nextElement tagName ~= #input ] ifNil: [ true ] ])
 				ifTrue: [ buttonElement := nil ].
 
 			"Replace button or create new one"
@@ -342,7 +342,7 @@ FuiInput >> leftIcon: aSymbol [
 			iconElement := self firstDescendantMatching: ':scope > .icon'.
 
 			"Only keep descendant as left icon element if it has a sibling and that sibling is an input element"
-			(iconElement notNil and: [ iconElement nextSibling ifNotNil: [ :nextElement | nextElement tag ~= #input ] ifNil: [ true ] ])
+			(iconElement notNil and: [ iconElement nextSibling ifNotNil: [ :nextElement | nextElement tagName ~= #input ] ifNil: [ true ] ])
 				ifTrue: [ iconElement := nil ].
 
 			"Change icon value or create new one"
@@ -366,7 +366,7 @@ FuiInput >> leftLabel: newLabelElement [
 			labelElement := self firstDescendantMatching: ':scope > .label'.
 
 			"Only keep descendant as left label element if it has a sibling and that sibling is an input element"
-			(labelElement notNil and: [ labelElement nextSibling ifNotNil: [ :nextElement | nextElement tag ~= #input ] ifNil: [ true ] ])
+			(labelElement notNil and: [ labelElement nextSibling ifNotNil: [ :nextElement | nextElement tagName ~= #input ] ifNil: [ true ] ])
 				ifTrue: [ labelElement := nil ].
 
 			"Replace label or create new one"
@@ -406,7 +406,7 @@ FuiInput >> removeLeftAction [
 	buttonElement := self firstDescendantMatching: ':scope > .button'.
 
 	"Check if left button is found"
-	(buttonElement notNil and: [ buttonElement nextSibling ifNotNil: [ :nextElement | nextElement tag = #input ] ifNil: [ false ] ])
+	(buttonElement notNil and: [ buttonElement nextSibling ifNotNil: [ :nextElement | nextElement tagName = #input ] ifNil: [ false ] ])
 		ifTrue: [ buttonElement remove ]
 ]
 
@@ -418,7 +418,7 @@ FuiInput >> removeLeftIcon [
 	iconElement := self firstDescendantMatching: ':scope > .icon'.
 
 	"Check if left icon is found"
-	(iconElement notNil and: [ iconElement nextSibling ifNotNil: [ :nextElement | nextElement tag = #input ] ifNil: [ false ] ])
+	(iconElement notNil and: [ iconElement nextSibling ifNotNil: [ :nextElement | nextElement tagName = #input ] ifNil: [ false ] ])
 		ifTrue: [ iconElement remove ]
 ]
 
@@ -430,7 +430,7 @@ FuiInput >> removeLeftLabel [
 	labelElement := self firstDescendantMatching: ':scope > .label'.
 
 	"Check if left label is found"
-	(labelElement notNil and: [ labelElement nextSibling ifNotNil: [ :nextElement | nextElement tag = #input ] ifNil: [ false ] ])
+	(labelElement notNil and: [ labelElement nextSibling ifNotNil: [ :nextElement | nextElement tagName = #input ] ifNil: [ false ] ])
 		ifTrue: [ labelElement remove ]
 ]
 

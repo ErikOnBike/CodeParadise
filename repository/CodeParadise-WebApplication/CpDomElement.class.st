@@ -441,7 +441,7 @@ CpDomElement >> printOn: aStream [
 	aStream
 		nextPutAll: self class name ;
 		nextPutAll: '(<' ;
-		nextPutAll: self tag ;
+		nextPutAll: self tagName ;
 		nextPutAll: '>)'
 ]
 
@@ -618,6 +618,16 @@ CpDomElement >> styleAt: nameString put: valueString [
 
 { #category : #'tag/id/classes' }
 CpDomElement >> tag [
+
+	self
+		deprecated: 'Please use #tagName instead.'
+		transformWith: '`@receiver tag' -> '`@receiver tagName'.
+
+	^ self tagName
+]
+
+{ #category : #'tag/id/classes' }
+CpDomElement >> tagName [
 
 	"Answer the tag of the receiver"
 
