@@ -282,7 +282,6 @@ FuiInput >> enable [
 { #category : #'text input' }
 FuiInput >> focus [
 
-	self crTrace: 'Focus on ', (self firstDescendantMatching: #input) printString.
 	(self firstDescendantMatching: #input) focus
 ]
 
