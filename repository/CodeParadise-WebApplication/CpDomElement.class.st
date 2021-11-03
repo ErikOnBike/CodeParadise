@@ -193,7 +193,8 @@ CpDomElement >> appendChild: childElement [
 { #category : #performing }
 CpDomElement >> apply: aSymbol withArguments: anArray [
 
-	"Perform the specified symbol as JS function on the receiver with the specified arguments"
+	"Perform the specified symbol as JS function on the receiver with the specified arguments.
+	Always answers the receiver."
 
 	<primitive: 'primitiveDomElementApply:withArguments:' module: 'CpDOMPlugin'>
 	self primitiveFailed
@@ -324,7 +325,7 @@ CpDomElement >> focus [
 
 	"Set the focus to the receiver (ie take focus)"
 
-	self defer: [ self apply: #focus withArguments: #() ]
+	self apply: #focus withArguments: #()
 ]
 
 { #category : #attributes }
