@@ -262,6 +262,17 @@ CpDomElement >> clone [
 	self primitiveFailed
 ]
 
+{ #category : #performing }
+CpDomElement >> defer: aBlock [
+
+	"Evaluate the specified block with a small delay.
+	For example to prevent resulting events from overlapping."
+
+	aBlock asTransition
+		duration: 0 ;
+		startDelayedBy: 10
+]
+
 { #category : #removing }
 CpDomElement >> destroy [
 
@@ -313,7 +324,7 @@ CpDomElement >> focus [
 
 	"Set the focus to the receiver (ie take focus)"
 
-	self apply: #focus withArguments: #()
+	self defer: [ self apply: #focus withArguments: #() ]
 ]
 
 { #category : #attributes }
