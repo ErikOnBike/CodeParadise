@@ -175,10 +175,9 @@ CpWindow class >> template [
 { #category : #announcing }
 CpWindow >> announceUpdate [
 
-	"Announce the receiver updated, if the receiver is not closing)"
+	"Announce the receiver updated"
 
-	(self isClassed: #closing)
-		ifFalse: [ self serverAnnounce: (CpWindowUpdate position: position width: width height: height) ]
+	self serverAnnounce: (CpWindowUpdate position: position width: width height: height)
 ]
 
 { #category : #accessing }
@@ -196,12 +195,8 @@ CpWindow >> calculatedWidth [
 { #category : #actions }
 CpWindow >> close [
 
-	"Send close announcement to server.
+	"Send close announcement to server"
 
-	Implementation:
-	Set class on receiver to show the receiver is closing."
-
-	self addClass: #closing.
 	self serverAnnounce: CpWindowClose
 ]
 
