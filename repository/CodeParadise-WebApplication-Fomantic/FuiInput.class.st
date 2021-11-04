@@ -286,6 +286,12 @@ FuiInput >> focus [
 ]
 
 { #category : #testing }
+FuiInput >> hasFocus [
+
+	^ (self firstDescendantMatching: #input) = CpHtmlElement activeElement
+]
+
+{ #category : #testing }
 FuiInput >> isReadOnly [
 
 	| element |
