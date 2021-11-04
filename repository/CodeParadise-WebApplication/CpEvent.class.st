@@ -28,6 +28,12 @@ CpEvent class >> addListenerTo: anElement [
 	self primAddListenerTo: anElement
 ]
 
+{ #category : #'accessing - modifiers' }
+CpEvent class >> altModifier [
+
+	^ 1
+]
+
 { #category : #'processing - private' }
 CpEvent class >> createEventProcess [
 
@@ -51,6 +57,24 @@ CpEvent class >> createEventProcess [
 
 	"Start the process (which will actually put it to sleep waiting for the first event)"
 	eventProcess resume
+]
+
+{ #category : #'accessing - modifiers' }
+CpEvent class >> ctrlAltModifier [
+
+	^ self ctrlModifier + self altModifier
+]
+
+{ #category : #'accessing - modifiers' }
+CpEvent class >> ctrlModifier [
+
+	^ 2
+]
+
+{ #category : #'accessing - modifiers' }
+CpEvent class >> ctrlShiftModifier [
+
+	^ self ctrlModifier + self shiftModifier
 ]
 
 { #category : #'processing - private' }
@@ -95,6 +119,12 @@ CpEvent class >> latestEvents [
 	<primitive: 'primitiveEventLatestEvents' module: 'CpDOMPlugin'>
 	^ #()
 
+]
+
+{ #category : #'accessing - modifiers' }
+CpEvent class >> metaModifier [
+
+	^ 4
 ]
 
 { #category : #accessing }
@@ -147,6 +177,12 @@ CpEvent class >> primRegisterEventProcess: eventHandlerProcess [
 	<primitive: 'primitiveEventRegisterProcess:' module: 'CpDOMPlugin'>
 	self primitiveFailed
 
+]
+
+{ #category : #'accessing - modifiers' }
+CpEvent class >> shiftModifier [
+
+	^ 8
 ]
 
 { #category : #accessing }
@@ -205,6 +241,54 @@ CpEvent >> elements: anArray [
 ]
 
 { #category : #testing }
+CpEvent >> hasAllModifiers: anInteger [
+
+	"Answer whether the receiver has at least the specified modifiers.
+
+	Can be used to validate specific combinations.
+	Example: To check if at least shift and ctrl are pressed:
+		keyEvent hasAllModifiers: CpKeyEvent shiftModifier + CpKeyEvent ctrlModifier"
+
+	^ (self modifiers bitAnd: anInteger) = anInteger
+]
+
+{ #category : #testing }
+CpEvent >> hasAltModifier [
+
+	^ (self modifiers bitAnd: self class altModifier) ~= 0
+]
+
+{ #category : #testing }
+CpEvent >> hasCtrlModifier [
+
+	^ (self modifiers bitAnd: self class ctrlModifier) ~= 0
+]
+
+{ #category : #testing }
+CpEvent >> hasExactModifiers: anInteger [
+
+	"Answer whether the receiver has the exact specified modifiers.
+
+	Can be used to validate specific combinations.
+	Example: To check if only shift and ctrl are pressed:
+		keyEvent hasExactModifiers: CpKeyEvent shiftModifier + CpKeyEvent ctrlModifier"
+
+	^ self modifiers = anInteger
+]
+
+{ #category : #testing }
+CpEvent >> hasMetaModifier [
+
+	^ (self modifiers bitAnd: self class metaModifier) ~= 0
+]
+
+{ #category : #testing }
+CpEvent >> hasModifiers [
+
+	^ self modifiers ~= 0
+]
+
+{ #category : #testing }
 CpEvent >> hasSameOrigin: anEvent [
 
 	"Answer whether the receiver and the specified Event share the same origin.
@@ -216,6 +300,24 @@ CpEvent >> hasSameOrigin: anEvent [
 	^ self target = anEvent target and: [ self timeStamp = anEvent timeStamp ]
 ]
 
+{ #category : #testing }
+CpEvent >> hasShiftModifier [
+
+	^ (self modifiers bitAnd: self class shiftModifier) ~= 0
+]
+
+{ #category : #testing }
+CpEvent >> hasSomeModifiers: anInteger [
+
+	"Answer whether the receiver has at least one the specified modifiers.
+
+	Can be used to validate specific combinations.
+	Example: To check if at least one of shift or ctrl is pressed (i.e. or both are pressed):
+		keyEvent hasSomeModifiers: CpKeyEvent shiftModifier + CpKeyEvent ctrlModifier"
+
+	^ (self modifiers bitAnd: anInteger) ~= 0
+]
+
 { #category : #initialization }
 CpEvent >> initialize [
 
@@ -225,6 +327,16 @@ CpEvent >> initialize [
 	(in #currentElement it is validated a first element exists)"
 	elements := #().
 	currentElementIndex := 1
+]
+
+{ #category : #testing }
+CpEvent >> modifiers [
+
+	"Answer the key modifiers of the receiver.
+
+	Implementation: Only Key, Pointer and Drag events support this at the moment."
+
+	^ 0
 ]
 
 { #category : #copying }

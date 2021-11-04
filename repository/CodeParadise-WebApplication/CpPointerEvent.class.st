@@ -40,36 +40,6 @@ CpPointerEvent >> buttons [
 ]
 
 { #category : #testing }
-CpPointerEvent >> hasAltModifier [
-
-	^ (self modifiers bitAnd: 1) ~= 0
-]
-
-{ #category : #testing }
-CpPointerEvent >> hasCtrlModifier [
-
-	^ (self modifiers bitAnd: 2) ~= 0
-]
-
-{ #category : #testing }
-CpPointerEvent >> hasMetaModifier [
-
-	^ (self modifiers bitAnd: 4) ~= 0
-]
-
-{ #category : #testing }
-CpPointerEvent >> hasModifiers [
-
-	^ self modifiers ~= 0
-]
-
-{ #category : #testing }
-CpPointerEvent >> hasShiftModifier [
-
-	^ (self modifiers bitAnd: 8) ~= 0
-]
-
-{ #category : #testing }
 CpPointerEvent >> isButtonPressed [
 
 	^ buttons ~= 0

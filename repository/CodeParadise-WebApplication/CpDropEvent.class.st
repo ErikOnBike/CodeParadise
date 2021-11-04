@@ -116,6 +116,12 @@ CpDropEvent >> isForDragEvent: aDragEvent [
 	^ dragEvent hasSameOrigin: aDragEvent
 ]
 
+{ #category : #accessing }
+CpDropEvent >> modifiers [
+
+	^ dragEvent modifiers
+]
+
 { #category : #printing }
 CpDropEvent >> printOn: aStream [
 

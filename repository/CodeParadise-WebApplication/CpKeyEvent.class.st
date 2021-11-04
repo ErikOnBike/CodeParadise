@@ -13,36 +13,6 @@ Class {
 	#category : #'CodeParadise-WebApplication-Events'
 }
 
-{ #category : #testing }
-CpKeyEvent >> hasAltModifier [
-
-	^ (self modifiers bitAnd: 1) ~= 0
-]
-
-{ #category : #testing }
-CpKeyEvent >> hasCtrlModifier [
-
-	^ (self modifiers bitAnd: 2) ~= 0
-]
-
-{ #category : #testing }
-CpKeyEvent >> hasMetaModifier [
-
-	^ (self modifiers bitAnd: 4) ~= 0
-]
-
-{ #category : #testing }
-CpKeyEvent >> hasModifiers [
-
-	^ self modifiers ~= 0
-]
-
-{ #category : #testing }
-CpKeyEvent >> hasShiftModifier [
-
-	^ (self modifiers bitAnd: 8) ~= 0
-]
-
 { #category : #accessing }
 CpKeyEvent >> isComposing [
 

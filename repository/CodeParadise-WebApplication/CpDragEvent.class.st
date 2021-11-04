@@ -5,6 +5,7 @@ Class {
 		'offset',
 		'tracePoints',
 		'endPoint',
+		'modifiers',
 		'canceled'
 	],
 	#classVars : [
@@ -125,6 +126,7 @@ CpDragEvent class >> newFromPointerEvent: aPointerEvent [
 	^ self new
 		type: #drag ;
 		timeStamp: aPointerEvent timeStamp ;
+		modifiers: aPointerEvent modifiers ;
 		point: aPointerEvent point ;
 		offset: aPointerEvent offset ;
 		target: aPointerEvent target ;
@@ -259,6 +261,18 @@ CpDragEvent >> lastDelta [
 	penultimatePoint := self tracePoints nextToLast.
 
 	^ lastPoint - penultimatePoint
+]
+
+{ #category : #accessing }
+CpDragEvent >> modifiers [
+
+	^ modifiers
+]
+
+{ #category : #accessing }
+CpDragEvent >> modifiers: anInteger [
+
+	modifiers := anInteger
 ]
 
 { #category : #accessing }
