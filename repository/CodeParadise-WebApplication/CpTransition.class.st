@@ -238,6 +238,15 @@ CpTransition >> block: aBlock [
 	block := aBlock
 ]
 
+{ #category : #actions }
+CpTransition >> delayBy: anInteger [
+
+	"Delay the start of the receiver by the specified amount of milliseconds"
+
+	started := false.
+	startTick := self class tickCount + anInteger
+]
+
 { #category : #accessing }
 CpTransition >> duration [
 
@@ -346,14 +355,17 @@ CpTransition >> release [
 { #category : #actions }
 CpTransition >> start [
 
+	"Start the receiver directly"
+
 	^ self startDelayedBy: 0
 ]
 
 { #category : #actions }
 CpTransition >> startDelayedBy: anInteger [
 
-	started := false.
-	startTick := self class tickCount + anInteger.
+	"Start the receiver after the specified amount of milliseconds"
+
+	self delayBy: anInteger.
 
 	^ self class registerTransition: self
 ]
@@ -361,11 +373,16 @@ CpTransition >> startDelayedBy: anInteger [
 { #category : #actions }
 CpTransition >> startInSyncWith: anotherTransition [
 
+	"Start the receiver in parallel with the specified Transition"
+
 	^ self startInSyncWith: anotherTransition delayedBy: 0
 ]
 
 { #category : #actions }
 CpTransition >> startInSyncWith: anotherTransition delayedBy: anInteger [
+
+	"Start the receiver in sync with the specified Transition with a fixed
+	number of millisconds 'distance' (before or after)."
 
 	anotherTransition isScheduled
 		ifFalse: [ ^ self error: 'Unscheduled or stopped transition given for synchronous execution' ].
