@@ -150,11 +150,28 @@ CpDomElement >> addClasses: aCollection [
 ]
 
 { #category : #querying }
+CpDomElement >> allAncestorsMatching: cssSelectorString [
+
+	"Answer all ancestors of the receiver matching the specified CSS selector.
+	The order of the elements is from the lowest (receiver) to the root (body) element."
+
+	| ancestors ancestor |
+
+	ancestors := OrderedCollection new.
+
+	ancestor := self.
+	[ (ancestor := ancestor firstAncestorMatching: cssSelectorString) isNotNil ] whileTrue: [
+		ancestors add: ancestor ].
+
+	^ ancestors
+]
+
+{ #category : #querying }
 CpDomElement >> allDescendantsMatching: cssSelectorString [
 
 	"Answer all descendants of the receiver matching the specified CSS selector.
 	The order of the elements is based on their position within the document (tree, pre-order depth-first search).
-	See also https://developer.mozilla.org/en-US/docs/Web/API/Document/querySelectorAll"
+	See also https://developer.mozilla.org/en-US/docs/Web/API/Element/querySelectorAll"
 
 	<primitive: 'primitiveDomElementAllDescendantsMatching:' module: 'CpDOMPlugin'>
 	self primitiveFailed
@@ -300,6 +317,24 @@ CpDomElement >> elementWithId: aString [
 ]
 
 { #category : #querying }
+CpDomElement >> firstAncestorMatching: cssSelectorString [
+
+	"Answer the first ancestor of the receiver matching the specified CSS selector.
+	'First' is based on the position of the elements within the document (tree, pre-order depth-first search).
+	Answer nil if no such ancestor is found."
+
+	| ancestor |
+
+	ancestor := self parent.
+	[ ancestor isNotNil ] whileTrue: [
+		(ancestor matches: cssSelectorString)
+			ifTrue: [ ^ ancestor ].
+		ancestor := ancestor parent ].
+
+	^ nil
+]
+
+{ #category : #querying }
 CpDomElement >> firstChild [
 
 	"Answer the first child of the receiver or nil if none is present"
@@ -314,7 +349,8 @@ CpDomElement >> firstDescendantMatching: cssSelectorString [
 
 	"Answer the first descendant of the receiver matching the specified CSS selector.
 	'First' is based on the position of the elements within the document (tree, pre-order depth-first search).
-	See also https://developer.mozilla.org/en-US/docs/Web/API/Document/querySelector"
+	Answer nil if no such descendant exists.
+	See also https://developer.mozilla.org/en-US/docs/Web/API/Element/querySelector"
 
 	<primitive: 'primitiveDomElementFirstDescendantMatching:' module: 'CpDOMPlugin'>
 	self primitiveFailed
@@ -398,6 +434,44 @@ CpDomElement >> isClassed: aString [
 
 ]
 
+{ #category : #querying }
+CpDomElement >> lastAncestorMatching: cssSelectorString [
+
+	"Answer the last ancestor of the receiver matching the specified CSS selector.
+	'Last' is based on the position of the elements within the document (tree, pre-order depth-first search).
+	Be aware this is different than using :last-of-type or :last-child if multiple subtrees contain
+	matching elements.
+	Answer nil if no such ancestor is found."
+
+	^ (self allAncestorsMatching: cssSelectorString)
+		ifNotEmpty: [ :matches | matches last ]
+		ifEmpty: [ nil ]
+]
+
+{ #category : #querying }
+CpDomElement >> lastChild [
+
+	"Answer the last child of the receiver or nil if none is present"
+
+	^ self children
+		ifNotEmpty: [ :children | children last ]
+		ifEmpty: [ nil ]
+]
+
+{ #category : #querying }
+CpDomElement >> lastDescendantMatching: cssSelectorString [
+
+	"Answer the last descendant of the receiver matching the specified CSS selector.
+	'Last' is based on the position of the elements within the document (tree, pre-order depth-first search).
+	Be aware this is different than using :last-of-type or :last-child if multiple subtrees contain
+	matching elements.
+	Answer nil if no such descendant exists."
+
+	^ (self allDescendantsMatching: cssSelectorString)
+		ifNotEmpty: [ :matches | matches last ]
+		ifEmpty: [ nil ]
+]
+
 { #category : #content }
 CpDomElement >> markupContent [
 
@@ -416,6 +490,16 @@ CpDomElement >> markupContent: aString [
 	<primitive: 'primitiveDomElementMarkupContent:' module: 'CpDOMPlugin'>
 	self primitiveFailed
 
+]
+
+{ #category : #querying }
+CpDomElement >> matches: cssSelectorString [
+
+	"Answer whether the receiver matches the specified CSS selector.
+	See also https://developer.mozilla.org/en-US/docs/Web/API/Element/matches"
+
+	<primitive: 'primitiveDomElementMatches:' module: 'CpDOMPlugin'>
+	self primitiveFailed
 ]
 
 { #category : #querying }
@@ -643,7 +727,7 @@ CpDomElement >> tagName [
 
 	"Answer the tag of the receiver"
 
-	<primitive: 'primitiveDomElementTag' module: 'CpDOMPlugin'>
+	<primitive: 'primitiveDomElementTagName' module: 'CpDOMPlugin'>
 	self primitiveFailed
 ]
 

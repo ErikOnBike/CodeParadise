@@ -11,6 +11,16 @@ Class {
 	#category : #'CodeParadise-WebApplication-DOM'
 }
 
+{ #category : #accessing }
+CpWebComponent class >> first [
+
+	"Answer the first instance of the receiver in the current document
+	or nil if none exists"
+
+	^ self document
+		firstDescendantMatching: self tagName
+]
+
 { #category : #primitives }
 CpWebComponent class >> isRegistered: aString [
 
@@ -20,6 +30,17 @@ CpWebComponent class >> isRegistered: aString [
 	<primitive: 'primitiveWebComponentIsRegistered:' module: 'CpDOMPlugin'>
 	self primitiveFailed
 
+]
+
+{ #category : #accessing }
+CpWebComponent class >> last [
+
+	"Answer the last instance of the receiver in the current document
+	or nil if none exists"
+
+	^ (self document allDescendantsMatching: self tagName)
+		ifNotEmpty: [ :matches | matches last ]
+		ifEmpty: [ nil ]
 ]
 
 { #category : #'class initialization' }
