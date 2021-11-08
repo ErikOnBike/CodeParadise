@@ -122,6 +122,12 @@ CpEvent class >> latestEvents [
 ]
 
 { #category : #'accessing - modifiers' }
+CpEvent class >> metaCtrlAltModifier [
+
+	^ self metaModifier + self ctrlModifier + self altModifier
+]
+
+{ #category : #'accessing - modifiers' }
 CpEvent class >> metaModifier [
 
 	^ 4
