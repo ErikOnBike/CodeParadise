@@ -621,6 +621,14 @@ CpDomElement >> removeClass: aString [
 
 ]
 
+{ #category : #'text input' }
+CpDomElement >> removeFocus [
+
+	"Set the focus to the receiver (ie take focus)"
+
+	self apply: #blur withArguments: #()
+]
+
 { #category : #styles }
 CpDomElement >> removeStyleAt: nameString [
 
