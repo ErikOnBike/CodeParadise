@@ -211,7 +211,12 @@ CpDomElement >> appendChild: childElement [
 CpDomElement >> apply: aSymbol withArguments: anArray [
 
 	"Perform the specified symbol as JS function on the receiver with the specified arguments.
-	Always answers the receiver."
+	Always answers the receiver.
+
+	Be aware that the JS function will be evaluated asynchronously. Meaning that any synchronous
+	events (like #focusin after a #focus method) will not be executed directly. A synchronous
+	execution would leave the VM stack unbalanced since events are handled with priority and
+	would interfere with the primitive being executed itself."
 
 	<primitive: 'primitiveDomElementApply:withArguments:' module: 'CpDOMPlugin'>
 	self primitiveFailed
