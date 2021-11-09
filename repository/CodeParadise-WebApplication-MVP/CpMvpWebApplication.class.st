@@ -25,6 +25,19 @@ CpMvpWebApplication class >> clientBehaviorClass [
 	^ CpMvpWebClientBehavior
 ]
 
+{ #category : #presenter }
+CpMvpWebApplication >> allPresentersDo: aBlock [
+
+	"Evaluate the specified Block for all Presenters. The child Presenters
+	are visited after their parents have been visited.
+
+	Implementation: Presenters are added to the OrderedDictionary in order of
+	creation and therefore child Presenters will be visited after their
+	parents."
+
+	presentersById do: aBlock
+]
+
 { #category : #accessing }
 CpMvpWebApplication >> announcer [
 
@@ -91,12 +104,12 @@ CpMvpWebApplication >> clientCreateViews [
 	Implementation:
 	Do not use 'each createView' since it will try to create the server side ViewProxy as well."
 
-	self presentersDo: [ :each |
+	self allPresentersDo: [ :each |
 		self clientCreateViewForPresenter: each.
 		each viewInitialized ].
 
 	"Render the newly created (client side) views"
-	self presentersDo: [ :each | each renderView ]
+	self allPresentersDo: [ :each | each renderView ]
 ]
 
 { #category : #presenter }
@@ -158,12 +171,6 @@ CpMvpWebApplication >> presenterWithId: identifier ifAbsent: aBlock [
 ]
 
 { #category : #presenter }
-CpMvpWebApplication >> presentersDo: aBlock [
-
-	presentersById do: aBlock
-]
-
-{ #category : #presenter }
 CpMvpWebApplication >> registerPresenter: aPresenter [
 
 	"Register the specified Presenter and answer the Presenter.
@@ -202,7 +209,7 @@ CpMvpWebApplication >> reload [
 	super reload.
 
 	"Let the presenters perform any reload behavior"
-	self presentersDo: [ :each | each reload ].
+	self allPresentersDo: [ :each | each reload ].
 
 	"Create and render the Views in the ClientEnvironment"
 	self clientCreateViews
