@@ -91,12 +91,12 @@ CpMvpWebApplication >> clientCreateViews [
 	Implementation:
 	Do not use 'each createView' since it will try to create the server side ViewProxy as well."
 
-	self presenters do: [ :each |
+	self presentersDo: [ :each |
 		self clientCreateViewForPresenter: each.
 		each viewInitialized ].
 
 	"Render the newly created (client side) views"
-	self presenters do: [ :each | each renderView ]
+	self presentersDo: [ :each | each renderView ]
 ]
 
 { #category : #presenter }
@@ -104,7 +104,7 @@ CpMvpWebApplication >> generatePresenterIdentifier [
 
 	"Generate an unique identifier for a presenter of the receiver"
 
-	^ (IdentifierGenerator generateSatisfying: [ :id | (self presenters includesKey: id) not ]) asSymbol
+	^ (IdentifierGenerator generateSatisfying: [ :id | (presentersById includesKey: id) not ]) asSymbol
 ]
 
 { #category : #'announcement handling' }
@@ -154,13 +154,7 @@ CpMvpWebApplication >> load [
 { #category : #presenter }
 CpMvpWebApplication >> presenterWithId: identifier ifAbsent: aBlock [
 
-	^ self presenters at: identifier ifAbsent: aBlock
-]
-
-{ #category : #presenter }
-CpMvpWebApplication >> presenters [
-
-	^ presentersById
+	^ presentersById at: identifier ifAbsent: aBlock
 ]
 
 { #category : #presenter }
@@ -181,7 +175,7 @@ CpMvpWebApplication >> registerPresenter: aPresenter [
 	aPresenter hasId
 		ifFalse: [ aPresenter id: self generatePresenterIdentifier ].
 
-	^ self presenters at: aPresenter id asSymbol put: aPresenter
+	^ presentersById at: aPresenter id asSymbol put: aPresenter
 ]
 
 { #category : #initialization }
@@ -207,8 +201,8 @@ CpMvpWebApplication >> reload [
 
 	super reload.
 
-	"Let the presenters perfor any reload behavior"
-	self presenters do: [ :each | each reload ].
+	"Let the presenters perform any reload behavior"
+	self presentersDo: [ :each | each reload ].
 
 	"Create and render the Views in the ClientEnvironment"
 	self clientCreateViews
@@ -217,7 +211,7 @@ CpMvpWebApplication >> reload [
 { #category : #presenter }
 CpMvpWebApplication >> removePresenter: aPresenter [
 
-	^ self presenters removeKey: aPresenter id asSymbol
+	^ presentersById removeKey: aPresenter id asSymbol
 ]
 
 { #category : #'input/output' }
