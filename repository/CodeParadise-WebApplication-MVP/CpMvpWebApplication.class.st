@@ -33,9 +33,12 @@ CpMvpWebApplication >> allPresentersDo: aBlock [
 
 	Implementation: Presenters are added to the OrderedDictionary in order of
 	creation and therefore child Presenters will be visited after their
-	parents."
+	parents.
+	The method #doSafely is used which allows adding and removing of elements
+	during iteration. Added elements are NOT iterated over and if elements
+	are removed before iteration, they are not visited either."
 
-	presentersById do: aBlock
+	presentersById doSafely: aBlock
 ]
 
 { #category : #accessing }
