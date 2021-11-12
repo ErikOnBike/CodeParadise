@@ -19,6 +19,12 @@ FuiButton class >> allStates [
 ]
 
 { #category : #accessing }
+FuiButton class >> allVariations [
+
+	^ #(#primary #secundary #tertiary #mini #compact)
+]
+
+{ #category : #accessing }
 FuiButton class >> baseElementTagName [
 
 	^ #button
@@ -60,6 +66,72 @@ FuiButton >> disable [
 FuiButton >> enable [
 
 	self removeState: #disabled
+]
+
+{ #category : #'testing - variation' }
+FuiButton >> hasColor: colorSymbol [
+
+	^ self hasVariation: colorSymbol
+]
+
+{ #category : #'testing - state' }
+FuiButton >> isDisabled [
+
+	^ self isInState: #disabled
+]
+
+{ #category : #'testing - state' }
+FuiButton >> isEnabled [
+
+	^ self isDisabled not
+]
+
+{ #category : #'testing - state' }
+FuiButton >> isLoaded [
+
+	^ self isLoading not
+]
+
+{ #category : #'testing - state' }
+FuiButton >> isLoading [
+
+	^ self isInState: #loading
+]
+
+{ #category : #'testing - variation' }
+FuiButton >> isPrimary [
+
+	^ self hasColor: #primary
+]
+
+{ #category : #'testing - variation' }
+FuiButton >> isRegular [
+
+	^ (self isPrimary or: [ self isSecondary or: [ self isTertiary ] ]) not
+]
+
+{ #category : #'testing - variation' }
+FuiButton >> isSecondary [
+
+	^ self hasColor: #secondary
+]
+
+{ #category : #'testing - variation' }
+FuiButton >> isTertiary [
+
+	^ self hasColor: #tertiary
+]
+
+{ #category : #accessing }
+FuiButton >> label [
+
+	^ self textContent
+]
+
+{ #category : #accessing }
+FuiButton >> label: aString [
+
+	self textContent: aString
 ]
 
 { #category : #'accessing - variation' }

@@ -399,16 +399,51 @@ FuiElement >> classesFrom: aString [
 					ifFalse: [
 
 						"Token might be combined token like 'left icon' or 'very padded'"
-						token := token, ' ', (readStream lookAheadAt: 1).
+						token := token, ' ', (readStream lookAheadAt: 1) printString.
 						(self storeClassFrom: token into: classes)
 							ifTrue: [ readStream skip: 2 ]
 							ifFalse: [
 
 								"Unknown token"
-								self crTrace: 'Unknown class "', readStream peek, '" for Fomantic UI element ', self class elementName.
+								self crTrace: 'Unknown class "', readStream peek printString, '" for Fomantic UI element ', self class elementName.
 								readStream skip ] ] ] ].
 
 	^ classes
+]
+
+{ #category : #'private - testing' }
+FuiElement >> hasClass: aSymbol at: usageIndex [
+
+	"Answer whether a HTML class name (aSymbol) is present on the receiver
+	at the specified usage index.
+	HTML class names are stored per usage (Type, State and Variation)."
+
+	^ (self classes at: usageIndex)
+		includes: aSymbol
+]
+
+{ #category : #'testing - variation' }
+FuiElement >> hasVariation: aSymbol [
+
+	"Answer whether the receiver is in the specified variation"
+
+	^ self hasClass: aSymbol at: 3
+]
+
+{ #category : #'testing - state' }
+FuiElement >> isInState: aSymbol [
+
+	"Answer whether the receiver is in the specified state"
+
+	^ self hasClass: aSymbol at: 2
+]
+
+{ #category : #'testing - type' }
+FuiElement >> isType: aSymbol [
+
+	"Answer whether the receiver is in the specified type"
+
+	^ self hasClass: aSymbol at: 1
 ]
 
 { #category : #'private - behavior' }
