@@ -725,6 +725,21 @@ CpDomElement >> styleAt: nameString put: valueString [
 
 ]
 
+{ #category : #performing }
+CpDomElement >> syncApply: aSymbol withArguments: anArray [
+
+	"Perform the specified symbol as JS function on the receiver with the specified arguments.
+	Answer the result of the JS function. Use with care (read below)!
+
+	Be aware that the JS function will be evaluated synchronously. This is less safe than
+	using #apply:withArguments:. Only use this synchronous variant for performing getter
+	functions or in places where it is certain that no events will be triggered. When in
+	doubt and when the resulting value is not attainable otherwise, use #apply:withArguments."
+
+	<primitive: 'primitiveDomElementSyncApply:withArguments:' module: 'CpDOMPlugin'>
+	self primitiveFailed
+]
+
 { #category : #'tag/id/classes' }
 CpDomElement >> tag [
 
