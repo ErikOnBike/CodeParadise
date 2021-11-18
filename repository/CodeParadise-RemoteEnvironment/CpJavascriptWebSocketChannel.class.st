@@ -72,7 +72,9 @@ CpJavascriptWebSocketChannel >> close [
 	"Close the receiver, thereby making the receiver unusable.
 	Implementation: Closing is performed asynchronously and an event will be signalled when closed."
 
-	self primWebSocketClose
+	<primitive: 'primitiveWebSocketClose' module: 'CpSystemPlugin'>
+	self primitiveFailed
+
 ]
 
 { #category : #private }
@@ -82,13 +84,22 @@ CpJavascriptWebSocketChannel >> connectToUrl: urlString [
 	Implementation: A primitive WebSocket is created which operates asynchronously and uses a Semaphore
 	to signal events. Make this method synchronous: wait for the connection to become ready."
 
-	self primWebSocketConnectTo: urlString withEventSemaphore: semaphoreIndex.
+	self connectToUrl: urlString withEventSemaphore: semaphoreIndex.
 
 	"Wait for state to become different than -1 (unused) or 0 (connecting)"
 	[ #(-1 0) includes: state  ] whileTrue: [ self updateState ].
 
 	"Connection is only successful if state is open"
 	^ self isOpen
+]
+
+{ #category : #private }
+CpJavascriptWebSocketChannel >> connectToUrl: urlString withEventSemaphore: semaIndex [
+
+	"Connect the primitive WebSocket to the specified URL and use the specified Semaphore for signaling events"
+
+	<primitive: 'primitiveWebSocketConnectToUrl:withEventSemaphore:' module: 'CpSystemPlugin'>
+	self primitiveFailed
 ]
 
 { #category : #initialization }
@@ -117,52 +128,12 @@ CpJavascriptWebSocketChannel >> isOpen [
 ]
 
 { #category : #private }
-CpJavascriptWebSocketChannel >> primWebSocketClose [
-
-	"Close the primitive WebSocket. Closing an already closed connection will be ignored."
-
-	<primitive: 'primitiveWebSocketClose' module: 'CpSystemPlugin'>
-	self primitiveFailed
-
-]
-
-{ #category : #private }
-CpJavascriptWebSocketChannel >> primWebSocketConnectTo: urlString withEventSemaphore: semaIndex [
-
-	"Connect the primitive WebSocket to the specified URL and use the specified Semaphore for signaling events"
-
-	<primitive: 'primitiveWebSocketConnectTo:withEventSemaphore:' module: 'CpSystemPlugin'>
-	self primitiveFailed
-]
-
-{ #category : #private }
-CpJavascriptWebSocketChannel >> primWebSocketReadyState [
+CpJavascriptWebSocketChannel >> readyState [
 
 	"Answer the state of the primitive WebSocket.
 	See https://devdocs.io/dom/websocket/readystate"
 
 	<primitive: 'primitiveWebSocketReadyState' module: 'CpSystemPlugin'>
-	self primitiveFailed
-
-]
-
-{ #category : #private }
-CpJavascriptWebSocketChannel >> primWebSocketReceivedMessage [
-
-	"Answer the next message received or nil if none is available"
-
-	<primitive: 'primitiveWebSocketReceivedMessage' module: 'CpSystemPlugin'>
-	self primitiveFailed
-
-]
-
-{ #category : #private }
-CpJavascriptWebSocketChannel >> primWebSocketSend: aByteArray [
-
-	"Send the message through the primitive WebSocket (asynchronous).
-	Answer a Boolean indicating whether send was successful."
-
-	<primitive: 'primitiveWebSocketSend:' module: 'CpSystemPlugin'>
 	self primitiveFailed
 
 ]
@@ -174,7 +145,8 @@ CpJavascriptWebSocketChannel >> receivedMessage [
 	Implementation: The WebSocket works asynchronous and will respond directly with either the
 	'oldest' message received or nil if no messages are left."
 
-	^ self primWebSocketReceivedMessage
+	<primitive: 'primitiveWebSocketReceivedMessage' module: 'CpSystemPlugin'>
+	self primitiveFailed
 
 ]
 
@@ -194,13 +166,24 @@ CpJavascriptWebSocketChannel >> release [
 	super release
 ]
 
+{ #category : #private }
+CpJavascriptWebSocketChannel >> send: aByteArray [
+
+	"Send the message through the primitive WebSocket (asynchronous).
+	Answer a Boolean indicating whether send was successful."
+
+	<primitive: 'primitiveWebSocketSend:' module: 'CpSystemPlugin'>
+	self primitiveFailed
+
+]
+
 { #category : #'public api' }
 CpJavascriptWebSocketChannel >> sendMessage: aByteArray [
 
 	"Send the specified message.
 	An Exception should be thrown if sending failed."
 
-	(self primWebSocketSend: aByteArray)
+	(self send: aByteArray)
 		ifFalse: [ Error signal: 'Failed to send message' ]
 ]
 
@@ -220,9 +203,9 @@ CpJavascriptWebSocketChannel >> updateState [
 
 	"Set the state before and after waiting for the next event, so other processes see
 	the correct state of the receiver. No need to wait for another event if state is 3 (closed)."
-	(state := self primWebSocketReadyState) = 3
+	(state := self readyState) = 3
 		ifTrue: [ ^ self ].
 	eventSemaphore ifNil: [ ^ self ].
 	eventSemaphore wait.
-	state := self primWebSocketReadyState
+	state := self readyState
 ]

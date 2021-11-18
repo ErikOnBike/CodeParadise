@@ -20,12 +20,11 @@ Class {
 	#category : #'CodeParadise-WebApplication-Events'
 }
 
-{ #category : #announcing }
+{ #category : #'processing - private' }
 CpEvent class >> addListenerTo: anElement [
 
-	"Add a listener for the receiver to the specified DOM element"
-
-	self primAddListenerTo: anElement
+	<primitive: 'primitiveEventAddListenerTo:' module: 'CpDOMPlugin'>
+	self primitiveFailed
 ]
 
 { #category : #'accessing - modifiers' }
@@ -53,7 +52,7 @@ CpEvent class >> createEventProcess [
 		priority: Processor highestPriority.
 
 	"Register the event process so the VM (plugin) can activate it"
-	self primRegisterEventProcess: eventProcess.
+	self registerEventProcess: eventProcess.
 
 	"Start the process (which will actually put it to sleep waiting for the first event)"
 	eventProcess resume
@@ -107,10 +106,11 @@ CpEvent class >> handlesAnnouncement: anAnnouncement [
 	^ anAnnouncement class includesBehavior: self
 ]
 
-{ #category : #testing }
+{ #category : #'processing - private' }
 CpEvent class >> isListenedToOn: anElement [
 
-	^ self primIsListenedToOn: anElement
+	<primitive: 'primitiveEventIsListenedToOn:' module: 'CpDOMPlugin'>
+	self primitiveFailed
 ]
 
 { #category : #'processing - private' }
@@ -152,25 +152,11 @@ CpEvent class >> postInstall [
 	self == CpEvent
 		ifTrue: [ self createEventProcess ].
 
-	self primRegisterEventClass: self
+	self registerEventClass: self
 ]
 
 { #category : #'processing - private' }
-CpEvent class >> primAddListenerTo: anElement [
-
-	<primitive: 'primitiveEventAddListenerTo:' module: 'CpDOMPlugin'>
-	self primitiveFailed
-]
-
-{ #category : #'processing - private' }
-CpEvent class >> primIsListenedToOn: anElement [
-
-	<primitive: 'primitiveEventIsListenedToOn:' module: 'CpDOMPlugin'>
-	self primitiveFailed
-]
-
-{ #category : #'processing - private' }
-CpEvent class >> primRegisterEventClass: anEventClass [
+CpEvent class >> registerEventClass: anEventClass [
 
 	<primitive: 'primitiveEventRegisterClass:' module: 'CpDOMPlugin'>
 	self primitiveFailed
@@ -178,7 +164,7 @@ CpEvent class >> primRegisterEventClass: anEventClass [
 ]
 
 { #category : #'processing - private' }
-CpEvent class >> primRegisterEventProcess: eventHandlerProcess [
+CpEvent class >> registerEventProcess: eventHandlerProcess [
 
 	<primitive: 'primitiveEventRegisterProcess:' module: 'CpDOMPlugin'>
 	self primitiveFailed
@@ -367,16 +353,8 @@ CpEvent >> prepareForDelivery [
 	See Announcement >> #prepareForDelivery"
 ]
 
-{ #category : #dispatching }
-CpEvent >> preventDefault [
-
-	"Prevent default browser behavior"
-
-	self primPreventDefault
-]
-
 { #category : #'dispatching - private' }
-CpEvent >> primPreventDefault [
+CpEvent >> preventDefault [
 
 	<primitive: 'primitiveEventPreventDefault' module: 'CpDOMPlugin'>
 	self primitiveFailed

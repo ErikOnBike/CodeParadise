@@ -136,11 +136,21 @@ CpTemplateComponent class >> updateTemplate [
 ]
 
 { #category : #initialization }
+CpTemplateComponent >> ensureShadowRoot [
+
+	"Ensure the ShadowRoot is present.
+	This is required, because nested WebComponents are initialized through asynchronous callbacks."
+
+	<primitive: 'primitiveTemplateComponentEnsureShadowRoot' module: 'CpDOMPlugin'>
+	self primitiveFailed
+]
+
+{ #category : #initialization }
 CpTemplateComponent >> initialize [
 
 	super initialize.
 
-	self primEnsureShadowRoot.
+	self ensureShadowRoot.
 
 	self initializeShadowRoot
 ]
@@ -149,14 +159,4 @@ CpTemplateComponent >> initialize [
 CpTemplateComponent >> initializeShadowRoot [ 
 
 	"Override in subclass when desired"
-]
-
-{ #category : #initialization }
-CpTemplateComponent >> primEnsureShadowRoot [
-
-	"Ensure the ShadowRoot is present.
-	This is required, because nested WebComponents are initialized through asynchronous callbacks."
-
-	<primitive: 'primitiveTemplateComponentEnsureShadowRoot' module: 'CpDOMPlugin'>
-	self primitiveFailed
 ]

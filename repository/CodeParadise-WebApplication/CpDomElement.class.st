@@ -33,6 +33,17 @@ Class {
 	#category : #'CodeParadise-WebApplication-DOM'
 }
 
+{ #category : #'instance creation' }
+CpDomElement class >> basicNewWithTag: tagString [
+
+	"Create a new instance of the receiver or one of the receiver's subclasses using the specified tag.
+	If the specified tag contains a (known) prefix, an instance for that prefix type is answered.
+	See also #registerNamespace:forPrefix:"
+
+	<primitive: 'primitiveDomElementNewWithTag:' module: 'CpDOMPlugin'>
+	self primitiveFailed
+]
+
 { #category : #'accessing - state' }
 CpDomElement class >> beLoaded [
 
@@ -73,7 +84,7 @@ CpDomElement class >> newWithTag: tagString [
 	If the specified tag contains a (known) prefix, an instance for that prefix type is answered.
 	See also #registerNamespace:forPrefix:"
 
-	^ (self primNewWithTag: tagString)
+	^ (self basicNewWithTag: tagString)
 		initialize ;
 		yourself
 ]
@@ -87,17 +98,6 @@ CpDomElement class >> postInstall [
 
 	(self classSide includesSelector: #namespace)
 		ifTrue: [ self registerNamespace: self namespace forPrefix: self prefix ]
-]
-
-{ #category : #'instance creation' }
-CpDomElement class >> primNewWithTag: tagString [
-
-	"Create a new instance of the receiver or one of the receiver's subclasses using the specified tag.
-	If the specified tag contains a (known) prefix, an instance for that prefix type is answered.
-	See also #registerNamespace:forPrefix:"
-
-	<primitive: 'primitiveDomElementNewWithTag:' module: 'CpDOMPlugin'>
-	self primitiveFailed
 ]
 
 { #category : #support }

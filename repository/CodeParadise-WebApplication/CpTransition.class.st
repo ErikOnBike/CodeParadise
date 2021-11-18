@@ -53,7 +53,7 @@ CpTransition class >> createTransitionProcess [
 		priority: Processor highIOPriority.
 
 	"Register the transition process so the VM (plugin) can activate it"
-	self primRegisterTransitionProcess: transitionProcess.
+	self registerTransitionProcess: transitionProcess.
 
 	"Start the process (which will actually put it to sleep waiting for the first tick)"
 	transitionProcess resume
@@ -175,20 +175,20 @@ CpTransition class >> postInstall [
 
 ]
 
-{ #category : #'processing - private' }
-CpTransition class >> primRegisterTransitionProcess: transitionProcess [
-
-	<primitive: 'primitiveTransitionRegisterProcess:' module: 'CpDOMPlugin'>
-	self primitiveFailed
-
-]
-
 { #category : #'accessing - private' }
 CpTransition class >> registerTransition: aTransition [
 
 	"Register the specified Transition for handling"
 
 	^ Transitions add: aTransition
+]
+
+{ #category : #'processing - private' }
+CpTransition class >> registerTransitionProcess: transitionProcess [
+
+	<primitive: 'primitiveTransitionRegisterProcess:' module: 'CpDOMPlugin'>
+	self primitiveFailed
+
 ]
 
 { #category : #accessing }
