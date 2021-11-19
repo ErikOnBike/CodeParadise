@@ -152,13 +152,13 @@ CpEvent class >> postInstall [
 	self == CpEvent
 		ifTrue: [ self createEventProcess ].
 
-	self registerEventClass: self
+	self registerEventClass: self forType: self type
 ]
 
 { #category : #'processing - private' }
-CpEvent class >> registerEventClass: anEventClass [
+CpEvent class >> registerEventClass: anEventClass forType: aString [
 
-	<primitive: 'primitiveEventRegisterClass:' module: 'CpDOMPlugin'>
+	<primitive: 'primitiveEventRegisterClass:forType:' module: 'CpDOMPlugin'>
 	self primitiveFailed
 
 ]
@@ -181,6 +181,14 @@ CpEvent class >> shiftModifier [
 CpEvent class >> similarDistance [
 
 	^ 8
+]
+
+{ #category : #accessing }
+CpEvent class >> type [
+
+	"Answer the Javascript type (a String) representing the receiver"
+
+	^ (self nameWithoutPrefix withoutSuffix: #Event) asLowercase
 ]
 
 { #category : #announcing }
