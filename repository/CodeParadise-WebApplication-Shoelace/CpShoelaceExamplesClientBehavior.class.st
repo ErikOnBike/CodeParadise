@@ -9,39 +9,44 @@ CpShoelaceExamplesClientBehavior >> exampleButton [
 
 	<example: 'Button' order: 100>
 
-	| outputElement button disabledState loadingState pillState |
+	| outputElement button disabledState loadingState pillState outlineState |
 
 	"Clear content"
 	outputElement := self outputElement.
 	outputElement textContent: ''.
 
 	outputElement appendChild: (SlButton label: 'Simple button').
+ 
+	outputElement appendChild: (CpHtmlElement newWithTag: #p).
+
+	outputElement appendChild: (SlButton new beDefault ; label: 'Default button' ; yourself).
+	outputElement appendChild: (SlButton new beText ; label: 'Text button' ; yourself).
+	outputElement appendChild: (SlButton new bePrimary ; label: 'Primary button' ; yourself).
+	outputElement appendChild: (SlButton new beSuccess ; label: 'Success button' ; yourself).
+	outputElement appendChild: (SlButton new beInfo ; label: 'Info button' ; yourself).
+	outputElement appendChild: (SlButton new beWarning ; label: 'Warning button' ; yourself).
+	outputElement appendChild: (SlButton new beDanger ; label: 'Danger button' ; yourself).
 
 	outputElement appendChild: (CpHtmlElement newWithTag: #p).
 
-	outputElement appendChild: (SlButton new default ; label: 'Default button' ; yourself).
-	outputElement appendChild: (SlButton new text ; label: 'Text button' ; yourself).
-	outputElement appendChild: (SlButton new primary ; label: 'Primary button' ; yourself).
-	outputElement appendChild: (SlButton new success ; label: 'Success button' ; yourself).
-	outputElement appendChild: (SlButton new info ; label: 'Info button' ; yourself).
-	outputElement appendChild: (SlButton new warning ; label: 'Warning button' ; yourself).
-	outputElement appendChild: (SlButton new danger ; label: 'Danger button' ; yourself).
-
-	outputElement appendChild: (CpHtmlElement newWithTag: #p).
-
-	outputElement appendChild: (SlButton new small ; label: 'Small button' ; yourself).
-	outputElement appendChild: (SlButton new medium ; label: 'Medium button' ; yourself).
-	outputElement appendChild: (SlButton new large ; label: 'Large button' ; yourself).
+	outputElement appendChild: (SlButton new beSmall ; label: 'Small button' ; yourself).
+	outputElement appendChild: (SlButton new beMedium ; label: 'Medium button' ; yourself).
+	outputElement appendChild: (SlButton new beLarge ; label: 'Large button' ; yourself).
 
 	outputElement appendChild: (CpHtmlElement newWithTag: #p).
 
 	outputElement appendChild: (SlButton new bePill ; label: 'Pill button' ; yourself).
-	outputElement appendChild: (SlButton new beNoPill ; label: 'No pill button' ; yourself).
+	outputElement appendChild: (SlButton new beNotPill ; label: 'No pill button' ; yourself).
 
 	outputElement appendChild: (CpHtmlElement newWithTag: #p).
 
 	outputElement appendChild: (SlButton new beCircle ; label: 'CB' ; yourself).
-	outputElement appendChild: (SlButton new beNoCircle ; label: 'NCB' ; yourself).
+	outputElement appendChild: (SlButton new beNotCircle ; label: 'NCB' ; yourself).
+
+	outputElement appendChild: (CpHtmlElement newWithTag: #p).
+
+	outputElement appendChild: (SlButton new beOutline ; label: 'Outline button' ; yourself).
+	outputElement appendChild: (SlButton new beNotOutline ; label: 'No outline button' ; yourself).
 
 	outputElement appendChild: (CpHtmlElement newWithTag: #p).
 
@@ -51,12 +56,15 @@ CpShoelaceExamplesClientBehavior >> exampleButton [
 	outputElement appendChild: (CpHtmlElement newWithTag: #p).
 
 	button := outputElement appendChild: (SlButton label: 'Hello world').
+	button bePrimary.
 	outputElement appendChild: (disabledState := SlCheckbox label: 'Disabled').
 	outputElement appendChild: (loadingState := SlCheckbox label: 'Loading').
 	outputElement appendChild: (pillState := SlCheckbox label: 'Pill').
-	disabledState when: CpChangeEvent do: [ disabledState isChecked ifTrue: [ button beDisabled ] ifFalse: [ button beNotDisabled ] ].
-	loadingState when: CpChangeEvent do: [ loadingState isChecked ifTrue: [ button beLoading ] ifFalse: [ button beNotLoading ] ].
-	pillState when: CpChangeEvent do: [ pillState isChecked ifTrue: [ button bePill ] ifFalse: [ button beNoPill ] ].
+	outputElement appendChild: (outlineState := SlCheckbox label: 'Outline').
+	disabledState when: SlChangeEvent do: [ disabledState isChecked ifTrue: [ button beDisabled ] ifFalse: [ button beNotDisabled ] ].
+	loadingState when: SlChangeEvent do: [ loadingState isChecked ifTrue: [ button beLoading ] ifFalse: [ button beNotLoading ] ].
+	pillState when: SlChangeEvent do: [ pillState isChecked ifTrue: [ button bePill ] ifFalse: [ button beNotPill ] ].
+	outlineState when: SlChangeEvent do: [ outlineState isChecked ifTrue: [ button beOutline ] ifFalse: [ button beNotOutline ] ].
 
 ]
 
@@ -116,7 +124,7 @@ CpShoelaceExamplesClientBehavior >> exampleCode [
 	outputElement
 		appendChild: ('Here is an example of HTML code containing WebComponents which can be queried using Smalltalk code' inHtmlTag: #p) ;
 		appendChild: ((CpHtmlElement newWithTag: #div) markupContent: '<div><sl-button type="primary">Primary</sl-button> <sl-button><sl-icon name="emoji-smile" slot="prefix"></sl-icon>Smile!</sl-button></div><div><sl-checkbox>I am happy</sl-checkbox></div><div><sl-input label="What is your name?"></sl-input>' ; yourself) ;
-		appendChild: ('Leave the above input field to trigger a "changed" event. The input content will be displayed below.' inHtmlTag: #p) ;
+		appendChild: ('Make changes to the above input field to trigger an "input" event. The input content will be displayed below.' inHtmlTag: #p) ;
 		appendChild: (('' inHtmlTag: #p) id: #result ; yourself).
 
 	"Show we receive a genuine SlCheckbox element"
@@ -126,12 +134,122 @@ CpShoelaceExamplesClientBehavior >> exampleCode [
 	"Show we receive a genuine SlInput element"
 	input := outputElement firstDescendantMatching: 'sl-input'.
 	input value: 'initial value received from code'.
-	input when: CpChangeEvent do: [ (outputElement firstDescendantMatching: '#result') textContent: input value ].
+	input when: SlInputEvent do: [ (outputElement firstDescendantMatching: '#result') textContent: input value ].
 
 	"Show we receive a genuine SlButton element"
 	button := CpDomElement newWithTag: 'sl-button'.
-	button label: 'I am created dynamically. I am a ', button class name ; info.
+	button label: 'I am created dynamically. I am a ', button class name ; beInfo.
 	outputElement insertChild: button before: (outputElement firstDescendantMatching: #div).
+]
+
+{ #category : #examples }
+CpShoelaceExamplesClientBehavior >> exampleDialog [
+
+	<example: 'Dialog' order: 200>
+
+	| outputElement regularDialog modalDialog mixedDialog modalCheckbox |
+
+	"Clear content"
+	outputElement := self outputElement.
+	outputElement textContent: ''.
+
+	"Create a simple dialog with a paragraph of text"
+	regularDialog := SlDialog new
+		label: 'First dialog' ;
+		appendChild: ('Hello world' inHtmlTag: #p) ;
+		yourself.
+
+	"Add a close button in the dialog footer"
+	regularDialog footer: ((SlButton label: 'Close')
+		when: CpPrimaryClickEvent send: #hide to: regularDialog ;
+		yourself).
+
+	"Create a simple dialog with a paragraph of text"
+	modalDialog := SlDialog new
+		label: 'Modal dialog' ;
+		appendChild: ('You have to click the close button to close this dialog. Clicking outside the dialog will not close it (in contrast to regular dialog).' inHtmlTag: #p) ;
+		yourself.
+
+	"Add a close button in the dialog footer"
+	modalDialog footer: ((SlButton label: 'Close please!')
+		when: CpPrimaryClickEvent send: #hide to: modalDialog ;
+		yourself).
+
+	"Create a mixed dialog with a paragraph of text"
+	mixedDialog := SlDialog new
+		label: 'Mixed dialog' ;
+		appendChild: ('This is a mixed dialog. It can either be opened modal or regular. This allows for the same dialog to be reused for different purposes or different levels of ''requiredness''. Have fun!' inHtmlTag: #p) ;
+		yourself.
+
+	"Add a close button in the dialog footer"
+	mixedDialog footer: ((SlButton label: 'Bye!')
+		when: CpPrimaryClickEvent send: #hide to: mixedDialog ;
+		yourself).
+
+	"Add buttons to the example, these open the dialog in different ways"
+	outputElement
+		appendChild: ((SlButton label: 'Open regular')
+			when: CpPrimaryClickEvent send: #show to: regularDialog ;
+			yourself) ;
+		appendChild: ((SlButton label: 'Open modal')
+			when: CpPrimaryClickEvent send: #showModal to: modalDialog ;
+			yourself) ;
+		appendChild: ('' inHtmlTag: #p) ;
+		appendChild: (modalCheckbox := SlCheckbox label: 'modal') ;
+		appendChild: (' ' inHtmlTag: #span) ;
+		appendChild: ((SlButton label: 'Mixed dialog')
+			when: CpPrimaryClickEvent do: [ modalCheckbox isChecked ifTrue: [ mixedDialog showModal ] ifFalse: [ mixedDialog showNonModal ] ] ;
+			yourself) ;
+		appendChild: regularDialog ;
+		appendChild: modalDialog ;
+		appendChild: mixedDialog
+
+]
+
+{ #category : #examples }
+CpShoelaceExamplesClientBehavior >> exampleDrawer [
+
+	<example: 'Drawer' order: 200>
+
+	| outputElement drawer1 drawer2 |
+
+	"Clear content"
+	outputElement := self outputElement.
+	outputElement textContent: ''.
+
+	"Create some simple drawers with a paragraph of text"
+	drawer1 := (SlDrawer label: 'First drawer')
+		beStart ;
+		appendChild: ('Hello y''all. This is a paragraph in a regular drawer. It became visible because you pushed the red button. The drawer can be closed by clicking outside the drawer.' inHtmlTag: #p) ;
+		yourself.
+	drawer2 := (SlDrawer label: 'First drwaer')
+		beEnd ;
+		appendChild: ('Hello there. This is a paragraph in a modal drawer. It became visible because you pushed the blue button. The drawer must be closed by the button inside the drawer.' inHtmlTag: #p) ;
+		yourself.
+
+	"Add a close button in the drawer footer"
+	drawer1 footer: ((SlButton label: 'Close')
+		when: CpPrimaryClickEvent send: #hide to: drawer1 ;
+		yourself).
+
+	"Add a close button in the drawer footer"
+	drawer2 footer: ((SlButton label: 'Close')
+		when: CpPrimaryClickEvent send: #hide to: drawer2 ;
+		yourself).
+
+	"Add buttons to the example, these open the dialog in different ways"
+	outputElement
+		appendChild: ((SlButton label: 'Open left')
+			bePrimary ;
+			when: CpPrimaryClickEvent send: #show to: drawer1 ;
+			yourself) ;
+		appendChild: ((SlButton label: 'Open right')
+			beWarning ;
+			when: CpPrimaryClickEvent send: #showModal to: drawer2 ;
+			yourself) ;
+		appendChild: drawer1 ;
+		appendChild: drawer2
+
 ]
 
 { #category : #examples }
@@ -172,7 +290,7 @@ CpShoelaceExamplesClientBehavior >> exampleInput [
 
 	outputElement appendChild: (CpHtmlElement newWithTag: #p).
 
-	outputElement appendChild: (SlInput new password ; togglePassword ; label: 'Your password' ; yourself).
+	outputElement appendChild: (SlInput new bePassword ; beTogglePassword ; label: 'Your password' ; yourself).
 
 	outputElement appendChild: (CpHtmlElement newWithTag: #p).
 
@@ -194,9 +312,9 @@ CpShoelaceExamplesClientBehavior >> exampleInput [
 	outputElement appendChild: (disabledState := SlCheckbox label: 'Disabled').
 	outputElement appendChild: (pillState := SlCheckbox label: 'Pill').
 	outputElement appendChild: (clearableState := SlCheckbox label: 'Clearable').
-	disabledState when: CpChangeEvent do: [ disabledState isChecked ifTrue: [ input beDisabled ] ifFalse: [ input beNotDisabled ] ].
-	pillState when: CpChangeEvent do: [ pillState isChecked ifTrue: [ input bePill ] ifFalse: [ input beNoPill ] ].
-	clearableState when: CpChangeEvent do: [ clearableState isChecked ifTrue: [ input beClearable ] ifFalse: [ input beNotClearable ] ].
+	disabledState when: SlChangeEvent do: [ disabledState isChecked ifTrue: [ input beDisabled ] ifFalse: [ input beNotDisabled ] ].
+	pillState when: SlChangeEvent do: [ pillState isChecked ifTrue: [ input bePill ] ifFalse: [ input beNotPill ] ].
+	clearableState when: SlChangeEvent do: [ clearableState isChecked ifTrue: [ input beClearable ] ifFalse: [ input beNotClearable ] ].
 
 ]
 
@@ -253,8 +371,8 @@ CpShoelaceExamplesClientBehavior >> exampleTextarea [
 	input := outputElement appendChild: (SlTextarea new label: 'Need more input').
 	outputElement appendChild: (disabledState := SlCheckbox label: 'Disabled').
 	outputElement appendChild: (resizeableState := SlCheckbox label: 'Resizeable').
-	disabledState when: CpChangeEvent do: [ disabledState isChecked ifTrue: [ input beDisabled ] ifFalse: [ input beNotDisabled ] ].
-	resizeableState when: CpChangeEvent do: [ resizeableState isChecked ifTrue: [ input autoResize ] ifFalse: [ input noResize ] ].
+	disabledState when: SlChangeEvent do: [ disabledState isChecked ifTrue: [ input beDisabled ] ifFalse: [ input beNotDisabled ] ].
+	resizeableState when: SlChangeEvent do: [ resizeableState isChecked ifTrue: [ input resizeAuto ] ifFalse: [ input resizeNone ] ].
 
 ]
 
@@ -387,5 +505,5 @@ CpShoelaceExamplesClientBehavior >> showIndex [
 			yourself).
 
 		"Register interest in events on the list item"
-		example when: CpClickEvent send: item key to: self ]
+		example when: CpPrimaryClickEvent send: item key to: self ]
 ]

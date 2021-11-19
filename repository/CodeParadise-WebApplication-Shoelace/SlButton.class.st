@@ -79,49 +79,143 @@ SlButton class >> prefix: prefixElement label: aString suffix: suffixElement [
 { #category : #'accessing style' }
 SlButton >> beCircle [
 
-	self attributeAt: #circle put: ''
+	self circle: true
+]
+
+{ #category : #'accessing type' }
+SlButton >> beDanger [
+
+	self type: #danger
+]
+
+{ #category : #'accessing type' }
+SlButton >> beDefault [
+
+	self type: #default
 ]
 
 { #category : #'accessing style' }
 SlButton >> beDisabled [
 
-	self attributeAt: #disabled put: ''
+	self disabled: true
+]
+
+{ #category : #'accessing style' }
+SlButton >> beEnabled [
+
+	"Convenience method to make receiver enabled"
+
+	self disabled: false
+]
+
+{ #category : #'accessing type' }
+SlButton >> beInfo [
+
+	self type: #info
+]
+
+{ #category : #'accessing size' }
+SlButton >> beLarge [
+
+	self size: #large
 ]
 
 { #category : #'accessing style' }
 SlButton >> beLoading [
 
-	self attributeAt: #loading put: ''
+	self loading: true
+]
+
+{ #category : #'accessing size' }
+SlButton >> beMedium [
+
+	self size: #medium
 ]
 
 { #category : #'accessing style' }
-SlButton >> beNoCircle [
+SlButton >> beNotCircle [
 
-	self removeAttributeAt: #circle
-]
-
-{ #category : #'accessing style' }
-SlButton >> beNoPill [
-
-	self removeAttributeAt: #pill
+	self circle: false
 ]
 
 { #category : #'accessing style' }
 SlButton >> beNotDisabled [
 
-	self removeAttributeAt: #disabled
+	self disabled: false
+]
+
+{ #category : #'accessing style' }
+SlButton >> beNotEnabled [
+
+	"Convenience method to clear the enabled state of the receiver"
+
+	self disabled: true
 ]
 
 { #category : #'accessing style' }
 SlButton >> beNotLoading [
 
-	self removeAttributeAt: #loading
+	self loading: false
+]
+
+{ #category : #'accessing style' }
+SlButton >> beNotOutline [
+
+	self outline: false
+]
+
+{ #category : #'accessing style' }
+SlButton >> beNotPill [
+
+	self pill: false
+]
+
+{ #category : #'accessing style' }
+SlButton >> beOutline [
+
+	self outline: true
 ]
 
 { #category : #'accessing style' }
 SlButton >> bePill [
 
-	self attributeAt: #pill put: ''
+	self pill: true
+]
+
+{ #category : #'accessing type' }
+SlButton >> bePrimary [
+
+	self type: #primary
+]
+
+{ #category : #'accessing size' }
+SlButton >> beSmall [
+
+	self size: #small
+]
+
+{ #category : #'accessing type' }
+SlButton >> beSuccess [
+
+	self type: #success
+]
+
+{ #category : #'accessing type' }
+SlButton >> beText [
+
+	self type: #text
+]
+
+{ #category : #'accessing type' }
+SlButton >> beWarning [
+
+	self type: #warning
+]
+
+{ #category : #accessing }
+SlButton >> circle: aBoolean [
+
+	self propertyAt: #circle put: aBoolean
 ]
 
 { #category : #accessing }
@@ -129,7 +223,7 @@ SlButton >> content [
 
 	"Answer the content of the receiver, assume it is a single element"
 
-	self firstChild
+	^ self firstChild
 ]
 
 { #category : #accessing }
@@ -141,73 +235,95 @@ SlButton >> content: anElement [
 	self replaceAllChildrenWith: anElement
 ]
 
-{ #category : #'accessing type' }
-SlButton >> danger [
+{ #category : #accessing }
+SlButton >> disabled: aBoolean [
 
-	self type: #danger
+	self propertyAt: #disabled put: aBoolean
 ]
 
-{ #category : #'accessing type' }
-SlButton >> default [
+{ #category : #accessing }
+SlButton >> download [
 
-	self type: #default
+	^ self propertyAt: #download
 ]
 
-{ #category : #'accessing link' }
+{ #category : #accessing }
 SlButton >> download: aString [
 
-	self attributeAt: #download put: aString
+	self propertyAt: #download put: aString
 ]
 
-{ #category : #'accessing type' }
-SlButton >> info [
+{ #category : #accessing }
+SlButton >> enabled: aBoolean [
 
-	self type: #info
+	"Convenience method to set receiver's enabled state"
+
+	self disabled: aBoolean not
 ]
 
-{ #category : #'accessing style' }
+{ #category : #testing }
 SlButton >> isCircle [
 
-	^ (self attributeAt: #circle) notNil
+	^ self propertyAt: #circle
 ]
 
-{ #category : #'accessing style' }
+{ #category : #testing }
 SlButton >> isDisabled [
 
-	^ (self attributeAt: #disabled) notNil
+	^ self propertyAt: #disabled
 ]
 
-{ #category : #'accessing style' }
+{ #category : #testing }
+SlButton >> isEnabled [
+
+	"Convenience method to test if receiver is enabled"
+
+	^ self isDisabled not
+]
+
+{ #category : #testing }
 SlButton >> isLoading [
 
-	^ (self attributeAt: #loading) notNil
+	^ self propertyAt: #loading
 ]
 
-{ #category : #'accessing style' }
+{ #category : #testing }
+SlButton >> isOutline [
+
+	^ self propertyAt: #outline
+]
+
+{ #category : #testing }
 SlButton >> isPill [
 
-	^ (self attributeAt: #pill) notNil
+	^ self propertyAt: #pill
+]
+
+{ #category : #accessing }
+SlButton >> label [
+
+	^ self textContent
 ]
 
 { #category : #accessing }
 SlButton >> label: aString [
 
-	self content: (aString inHtmlTag: #span)
+	self textContent: aString
 ]
 
-{ #category : #'accessing size' }
-SlButton >> large [
+{ #category : #accessing }
+SlButton >> link [
 
-	self size: #large
+	^ self propertyAt: #href
 ]
 
-{ #category : #'accessing link' }
+{ #category : #accessing }
 SlButton >> link: aString [
 
-	self attributeAt: #href put: aString
+	self propertyAt: #href put: aString
 ]
 
-{ #category : #'accessing link' }
+{ #category : #accessing }
 SlButton >> link: linkString download: downloadString [
 
 	self
@@ -215,7 +331,7 @@ SlButton >> link: linkString download: downloadString [
 		download: downloadString
 ]
 
-{ #category : #'accessing link' }
+{ #category : #accessing }
 SlButton >> link: linkString target: targetString [
 
 	self
@@ -223,16 +339,28 @@ SlButton >> link: linkString target: targetString [
 		target: targetString
 ]
 
-{ #category : #'accessing size' }
-SlButton >> medium [
+{ #category : #accessing }
+SlButton >> loading: aBoolean [
 
-	self size: #medium
+	self propertyAt: #loading put: aBoolean
+]
+
+{ #category : #accessing }
+SlButton >> outline: aBoolean [
+
+	self propertyAt: #outline put: aBoolean
+]
+
+{ #category : #accessing }
+SlButton >> pill: aBoolean [
+
+	self propertyAt: #pill put: aBoolean
 ]
 
 { #category : #accessing }
 SlButton >> prefix [
 
-	self firstChildAtSlotNamed: #prefix
+	^ self firstChildAtSlotNamed: #prefix
 ]
 
 { #category : #accessing }
@@ -241,40 +369,22 @@ SlButton >> prefix: anElement [
 	self replaceAllChildrenWith: anElement atSlotNamed: #prefix
 ]
 
-{ #category : #'accessing type' }
-SlButton >> primary [
-
-	self type: #primary
-]
-
-{ #category : #'accessing size' }
+{ #category : #accessing }
 SlButton >> size [
 
-	^ self attributeAt: #size
+	^ self propertyAt: #size
 ]
 
-{ #category : #'accessing size' }
+{ #category : #accessing }
 SlButton >> size: aString [
 
-	self attributeAt: #size put: aString
-]
-
-{ #category : #'accessing size' }
-SlButton >> small [
-
-	self size: #small
-]
-
-{ #category : #'accessing type' }
-SlButton >> success [
-
-	self type: #success
+	self propertyAt: #size put: aString
 ]
 
 { #category : #accessing }
 SlButton >> suffix [
 
-	self firstChildAtSlotNamed: #suffix
+	^ self firstChildAtSlotNamed: #suffix
 ]
 
 { #category : #accessing }
@@ -283,32 +393,50 @@ SlButton >> suffix: anElement [
 	self replaceAllChildrenWith: anElement atSlotNamed: #suffix
 ]
 
-{ #category : #'accessing link' }
+{ #category : #accessing }
+SlButton >> target [
+
+	^ self propertyAt: #target
+]
+
+{ #category : #accessing }
 SlButton >> target: aString [
 
-	self attributeAt: #target put: aString
+	self propertyAt: #target put: aString
 ]
 
-{ #category : #'accessing type' }
-SlButton >> text [
+{ #category : #'accessing target' }
+SlButton >> targetBlank [
 
-	self type: #text
+	self target: #'_blank'
 ]
 
-{ #category : #'accessing type' }
+{ #category : #'accessing target' }
+SlButton >> targetParent [
+
+	self target: #'_parent'
+]
+
+{ #category : #'accessing target' }
+SlButton >> targetSelf [
+
+	self target: #'_self'
+]
+
+{ #category : #'accessing target' }
+SlButton >> targetTop [
+
+	self target: #'_top'
+]
+
+{ #category : #accessing }
 SlButton >> type [
 
-	^ self attributeAt: #type
+	^ self propertyAt: #type
 ]
 
-{ #category : #'accessing type' }
+{ #category : #accessing }
 SlButton >> type: aString [
 
-	self attributeAt: #type put: aString
-]
-
-{ #category : #'accessing type' }
-SlButton >> warning [
-
-	self type: #warning
+	self propertyAt: #type put: aString
 ]

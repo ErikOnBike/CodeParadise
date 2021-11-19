@@ -13,7 +13,37 @@ SlIcon class >> name: aString [
 ]
 
 { #category : #accessing }
+SlIcon >> library [
+
+	^ self propertyAt: #library
+]
+
+{ #category : #accessing }
+SlIcon >> library: aString [
+
+	self propertyAt: #library put: aString
+]
+
+{ #category : #accessing }
+SlIcon >> name [
+
+	^ self propertyAt: #name
+]
+
+{ #category : #accessing }
 SlIcon >> name: aString [
 
-	self attributeAt: #name put: aString
+	self propertyAt: #name put: aString
+]
+
+{ #category : #accessing }
+SlIcon >> src [
+
+	^ self propertyAt: #src
+]
+
+{ #category : #accessing }
+SlIcon >> src: aString [
+
+	self propertyAt: #src put: aString
 ]

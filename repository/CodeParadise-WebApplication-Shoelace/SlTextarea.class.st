@@ -1,191 +1,64 @@
 Class {
 	#name : #SlTextarea,
-	#superclass : #SlFormControl,
+	#superclass : #SlTextControl,
 	#category : #'CodeParadise-WebApplication-Shoelace-Elements'
 }
 
-{ #category : #'accessing size' }
-SlTextarea >> autoResize [
+{ #category : #accessing }
+SlTextarea >> resize [
+
+	^ self propertyAt: #resize
+]
+
+{ #category : #accessing }
+SlTextarea >> resize: aString [
+
+	self propertyAt: #resize put: aString
+]
+
+{ #category : #'accessing style' }
+SlTextarea >> resizeAuto [
 
 	self resize: #auto
 ]
 
 { #category : #'accessing style' }
-SlTextarea >> beDisabled [
-
-	self attributeAt: #disabled put: ''
-]
-
-{ #category : #'accessing style' }
-SlTextarea >> beNotDisabled [
-
-	self removeAttributeAt: #disabled
-]
-
-{ #category : #'accessing type' }
-SlTextarea >> email [
-
-	self type: #email
-]
-
-{ #category : #accessing }
-SlTextarea >> help [
-
-	self firstChildAtSlotNamed: #'help-text'
-]
-
-{ #category : #accessing }
-SlTextarea >> help: anElement [
-
-	"Set the help text to the specified Element.
-	For a simple String value use #helpText: instead."
-
-	self replaceAllChildrenWith: anElement atSlotNamed: #'help-text'
-]
-
-{ #category : #accessing }
-SlTextarea >> helpText [
-
-	^ self attributeAt: #'help-text'
-]
-
-{ #category : #accessing }
-SlTextarea >> helpText: aString [
-
-	"Set the help text to the specified String value.
-	For richer HTML help use #help: instead."
-
-	self attributeAt: #'help-text' put: aString
-]
-
-{ #category : #'accessing style' }
-SlTextarea >> isDisabled [
-
-	^ (self attributeAt: #disabled) notNil
-]
-
-{ #category : #accessing }
-SlTextarea >> label [
-
-	^ self attributeAt: #label
-]
-
-{ #category : #accessing }
-SlTextarea >> label: aString [
-
-	self attributeAt: #label put: aString
-]
-
-{ #category : #'accessing size' }
-SlTextarea >> large [
-
-	self size: #large
-]
-
-{ #category : #'accessing size' }
-SlTextarea >> medium [
-
-	self size: #medium
-]
-
-{ #category : #'accessing size' }
-SlTextarea >> noResize [
+SlTextarea >> resizeNone [
 
 	self resize: #none
 ]
 
-{ #category : #'accessing type' }
-SlTextarea >> number [
+{ #category : #'accessing style' }
+SlTextarea >> resizeVertical [
 
-	self type: #number
+	self resize: #vertical
 ]
 
-{ #category : #'accessing control' }
-SlTextarea >> placeholder [
-
-	^ self attributeAt: #placeholder
-]
-
-{ #category : #'accessing control' }
-SlTextarea >> placeholder: aString [
-
-	self attributeAt: #placeholder put: aString
-]
-
-{ #category : #'accessing size' }
-SlTextarea >> resize [
-
-	^ self attributeAt: #resize
-]
-
-{ #category : #'accessing size' }
-SlTextarea >> resize: aString [
-
-	self attributeAt: #resize put: aString
-]
-
-{ #category : #'accessing control' }
+{ #category : #accessing }
 SlTextarea >> rows [
 
-	^ (self attributeAt: #rows) ifNotNil: [ :rowString | Number readFrom: rowString ]
+	^ self propertyAt: #rows
 ]
 
-{ #category : #'accessing control' }
+{ #category : #accessing }
 SlTextarea >> rows: anInteger [
 
-	self attributeAt: #rows put: anInteger asString
+	self propertyAt: #rows put: anInteger
 ]
 
-{ #category : #'accessing type' }
-SlTextarea >> search [
+{ #category : #'as yet unclassified' }
+SlTextarea >> scrollPosition [
 
-	self type: #search
+	"Gets the textarea's scroll position.
+	Answer will be a dictionaty with keys 'top' and 'left', both being Numbers."
+
+	^ self syncApply: #scrollPosition withArguments: #()
 ]
 
-{ #category : #'accessing size' }
-SlTextarea >> size [
+{ #category : #'as yet unclassified' }
+SlTextarea >> scrollPositionTop: topNumber left: leftNumber [
 
-	^ self attributeAt: #size
-]
+	"Sets the textarea's scroll position"
 
-{ #category : #'accessing size' }
-SlTextarea >> size: aString [
-
-	self attributeAt: #size put: aString
-]
-
-{ #category : #'accessing size' }
-SlTextarea >> small [
-
-	self size: #small
-]
-
-{ #category : #'accessing type' }
-SlTextarea >> tel [
-
-	self type: #tel
-]
-
-{ #category : #'accessing type' }
-SlTextarea >> text [
-
-	self type: #text
-]
-
-{ #category : #'accessing type' }
-SlTextarea >> type [
-
-	^ self attributeAt: #type
-]
-
-{ #category : #'accessing type' }
-SlTextarea >> type: aString [
-
-	self attributeAt: #type put: aString
-]
-
-{ #category : #'accessing type' }
-SlTextarea >> url [
-
-	self type: #url
+	^ self apply: #scrollPosition withArguments: { topNumber . leftNumber }
 ]

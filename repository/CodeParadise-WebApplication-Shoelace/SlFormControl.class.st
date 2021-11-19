@@ -4,25 +4,153 @@ Class {
 	#category : #'CodeParadise-WebApplication-Shoelace-Elements'
 }
 
-{ #category : #'accessing control' }
+{ #category : #'accessing style' }
+SlFormControl >> beDisabled [
+
+	self disabled: true
+]
+
+{ #category : #'accessing style' }
+SlFormControl >> beEnabled [
+
+	"Convenience method to make receiver enabled"
+
+	self disabled: false
+]
+
+{ #category : #'accessing style' }
+SlFormControl >> beInvalid [
+
+	self invalid: true
+]
+
+{ #category : #'accessing style' }
+SlFormControl >> beNotDisabled [
+
+	self disabled: false
+]
+
+{ #category : #'accessing style' }
+SlFormControl >> beNotEnabled [
+
+	"Convenience method to clear the enabled state of the receiver"
+
+	self disabled: true
+]
+
+{ #category : #'accessing style' }
+SlFormControl >> beNotInvalid [
+
+	self invalid: false
+]
+
+{ #category : #'accessing style' }
+SlFormControl >> beNotRequired [
+
+	self required: false
+]
+
+{ #category : #'accessing style' }
+SlFormControl >> beRequired [
+
+	self required: true
+]
+
+{ #category : #actions }
+SlFormControl >> blur [
+
+	"Removes focus from the input."
+
+	self apply: #blur withArguments: #()
+]
+
+{ #category : #accessing }
+SlFormControl >> disabled: aBoolean [
+
+	self propertyAt: #disabled put: aBoolean
+]
+
+{ #category : #accessing }
+SlFormControl >> enabled: aBoolean [
+
+	"Convenience method to set receiver's enabled state"
+
+	self disabled: aBoolean not
+]
+
+{ #category : #accessing }
+SlFormControl >> invalid: aBoolean [
+
+	self propertyAt: #invalid put: aBoolean
+]
+
+{ #category : #testing }
+SlFormControl >> isDisabled [
+
+	^ self propertyAt: #disabled
+]
+
+{ #category : #testing }
+SlFormControl >> isEnabled [
+
+	"Convenience method to test if receiver is enabled"
+
+	^ self isDisabled not
+]
+
+{ #category : #testing }
+SlFormControl >> isInvalid [
+
+	^ self propertyAt: #invalid
+]
+
+{ #category : #testing }
+SlFormControl >> isRequired [
+
+	^ self propertyAt: #required
+]
+
+{ #category : #accessing }
 SlFormControl >> name [
 
 	^ self propertyAt: #name
 ]
 
-{ #category : #'accessing control' }
+{ #category : #accessing }
 SlFormControl >> name: aString [
 
 	self propertyAt: #name put: aString
 ]
 
-{ #category : #'accessing control' }
+{ #category : #actions }
+SlFormControl >> reportValidity [
+ 
+	"Checks for validity and shows the browser's validation message if the control is invalid."
+
+	self apply: #reportValidity withArguments: #()
+]
+
+{ #category : #accessing }
+SlFormControl >> required: aBoolean [
+
+	self propertyAt: #required put: aBoolean
+]
+
+{ #category : #actions }
+SlFormControl >> setCustomValidity: aString [ 
+
+	"Sets a custom validation message. If message is not empty, the field will be considered invalid."
+
+	self apply: #setCustomValidity withArguments: { aString }
+]
+
+{ #category : #accessing }
 SlFormControl >> value [
 
 	^ self propertyAt: #value
 ]
 
-{ #category : #'accessing control' }
+{ #category : #accessing }
 SlFormControl >> value: aString [
 
 	self propertyAt: #value put: aString

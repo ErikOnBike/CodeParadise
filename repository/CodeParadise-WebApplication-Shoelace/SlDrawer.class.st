@@ -10,29 +10,33 @@ Class {
 }
 
 { #category : #accessing }
-SlDrawer class >> label: aString [
-
-	^ self new
-		label: aString ;
-		yourself
-]
-
-{ #category : #accessing }
 SlDrawer >> beBottom [
 
 	self placement: #bottom
 ]
 
 { #category : #accessing }
-SlDrawer >> beLeft [
+SlDrawer >> beContained [
 
-	self placement: #left
+	self contained: true
 ]
 
 { #category : #accessing }
-SlDrawer >> beRight [
+SlDrawer >> beEnd [
 
-	self placement: #right
+	self placement: #end
+]
+
+{ #category : #accessing }
+SlDrawer >> beNotContained [
+
+	self contained: false
+]
+
+{ #category : #accessing }
+SlDrawer >> beStart [
+
+	self placement: #start
 ]
 
 { #category : #accessing }
@@ -43,21 +47,35 @@ SlDrawer >> beTop [
 
 { #category : #accessing }
 SlDrawer >> contained: aBoolean [
-	"By default, the drawer slides out of its containing block (usually the viewport). To make the drawer slide out of its parent element, set this prop and add 'position: relative' to the parent."
 
-	^self attributeAt: #contained put: aBoolean
+	"By default, the drawer slides out of its containing block (usually the viewport).
+	To make the drawer slide out of its parent element, set this property and
+	add 'position: relative' to the parent."
+
+	self propertyAt: #contained put: aBoolean
+
+]
+
+{ #category : #testing }
+SlDrawer >> isContained [
+
+	^ self propertyAt: #contained
 ]
 
 { #category : #accessing }
 SlDrawer >> placement [
+
 	"Answer the direction from which the drawer will open"
 
-	^self attributeAt: #placement
+	^ self propertyAt: #placement
+
 ]
 
 { #category : #accessing }
-SlDrawer >> placement: symbolDirection [
-	"The direction from which the drawer will open.	#top | #right | #bottom | #left"
+SlDrawer >> placement: aString [
 
-	self attributeAt: #placement put: symbolDirection
+	"The direction from which the drawer will open. 'top' | 'right' | 'bottom' | 'left'"
+
+	self propertyAt: #placement put: aString
+
 ]

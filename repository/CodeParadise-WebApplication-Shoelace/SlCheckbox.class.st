@@ -12,58 +12,66 @@ SlCheckbox class >> label: aString [
 		yourself
 ]
 
-{ #category : #'accessing control' }
+{ #category : #'accessing style' }
 SlCheckbox >> beChecked [
 
-	self attributeAt: #checked put: ''
+	self checked: true
 ]
 
 { #category : #'accessing style' }
-SlCheckbox >> beDisabled [
-
-	self attributeAt: #disabled put: ''
-]
-
-{ #category : #'accessing control' }
 SlCheckbox >> beIndeterminate [
 
-	self attributeAt: #indeterminate put: ''
+	self indeterminate: true
 ]
 
-{ #category : #'accessing control' }
+{ #category : #'accessing style' }
 SlCheckbox >> beNotChecked [
 
-	self removeAttributeAt: #checked
+	self checked: false
 ]
 
 { #category : #'accessing style' }
-SlCheckbox >> beNotDisabled [
-
-	self removeAttributeAt: #disabled
-]
-
-{ #category : #'accessing control' }
 SlCheckbox >> beNotIndeterminate [
 
-	self removeAttributeAt: #indeterminate
+	self indeterminate: false
 ]
 
-{ #category : #'accessing control' }
+{ #category : #accessing }
+SlCheckbox >> checked: aBoolean [
+
+	self propertyAt: #checked put: aBoolean
+]
+
+{ #category : #actions }
+SlCheckbox >> click [
+
+	"Simulate a click on the checkbox"
+
+	self apply: #click withArguments: #()
+]
+
+{ #category : #accessing }
+SlCheckbox >> indeterminate: aBoolean [
+
+	self propertyAt: #indeterminate put: aBoolean
+]
+
+{ #category : #testing }
 SlCheckbox >> isChecked [
 
-	^ (self attributeAt: #checked) notNil
+	^ self propertyAt: #checked
 ]
 
-{ #category : #'accessing style' }
-SlCheckbox >> isDisabled [
-
-	^ (self attributeAt: #disabled) notNil
-]
-
-{ #category : #'accessing control' }
+{ #category : #testing }
 SlCheckbox >> isIndeterminate [
 
-	^ (self attributeAt: #indeterminate) notNil
+	^ self propertyAt: #indeterminate
+]
+
+{ #category : #accessing }
+SlCheckbox >> label [
+
+	^ self textContent
 ]
 
 { #category : #accessing }

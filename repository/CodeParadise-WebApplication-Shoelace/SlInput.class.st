@@ -1,335 +1,177 @@
 Class {
 	#name : #SlInput,
-	#superclass : #SlFormControl,
+	#superclass : #SlTextControl,
 	#category : #'CodeParadise-WebApplication-Shoelace-Elements'
 }
 
-{ #category : #'accessing control' }
-SlInput >> autocapitalize [
-
-	self attributeAt: #autocapitalize put: 'on'
-]
-
-{ #category : #'accessing control' }
-SlInput >> autocapitalizeCharacters [
-
-	self attributeAt: #autocapitalize put: 'characters'
-]
-
-{ #category : #'accessing control' }
-SlInput >> autocapitalizeSentences [
-
-	self attributeAt: #autocapitalize put: 'sentences'
-]
-
-{ #category : #'accessing control' }
-SlInput >> autocapitalizeWords [
-
-	self attributeAt: #autocapitalize put: 'words'
-]
-
-{ #category : #'accessing control' }
-SlInput >> autocomplete [
-
-	self attributeAt: #autocomplete put: ''
-]
-
-{ #category : #'accessing control' }
-SlInput >> autocorrect [
-
-	self attributeAt: #autocorrect put: ''
-]
-
-{ #category : #'accessing control' }
-SlInput >> autofocus [
-
-	self attributeAt: #autofocus put: ''
-]
-
-{ #category : #'accessing control' }
+{ #category : #'accessing style' }
 SlInput >> beClearable [
 
-	self attributeAt: #clearable put: ''
-]
-
-{ #category : #'accessing style' }
-SlInput >> beDisabled [
-
-	self attributeAt: #disabled put: ''
-]
-
-{ #category : #'accessing style' }
-SlInput >> beNoPill [
-
-	self removeAttributeAt: #pill
-]
-
-{ #category : #'accessing control' }
-SlInput >> beNotClearable [
-
-	self removeAttributeAt: #clearable
-]
-
-{ #category : #'accessing style' }
-SlInput >> beNotDisabled [
-
-	self removeAttributeAt: #disabled
-]
-
-{ #category : #'accessing style' }
-SlInput >> beNotReadonly [
-
-	self removeAttributeAt: #readonly
-]
-
-{ #category : #'accessing control' }
-SlInput >> beNotRequired [
-
-	self removeAttributeAt: #required 
-]
-
-{ #category : #'accessing style' }
-SlInput >> bePill [
-
-	self attributeAt: #pill put: ''
-]
-
-{ #category : #'accessing style' }
-SlInput >> beReadonly [
-
-	self attributeAt: #readonly put: 'on'
-]
-
-{ #category : #'accessing control' }
-SlInput >> beRequired [
-
-	self attributeAt: #required put: 'on'
-]
-
-{ #category : #'accessing control' }
-SlInput >> customValidityMessage: aString [ 
-	"Sets a custom validation message. If message is not empty, the field will be considered invalid."
-
-	self apply: #setCustomValidity: withArguments: { aString }
+	self clearable: true
 ]
 
 { #category : #'accessing type' }
-SlInput >> date [
+SlInput >> beDate [
+
 	"Causes a popup date selector, however the date type might not be supported on all browsers"
 	
 	self type: #date
 ]
 
 { #category : #'accessing type' }
-SlInput >> email [
+SlInput >> beEmail [
 
 	self type: #email
 ]
 
-{ #category : #'accessing control' }
-SlInput >> hasTogglePassword [
+{ #category : #'accessing style' }
+SlInput >> beNotClearable [
 
-	^ (self attributeAt: #'toggle-password') notNil
-]
-
-{ #category : #accessing }
-SlInput >> help [
-
-	self firstChildAtSlotNamed: #'help-text'
-]
-
-{ #category : #accessing }
-SlInput >> help: anElement [
-
-	"Set the help text to the specified Element.
-	For a simple String value use #helpText: instead."
-
-	self replaceAllChildrenWith: anElement atSlotNamed: #'help-text'
-]
-
-{ #category : #accessing }
-SlInput >> helpText [
-
-	^ self attributeAt: #'help-text'
-]
-
-{ #category : #accessing }
-SlInput >> helpText: aString [
-
-	"Set the help text to the specified String value.
-	For richer HTML help use #help: instead."
-
-	self attributeAt: #'help-text' put: aString
-]
-
-{ #category : #'accessing control' }
-SlInput >> isClearable [
-
-	^ (self attributeAt: #clearable) notNil
+	self clearable: false
 ]
 
 { #category : #'accessing style' }
-SlInput >> isDisabled [
+SlInput >> beNotPill [
 
-	^ (self attributeAt: #disabled) notNil
-]
-
-{ #category : #'accessing control' }
-SlInput >> isInvalid [
-
-	^ (self attributeAt: #invalid) notNil
+	self pill: false
 ]
 
 { #category : #'accessing style' }
-SlInput >> isPill [
+SlInput >> beNotTogglePassword [
 
-	^ (self attributeAt: #pill) notNil
-]
-
-{ #category : #'accessing style' }
-SlInput >> isReadonly [
-
-	^ (self attributeAt: #readonly) notNil
-]
-
-{ #category : #accessing }
-SlInput >> label [
-
-	^ self attributeAt: #label
-]
-
-{ #category : #accessing }
-SlInput >> label: aString [
-
-	self attributeAt: #label put: aString
-]
-
-{ #category : #'accessing size' }
-SlInput >> large [
-
-	self size: #large
-]
-
-{ #category : #'accessing control' }
-SlInput >> max [
-
-	self attributeAt: #max
-]
-
-{ #category : #'accessing control' }
-SlInput >> max: aNumber [
-
-	self attributeAt: #max put: aNumber printString
-]
-
-{ #category : #'accessing control' }
-SlInput >> maxlength [
-
-	self attributeAt: #maxlength
-]
-
-{ #category : #'accessing control' }
-SlInput >> maxlength: aNumber [
-
-	self attributeAt: #maxlength put: aNumber printString
-
-]
-
-{ #category : #'accessing size' }
-SlInput >> medium [
-
-	self size: #medium
-]
-
-{ #category : #'accessing control' }
-SlInput >> min [
-
-	self attributeAt: #min
-]
-
-{ #category : #'accessing control' }
-SlInput >> min: aNumber [
-
-	self attributeAt: #min put: aNumber printString
-]
-
-{ #category : #'accessing control' }
-SlInput >> noAutocapitalize [
-
-	self attributeAt: #autocapitalize put: 'off'
-]
-
-{ #category : #'accessing control' }
-SlInput >> noAutocomplete [
-
-	self attributeAt: #autocomplete put: 'off'
-]
-
-{ #category : #'accessing control' }
-SlInput >> noAutocorrect [
-
-	self attributeAt: #autocorrect put: 'off'
-]
-
-{ #category : #'accessing control' }
-SlInput >> noAutofocus [
-
-	self attributeAt: #autofocus put: 'off'
-]
-
-{ #category : #'accessing control' }
-SlInput >> noSpellcheck [
-
-	self attributeAt: #spellcheck put: 'off'
-]
-
-{ #category : #'accessing control' }
-SlInput >> noTogglePassword [
-
-	self removeAttributeAt: #'toggle-password'
+	self togglePassword: false
 ]
 
 { #category : #'accessing type' }
-SlInput >> number [
+SlInput >> beNumber [
 
 	self type: #number
 ]
 
 { #category : #'accessing type' }
-SlInput >> password [
+SlInput >> bePassword [
 
 	self type: #password
 ]
 
-{ #category : #'accessing control' }
-SlInput >> pattern [
+{ #category : #'accessing style' }
+SlInput >> bePill [
 
-	self attributeAt: #pattern
+	self pill: true
 ]
 
-{ #category : #'accessing control' }
-SlInput >> pattern: aString [
-	"A pattern to validate input against."
+{ #category : #'accessing type' }
+SlInput >> beSearch [
 
-	self attributeAt: #pattern put: aString
+	self type: #search
 ]
 
-{ #category : #'accessing control' }
-SlInput >> placeholder [
+{ #category : #'accessing type' }
+SlInput >> beTel [
 
-	^ self attributeAt: #placeholder
+	self type: #tel
 ]
 
-{ #category : #'accessing control' }
-SlInput >> placeholder: aString [
+{ #category : #'accessing type' }
+SlInput >> beText [
 
-	self attributeAt: #placeholder put: aString
+	self type: #text
+]
+
+{ #category : #'accessing style' }
+SlInput >> beTogglePassword [
+
+	self togglePassword: true
+]
+
+{ #category : #'accessing type' }
+SlInput >> beUrl [
+
+	self type: #url
+]
+
+{ #category : #accessing }
+SlInput >> clearIcon [
+
+	self firstChildAtSlotNamed: #'clear-icon'
+]
+
+{ #category : #accessing }
+SlInput >> clearIcon: anElement [
+
+	self replaceAllChildrenWith: anElement atSlotNamed: #'clear-icon'
+]
+
+{ #category : #accessing }
+SlInput >> clearable: aBoolean [
+
+	self propertyAt: #clearable put: aBoolean
+]
+
+{ #category : #accessing }
+SlInput >> hidePasswordIcon [
+
+	self firstChildAtSlotNamed: #'hide-password-icon'
+]
+
+{ #category : #accessing }
+SlInput >> hidePasswordIcon: anElement [
+
+	self replaceAllChildrenWith: anElement atSlotNamed: #'hide-password-icon'
+]
+
+{ #category : #testing }
+SlInput >> isClearable [
+
+	^ self propertyAt: #clearable
+]
+
+{ #category : #testing }
+SlInput >> isPill [
+
+	^ self propertyAt: #pill
+]
+
+{ #category : #testing }
+SlInput >> isTogglePassword [
+
+	^ self propertyAt: #togglePassword
+]
+
+{ #category : #accessing }
+SlInput >> max [
+
+	^ self propertyAt: #max
+]
+
+{ #category : #accessing }
+SlInput >> max: aNumberOrString [
+
+	self propertyAt: #max put: aNumberOrString
+]
+
+{ #category : #accessing }
+SlInput >> min [
+
+	^ self propertyAt: #min
+]
+
+{ #category : #accessing }
+SlInput >> min: aNumberOrString [
+
+	self propertyAt: #min put: aNumberOrString
+]
+
+{ #category : #accessing }
+SlInput >> pill: aBoolean [
+
+	self propertyAt: #pill put: aBoolean
 ]
 
 { #category : #accessing }
 SlInput >> prefix [
 
-	self firstChildAtSlotNamed: #prefix
+	^ self firstChildAtSlotNamed: #prefix
 ]
 
 { #category : #accessing }
@@ -338,62 +180,34 @@ SlInput >> prefix: anElement [
 	self replaceAllChildrenWith: anElement atSlotNamed: #prefix
 ]
 
-{ #category : #'accessing control' }
-SlInput >> reportValidity [ 
-	"Checks for validity and shows the browser's validation message if the control is invalid."
+{ #category : #accessing }
+SlInput >> showPasswordIcon [
 
-	self apply: #reportValidity withArguments: #()
+	self firstChildAtSlotNamed: #'show-password-icon'
 ]
 
-{ #category : #'accessing type' }
-SlInput >> search [
+{ #category : #accessing }
+SlInput >> showPasswordIcon: anElement [
 
-	self type: #search
+	self replaceAllChildrenWith: anElement atSlotNamed: #'show-password-icon'
 ]
 
-{ #category : #'accessing control' }
-SlInput >> select [ 
-	"Select all the text in the field"
+{ #category : #accessing }
+SlInput >> step [
 
-	self apply: #select withArguments: #()
+	^ self propertyAt: #step
 ]
 
-{ #category : #'accessing size' }
-SlInput >> size [
-
-	^ self attributeAt: #size
-]
-
-{ #category : #'accessing size' }
-SlInput >> size: sizeString [
-	"Set the field size to either: small, medium, large"
-	
-	self attributeAt: #size put: sizeString
-]
-
-{ #category : #'accessing size' }
-SlInput >> small [
-
-	self size: #small
-]
-
-{ #category : #'accessing control' }
-SlInput >> spellcheck [
-
-	self attributeAt: #spellcheck put: ''
-]
-
-{ #category : #'accessing control' }
+{ #category : #accessing }
 SlInput >> step: aNumber [
-	"The input's step attribute."
-	
-	self attributeAt: #step put: aNumber printString
+
+	self propertyAt: #step put: aNumber
 ]
 
 { #category : #accessing }
 SlInput >> suffix [
 
-	self firstChildAtSlotNamed: #suffix
+	^ self firstChildAtSlotNamed: #suffix
 ]
 
 { #category : #accessing }
@@ -402,38 +216,20 @@ SlInput >> suffix: anElement [
 	self replaceAllChildrenWith: anElement atSlotNamed: #suffix
 ]
 
-{ #category : #'accessing type' }
-SlInput >> tel [
+{ #category : #accessing }
+SlInput >> togglePassword: aBoolean [
 
-	self type: #tel
+	self propertyAt: #togglePassword put: aBoolean
 ]
 
-{ #category : #'accessing type' }
-SlInput >> text [
-
-	self type: #text
-]
-
-{ #category : #'accessing control' }
-SlInput >> togglePassword [
-
-	self attributeAt: #'toggle-password' put: ''
-]
-
-{ #category : #'accessing type' }
+{ #category : #accessing }
 SlInput >> type [
 
-	^ self attributeAt: #type
+	^ self propertyAt: #type
 ]
 
-{ #category : #'accessing type' }
+{ #category : #accessing }
 SlInput >> type: aString [
 
-	self attributeAt: #type put: aString
-]
-
-{ #category : #'accessing type' }
-SlInput >> url [
-
-	self type: #url
+	self propertyAt: #type put: aString
 ]

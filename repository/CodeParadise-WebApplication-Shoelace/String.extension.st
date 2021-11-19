@@ -6,6 +6,6 @@ String >> asShoelaceIcon [
 	<webApplicationShoelaceExtension>
 
 	^ (Smalltalk at: #SlIcon) new
-		attributeAt: #name put: self ;
+		name: self ;
 		yourself
 ]

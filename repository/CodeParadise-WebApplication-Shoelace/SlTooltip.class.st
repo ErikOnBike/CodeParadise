@@ -4,6 +4,58 @@ Class {
 	#category : #'CodeParadise-WebApplication-Shoelace-Elements'
 }
 
+{ #category : #'accessing style' }
+SlTooltip >> beDisabled [
+
+	self disabled: true
+]
+
+{ #category : #'accessing style' }
+SlTooltip >> beEnabled [
+
+	"Convenience method to make receiver enabled"
+
+	self disabled: false
+]
+
+{ #category : #'accessing style' }
+SlTooltip >> beHoist [
+
+	self hoist: true
+]
+
+{ #category : #'accessing style' }
+SlTooltip >> beNotDisabled [
+
+	self disabled: false
+]
+
+{ #category : #'accessing style' }
+SlTooltip >> beNotEnabled [
+
+	"Convenience method to clear the enabled state of the receiver"
+
+	self disabled: true
+]
+
+{ #category : #'accessing style' }
+SlTooltip >> beNotHoist [
+
+	self hoist: false
+]
+
+{ #category : #'accessing style' }
+SlTooltip >> beNotOpen [
+
+	self open: false
+]
+
+{ #category : #'accessing style' }
+SlTooltip >> beOpen [
+
+	self open: true
+]
+
 { #category : #'accessing placement' }
 SlTooltip >> bottom [
 
@@ -37,13 +89,83 @@ SlTooltip >> content: anElement [
 { #category : #accessing }
 SlTooltip >> contentText [
 
-	^ self attributeAt: #content
+	"Answer the content text (a String) of the receiver.
+	For richer HTML element use #content instead."
+
+	^ self content textContent
 ]
 
 { #category : #accessing }
 SlTooltip >> contentText: aString [
 
-	self attributeAt: #content put: aString
+	"Set the content text to the specified String value.
+	For richer HTML element use #content: instead."
+
+	self content: aString asHtmlElement
+]
+
+{ #category : #accessing }
+SlTooltip >> disabled: aBoolean [
+
+	self propertyAt: #disabled put: aBoolean
+]
+
+{ #category : #accessing }
+SlTooltip >> distance [
+
+	^ self propertyAt: #distance
+]
+
+{ #category : #accessing }
+SlTooltip >> distance: aNumber [
+
+	self propertyAt: #distance put: aNumber
+]
+
+{ #category : #accessing }
+SlTooltip >> enabled: aBoolean [
+
+	"Convenience method to set receiver's enabled state"
+
+	self disabled: aBoolean not
+]
+
+{ #category : #actions }
+SlTooltip >> hide [
+
+	self apply: #hide withArguments: #()
+]
+
+{ #category : #accessing }
+SlTooltip >> hoist: aBoolean [
+
+	self propertyAt: #hoist put: aBoolean
+]
+
+{ #category : #testing }
+SlTooltip >> isDisabled [
+
+	^ self propertyAt: #disabled
+]
+
+{ #category : #testing }
+SlTooltip >> isEnabled [
+
+	"Convenience method to test if receiver is enabled"
+
+	^ self isDisabled not
+]
+
+{ #category : #testing }
+SlTooltip >> isHoist [
+
+	^ self propertyAt: #hoist
+]
+
+{ #category : #testing }
+SlTooltip >> isOpen [
+
+	^ self propertyAt: #open
 ]
 
 { #category : #'accessing placement' }
@@ -64,16 +186,22 @@ SlTooltip >> leftStart [
 	self placement: #'left-start'
 ]
 
-{ #category : #'accessing placement' }
-SlTooltip >> placement [
+{ #category : #accessing }
+SlTooltip >> open: aBoolean [
 
-	^ self attributeAt: #placement
+	self propertyAt: #open put: aBoolean
 ]
 
-{ #category : #'accessing placement' }
+{ #category : #accessing }
+SlTooltip >> placement [
+
+	^ self propertyAt: #placement
+]
+
+{ #category : #accessing }
 SlTooltip >> placement: aString [
 
-	self attributeAt: #placement put: aString
+	self propertyAt: #placement put: aString
 ]
 
 { #category : #'accessing placement' }
@@ -94,6 +222,24 @@ SlTooltip >> rightStart [
 	self placement: #'right-start'
 ]
 
+{ #category : #actions }
+SlTooltip >> show [
+
+	self apply: #show withArguments: #()
+]
+
+{ #category : #accessing }
+SlTooltip >> skidding [
+
+	^ self propertyAt: #skidding
+]
+
+{ #category : #accessing }
+SlTooltip >> skidding: aNumber [
+
+	self propertyAt: #skidding put: aNumber
+]
+
 { #category : #'accessing placement' }
 SlTooltip >> top [
 
@@ -112,16 +258,16 @@ SlTooltip >> topStart [
 	self placement: #'top-start'
 ]
 
-{ #category : #'accessing trigger' }
+{ #category : #accessing }
 SlTooltip >> trigger [
 
-	^ self attributeAt: #trigger
+	^ self propertyAt: #trigger
 ]
 
-{ #category : #'accessing trigger' }
+{ #category : #accessing }
 SlTooltip >> trigger: aString [
 
-	self attributeAt: #trigger put: aString
+	self propertyAt: #trigger put: aString
 ]
 
 { #category : #'accessing trigger' }
@@ -131,9 +277,21 @@ SlTooltip >> triggerClick [
 ]
 
 { #category : #'accessing trigger' }
+SlTooltip >> triggerFocus [
+
+	self trigger: #focus
+]
+
+{ #category : #'accessing trigger' }
 SlTooltip >> triggerHover [
 
-	self trigger: nil
+	self trigger: #hover
+]
+
+{ #category : #'accessing trigger' }
+SlTooltip >> triggerHoverAndFocus [
+
+	self trigger: 'hover focus'
 ]
 
 { #category : #'accessing trigger' }

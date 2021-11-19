@@ -4,38 +4,26 @@ Class {
 	#category : #'CodeParadise-WebApplication-Shoelace-Elements'
 }
 
-{ #category : #'accessing control' }
+{ #category : #'accessing style' }
 SlSwitch >> beChecked [
 
-	self attributeAt: #checked put: ''
+	self checked: true
 ]
 
-{ #category : #'accessing control' }
-SlSwitch >> beDisabled [
-
-	self attributeAt: #disabled put: ''
-]
-
-{ #category : #'accessing control' }
+{ #category : #'accessing style' }
 SlSwitch >> beNotChecked [
 
-	self removeAttributeAt: #checked
+	self checked: false
 ]
 
-{ #category : #'accessing control' }
-SlSwitch >> beNotDisabled [
+{ #category : #accessing }
+SlSwitch >> checked: aBoolean [
 
-	self removeAttributeAt: #disabled
+	self propertyAt: #checked put: aBoolean
 ]
 
-{ #category : #'accessing control' }
+{ #category : #testing }
 SlSwitch >> isChecked [
 
-	^ (self attributeAt: #checked) notNil
-]
-
-{ #category : #'accessing control' }
-SlSwitch >> isDisabled [
-
-	^ (self attributeAt: #disabled) notNil
+	^ self propertyAt: #checked
 ]
