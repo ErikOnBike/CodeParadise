@@ -8,6 +8,7 @@ Class {
 	#instVars : [
 		'modifiers',
 		'key',
+		'repeat',
 		'isComposing'
 	],
 	#category : #'CodeParadise-WebApplication-Events'
@@ -85,6 +86,20 @@ CpKeyEvent >> printOn: aStream [
 		print: self modifiers ;
 		nextPutAll: ', key: ' ;
 		print: self key ;
+		nextPutAll: ', repeat: ' ;
+		print: self repeat ;
 		nextPutAll: ', isComposing: ' ;
 		print: self isComposing
+]
+
+{ #category : #accessing }
+CpKeyEvent >> repeat [
+
+	^ repeat
+]
+
+{ #category : #accessing }
+CpKeyEvent >> repeat: aBoolean [
+
+	repeat := aBoolean
 ]
