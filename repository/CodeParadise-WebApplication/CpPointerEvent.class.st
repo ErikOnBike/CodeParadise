@@ -2,7 +2,8 @@ Class {
 	#name : #CpPointerEvent,
 	#superclass : #CpUserInterfaceEvent,
 	#instVars : [
-		'offset',
+		'offsetX',
+		'offsetY',
 		'pointerId',
 		'pointerType',
 		'buttons',
@@ -109,13 +110,38 @@ CpPointerEvent >> modifiers [
 { #category : #accessing }
 CpPointerEvent >> offset [
 
-	^ offset
+	^ offsetX @ offsetY
 ]
 
 { #category : #accessing }
 CpPointerEvent >> offset: aPoint [
 
-	offset := aPoint
+	offsetX := aPoint x.
+	offsetY := aPoint y
+]
+
+{ #category : #accessing }
+CpPointerEvent >> offsetX [
+
+	^ offsetX
+]
+
+{ #category : #accessing }
+CpPointerEvent >> offsetX: aNumber [
+
+	offsetX := aNumber
+]
+
+{ #category : #accessing }
+CpPointerEvent >> offsetY [
+
+	^ offsetY
+]
+
+{ #category : #accessing }
+CpPointerEvent >> offsetY: aNumber [
+
+	offsetY := aNumber
 ]
 
 { #category : #accessing }

@@ -92,7 +92,8 @@ CpDropEvent >> initializeWithDragEvent: aDragEvent pointerEvent: aPointerEvent [
 	timeStamp := aPointerEvent timeStamp.
 	target := aPointerEvent target.
 	elements := aPointerEvent elements copy.
-	point := aPointerEvent point copy
+	pageX := aPointerEvent pageX.
+	pageY := aPointerEvent pageY
 ]
 
 { #category : #initialization }

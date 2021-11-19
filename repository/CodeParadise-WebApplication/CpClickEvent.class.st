@@ -102,15 +102,17 @@ CpClickEvent class >> newFromPointerEvent: aPointerEvent [
 		select: [ :each | clickEventClass isListenedToOn: each ].
 	elements ifEmpty: [ ^ nil ].
 
-	^ clickEventClass new
-		type: #click ;
-		timeStamp: aPointerEvent timeStamp ;
-		point: aPointerEvent point ;
-		offset: aPointerEvent offset ;
-		target: aPointerEvent target ;
-		elements: elements ;
-		buttons: aPointerEvent buttons ;
-		modifiers: aPointerEvent modifiers ;
+	^ clickEventClass newFromPointerEvent: aPointerEvent elements: elements
+]
+
+{ #category : #'instance creation' }
+CpClickEvent class >> newFromPointerEvent: aPointerEvent elements: aCollection [
+
+	"Answer a new instance of the receiver using the information
+	from the specified pointer event and elements to dispatch to."
+
+	^ self basicNew
+		initializeWithPointerEvent: aPointerEvent elements: aCollection ;
 		yourself
 ]
 
@@ -176,6 +178,23 @@ CpClickEvent >> hasModifiers [
 CpClickEvent >> hasShiftModifier [
 
 	^ (self modifiers bitAnd: 8) ~= 0
+]
+
+{ #category : #initialization }
+CpClickEvent >> initializeWithPointerEvent: aPointerEvent elements: aCollection [
+
+	self initialize.
+
+	type := #click.
+	timeStamp := aPointerEvent timeStamp.
+	pageX := aPointerEvent pageX.
+	pageY := aPointerEvent pageY.
+	offset := aPointerEvent offset.
+	target := aPointerEvent target.
+	elements := aCollection.
+	buttons := aPointerEvent buttons.
+	modifiers := aPointerEvent modifiers
+
 ]
 
 { #category : #testing }
