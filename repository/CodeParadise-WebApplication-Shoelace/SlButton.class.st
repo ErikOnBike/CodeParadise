@@ -25,7 +25,7 @@ SlButton class >> content: contentElement suffix: suffixElement [
 SlButton class >> label: aString [
 
 	^ self new
-		content: (aString inHtmlTag: #span) ;
+		label: aString ;
 		yourself
 ]
 
@@ -232,7 +232,7 @@ SlButton >> content: anElement [
 	"Set the content of the receiver to the specified element.
 	Any existing content is removed."
 
-	self replaceAllChildrenWith: anElement
+	self replaceAllChildrenWith: anElement asHtmlElement
 ]
 
 { #category : #accessing }

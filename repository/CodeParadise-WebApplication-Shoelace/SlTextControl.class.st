@@ -5,6 +5,15 @@ Class {
 }
 
 { #category : #accessing }
+SlTextControl class >> label: aStringOrElement [
+
+	^ self new
+		label: aStringOrElement ;
+		yourself
+
+]
+
+{ #category : #accessing }
 SlTextControl >> autocapitalize [
 
 	^ self propertyAt: #autocapitalize

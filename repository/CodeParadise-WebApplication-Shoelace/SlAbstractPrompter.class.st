@@ -9,10 +9,10 @@ Class {
 }
 
 { #category : #accessing }
-SlAbstractPrompter class >> label: aString [
+SlAbstractPrompter class >> label: aStringOrElement [
 
 	^ self new
-		label: aString ;
+		label: aStringOrElement ;
 		yourself
 ]
 
