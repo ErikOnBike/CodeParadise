@@ -1,6 +1,6 @@
 Class {
 	#name : #SlCheckbox,
-	#superclass : #SlFormControl,
+	#superclass : #SlCheckControl,
 	#category : #'CodeParadise-WebApplication-Shoelace-Elements'
 }
 
@@ -13,21 +13,9 @@ SlCheckbox class >> label: aString [
 ]
 
 { #category : #'accessing style' }
-SlCheckbox >> beChecked [
-
-	self checked: true
-]
-
-{ #category : #'accessing style' }
 SlCheckbox >> beIndeterminate [
 
 	self indeterminate: true
-]
-
-{ #category : #'accessing style' }
-SlCheckbox >> beNotChecked [
-
-	self checked: false
 ]
 
 { #category : #'accessing style' }
@@ -37,29 +25,9 @@ SlCheckbox >> beNotIndeterminate [
 ]
 
 { #category : #accessing }
-SlCheckbox >> checked: aBoolean [
-
-	self propertyAt: #checked put: aBoolean
-]
-
-{ #category : #actions }
-SlCheckbox >> click [
-
-	"Simulate a click on the checkbox"
-
-	self apply: #click withArguments: #()
-]
-
-{ #category : #accessing }
 SlCheckbox >> indeterminate: aBoolean [
 
 	self propertyAt: #indeterminate put: aBoolean
-]
-
-{ #category : #testing }
-SlCheckbox >> isChecked [
-
-	^ self propertyAt: #checked
 ]
 
 { #category : #testing }
