@@ -241,11 +241,11 @@ CpShoelaceExamplesClientBehavior >> exampleDrawer [
 	"Create some simple drawers with a paragraph of text"
 	drawer1 := (SlDrawer label: 'First drawer')
 		beStart ;
-		appendChild: ('Hello y''all. This is a paragraph in a regular drawer. It became visible because you pushed the red button. The drawer can be closed by clicking outside the drawer.' inHtmlTag: #p) ;
+		appendChild: ('Hello y''all. This is a paragraph in a regular drawer. It became visible because you pushed the blue button. The drawer can be closed by clicking outside the drawer.' inHtmlTag: #p) ;
 		yourself.
 	drawer2 := (SlDrawer label: 'First drwaer')
 		beEnd ;
-		appendChild: ('Hello there. This is a paragraph in a modal drawer. It became visible because you pushed the blue button. The drawer must be closed by the button inside the drawer.' inHtmlTag: #p) ;
+		appendChild: ('Hello there. This is a paragraph in a modal drawer. It became visible because you pushed the red button. The drawer must be closed by the button inside the drawer.' inHtmlTag: #p) ;
 		yourself.
 
 	"Add a close button in the drawer footer"
