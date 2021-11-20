@@ -147,7 +147,7 @@ CpShoelaceExamplesClientBehavior >> exampleDialog [
 
 	<example: 'Dialog' order: 200>
 
-	| outputElement regularDialog modalDialog mixedDialog modalCheckbox |
+	| outputElement regularDialog modalDialog mixedDialog modalCheckbox focusDialog focusCheckbox |
 
 	"Clear content"
 	outputElement := self outputElement.
@@ -186,6 +186,20 @@ CpShoelaceExamplesClientBehavior >> exampleDialog [
 		when: CpPrimaryClickEvent send: #hide to: mixedDialog ;
 		yourself).
 
+	"Create a focus dialog with a paragraph of text and 3 input fields"
+	focusDialog := SlDialog new
+		label: 'Focus dialog' ;
+		appendChild: ('This is a focus dialog. It is used to show the focus can be set on a specific element inside the dialog when showing it. Have fun!' inHtmlTag: #p) ;
+		appendChild: ((SlInput label: 'First') id: #first ; beAutofocus ; helpText: 'I am default but that can be overriden' ; yourself) ;
+		appendChild: ((SlInput label: 'Second') id: #second ; yourself) ;
+		appendChild: ((SlInput label: 'Third') id: #third ; yourself) ;
+		yourself.
+
+	"Add a close button in the dialog footer"
+	focusDialog footer: ((SlButton label: 'Ciao!')
+		when: CpPrimaryClickEvent send: #hide to: focusDialog ;
+		yourself).
+
 	"Add buttons to the example, these open the dialog in different ways"
 	outputElement
 		appendChild: ((SlButton label: 'Open regular')
@@ -200,9 +214,16 @@ CpShoelaceExamplesClientBehavior >> exampleDialog [
 		appendChild: ((SlButton label: 'Mixed dialog')
 			when: CpPrimaryClickEvent do: [ modalCheckbox isChecked ifTrue: [ mixedDialog showModal ] ifFalse: [ mixedDialog showNonModal ] ] ;
 			yourself) ;
+		appendChild: ('' inHtmlTag: #p) ;
+		appendChild: (focusCheckbox := SlCheckbox label: 'focus 3rd') ;
+		appendChild: (' ' inHtmlTag: #span) ;
+		appendChild: ((SlButton label: 'Focus dialog')
+			when: CpPrimaryClickEvent do: [ focusCheckbox isChecked ifTrue: [ focusDialog showFocusing: (focusDialog firstDescendantMatching: '#third') ] ifFalse: [ focusDialog resetDefaultFocusElement ; show ] ] ;
+			yourself) ;
 		appendChild: regularDialog ;
 		appendChild: modalDialog ;
-		appendChild: mixedDialog
+		appendChild: mixedDialog ;
+		appendChild: focusDialog
 
 ]
 
