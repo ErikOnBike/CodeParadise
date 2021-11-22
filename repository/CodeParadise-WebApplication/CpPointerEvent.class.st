@@ -1,13 +1,9 @@
 Class {
 	#name : #CpPointerEvent,
-	#superclass : #CpUserInterfaceEvent,
+	#superclass : #CpMouseEvent,
 	#instVars : [
-		'offsetX',
-		'offsetY',
 		'pointerId',
-		'pointerType',
-		'buttons',
-		'modifiers'
+		'pointerType'
 	],
 	#category : #'CodeParadise-WebApplication-Events'
 }
@@ -18,130 +14,6 @@ CpPointerEvent >> autoPropagate [
 	"All pointer events are low level. Let them propagate to different elements."
 
 	^ true
-]
-
-{ #category : #accessing }
-CpPointerEvent >> buttonCount [
-
-	^ self buttons bitCount
-]
-
-{ #category : #accessing }
-CpPointerEvent >> buttons [
-
-	"Answer an Integer specifying the different buttons pressed.
-	Combine the following individual numbers:
-		1 - primary button
-		2 - secondary button
-		4 - third (auxiliary) button (like wheel mouse or middle button)
-		8 - fourth button
-		16 - fifth button"
-
-	^ buttons
-]
-
-{ #category : #testing }
-CpPointerEvent >> isButtonPressed [
-
-	^ buttons ~= 0
-]
-
-{ #category : #testing }
-CpPointerEvent >> isFifthButtonPressed [
-
-	^ buttons anyMask: 16
-]
-
-{ #category : #testing }
-CpPointerEvent >> isFourthButtonPressed [
-
-	^ buttons anyMask: 8
-]
-
-{ #category : #testing }
-CpPointerEvent >> isOnlyPrimaryButtonPressed [
-
-	^ buttons = 1
-]
-
-{ #category : #testing }
-CpPointerEvent >> isOnlySecondaryButtonPressed [
-
-	^ buttons = 2
-]
-
-{ #category : #testing }
-CpPointerEvent >> isPrimaryButtonPressed [
-
-	^ buttons anyMask: 1
-]
-
-{ #category : #testing }
-CpPointerEvent >> isSecondaryButtonPressed [
-
-	^ buttons anyMask: 2
-]
-
-{ #category : #testing }
-CpPointerEvent >> isThirdButtonPressed [
-
-	^ buttons anyMask: 4
-]
-
-{ #category : #accessing }
-CpPointerEvent >> modifierCount [
-
-	^ self modifiers bitCount
-]
-
-{ #category : #accessing }
-CpPointerEvent >> modifiers [
-
-	"Answer an Integer specifying the different modifiers pressed.
-	Combine the following individual numbers:
-		1 - alt
-		2 - ctrl
-		4 - meta
-		8 - shift"
-
-	^ modifiers
-]
-
-{ #category : #accessing }
-CpPointerEvent >> offset [
-
-	^ offsetX @ offsetY
-]
-
-{ #category : #accessing }
-CpPointerEvent >> offset: aPoint [
-
-	offsetX := aPoint x.
-	offsetY := aPoint y
-]
-
-{ #category : #accessing }
-CpPointerEvent >> offsetX [
-
-	^ offsetX
-]
-
-{ #category : #accessing }
-CpPointerEvent >> offsetX: aNumber [
-
-	offsetX := aNumber
-]
-
-{ #category : #accessing }
-CpPointerEvent >> offsetY [
-
-	^ offsetY
-]
-
-{ #category : #accessing }
-CpPointerEvent >> offsetY: aNumber [
-
-	offsetY := aNumber
 ]
 
 { #category : #accessing }
@@ -173,10 +45,8 @@ CpPointerEvent >> printOn: aStream [
 
 	super printOn: aStream.
 	aStream
-		nextPutAll: ', offset: ' ;
-		print: self offset ;
 		nextPutAll: ', pointerId: ' ;
 		print: self pointerId ;
-		nextPutAll: ', buttons: ' ;
-		print: buttons
+		nextPutAll: ', pointerType: ' ;
+		print: self pointerType
 ]

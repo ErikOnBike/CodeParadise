@@ -48,7 +48,7 @@ CpClickEvent class >> clickStart: aPointerDownEvent [
 
 	(clickEvent isNil or: [ (clickEvent hasSameOrigin: aPointerDownEvent) not ])
 		ifTrue: [
-			(self newFromPointerEvent: aPointerDownEvent) ifNotNil: [ :pointerEvent |
+			(self newFromMouseEvent: aPointerDownEvent) ifNotNil: [ :pointerEvent |
 				ClickInstances at: aPointerDownEvent pointerId put: pointerEvent ] ]
 ]
 
@@ -66,7 +66,7 @@ CpClickEvent class >> clickUpdate: aPointerMoveEvent [
 ]
 
 { #category : #'instance creation' }
-CpClickEvent class >> newFromPointerEvent: aPointerEvent [
+CpClickEvent class >> newFromMouseEvent: aMouseEvent [
 
 	"Answer a new instance of the receiver (or a subclass) matching the
 	specified pointer event.
@@ -82,32 +82,32 @@ CpClickEvent class >> newFromPointerEvent: aPointerEvent [
 	Implementation: Since subclasses will be defined
 	after base classes, use indirect reference to
 	subclasses (for usage in RemoveEnvironment)."
-	clickEventClass := aPointerEvent hasModifiers
+	clickEventClass := aMouseEvent hasModifiers
 		ifTrue: [ self ]
 		ifFalse: [
-			aPointerEvent isOnlyPrimaryButtonPressed
+			aMouseEvent isOnlyPrimaryButtonPressed
 				ifTrue: [ Smalltalk at: #CpPrimaryClickEvent ]
 				ifFalse: [
-					aPointerEvent isOnlySecondaryButtonPressed
+					aMouseEvent isOnlySecondaryButtonPressed
 						ifTrue: [ Smalltalk at: #CpSecondaryClickEvent ]
 						ifFalse: [ self ] ] ].
 
 	"Validate the elements are actually listening to the specific click event"
-	elements := aPointerEvent elements
+	elements := aMouseEvent elements
 		select: [ :each | clickEventClass isListenedToOn: each ].
 	elements ifEmpty: [ ^ nil ].
 
-	^ clickEventClass newFromPointerEvent: aPointerEvent elements: elements
+	^ clickEventClass newFromMouseEvent: aMouseEvent elements: elements
 ]
 
 { #category : #'instance creation' }
-CpClickEvent class >> newFromPointerEvent: aPointerEvent elements: aCollection [
+CpClickEvent class >> newFromMouseEvent: aMouseEvent elements: aCollection [
 
 	"Answer a new instance of the receiver using the information
 	from the specified pointer event and elements to dispatch to."
 
 	^ self basicNew
-		initializeWithPointerEvent: aPointerEvent elements: aCollection ;
+		initializeWithMouseEvent: aMouseEvent elements: aCollection ;
 		yourself
 ]
 
@@ -117,167 +117,20 @@ CpClickEvent class >> postInstallOnce [
 	ClickInstances := Dictionary new
 ]
 
-{ #category : #accessing }
-CpClickEvent >> buttonCount [
-
-	^ self buttons bitCount
-]
-
-{ #category : #accessing }
-CpClickEvent >> buttons [
-
-	"Answer an Integer specifying the different buttons pressed.
-	Combine the following individual numbers:
-		1 - primary button
-		2 - secondary button
-		4 - third (auxiliary) button (like wheel mouse or middle button)
-		8 - fourth button
-		16 - fifth button"
-
-	^ buttons
-]
-
-{ #category : #accessing }
-CpClickEvent >> buttons: anInteger [
-
-	buttons := anInteger
-]
-
-{ #category : #testing }
-CpClickEvent >> hasAltModifier [
-
-	^ (self modifiers bitAnd: 1) ~= 0
-]
-
-{ #category : #testing }
-CpClickEvent >> hasCtrlModifier [
-
-	^ (self modifiers bitAnd: 2) ~= 0
-]
-
-{ #category : #testing }
-CpClickEvent >> hasMetaModifier [
-
-	^ (self modifiers bitAnd: 4) ~= 0
-]
-
-{ #category : #testing }
-CpClickEvent >> hasModifiers [
-
-	^ self modifiers ~= 0
-]
-
-{ #category : #testing }
-CpClickEvent >> hasShiftModifier [
-
-	^ (self modifiers bitAnd: 8) ~= 0
-]
-
 { #category : #initialization }
-CpClickEvent >> initializeWithPointerEvent: aPointerEvent elements: aCollection [
+CpClickEvent >> initializeWithMouseEvent: aMouseEvent elements: aCollection [
 
 	self initialize.
 
 	type := #click.
-	timeStamp := aPointerEvent timeStamp.
-	pageX := aPointerEvent pageX.
-	pageY := aPointerEvent pageY.
-	offset := aPointerEvent offset.
-	target := aPointerEvent target.
+	timeStamp := aMouseEvent timeStamp.
+	pageX := aMouseEvent pageX.
+	pageY := aMouseEvent pageY.
+	offsetX := aMouseEvent offsetX.
+	offsetY := aMouseEvent offsetY.
+	target := aMouseEvent target.
 	elements := aCollection.
-	buttons := aPointerEvent buttons.
-	modifiers := aPointerEvent modifiers
+	buttons := aMouseEvent buttons.
+	modifiers := aMouseEvent modifiers
 
-]
-
-{ #category : #testing }
-CpClickEvent >> isFifthButtonPressed [
-
-	^ buttons anyMask: 16
-]
-
-{ #category : #testing }
-CpClickEvent >> isFourthButtonPressed [
-
-	^ buttons anyMask: 8
-]
-
-{ #category : #testing }
-CpClickEvent >> isOnlyPrimaryButtonPressed [
-
-	^ buttons = 1
-]
-
-{ #category : #testing }
-CpClickEvent >> isOnlySecondaryButtonPressed [
-
-	^ buttons = 2
-]
-
-{ #category : #testing }
-CpClickEvent >> isPrimaryButtonPressed [
-
-	^ buttons anyMask: 1
-]
-
-{ #category : #testing }
-CpClickEvent >> isSecondaryButtonPressed [
-
-	^ buttons anyMask: 2
-]
-
-{ #category : #testing }
-CpClickEvent >> isThirdButtonPressed [
-
-	^ buttons anyMask: 4
-]
-
-{ #category : #accessing }
-CpClickEvent >> modifierCount [
-
-	^ self modifiers bitCount
-]
-
-{ #category : #accessing }
-CpClickEvent >> modifiers [
-
-	"Answer an Integer specifying the different modifiers pressed.
-	Combine the following individual numbers:
-		1 - alt
-		2 - ctrl
-		4 - meta
-		8 - shift"
-
-	^ modifiers
-]
-
-{ #category : #accessing }
-CpClickEvent >> modifiers: anInteger [
-
-	modifiers := anInteger
-]
-
-{ #category : #accessing }
-CpClickEvent >> offset [
-
-	^ offset
-]
-
-{ #category : #accessing }
-CpClickEvent >> offset: aPoint [
-
-	offset := aPoint
-]
-
-{ #category : #printing }
-CpClickEvent >> printOn: aStream [
-
-	super printOn: aStream.
-	aStream
-		nextPutAll: ', offset: ' ;
-		print: self offset ;
-		nextPutAll: ', buttons: ' ;
-		print: buttons ;
-		nextPutAll: ', modifiers: ' ;
-		print: modifiers
 ]

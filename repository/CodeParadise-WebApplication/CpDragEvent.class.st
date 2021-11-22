@@ -114,7 +114,7 @@ CpDragEvent class >> dragStart: aPointerDownEvent [
 	dragEvent := DragInstances at: aPointerDownEvent pointerId ifAbsent: [ nil ].
 
 	(dragEvent isNil or: [ (dragEvent hasSameOrigin: aPointerDownEvent) not ])
-		ifTrue: [ dragEvent := DragInstances at: aPointerDownEvent pointerId put: (self newFromPointerEvent: aPointerDownEvent) ].
+		ifTrue: [ dragEvent := DragInstances at: aPointerDownEvent pointerId put: (self newFromMouseEvent: aPointerDownEvent) ].
 
 	"Dispatch the new DragEvent"
 	dragEvent dispatch
@@ -122,16 +122,10 @@ CpDragEvent class >> dragStart: aPointerDownEvent [
 ]
 
 { #category : #'instance creation' }
-CpDragEvent class >> newFromPointerEvent: aPointerEvent [
+CpDragEvent class >> newFromMouseEvent: aMouseEvent [
 
-	^ self new
-		type: #drag ;
-		timeStamp: aPointerEvent timeStamp ;
-		modifiers: aPointerEvent modifiers ;
-		point: aPointerEvent point ;
-		offset: aPointerEvent offset ;
-		target: aPointerEvent target ;
-		elements: aPointerEvent elements copy ;
+	^ self basicNew
+		initializeWithMouseEvent: aMouseEvent ;
 		yourself
 ]
 
@@ -226,6 +220,23 @@ CpDragEvent >> initialize [
 	canceled := false
 ]
 
+{ #category : #initialization }
+CpDragEvent >> initializeWithMouseEvent: aMouseEvent [
+
+	self initialize.
+
+	type := #drag.
+	timeStamp := aMouseEvent timeStamp.
+	pageX := aMouseEvent pageX.
+	pageY := aMouseEvent pageY.
+	offsetX := aMouseEvent offsetX.
+	offsetY := aMouseEvent offsetY.
+	target := aMouseEvent target.
+	elements := aMouseEvent elements copy.
+	modifiers := aMouseEvent modifiers
+
+]
+
 { #category : #testing }
 CpDragEvent >> isCanceled [
 
@@ -277,13 +288,38 @@ CpDragEvent >> modifiers: anInteger [
 { #category : #accessing }
 CpDragEvent >> offset [
 
-	^ offset
+	^ offsetX @ offsetY
 ]
 
 { #category : #accessing }
 CpDragEvent >> offset: aPoint [
 
-	offset := aPoint
+	offsetX := aPoint x.
+	offsetY := aPoint y
+]
+
+{ #category : #accessing }
+CpDragEvent >> offsetX [
+
+	^ offsetX
+]
+
+{ #category : #accessing }
+CpDragEvent >> offsetX: aNumber [
+
+	offsetX := aNumber
+]
+
+{ #category : #accessing }
+CpDragEvent >> offsetY [
+
+	^ offsetY
+]
+
+{ #category : #accessing }
+CpDragEvent >> offsetY: aNumber [
+
+	offsetY := aNumber
 ]
 
 { #category : #copying }
