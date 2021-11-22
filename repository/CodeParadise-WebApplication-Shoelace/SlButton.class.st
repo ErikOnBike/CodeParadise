@@ -261,6 +261,14 @@ SlButton >> enabled: aBoolean [
 	self disabled: aBoolean not
 ]
 
+{ #category : #initialization }
+SlButton >> initialize [
+
+	super initialize.
+
+	self when: CpClickEvent send: #onPrivateClick: to: self
+]
+
 { #category : #testing }
 SlButton >> isCircle [
 
@@ -343,6 +351,17 @@ SlButton >> link: linkString target: targetString [
 SlButton >> loading: aBoolean [
 
 	self propertyAt: #loading put: aBoolean
+]
+
+{ #category : #'as yet unclassified' }
+SlButton >> onPrivateClick: aClickEvent [
+
+	"The receiver has generated a click event (as oppposed to having actually
+	been clicked by a pointer device). Emulate regular click event."
+
+	"Implementation: a Click event is not a pointer event, but the protocol matches enough"
+	aClickEvent isNoButtonPressed
+		ifTrue: [ self announce: ((CpPrimaryClickEvent newFromMouseEvent: aClickEvent) ifNil: [ ^ self ]) ]
 ]
 
 { #category : #accessing }
