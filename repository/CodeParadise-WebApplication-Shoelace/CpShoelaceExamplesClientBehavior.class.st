@@ -215,7 +215,7 @@ CpShoelaceExamplesClientBehavior >> exampleDialog [
 			when: CpPrimaryClickEvent do: [ modalCheckbox isChecked ifTrue: [ mixedDialog showModal ] ifFalse: [ mixedDialog showNonModal ] ] ;
 			yourself) ;
 		appendChild: ('' inHtmlTag: #p) ;
-		appendChild: (focusCheckbox := SlCheckbox label: 'focus 3rd') ;
+		appendChild: (focusCheckbox := SlCheckbox label: 'focus 3rd input field') ;
 		appendChild: (' ' inHtmlTag: #span) ;
 		appendChild: ((SlButton label: 'Focus dialog')
 			when: CpPrimaryClickEvent do: [ focusCheckbox isChecked ifTrue: [ focusDialog showFocusing: (focusDialog firstDescendantMatching: '#third') ] ifFalse: [ focusDialog resetDefaultFocusElement ; show ] ] ;
