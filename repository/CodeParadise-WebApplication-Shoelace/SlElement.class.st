@@ -4,6 +4,19 @@ Class {
 	#category : #'CodeParadise-WebApplication-Shoelace-Elements'
 }
 
+{ #category : #testing }
+SlElement class >> hasAbstractTag [
+
+	^ self classSide includesSelector: #isAbstractTag
+]
+
+{ #category : #testing }
+SlElement class >> isAbstractTag [
+
+	"The method is present to indicate the receiver is abstract.
+	This method will NOT be evaluated to decide if the receiver is abstract."
+]
+
 { #category : #initialization }
 SlElement class >> loadLibrary [
 

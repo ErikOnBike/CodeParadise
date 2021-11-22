@@ -88,7 +88,23 @@ Class >> postInstall [
 
 	"Perform any necessary initialization after receiver is installed in the ClientEnvironment.
 	In contrast with a class side #initialize, this method should be called from subclasses
-	using [[[ super postInstall ]]]."
+	using [[[ super postInstall ]]].
+	In case initialization is strictly for the class itself (and should not be re-executed for
+	any subclasses), use #postInstallOnce"
+
+	<clientEnvironment>
+
+	(self classSide includesSelector: #postInstallOnce)
+		ifTrue: [ self postInstallOnce ]
+
+]
+
+{ #category : #'*CodeParadise-RemoteEnvironment' }
+Class >> postInstallOnce [
+
+	"Perform any necessary initialization after receiver is installed in the ClientEnvironment.
+	In contrast with #postInstall, this method should NOT chain post install methods from the
+	super class."
 
 	<clientEnvironment>
 

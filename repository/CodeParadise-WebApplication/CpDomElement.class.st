@@ -72,9 +72,12 @@ CpDomElement class >> elementsFromPoint: aPoint [
 CpDomElement class >> new [
 
 	"Instances of the receiver are created through #newWithTag: or when querying children of existing DOM elements
-	or are created by querying the DOM using #firstDescendantMatching: or #allDescendantsMatching:"
+	or are created by querying the DOM using #firstDescendantMatching: or #allDescendantsMatching:
+	Subclasses might override this behavior and create specific instances."
 
-	self shouldNotImplement
+	self requiresInstantiationWithTag
+		ifTrue: [ self error: 'Instances of the receiver should be created using ', #newWithTag: ]
+		ifFalse: [ ^ super new ]
 ]
 
 { #category : #'instance creation' }
@@ -111,6 +114,12 @@ CpDomElement class >> registerNamespace: namespaceString forPrefix: prefixString
 
 	<primitive: 'primitiveDomElementRegisterNamespace:forPrefix:' module: 'CpDOMPlugin'>
 	self primitiveFailed
+]
+
+{ #category : #testing }
+CpDomElement class >> requiresInstantiationWithTag [
+
+	^ true
 ]
 
 { #category : #support }

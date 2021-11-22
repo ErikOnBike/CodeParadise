@@ -13,6 +13,12 @@ Class {
 	#category : #'CodeParadise-WebApplication-DOM'
 }
 
+{ #category : #testing }
+CpTemplateComponent class >> hasAbstractTag [
+
+	^ self classSide includesSelector: #isAbstractTag
+]
+
 { #category : #updating }
 CpTemplateComponent class >> installStyle: styleString [
 
@@ -40,6 +46,13 @@ CpTemplateComponent class >> installTemplate: templateString [
 	self primitiveFailed
 ]
 
+{ #category : #testing }
+CpTemplateComponent class >> isAbstractTag [
+
+	"The method is present to indicate the receiver is abstract.
+	This method will NOT be evaluated to decide if the receiver is abstract."
+]
+
 { #category : #'instance creation' }
 CpTemplateComponent class >> new [
 
@@ -48,8 +61,8 @@ CpTemplateComponent class >> new [
 	new instances of the receiver's subclasses are allowed to be created,
 	because the receiver knows its own tag."
 
-	self = CpTemplateComponent
-		ifTrue: [ ^ super new ].
+	self hasAbstractTag
+		ifTrue: [ self error: self name, ' is abstract and cannot be instantiated' ].
 
 	^ self newWithTag: self tagName
 ]

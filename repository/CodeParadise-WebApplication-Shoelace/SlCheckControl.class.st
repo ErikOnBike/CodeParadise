@@ -4,6 +4,13 @@ Class {
 	#category : #'CodeParadise-WebApplication-Shoelace-Elements'
 }
 
+{ #category : #testing }
+SlCheckControl class >> isAbstractTag [
+
+	"The method is present to indicate the receiver is abstract.
+	This method will NOT be evaluated to decide if the receiver is abstract."
+]
+
 { #category : #'accessing style' }
 SlCheckControl >> beChecked [
 

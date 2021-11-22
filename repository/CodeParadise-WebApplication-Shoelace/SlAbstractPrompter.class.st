@@ -8,6 +8,13 @@ Class {
 	#category : #'CodeParadise-WebApplication-Shoelace-Elements'
 }
 
+{ #category : #testing }
+SlAbstractPrompter class >> isAbstractTag [
+
+	"The method is present to indicate the receiver is abstract.
+	This method will NOT be evaluated to decide if the receiver is abstract."
+]
+
 { #category : #accessing }
 SlAbstractPrompter class >> label: aStringOrElement [
 
