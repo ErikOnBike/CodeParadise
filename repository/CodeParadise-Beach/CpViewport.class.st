@@ -70,9 +70,7 @@ CpViewport >> handleViewportMove: aDragEvent [
 { #category : #'event handling' }
 CpViewport >> handleWheelEvent: aWheelEvent [
 
-	position := position + aWheelEvent delta.
-
-	self render.
+	self renderPosition: position + aWheelEvent delta.
 
 	"Let items that are currently being dragged update"
 	CpDragEvent updateAll.
