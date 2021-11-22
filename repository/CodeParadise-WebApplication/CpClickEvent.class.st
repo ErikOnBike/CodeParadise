@@ -1,11 +1,6 @@
 Class {
 	#name : #CpClickEvent,
-	#superclass : #CpUserInterfaceEvent,
-	#instVars : [
-		'offset',
-		'buttons',
-		'modifiers'
-	],
+	#superclass : #CpMouseEvent,
 	#classVars : [
 		'ClickInstances'
 	],
@@ -117,9 +112,7 @@ CpClickEvent class >> newFromPointerEvent: aPointerEvent elements: aCollection [
 ]
 
 { #category : #'class initialization' }
-CpClickEvent class >> postInstall [
-
-	super postInstall.
+CpClickEvent class >> postInstallOnce [
 
 	ClickInstances := Dictionary new
 ]

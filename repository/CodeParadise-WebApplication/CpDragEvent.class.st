@@ -2,7 +2,8 @@ Class {
 	#name : #CpDragEvent,
 	#superclass : #CpUserInterfaceEvent,
 	#instVars : [
-		'offset',
+		'offsetX',
+		'offsetY',
 		'tracePoints',
 		'endPoint',
 		'modifiers',
@@ -135,9 +136,7 @@ CpDragEvent class >> newFromPointerEvent: aPointerEvent [
 ]
 
 { #category : #'class initialization' }
-CpDragEvent class >> postInstall [
-
-	super postInstall.
+CpDragEvent class >> postInstallOnce [
 
 	DragInstances := Dictionary new.
 

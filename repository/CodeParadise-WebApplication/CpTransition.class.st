@@ -164,14 +164,13 @@ CpTransition class >> performTransitions [
 ]
 
 { #category : #'class initialization' }
-CpTransition class >> postInstall [
+CpTransition class >> postInstallOnce [
 
-	super postInstall.
+	"Create transition process to perform transitions periodically"
 
 	Transitions := OrderedCollection new.
 
-	self == CpTransition
-		ifTrue: [ self createTransitionProcess ]
+	self createTransitionProcess
 
 ]
 

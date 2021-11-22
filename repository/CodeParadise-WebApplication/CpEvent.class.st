@@ -148,11 +148,16 @@ CpEvent class >> postInstall [
 
 	super postInstall.
 
-	"Create the event handler process once"
-	self == CpEvent
-		ifTrue: [ self createEventProcess ].
-
 	self registerEventClass: self forType: self type
+]
+
+{ #category : #'class initialization' }
+CpEvent class >> postInstallOnce [
+
+	"Create the event handler process once"
+
+	self createEventProcess
+
 ]
 
 { #category : #'processing - private' }
