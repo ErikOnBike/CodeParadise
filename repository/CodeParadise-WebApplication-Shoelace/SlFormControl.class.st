@@ -85,6 +85,12 @@ SlFormControl >> enabled: aBoolean [
 	self disabled: aBoolean not
 ]
 
+{ #category : #testing }
+SlFormControl >> hasFocus [
+
+	^ self = CpHtmlElement activeElement
+]
+
 { #category : #accessing }
 SlFormControl >> invalid: aBoolean [
 
