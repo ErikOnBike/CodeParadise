@@ -4,10 +4,69 @@ Class {
 	#category : #'CodeParadise-WebApplication-Shoelace-Elements'
 }
 
+{ #category : #accessing }
+SlElement class >> componentLoaderName [
+
+	^ self name asKebabCase, '-loader'
+]
+
+{ #category : #accessing }
+SlElement class >> componentName [
+
+	^ self nameWithoutPrefix asKebabCase
+]
+
 { #category : #testing }
 SlElement class >> hasAbstractTag [
 
 	^ self classSide includesSelector: #isAbstractTag
+]
+
+{ #category : #accessing }
+SlElement class >> importBasePath [
+
+	^ 'https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.0.0-beta.61/dist/'
+]
+
+{ #category : #accessing }
+SlElement class >> importComponentCode [
+
+	^ String streamContents: [ :stream |
+		stream
+			nextPutAll: 'import "' ;
+			nextPutAll: self importComponentPath ;
+			nextPutAll: '";' ;
+			nextPutAll: 'let script = document.getElementById("' ;
+			nextPutAll: self componentLoaderName ;
+			nextPutAll: '");' ;
+			nextPutAll: 'if(script) script.remove();' ]
+]
+
+{ #category : #accessing }
+SlElement class >> importComponentPath [
+
+	"Answer the component path for the receiver"
+
+	| componentName |
+
+	componentName := self componentName.
+
+	^ String streamContents: [ :stream|
+		stream
+			nextPutAll: self importBasePath ;
+			nextPutAll: 'components/' ;
+			nextPutAll: componentName ;
+			nextPut: $/ ;
+			nextPutAll: componentName ;
+			nextPutAll: '.js' ]
+]
+
+{ #category : #accessing }
+SlElement class >> importThemesPath [
+
+	"Answer the themes path for the framework (is not component specific)"
+
+	^ self importBasePath, 'themes/light.css'
 ]
 
 { #category : #testing }
@@ -17,7 +76,21 @@ SlElement class >> isAbstractTag [
 	This method will NOT be evaluated to decide if the receiver is abstract."
 ]
 
-{ #category : #initialization }
+{ #category : #'class initialization' }
+SlElement class >> loadComponent [
+
+	"Load component from CDN"
+
+	CpHtmlElement documentHead
+		appendChild:
+			((CpHtmlElement newWithTag: #script)
+				attributeAt: #id put: self componentLoaderName ;
+				attributeAt: #type put: 'module' ;
+				textContent: self importComponentCode ;
+				yourself)
+]
+
+{ #category : #'class initialization' }
 SlElement class >> loadLibrary [
 
 	"Load library from CDN"
@@ -29,15 +102,10 @@ SlElement class >> loadLibrary [
 				attributeAt: #content put: 'width=device-width, initial-scale=1.0' ;
 				yourself) ;
 		appendChild:
-			((CpHtmlElement newWithTag: #script)
-				attributeAt: #type put: 'module' ;
-				attributeAt: #src put: 'https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.0.0-beta.60/dist/shoelace.js' ;
-				yourself) ;
-		appendChild:
 			((CpHtmlElement newWithTag: #link)
 				attributeAt: #rel put: 'stylesheet' ;
 				attributeAt: #type put: 'text/css' ;
-				attributeAt: #href put: 'https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.0.0-beta.60/dist/themes/light.css' ;
+				attributeAt: #href put: self importThemesPath ;
 				yourself)
 ]
 
@@ -49,8 +117,8 @@ SlElement class >> new [
 	new instances of the receiver's subclasses are allowed to be created,
 	because the receiver knows its own tag."
 
-	self = SlElement
-		ifTrue: [ ^ super new ].
+	self hasAbstractTag
+		ifTrue: [ self error: self name, ' is abstract and cannot be instantiated' ].
 
 	^ self newWithTag: self tagName
 ]
@@ -58,40 +126,22 @@ SlElement class >> new [
 { #category : #'class initialization' }
 SlElement class >> postInstall [
 
-	"Install Shoelace library into receiver"
+	"Install Shoelace component into receiver"
 
 	super postInstall.
 
-	"Load library only once (ie not for subclasses)"
-	self = SlElement
-		ifTrue: [ self loadLibrary ; waitForLibrary ]
+	self hasAbstractTag
+		ifTrue: [ ^ self ].
+
+	self loadComponent
 ]
 
-{ #category : #initialization }
-SlElement class >> waitForLibrary [
+{ #category : #'class initialization' }
+SlElement class >> postInstallOnce [
 
-	"Wait for library being loaded"
+	"Install Shoelace library into receiver"
 
-	| activeProcess resumed |
-
-	activeProcess := Processor activeProcess.
-
-	resumed := false.
-	(CpTransition onBlock: [ :progress :time |
-
-		"Resume Process if specific component is correctly registered or we timed out"
-		(((self isRegistered: 'sl-button') or: [ progress >= 1.0 ]) and: [ resumed not ])
-			ifTrue: [
-				activeProcess resume.
-				resumed := true ] ])
-		duration: 2000 ;	"Wait at most 2 seconds"
-		start.
-
-	"Suspend receiver here (it will be resumed when library is loaded)"	
-	activeProcess suspend.
-
-	"After resume do final check"
-	resumed ifFalse: [ self error: 'Failed to load Shoelace library' ]
+	self loadLibrary
 ]
 
 { #category : #'text input' }
