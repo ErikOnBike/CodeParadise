@@ -219,15 +219,14 @@ CpWindow >> handleWindowMove: aDragEvent [
 	Dragging can start anywhere inside the titlebar. Therefore take offset
 	of drag position into account."
 
-	| point offset |
+	| point |
 
 	aDragEvent ifCanceled: [ ^ self ].
 
 	self makeTopWindow.
 	point := self translateToLocalPoint: aDragEvent point.
-	offset := aDragEvent offset.
 
-	position := (point x - offset x) @ (point y - offset y).
+	position := (point x - aDragEvent offsetX) @ (point y - aDragEvent offsetY).
 
 	self renderPosition.
 
