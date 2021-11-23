@@ -30,6 +30,40 @@ SlIcon class >> name: aString [
 		yourself
 ]
 
+{ #category : #'class initialization' }
+SlIcon class >> registerFontAwesome [
+
+	"Register Font Awesome as icon library to load icons from CDN"
+
+	CpHtmlElement documentHead
+		appendChild:
+			((CpHtmlElement newWithTag: #script)
+				attributeAt: #type put: 'module' ;
+				textContent: self registerFontAwesomeCode ;
+				yourself)
+]
+
+{ #category : #'class initialization' }
+SlIcon class >> registerFontAwesomeCode [
+
+	^ String streamContents: [ :stream |
+
+		stream
+			nextPutAll: 'import { registerIconLibrary } from "' ;
+			nextPutAll: self importBasePath ;
+			nextPutAll: 'utilities/icon-library.js";' ;
+
+			nextPutAll: 'registerIconLibrary("fa", {' ;
+			nextPutAll: '  resolver: function(name) {' ;
+			nextPutAll: '    const filename = name.replace(/^fa[rbs]-/, "");' ;
+			nextPutAll: '    let folder = name.substring(0, 4) === "fas-" ? "solid" : (name.substring(0, 4) === "fab-" ? "brands" : "regular");' ;
+			nextPutAll: '    return `https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/svgs/${folder}/${filename}.svg`;' ;
+			nextPutAll: '  },' ;
+			nextPutAll: '  mutator: function(svg) { svg.setAttribute("fill", "currentColor"); }' ;
+			nextPutAll: '});' ]
+
+]
+
 { #category : #accessing }
 SlIcon >> library [
 
