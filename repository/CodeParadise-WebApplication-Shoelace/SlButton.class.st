@@ -5,73 +5,37 @@ Class {
 }
 
 { #category : #accessing }
-SlButton class >> content: anElement [
+SlButton class >> label: aStringOrElement [
 
 	^ self new
-		content: anElement ;
+		label: aStringOrElement ;
 		yourself
 ]
 
 { #category : #accessing }
-SlButton class >> content: contentElement suffix: suffixElement [
+SlButton class >> label: aStringOrElement suffix: suffixElement [
 
 	^ self new
-		content: contentElement ;
+		label: aStringOrElement ;
 		suffix: suffixElement ;
 		yourself
 ]
 
 { #category : #accessing }
-SlButton class >> label: aString [
-
-	^ self new
-		label: aString ;
-		yourself
-]
-
-{ #category : #accessing }
-SlButton class >> label: aString suffix: suffixElement [
-
-	^ self new
-		content: (aString inHtmlTag: #span) ;
-		suffix: suffixElement ;
-		yourself
-]
-
-{ #category : #accessing }
-SlButton class >> prefix: prefixElement content: contentElement [
-
-	^ self new
-		prefix: prefixElement ;
-		content: contentElement ;
-		yourself
-]
-
-{ #category : #accessing }
-SlButton class >> prefix: prefixElement content: contentElement suffix: suffixElement [
-
-	^ self new
-		prefix: prefixElement ;
-		content: contentElement ;
-		suffix: suffixElement ;
-		yourself
-]
-
-{ #category : #accessing }
-SlButton class >> prefix: anElement label: aString [
+SlButton class >> prefix: anElement label: aStringOrElement [
 
 	^ self new
 		prefix: anElement ;
-		content: (aString inHtmlTag: #span) ;
+		label: aStringOrElement ;
 		yourself
 ]
 
 { #category : #accessing }
-SlButton class >> prefix: prefixElement label: aString suffix: suffixElement [
+SlButton class >> prefix: prefixElement label: aStringOrElement suffix: suffixElement [
 
 	^ self new
 		prefix: prefixElement ;
-		content: (aString inHtmlTag: #span) ;
+		label: aStringOrElement ;
 		suffix: suffixElement ;
 		yourself
 ]
@@ -219,14 +183,6 @@ SlButton >> circle: aBoolean [
 ]
 
 { #category : #accessing }
-SlButton >> content [
-
-	"Answer the content of the receiver, assume it is a single element"
-
-	^ self firstChild
-]
-
-{ #category : #accessing }
 SlButton >> content: anElement [
 
 	"Set the content of the receiver to the specified element.
@@ -310,13 +266,37 @@ SlButton >> isPill [
 { #category : #accessing }
 SlButton >> label [
 
-	^ self textContent
+	"Answer the label HTML element of the receiver.
+	For a simple String value use #helpLabel instead."
+
+	^ self firstChildAtSlotNamed: nil
 ]
 
 { #category : #accessing }
-SlButton >> label: aString [
+SlButton >> label: anElement [
 
-	self textContent: aString
+	"Set the label to the specified Element.
+	For a simple String value use #labelText: instead."
+
+	self replaceAllChildrenWith: anElement asHtmlElement atSlotNamed: nil
+]
+
+{ #category : #accessing }
+SlButton >> labelText [
+
+	"Answer the label text (a String) of the receiver.
+	For richer HTML element use #label instead."
+
+	^ self label textContent
+]
+
+{ #category : #accessing }
+SlButton >> labelText: aString [
+
+	"Set the label text to the specified String value.
+	For richer HTML element use #label: instead."
+
+	self label: aString asHtmlElement
 ]
 
 { #category : #accessing }
