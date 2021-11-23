@@ -35,15 +35,3 @@ SlCheckbox >> isIndeterminate [
 
 	^ self propertyAt: #indeterminate
 ]
-
-{ #category : #accessing }
-SlCheckbox >> label [
-
-	^ self textContent
-]
-
-{ #category : #accessing }
-SlCheckbox >> label: aString [
-
-	self textContent: aString
-]

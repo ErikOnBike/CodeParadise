@@ -42,3 +42,15 @@ SlCheckControl >> isChecked [
 
 	^ self propertyAt: #checked
 ]
+
+{ #category : #accessing }
+SlCheckControl >> label [
+
+	^ self textContent
+]
+
+{ #category : #accessing }
+SlCheckControl >> label: aString [
+
+	self textContent: aString
+]
