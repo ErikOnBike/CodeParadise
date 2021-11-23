@@ -333,7 +333,7 @@ SlButton >> loading: aBoolean [
 	self propertyAt: #loading put: aBoolean
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'private - event handling' }
 SlButton >> onPrivateClick: aClickEvent [
 
 	"The receiver has generated a click event (as oppposed to having actually
