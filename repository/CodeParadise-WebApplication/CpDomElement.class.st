@@ -186,6 +186,30 @@ CpDomElement >> allDescendantsMatching: cssSelectorString [
 	self primitiveFailed
 ]
 
+{ #category : #animation }
+CpDomElement >> animate: aCollection [
+
+	"Animate the receiver using the specified keyframes"
+
+	self apply: #animate withArguments: { aCollection }
+]
+
+{ #category : #animation }
+CpDomElement >> animate: aCollection duration: anInteger [
+
+	"Animate the receiver using the specified keyframes and options"
+
+	self apply: #animate withArguments: { aCollection . anInteger }
+]
+
+{ #category : #animation }
+CpDomElement >> animate: aCollection options: aDictionary [
+
+	"Animate the receiver using the specified keyframes and options"
+
+	self apply: #animate withArguments: { aCollection . aDictionary }
+]
+
 { #category : #announcing }
 CpDomElement >> announce: anAnnouncement [
 
