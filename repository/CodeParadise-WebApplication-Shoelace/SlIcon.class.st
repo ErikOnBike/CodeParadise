@@ -4,6 +4,15 @@ Class {
 	#category : #'CodeParadise-WebApplication-Shoelace-Elements'
 }
 
+{ #category : #'instance creation' }
+SlIcon class >> fontAwesomeNamed: aString [
+
+	^ self new
+		beFontAwesome ;
+		name: aString ;
+		yourself
+]
+
 { #category : #'class initialization' }
 SlIcon class >> loadComponent [
 
@@ -23,10 +32,18 @@ SlIcon class >> loadComponent [
 ]
 
 { #category : #accessing }
-SlIcon class >> name: aString [
+SlIcon class >> named: aString [
 
 	^ self new
 		name: aString ;
+		yourself
+]
+
+{ #category : #'instance creation' }
+SlIcon class >> newFontAwesome [
+
+	^ self new
+		beFontAwesome ;
 		yourself
 ]
 
@@ -62,6 +79,12 @@ SlIcon class >> registerFontAwesomeCode [
 			nextPutAll: '  mutator: function(svg) { svg.setAttribute("fill", "currentColor"); }' ;
 			nextPutAll: '});' ]
 
+]
+
+{ #category : #accessing }
+SlIcon >> beFontAwesome [
+
+	self library: 'fa'
 ]
 
 { #category : #accessing }
