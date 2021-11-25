@@ -285,10 +285,10 @@ CpShoelaceExamplesClientBehavior >> exampleIcon [
 	outputElement textContent: ''.
 
 	outputElement
-		appendChild: (SlIcon name: 'emoji-smile') ;
-		appendChild: (SlIcon name: 'heart') ;
-		appendChild: (SlIcon name: 'hand-thumbs-up-fill') ;
-		appendChild: (SlIcon name: 'star-fill')
+		appendChild: (SlIcon named: 'emoji-smile') ;
+		appendChild: (SlIcon named: 'heart') ;
+		appendChild: (SlIcon named: 'hand-thumbs-up-fill') ;
+		appendChild: (SlIcon named: 'star-fill')
 
 ]
 
@@ -320,11 +320,11 @@ CpShoelaceExamplesClientBehavior >> exampleInput [
 	outputElement appendChild: (CpHtmlElement newWithTag: #p).
 
 	outputElement appendChild: (SlInput new
-		help: ((CpHtmlElement newWithTag: #span) appendChild: ('Happy help ' inHtmlTag: #span) ; appendChild: (SlIcon name: 'emoji-smile') ; yourself) ;
+		help: ((CpHtmlElement newWithTag: #span) appendChild: ('Happy help ' inHtmlTag: #span) ; appendChild: (SlIcon named: 'emoji-smile') ; yourself) ;
 		label: 'Happy input (with help HTML and icons)' ;
 		placeholder: 'Anything you want to share?' ;
-		prefix: (SlIcon name: 'emoji-smile') ;
-		suffix: (SlIcon name: 'emoji-smile') ;
+		prefix: (SlIcon named: 'emoji-smile') ;
+		suffix: (SlIcon named: 'emoji-smile') ;
 		yourself).
 
 	outputElement appendChild: (CpHtmlElement newWithTag: #p).
@@ -382,7 +382,7 @@ CpShoelaceExamplesClientBehavior >> exampleTextarea [
 	outputElement appendChild: (CpHtmlElement newWithTag: #p).
 
 	outputElement appendChild: (SlTextarea new
-		help: ((CpHtmlElement newWithTag: #span) appendChild: ('Happy help ' inHtmlTag: #span) ; appendChild: (SlIcon name: 'emoji-smile') ; yourself) ;
+		help: ((CpHtmlElement newWithTag: #span) appendChild: ('Happy help ' inHtmlTag: #span) ; appendChild: (SlIcon named: 'emoji-smile') ; yourself) ;
 		label: 'Happy textarea (with help HTML and icons)' ;
 		placeholder: 'Anything you want to share?' ;
 		yourself).
@@ -409,7 +409,7 @@ CpShoelaceExamplesClientBehavior >> exampleTooltip [
 	outputElement textContent: ''.
 
 	outputElement
-		appendChild: (SlTooltip new contentText: 'This is one funny icon' ; appendChild: (SlIcon name: 'emoji-smile') ; yourself) ;
+		appendChild: (SlTooltip new contentText: 'This is one funny icon' ; appendChild: (SlIcon named: 'emoji-smile') ; yourself) ;
 		appendChild: ('' inHtmlTag: #p) ;
 		appendChild: (SlTooltip new contentText: 'topStart' ; topStart ; appendChild: (SlButton label: 'topStart') ; yourself) ;
 		appendChild: (SlTooltip new contentText: 'top' ; top ; appendChild: (SlButton label: 'top') ; yourself) ;
@@ -427,7 +427,7 @@ CpShoelaceExamplesClientBehavior >> exampleTooltip [
 		appendChild: (SlTooltip new contentText: 'left' ; left ; appendChild: (SlButton label: 'left') ; yourself) ;
 		appendChild: (SlTooltip new contentText: 'leftEnd' ; leftEnd ; appendChild: (SlButton label: 'leftEnd') ; yourself) ;
 		appendChild: ('' inHtmlTag: #p) ;
-		appendChild: (SlTooltip new content: (SlIcon name: 'emoji-smile') ; appendChild: (SlButton label: 'HTML in tooltip') ; yourself) ;
+		appendChild: (SlTooltip new content: (SlIcon named: 'emoji-smile') ; appendChild: (SlButton label: 'HTML in tooltip') ; yourself) ;
 		appendChild: ('' inHtmlTag: #p) ;
 		appendChild: (SlTooltip new contentText: 'You clicked for me?' ; triggerClick ; appendChild: (SlButton label: 'Tooltip via click') ; yourself)
 ]
