@@ -321,6 +321,8 @@ CpWindow >> initializeShadowRoot [
 
 	| shadowRoot |
 
+	super initializeShadowRoot.
+
 	shadowRoot := self shadowRoot.
 
 	(shadowRoot allDescendantsMatching: '.corner')
