@@ -96,25 +96,10 @@ CpDropEvent >> initializeWithDragEvent: aDragEvent pointerEvent: aPointerEvent [
 	pageY := aPointerEvent pageY
 ]
 
-{ #category : #initialization }
-CpDropEvent >> initializeWithDragEvent: aDragEvent pointerId: aNumber [
-
-	self initialize.
-
-	dragEvent := aDragEvent.
-	pointerId := aNumber
-]
-
 { #category : #testing }
 CpDropEvent >> isCanceled [
 
 	^ dragEvent isCanceled
-]
-
-{ #category : #testing }
-CpDropEvent >> isForDragEvent: aDragEvent [
-
-	^ dragEvent hasSameOrigin: aDragEvent
 ]
 
 { #category : #accessing }
