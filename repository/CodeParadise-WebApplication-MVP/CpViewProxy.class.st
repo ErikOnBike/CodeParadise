@@ -41,18 +41,33 @@ CpViewProxy >> announcer [
 	^ announcer
 ]
 
+{ #category : #removing }
+CpViewProxy >> destroy [
+
+	"Destroy the view.
+
+	Implementation: The receiver's presenter is removed to indicate the view no longer
+	exists. Any messages send to the view will be silently ignored."
+
+	presenter ifNil: [ ^ self ].
+
+	self doesNotUnderstand: (Message selector: #destroy).
+
+	presenter := nil
+]
+
 { #category : #'reflective operations' }
 CpViewProxy >> doesNotUnderstand: aMessage [
 
 	"Let the presenter send the message to the actual view"
 
-	self presenter sendMessageToView: aMessage
+	presenter ifNotNil: [ :actualPresenter | actualPresenter sendMessageToView: aMessage ]
 ]
 
 { #category : #accessing }
 CpViewProxy >> id [
 
-	^ self presenter id
+	^ presenter ifNotNil: [ :actualPresenter | actualPresenter id ]
 ]
 
 { #category : #initialization }
@@ -71,12 +86,6 @@ CpViewProxy >> initializeWithPresenter: aPresenter [
 	presenter := aPresenter
 ]
 
-{ #category : #accessing }
-CpViewProxy >> presenter [
-
-	^ presenter
-]
-
 { #category : #initialization }
 CpViewProxy >> release [
 
@@ -91,8 +100,13 @@ CpViewProxy >> release [
 
 { #category : #removing }
 CpViewProxy >> remove [ 
-	self flag: #todo. "Workaround for proxy subclassing Object, which has a #remove method 
-	when Voyage is loaded."
+
+	"Remove the receiver from its parent.
+
+	Implementation: This method is defined on CpDomElement. Because it could also be an extension
+	method for Object (when using Voyage for example), explicitly pass the method to the actual
+	view. Otherwise the extension method #remove will be called."
+
 	self doesNotUnderstand: (Message selector: #remove)
 ]
 
