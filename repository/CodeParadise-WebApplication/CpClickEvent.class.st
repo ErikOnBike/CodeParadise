@@ -94,7 +94,7 @@ CpClickEvent class >> newFromMouseEvent: aMouseEvent [
 
 	"Validate the elements are actually listening to the specific click event"
 	elements := aMouseEvent elements
-		select: [ :each | clickEventClass isListenedToOn: each ].
+		select: [ :each | each isListeningTo: clickEventClass ].
 	elements ifEmpty: [ ^ nil ].
 
 	^ clickEventClass newFromMouseEvent: aMouseEvent elements: elements

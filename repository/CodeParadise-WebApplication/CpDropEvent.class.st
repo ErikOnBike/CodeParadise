@@ -91,7 +91,7 @@ CpDropEvent >> initializeWithDragEvent: aDragEvent pointerEvent: aPointerEvent [
 	pointerId := aPointerEvent pointerId.
 	timeStamp := aPointerEvent timeStamp.
 	target := aPointerEvent target.
-	elements := aPointerEvent elements copy.
+	elements := (CpDomElement elementsFromPoint: aPointerEvent point) select: [ :each | each isListeningTo: self class ].
 	pageX := aPointerEvent pageX.
 	pageY := aPointerEvent pageY
 ]

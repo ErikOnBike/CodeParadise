@@ -104,7 +104,10 @@ CpDragEvent class >> dragMove: aPointerMoveEvent [
 { #category : #'event handling - private' }
 CpDragEvent class >> dragStart: aPointerDownEvent [
 
-	"Start a drag event if only the primary button is pressed"
+	"Start a drag event if only the primary button is pressed.
+
+	Implementation: Do not dispatch the drag start just yet.
+	Wait for movement before actually dispatching a drag event."
 
 	| dragEvent |
 
@@ -114,11 +117,7 @@ CpDragEvent class >> dragStart: aPointerDownEvent [
 	dragEvent := DragInstances at: aPointerDownEvent pointerId ifAbsent: [ nil ].
 
 	(dragEvent isNil or: [ (dragEvent hasSameOrigin: aPointerDownEvent) not ])
-		ifTrue: [ dragEvent := DragInstances at: aPointerDownEvent pointerId put: (self newFromMouseEvent: aPointerDownEvent) ].
-
-	"Dispatch the new DragEvent"
-	dragEvent dispatch
-
+		ifTrue: [ DragInstances at: aPointerDownEvent pointerId put: (self newFromMouseEvent: aPointerDownEvent) ]
 ]
 
 { #category : #'instance creation' }

@@ -472,6 +472,14 @@ CpDomElement >> isClassed: aString [
 
 ]
 
+{ #category : #'event handling' }
+CpDomElement >> isListeningTo: anEventClass [
+
+	"Answer whether the receiver is listening for the specified event type"
+
+	^ anEventClass isListenedToOn: self
+]
+
 { #category : #querying }
 CpDomElement >> lastAncestorMatching: cssSelectorString [
 
@@ -814,8 +822,10 @@ CpDomElement >> textContent: aString [
 
 ]
 
-{ #category : #'event registration' }
+{ #category : #'event handling' }
 CpDomElement >> unregisterAllInterest [
+
+	"Remove interest in all (previously registered) events"
 
 	<primitive: 'primitiveDomElementUnregisterAllInterest' module: 'CpDOMPlugin'>
 	self primitiveFailed
@@ -829,19 +839,25 @@ CpDomElement >> unsubscribe: anObject [
 	^ self announcer unsubscribe: anObject
 ]
 
-{ #category : #announcing }
+{ #category : #'event handling' }
 CpDomElement >> when: anAnnouncementClass do: aBlock [
 
 	"Let the sender subscribe to the specified announcement of the receiver.
+	All CpEvents can also be listened to using this same method.
+	CpEvents share the same protocol as Announcements.
+
 	See Announcer>>#when:do:"
 
 	^ self announcer when: anAnnouncementClass do: aBlock
 ]
 
-{ #category : #announcing }
+{ #category : #'event handling' }
 CpDomElement >> when: anAnnouncementClass send: aSymbol to: anObject [
 
 	"Let the sender subscribe to the specified announcement of the receiver.
+	All CpEvents can also be listened to using this same method.
+	CpEvents share the same protocol as Announcements.
+
 	See Announcer>>#when:send:to:"
 
 	^ self announcer when: anAnnouncementClass send: aSymbol to: anObject
