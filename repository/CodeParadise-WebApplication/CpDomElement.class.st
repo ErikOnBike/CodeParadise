@@ -670,6 +670,23 @@ CpDomElement >> removeFocus [
 	self apply: #blur withArguments: #()
 ]
 
+{ #category : #'event handling' }
+CpDomElement >> removeInterestIn: anAnnouncementClass [
+
+	"Remove the interest for the specified AnnouncementClass from the receiver"
+
+	^ self removeInterestIn: anAnnouncementClass for: self
+]
+
+{ #category : #'event handling' }
+CpDomElement >> removeInterestIn: anAnnouncementClass for: anObject [
+
+	"Remove the interest for the specified AnnouncementClass and specified
+	subscriber from the receiver."
+
+	^ self announcer removeInterestIn: anAnnouncementClass for: anObject
+]
+
 { #category : #styles }
 CpDomElement >> removeStyleAt: nameString [
 

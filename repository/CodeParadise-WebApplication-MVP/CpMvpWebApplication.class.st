@@ -41,6 +41,12 @@ CpMvpWebApplication >> allPresentersDo: aBlock [
 	presentersById doSafely: aBlock
 ]
 
+{ #category : #announcing }
+CpMvpWebApplication >> announce: anAnnouncement [
+
+	self announcer announce: anAnnouncement
+]
+
 { #category : #accessing }
 CpMvpWebApplication >> announcer [
 
@@ -216,6 +222,15 @@ CpMvpWebApplication >> reload [
 
 	"Create and render the Views in the ClientEnvironment"
 	self clientCreateViews
+]
+
+{ #category : #announcing }
+CpMvpWebApplication >> removeInterestIn: anAnnouncementClass for: anObject [
+
+	"Remove the interest for the specified AnnouncementClass and specified
+	subscriber from the receiver."
+
+	^ self announcer removeInterestIn: anAnnouncementClass for: anObject
 ]
 
 { #category : #presenter }
