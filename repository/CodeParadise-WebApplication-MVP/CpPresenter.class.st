@@ -286,7 +286,9 @@ CpPresenter >> destroyView [
 		ifNil: [ ^ self ].
 
 	viewProxy destroy.	"Will remove the view in the ClientEnvironment"
-	self destroyViewProxy
+	self destroyViewProxy.
+
+	self viewDestroyed
 ]
 
 { #category : #'view - private' }
@@ -555,7 +557,9 @@ CpPresenter >> removeView [
 		ifNil: [ ^ self ].
 
 	viewProxy remove.	"Will remove the view in the ClientEnvironment"
-	self destroyViewProxy
+	self destroyViewProxy.
+
+	self viewRemoved
 ]
 
 { #category : #rendering }
@@ -778,6 +782,14 @@ CpPresenter >> viewCreated [
 ]
 
 { #category : #view }
+CpPresenter >> viewDestroyed [
+
+	"The receiver's view is destroyed, perform any additional tear down
+	(most notably unsubscribe from session announcements)."
+
+]
+
+{ #category : #view }
 CpPresenter >> viewId [
 
 	"Answer the id of the receiver's View"
@@ -807,4 +819,13 @@ CpPresenter >> viewLocation [
 	^ self hasParent
 		ifTrue: [ self parent viewId ]
 		ifFalse: [ self defaultViewLocation ]
+]
+
+{ #category : #view }
+CpPresenter >> viewRemoved [
+
+	"The receiver's view is removed, perform any additional tear down
+	(most notably unsubscribe from session announcements).
+	This method is called when an existing view is replaced by another."
+
 ]
