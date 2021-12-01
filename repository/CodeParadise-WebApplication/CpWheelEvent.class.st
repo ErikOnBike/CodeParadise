@@ -1,9 +1,7 @@
 Class {
 	#name : #CpWheelEvent,
-	#superclass : #CpUserInterfaceEvent,
+	#superclass : #CpMouseEvent,
 	#instVars : [
-		'offsetX',
-		'offsetY',
 		'deltaX',
 		'deltaY',
 		'deltaMode'
@@ -65,50 +63,11 @@ CpWheelEvent >> deltaY: aNumber [
 	deltaY := aNumber
 ]
 
-{ #category : #accessing }
-CpWheelEvent >> offset [
-
-	^ offsetX @ offsetY
-]
-
-{ #category : #accessing }
-CpWheelEvent >> offset: aPoint [
-
-	offsetX := aPoint x.
-	offsetY := aPoint y
-]
-
-{ #category : #accessing }
-CpWheelEvent >> offsetX [
-
-	^ offsetX
-]
-
-{ #category : #accessing }
-CpWheelEvent >> offsetX: aNumber [
-
-	offsetX := aNumber
-]
-
-{ #category : #accessing }
-CpWheelEvent >> offsetY [
-
-	^ offsetY
-]
-
-{ #category : #accessing }
-CpWheelEvent >> offsetY: aNumber [
-
-	offsetY := aNumber
-]
-
 { #category : #printing }
 CpWheelEvent >> printOn: aStream [
 
 	super printOn: aStream.
 	aStream
-		nextPutAll: ', offset: ' ;
-		print: self offset ;
 		nextPutAll: ', delta: ' ;
 		print: self delta ;
 		nextPutAll: ', deltaMode: ' ;

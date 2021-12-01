@@ -1,12 +1,9 @@
 Class {
 	#name : #CpDragEvent,
-	#superclass : #CpUserInterfaceEvent,
+	#superclass : #CpMouseEvent,
 	#instVars : [
-		'offsetX',
-		'offsetY',
 		'tracePoints',
 		'endPoint',
-		'modifiers',
 		'canceled'
 	],
 	#classVars : [
@@ -50,6 +47,9 @@ CpDragEvent class >> dragCancel: aPointerEvent [
 { #category : #'event handling - private' }
 CpDragEvent class >> dragContinued: aPointerEnterEvent [
 
+	"First let others handle the PointerEnter event"
+	aPointerEnterEvent propagate.
+
 	"Validate there is still a drag (ie primary pointer is still down)"
 	(aPointerEnterEvent isPrimaryButtonPressed)
 		ifTrue: [ self dragMove: aPointerEnterEvent ]
@@ -61,10 +61,12 @@ CpDragEvent class >> dragEnd: aPointerUpEvent [
 
 	| dragEvent |
 
-	"Implementation: Ignore pointer up when a combination of buttons was pressed and
-	a secondary button is released."
-	aPointerUpEvent isPrimaryButtonPressed
-		ifTrue: [ ^ self ].
+	"First let others handle the PointerUp event"
+	aPointerUpEvent propagate.
+
+	"Implementation: Ignore pointer up when a button is still pressed"
+	aPointerUpEvent isNoButtonPressed
+		ifFalse: [ ^ self ].
 
 	dragEvent := DragInstances at: aPointerUpEvent pointerId ifAbsent: [ ^ self ].
 
@@ -86,6 +88,9 @@ CpDragEvent class >> dragEnd: aPointerUpEvent [
 CpDragEvent class >> dragMove: aPointerMoveEvent [
 
 	| dragEvent |
+
+	"First let others handle the PointerMove event"
+	aPointerMoveEvent propagate.
 
 	"Implementation: Only accept dragging if the primary button is still down."
 	aPointerMoveEvent isPrimaryButtonPressed
@@ -110,6 +115,9 @@ CpDragEvent class >> dragStart: aPointerDownEvent [
 	Wait for movement before actually dispatching a drag event."
 
 	| dragEvent |
+
+	"First let others handle the PointerDown event"
+	aPointerDownEvent propagate.
 
 	aPointerDownEvent isOnlyPrimaryButtonPressed
 		ifFalse: [ ^ self ].
@@ -215,6 +223,7 @@ CpDragEvent >> initialize [
 
 	super initialize.
 
+	type := #drag.
 	tracePoints := OrderedCollection new.
 	canceled := false
 ]
@@ -224,14 +233,14 @@ CpDragEvent >> initializeWithMouseEvent: aMouseEvent [
 
 	self initialize.
 
-	type := #drag.
 	timeStamp := aMouseEvent timeStamp.
+	target := aMouseEvent target.
 	pageX := aMouseEvent pageX.
 	pageY := aMouseEvent pageY.
 	offsetX := aMouseEvent offsetX.
 	offsetY := aMouseEvent offsetY.
-	target := aMouseEvent target.
-	elements := aMouseEvent elements copy.
+	elements := aMouseEvent elements select: [ :each | each isListeningTo: self class ].
+	buttons := aMouseEvent buttons.
 	modifiers := aMouseEvent modifiers
 
 ]
@@ -270,55 +279,6 @@ CpDragEvent >> lastDelta [
 	penultimatePoint := self tracePoints nextToLast.
 
 	^ lastPoint - penultimatePoint
-]
-
-{ #category : #accessing }
-CpDragEvent >> modifiers [
-
-	^ modifiers
-]
-
-{ #category : #accessing }
-CpDragEvent >> modifiers: anInteger [
-
-	modifiers := anInteger
-]
-
-{ #category : #accessing }
-CpDragEvent >> offset [
-
-	^ offsetX @ offsetY
-]
-
-{ #category : #accessing }
-CpDragEvent >> offset: aPoint [
-
-	offsetX := aPoint x.
-	offsetY := aPoint y
-]
-
-{ #category : #accessing }
-CpDragEvent >> offsetX [
-
-	^ offsetX
-]
-
-{ #category : #accessing }
-CpDragEvent >> offsetX: aNumber [
-
-	offsetX := aNumber
-]
-
-{ #category : #accessing }
-CpDragEvent >> offsetY [
-
-	^ offsetY
-]
-
-{ #category : #accessing }
-CpDragEvent >> offsetY: aNumber [
-
-	offsetY := aNumber
 ]
 
 { #category : #copying }

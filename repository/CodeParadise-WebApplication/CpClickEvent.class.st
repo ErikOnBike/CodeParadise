@@ -29,6 +29,9 @@ CpClickEvent class >> clickEnd: aPointerUpEvent [
 
 	| clickEvent |
 
+	"First let others handle the PointerUp event"
+	aPointerUpEvent propagate.
+
 	clickEvent := ClickInstances at: aPointerUpEvent pointerId ifAbsent: [ ^ self ].
 
 	"Remove temporary storage (for all situations)"
@@ -43,6 +46,9 @@ CpClickEvent class >> clickEnd: aPointerUpEvent [
 CpClickEvent class >> clickStart: aPointerDownEvent [
 
 	| clickEvent |
+
+	"First let others handle the PointerDown event"
+	aPointerDownEvent propagate.
 
 	clickEvent := ClickInstances at: aPointerDownEvent pointerId ifAbsent: [ nil ].
 
@@ -72,7 +78,7 @@ CpClickEvent class >> newFromMouseEvent: aMouseEvent [
 	specified pointer event.
 	In case no matching instance can be created, answer nil."
 
-	| clickEventClass elements |
+	| clickEventClass |
 
 	"Find the correct click event class. For convenience
 	the PrimaryClickEvent and SecondaryClickEvent are
@@ -92,22 +98,8 @@ CpClickEvent class >> newFromMouseEvent: aMouseEvent [
 						ifTrue: [ Smalltalk at: #CpSecondaryClickEvent ]
 						ifFalse: [ self ] ] ].
 
-	"Validate the elements are actually listening to the specific click event"
-	elements := aMouseEvent elements
-		select: [ :each | each isListeningTo: clickEventClass ].
-	elements ifEmpty: [ ^ nil ].
-
-	^ clickEventClass newFromMouseEvent: aMouseEvent elements: elements
-]
-
-{ #category : #'instance creation' }
-CpClickEvent class >> newFromMouseEvent: aMouseEvent elements: aCollection [
-
-	"Answer a new instance of the receiver using the information
-	from the specified pointer event and elements to dispatch to."
-
-	^ self basicNew
-		initializeWithMouseEvent: aMouseEvent elements: aCollection ;
+	^ clickEventClass basicNew
+		initializeWithMouseEvent: aMouseEvent ;
 		yourself
 ]
 
@@ -118,7 +110,7 @@ CpClickEvent class >> postInstallOnce [
 ]
 
 { #category : #initialization }
-CpClickEvent >> initializeWithMouseEvent: aMouseEvent elements: aCollection [
+CpClickEvent >> initializeWithMouseEvent: aMouseEvent [
 
 	self initialize.
 
@@ -129,7 +121,7 @@ CpClickEvent >> initializeWithMouseEvent: aMouseEvent elements: aCollection [
 	offsetX := aMouseEvent offsetX.
 	offsetY := aMouseEvent offsetY.
 	target := aMouseEvent target.
-	elements := aCollection.
+	elements := aMouseEvent elements select: [ :each | each isListeningTo: self class ].
 	buttons := aMouseEvent buttons.
 	modifiers := aMouseEvent modifiers
 

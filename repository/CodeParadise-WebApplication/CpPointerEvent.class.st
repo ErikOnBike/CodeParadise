@@ -8,14 +8,6 @@ Class {
 	#category : #'CodeParadise-WebApplication-Events'
 }
 
-{ #category : #testing }
-CpPointerEvent >> autoPropagate [
-
-	"All pointer events are low level. Let them propagate to different elements."
-
-	^ true
-]
-
 { #category : #accessing }
 CpPointerEvent >> pointerId [
 

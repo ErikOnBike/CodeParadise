@@ -11,8 +11,8 @@ Class {
 	#name : #CpEvent,
 	#superclass : #Object,
 	#instVars : [
-		'timeStamp',
 		'type',
+		'timeStamp',
 		'target',
 		'elements',
 		'currentElementIndex'

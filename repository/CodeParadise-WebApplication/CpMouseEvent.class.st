@@ -2,6 +2,8 @@ Class {
 	#name : #CpMouseEvent,
 	#superclass : #CpUserInterfaceEvent,
 	#instVars : [
+		'pageX',
+		'pageY',
 		'offsetX',
 		'offsetY',
 		'buttons',
@@ -176,11 +178,50 @@ CpMouseEvent >> offsetY: aNumber [
 	offsetY := aNumber
 ]
 
+{ #category : #accessing }
+CpMouseEvent >> pageX [
+
+	^ pageX
+]
+
+{ #category : #accessing }
+CpMouseEvent >> pageX: aNumber [
+
+	pageX := aNumber
+]
+
+{ #category : #accessing }
+CpMouseEvent >> pageY [
+
+	^ pageY
+]
+
+{ #category : #accessing }
+CpMouseEvent >> pageY: aNumber [
+
+	pageY := aNumber
+]
+
+{ #category : #accessing }
+CpMouseEvent >> point [
+
+	^ pageX @ pageY
+]
+
+{ #category : #accessing }
+CpMouseEvent >> point: aPoint [
+
+	pageX := aPoint x.
+	pageY := aPoint y
+]
+
 { #category : #printing }
 CpMouseEvent >> printOn: aStream [
 
 	super printOn: aStream.
 	aStream
+		nextPutAll: ', point: ' ;
+		print: self point ;
 		nextPutAll: ', offset: ' ;
 		print: self offset ;
 		nextPutAll: ', buttons: ' ;

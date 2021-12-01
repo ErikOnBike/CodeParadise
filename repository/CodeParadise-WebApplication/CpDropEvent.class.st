@@ -1,6 +1,6 @@
 Class {
 	#name : #CpDropEvent,
-	#superclass : #CpUserInterfaceEvent,
+	#superclass : #CpMouseEvent,
 	#instVars : [
 		'dragEvent',
 		'pointerId'
@@ -21,7 +21,7 @@ CpDropEvent class >> addListenerTo: anElement [
 
 	"Implementation: Send meaningless message to self, since there is no need to handle the event itself"
 	anElement
-		when: CpPointerUpEvent send: #doNothing to: self
+		when: CpPointerUpEvent send: #doNothing: to: self
 ]
 
 { #category : #'event handling' }
@@ -34,10 +34,13 @@ CpDropEvent class >> dispatchInstanceForDragEvent: aDragEvent pointerEvent: aPoi
 ]
 
 { #category : #actions }
-CpDropEvent class >> doNothing [
+CpDropEvent class >> doNothing: aPointerUpEvent [
 
 	"This method is present to allow the receiver to be recognized as native event.
-	See self >> #addListener:"
+	See self >> #addListenerTo:"
+
+	"First let other handle the PointerUp event"
+	aPointerUpEvent propagate
 ]
 
 { #category : #'instance creation' }
@@ -87,13 +90,18 @@ CpDropEvent >> initializeWithDragEvent: aDragEvent pointerEvent: aPointerEvent [
 
 	self initialize.
 
-	dragEvent := aDragEvent.
-	pointerId := aPointerEvent pointerId.
 	timeStamp := aPointerEvent timeStamp.
 	target := aPointerEvent target.
-	elements := (CpDomElement elementsFromPoint: aPointerEvent point) select: [ :each | each isListeningTo: self class ].
 	pageX := aPointerEvent pageX.
-	pageY := aPointerEvent pageY
+	pageY := aPointerEvent pageY.
+	offsetX := aPointerEvent offsetX.
+	offsetY := aPointerEvent offsetY.
+	elements := aPointerEvent elements select: [ :each | each isListeningTo: self class ].
+	buttons := aPointerEvent buttons.
+	modifiers := aPointerEvent modifiers.
+	dragEvent := aDragEvent.
+	pointerId := aPointerEvent pointerId
+
 ]
 
 { #category : #testing }

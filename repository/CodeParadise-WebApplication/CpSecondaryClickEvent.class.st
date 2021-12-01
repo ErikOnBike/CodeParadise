@@ -5,9 +5,9 @@ Class {
 }
 
 { #category : #initialization }
-CpSecondaryClickEvent >> initializeWithMouseEvent: aMouseEvent elements: aCollection [
+CpSecondaryClickEvent >> initializeWithMouseEvent: aMouseEvent [
 
-	super initializeWithMouseEvent: aMouseEvent elements: aCollection.
+	super initializeWithMouseEvent: aMouseEvent.
 
 	buttons := 2.
 	modifiers := 0
