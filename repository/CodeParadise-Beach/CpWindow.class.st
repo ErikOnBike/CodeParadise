@@ -207,9 +207,11 @@ CpWindow >> defaultPosition [
 ]
 
 { #category : #'event handling' }
-CpWindow >> handlePointerDownEvent: aPointerDownEvent [
+CpWindow >> handleWindowClick: aPrimaryClickEvent [
 
-	self makeTopWindow
+	self
+		makeTopWindow ;
+		focus
 ]
 
 { #category : #'event handling' }
@@ -313,7 +315,8 @@ CpWindow >> initialize [
 	self appendChild: closeControl atSlotNamed: #controls.
 	self render.
 
-	self when: CpPointerDownEvent send: #handlePointerDownEvent: to: self
+	self when: CpPrimaryClickEvent send: #handleWindowClick: to: self
+
 ]
 
 { #category : #initialization }
