@@ -38,6 +38,13 @@ CpDomRectangle >> centerPoint [
 	^ ((left + right) / 2) @ ((top + bottom) / 2)
 ]
 
+{ #category : #testing }
+CpDomRectangle >> containsPoint: aPoint [
+
+	^ (aPoint x between: left and: right) and: [
+		aPoint y between: top and: bottom ]
+]
+
 { #category : #accessing }
 CpDomRectangle >> eastPoint [
 
