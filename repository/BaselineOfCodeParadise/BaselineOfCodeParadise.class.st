@@ -24,6 +24,7 @@ BaselineOfCodeParadise >> baseline: spec [
 			package: 'CodeParadise-WebApplication-MVP' with: [ spec requires: #('CodeParadise-WebApplication') ];
 
 			package: 'CodeParadise-WebApplication-Shoelace' with: [ spec requires: #('CodeParadise-WebApplication-MVP') ];
+			package: 'CodeParadise-WebApplication-Fomantic' with: [ spec requires: #('CodeParadise-WebApplication-MVP') ];
 			package: 'CodeParadise-WebApplication-Presentation' with: [ spec requires: #('CodeParadise-WebApplication-MVP') ];
 			package: 'CodeParadise-Beach' with: [ spec requires: #('CodeParadise-WebApplication-MVP') ].
 
@@ -38,7 +39,7 @@ BaselineOfCodeParadise >> baseline: spec [
 
 		"Groups"
 		spec 
-			group: 'default' with: #( 'Core' 'Shoelace' 'Presentation' 'Beach' 'Tests' );
+			group: 'default' with: #( 'Core' 'Shoelace' 'Fomantic' 'Presentation' 'Beach' 'Tests' );
 
 			group: 'Core' with: #( 'CodeParadise-WebApplication' );
 			group: 'Tests' with: #( 'CodeParadise-WebApplication-Tests' 'CodeParadise-RemoteEnvironment-Tests' 'CodeParadise-Beach-Tests' );
@@ -46,6 +47,7 @@ BaselineOfCodeParadise >> baseline: spec [
 			group: 'MVP' with: #( 'CodeParadise-WebApplication-MVP' );
 
 			group: 'Shoelace' with: #( 'CodeParadise-WebApplication-Shoelace' );
+			group: 'Fomantic' with: #( 'CodeParadise-WebApplication-Fomantic' );
 			group: 'Presentation' with: #( 'CodeParadise-WebApplication-Presentation' );
 			group: 'Beach' with: #( 'CodeParadise-Beach' );
 
