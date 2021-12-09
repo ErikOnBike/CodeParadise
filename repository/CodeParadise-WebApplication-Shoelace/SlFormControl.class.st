@@ -91,6 +91,14 @@ SlFormControl >> hasFocus [
 	^ self = CpHtmlElement activeElement
 ]
 
+{ #category : #initialization }
+SlFormControl >> initialize [
+
+	super initialize.
+
+	self when: CpPointerDownEvent send: #noop to: self
+]
+
 { #category : #accessing }
 SlFormControl >> invalid: aBoolean [
 
