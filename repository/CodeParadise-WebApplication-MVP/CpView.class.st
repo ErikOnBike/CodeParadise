@@ -101,6 +101,18 @@ CpView >> keymapper [
 	^ keymapper
 ]
 
+{ #category : #private }
+CpView >> noop [
+
+	"No operation.
+
+	Convenience method to allow event handlers to be no-ops.
+	E.g. to prevent Views from passing through click/pointer down events:
+
+		self shadowRoot when: CpPointerDownEvent send: #noop to: self"
+
+]
+
 { #category : #performing }
 CpView >> performMessage: aMessage [
 
