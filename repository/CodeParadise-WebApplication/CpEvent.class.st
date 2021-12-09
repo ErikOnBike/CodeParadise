@@ -264,6 +264,12 @@ CpEvent >> hasAltModifier [
 ]
 
 { #category : #testing }
+CpEvent >> hasBubbled [
+
+	^ currentElementIndex > 1
+]
+
+{ #category : #testing }
 CpEvent >> hasCtrlModifier [
 
 	^ (self modifiers bitAnd: self class ctrlModifier) ~= 0
