@@ -85,6 +85,14 @@ SlFormControl >> enabled: aBoolean [
 	self disabled: aBoolean not
 ]
 
+{ #category : #'as yet unclassified' }
+SlFormControl >> handlePointerDown: aPointerDownEvent [
+
+	aPointerDownEvent hasBubbled
+		ifTrue: [ aPointerDownEvent preventDefault ]
+
+]
+
 { #category : #testing }
 SlFormControl >> hasFocus [
 
@@ -96,7 +104,8 @@ SlFormControl >> initialize [
 
 	super initialize.
 
-	self when: CpPointerDownEvent send: #noop to: self
+	self
+		when: CpPointerDownEvent send: #handlePointerDown: to: self
 ]
 
 { #category : #accessing }
