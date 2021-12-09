@@ -73,6 +73,9 @@ CpDragEvent class >> dragEnd: aPointerUpEvent [
 	"Remove temporary storage (for all situations)"
 	DragInstances removeKey: aPointerUpEvent pointerId.
 
+	"Stop if no actual drag (move) happened"
+	dragEvent hasMoved ifFalse: [ ^ self ].
+
 	"Update the final position of the drag event"
 	dragEvent endPoint: aPointerUpEvent point.
 
@@ -190,6 +193,12 @@ CpDragEvent >> endPoint: aPoint [
 
 	endPoint := aPoint.
 	self point: aPoint
+]
+
+{ #category : #testing }
+CpDragEvent >> hasMoved [
+
+	^ tracePoints isNotEmpty
 ]
 
 { #category : #testing }
