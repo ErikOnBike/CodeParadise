@@ -557,6 +557,18 @@ CpDomElement >> nextSibling [
 	self primitiveFailed
 ]
 
+{ #category : #'event handling' }
+CpDomElement >> noop [
+
+	"No operation.
+
+	Convenience method to allow event handlers to be no-ops.
+	E.g. to prevent Views from passing through click/pointer down events:
+
+		self shadowRoot when: CpPointerDownEvent send: #noop to: self"
+
+]
+
 { #category : #querying }
 CpDomElement >> parent [
 
