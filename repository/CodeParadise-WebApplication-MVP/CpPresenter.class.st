@@ -501,7 +501,9 @@ CpPresenter >> release [
 	"Release receiver.
 	If a view is present, release it. Do not release model because it can be shared amongst presenters."
 
-	model := nil.
+	model ifNotNil: [
+		model unsubscribe: self.
+		model := nil ].
 	self destroyViewProxy.
 	parent := nil.
 	childPresentersBySlotName := nil.
