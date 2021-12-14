@@ -98,6 +98,16 @@ CpHtmlElement >> asHtmlElement [
 ]
 
 { #category : #accessing }
+CpHtmlElement >> isSlotted [
+
+	"Answer whether the receiver lives in a slot within the receiver's parent.
+
+	Implementation: Only validates whether a slot is named, not whether it actually exists."
+
+	^ self hasAttributeAt: #slot
+]
+
+{ #category : #accessing }
 CpHtmlElement >> slot [
 
 	"Answer the slot within the receiver's parent in which the receiver lives

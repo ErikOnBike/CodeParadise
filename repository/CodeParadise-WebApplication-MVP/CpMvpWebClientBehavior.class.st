@@ -39,7 +39,7 @@ CpMvpWebClientBehavior >> createView: viewClassName withId: identifier atParentI
 				ifFalse: [ parentView appendChild: view atSlotNamed: slotName ] ]
 		ifNil: [
 			| nonSlottedChildren |
-			nonSlottedChildren := parentView children reject: [ :each | each hasAttributeAt: #slot ].
+			nonSlottedChildren := parentView children reject: [ :each | each isSlotted ].
 			(anInteger > 0 and: [ nonSlottedChildren size >= anInteger ])
 				ifTrue: [ parentView replaceChild: (nonSlottedChildren at: anInteger) with: view ]
 				ifFalse: [ parentView appendChild: view ] ].
