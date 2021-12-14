@@ -7,7 +7,7 @@ Class {
 	#classVars : [
 		'Current'
 	],
-	#category : #'CodeParadise-Beach-Browsers'
+	#category : #'CodeParadise-WebApplication-Support'
 }
 
 { #category : #api }
