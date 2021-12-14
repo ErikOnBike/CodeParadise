@@ -851,6 +851,17 @@ CpDomElement >> textContent: aString [
 
 ]
 
+{ #category : #'tag/id/classes' }
+CpDomElement >> toggleClass: aString [
+
+	"Toggle the specified class for the receiver"
+
+	(self isClassed: aString)
+		ifTrue: [ self removeClass: aString ]
+		ifFalse: [ self addClass: aString ]
+
+]
+
 { #category : #'event handling' }
 CpDomElement >> unregisterAllInterest [
 
