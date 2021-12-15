@@ -74,6 +74,16 @@ CpTransition class >> easeInOutBack: aFloat [
 ]
 
 { #category : #easing }
+CpTransition class >> easeInOutCubic: aFloat [
+
+	"Algorithm taken from: https://easings.net"
+
+	^ aFloat < 0.5
+		ifTrue: [ 4 * (aFloat raisedTo: 3) ]
+		ifFalse: [ 1 - (((-2 * aFloat + 2) raisedTo: 3) / 2) ]
+]
+
+{ #category : #easing }
 CpTransition class >> easeInOutElastic: aFloat [
 
 	"Algorithm taken from: https://easings.net"
@@ -89,6 +99,14 @@ CpTransition class >> easeInOutElastic: aFloat [
 		ifTrue: [ ((2 raisedTo: (20 * aFloat - 10)) * ((20 * aFloat - 11.125) * c) sin) / -2 ]
 		ifFalse: [ ((2 raisedTo: (-20 * aFloat + 10)) * ((20 * aFloat - 11.125) * c) sin) / 2 + 1 ]
 
+]
+
+{ #category : #easing }
+CpTransition class >> easeInOutSine: aFloat [
+
+	"Algorithm taken from: https://easings.net"
+
+	^ ((aFloat * Float pi) cos - 1) / -2
 ]
 
 { #category : #easing }
