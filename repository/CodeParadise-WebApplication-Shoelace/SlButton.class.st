@@ -217,6 +217,12 @@ SlButton >> enabled: aBoolean [
 	self disabled: aBoolean not
 ]
 
+{ #category : #testing }
+SlButton >> hasFocus [
+
+	^ self = CpHtmlElement activeElement
+]
+
 { #category : #initialization }
 SlButton >> initialize [
 
