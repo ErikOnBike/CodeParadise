@@ -293,7 +293,9 @@ SlButton >> labelText [
 	"Answer the label text (a String) of the receiver.
 	For richer HTML element use #label instead."
 
-	^ self label textContent
+	^ self label
+		ifNotNil: [ :label | label textContent ]
+		ifNil: [ self textContent ]
 ]
 
 { #category : #accessing }
