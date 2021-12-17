@@ -85,7 +85,7 @@ SlFormControl >> enabled: aBoolean [
 	self disabled: aBoolean not
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'event handling' }
 SlFormControl >> handlePointerDown: aPointerDownEvent [
 
 	aPointerDownEvent hasBubbled
