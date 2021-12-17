@@ -96,6 +96,12 @@ SlButton >> beMedium [
 	self size: #medium
 ]
 
+{ #category : #'accessing type' }
+SlButton >> beNeutral [
+
+	self type: #neutral
+]
+
 { #category : #'accessing style' }
 SlButton >> beNotCircle [
 
