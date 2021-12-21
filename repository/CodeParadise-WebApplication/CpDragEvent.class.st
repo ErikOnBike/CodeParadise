@@ -92,9 +92,6 @@ CpDragEvent class >> dragMove: aPointerMoveEvent [
 
 	| dragEvent |
 
-	"First let others handle the PointerMove event"
-	aPointerMoveEvent propagate.
-
 	"Implementation: Only accept dragging if the primary button is still down."
 	aPointerMoveEvent isPrimaryButtonPressed
 		ifFalse: [ ^ self ].
