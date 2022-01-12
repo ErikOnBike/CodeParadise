@@ -12,16 +12,16 @@ SlBadge class >> label: aStringOrElement [
 		yourself
 ]
 
-{ #category : #'accessing type' }
+{ #category : #'accessing variant' }
 SlBadge >> beDanger [
 
-	self type: #danger
+	self variant: #danger
 ]
 
-{ #category : #'accessing type' }
+{ #category : #'accessing variant' }
 SlBadge >> beDefault [
 
-	self type: #default
+	self variant: #default
 ]
 
 { #category : #'accessing size' }
@@ -36,10 +36,10 @@ SlBadge >> beMedium [
 	self size: #medium
 ]
 
-{ #category : #'accessing type' }
+{ #category : #'accessing variant' }
 SlBadge >> beNeutral [
 
-	self type: #neutral
+	self variant: #neutral
 ]
 
 { #category : #'accessing style' }
@@ -54,10 +54,10 @@ SlBadge >> bePill [
 	self pill: true
 ]
 
-{ #category : #'accessing type' }
+{ #category : #'accessing variant' }
 SlBadge >> bePrimary [
 
-	self type: #primary
+	self variant: #primary
 ]
 
 { #category : #'accessing size' }
@@ -66,16 +66,16 @@ SlBadge >> beSmall [
 	self size: #small
 ]
 
-{ #category : #'accessing type' }
+{ #category : #'accessing variant' }
 SlBadge >> beSuccess [
 
-	self type: #success
+	self variant: #success
 ]
 
-{ #category : #'accessing type' }
+{ #category : #'accessing variant' }
 SlBadge >> beWarning [
 
-	self type: #warning
+	self variant: #warning
 ]
 
 { #category : #accessing }
@@ -150,13 +150,13 @@ SlBadge >> size: aString [
 ]
 
 { #category : #accessing }
-SlBadge >> type [
+SlBadge >> variant [
 
-	^ self propertyAt: #type
+	^ self propertyAt: #variant
 ]
 
 { #category : #accessing }
-SlBadge >> type: aString [
+SlBadge >> variant: aString [
 
-	self propertyAt: #type put: aString
+	self propertyAt: #variant put: aString
 ]

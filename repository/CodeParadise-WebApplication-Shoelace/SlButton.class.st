@@ -46,16 +46,16 @@ SlButton >> beCircle [
 	self circle: true
 ]
 
-{ #category : #'accessing type' }
+{ #category : #'accessing variant' }
 SlButton >> beDanger [
 
-	self type: #danger
+	self variant: #danger
 ]
 
-{ #category : #'accessing type' }
+{ #category : #'accessing variant' }
 SlButton >> beDefault [
 
-	self type: #default
+	self variant: #default
 ]
 
 { #category : #'accessing style' }
@@ -72,10 +72,10 @@ SlButton >> beEnabled [
 	self disabled: false
 ]
 
-{ #category : #'accessing type' }
+{ #category : #'accessing variant' }
 SlButton >> beInfo [
 
-	self type: #info
+	self variant: #info
 ]
 
 { #category : #'accessing size' }
@@ -96,10 +96,10 @@ SlButton >> beMedium [
 	self size: #medium
 ]
 
-{ #category : #'accessing type' }
+{ #category : #'accessing variant' }
 SlButton >> beNeutral [
 
-	self type: #neutral
+	self variant: #neutral
 ]
 
 { #category : #'accessing style' }
@@ -152,10 +152,10 @@ SlButton >> bePill [
 	self pill: true
 ]
 
-{ #category : #'accessing type' }
+{ #category : #'accessing variant' }
 SlButton >> bePrimary [
 
-	self type: #primary
+	self variant: #primary
 ]
 
 { #category : #'accessing size' }
@@ -164,22 +164,22 @@ SlButton >> beSmall [
 	self size: #small
 ]
 
-{ #category : #'accessing type' }
+{ #category : #'accessing variant' }
 SlButton >> beSuccess [
 
-	self type: #success
+	self variant: #success
 ]
 
-{ #category : #'accessing type' }
+{ #category : #'accessing variant' }
 SlButton >> beText [
 
-	self type: #text
+	self variant: #text
 ]
 
-{ #category : #'accessing type' }
+{ #category : #'accessing variant' }
 SlButton >> beWarning [
 
-	self type: #warning
+	self variant: #warning
 ]
 
 { #category : #accessing }
@@ -443,13 +443,13 @@ SlButton >> targetTop [
 ]
 
 { #category : #accessing }
-SlButton >> type [
+SlButton >> variant [
 
-	^ self propertyAt: #type
+	^ self propertyAt: #variant
 ]
 
 { #category : #accessing }
-SlButton >> type: aString [
+SlButton >> variant: aString [
 
-	self propertyAt: #type put: aString
+	self propertyAt: #variant put: aString
 ]

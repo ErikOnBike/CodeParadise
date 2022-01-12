@@ -4,10 +4,10 @@ Class {
 	#category : #'CodeParadise-WebApplication-Shoelace-Elements'
 }
 
-{ #category : #'accessing style' }
+{ #category : #'accessing variant' }
 SlTag >> beDanger [
 
-	self type: #danger
+	self variant: #danger
 ]
 
 { #category : #'accessing size' }
@@ -22,37 +22,37 @@ SlTag >> beMedium [
 	self size: #medium
 ]
 
-{ #category : #'accessing style' }
+{ #category : #'accessing variant' }
 SlTag >> beNeutral [
 
-	self type: #neutral
+	self variant: #neutral
 ]
 
-{ #category : #'accessing style' }
+{ #category : #'accessing variant' }
 SlTag >> beNotPill [
 
 	self pill: false
 ]
 
-{ #category : #'accessing style' }
+{ #category : #'accessing variant' }
 SlTag >> beNotRemovable [
 
 	self removable: false
 ]
 
-{ #category : #'accessing style' }
+{ #category : #'accessing variant' }
 SlTag >> bePill [
 
 	self pill: true
 ]
 
-{ #category : #'accessing style' }
+{ #category : #'accessing variant' }
 SlTag >> bePrimary [
 
-	self type: #primary
+	self variant: #primary
 ]
 
-{ #category : #'accessing style' }
+{ #category : #'accessing variant' }
 SlTag >> beRemovable [
 
 	self removable: true
@@ -64,22 +64,22 @@ SlTag >> beSmall [
 	self size: #small
 ]
 
-{ #category : #'accessing style' }
+{ #category : #'accessing variant' }
 SlTag >> beSuccess [
 
-	self type: #success
+	self variant: #success
 ]
 
-{ #category : #'accessing style' }
+{ #category : #'accessing variant' }
 SlTag >> beText [
 
-	self type: #text
+	self variant: #text
 ]
 
-{ #category : #'accessing style' }
+{ #category : #'accessing variant' }
 SlTag >> beWarning [
 
-	self type: #warning
+	self variant: #warning
 ]
 
 { #category : #testing }
@@ -119,13 +119,13 @@ SlTag >> size: aString [
 ]
 
 { #category : #accessing }
-SlTag >> type [
+SlTag >> variant [
 
-	^ self propertyAt: #type
+	^ self propertyAt: #variant
 ]
 
 { #category : #accessing }
-SlTag >> type: aString [
+SlTag >> variant: aString [
 
-	self propertyAt: #type put: aString
+	self propertyAt: #variant put: aString
 ]
