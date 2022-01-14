@@ -306,6 +306,17 @@ CpDomElement >> children [
 	self primitiveFailed
 ]
 
+{ #category : #'tag/id/classes' }
+CpDomElement >> classed: aSymbol if: aBoolean [
+
+	"Either add or remove the specified class to/from the receiver based
+	on the specified Boolean"
+
+	aBoolean
+		ifTrue: [ self addClass: aSymbol ]
+		ifFalse: [ self removeClass: aSymbol ]
+]
+
 { #category : #copying }
 CpDomElement >> clone [
 
