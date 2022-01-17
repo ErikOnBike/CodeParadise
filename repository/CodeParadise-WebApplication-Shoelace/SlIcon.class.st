@@ -88,6 +88,24 @@ SlIcon >> beFontAwesome [
 ]
 
 { #category : #accessing }
+SlIcon >> fullName: aString [
+
+	"Set the name and optionally the library for the receiver specified on the given full name.
+	The full name should take the form: <library>:<name>
+	If no colon ($:) is specified, only the name is assumed."
+
+	| separatorIndex |
+
+	separatorIndex := aString indexOf: $:.
+	separatorIndex = 0
+		ifTrue: [ self name: aString ]
+		ifFalse: [
+			self
+				library: (aString first: separatorIndex - 1) ;
+				name: (aString allButFirst: separatorIndex) ]
+]
+
+{ #category : #accessing }
 SlIcon >> library [
 
 	^ self propertyAt: #library
