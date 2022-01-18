@@ -64,14 +64,14 @@ CpComponentExamplesClientBehavior >> exampleButtons [
 	"Add separator"
 	outputElement appendChild: (CpHtmlElement newWithTag: #p).
 
-	group1 := outputElement appendChild: CpControlGroup new.
+	group1 := outputElement appendChild: CpButtonGroup new.
 	button1a := group1 appendChild: ((CpButton label: 'Button1a')
 		when: CpPrimaryClickEvent do: [ self crTrace: 'Button1a clicked' ] ;
 		yourself).
 	button1b := group1 appendChild: ((CpButton label: 'Button1b')
 		when: CpPrimaryClickEvent do: [ self crTrace: 'Button1b clicked' ] ;
 		yourself).
-	group2 := group1 appendChild: CpControlGroup new.
+	group2 := group1 appendChild: CpButtonGroup new.
 	group2
 		styleAt: #display put: #block ;
 		styleAt: #'margin-left' put: '3em'.
@@ -81,7 +81,7 @@ CpComponentExamplesClientBehavior >> exampleButtons [
 	button2b := group2 appendChild: ((CpButton label: 'Button2b')
 		when: CpPrimaryClickEvent do: [ self crTrace: 'Button2b clicked' ] ;
 		yourself).
-	group3 := group2 appendChild: CpControlGroup new.
+	group3 := group2 appendChild: CpButtonGroup new.
 	group3
 		styleAt: #display put: #block ;
 		styleAt: #'margin-left' put: '6em'.
