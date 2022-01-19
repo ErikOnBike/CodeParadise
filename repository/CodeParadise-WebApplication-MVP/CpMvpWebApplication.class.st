@@ -194,6 +194,10 @@ CpMvpWebApplication >> release [
 
 	"Release the receivers resources"
 
+	announcer ifNotNil: [
+		announcer subscriptions reset.
+		announcer := nil ].
+
 	presentersById ifNotNil: [
 		presentersById do: [ :each | each release ].
 		presentersById := nil ].

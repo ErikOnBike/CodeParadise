@@ -142,7 +142,9 @@ CpServerApplication >> release [
 
 	"Release the receiver's instance variables"
 
-	environment := nil.
+	environment ifNotNil: [
+		environment release.
+		environment := nil ].
 
 	super release
 ]
@@ -178,8 +180,8 @@ CpServerApplication >> setUp [
 CpServerApplication >> stop [
 
 	"Perform any actions needed when the ClientEnvironment belonging to the receiver stopped.
-	The receiver is unusable after being stopped."
+	The receiver is unusable after being stopped. Subclasses wanting to add behavior should
+	perform such behavior before calling 'super stop'."
 
-	self environment ifNotNil: [ :remoteEnvironment | remoteEnvironment release ].
 	self release
 ]
