@@ -426,6 +426,19 @@ CpPresenter >> initializeViewProxy [
 		yourself
 ]
 
+{ #category : #'presenters - private' }
+CpPresenter >> makeLastChildPresenter: aChildPresenter [
+
+	"Make the specified child presenter the last child presenter (within its slot)"
+
+	| childPresenters |
+
+	childPresenters := self childPresentersAtSlotNamed: aChildPresenter slotName.
+	childPresenters
+		remove: aChildPresenter ifAbsent: [ self error: 'Failed to move child presenter, because it is not a child presenter of the specified parent' ] ;
+		addLast: aChildPresenter
+]
+
 { #category : #model }
 CpPresenter >> model [
 
