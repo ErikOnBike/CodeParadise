@@ -29,16 +29,11 @@ CpMvpWebApplication class >> clientBehaviorClass [
 CpMvpWebApplication >> allPresentersDo: aBlock [
 
 	"Evaluate the specified Block for all Presenters. The child Presenters
-	are visited after their parents have been visited.
+	are visited after their parents have been visited."
 
-	Implementation: Presenters are added to the OrderedDictionary in order of
-	creation and therefore child Presenters will be visited after their
-	parents.
-	The method #doSafely is used which allows adding and removing of elements
-	during iteration. Added elements are NOT iterated over and if elements
-	are removed before iteration, they are not visited either."
+	applicationPresenter ifNil: [ ^ self ].
 
-	presentersById doSafely: aBlock
+	applicationPresenter allPresentersDo: aBlock
 ]
 
 { #category : #announcing }
@@ -158,7 +153,7 @@ CpMvpWebApplication >> initialize [
 	super initialize.
 
 	announcer := Announcer new.
-	presentersById := OrderedIdentityDictionary new
+	presentersById := IdentityDictionary new
 ]
 
 { #category : #actions }

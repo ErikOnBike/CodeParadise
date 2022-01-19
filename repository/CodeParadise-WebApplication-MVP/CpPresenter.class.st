@@ -58,6 +58,18 @@ CpPresenter class >> defaultViewClass [
 	^ viewClass
 ]
 
+{ #category : #presenters }
+CpPresenter >> allPresentersDo: aBlock [
+
+	"Evaluate the specified block for the receiver and then all its descendants
+	(in this order)."
+
+	aBlock value: self.
+
+	childPresentersBySlotName valuesDo: [ :presenters |
+		presenters do: [ :each | each allPresentersDo: aBlock ] ]
+]
+
 { #category : #accessing }
 CpPresenter >> application [
 
