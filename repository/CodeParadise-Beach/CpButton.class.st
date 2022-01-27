@@ -68,45 +68,51 @@ CpButton class >> style [
 
 	<webResource: #css>
 
-	^ '	*, *:before, *:after {
-			-moz-box-sizing: border-box;
-			-webkit-box-sizing: border-box;
+	^ ':host, *, ::before, ::after, ::slotted(*) {
 			box-sizing: border-box;
 		}
 		:host {
+			display: inline-block;
+			position: relative;
+		}
+		#base {
 			display: inline-grid;
 			grid-template-columns: 1fr auto 1fr;
-			min-height: inherit;
+			align-items: center;
+			justify-items: stretch;
+			width: 100%;
+			height: 100%;
 			padding: 4px 8px;
 			border-radius: 4px;
 			color: var(--control-text-color);
 			background-color: var(--control-background-color, #fff);
-			cursor: pointer;
 			-webkit-user-select: none;
-			-moz-user-select: none;
 			user-select: none;
 		}
-		:host(.icon) {
+		:host(.icon) #base {
 			padding: 4px;
 		}
-		:host(:not([disabled]):hover) {
+		:host(:not([disabled]):hover) #base {
 			color: var(--control-hovered-text-color); 
 			background-color: var(--control-hover-background-color);
 		}
-		:host(:not([disabled]):active) {
+		:host(:not([disabled]):active) #base {
 			color: var(--control-activated-text-color);
 			background-color: var(--control-activated-background-color);
 		}
+		:host {
+			cursor: pointer;
+		}
 		:host([disabled]) {
-			color: #aaa;
 			pointer-events: none;
 			cursor: auto;
+		}
+		:host([disabled]) #base {
+			color: #aaa;
 		}
 		#prefix,
 		#label,
 		#suffix {
-			display: inline;
-			align-self: baseline;
 			white-space: nowrap;
 			overflow: hidden;
 		}
@@ -126,7 +132,6 @@ CpButton class >> style [
 		::slotted(*) {
 			pointer-events: none;
 			-webkit-user-select: none;
-			-moz-user-select: none;
 			user-select: none;
 		}'
 ]
@@ -136,15 +141,11 @@ CpButton class >> template [
 
 	<webResource: #html>
 
-	^ '<div id="prefix">
-		<slot name="prefix"></slot>
-	</div>
-	<div id="label">
-		<slot name="label"></slot>
-	</div>
-	<div id="suffix">
-		<slot name="suffix"></slot>
-	</div>'
+	^ '<div id="base">
+			<span id="prefix"><slot name="prefix"></slot></span>
+			<span id="label"><slot name="label"></slot></span>
+			<span id="suffix"><slot name="suffix"></slot></span>
+		</div>'
 ]
 
 { #category : #accessing }
