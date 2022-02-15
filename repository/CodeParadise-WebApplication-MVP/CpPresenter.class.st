@@ -603,7 +603,7 @@ CpPresenter >> renderAllChildViewsForModels: aCollection [
 { #category : #rendering }
 CpPresenter >> renderAllChildViewsForModels: aCollection atSlotNamed: aString [
 
-	^ self 
+	self 
 		renderAllChildViewsForModels: aCollection 
 		usingPresenter: [ :each | self presenterClassForModel: each atSlotNamed: aString ] 
 		atSlotNamed: aString
