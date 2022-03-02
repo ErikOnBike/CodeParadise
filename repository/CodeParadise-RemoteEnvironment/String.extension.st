@@ -9,6 +9,12 @@ String >> asHtmlTag [
 ]
 
 { #category : #'*CodeParadise-RemoteEnvironment' }
+String >> asNumberOrNil [
+
+	^ [ self asNumber ] on: Error do: [ nil ]
+]
+
+{ #category : #'*CodeParadise-RemoteEnvironment' }
 String >> cpEncodeWith: anEncoder [
 
 	<clientEnvironment>
