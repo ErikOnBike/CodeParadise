@@ -13,6 +13,14 @@ SlIcon class >> fontAwesomeNamed: aString [
 		yourself
 ]
 
+{ #category : #accessing }
+SlIcon class >> fullyNamed: aString [
+
+	^ self new
+		fullName: aString ;
+		yourself
+]
+
 { #category : #'class initialization' }
 SlIcon class >> loadComponent [
 
