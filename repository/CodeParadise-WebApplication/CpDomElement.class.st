@@ -483,6 +483,14 @@ CpDomElement >> isClassed: aString [
 
 ]
 
+{ #category : #testing }
+CpDomElement >> isConnected [
+
+	"Answer whether the receiver is connected to the Document (directly or indirectly)"
+
+	^ self propertyAt: #isConnected
+]
+
 { #category : #'event handling' }
 CpDomElement >> isListeningTo: anEventClass [
 
