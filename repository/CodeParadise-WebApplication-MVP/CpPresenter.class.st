@@ -426,6 +426,26 @@ CpPresenter >> initializeViewProxy [
 		yourself
 ]
 
+{ #category : #presenters }
+CpPresenter >> lastChildPresenter [
+
+	"Answer the last child presenter in the default slot
+	or nil if such presenter does not exist"
+
+	^ self lastChildPresenterAtSlotNamed: nil
+]
+
+{ #category : #presenters }
+CpPresenter >> lastChildPresenterAtSlotNamed: aString [
+
+	"Answer the last child presenter in the specified slot
+	or nil if such presenter does not exist"
+
+	^ (self childPresentersAtSlotNamed: aString)
+		ifNotEmpty: [ :presenters | presenters last ]
+		ifEmpty: [ nil ]
+]
+
 { #category : #'presenters - private' }
 CpPresenter >> makeLastChildPresenter: aChildPresenter [
 
