@@ -39,7 +39,7 @@ SlMenuItem >> beNotChecked [
 	self checked: false
 ]
 
-{ #category : #accessing }
+{ #category : #'accessing style' }
 SlMenuItem >> beNotDisabled [
 
 	self disabled: false
