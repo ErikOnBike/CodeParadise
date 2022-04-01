@@ -46,7 +46,7 @@ SlTextarea >> rows: anInteger [
 	self propertyAt: #rows put: anInteger
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'accessing style' }
 SlTextarea >> scrollPosition [
 
 	"Gets the textarea's scroll position.
@@ -55,7 +55,7 @@ SlTextarea >> scrollPosition [
 	^ self syncApply: #scrollPosition withArguments: #()
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'accessing style' }
 SlTextarea >> scrollPositionTop: topNumber left: leftNumber [
 
 	"Sets the textarea's scroll position"

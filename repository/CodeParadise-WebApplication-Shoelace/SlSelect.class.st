@@ -34,7 +34,7 @@ SlSelect >> beMedium [
 	self size: #medium
 ]
 
-{ #category : #api }
+{ #category : #accessing }
 SlSelect >> beMultiple [
 
 	self multiple: true
@@ -58,7 +58,7 @@ SlSelect >> beNotHoist [
 	self hoist: false
 ]
 
-{ #category : #api }
+{ #category : #accessing }
 SlSelect >> beNotMultiple [
 
 	self multiple: false
@@ -166,7 +166,7 @@ SlSelect >> isHoist [
 	^ self propertyAt: #hoist
 ]
 
-{ #category : #api }
+{ #category : #accessing }
 SlSelect >> isMultiple [
 
 	^ self propertyAt: #multiple
@@ -228,7 +228,7 @@ SlSelect >> maxTagsVisible: aNumber [
 	self propertyAt: #maxTagsVisible put: aNumber
 ]
 
-{ #category : #api }
+{ #category : #accessing }
 SlSelect >> multiple: aBoolean [
 
 	self propertyAt: #multiple put: aBoolean
@@ -240,13 +240,13 @@ SlSelect >> pill: aBoolean [
 	self propertyAt: #pill put: aBoolean
 ]
 
-{ #category : #api }
+{ #category : #accessing }
 SlSelect >> placeholder [
 
 	^ self propertyAt: #placeholder
 ]
 
-{ #category : #api }
+{ #category : #accessing }
 SlSelect >> placeholder: aString [
 
 	self propertyAt: #placeholder put: aString
