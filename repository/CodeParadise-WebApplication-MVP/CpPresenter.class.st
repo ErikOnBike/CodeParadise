@@ -258,6 +258,9 @@ CpPresenter >> destroy [
 	self hasParent
 		ifTrue: [ self parent removeChildPresenter: self ].
 
+	"Remove view from visible DOM"
+	self view remove.
+
 	self
 		destroyChildPresenters ;
 		destroyView ;
