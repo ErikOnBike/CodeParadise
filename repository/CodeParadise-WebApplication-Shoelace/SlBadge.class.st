@@ -24,18 +24,6 @@ SlBadge >> beDefault [
 	self variant: #default
 ]
 
-{ #category : #'accessing size' }
-SlBadge >> beLarge [
-
-	self size: #large
-]
-
-{ #category : #'accessing size' }
-SlBadge >> beMedium [
-
-	self size: #medium
-]
-
 { #category : #'accessing variant' }
 SlBadge >> beNeutral [
 
@@ -46,6 +34,12 @@ SlBadge >> beNeutral [
 SlBadge >> beNotPill [
 
 	self pill: false
+]
+
+{ #category : #'accessing style' }
+SlBadge >> beNotPulse [
+
+	self pulse: false
 ]
 
 { #category : #'accessing style' }
@@ -60,10 +54,10 @@ SlBadge >> bePrimary [
 	self variant: #primary
 ]
 
-{ #category : #'accessing size' }
-SlBadge >> beSmall [
+{ #category : #'accessing style' }
+SlBadge >> bePulse [
 
-	self size: #small
+	self pulse: true
 ]
 
 { #category : #'accessing variant' }
@@ -91,6 +85,12 @@ SlBadge >> content: anElement [
 SlBadge >> isPill [
 
 	^ self propertyAt: #pill
+]
+
+{ #category : #testing }
+SlBadge >> isPulse [
+
+	^ self propertyAt: #pulse
 ]
 
 { #category : #accessing }
@@ -138,15 +138,9 @@ SlBadge >> pill: aBoolean [
 ]
 
 { #category : #accessing }
-SlBadge >> size [
+SlBadge >> pulse: aBoolean [
 
-	^ self propertyAt: #size
-]
-
-{ #category : #accessing }
-SlBadge >> size: aString [
-
-	self propertyAt: #size put: aString
+	self propertyAt: #pulse put: aBoolean
 ]
 
 { #category : #accessing }
