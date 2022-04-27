@@ -154,3 +154,11 @@ SlElement >> focus: optionsArray [
 
 	self apply: #focus withArguments: optionsArray asDictionary
 ]
+
+{ #category : #performing }
+SlElement >> performMessage: aMessage [
+
+	"Perform the specified message on the receiver"
+
+	aMessage sendTo: self
+]
