@@ -44,7 +44,8 @@ CpKeyEvent >> keyWithModifiers [
 	"Answer a String representing the receiver's key with modifiers prepended"
 
 	self key ifNil: [ ^ nil ].
-	self key size = 1 ifTrue: [ ^ self key ].
+	(self key size = 1 or: [ self hasModifiers not ])
+		ifTrue: [ ^ self key ].
 
 	^ String streamContents: [ :stream |
 		self hasAltModifier
