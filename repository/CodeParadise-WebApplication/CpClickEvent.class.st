@@ -88,8 +88,9 @@ CpClickEvent class >> newFromMouseEvent: aMouseEvent [
 	Implementation: Since subclasses will be defined
 	after base classes, use indirect reference to
 	subclasses (for usage in RemoveEnvironment)."
+
 	clickEventClass := aMouseEvent hasModifiers
-		ifTrue: [ self ]
+		ifTrue: [ CpClickEvent ]
 		ifFalse: [
 			aMouseEvent isOnlyPrimaryButtonPressed
 				ifTrue: [ Smalltalk at: #CpPrimaryClickEvent ]

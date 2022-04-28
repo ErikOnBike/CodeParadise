@@ -234,7 +234,7 @@ SlButton >> initialize [
 
 	super initialize.
 
-	self when: CpClickEvent send: #onPrivateClick: to: self
+	self when: CpPrimaryClickEvent send: #onPrivateClick: to: self
 ]
 
 { #category : #testing }
