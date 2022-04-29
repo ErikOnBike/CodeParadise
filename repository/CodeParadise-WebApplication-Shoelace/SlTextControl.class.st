@@ -325,6 +325,13 @@ SlTextControl >> labelText: aString [
 	"Set the label text to the specified String value.
 	For richer HTML element use #label: instead."
 
+	"Optimize for simple text control label with <span> only"
+	self label ifNotNil: [ :label |
+		label tagName = #span
+			ifTrue: [
+				label textContent: aString.
+				^ self ] ].
+
 	self label: aString asHtmlElement
 ]
 
