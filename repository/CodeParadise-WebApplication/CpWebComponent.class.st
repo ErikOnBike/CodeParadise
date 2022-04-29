@@ -11,6 +11,13 @@ Class {
 	#category : #'CodeParadise-WebApplication-DOM'
 }
 
+{ #category : #converting }
+CpWebComponent class >> asCssSelector [
+
+	^ self tagName
+
+]
+
 { #category : #accessing }
 CpWebComponent class >> first [
 

@@ -50,6 +50,29 @@ CpDomElement class >> beLoaded [
 	CpDomRectangle beLoaded
 ]
 
+{ #category : #'accessing - state' }
+CpDomElement class >> cssSelectorForAnyOf: aCollection [
+
+	"Answer a CSS selector String representing the selection of any
+	of the specified values in the collection. This supports either
+	WebComponents (which know their specific tag name) or Strings
+	which already represent a CSS selector). Both types can be combined.
+
+	E.g. self cssSelectorForAnyOf: { CpCounterView . '.some_class' }
+	will match both the Counter webcomponents as well as any DOM element
+	classed 'some_class'.
+	
+	See also: https://developer.mozilla.org/en-US/docs/Web/CSS/:is"
+
+	^ String streamContents: [ :stream |
+		stream nextPutAll: ':is('.
+		aCollection withIndexDo: [ :each :index |
+			index > 0
+				ifTrue: [ stream nextPut: $, ].
+			stream nextPutAll: each asCssSelector ].
+		stream nextPut: $) ]
+]
+
 { #category : #'acccessing-ui' }
 CpDomElement class >> document [
 

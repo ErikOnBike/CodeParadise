@@ -1,6 +1,13 @@
 Extension { #name : #String }
 
 { #category : #'*CodeParadise-WebApplication' }
+String >> asCssSelector [
+
+	^ self
+
+]
+
+{ #category : #'*CodeParadise-WebApplication' }
 String >> asHtmlElement [
 
 	<webApplicationExtension>
