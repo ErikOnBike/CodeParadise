@@ -348,6 +348,22 @@ CpDomElement >> clone [
 	The clone will not have a parent and therefore needs to be added to a visible element,
 	before becoming visible."
 
+	| clone |
+
+	clone := self cloneElement.
+	self children do: [ :each | clone appendChild: each clone ].
+
+	^ clone
+
+]
+
+{ #category : #copying }
+CpDomElement >> cloneElement [
+
+	"Answer a (shallow) clone of the receiver.
+	The clone will not have a parent and therefore needs to be added to a visible element,
+	before becoming visible."
+
 	<primitive: 'primitiveDomElementClone' module: 'CpDOMPlugin'>
 	self primitiveFailed
 ]
