@@ -59,6 +59,20 @@ SlMenuItem >> checked: aBoolean [
 	self propertyAt: #checked put: aBoolean
 ]
 
+{ #category : #copying }
+SlMenuItem >> clone [
+
+	"Deep clone the receiver.
+
+	Implementation:
+	Set the (non reflecting properties explicitly)."
+
+	^ super clone
+		value: self value ;
+		yourself
+
+]
+
 { #category : #accessing }
 SlMenuItem >> disabled: aBoolean [
 

@@ -101,6 +101,22 @@ SlSelect >> clearable: aBoolean [
 ]
 
 { #category : #accessing }
+SlSelect >> clone [
+
+	"Deep clone the receiver.
+
+	Implementation:
+	Set the (non reflecting properties explicitly)."
+
+	^ super clone
+		size: self size ;
+		placeholder: self placeholder ;
+		clearable: self isClearable ;
+		yourself
+
+]
+
+{ #category : #accessing }
 SlSelect >> filled: aBoolean [
 
 	self propertyAt: #filled put: aBoolean

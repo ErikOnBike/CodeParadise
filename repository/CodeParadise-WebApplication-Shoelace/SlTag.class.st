@@ -82,6 +82,20 @@ SlTag >> beWarning [
 	self variant: #warning
 ]
 
+{ #category : #copying }
+SlTag >> clone [
+
+	"Deep clone the receiver.
+
+	Implementation:
+	Set the (non reflecting properties explicitly)."
+
+	^ super clone
+		removable: self isRemovable ;
+		yourself
+
+]
+
 { #category : #testing }
 SlTag >> isPill [
 

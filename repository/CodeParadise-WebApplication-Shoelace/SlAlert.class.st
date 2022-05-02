@@ -58,6 +58,20 @@ SlAlert >> beWarning [
 	self variant: #warning
 ]
 
+{ #category : #copying }
+SlAlert >> clone [
+
+	"Deep clone the receiver.
+
+	Implementation:
+	Set the (non reflecting properties explicitly)."
+
+	^ super clone
+		duration: self duration ;
+		yourself
+
+]
+
 { #category : #accessing }
 SlAlert >> closable [
 

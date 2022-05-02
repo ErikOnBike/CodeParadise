@@ -74,6 +74,23 @@ SlTooltip >> bottomStart [
 	self placement: #'bottom-start'
 ]
 
+{ #category : #copying }
+SlTooltip >> clone [
+
+	"Deep clone the receiver.
+
+	Implementation:
+	Set the (non reflecting properties explicitly)."
+
+	^ super clone
+		placement: self placement ;
+		distance: self distance ;
+		trigger: self trigger ;
+		hoist: self isHoist ;
+		yourself
+
+]
+
 { #category : #accessing }
 SlTooltip >> content [
 

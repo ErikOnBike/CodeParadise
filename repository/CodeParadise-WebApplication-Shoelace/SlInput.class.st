@@ -109,6 +109,23 @@ SlInput >> clearable: aBoolean [
 ]
 
 { #category : #accessing }
+SlInput >> clone [
+
+	"Deep clone the receiver.
+
+	Implementation:
+	Set the (non reflecting properties explicitly)."
+
+	self flag: #TODO. "This list is incomplete. Question raised on GitHub wrt reflective propeties: https://github.com/shoelace-style/shoelace/discussions/741"
+
+	^ super clone
+		placeholder: self placeholder ;
+		clearable: self isClearable ;
+		yourself
+
+]
+
+{ #category : #accessing }
 SlInput >> hidePasswordIcon [
 
 	self firstChildAtSlotNamed: #'hide-password-icon'

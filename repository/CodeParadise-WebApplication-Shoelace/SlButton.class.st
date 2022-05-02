@@ -188,6 +188,22 @@ SlButton >> circle: aBoolean [
 	self propertyAt: #circle put: aBoolean
 ]
 
+{ #category : #copying }
+SlButton >> clone [
+
+	"Deep clone the receiver.
+
+	Implementation:
+	Set the (non reflecting properties explicitly)."
+
+	^ super clone
+		link: self link ;
+		target: self target ;
+		download: self download ;
+		yourself
+
+]
+
 { #category : #accessing }
 SlButton >> content: anElement [
 

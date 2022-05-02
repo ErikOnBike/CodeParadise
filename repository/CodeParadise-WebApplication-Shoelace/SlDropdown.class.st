@@ -36,6 +36,23 @@ SlDropdown >> beStayOpenOnSelect [
 	self stayOpenOnSelect: true
 ]
 
+{ #category : #copying }
+SlDropdown >> clone [
+
+	"Deep clone the receiver.
+
+	Implementation:
+	Set the (non reflecting properties explicitly)."
+
+	^ super clone
+		disabled: self isDisabled ;
+		distance: self distance ;
+		skidding: self skidding ;
+		hoist: self isHoist ;
+		yourself
+
+]
+
 { #category : #accessing }
 SlDropdown >> containingElement [
 

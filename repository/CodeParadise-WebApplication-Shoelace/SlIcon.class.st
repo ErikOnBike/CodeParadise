@@ -95,6 +95,21 @@ SlIcon >> beFontAwesome [
 	self library: 'fa'
 ]
 
+{ #category : #copying }
+SlIcon >> clone [
+
+	"Deep clone the receiver.
+
+	Implementation:
+	Set the (non reflecting properties explicitly)."
+
+	^ super clone
+		name: self name ;
+		library: self library ;
+		yourself
+
+]
+
 { #category : #accessing }
 SlIcon >> fullName: aString [
 

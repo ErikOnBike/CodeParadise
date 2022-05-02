@@ -72,6 +72,20 @@ SlFormControl >> blur [
 ]
 
 { #category : #accessing }
+SlFormControl >> clone [
+
+	"Deep clone the receiver.
+
+	Implementation:
+	Set the (non reflecting properties explicitly)."
+
+	^ super clone
+		value: self value ;
+		yourself
+
+]
+
+{ #category : #accessing }
 SlFormControl >> disabled: aBoolean [
 
 	self propertyAt: #disabled put: aBoolean
