@@ -25,7 +25,7 @@ CpWebComponent class >> first [
 	or nil if none exists"
 
 	^ self document
-		firstDescendantMatching: self tagName
+		firstDescendantMatching: self asCssSelector
 ]
 
 { #category : #primitives }
@@ -45,7 +45,7 @@ CpWebComponent class >> last [
 	"Answer the last instance of the receiver in the current document
 	or nil if none exists"
 
-	^ (self document allDescendantsMatching: self tagName)
+	^ (self document allDescendantsMatching: self asCssSelector)
 		ifNotEmpty: [ :matches | matches last ]
 		ifEmpty: [ nil ]
 ]
