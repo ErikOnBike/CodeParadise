@@ -39,36 +39,6 @@ CpMouseEvent >> buttons: anInteger [
 ]
 
 { #category : #testing }
-CpMouseEvent >> hasAltModifier [
-
-	^ (self modifiers bitAnd: 1) ~= 0
-]
-
-{ #category : #testing }
-CpMouseEvent >> hasCtrlModifier [
-
-	^ (self modifiers bitAnd: 2) ~= 0
-]
-
-{ #category : #testing }
-CpMouseEvent >> hasMetaModifier [
-
-	^ (self modifiers bitAnd: 4) ~= 0
-]
-
-{ #category : #testing }
-CpMouseEvent >> hasModifiers [
-
-	^ self modifiers ~= 0
-]
-
-{ #category : #testing }
-CpMouseEvent >> hasShiftModifier [
-
-	^ (self modifiers bitAnd: 8) ~= 0
-]
-
-{ #category : #testing }
 CpMouseEvent >> isFifthButtonPressed [
 
 	^ buttons anyMask: 16
