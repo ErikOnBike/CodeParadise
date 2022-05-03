@@ -300,6 +300,12 @@ CpEvent >> hasModifiers [
 ]
 
 { #category : #testing }
+CpEvent >> hasNoModifiers [
+
+	^ self modifiers = 0
+]
+
+{ #category : #testing }
 CpEvent >> hasSameOrigin: anEvent [
 
 	"Answer whether the receiver and the specified Event share the same origin.
