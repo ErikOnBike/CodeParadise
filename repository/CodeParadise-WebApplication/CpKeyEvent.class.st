@@ -1,6 +1,9 @@
 "
 I am a Key(board) Event. I offer an interface to low level key press and release events.
 For text entry please also have a look at InputEvent.
+
+I have a slightly different behavior than the browser variant. For the space(bar) key I answer #Space as key value instead of ' '. This is to be more consistent across whitespace characters like #Tab and #Backspace.
+
 "
 Class {
 	#name : #CpKeyEvent,
@@ -29,7 +32,10 @@ CpKeyEvent >> isComposing: aBoolean [
 { #category : #accessing }
 CpKeyEvent >> key [
 
-	^ key
+	^ key = ' '
+		ifTrue: [ #Space ]
+		ifFalse: [ key ]
+
 ]
 
 { #category : #accessing }
