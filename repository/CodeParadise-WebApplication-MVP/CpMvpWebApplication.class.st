@@ -140,8 +140,12 @@ CpMvpWebApplication >> handleViewAnnouncement: aViewAnnouncement [
 		presenterWithId: aViewAnnouncement viewId
 		ifAbsent: [ self error: 'View Announcement received from the client for a View which does not exist anymore on the server' ].
 
-	"Let the Presenter's View do the Announcement"
-	presenter handleViewAnnouncement: aViewAnnouncement announcement
+
+	"Let the Presenter's View do the Announcement (in context of the receiver)"
+	CpCurrentApplicationContext
+		value: self
+		during: [ presenter handleViewAnnouncement: aViewAnnouncement announcement ]
+
 ]
 
 { #category : #initialization }

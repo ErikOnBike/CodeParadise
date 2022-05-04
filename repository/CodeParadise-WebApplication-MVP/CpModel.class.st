@@ -35,11 +35,20 @@ CpModel >> announcer [
 { #category : #accessing }
 CpModel >> application [
 
-	"Answer the application in which the receiver is running
-	(in the context of the Presenter currently executing
-	as a result of an announcement from the View)"
+	"Answer the application in which the receiver is running.
 
-	^ self presenterContext ifNotNil: [ :presenter | presenter application ]
+	Implementation:
+	The current application (ie session) is stored in an application context (dynamic variable)."
+
+	^ self applicationContext value
+
+]
+
+{ #category : #presenter }
+CpModel >> applicationContext [
+
+	^ CpCurrentApplicationContext soleInstance
+
 ]
 
 { #category : #presenter }
@@ -66,12 +75,6 @@ CpModel >> initialize [
 CpModel >> preferredPresenterClass [
 
 	self subclassResponsibility
-]
-
-{ #category : #presenter }
-CpModel >> presenterContext [
-
-	^ CpCurrentPresenterContext value
 ]
 
 { #category : #dependencies }

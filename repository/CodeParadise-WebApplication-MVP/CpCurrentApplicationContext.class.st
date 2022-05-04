@@ -1,5 +1,5 @@
 Class {
-	#name : #CpCurrentPresenterContext,
+	#name : #CpCurrentApplicationContext,
 	#superclass : #DynamicVariable,
 	#category : #'CodeParadise-WebApplication-MVP-Core'
 }
