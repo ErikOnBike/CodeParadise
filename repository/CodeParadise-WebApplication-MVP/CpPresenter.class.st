@@ -66,6 +66,9 @@ CpPresenter >> allPresentersDo: aBlock [
 
 	aBlock value: self.
 
+	"Validate the receiver is not destroyed"
+	childPresentersBySlotName ifNil: [ ^ self ].
+
 	childPresentersBySlotName valuesDo: [ :presenters |
 		presenters do: [ :each | each allPresentersDo: aBlock ] ]
 ]
