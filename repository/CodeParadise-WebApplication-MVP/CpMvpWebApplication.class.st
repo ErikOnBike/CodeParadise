@@ -242,12 +242,6 @@ CpMvpWebApplication >> removePresenter: aPresenter [
 	^ presentersById removeKey: aPresenter id asSymbol
 ]
 
-{ #category : #'input/output' }
-CpMvpWebApplication >> sendMessage: aMessageSend [
-
-	self environment sendMessage: aMessageSend
-]
-
 { #category : #initialization }
 CpMvpWebApplication >> setUp [
 

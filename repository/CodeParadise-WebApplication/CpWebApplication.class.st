@@ -166,6 +166,12 @@ CpWebApplication >> reload [
 	self clientBehaviorClass createIn: self environment
 ]
 
+{ #category : #'input/output' }
+CpWebApplication >> sendMessage: aMessageSend [
+
+	self environment sendMessage: aMessageSend
+]
+
 { #category : #updating }
 CpWebApplication >> updateStyleViewClass: aViewClass [
 
