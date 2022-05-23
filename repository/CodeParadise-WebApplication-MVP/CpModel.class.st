@@ -40,14 +40,7 @@ CpModel >> application [
 	Implementation:
 	The current application (ie session) is stored in an application context (dynamic variable)."
 
-	^ self applicationContext value
-
-]
-
-{ #category : #presenter }
-CpModel >> applicationContext [
-
-	^ CpCurrentApplicationContext soleInstance
+	^ CpCurrentApplicationContext application
 
 ]
 
