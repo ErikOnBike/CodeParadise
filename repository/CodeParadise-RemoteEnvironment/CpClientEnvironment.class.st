@@ -192,10 +192,11 @@ CpClientEnvironment >> alert: aString [
 { #category : #accessing }
 CpClientEnvironment >> app [
 
-	"Answer a String identifying the application that is running.
+	"Answer a Symbol identifying the application that is running.
 	The environment variable #APP should provide this information."
 
 	^ (self variableAt: #APP)
+		ifNotNil: [ :appString | appString asSymbol ]
 		ifNil: [ self fatal: 'The environment variable #APP is not properly set' ]
 ]
 
