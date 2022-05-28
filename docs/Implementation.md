@@ -5,7 +5,7 @@ Some implementation information is described below. Need some more info, please 
 CodeParadise allows you to create web applications without having to resort to Javascript. Since the browser can normally only run Javascript, Javascript is needed to bootstrap a Smalltalk VM and its plugins. The VM is based on [SqueakJS VM](https://squeak.js.org). Apart from that, no Javascript should be necessary. If needed, existing JavaScript libraries can be used with CodeParadise. These have to be wrapped in a VM plugin or use a generic approach of sending messages. This later is only possible when the JavaScript library has a simple interface to which regular Smalltalk objects can be mapped. Have some explicit needs? Please contact me.
 
 Web applications can be built using CodeParadise in a number of flavors:
-* Bare metal (see `CpServerApplicationz`) - you will have to create any interaction with the browser yourself
+* Bare metal (see `CpServerApplication`) - you will have to create any interaction with the browser yourself
 * Plain vanilla (see `CpWebApplication`) - you will receive DOM functionality to interact with
 * Full monthy (see `CpMvpWebApplication`) - you will receive Model View Presenter functionality
 
