@@ -25,10 +25,10 @@ CpApplicationServerStarter class >> startUsingConfig: configuration [
 			Integer specifying the port number on which the WebApplication will be accessed
 			(required, default: 80)
 		#staticFilesPath
-			String specifying on which absolute path the static files for the WebApplication will be accessed
+			String specifying on which absolute path within the URL the static files for the WebApplication will be accessed
 			(optional, if #staticFilesDirectoryName is specified the default value is '/static', otherwise no default value)
 		#staticFilesDirectoryName
-			String specifying in which directory the static files are stored
+			String specifying in which directory the static files are stored in the file system
 			(optional, no default value, an error will be signaled if this configuration item is missing but #staticFilesPath is given)
 	"
 
