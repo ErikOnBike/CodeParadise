@@ -80,7 +80,7 @@ CpDevTools class >> start [
 		ifNone: [ './pharo-local/iceberg/ErikOnBike/CP-ClientEnvironment/html' ].
 	
 	"Start the HTTP and WeSocket servers (use the path where you stored the ClientEnvironment)"
-	CpWebApplicationServerStarter
+	CpApplicationServerStarter
 		startUsingConfig:
 			{(#portNumber -> self defaultPort).
 			(#staticFilesDirectoryName 	-> resourcePath)}
@@ -100,7 +100,7 @@ CpDevTools class >> stop [
 				ifTrue: [ each stop ] ].
 			
 	CpServerApplication allSubInstances do: [ :each | each stop ].
-	CpRemoteEnvironmentServer allInstances do: [ :each | each stop ].
+	CpApplicationServer allInstances do: [ :each | each stop ].
 
 	"Unregister applications"
 	self allApplications do: [ :app | app unregister ].

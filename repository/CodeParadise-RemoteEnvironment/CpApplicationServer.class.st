@@ -5,7 +5,7 @@ Implementation:
 Whenever a new connection is made for an id-less ClientEnvironment I create a new ServerEnvironment and provide it with a new identifier. The ServerEnvironment sends this identifier back to the ClientEnvironment. I keep track of all ServerEnvironments which are instantiated. Whenever an Announcement arrives from the ClientEnvironment for a ServerEnvironment, the specific instance is retrieved from this collection based on the provided ClientEnvironment identifier. In this way RemoteEnvironments are not tightly bound to a connection. The ClientEnvironment can setup a new connection (for example when a bad Internet-connection has dropped) and will continu communicating through that new connection.
 "
 Class {
-	#name : #CpRemoteEnvironmentServer,
+	#name : #CpApplicationServer,
 	#superclass : #Object,
 	#instVars : [
 		'serverEnvironments',
@@ -17,7 +17,7 @@ Class {
 }
 
 { #category : #'instance creation' }
-CpRemoteEnvironmentServer class >> newOnPort: anInteger path: aString [
+CpApplicationServer class >> newOnPort: anInteger path: aString [
 
 	"Create a new instance of the receiver listening on the specified port and path"
 
@@ -27,7 +27,7 @@ CpRemoteEnvironmentServer class >> newOnPort: anInteger path: aString [
 ]
 
 { #category : #'adding/removing' }
-CpRemoteEnvironmentServer >> createServerEnvironment [
+CpApplicationServer >> createServerEnvironment [
 
 	"Create new ServerEnvironment with an unique id"
 
@@ -48,8 +48,8 @@ CpRemoteEnvironmentServer >> createServerEnvironment [
 		^ self serverEnvironments at: id put: serverEnvironment ]
 ]
 
-{ #category : #'as yet unclassified' }
-CpRemoteEnvironmentServer >> handleClientError: aClientError for: aServerEnvironment [
+{ #category : #'message handling' }
+CpApplicationServer >> handleClientError: aClientError for: aServerEnvironment [
 
 	"Handle the ClientError (TBD)"
 
@@ -60,7 +60,7 @@ CpRemoteEnvironmentServer >> handleClientError: aClientError for: aServerEnviron
 ]
 
 { #category : #'message handling' }
-CpRemoteEnvironmentServer >> handleMessageReceived: aByteArray on: aMessageChannel [
+CpApplicationServer >> handleMessageReceived: aByteArray on: aMessageChannel [
 
 	"Handle the message received from the specified MessageChannel.
 	Impementation:
@@ -95,7 +95,7 @@ CpRemoteEnvironmentServer >> handleMessageReceived: aByteArray on: aMessageChann
 ]
 
 { #category : #initialization }
-CpRemoteEnvironmentServer >> initialize [
+CpApplicationServer >> initialize [
 
 	"Initialize the receiver"
 
@@ -108,7 +108,7 @@ CpRemoteEnvironmentServer >> initialize [
 ]
 
 { #category : #initialization }
-CpRemoteEnvironmentServer >> release [
+CpApplicationServer >> release [
 
 	"Release the receiver's instance variables"
 
@@ -123,7 +123,7 @@ CpRemoteEnvironmentServer >> release [
 ]
 
 { #category : #initialization }
-CpRemoteEnvironmentServer >> releaseServer [
+CpApplicationServer >> releaseServer [
 
 	"Release the receiver's server"
 
@@ -134,7 +134,7 @@ CpRemoteEnvironmentServer >> releaseServer [
 ]
 
 { #category : #'adding/removing' }
-CpRemoteEnvironmentServer >> removeServerEnvironment: aServerEnvironment [
+CpApplicationServer >> removeServerEnvironment: aServerEnvironment [
 
 	"Remove the specified ServerEnvironment from the receiver"
 
@@ -145,13 +145,13 @@ CpRemoteEnvironmentServer >> removeServerEnvironment: aServerEnvironment [
 ]
 
 { #category : #accessing }
-CpRemoteEnvironmentServer >> server [ 
+CpApplicationServer >> server [ 
 
 	^ server
 ]
 
 { #category : #accessing }
-CpRemoteEnvironmentServer >> serverEnvironmentForId: id ifAbsent: aBlock [
+CpApplicationServer >> serverEnvironmentForId: id ifAbsent: aBlock [
 
 	"Answer the ServerEnvironment with the specified id or evaluate the specified Block if such
 	a ServerEnvironment does not exist"
@@ -161,7 +161,7 @@ CpRemoteEnvironmentServer >> serverEnvironmentForId: id ifAbsent: aBlock [
 ]
 
 { #category : #accessing }
-CpRemoteEnvironmentServer >> serverEnvironments [
+CpApplicationServer >> serverEnvironments [
 
 	"Answer the receiver's ServerEnvironments"
 
@@ -169,7 +169,7 @@ CpRemoteEnvironmentServer >> serverEnvironments [
 ]
 
 { #category : #'starting/stopping' }
-CpRemoteEnvironmentServer >> startOnPort: anInteger path: aString [
+CpApplicationServer >> startOnPort: anInteger path: aString [
 
 	"Start listening on the specified port and path"
 
@@ -179,7 +179,7 @@ CpRemoteEnvironmentServer >> startOnPort: anInteger path: aString [
 ]
 
 { #category : #'starting/stopping' }
-CpRemoteEnvironmentServer >> stop [
+CpApplicationServer >> stop [
 
 	"Stop the receiver"
 
@@ -189,7 +189,7 @@ CpRemoteEnvironmentServer >> stop [
 ]
 
 { #category : #'starting/stopping' }
-CpRemoteEnvironmentServer >> stopServerEnvironments [
+CpApplicationServer >> stopServerEnvironments [
 
 	"Stop all the ServerEnvironments registered with the receiver"
 

@@ -5,13 +5,13 @@ I will start a server for WebSocket access for Remote Environments.
 
 "
 Class {
-	#name : #CpWebApplicationServerStarter,
+	#name : #CpApplicationServerStarter,
 	#superclass : #Object,
 	#category : #'CodeParadise-WebApplication-Support'
 }
 
 { #category : #'starting/stopping' }
-CpWebApplicationServerStarter class >> startUsingConfig: configuration [
+CpApplicationServerStarter class >> startUsingConfig: configuration [
 
 	"Start a new server instance for running WebApplications using the given configuration.
 	The configuration should implement the #at:ifAbsent: method to allow configuration items
@@ -68,7 +68,7 @@ CpWebApplicationServerStarter class >> startUsingConfig: configuration [
 	Delay forMilliseconds: 200.
 
 	"Create new remote environment server"
-	remoteEnvironmentServer := CpRemoteEnvironmentServer newOnPort: portNumber path: '/'.
+	remoteEnvironmentServer := CpApplicationServer newOnPort: portNumber path: '/'.
 
 	"Create delegate for handling static file requests"
 	staticFilesDelegate := ZnStaticFileServerDelegate new
