@@ -1,10 +1,6 @@
-# Code Paradise
+# CodeParadise
 
-Code Paradise is the name of a project and future platform. Code Paradise as project enables remote code execution in a Javascript environment. This means you can run Smalltalk inside the web browser and not be concerned with any Javascript. A regular (but tiny) Smalltalk image runs on [SqueakJS VM](https://squeak.js.org) and replaces the use of Javascript. This tiny image runs the same bytecode as a regular Pharo/Squeak/Cuis image. With some pre-installed Classes which wrap the browser DOM functionality, all DOM manipulation is done through Smalltalk code. Did I mention, no more use of Javascript ;-). Javascript is only used for the VM and some VM plugins.
-
-## Introduction
-
-The project offers a `RemoteEnvironment` and a `ServerApplication` controlling it. The `RemoteEnvironment` consists of a `ClientEnvironment` and a `ServerEnvironment`. The `ClientEnvironment` is a Smalltalk environment running inside a Javascript environment like a web browser or Node.js instance. The `ServerEnvironment` is (currently) a Pharo Smalltalk environment running on or as a web server. The two environments communicatie using WebSockets, allowing interactive  (instead of request-response style) communication. The `ServerApplication` can install code (`Classes` and `CompiledMethods`) in the `ClientEnvironment` on-the-fly thereby creating a dynamic environment (somewhat) similar to the live coding experience of a regular Smalltalk environment. The `ClientEnvironment` can only send back `Announcements` to the `ServerEnvironment` (explicit design decision I'll try to document in the near future).
+CodeParadise is the name of a framework and future platform. CodeParadise as framework enables remote Smalltalk code execution in a Javascript environment. This means you can run Smalltalk inside the web browser and not be concerned with any Javascript. A regular (but tiny) Smalltalk image runs on [SqueakJS VM](https://squeak.js.org) and replaces the use of Javascript. This tiny image runs the same bytecode as a regular Pharo/Squeak/Cuis image, so no transpilation taking place. With some pre-installed Classes which wrap the browser DOM functionality, all DOM manipulation is done through Smalltalk code. Did I mention, no more use of Javascript ;-).
 
 A few online videos:
 * UK Smalltalk UG [demo](https://vimeo.com/457353130)
@@ -16,15 +12,17 @@ See [introduction](introduction.md) for a more thorough explanation of CodeParad
 
 ## Getting started
 
-Getting started requires a few steps:
-* Setup ClientEnvironment consisting of SqueakJS VM and tiny Smalltalk image
+Currently CodeParadise can only be used in a Pharo7 or Pharo8 image (**Pharo9 and up can't be used at the moment, see compatibility info below**). In the future other platforms like Cuis will probably be supported as well.
+
+Getting started requires a few simple steps:
+* Load ClientEnvironment consisting of SqueakJS VM and tiny Smalltalk image
 * Load ServerEnvironment into regular Pharo image
-* Run code on the server to start HTTP and WebSocket server
+* Start HTTP and WebSocket server
 * Start your browsers!
 
-### Setup ClientEnvironment
+### Load ClientEnvironment
 
-Either install the ClientEnvironment through Metacello in Pharo or download the ClientEnvironment manually. For Metacello use:
+Install the ClientEnvironment through Metacello:
 
 ```Smalltalk
 Metacello new
@@ -33,24 +31,11 @@ Metacello new
   load.
 ```
 
-To download the ClientEnvironment (ie manual install) clone [CP-ClientEnvironment](https://github.com/ErikOnBike/CP-ClientEnvironment) or copy the 3 raw files in the html directory. Remember the directory in which the 3 files `app.html`, `squeak_headless_bundle.js` and `client-environment.image` are written. You will need this location in the third step when running the server.
-
-The files:
-* `app.html` contains a few lines of code to start the Squeak JS VM and specify which Smalltalk image to run
-* `squeak_headless_bundle.js` contains the Squeak JS VM in headless mode (ie no BitBlt support) and a number of plugins
-   * Large Integers
-   * Misc primitives (includes some String handling)
-   * (CodeParadise) System (includes WebSocket support)
-   * (CodeParadise) DOM (wrapper code for DOM functionality)
-* `client-environment.image` is a tiny (around 200Kb) Smalltalk image
-
-The tiny Smalltalk image does not include a Compiler or Debugger. If you try to start it using a desktop VM you will not get it running, since it assumes a number of Javascript primitives is implemented. The image is based on [Pharo Candle](https://github.com/carolahp/PharoCandleSrc) but has been extended with Exception handling, Announcements and the minimal ClientEnvironment classes like a Communicator. The code and some explanation for this tiny image can be found on [CP-Bootstrap](https://github.com/ErikOnBike/CP-Bootstrap).
-
 **Tip**: Do not forget to pull this repo regularly, since some code changes will need to be made on the ClientEnvironment as well.
 
 ### Load ServerEnvironment
 
-The ServerEnvironment should be run from a Pharo7 or Pharo8 image (**Pharo9 can't be used at the moment, see compatibility info below**). In the future other platforms like Cuis will probably be supported as well.
+Load the ServerEnvironment in the same image as the ClientEnvironment.
 
 Loading the ServerEnvironment can be done using:
 ```Smalltalk
@@ -60,15 +45,30 @@ Metacello new
   load.
 ```
 
-### Run HTTP and WebSocket Server
+### Start HTTP and WebSocket Server
 
-Thanks to [Tim](https://github.com/macta) there is a menu 'Paradise' now in Pharo's menubar which allows starting the environment. First select 'Reset' from the 'Paradise' menu and then open one of the existing applications through 'Open'. Some more explanation follows.
+Thanks to [Tim](https://github.com/macta) there is a menu 'Paradise' now in Pharo's menubar which allows starting the environment. First select 'Reset' from the 'Paradise' menu and then open one of the existing applications through 'Open'. Some more explanation follows for [manually starting and stopping servers](#manually) and applications.
 
-The ServerEnvironment provides a HTTP server (using [Zinc HTTP Components](https://github.com/svenvc/zinc)) for a number of static files. You can use any other web server for this if you prefer.
+### Start your browsers
 
-The ServerEnvironment provides a WebSocket server (again using [Zinc HTTP Components](https://github.com/svenvc/zinc)) for the interactive communication between ClientEnvironment and ServerEnvironment.
+If all went well you should be able to fire up a number of browser tabs/pages and start using the example applications. Profit warning: the examples are still very limited, but should allow some insight in what is possible and allow you to play with it yourself.
 
-To start a web server allowing incoming HTTP and WebSockets the following code has to be executed:
+The example applications can be reached using the following URLs:
+* DOM Examples [http://localhost:8080/static/app.html?DOM-Examples](http://localhost:8080/static/app.html?DOM-Examples)
+* Component Examples [http://localhost:8080/static/app.html?Component-Examples](http://localhost:8080/static/app.html?Component-Examples)
+* Counter Example [http://localhost:8080/static/app.html?counter](http://localhost:8080/static/app.html?counter)
+* Shoelace Examples [http://localhost:8080/static/app.html?Shoelace-Examples](http://localhost:8080/static/app.html?Shoelace-Examples)
+* Fomantic Examples [http://localhost:8080/static/app.html?Fomantic-Examples](http://localhost:8080/static/app.html?Fomantic-Examples)
+* Introduction Presentation [http://localhost:8080/static/app.html?presentation](http://localhost:8080/static/app.html?presentation)
+
+### <a name="manually">Manually starting and stopping</a>
+
+Besides the Paradise menu, you can also start and stop the ApplicationServer manually.
+The ApplicationServer provides a HTTP server (using [Zinc HTTP Components](https://github.com/svenvc/zinc)) for a number of static files. You can use any other web server for this if you prefer.
+
+The ApplicationServer also provides a WebSocket server (again using [Zinc HTTP Components](https://github.com/svenvc/zinc)) for the interactive communication between ClientEnvironment and ServerEnvironment.
+
+To start a server allowing incoming HTTP and WebSockets the following code has to be executed:
 ```Smalltalk
 "Configure the usage of ZnWebSocket as MessageChannel"
 CpMessageChannel environmentImplementation: CpZincWebSocketChannel.
@@ -84,11 +84,11 @@ CpIntroductionPresentationWebApplication register.
 "Start the HTTP and WeSocket servers (use the path where you stored the ClientEnvironment)"
 CpWebApplicationServerStarter startUsingConfig: {
 	#portNumber -> 8080 .
-	#staticFilesDirectoryName -> '/your/path/to/CP-ClientEnvironment/html'
+	#staticFilesDirectoryName -> (IceRepository directoryNamed: 'html' in: 'CP-ClientEnvironment')
 } asDictionary.
 
 "If you serve the static files using your own HTTP server, you can start the WebSocket server using:"
-"CpRemoteEnvironmentServer newOnPort: 8080 path: '/io'."
+"CpApplicationServer newOnPort: 8080 path: '/io'."
 ```
 
 The WebSocket server is listening on path `/io` by default (see example above). If you change this, please also update `app.html` in which the path is hardcoded. 
@@ -98,7 +98,7 @@ When you are done or want to reset the environment, the following code can be ex
 "Stop all server instances and applications"
 ZnServer allSubInstances do: [ :each | (each port = 8080 and: [ each isRunning]) ifTrue: [ each stop ] ].
 CpServerApplication allSubInstances do: [ :each | each stop ].
-CpRemoteEnvironmentServer allInstances do: [ :each | each stop ].
+CpApplicationServer allInstances do: [ :each | each stop ].
 
 "Unregister applications"
 CpDomExamplesWebApplication unregister.
@@ -115,23 +115,12 @@ Smalltalk garbageCollect.
 Smalltalk garbageCollect.
 ```
 
+## Tips and troubleshooting
+
 **Tip**: Adding additional classes to an application is currently not always correctly propagated to a running environment. Even reloading a tab/window might not always yield the required result. Try opening a new tab/window just to be sure. And if it still results in an exception, you might try to reset the environment with the code above and restart it.
 
 **Tip**: The server image keeps all sessions in memory at the moment (they never expire yet). So once in a while use the reset code above to clean up the sessions. Remember the sessions will also be saved in the image. So closing and reopening your image should bring you back the session and you can continu where you left off.
 
-### Start your browsers
-
-If all went well you should be able to fire up a number of browser tabs/pages and start using the example applications. Profit warning: the examples are still very limited, but should allow some insight in what is possible and allow you to play with it yourself.
-
-The example applications can be reached using the following URLs:
-* DOM Examples [http://localhost:8080/static/app.html?DOM-Examples](http://localhost:8080/static/app.html?DOM-Examples)
-* Component Examples [http://localhost:8080/static/app.html?Component-Examples](http://localhost:8080/static/app.html?Component-Examples)
-* Counter Example [http://localhost:8080/static/app.html?counter](http://localhost:8080/static/app.html?counter)
-* Shoelace Examples [http://localhost:8080/static/app.html?Shoelace-Examples](http://localhost:8080/static/app.html?Shoelace-Examples)
-* Fomantic Examples [http://localhost:8080/static/app.html?Fomantic-Examples](http://localhost:8080/static/app.html?Fomantic-Examples)
-* Introduction Presentation [http://localhost:8080/static/app.html?presentation](http://localhost:8080/static/app.html?presentation)
-
-## Troubleshooting
 
 #### Resource not found
 If you encounter any problems with connecting to the server, please check that no other web server is running on the port you are using/trying to use. If you have started a web server pointing to the wrong client environment, please first stop that instance. Otherwise you will keep on serving files from an empty or non-existing directory. Use the reset as described above to stop the server. You might want to check if all ZnServer instances are really stopped. Then create a new instance of the server.
@@ -153,6 +142,6 @@ For the mobile applications for example, the following could be done:
 
 ## Compatibility
 
-The means of installing (Compiled) code in the ClientEnvironment is by sending the relevant bytecode. The current implementation assumes that both the ServerEnvironment and the ClientEnvironment share the same bytecode set. Since the ClientEnvironment is running on SqueakJS VM, only bytecode sets supported by SqueakJS VM are usable. At the moment Pharo9 can't be used as a development platform, because it uses the newer Sista bytecode set. Support for Sista in SqueakJS VM has been implemented recently, but is not tested with CodeParadise yet.
+The means of installing (Compiled) code in the ClientEnvironment is by sending the relevant bytecode. The current implementation assumes that both the ServerEnvironment and the ClientEnvironment share the same bytecode set. Since the ClientEnvironment is running on SqueakJS VM, only bytecode sets supported by SqueakJS VM are usable. At the moment Pharo9 and up can't be used as a development platform, because it uses the newer Sista bytecode set. Support for Sista in SqueakJS VM has been implemented, but is not tested with CodeParadise yet and requires a new tiny image to be created.
 
 There is no explicit list of supported browsers at the moment. Please use a recent browser version. If you have trouble using (the pre-Chrome based) Microsoft Edge, please consider switching to Chrome, Firefox or one of the derivatives.
