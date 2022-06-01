@@ -100,10 +100,12 @@ SlFormControl >> enabled: aBoolean [
 ]
 
 { #category : #'event handling' }
-SlFormControl >> handlePointerDown: aPointerDownEvent [
+SlFormControl >> handlePointerUp: aPointerUpEvent [
 
-	aPointerDownEvent hasBubbled
-		ifTrue: [ aPointerDownEvent preventDefault ]
+	"Prevent propagation because it will lead to 'click' event in Window
+	which will reset the focus"
+	aPointerUpEvent hasBubbled
+		ifTrue: [ aPointerUpEvent stopPropagation ]
 
 ]
 
@@ -119,7 +121,7 @@ SlFormControl >> initialize [
 	super initialize.
 
 	self
-		when: CpPointerDownEvent send: #handlePointerDown: to: self
+		when: CpPointerUpEvent send: #handlePointerUp: to: self
 ]
 
 { #category : #accessing }
