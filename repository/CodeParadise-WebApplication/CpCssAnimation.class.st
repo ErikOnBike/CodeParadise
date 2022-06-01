@@ -1,6 +1,9 @@
 "
 I am a Class which contains a number of CSS Animation keyframes.
 
+Some example keyframes can be found at Fomantic-UI:
+https://github.com/fomantic/Fomantic-UI/blob/develop/src/themes/default/modules/transition.overrides
+
 Pay attention: do NOT use kebab-case naming, but camelCase naming for style elements.
 So use #backgroundColor instead of #background-color.
 
