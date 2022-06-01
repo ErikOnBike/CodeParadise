@@ -99,29 +99,10 @@ SlFormControl >> enabled: aBoolean [
 	self disabled: aBoolean not
 ]
 
-{ #category : #'event handling' }
-SlFormControl >> handlePointerUp: aPointerUpEvent [
-
-	"Prevent propagation because it will lead to 'click' event in Window
-	which will reset the focus"
-	aPointerUpEvent hasBubbled
-		ifTrue: [ aPointerUpEvent stopPropagation ]
-
-]
-
 { #category : #testing }
 SlFormControl >> hasFocus [
 
 	^ self = CpHtmlElement activeElement
-]
-
-{ #category : #initialization }
-SlFormControl >> initialize [
-
-	super initialize.
-
-	self
-		when: CpPointerUpEvent send: #handlePointerUp: to: self
 ]
 
 { #category : #accessing }

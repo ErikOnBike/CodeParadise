@@ -209,9 +209,11 @@ CpWindow >> defaultPosition [
 { #category : #'event handling' }
 CpWindow >> handleWindowClick: aPrimaryClickEvent [
 
-	self
-		makeTopWindow ;
-		focus
+	"Set focus to the Window if it isn't already the top window"
+
+	self nextSibling ifNil: [ ^ self ].
+
+	self focus
 ]
 
 { #category : #'event handling' }
