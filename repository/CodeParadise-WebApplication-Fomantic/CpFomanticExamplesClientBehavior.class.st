@@ -125,6 +125,43 @@ CpFomanticExamplesClientBehavior >> exampleCheckbox [
 ]
 
 { #category : #examples }
+CpFomanticExamplesClientBehavior >> exampleHeader [
+
+	<example: 'Header' order: 500>
+
+	| outputElement |
+
+	outputElement := self outputElement.
+	outputElement textContent: ''.
+
+	outputElement appendChild: (FuiHeader newLabeled: 'Header').
+	
+	outputElement appendChild: ((FuiHeader newLabeled: 'Disabled Header')
+		disable;
+		yourself).
+
+	outputElement appendChild: ((FuiHeader newLabeled: 'Huge Header')
+		beSizeHuge;
+		yourself).
+
+	outputElement appendChild: ((FuiHeader newLabeled: 'Large Header')
+		beSizeLarge;
+		yourself).
+
+	outputElement appendChild: ((FuiHeader newLabeled: 'Medium Header')
+		beSizeMedium;
+		yourself).
+
+	outputElement appendChild: ((FuiHeader newLabeled: 'Small Header')
+		beSizeSmall;
+		yourself).
+
+	outputElement appendChild: ((FuiHeader newLabeled: 'Tiny Header')
+		beSizeTiny;
+		yourself)
+]
+
+{ #category : #examples }
 CpFomanticExamplesClientBehavior >> exampleInput [
 
 	<example: 'Input' order: 200>
