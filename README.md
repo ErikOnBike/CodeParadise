@@ -58,8 +58,8 @@ The example applications can be reached using the following URLs:
 * Component Examples [http://localhost:8080/static/app.html?Component-Examples](http://localhost:8080/static/app.html?Component-Examples)
 * Counter Example [http://localhost:8080/static/app.html?counter](http://localhost:8080/static/app.html?counter)
 * Shoelace Examples [http://localhost:8080/static/app.html?Shoelace-Examples](http://localhost:8080/static/app.html?Shoelace-Examples)
-* Fomantic Examples [http://localhost:8080/static/app.html?Fomantic-Examples](http://localhost:8080/static/app.html?Fomantic-Examples)
 * Introduction Presentation [http://localhost:8080/static/app.html?presentation](http://localhost:8080/static/app.html?presentation)
+* Fomantic Examples [http://localhost:8080/static/app.html?Fomantic-Examples](http://localhost:8080/static/app.html?Fomantic-Examples) (no longer supported)
 
 ### <a name="manually">Manually starting and stopping</a>
 
@@ -78,8 +78,8 @@ CpDomExamplesWebApplication register.
 CpComponentExamplesWebApplication register.
 CpCounterWebApplication register.
 CpShoelaceExamplesWebApplication register.
-CpFomanticExamplesWebApplication register.
 CpIntroductionPresentationWebApplication register.
+CpFomanticExamplesWebApplication register. "No longer supported"
 
 "Start the HTTP and WeSocket servers (use the path where you stored the ClientEnvironment)"
 CpWebApplicationServerStarter startUsingConfig: {
@@ -106,8 +106,8 @@ CpComponentExamplesWebApplication unregister.
 CpCounterWebApplication unregister.
 CpCounterWebApplication release.
 CpShoelaceExamplesWebApplication unregister.
-CpFomanticExamplesWebApplication unregister.
 CpIntroductionPresentationWebApplication unregister.
+CpFomanticExamplesWebApplication unregister. "No longer supported"
 
 "Garbage collect works better in triples ;-)"
 Smalltalk garbageCollect.
@@ -116,6 +116,8 @@ Smalltalk garbageCollect.
 ```
 
 ## Tips and troubleshooting
+
+**Tip**: Consider switching to [Shoelace](https://shoelace.style) if you are still using Fomantic UI: Fomantic UI support has stopped (June 2022). The reason is the fact that using Fomantic UI elements inside a View's template [which is a technology used inside of HTML WebComponents](https://developer.mozilla.org/en-US/docs/Web/Web_Components/Using_templates_and_slots) does not scale well. To be able to have the correct look and feel, the full Fomantic UI stylesheet needs to be loaded inside this WebComponent's shadow DOM. Although browsers should be able to cache this kind of (re)use of stylesheets, it does not work very well on large scale applications. So currently we have Shoelace as a nice alternative. Shoelace is compact, feature rich and is under active development. Shoelace itself is also based on WebComponents, meaning it can integrate well inside our Views: every WebComponent 'carries' its own styling.
 
 **Tip**: Adding additional classes to an application is currently not always correctly propagated to a running environment. Even reloading a tab/window might not always yield the required result. Try opening a new tab/window just to be sure. And if it still results in an exception, you might try to reset the environment with the code above and restart it.
 
