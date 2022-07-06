@@ -278,6 +278,14 @@ CpServerEnvironment >> handleMessageReceived: aByteArray [
 ]
 
 { #category : #testing }
+CpServerEnvironment >> hasAnnouncer: anAnnouncer [
+
+	^ announcer
+		ifNotNil: [ announcer == anAnnouncer ]
+		ifNil: [ false ]
+]
+
+{ #category : #testing }
 CpServerEnvironment >> hasInstalledClass: aClass [
 
 	"Answer whether the specified Class is installed in the client environment through the receiver"

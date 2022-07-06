@@ -16,6 +16,13 @@ CpDevTools class >> defaultPort [
 	^8080
 ]
 
+{ #category : #'message handling' }
+CpDevTools class >> handleClientError: aClientError for: aServerEnvironment [
+
+	"Show inspector with the error and environment"
+	{ 'An error occurred in the Client Environment' . aClientError . aServerEnvironment } inspect
+]
+
 { #category : #scripts }
 CpDevTools class >> open [
 	"Open a Web Browser on a selected application"
@@ -81,10 +88,11 @@ CpDevTools class >> start [
 	
 	"Start the HTTP and WeSocket servers (use the path where you stored the ClientEnvironment)"
 	CpApplicationServerStarter
-		startUsingConfig:
-			{(#portNumber -> self defaultPort).
-			(#staticFilesDirectoryName 	-> resourcePath)}
-				asDictionary
+		startUsingConfig: {
+			#portNumber -> self defaultPort.
+			#staticFilesDirectoryName 	-> resourcePath.
+			#clientErrorHandler -> self
+		} asDictionary
 ]
 
 { #category : #scripts }

@@ -11,7 +11,8 @@ Class {
 		'serverEnvironments',
 		'serverEnvironmentsMutex',
 		'identifierGenerator',
-		'server'
+		'server',
+		'clientErrorHandler'
 	],
 	#category : #'CodeParadise-RemoteEnvironment-Core'
 }
@@ -24,6 +25,20 @@ CpApplicationServer class >> newOnPort: anInteger path: aString [
 	^ self new
 		startOnPort: anInteger path: aString ;
 		yourself
+]
+
+{ #category : #accessing }
+CpApplicationServer >> clientErrorHandler [
+
+	^ clientErrorHandler
+]
+
+{ #category : #accessing }
+CpApplicationServer >> clientErrorHandler: anObject [
+
+	"Set the ClientError handler (an Object responding to: #handleClientError:for:)"
+
+	clientErrorHandler := anObject
 ]
 
 { #category : #'adding/removing' }
@@ -42,21 +57,33 @@ CpApplicationServer >> createServerEnvironment [
 		"Add subscriptions to environment being started"
 		serverEnvironment
 			when: CpClientStopped do: [ self removeServerEnvironment: serverEnvironment ] ;
-			when: CpClientError send: #handleClientError:for: to: self.
+			when: CpClientError send: #handleClientError:announcedBy: to: self.
 
 		"Store new environment"
 		^ self serverEnvironments at: id put: serverEnvironment ]
 ]
 
 { #category : #'message handling' }
+CpApplicationServer >> handleClientError: aClientError announcedBy: anAnnouncer [
+
+	"Handle the ClientError which was announced by the specified Announcer.
+
+	Implementation:
+	Find the ServerEnvironment matching the given announcer"
+
+	serverEnvironments ifNotNil: [
+		serverEnvironments
+			detect: [ :each | each hasAnnouncer: anAnnouncer ]
+			ifFound: [ :each | self handleClientError: aClientError for: each ] ]
+]
+
+{ #category : #'message handling' }
 CpApplicationServer >> handleClientError: aClientError for: aServerEnvironment [
 
-	"Handle the ClientError (TBD)"
+	"Handle the ClientError"
 
-	self flag: #todo.
-
-	"Show inspector with the error and environment"
-	{ 'An error occurred in the ClientEnvironment' . aClientError . aServerEnvironment } inspect
+	self clientErrorHandler ifNotNil: [ :handler |
+		handler handleClientError: aClientError for: aServerEnvironment ]
 ]
 
 { #category : #'message handling' }
@@ -113,6 +140,8 @@ CpApplicationServer >> release [
 	"Release the receiver's instance variables"
 
 	self releaseServer.
+
+	clientErrorHandler := nil.
 
 	identifierGenerator := nil.
 
