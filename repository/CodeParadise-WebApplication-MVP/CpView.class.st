@@ -28,17 +28,6 @@ CpView class >> defaultKeyMapping [
 	^ Dictionary new
 ]
 
-{ #category : #performing }
-CpView class >> globalApply: aSymbol withArguments: anArray [
-
-	"Perform the specified symbol on the global scope (ie 'window' in the browser
-	environment) with the specified arguments"
-
-	CpClientEnvironment current
-		globalApply: aSymbol withArguments: anArray
-
-]
-
 { #category : #testing }
 CpView class >> isPlatformLinux [
 
@@ -71,6 +60,14 @@ CpView >> destroy [
 	CpClientEnvironment current objectRegistry
 		unregisterObject: self
 		ifAbsent: [ "Ignore. Some Views are not created via CpMvpWebClientBehavior and will therefore not be registered" ]
+]
+
+{ #category : #performing }
+CpView >> downloadContent: anObject type: typeString filename: filenameString [
+
+	"Convenience method to allow download of content"
+
+	CpDownloader content: anObject type: typeString filename: filenameString
 ]
 
 { #category : #initialization }

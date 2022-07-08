@@ -91,6 +91,16 @@ CpDomElement class >> elementsFromPoint: aPoint [
 	self primitiveFailed
 ]
 
+{ #category : #performing }
+CpDomElement class >> globalApply: aSymbol withArguments: anArray [
+
+	"Perform the specified symbol on the global scope (ie 'window' in the browser
+	environment) with the specified arguments"
+
+	CpClientEnvironment current
+		globalApply: aSymbol withArguments: anArray
+]
+
 { #category : #'instance creation' }
 CpDomElement class >> new [
 
