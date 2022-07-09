@@ -81,11 +81,8 @@ CpDevTools class >> start [
 	"Register the example applications"
 	self allApplications do: [ :app | app register ].
 
-	resourcePath := IceRepository registry 
-		detect: [ :r | r  name = 'CP-ClientEnvironment'] 
-		ifFound:[ :r | r location pathString, '/html' ]
-		ifNone: [ './pharo-local/iceberg/ErikOnBike/CP-ClientEnvironment/html' ].
-	
+	resourcePath := IceRepository directoryNamed: 'html' in: 'CP-ClientEnvironment'.
+
 	"Start the HTTP and WeSocket servers (use the path where you stored the ClientEnvironment)"
 	CpApplicationServerStarter
 		startUsingConfig: {
