@@ -183,10 +183,16 @@ CpApplicationServer >> server [
 CpApplicationServer >> serverEnvironmentForId: id ifAbsent: aBlock [
 
 	"Answer the ServerEnvironment with the specified id or evaluate the specified Block if such
-	a ServerEnvironment does not exist"
+	a ServerEnvironment does not exist or is not running (anymore)"
 
-	serverEnvironmentsMutex critical: [ ^ self serverEnvironments at: id ifAbsent: aBlock ]
-
+	serverEnvironmentsMutex critical: [
+		^ self serverEnvironments
+			at: id
+			ifPresent: [ :serverEnvironment |
+				serverEnvironment isRunning
+					ifTrue: [ serverEnvironment ]
+					ifFalse: [ aBlock value ] ]
+			ifAbsent: aBlock ]
 ]
 
 { #category : #accessing }
