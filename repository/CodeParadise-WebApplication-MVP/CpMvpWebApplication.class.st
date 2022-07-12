@@ -198,13 +198,13 @@ CpMvpWebApplication >> release [
 
 	"Release the receivers resources"
 
-	announcer ifNotNil: [
-		announcer subscriptions reset.
-		announcer := nil ].
-
 	presentersById ifNotNil: [
 		presentersById do: [ :each | each release ].
 		presentersById := nil ].
+
+	announcer ifNotNil: [
+		announcer subscriptions reset.
+		announcer := nil ].
 
 	"The ApplicationPresenter is part of the presenters collection.
 	So it is released above and does not need to be released here again."
