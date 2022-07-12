@@ -78,6 +78,32 @@ CpWebApplication >> end [
 	self clientEndSession
 ]
 
+{ #category : #actions }
+CpWebApplication >> forceEnd [
+
+	"End the receiver unconditionally first by asking the client to end the session,
+	when the client does not respond in a timely fashion end the session server side.
+	Letting the client end the session, will allow the user to be informed properly."
+
+	[
+		"Perform regular end behavior"
+		self end.
+
+		"Validate the received ended within 5 seconds"
+		[
+			(Delay forSeconds: 5) wait.
+
+			"If not, end forcefully by faking a stop request"
+			self isEnded
+				ifFalse: [ environment fakeStop ] ] fork.
+	] ifCurtailed: [
+
+		"End forecefully in case of errors"
+		self isEnded
+			ifFalse: [ environment fakeStop ]
+	]
+]
+
 { #category : #installing }
 CpWebApplication >> installExtensionMethods [
 
@@ -105,6 +131,14 @@ CpWebApplication >> installExtensionMethodsFor: aSymbol [
 			"Install class methods"
 			(Pragma allNamed: aSymbol in: eachClass class) do: [ :eachPragma |
 				self environment addMethod: eachPragma method ] ]
+]
+
+{ #category : #testing }
+CpWebApplication >> isEnded [
+
+	"Answer whether the receiver ended (has become unusable)"
+
+	^ environment isNil
 ]
 
 { #category : #actions }
