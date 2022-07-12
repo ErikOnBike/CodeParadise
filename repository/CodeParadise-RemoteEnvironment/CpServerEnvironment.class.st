@@ -381,7 +381,7 @@ CpServerEnvironment >> installedMethods [
 	^ installedMethods
 ]
 
-{ #category : #accessing }
+{ #category : #testing }
 CpServerEnvironment >> isLoaded [
 
 	^ loaded

@@ -14,7 +14,8 @@ Class {
 	#instVars : [
 		'announcer',
 		'applicationPresenter',
-		'presentersById'
+		'presentersById',
+		'lastAnnouncementTimestamp'
 	],
 	#category : #'CodeParadise-WebApplication-MVP-Core'
 }
@@ -140,6 +141,7 @@ CpMvpWebApplication >> handleViewAnnouncement: aViewAnnouncement [
 		presenterWithId: aViewAnnouncement viewId
 		ifAbsent: [ self error: 'View Announcement received from the client for a View which does not exist anymore on the server' ].
 
+	lastAnnouncementTimestamp := DateAndTime now.
 
 	"Let the Presenter's View do the Announcement (in context of the receiver)"
 	CpCurrentApplicationContext
@@ -157,7 +159,18 @@ CpMvpWebApplication >> initialize [
 	super initialize.
 
 	announcer := Announcer new.
-	presentersById := IdentityDictionary new
+	presentersById := IdentityDictionary new.
+
+	"Set timestamp to always have a valid DateAndTime value"
+	lastAnnouncementTimestamp := DateAndTime now
+]
+
+{ #category : #accessing }
+CpMvpWebApplication >> lastUsedTimestamp [
+
+	"Answer the DateAndTime the receiver is last used (from the client perspective)"
+
+	^ lastAnnouncementTimestamp
 ]
 
 { #category : #actions }
@@ -198,17 +211,19 @@ CpMvpWebApplication >> release [
 
 	"Release the receivers resources"
 
-	presentersById ifNotNil: [
-		presentersById do: [ :each | each release ].
-		presentersById := nil ].
-
 	announcer ifNotNil: [
 		announcer subscriptions reset.
 		announcer := nil ].
 
+	presentersById ifNotNil: [
+		presentersById do: [ :each | each release ].
+		presentersById := nil ].
+
 	"The ApplicationPresenter is part of the presenters collection.
 	So it is released above and does not need to be released here again."
 	applicationPresenter := nil.
+
+	lastAnnouncementTimestamp := nil.
 
 	super release
 ]
