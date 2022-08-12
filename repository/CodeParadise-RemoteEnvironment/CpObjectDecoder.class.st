@@ -6,6 +6,8 @@ Class {
 	#superclass : #Object,
 	#instVars : [
 		'readStream',
+		'stringTable',
+		'symbolTable',
 		'currentMethod'
 	],
 	#category : #'CodeParadise-RemoteEnvironment-Serialization'
@@ -24,6 +26,64 @@ CpObjectDecoder class >> putInstVars: instVars in: anObject [
 	instVars withIndexDo: [ :instVar :index | anObject instVarAt: index put: instVar ]
 ]
 
+{ #category : #reading }
+CpObjectDecoder >> basicReadStringUsingTable: aCollection [
+
+	"Read a String (can be a Symbol) using the specified table space (cache)"
+
+	| characterCount |
+
+	characterCount := self readLength.
+	(characterCount = 2 and: [ self peekHasStringIndex ])
+		ifTrue: [ ^ self basicReadStringWithIndexUsingTable: aCollection ].
+
+	^ self basicReadStringWithLength: characterCount usingTable: aCollection
+]
+
+{ #category : #reading }
+CpObjectDecoder >> basicReadStringWithIndexUsingTable: aCollection [
+
+	"Read an index (into either the String or Symbol table) from the read stream.
+	Assume the index is max 11 bits big.
+
+	See CpObjectEncoder >> #basicWriteStringIndex: for an explanation."
+
+	| index string |
+
+	index := ((readStream next bitAnd: 16r07) bitShift: 8) bitOr: readStream next.
+
+	string := aCollection at: index.
+
+	"For Strings (not Symbols) make a copy since these are unique instances"
+	^ aCollection == stringTable
+		ifTrue: [ string copy ]
+		ifFalse: [ string ]
+]
+
+{ #category : #reading }
+CpObjectDecoder >> basicReadStringWithLength: anInteger usingTable: aCollection [
+
+	"Read a String consisting of UTF-8 characters and store it in the specified table space (cache)"
+
+	| wordArray isWideString string |
+
+	"Create and fill the string"
+	wordArray := WordArray new: anInteger.
+	isWideString := false.
+	1 to: anInteger do: [  :index |
+		(wordArray at: index put: self readUTF8CodePoint) >= 256
+			ifTrue: [ isWideString := true ] ].
+
+	string := isWideString
+		ifTrue: [ WideString fromWordArray: wordArray ]
+		ifFalse: [ ByteString fromWordArray: wordArray ].
+
+	aCollection == symbolTable
+		ifTrue: [ string := string asSymbol ].
+
+	^ aCollection add: string
+]
+
 { #category : #decoding }
 CpObjectDecoder >> decodeAdditionalMethodState [
 
@@ -32,7 +92,7 @@ CpObjectDecoder >> decodeAdditionalMethodState [
 
 	| additionalMethodState selector pragmas |
 
-	selector := self readString asSymbol.
+	selector := self readSymbol.
 	pragmas := self readArray.
 
 	additionalMethodState := AdditionalMethodState new: pragmas size.
@@ -56,7 +116,7 @@ CpObjectDecoder >> decodeAnnouncement [
 	| announcement className instVars |
 
 	"Read class name"
-	className := self readString.
+	className := self readSymbol.
 
 	"Read instance variables"
 	instVars := self readArray.
@@ -105,8 +165,8 @@ CpObjectDecoder >> decodeClass [
 		ifFalse: [ ^ self error: 'ClientEnvironment sent Class to ServerEnvironment' ].
 
 	"Read class and superclass name"
-	className := self readString asSymbol.
-	superclassName := self readString asSymbol.
+	className := self readSymbol.
+	superclassName := self readSymbol.
 
 	"Read instance variable, class variable and share pool names"
 	instVarNames := self readArray.
@@ -141,7 +201,7 @@ CpObjectDecoder >> decodeClassReference [
 
 	| name class |
 
-	name := self readString asSymbol.
+	name := self readSymbol.
 	class := Smalltalk classNamed: name.
 	class ifNil: [ self error: 'Unknown class named ', name ].
 
@@ -153,7 +213,7 @@ CpObjectDecoder >> decodeClassVariable [
 
 	| name |
 
-	name := self readString asSymbol.
+	name := self readSymbol.
 
 	^ (Smalltalk at: #ClassVariable)
 		key: name
@@ -227,7 +287,7 @@ CpObjectDecoder >> decodeGlobalVariable [
 
 	| name |
 
-	name := self readString asSymbol.
+	name := self readSymbol.
 
 	^ (Smalltalk at: #GlobalVariable)
 		key: name
@@ -285,7 +345,7 @@ CpObjectDecoder >> decodeMessage [
 	"Decode a Message (lookupClass is ignored"
 
 	^ Message
-		selector: self readString asSymbol
+		selector: self readSymbol
 		arguments: self decodeNext
 ]
 
@@ -296,7 +356,7 @@ CpObjectDecoder >> decodeMessageSend [
 
 	^ MessageSend
 		receiver: self decodeNext
-		selector: self readString asSymbol
+		selector: self readSymbol
 		arguments: self decodeNext
 ]
 
@@ -305,7 +365,7 @@ CpObjectDecoder >> decodeMetaclassReference [
 
 	| name class |
 
-	name := self readString asSymbol.
+	name := self readSymbol.
 	class := Smalltalk classNamed: name.
 	class ifNil: [ self error: 'Unknown class named ', name ].
 
@@ -376,7 +436,7 @@ CpObjectDecoder >> decodePragma [
 	| selector arguments |
 
 	"The Pragma's method will be set in #decodeAdditionalMethodState just use keyword and arguments"
-	selector := self readString.
+	selector := self readSymbol.
 	arguments := self readArray.
 
 	^ Pragma new
@@ -394,7 +454,7 @@ CpObjectDecoder >> decodeString [
 { #category : #decoding }
 CpObjectDecoder >> decodeSymbol [
 
-	^ self readString asSymbol
+	^ self readSymbol
 ]
 
 { #category : #decoding }
@@ -430,7 +490,20 @@ CpObjectDecoder >> hasMoreData [
 { #category : #'instance creation' }
 CpObjectDecoder >> on: aByteStream [
 
-	readStream := ReadStream on: aByteStream
+	readStream := ReadStream on: aByteStream.
+
+	"Implementation: The stringTable is lazy initialized"
+	symbolTable := OrderedCollection new
+]
+
+{ #category : #reading }
+CpObjectDecoder >> peekHasStringIndex [
+
+	"Answer whether a String index is on the read stream.
+
+	See CpObjectEncoder >> #basicWriteStringIndex: for an explanation."
+
+	^ (readStream peek bitAnd: 16rf8) = 16rf8
 ]
 
 { #category : #reading }
@@ -537,21 +610,17 @@ CpObjectDecoder >> readPositiveIntegerWithSize: byteSize [
 { #category : #reading }
 CpObjectDecoder >> readString [
 
-	"Read a String consisting of UTF-8 characters"
+	"Read a String (should not be a Symbol)"
 
-	| wordArray characterCount isWideString |
+	^ self basicReadStringUsingTable: (stringTable ifNil: [ stringTable := OrderedCollection new ])
+]
 
-	"Create and fill the string"
-	characterCount := self readLength.
-	wordArray := WordArray new: characterCount.
-	isWideString := false.
-	1 to: characterCount do: [  :index |
-		(wordArray at: index put: self readUTF8CodePoint) >= 256
-			ifTrue: [ isWideString := true ] ].
+{ #category : #reading }
+CpObjectDecoder >> readSymbol [
 
-	^ isWideString
-		ifTrue: [ WideString fromWordArray: wordArray ]
-		ifFalse: [ ByteString fromWordArray: wordArray ]
+	"Read a Symbol (should not be a String)"
+
+	^ self basicReadStringUsingTable: symbolTable
 ]
 
 { #category : #reading }
