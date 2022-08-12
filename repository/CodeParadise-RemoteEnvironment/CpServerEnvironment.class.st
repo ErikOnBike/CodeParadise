@@ -241,7 +241,8 @@ CpServerEnvironment >> flushSendMessages [
 
 	encoder ifNil: [ ^ self ].
 
-	[ self sendEncodedMessage: encoder bytes ] ensure: [ encoder := nil ]
+	"Only send non-empty messages"
+	[ encoder bytes ifNotEmpty: [ :message | self sendEncodedMessage: message ] ] ensure: [ encoder := nil ]
 ]
 
 { #category : #'event handling' }
