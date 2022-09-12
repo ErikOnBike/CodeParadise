@@ -8,50 +8,56 @@ I have a slightly different behavior than the browser variant. For the space(bar
 Class {
 	#name : #CpKeyEvent,
 	#superclass : #CpUserInterfaceEvent,
-	#instVars : [
-		'modifiers',
-		'key',
-		'repeat',
-		'isComposing'
-	],
 	#category : #'CodeParadise-WebApplication-Events'
 }
 
 { #category : #accessing }
 CpKeyEvent >> isComposing [
 
-	^ isComposing
-]
+	"Answer a Boolean indicating a key is being composed"
 
-{ #category : #accessing }
-CpKeyEvent >> isComposing: aBoolean [
-
-	isComposing := aBoolean
+	^ self propertyAt: #isComposing
 ]
 
 { #category : #accessing }
 CpKeyEvent >> key [
 
+	"Answer a String representing the key for the receiver.
+	Control characters (more precisely: characters with a non printable representation)
+	are answered as Strings (like 'Enter', 'Tab', 'ArrowLeft', etc).
+	In contrast with browsers a space is answered as 'Space' which allows #keyWithModifiers
+	do behave more consistently."
+
+	| key |
+
+	key := self propertyAt: #key.
+
 	^ key = ' '
 		ifTrue: [ #Space ]
 		ifFalse: [ key ]
-
-]
-
-{ #category : #accessing }
-CpKeyEvent >> key: aString [
-
-	key := aString
 ]
 
 { #category : #accessing }
 CpKeyEvent >> keyWithModifiers [
 
-	"Answer a String representing the receiver's key with modifiers prepended"
+	"Answer a String representing the receiver's key with modifiers prepended.
+	A modifier is only prepended for control characters (more precisely: characters
+	with non printable representation).
+	If multiple modifiers are pressed, all are prepended in alphabetical order.
 
-	self key ifNil: [ ^ nil ].
-	(self key size = 1 or: [ self hasModifiers not ])
-		ifTrue: [ ^ self key ].
+	Prefixes:
+		'A': Alt (also called Option Key on Mac)
+		'C': Control
+		'M': Meta (also called Command Key on Mac and Windows Key on Windows)
+		'S': Shift
+
+	For example: 'a', 'A', 'S-Tab', 'A-ArrowLeft', 'C-S-Enter', etc."
+
+	| key |
+
+	key := self key ifNil: [ ^ nil ].
+	(key size = 1 or: [ self hasModifiers not ])
+		ifTrue: [ ^ key ].
 
 	^ String streamContents: [ :stream |
 		self hasAltModifier
@@ -63,25 +69,6 @@ CpKeyEvent >> keyWithModifiers [
 		self hasShiftModifier
 			ifTrue: [ stream nextPutAll: 'S-' ].
 		stream nextPutAll: self key ]
-]
-
-{ #category : #accessing }
-CpKeyEvent >> modifiers [
-
-	"Answer an Integer specifying the different modifiers pressed.
-	Combine the following individual numbers:
-		1 - alt
-		2 - ctrl
-		4 - meta
-		8 - shift"
-
-	^ modifiers
-]
-
-{ #category : #accessing }
-CpKeyEvent >> modifiers: anInteger [
-
-	modifiers := anInteger
 ]
 
 { #category : #printing }
@@ -102,11 +89,7 @@ CpKeyEvent >> printOn: aStream [
 { #category : #accessing }
 CpKeyEvent >> repeat [
 
-	^ repeat
-]
+	"Answer a Boolean indicating the key is being held down"
 
-{ #category : #accessing }
-CpKeyEvent >> repeat: aBoolean [
-
-	repeat := aBoolean
+	^ self propertyAt: #repeat
 ]

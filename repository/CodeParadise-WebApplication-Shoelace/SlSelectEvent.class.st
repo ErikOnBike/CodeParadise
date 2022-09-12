@@ -1,9 +1,6 @@
 Class {
 	#name : #SlSelectEvent,
 	#superclass : #SlEvent,
-	#instVars : [
-		'detail'
-	],
 	#category : #'CodeParadise-WebApplication-Shoelace-Events'
 }
 
@@ -12,7 +9,7 @@ SlSelectEvent >> menuItem [
 
 	"Answer the receiver's menu item which is stored in the event detail dictionary"
 
-	^ detail at: 'item' ifAbsent: [ nil ]
+	^ self detail at: 'item' ifAbsent: [ nil ]
 ]
 
 { #category : #printing }

@@ -1,15 +1,38 @@
 Class {
 	#name : #CpSecondaryClickEvent,
-	#superclass : #CpClickEvent,
-	#category : #'CodeParadise-WebApplication-Events'
+	#superclass : #CpAnyClickEvent,
+	#category : #'CodeParadise-WebApplication-Events-Custom'
 }
 
+{ #category : #announcing }
+CpSecondaryClickEvent class >> handlesClickEvent: aClickEvent [
+
+	"Accept only secondary click"
+
+	^ aClickEvent isSecondaryButtonPressed
+]
+
 { #category : #initialization }
-CpSecondaryClickEvent >> initializeWithMouseEvent: aMouseEvent [
+CpSecondaryClickEvent class >> postInstallOnce [
 
-	super initializeWithMouseEvent: aMouseEvent.
+	CpHtmlElement document
+		when: CpContextMenuEvent send: #preventContextMenu: to: self
+]
 
-	buttons := 2.
-	modifiers := 0
+{ #category : #'event handling' }
+CpSecondaryClickEvent class >> preventContextMenu: aContextMenuEvent [
 
+	aContextMenuEvent preventDefault
+]
+
+{ #category : #testing }
+CpSecondaryClickEvent >> isPrimaryButtonPressed [
+
+	^ false
+]
+
+{ #category : #testing }
+CpSecondaryClickEvent >> isSecondaryButtonPressed [
+
+	^ true
 ]

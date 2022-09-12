@@ -248,7 +248,7 @@ CpMvpWebApplication >> removeInterestIn: anAnnouncementClass for: anObject [
 	"Remove the interest for the specified AnnouncementClass and specified
 	subscriber from the receiver."
 
-	^ self announcer removeInterestIn: anAnnouncementClass for: anObject
+	self announcer removeInterestIn: anAnnouncementClass for: anObject
 ]
 
 { #category : #presenter }

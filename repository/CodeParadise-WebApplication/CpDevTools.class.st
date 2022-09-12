@@ -82,6 +82,7 @@ CpDevTools class >> start [
 	self allApplications do: [ :app | app register ].
 
 	resourcePath := IceRepository directoryNamed: 'html' in: 'CP-ClientEnvironment'.
+	resourcePath := '/Users/erik/Projects/CodeParadise/vm/development'.
 
 	"Start the HTTP and WeSocket servers (use the path where you stored the ClientEnvironment)"
 	CpApplicationServerStarter

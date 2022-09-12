@@ -5,35 +5,42 @@ To distinguish individual key strokes please also have a look at KeyEvent.
 Class {
 	#name : #CpInputEvent,
 	#superclass : #CpUserInterfaceEvent,
-	#instVars : [
-		'data',
-		'inputType'
-	],
 	#category : #'CodeParadise-WebApplication-Events'
 }
 
 { #category : #accessing }
 CpInputEvent >> data [
 
-	^ data
-]
+	"Answer a String representing the inserted characters"
 
-{ #category : #accessing }
-CpInputEvent >> data: aString [
-
-	data := aString
+	^ self propertyAt: #data
 ]
 
 { #category : #accessing }
 CpInputEvent >> inputType [
 
-	^ inputType
+	"Answer a String representing the type of input.
+
+	Valid values include:
+		'insertText'
+		'insertReplacementText' (when using spell-checker or autocorrect for example)
+		'deleteContextBackward'
+		'deleteContentForward'
+		'insertFromPaste'
+
+	For a more complete list see:
+		https://rawgit.com/w3c/input-events/v1/index.html#interface-InputEvent-Attributes
+	"
+
+	^ self propertyAt: #inputType
 ]
 
-{ #category : #accessing }
-CpInputEvent >> inputType: aString [
+{ #category : #testing }
+CpInputEvent >> isComposing [
 
-	inputType := aString
+	"Answer a Boolean indicating a key is being composed"
+
+	^ self propertyAt: #isComposing
 ]
 
 { #category : #printing }

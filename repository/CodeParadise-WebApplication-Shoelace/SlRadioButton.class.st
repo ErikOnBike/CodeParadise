@@ -66,14 +66,6 @@ SlRadioButton >> hasFocus [
 	^ self = CpHtmlElement activeElement
 ]
 
-{ #category : #initialization }
-SlRadioButton >> initialize [
-
-	super initialize.
-
-	self when: CpPrimaryClickEvent send: #onPrivateClick: to: self
-]
-
 { #category : #testing }
 SlRadioButton >> isChecked [
 
@@ -129,17 +121,6 @@ SlRadioButton >> labelText: aString [
 				^ self ] ].
 
 	self label: aString asHtmlElement
-]
-
-{ #category : #'private - event handling' }
-SlRadioButton >> onPrivateClick: aClickEvent [
-
-	"The receiver has generated a click event (as oppposed to having actually
-	been clicked by a pointer device). Emulate regular click event."
-
-	"Implementation: a Click event is not a pointer event, but the protocol matches enough"
-	aClickEvent isNoButtonPressed
-		ifTrue: [ self announce: ((CpPrimaryClickEvent newFromMouseEvent: aClickEvent) ifNil: [ ^ self ]) ]
 ]
 
 { #category : #accessing }

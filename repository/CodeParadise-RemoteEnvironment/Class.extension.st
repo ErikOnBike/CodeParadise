@@ -60,6 +60,24 @@ Class >> cpAllRequiredClassesMatching: matchBlock [
 	"Fire of the process with the receiver"
 	addUniqueClassBlock value: self.
 
+	"Because of circular references a superclass can still be added after its subclass, repair this"
+	[
+		| changed |
+
+		changed := false.
+		requiredClasses withIndexDo: [ :each :index |
+			| nextIndex |
+
+			"Check if superclass is defined at higher index"
+			nextIndex := requiredClasses indexOf: each superclass startingAt: index + 1 ifAbsent: [ 0 ].
+			nextIndex > 0
+				ifTrue: [
+					"Swap sub and super class (it is okay to change collection during #withIndexDo: here)"
+					requiredClasses swap: index with: nextIndex.
+					changed := true ] ].
+
+		changed ] whileTrue.
+
 	^ requiredClasses
 ]
 

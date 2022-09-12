@@ -297,6 +297,10 @@ CpObjectEncoder >> encodeGlobalVariable: aGlobalVariable [
 	((self class knownGlobals includes: aGlobalVariable value) or: [ aGlobalVariable value isClass ])
 		ifFalse: [ self error: 'Only classes are supported as global variables' ].
 
+	"The superclass of GlobalVariable (ie Association) handles the case for classes, delegate there"
+	aGlobalVariable value isClass
+		ifTrue: [ ^ self encodeAssociation: aGlobalVariable ].
+
 	writeStream nextPut: 24.
 	self writeSymbol: aGlobalVariable key
 ]

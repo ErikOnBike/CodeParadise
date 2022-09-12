@@ -419,7 +419,8 @@ CpTransition >> startTick [
 { #category : #actions }
 CpTransition >> stop [
 
-	"Stop the receiver without further handling"
+	"Stop the receiver without further handling.
+	Use #finish if the transition should end with handling."
 
 	startTick := nil.
 	self class unregisterTransition: self

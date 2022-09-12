@@ -1,14 +1,25 @@
 Class {
 	#name : #CpPrimaryClickEvent,
-	#superclass : #CpClickEvent,
-	#category : #'CodeParadise-WebApplication-Events'
+	#superclass : #CpAnyClickEvent,
+	#category : #'CodeParadise-WebApplication-Events-Custom'
 }
 
-{ #category : #initialization }
-CpPrimaryClickEvent >> initializeWithMouseEvent: aMouseEvent [
+{ #category : #announcing }
+CpPrimaryClickEvent class >> handlesClickEvent: aClickEvent [
 
-	super initializeWithMouseEvent: aMouseEvent.
+	"Accept only primary click"
 
-	buttons := 1.
-	modifiers := 0
+	^ aClickEvent isPrimaryButtonPressed
+]
+
+{ #category : #testing }
+CpPrimaryClickEvent >> isPrimaryButtonPressed [
+
+	^ true
+]
+
+{ #category : #testing }
+CpPrimaryClickEvent >> isSecondaryButtonPressed [
+
+	^ false
 ]

@@ -1,28 +1,12 @@
 Class {
 	#name : #CpDropEvent,
-	#superclass : #CpMouseEvent,
+	#superclass : #CpSyntheticEvent,
 	#instVars : [
 		'dragEvent',
 		'pointerId'
 	],
-	#category : #'CodeParadise-WebApplication-Events'
+	#category : #'CodeParadise-WebApplication-Events-Custom'
 }
-
-{ #category : #announcing }
-CpDropEvent class >> addListenerTo: anElement [
-
-	"Add a listener for the receiver to the specified DOM element.
-
-	Implementation: Simulate a DropEvent by using a PointerUp event.
-	This allows the drop event to be set on an element and be recognized as such.
-	This is needed because there is no equivalent drop event in browsers."
-
-	super addListenerTo: anElement.
-
-	"Implementation: Send meaningless message to self, since there is no need to handle the event itself"
-	anElement
-		when: CpPointerUpEvent send: #doNothing: to: self
-]
 
 { #category : #'event handling' }
 CpDropEvent class >> dispatchInstanceForDragEvent: aDragEvent pointerEvent: aPointerEvent [
@@ -31,16 +15,6 @@ CpDropEvent class >> dispatchInstanceForDragEvent: aDragEvent pointerEvent: aPoi
 
 	(self newFromDragEvent: aDragEvent withPointerEvent: aPointerEvent)
 		dispatch
-]
-
-{ #category : #actions }
-CpDropEvent class >> doNothing: aPointerUpEvent [
-
-	"This method is present to allow the receiver to be recognized as native event.
-	See self >> #addListenerTo:"
-
-	"First let other handle the PointerUp event"
-	aPointerUpEvent propagate
 ]
 
 { #category : #'instance creation' }
@@ -82,7 +56,7 @@ CpDropEvent >> initialize [
 
 	super initialize.
 
-	type := #drop
+"	type := #drop"
 ]
 
 { #category : #initialization }
@@ -90,7 +64,7 @@ CpDropEvent >> initializeWithDragEvent: aDragEvent pointerEvent: aPointerEvent [
 
 	self initialize.
 
-	timeStamp := aPointerEvent timeStamp.
+"	timeStamp := aPointerEvent timeStamp.
 	target := aPointerEvent target.
 	pageX := aPointerEvent pageX.
 	pageY := aPointerEvent pageY.
@@ -99,7 +73,7 @@ CpDropEvent >> initializeWithDragEvent: aDragEvent pointerEvent: aPointerEvent [
 	elements := aPointerEvent elements select: [ :each | each isListeningTo: self class ].
 	buttons := aPointerEvent buttons.
 	modifiers := aPointerEvent modifiers.
-	dragEvent := aDragEvent.
+"	dragEvent := aDragEvent.
 	pointerId := aPointerEvent pointerId
 
 ]

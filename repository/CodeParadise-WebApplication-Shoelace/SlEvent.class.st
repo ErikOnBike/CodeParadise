@@ -1,6 +1,6 @@
 Class {
 	#name : #SlEvent,
-	#superclass : #CpEvent,
+	#superclass : #CpCustomEvent,
 	#category : #'CodeParadise-WebApplication-Shoelace-Events'
 }
 

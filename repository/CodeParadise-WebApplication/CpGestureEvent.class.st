@@ -1,10 +1,6 @@
 Class {
 	#name : #CpGestureEvent,
 	#superclass : #CpUserInterfaceEvent,
-	#instVars : [
-		'rotation',
-		'scale'
-	],
 	#category : #'CodeParadise-WebApplication-Events'
 }
 
@@ -22,23 +18,11 @@ CpGestureEvent >> printOn: aStream [
 { #category : #accessing }
 CpGestureEvent >> rotation [
 
-	^ rotation
-]
-
-{ #category : #accessing }
-CpGestureEvent >> rotation: aNumber [
-
-	rotation := aNumber
+	^ self propertyAt: #rotation
 ]
 
 { #category : #accessing }
 CpGestureEvent >> scale [
 
-	^ scale
-]
-
-{ #category : #accessing }
-CpGestureEvent >> scale: aNumber [
-
-	scale := aNumber
+	^ self propertyAt: #scale
 ]

@@ -203,7 +203,13 @@ CpObjectDecoder >> decodeClassReference [
 
 	name := self readSymbol.
 	class := Smalltalk classNamed: name.
-	class ifNil: [ self error: 'Unknown class named ', name ].
+	class ifNil: [
+		"In the client environment create dummy class (helpful for cycling dependencies)"
+		CpClientEnvironment isRunning
+			ifTrue: [
+				Smalltalk at: name put: (Smalltalk at: #CpTemporaryClass).
+				^ self ].
+		self error: 'Unknown class named ', name ].
 
 	^ Association key: name value: class
 ]

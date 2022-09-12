@@ -1,15 +1,36 @@
+"
+I am a SyntheticEvent representing the user dragging a DOM element.
+
+I exist as a convenience, because the default browser drag event is not flexible enough to perform
+all kinds of custom behavior. A DropEvent exists to complete the full drag/drop behavior.
+
+Implementation:
+The combination of a PointerDown followed by a number of PointerMove and finishing off with a
+PointerUp event is used to 'detect' a drag (and drop) is made. This is handled in the #dragStart:,
+#dragMove and #dragEnd: methods. As soon as a PointerDown is announced the appropriate drag event
+is already created and registered. If a matching PointerMove or PointerUp event is announced the
+registered drag event will announce itself. This means the drag event will announce itself
+repeatedly during the dragging (having different properties on every announcement representing
+the 'new' state). When a drag moves outside the browser area or is otherwise interupted, this
+will also be announced. A drag can also be stopped manually using #stopPropagation or
+#stopImmediatePropagation.
+
+"
 Class {
 	#name : #CpDragEvent,
-	#superclass : #CpMouseEvent,
+	#superclass : #CpSyntheticEvent,
 	#instVars : [
+		'pointerEvent',
+		'offset',
 		'tracePoints',
 		'endPoint',
 		'canceled'
 	],
 	#classVars : [
-		'DragInstances'
+		'DragInstances',
+		'SupportingEventsInstalled'
 	],
-	#category : #'CodeParadise-WebApplication-Events'
+	#category : #'CodeParadise-WebApplication-Events-Custom'
 }
 
 { #category : #announcing }
@@ -19,7 +40,8 @@ CpDragEvent class >> addListenerTo: anElement [
 
 	Implementation:
 	Simulate a DragEvent by using PointerDown/PointerMove/PointerUp events.
-	The PointerMove/PointerUp are registered in #postInstall. See comment there."
+	The PointerMove/PointerUp are registered when doing #dragStart:.
+	See comment there."
 
 	super addListenerTo: anElement.
 
@@ -33,6 +55,7 @@ CpDragEvent class >> dragCancel: aPointerEvent [
 	| dragEvent |
 
 	dragEvent := DragInstances at: aPointerEvent pointerId ifAbsent: [ ^ self ].
+	self removeSupportingEvents.
 
 	"Remove temporary storage (for all situations)"
 	DragInstances removeKey: aPointerEvent pointerId.
@@ -47,9 +70,6 @@ CpDragEvent class >> dragCancel: aPointerEvent [
 { #category : #'event handling - private' }
 CpDragEvent class >> dragContinued: aPointerEnterEvent [
 
-	"First let others handle the PointerEnter event"
-	aPointerEnterEvent propagate.
-
 	"Validate there is still a drag (ie primary pointer is still down)"
 	(aPointerEnterEvent isPrimaryButtonPressed)
 		ifTrue: [ self dragMove: aPointerEnterEvent ]
@@ -60,31 +80,38 @@ CpDragEvent class >> dragContinued: aPointerEnterEvent [
 CpDragEvent class >> dragEnd: aPointerUpEvent [
 
 	| dragEvent |
-
-	"First let others handle the PointerUp event"
-	aPointerUpEvent propagate.
-
+self crTrace: 'DragEnd'.
+self crTrace: 'DragEnd ', aPointerUpEvent printString.
 	"Implementation: Ignore pointer up when a button is still pressed"
 	aPointerUpEvent isNoButtonPressed
 		ifFalse: [ ^ self ].
 
 	dragEvent := DragInstances at: aPointerUpEvent pointerId ifAbsent: [ ^ self ].
+	self removeSupportingEvents.
 
 	"Remove temporary storage (for all situations)"
 	DragInstances removeKey: aPointerUpEvent pointerId.
 
 	"Stop if no actual drag (move) happened"
+	dragEvent updateWith: aPointerUpEvent.
 	dragEvent hasMoved ifFalse: [ ^ self ].
 
 	"Update the final position of the drag event"
 	dragEvent endPoint: aPointerUpEvent point.
 
 	"Dispatch the event to allow updates to take place"
+self crTrace: 'Dispatch drag?'.
 	dragEvent dispatch.
 
 	"If drag is finished successfully (and not canceled during ending), create a drop event"
 	dragEvent ifCanceled: [ ^ self ].
 	CpDropEvent dispatchInstanceForDragEvent: dragEvent pointerEvent: aPointerUpEvent
+]
+
+{ #category : #'event handling - private' }
+CpDragEvent class >> dragInterrupted: aPointerLeaveEvent [
+
+	"TODO"
 ]
 
 { #category : #'event handling - private' }
@@ -99,6 +126,7 @@ CpDragEvent class >> dragMove: aPointerMoveEvent [
 	dragEvent := DragInstances at: aPointerMoveEvent pointerId ifAbsent: [ ^ self ].
 
 	"Update the latest position of the drag event"
+	dragEvent updateWith: aPointerMoveEvent.
 	dragEvent addTracePoint: aPointerMoveEvent point.
 	dragEvent timeStamp: aPointerMoveEvent timeStamp.
 
@@ -115,45 +143,73 @@ CpDragEvent class >> dragStart: aPointerDownEvent [
 	Wait for movement before actually dispatching a drag event."
 
 	| dragEvent |
-
-	"First let others handle the PointerDown event"
-	aPointerDownEvent propagate.
-
+self crTrace: 'DragStart ', aPointerDownEvent printString, ' already present: ', (DragInstances at: aPointerDownEvent pointerId ifAbsent: [ nil ]) printString.
 	aPointerDownEvent isOnlyPrimaryButtonPressed
 		ifFalse: [ ^ self ].
 
-	dragEvent := DragInstances at: aPointerDownEvent pointerId ifAbsent: [ nil ].
+	"Create and register new drag event"
+	DragInstances at: aPointerDownEvent pointerId put: (self newFromPointerEvent: aPointerDownEvent).
 
-	(dragEvent isNil or: [ (dragEvent hasSameOrigin: aPointerDownEvent) not ])
-		ifTrue: [ DragInstances at: aPointerDownEvent pointerId put: (self newFromMouseEvent: aPointerDownEvent) ]
+	"Add supporting event handlers (now that dragging can actually start)"
+	self installSupportingEvents
 ]
 
-{ #category : #'instance creation' }
-CpDragEvent class >> newFromMouseEvent: aMouseEvent [
+{ #category : #'event handling - private' }
+CpDragEvent class >> installSupportingEvents [
 
-	^ self basicNew
-		initializeWithMouseEvent: aMouseEvent ;
-		yourself
-]
+	"Install (if needed) helper events when dragging started
+	(when the first PointerDownEvent has occurred).
 
-{ #category : #'class initialization' }
-CpDragEvent class >> postInstallOnce [
-
-	DragInstances := Dictionary new.
-
-	"Add dragmove/dragend at the toplevel element of the document,
+	Implementation:
+	Add dragmove/dragend at the toplevel element of the document,
 	since dragging might move the pointer outside the drag target
 	and therefore loose control. Handling it on the toplevel element
 	will always succeed.
 	Dragging outside the browser area will keep the element in a
 	dragged state, until the pointer enters the document again.
 	In the future leaving the document could set a timer which
-	could cancel the drag after some period of time."
-	CpHtmlElement documentBody
+	could cancel the drag after some period of time.
+	Pointer events are used to simulate these drag events."
+
+	SupportingEventsInstalled ifTrue: [ ^ self ].
+self crTrace: 'Installing support events'.
+	[ CpHtmlElement documentBody
 		when: CpPointerMoveEvent send: #dragMove: to: self ;
 		when: CpPointerUpEvent send: #dragEnd: to: self ;
-		when: CpPointerEnterEvent send: #dragContinued: to: self" ;
-		when: CpPointerLeaveEvent send: #dragInterrupted: to: self"
+		when: CpPointerEnterEvent send: #dragContinued: to: self ;
+		when: CpPointerLeaveEvent send: #dragInterrupted: to: self
+	] ensure: [ SupportingEventsInstalled := true ]
+]
+
+{ #category : #'instance creation' }
+CpDragEvent class >> newFromPointerEvent: aPointerEvent [
+
+	^ self basicNew
+		initializeWithPointerEvent: aPointerEvent ;
+		yourself
+]
+
+{ #category : #'class initialization' }
+CpDragEvent class >> postInstallOnce [
+
+	DragInstances := IdentityDictionary new.
+	SupportingEventsInstalled := false
+]
+
+{ #category : #'event handling - private' }
+CpDragEvent class >> removeSupportingEvents [
+
+	"Remove (if needed) helper events for dragging (see #installSupportingEvents)"
+
+	SupportingEventsInstalled ifFalse: [ ^ self ].
+self crTrace: 'Removing support events'.
+	[ CpHtmlElement documentBody
+		removeInterestIn: CpPointerMoveEvent for: self ;
+		removeInterestIn: CpPointerUpEvent for: self ;
+		removeInterestIn: CpPointerEnterEvent for: self ;
+		removeInterestIn: CpPointerLeaveEvent for: self
+	] ensure: [
+		SupportingEventsInstalled := false ]
 ]
 
 { #category : #'updating screen' }
@@ -161,16 +217,13 @@ CpDragEvent class >> updateAll [
 
 	"Update all instances by dispatching the most recent event"
 
-	DragInstances valuesDo: [ :each | each redispatch ]
+	DragInstances valuesDo: [ :each | each dispatch ]
 ]
 
 { #category : #accessing }
 CpDragEvent >> addTracePoint: aPoint [
 
-	self tracePoints add: self point.
-	self point: aPoint.
-
-	^ aPoint
+	^ tracePoints add: aPoint
 ]
 
 { #category : #actions }
@@ -188,14 +241,18 @@ CpDragEvent >> endPoint [
 { #category : #accessing }
 CpDragEvent >> endPoint: aPoint [
 
-	endPoint := aPoint.
-	self point: aPoint
+	endPoint := aPoint
 ]
 
 { #category : #testing }
 CpDragEvent >> hasMoved [
 
-	^ tracePoints isNotEmpty
+	"Answer whether the receiver started moving.
+
+	Implementation:
+	The receiver's initial position is added, so moving starts with at least 2 trace points."
+
+	^ tracePoints size > 1
 ]
 
 { #category : #testing }
@@ -229,26 +286,18 @@ CpDragEvent >> initialize [
 
 	super initialize.
 
-	type := #drag.
-	tracePoints := OrderedCollection new.
 	canceled := false
 ]
 
 { #category : #initialization }
-CpDragEvent >> initializeWithMouseEvent: aMouseEvent [
+CpDragEvent >> initializeWithPointerEvent: aPointerEvent [
 
 	self initialize.
 
-	timeStamp := aMouseEvent timeStamp.
-	target := aMouseEvent target.
-	pageX := aMouseEvent pageX.
-	pageY := aMouseEvent pageY.
-	offsetX := aMouseEvent offsetX.
-	offsetY := aMouseEvent offsetY.
-	elements := aMouseEvent elements select: [ :each | each isListeningTo: self class ].
-	buttons := aMouseEvent buttons.
-	modifiers := aMouseEvent modifiers
-
+	currentTarget := aPointerEvent currentTarget.
+	pointerEvent := aPointerEvent.
+	offset := aPointerEvent offset.
+	tracePoints := OrderedCollection with: pointerEvent point
 ]
 
 { #category : #testing }
@@ -268,9 +317,10 @@ CpDragEvent >> isStarted [
 
 	"Answer whether the receiver is just started and made its first move.
 
-	Implementation: Receiver has a single tracepoint (ie one movement taken place)"
+	Implementation:
+	The receiver has two tracepoints (ie initial and one movement taken place)"
 
-	^ tracePoints size = 1
+	^ tracePoints size = 2
 ]
 
 { #category : #accessing }
@@ -278,25 +328,33 @@ CpDragEvent >> lastDelta [
 
 	| lastPoint penultimatePoint |
 
-	self tracePoints size < 2
-		ifTrue: [ ^ 0 @ 0 ].
+	self hasMoved
+		ifFalse: [ ^ 0 @ 0 ].
 
-	lastPoint := self tracePoints last.
-	penultimatePoint := self tracePoints nextToLast.
+	lastPoint := tracePoints last.
+	penultimatePoint := tracePoints nextToLast.
 
 	^ lastPoint - penultimatePoint
 ]
 
-{ #category : #copying }
-CpDragEvent >> postCopy [
+{ #category : #accessing }
+CpDragEvent >> offsetX [
 
-	"Create a full copy of the receiver without shared state, to allow the copy to be dispatched
-	or propagated without influencing the (original) receiver"
+	^ offset x
+]
 
-	super postCopy.
+{ #category : #accessing }
+CpDragEvent >> offsetY [
 
-	"Implementation: Only tracepoints need to be 'deep' copied, other fields can be shared."
-	tracePoints := tracePoints copy
+	^ offset y
+]
+
+{ #category : #accessing }
+CpDragEvent >> point [
+
+	"Answer the current point"
+
+	^ endPoint ifNil: [ tracePoints last ]
 ]
 
 { #category : #printing }
@@ -304,17 +362,36 @@ CpDragEvent >> printOn: aStream [
 
 	super printOn: aStream.
 	aStream
+		nextPutAll: ', startPoint: ' ;
+		print: self startPoint ;
+		nextPutAll: ', tracePoints: ' ;
+		print: self tracePoints size ;
+		nextPutAll: ', point: ' ;
+		print: self point ;
 		nextPutAll: ', endPoint: ' ;
 		print: self endPoint ;
-		nextPutAll: ', offset: ' ;
-		print: self offset
+		nextPutAll: ', canceled: ' ;
+		print: self isCanceled
 ]
 
 { #category : #accessing }
 CpDragEvent >> startPoint [
 
-	^ self tracePoints first
-		ifNil: [ self point ]
+	^ tracePoints first
+]
+
+{ #category : #accessing }
+CpDragEvent >> timeStamp [
+
+	^ timeStamp ifNil: [ timeStamp := super timeStamp ]
+]
+
+{ #category : #accessing }
+CpDragEvent >> timeStamp: anInteger [
+
+	"Set the relative timeStamp (in milliseconds)"
+
+	timeStamp := anInteger
 ]
 
 { #category : #accessing }
@@ -324,4 +401,10 @@ CpDragEvent >> tracePoints [
 	The trace points will include the 'historic' point, ie not the current drag point."
 
 	^ tracePoints
+]
+
+{ #category : #'processing - private' }
+CpDragEvent >> updateWith: aPointerEvent [
+
+	pointerEvent := aPointerEvent
 ]

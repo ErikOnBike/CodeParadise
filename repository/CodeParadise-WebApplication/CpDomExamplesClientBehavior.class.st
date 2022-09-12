@@ -6,12 +6,13 @@ Class {
 	#name : #CpDomExamplesClientBehavior,
 	#superclass : #CpWebClientBehavior,
 	#instVars : [
-		'transition'
+		'transition',
+		'textRegistry'
 	],
 	#category : #'CodeParadise-WebApplication-Examples'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #resources }
 CpDomExamplesClientBehavior class >> gearPathForRaduis: radius teeth: teethCount asAnnulus: aBoolean [
 
 	| path innerRadius outerRadius axelRadius arcDelta arc |
@@ -160,6 +161,54 @@ CpDomExamplesClientBehavior >> exampleAnimationSimple [
 ]
 
 { #category : #examples }
+CpDomExamplesClientBehavior >> exampleClickEvents [
+
+	<example: 'Click Events' order: 900>
+
+	| outputElement buttonDefs |
+	
+	self clearOutput.
+	outputElement := self outputElement.
+
+	buttonDefs := {
+		'Any button (no modifier)' -> CpAnyClickEvent.
+		'Primary button (no modifier)' -> CpPrimaryClickEvent.
+		'Primary button (no modifier, short click)' -> (CpPrimaryClickEvent + CpShortClickModifier).
+		'Primary button (no modifier, long click)' -> (CpPrimaryClickEvent + CpLongClickModifier).
+		'Primary button with shift' -> (CpPrimaryClickEvent + CpShiftModifier).
+		'Primary button with alt' -> (CpPrimaryClickEvent + CpAltModifier).
+		'Primary button with ctrl' -> (CpPrimaryClickEvent + CpCtrlModifier).
+		'Primary button with meta' -> (CpPrimaryClickEvent + CpMetaModifier).
+		'Primary button with ctrl + meta' -> (CpPrimaryClickEvent + CpMetaModifier + CpCtrlModifier).
+		'Secondary button (no modifier)' -> CpSecondaryClickEvent.
+		'Secondary button (no modifier, short click)' -> (CpSecondaryClickEvent + CpShortClickModifier).
+		'Secondary button (no modifier, long click)' -> (CpSecondaryClickEvent + CpLongClickModifier).
+		'Secondary button with shift' -> (CpSecondaryClickEvent + CpShiftModifier).
+		'Secondary button with alt' -> (CpSecondaryClickEvent + CpAltModifier).
+		'Secondary button with ctrl' -> (CpSecondaryClickEvent + CpCtrlModifier).
+		'Secondary button with meta' -> (CpSecondaryClickEvent + CpMetaModifier).
+		'Secondary button with ctrl + shift' -> (CpSecondaryClickEvent + CpCtrlModifier + CpShiftModifier).
+	}.
+
+	buttonDefs do: [ :each |
+		outputElement appendChild: ((CpHtmlElement newWithTag: #div)
+			styleAt: #'margin-top' put: '1.4em' ;
+			styleAt: #width put: '20em' ;
+			styleAt: #height put: '2em' ;
+			styleAt: #'border-radius' put: '1em' ;
+			styleAt: #'background-color' put: #blue ;
+			styleAt: #color put: #white ;
+			styleAt: #cursor put: #pointer ;
+			styleAt: #'text-align' put: #center ;
+			styleAt: #'line-height' put: '2em' ;
+			styleAt: #'user-select' put: #none ;
+			styleAt: #'-webkit-user-select' put: #none ;
+			textContent: each key ;
+			when: each value send: #wiggleOnEvent: to: self ;
+			yourself) ]
+]
+
+{ #category : #examples }
 CpDomExamplesClientBehavior >> exampleCreateRandomBlocks [
 
 	<example: 'Create 1000 random blocks' order: 100>
@@ -237,40 +286,64 @@ CpDomExamplesClientBehavior >> exampleCreateRandomEllipses [
 { #category : #examples }
 CpDomExamplesClientBehavior >> exampleEvents [
 
-	<example: 'Events' order: 900>
+	<example: 'Events' order: 910>
 
 	| outputElement |
-	
+
+	textRegistry := Dictionary new.
 	self clearOutput.
 	outputElement := self outputElement.
 
 	outputElement appendChild: ((CpHtmlElement newWithTag: #div)
-		styleAt: #position put: #relative ;
-		styleAt: #top put: '10%' ;
-		styleAt: #left put: '10%' ;
-		styleAt: #width put: '80%' ;
-		styleAt: #height put: '80%' ;
-		styleAt: #'background-color' put: 'rgba(255, 0, 0, .1)' ;
-		when: CpPrimaryClickEvent send: #logOuter to: self ;
-		appendChild: ((CpHtmlElement newWithTag: #div)
-			styleAt: #position put: #relative ;
-			styleAt: #top put: '10%' ;
-			styleAt: #left put: '10%' ;
-			styleAt: #width put: '80%' ;
-			styleAt: #height put: '80%' ;
-			styleAt: #'background-color' put: 'rgba(0, 255, 0, .1)' ;
-			when: CpPrimaryClickEvent send: #logMiddle: to: self ;
-			appendChild: ((CpHtmlElement newWithTag: #div)
-				styleAt: #position put: #relative ;
-				styleAt: #top put: '10%' ;
-				styleAt: #left put: '10%' ;
-				styleAt: #width put: '80%' ;
-				styleAt: #height put: '80%' ;
-				styleAt: #'background-color' put: 'rgba(0, 0, 255, .1)' ;
-				when: CpPrimaryClickEvent send: #logInner to: self ;
-				yourself) ;
-			yourself) ;
+		markupContent: '
+			<h3>Inner and outer (both accepting events)</h3>
+			<div id="outer" style="padding: 2em; background-color: rgba(255, 0, 0, .1)">
+				<div id="inner" style="padding: 2em; background-color: rgba(0, 255, 0, .1)">
+					<span style="display: inline-block" class="text"></span>
+				</div>
+				<span style="display: inline-block" class="text"></span>
+			</div>
+
+			<h3>Inner and outer (inner has 2 handlers, first stops propagation)</h3>
+			<p>Use SHIFT + click</p>
+			<div id="outer2" style="padding: 2em; background-color: rgba(255, 0, 0, .1)">
+				<div id="inner2" style="padding: 2em; background-color: rgba(0, 255, 0, .1)">
+					<span style="display: inline-block" class="text1"></span>
+					<span style="display: inline-block" class="text2"></span>
+				</div>
+					<span style="display: inline-block" class="text"></span>
+			</div>
+
+			<h3>Inner and outer (inner has 2 handlers, first stops propagation immediately)</h3>
+			<p>Use CTRL + click</p>
+			<div id="outer3" style="padding: 2em; background-color: rgba(255, 0, 0, .1)">
+				<div id="inner3" style="padding: 2em; background-color: rgba(0, 255, 0, .1)">
+					<span style="display: inline-block" class="text1"></span>
+					<span style="display: inline-block" class="text2"></span>
+				</div>
+					<span style="display: inline-block" class="text"></span>
+			</div>
+		' ;
 		yourself).
+
+	(outputElement firstDescendantMatching: '#outer')
+		when: CpPrimaryClickEvent do: [ self showText: 'Clicked' in: '#outer > .text' ].
+	(outputElement firstDescendantMatching: '#inner')
+		when: CpPrimaryClickEvent do: [ self showText: 'Clicked' in: '#inner > .text' ].
+
+	(outputElement firstDescendantMatching: '#outer2')
+		when: CpPrimaryClickEvent + CpShiftModifier do: [ self showText: 'Clicked' in: '#outer2 > .text' ].
+	(outputElement firstDescendantMatching: '#inner2')
+		when: CpPrimaryClickEvent + CpShiftModifier do: [ :event | event stopPropagation. self showText: 'Clicked (1st handler)' in: '#inner2 > .text1' ].
+	(outputElement firstDescendantMatching: '#inner2')
+		when: CpPrimaryClickEvent + CpShiftModifier do: [ :event | self showText: 'Clicked (2nd handler)' in: '#inner2 > .text2' ].
+
+	(outputElement firstDescendantMatching: '#outer3')
+		when: CpPrimaryClickEvent + CpCtrlModifier do: [ self showText: 'Clicked' in: '#outer3 > .text' ].
+	(outputElement firstDescendantMatching: '#inner3')
+		when: CpPrimaryClickEvent + CpCtrlModifier do: [ :event | event stopImmediatePropagation. self showText: 'Clicked (1st handler)' in: '#inner3 > .text1' ].
+	(outputElement firstDescendantMatching: '#inner3')
+		when: CpPrimaryClickEvent + CpCtrlModifier do: [ :event | self showText: 'Clicked (2nd handler)' in: '#inner3 > .text2' ].
 
 ]
 
@@ -479,31 +552,6 @@ CpDomExamplesClientBehavior >> initialize [
 	self showIndex
 ]
 
-{ #category : #'as yet unclassified' }
-CpDomExamplesClientBehavior >> logInner [
-
-	self crTrace: 'Inner block'
-]
-
-{ #category : #'as yet unclassified' }
-CpDomExamplesClientBehavior >> logMiddle [
-
-	self crTrace: 'Middle block'
-]
-
-{ #category : #'as yet unclassified' }
-CpDomExamplesClientBehavior >> logMiddle: anEvent [
-
-	self logMiddle.
-	anEvent propagate
-]
-
-{ #category : #'as yet unclassified' }
-CpDomExamplesClientBehavior >> logOuter [
-
-	self crTrace: 'Out block'
-]
-
 { #category : #accessing }
 CpDomExamplesClientBehavior >> outputElement [
 
@@ -573,6 +621,26 @@ CpDomExamplesClientBehavior >> showIndex [
 		list appendChild: ((CpHtmlElement newWithTag: 'li')
 			id: item key ;	"ie selector"
 			textContent: item value first ;	"ie title"
-			when: CpPrimaryClickEvent send: item key to: self ;
+			when: CpClickEvent send: item key to: self ;
 			yourself) ]
+]
+
+{ #category : #'as yet unclassified' }
+CpDomExamplesClientBehavior >> showText: textString in: selectorString [
+
+	textRegistry at: selectorString ifPresent: [ :textTransition | textTransition finish ].
+
+	(self outputElement firstDescendantMatching: selectorString)
+		ifNotNil: [ :element |
+			element textContent: textString.
+			textRegistry at: selectorString put: ([ element textContent: '' ] asTransition
+				duration: 0 ;
+				startDelayedBy: 1000) ]
+]
+
+{ #category : #'event handling' }
+CpDomExamplesClientBehavior >> wiggleOnEvent: aClickEvent [
+
+	aClickEvent currentTarget
+		animate: CpCssAnimation tadaKeyframes duration: 750
 ]

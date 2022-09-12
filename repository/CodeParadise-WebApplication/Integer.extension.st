@@ -14,9 +14,9 @@ Integer >> bitCount [
 
 	bitCount := 0.
 	value := self.
-	[ value isZero ] whileFalse: [
-		(value bitAnd: 1) isZero
-			ifFalse: [ bitCount := bitCount + 1 ].
+	[ value > 0 ] whileTrue: [
+		(value bitAnd: 1) = 1
+			ifTrue: [ bitCount := bitCount + 1 ].
 		value := value bitShift: -1 ].
 
 	^ bitCount

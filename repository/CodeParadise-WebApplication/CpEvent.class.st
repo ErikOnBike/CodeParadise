@@ -1,36 +1,31 @@
 "
-I am the base class for Events. I also implement the same protocol as the Announcement class for announcing. 
+I am the base class for actual browser Events. I also implement the same protocol as the Announcement class for announcing. 
 
 Implementation:
 My class name should match the browser's event type (Event.type, see https://wiki.developer.mozilla.org/en-US/docs/Web/API/Event/type). So event type ""pointermove"" did become CpPointerMoveEvent. The class name prefix #Cp and the class name postfix #Event are discarded for comparison. Please prevent having similar names like #CpPointerMove or #CpPointermoveEvent, because only one will be used (more specific, last being installed in the ClientEnvironment).
 
-Beware: CpPointerEnterEvent and CpPointerLeaveEvent work slightly differently than expected. These can only be used on the <body> tag.
+In a few places my (or one of my subclass's) behavior is slightly different than default browser behavior and/or the behavior is limited in some way.
+- I only support event bubbling (ie not capturing, see https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Building_blocks/Events#event_bubbling_and_capture)
+- Some events are 'throttled', meaning not every browser event triggered will actually be handled in the Smalltalk code (especially pointermove and wheel events). This is a performance trade off.
+- The default event handling for somethrottled events (like wheel events) is prevented since they would otherwise interfere with custom behavior.
+
+Implementation:
+Because the Announcement model (as used in CodeParadise) and the browser event model work slightly differently (browser events are registered individually and DOM announcements are registered per DOM element), internally browser events are de-duplicated per DOM element. This is visible for examply in CpAnyClickEvent class >> #clickStart:withClickAnnouncement:.
 
 "
 Class {
 	#name : #CpEvent,
-	#superclass : #Object,
-	#instVars : [
-		'type',
-		'timeStamp',
-		'target',
-		'elements',
-		'currentElementIndex'
-	],
+	#superclass : #CpBaseEvent,
 	#category : #'CodeParadise-WebApplication-Events'
 }
 
 { #category : #'processing - private' }
 CpEvent class >> addListenerTo: anElement [
 
+	"Add a browser event listener to the specified element"
+
 	<primitive: 'primitiveEventAddListenerTo:' module: 'CpDOMPlugin'>
 	self primitiveFailed
-]
-
-{ #category : #'accessing - modifiers' }
-CpEvent class >> altModifier [
-
-	^ 1
 ]
 
 { #category : #'processing - private' }
@@ -58,24 +53,6 @@ CpEvent class >> createEventProcess [
 	eventProcess resume
 ]
 
-{ #category : #'accessing - modifiers' }
-CpEvent class >> ctrlAltModifier [
-
-	^ self ctrlModifier + self altModifier
-]
-
-{ #category : #'accessing - modifiers' }
-CpEvent class >> ctrlModifier [
-
-	^ 2
-]
-
-{ #category : #'accessing - modifiers' }
-CpEvent class >> ctrlShiftModifier [
-
-	^ self ctrlModifier + self shiftModifier
-]
-
 { #category : #'processing - private' }
 CpEvent class >> dispatchEvent: anEvent [
 
@@ -99,15 +76,17 @@ CpEvent class >> dispatchEvents [
 { #category : #announcing }
 CpEvent class >> handlesAnnouncement: anAnnouncement [
 
-	"The receiver acts as a filter to determine whether subscribers who used the receiver as signaling tag (event identifier class or symbol)
-	should receive incoming announcement. In particular, registering to a superclass will receive the announcements from all subclasses.
-	See Announcement >> #handlesAnnouncement:"
+	"Answer whether the specified Announcement can be handled by the receiver.
+	If the Announcement is already stopped, prevent further handling."
 
-	^ anAnnouncement class includesBehavior: self
+	^ (super handlesAnnouncement: anAnnouncement)
+		and: [ anAnnouncement isStopped not ]
 ]
 
 { #category : #'processing - private' }
 CpEvent class >> isListenedToOn: anElement [
+
+	"Answer whether a browser event listener is installed in the specified element"
 
 	<primitive: 'primitiveEventIsListenedToOn:' module: 'CpDOMPlugin'>
 	self primitiveFailed
@@ -116,21 +95,20 @@ CpEvent class >> isListenedToOn: anElement [
 { #category : #'processing - private' }
 CpEvent class >> latestEvents [
 
+	"Answer a collection of browser events which are pending/need handling.
+
+	Implementation:
+	In most cases this will result in an Array with a single event. For some
+	throttled events (like pointermove) it may contain a few events."
+
 	<primitive: 'primitiveEventLatestEvents' module: 'CpDOMPlugin'>
 	^ #()
-
 ]
 
 { #category : #'accessing - modifiers' }
-CpEvent class >> metaCtrlAltModifier [
+CpEvent class >> noModifiers [
 
-	^ self metaModifier + self ctrlModifier + self altModifier
-]
-
-{ #category : #'accessing - modifiers' }
-CpEvent class >> metaModifier [
-
-	^ 4
+	^ 0
 ]
 
 { #category : #accessing }
@@ -163,23 +141,29 @@ CpEvent class >> postInstallOnce [
 { #category : #'processing - private' }
 CpEvent class >> registerEventClass: anEventClass forType: aString [
 
+	"Register the specified event class in the browser
+	(creates binding between browser and Smalltalk events)"
+
 	<primitive: 'primitiveEventRegisterClass:forType:' module: 'CpDOMPlugin'>
 	self primitiveFailed
-
 ]
 
 { #category : #'processing - private' }
 CpEvent class >> registerEventProcess: eventHandlerProcess [
 
+	"Register the process which handles events to allow it to be activated on events"
+
 	<primitive: 'primitiveEventRegisterProcess:' module: 'CpDOMPlugin'>
 	self primitiveFailed
-
 ]
 
-{ #category : #'accessing - modifiers' }
-CpEvent class >> shiftModifier [
+{ #category : #'processing - private' }
+CpEvent class >> removeListenerFrom: anElement [
 
-	^ 8
+	"Remove a browser event listener to the specified element"
+
+	<primitive: 'primitiveEventRemoveListenerFrom:' module: 'CpDOMPlugin'>
+	self primitiveFailed
 ]
 
 { #category : #accessing }
@@ -196,87 +180,40 @@ CpEvent class >> type [
 	^ (self nameWithoutPrefix withoutSuffix: #Event) asLowercase
 ]
 
-{ #category : #announcing }
-CpEvent >> asAnnouncement [
+{ #category : #accessing }
+CpEvent >> currentTarget [
 
-	^ self
+	"Answer the current targetted DOM element (might be different from #target which could be a descendant)"
+
+	^ self propertyAt: #currentTarget
 ]
 
 { #category : #testing }
-CpEvent >> autoPropagate [
-
-	^ false
-]
-
-{ #category : #accessing }
-CpEvent >> currentElement [
-
-	"Answer the current (targetted) DOM element (similar to the DOM's currentTarget).
-	Answer nil if the receiver has been dispatched to all interested elements."
-
-	^ self elements at: currentElementIndex ifAbsent: [ nil ]
-]
-
-{ #category : #dispatching }
-CpEvent >> dispatch [
-
-	"Dispatch the receiver by announcing it through its element"
-
-	(self currentElement ifNil: [ ^ self ])
-		announce: self.
-
-	"Propagate (bubble up to top level) to next interested element"
-	self autoPropagate
-		ifTrue: [ self propagate ]
-]
-
-{ #category : #accessing }
-CpEvent >> elements [
-
-	"Answer the DOM elements (from descendant to ancestor) which are interested in the event.
-	This might be different than the target which received the event."
-
-	^ elements
-]
-
-{ #category : #accessing }
-CpEvent >> elements: anArray [
-
-	elements := anArray
-]
-
-{ #category : #testing }
-CpEvent >> hasAllModifiers: anInteger [
+CpEvent >> hasAllModifiers: aKeyModifier [
 
 	"Answer whether the receiver has at least the specified modifiers.
 
 	Can be used to validate specific combinations.
 	Example: To check if at least shift and ctrl are pressed:
-		keyEvent hasAllModifiers: CpKeyEvent shiftModifier + CpKeyEvent ctrlModifier"
+		keyEvent hasAllModifiers: CpShiftModifier + CpCtrlModifier"
 
-	^ (self modifiers bitAnd: anInteger) = anInteger
+	^ self modifiers allMask: aKeyModifier value
 ]
 
 { #category : #testing }
 CpEvent >> hasAltModifier [
 
-	^ (self modifiers bitAnd: self class altModifier) ~= 0
-]
-
-{ #category : #testing }
-CpEvent >> hasBubbled [
-
-	^ currentElementIndex > 1
+	^ CpAltModifier isPresentIn: self modifiers
 ]
 
 { #category : #testing }
 CpEvent >> hasCtrlModifier [
 
-	^ (self modifiers bitAnd: self class ctrlModifier) ~= 0
+	^ CpCtrlModifier isPresentIn: self modifiers
 ]
 
 { #category : #testing }
-CpEvent >> hasExactModifiers: anInteger [
+CpEvent >> hasExactModifiers: aKeyModifier [
 
 	"Answer whether the receiver has the exact specified modifiers.
 
@@ -284,13 +221,13 @@ CpEvent >> hasExactModifiers: anInteger [
 	Example: To check if only shift and ctrl are pressed:
 		keyEvent hasExactModifiers: CpKeyEvent shiftModifier + CpKeyEvent ctrlModifier"
 
-	^ self modifiers = anInteger
+	^ self modifiers = aKeyModifier value
 ]
 
 { #category : #testing }
 CpEvent >> hasMetaModifier [
 
-	^ (self modifiers bitAnd: self class metaModifier) ~= 0
+	^ CpMetaModifier isPresentIn: self modifiers
 ]
 
 { #category : #testing }
@@ -306,25 +243,13 @@ CpEvent >> hasNoModifiers [
 ]
 
 { #category : #testing }
-CpEvent >> hasSameOrigin: anEvent [
-
-	"Answer whether the receiver and the specified Event share the same origin.
-
-	Implementation:
-	The same origin is shared if the event is targetted to the same DOM element and
-	has the same timestamp of occurrence."
-
-	^ self target = anEvent target and: [ self timeStamp = anEvent timeStamp ]
-]
-
-{ #category : #testing }
 CpEvent >> hasShiftModifier [
 
-	^ (self modifiers bitAnd: self class shiftModifier) ~= 0
+	^ CpShiftModifier isPresentIn: self modifiers
 ]
 
 { #category : #testing }
-CpEvent >> hasSomeModifiers: anInteger [
+CpEvent >> hasSomeModifiers: aKeyModifier [
 
 	"Answer whether the receiver has at least one the specified modifiers.
 
@@ -332,54 +257,49 @@ CpEvent >> hasSomeModifiers: anInteger [
 	Example: To check if at least one of shift or ctrl is pressed (i.e. or both are pressed):
 		keyEvent hasSomeModifiers: CpKeyEvent shiftModifier + CpKeyEvent ctrlModifier"
 
-	^ (self modifiers bitAnd: anInteger) ~= 0
-]
-
-{ #category : #initialization }
-CpEvent >> initialize [
-
-	super initialize.
-
-	"By default start at the first element of the elements
-	(in #currentElement it is validated a first element exists)"
-	elements := #().
-	currentElementIndex := 1
+	^ (self modifiers bitAnd: aKeyModifier value) ~= 0
 ]
 
 { #category : #testing }
+CpEvent >> isStopped [
+
+	"Answer whether the receiver is stopped by either
+	#stopPropagation or #stopImmediatePropagation. In the former
+	case, false is answered on any event listeners on the same
+	target."
+
+	<primitive: 'primitiveEventIsStopped' module: 'CpDOMPlugin'>
+	self primitiveFailed
+]
+
+{ #category : #accessing }
+CpEvent >> keyModifier [
+
+	"Answer a KeyModifier instance representing the receiver's key modifier state"
+
+	^ CpKeyModifier value: self modifiers
+]
+
+{ #category : #accessing }
 CpEvent >> modifiers [
 
-	"Answer the key modifiers of the receiver.
+	"Answer an Integer specifying the different modifiers pressed.
+	Combine the following individual numbers:
+		1 - alt
+		2 - ctrl
+		4 - meta
+		8 - shift
 
-	Implementation: Only Key, Pointer and Drag events support this at the moment."
+	Implementation: Only Key, Mouse and Touch events support this, all others will answer 0."
 
-	^ 0
+	<primitive: 'primitiveEventModifiers' module: 'CpDOMPlugin'>
+	self primitiveFailed
 ]
 
-{ #category : #copying }
-CpEvent >> postCopy [
-
-	"Create a full copy of the receiver without shared state, to allow the copy to be dispatched
-	or propagated without influencing the (original) receiver"
-
-	super postCopy.
-
-	"Implementation: Only elements need to be 'deep' copied, other fields can be shared."
-	elements := elements copy
-]
-
-{ #category : #announcing }
-CpEvent >> prepareForDelivery [
-
-	"This method will be executed once before subscriptions delivery.
-	If nobody subscribed on me this method will not be called.
-	It allows to put some heavy initialization logic here. It will be executed only 
-	if there is interest on me
-	See Announcement >> #prepareForDelivery"
-]
-
-{ #category : #'dispatching - private' }
+{ #category : #dispatching }
 CpEvent >> preventDefault [
+
+	"Prevent the default browser behavior from being performed"
 
 	<primitive: 'primitiveEventPreventDefault' module: 'CpDOMPlugin'>
 	self primitiveFailed
@@ -397,62 +317,47 @@ CpEvent >> printOn: aStream [
 		print: self timeStamp ;
 		nextPutAll: ', target: ' ;
 		print: self target ;
-		nextPutAll: ', currentElement: ' ;
-		print: self currentElement
+		nextPutAll: ', currentTarget: ' ;
+		print: self currentTarget
+]
+
+{ #category : #'accessing - private' }
+CpEvent >> propertyAt: nameString [
+
+	"Answer the value (String, Number, Boolean or nil) of the specified property of the receiver"
+
+	<primitive: 'primitiveEventPropertyAt:' module: 'CpDOMPlugin'>
+	self primitiveFailed
 ]
 
 { #category : #dispatching }
-CpEvent >> propagate [
+CpEvent >> stopImmediatePropagation [
 
-	"Propagate the receiver to the next interested element"
+	"Stop immediate propagation (bubbling) of the receiver. Not even listeners on the
+	current target will receive this event. Use #stopPropagation instead
+	to allow other listeners on the current target to receive this event."
 
-	currentElementIndex > self elements size
-		ifTrue: [ ^ self ].
-
-	currentElementIndex := currentElementIndex + 1.
-	self dispatch
-]
-
-{ #category : #dispatching }
-CpEvent >> redispatch [
-
-	"Dispatch the receiver again (any current propagation is ignored)"
-
-	self
-		reset ;
-		dispatch
-]
-
-{ #category : #dispatching }
-CpEvent >> reset [
-
-	"Reset the receiver to allow dispatching again (from the deepest DOM element)"
-
-	currentElementIndex := 1
+	<primitive: 'primitiveEventStopImmediatePropagation' module: 'CpDOMPlugin'>
+	self primitiveFailed
 ]
 
 { #category : #dispatching }
 CpEvent >> stopPropagation [
 
-	"Stop propagation (bubbling) of the receiver"
+	"Stop propagation (bubbling) of the receiver. Other listeners on the
+	current target will receive this event. Use #stopImmediatePropagation
+	instead to prevent any listener from receiving this event."
 
-	currentElementIndex := self elements size
+	<primitive: 'primitiveEventStopPropagation' module: 'CpDOMPlugin'>
+	self primitiveFailed
 ]
 
 { #category : #accessing }
 CpEvent >> target [
 
-	"Answer the DOM element which received the event.
-	In contrast with regular browser events, this target
-	might be part of a shadow DOM."
+	"Answer the DOM element which received the event"
 
-	^ target
-]
-
-{ #category : #accessing }
-CpEvent >> target: aDomElement [
-
-	target := aDomElement
+	^ self propertyAt: #target
 ]
 
 { #category : #accessing }
@@ -460,25 +365,13 @@ CpEvent >> timeStamp [
 
 	"Answer the relative timestamp (an Integer in millisecond resolution) for when the receiver was triggered"
 
-	^ timeStamp
-]
-
-{ #category : #accessing }
-CpEvent >> timeStamp: aNumber [
-
-	"Set the relative timestamp for when the receiver was triggered"
-
-	timeStamp := aNumber
+	^ self propertyAt: #timeStamp
 ]
 
 { #category : #accessing }
 CpEvent >> type [
 
-	^ type
-]
+	"Answer the type of event (a String)"
 
-{ #category : #accessing }
-CpEvent >> type: aString [
-
-	type := aString
+	^ self propertyAt: #type
 ]

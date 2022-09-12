@@ -1,66 +1,45 @@
 Class {
 	#name : #CpWheelEvent,
 	#superclass : #CpMouseEvent,
-	#instVars : [
-		'deltaX',
-		'deltaY',
-		'deltaMode'
-	],
 	#category : #'CodeParadise-WebApplication-Events'
 }
 
 { #category : #accessing }
 CpWheelEvent >> delta [
 
-	^ deltaX @ deltaY
-]
+	"Answer a Point representing the delta the wheel has scrolled"
 
-{ #category : #accessing }
-CpWheelEvent >> delta: aPoint [
-
-	deltaX := aPoint x.
-	deltaY := aPoint y
+	^ self deltaX @ self deltaY
 ]
 
 { #category : #accessing }
 CpWheelEvent >> deltaMode [
 
-	^ deltaMode
-]
+	"Answer a Number representing the delta unit.
 
-{ #category : #accessing }
-CpWheelEvent >> deltaMode: anInteger [
+	Possible values:
+		0: pixels
+		1: lines
+		2: pages
+	"
 
-	"Set the mode of the receiver's delta value.
-	0 - Pixel amount
-	1 - Line amount
-	2 - Page amount"
-
-	deltaMode := anInteger
+	^ self propertyAt: #deltaMode
 ]
 
 { #category : #accessing }
 CpWheelEvent >> deltaX [
 
-	^ deltaX
-]
+	"Answer a Number representing the horizontal scroll amount (in units, see #deltaMode)"
 
-{ #category : #accessing }
-CpWheelEvent >> deltaX: aNumber [
-
-	deltaX := aNumber
+	^ self propertyAt: #deltaX
 ]
 
 { #category : #accessing }
 CpWheelEvent >> deltaY [
 
-	^ deltaY
-]
+	"Answer a Number representing the vertical scroll amount (in units, see #deltaMode)"
 
-{ #category : #accessing }
-CpWheelEvent >> deltaY: aNumber [
-
-	deltaY := aNumber
+	^ self propertyAt: #deltaY
 ]
 
 { #category : #printing }

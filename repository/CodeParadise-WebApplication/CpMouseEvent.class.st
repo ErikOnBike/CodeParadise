@@ -1,16 +1,23 @@
 Class {
 	#name : #CpMouseEvent,
 	#superclass : #CpUserInterfaceEvent,
-	#instVars : [
-		'pageX',
-		'pageY',
-		'offsetX',
-		'offsetY',
-		'buttons',
-		'modifiers'
-	],
 	#category : #'CodeParadise-WebApplication-Events'
 }
+
+{ #category : #accessing }
+CpMouseEvent >> button [
+
+	"Answer an Integer specifying the button pressed.
+	The following number is answered:
+		0: main button (usually the left button or the un-initialized state)
+		1: auxiliary button (usually the wheel button or the middle button)
+		2: secondary button (usually the right button or pen button)
+		3: fourth button (typically the Browser Back button)
+		4: fifth button (typically the Browser Forward button)
+		5: eraser button (on pens, not sure about browser support)"
+
+	^ self propertyAt: #button
+]
 
 { #category : #accessing }
 CpMouseEvent >> buttonCount [
@@ -23,67 +30,80 @@ CpMouseEvent >> buttons [
 
 	"Answer an Integer specifying the different buttons pressed.
 	Combine the following individual numbers:
-		1 - primary button
-		2 - secondary button
+		1 - primary button (like left button)
+		2 - secondary button (like right button or pen button)
 		4 - third (auxiliary) button (like wheel mouse or middle button)
-		8 - fourth button
-		16 - fifth button"
+		8 - fourth button (sometimes 'back' button)
+		16 - fifth button (sometimes 'forward' button)
+		32 - sixth button (sometimes pen eraser button)
 
-	^ buttons
+	If no buttons are down the value 0 is answered.
+	On some hardware, browsers and OS combinations the value might be
+	derived (like a single mouse button emulating right click by using
+	combination with key modifier or a customized setup swapping left
+	and right buttons on a mouse.)"
+
+	^ self propertyAt: #buttons
 ]
 
 { #category : #accessing }
-CpMouseEvent >> buttons: anInteger [
+CpMouseEvent >> clientX [
 
-	buttons := anInteger
+	^ self propertyAt: #clientX
+]
+
+{ #category : #accessing }
+CpMouseEvent >> clientY [
+
+	^ self propertyAt: #clientY
 ]
 
 { #category : #testing }
 CpMouseEvent >> isFifthButtonPressed [
 
-	^ buttons anyMask: 16
+	^ self buttons anyMask: 16
 ]
 
 { #category : #testing }
 CpMouseEvent >> isFourthButtonPressed [
 
-	^ buttons anyMask: 8
+	^ self buttons anyMask: 8
 ]
 
 { #category : #testing }
 CpMouseEvent >> isNoButtonPressed [
 
-	^ buttons = 0
+	^ self buttons = 0
 ]
 
 { #category : #testing }
 CpMouseEvent >> isOnlyPrimaryButtonPressed [
 
-	^ buttons = 1
+	^ self buttons = 1
 ]
 
 { #category : #testing }
 CpMouseEvent >> isOnlySecondaryButtonPressed [
 
-	^ buttons = 2
+	^ self buttons = 2
 ]
 
 { #category : #testing }
 CpMouseEvent >> isPrimaryButtonPressed [
 
-	^ buttons anyMask: 1
+	^ self buttons anyMask: 1
 ]
 
 { #category : #testing }
 CpMouseEvent >> isSecondaryButtonPressed [
 
-	^ buttons anyMask: 2
+	^ self buttons anyMask: 2
 ]
 
 { #category : #testing }
 CpMouseEvent >> isThirdButtonPressed [
 
-	^ buttons anyMask: 4
+	^ self buttons anyMask: 4
 ]
 
 { #category : #accessing }
@@ -93,96 +113,51 @@ CpMouseEvent >> modifierCount [
 ]
 
 { #category : #accessing }
-CpMouseEvent >> modifiers [
+CpMouseEvent >> movementX [
 
-	"Answer an Integer specifying the different modifiers pressed.
-	Combine the following individual numbers:
-		1 - alt
-		2 - ctrl
-		4 - meta
-		8 - shift"
-
-	^ modifiers
+	^ self propertyAt: #movementX
 ]
 
 { #category : #accessing }
-CpMouseEvent >> modifiers: anInteger [
+CpMouseEvent >> movementY [
 
-	modifiers := anInteger
+	^ self propertyAt: #movementY
 ]
 
 { #category : #accessing }
 CpMouseEvent >> offset [
 
-	^ offsetX @ offsetY
-]
-
-{ #category : #accessing }
-CpMouseEvent >> offset: aPoint [
-
-	offsetX := aPoint x.
-	offsetY := aPoint y
+	^ self offsetX @ self offsetY
 ]
 
 { #category : #accessing }
 CpMouseEvent >> offsetX [
 
-	^ offsetX
-]
-
-{ #category : #accessing }
-CpMouseEvent >> offsetX: aNumber [
-
-	offsetX := aNumber
+	^ self propertyAt: #offsetX
 ]
 
 { #category : #accessing }
 CpMouseEvent >> offsetY [
 
-	^ offsetY
-]
-
-{ #category : #accessing }
-CpMouseEvent >> offsetY: aNumber [
-
-	offsetY := aNumber
+	^ self propertyAt: #offsetY
 ]
 
 { #category : #accessing }
 CpMouseEvent >> pageX [
 
-	^ pageX
-]
-
-{ #category : #accessing }
-CpMouseEvent >> pageX: aNumber [
-
-	pageX := aNumber
+	^ self propertyAt: #pageX
 ]
 
 { #category : #accessing }
 CpMouseEvent >> pageY [
 
-	^ pageY
-]
-
-{ #category : #accessing }
-CpMouseEvent >> pageY: aNumber [
-
-	pageY := aNumber
+	^ self propertyAt: #pageY
 ]
 
 { #category : #accessing }
 CpMouseEvent >> point [
 
-	^ pageX @ pageY
-]
-
-{ #category : #accessing }
-CpMouseEvent >> point: aPoint [
-
-	pageX := aPoint x.
-	pageY := aPoint y
+	^ self pageX @ self pageY
 ]
 
 { #category : #printing }
@@ -194,8 +169,33 @@ CpMouseEvent >> printOn: aStream [
 		print: self point ;
 		nextPutAll: ', offset: ' ;
 		print: self offset ;
+		nextPutAll: ', button: ' ;
+		print: self button ;
 		nextPutAll: ', buttons: ' ;
-		print: buttons ;
+		print: self buttons ;
+		nextPut: $( ; 
+		print: self buttons ;
+		nextPut: $) ; 
 		nextPutAll: ', modifiers: ' ;
-		print: modifiers
+		print: self modifiers
+]
+
+{ #category : #accessing }
+CpMouseEvent >> relatedTarget [
+
+	"Answer the related target DOM element which received the event"
+
+	^ self propertyAt: #relatedTarget
+]
+
+{ #category : #accessing }
+CpMouseEvent >> screenX [
+
+	^ self propertyAt: #screenX
+]
+
+{ #category : #accessing }
+CpMouseEvent >> screenY [
+
+	^ self propertyAt: #screenY
 ]

@@ -151,6 +151,9 @@ CpWebApplication >> load [
 	"Install required extensions"
 	self installExtensionMethods.
 
+	"Install the base HTMLElement class"
+	self environment addClass: CpHtmlElement.
+
 	"Install the ClientBehavior"
 	self clientBehaviorClass
 		installIn: self environment ;

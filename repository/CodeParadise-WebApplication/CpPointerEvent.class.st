@@ -1,35 +1,32 @@
 Class {
 	#name : #CpPointerEvent,
 	#superclass : #CpMouseEvent,
-	#instVars : [
-		'pointerId',
-		'pointerType'
-	],
 	#category : #'CodeParadise-WebApplication-Events'
 }
 
 { #category : #accessing }
 CpPointerEvent >> pointerId [
 
-	^ pointerId
-]
+	"Answer a Number representing the unique id of the 'active' pointer event
+	(it should be equal between pointer up and down events)"
 
-{ #category : #accessing }
-CpPointerEvent >> pointerId: aNumber [
-
-	pointerId := aNumber
+	^ self propertyAt: #pointerId
 ]
 
 { #category : #accessing }
 CpPointerEvent >> pointerType [
 
-	^ pointerType
-]
+	"Answer a String presenting the type of pointer.
 
-{ #category : #accessing }
-CpPointerEvent >> pointerType: aString [
+	Possible values:
+		'mouse'
+		'pen'
+		'touch'
 
-	pointerType := aString
+	A browser might also answer an empty String (for non-compatible devices) or a vendor-prefixed
+	value for other (non-standard) types of devices."
+
+	^ self propertyAt: #pointerType
 ]
 
 { #category : #printing }

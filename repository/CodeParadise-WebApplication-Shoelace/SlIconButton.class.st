@@ -58,14 +58,6 @@ SlIconButton >> enabled: aBoolean [
 	self disabled: aBoolean not
 ]
 
-{ #category : #initialization }
-SlIconButton >> initialize [
-
-	super initialize.
-
-	self when: CpPrimaryClickEvent send: #onPrivateClick: to: self
-]
-
 { #category : #testing }
 SlIconButton >> isDisabled [
 
@@ -106,17 +98,6 @@ SlIconButton >> link: linkString target: targetString [
 	self
 		link: linkString ;
 		target: targetString
-]
-
-{ #category : #'private - event handling' }
-SlIconButton >> onPrivateClick: aClickEvent [
-
-	"The receiver has generated a click event (as oppposed to having actually
-	been clicked by a pointer device). Emulate regular click event."
-
-	"Implementation: a Click event is not a pointer event, but the protocol matches enough"
-	aClickEvent isNoButtonPressed
-		ifTrue: [ self announce: ((CpPrimaryClickEvent newFromMouseEvent: aClickEvent) ifNil: [ ^ self ]) ]
 ]
 
 { #category : #accessing }

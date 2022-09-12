@@ -540,7 +540,7 @@ CpDomElement >> isConnected [
 	^ self propertyAt: #isConnected
 ]
 
-{ #category : #'event handling' }
+{ #category : #announcing }
 CpDomElement >> isListeningTo: anEventClass [
 
 	"Answer whether the receiver is listening for the specified event type"
@@ -648,6 +648,18 @@ CpDomElement >> parent [
 	self primitiveFailed
 ]
 
+{ #category : #'event handling' }
+CpDomElement >> preventDefault: anEvent [
+
+	"Prevent default browser behavior for the specified event.
+
+	Convenience method to allow:
+		aDomElement when: CpPointerDownEvent send: #preventDefault: to: aDomElement
+	"
+
+	anEvent preventDefault
+]
+
 { #category : #querying }
 CpDomElement >> previousSibling [
 
@@ -663,7 +675,15 @@ CpDomElement >> printOn: aStream [
 	aStream
 		nextPutAll: self class name ;
 		nextPutAll: '(<' ;
-		nextPutAll: self tagName ;
+		nextPutAll: self tagName.
+
+	self id ifNotNil: [ :id |
+		aStream
+			nextPutAll: ' id="' ;
+			nextPutAll: id ;
+			nextPut: $" ].
+
+	aStream
 		nextPutAll: '>)'
 ]
 
@@ -692,6 +712,8 @@ CpDomElement >> release [
 	announcer ifNotNil: [
 		announcer subscriptions reset.
 		announcer := nil ].
+
+	self unregisterAllInterest.
 
 	super release
 ]
@@ -750,21 +772,29 @@ CpDomElement >> removeFocus [
 	self apply: #blur withArguments: #()
 ]
 
-{ #category : #'event handling' }
+{ #category : #announcing }
 CpDomElement >> removeInterestIn: anAnnouncementClass [
 
 	"Remove the interest for the specified AnnouncementClass from the receiver"
 
-	^ self removeInterestIn: anAnnouncementClass for: self
+	self removeInterestIn: anAnnouncementClass for: self
 ]
 
-{ #category : #'event handling' }
+{ #category : #announcing }
 CpDomElement >> removeInterestIn: anAnnouncementClass for: anObject [
 
 	"Remove the interest for the specified AnnouncementClass and specified
 	subscriber from the receiver."
 
-	^ self announcer removeInterestIn: anAnnouncementClass for: anObject
+	self announcer removeInterestIn: anAnnouncementClass for: anObject
+]
+
+{ #category : #properties }
+CpDomElement >> removePropertyAt: nameString [
+
+	"Remove the value of the specified property of the receiver (by setting it to nil)"
+
+	self propertyAt: nameString put: nil
 ]
 
 { #category : #styles }
@@ -818,6 +848,30 @@ CpDomElement >> replaceChildAtIndex: anInteger with: replacementElement [
 	childElement := self children at: anInteger ifAbsent: [ self error: 'No child element at specified location' ].
 
 	self replaceChild: childElement with: replacementElement
+]
+
+{ #category : #'event handling' }
+CpDomElement >> stopImmediatePropagation: anEvent [
+
+	"Stop propagation of the specified event immediately.
+
+	Convenience method to allow:
+		aDomElement when: CpPointerDownEvent send: #stopImmediatePropagation: to: aDomElement
+	"
+
+	anEvent stopImmediatePropagation
+]
+
+{ #category : #'event handling' }
+CpDomElement >> stopPropagation: anEvent [
+
+	"Stop propagation of the specified event.
+
+	Convenience method to allow:
+		aDomElement when: CpPointerDownEvent send: #stopPropagation: to: aDomElement
+	"
+
+	anEvent stopPropagation
 ]
 
 { #category : #styles }
@@ -930,10 +984,11 @@ CpDomElement >> toggleClass: aString [
 
 ]
 
-{ #category : #'event handling' }
+{ #category : #announcing }
 CpDomElement >> unregisterAllInterest [
 
-	"Remove interest in all (previously registered) events"
+	"Remove interest in all (previously registered) events.
+	Only use this when the receiver is being discarded/destroyed."
 
 	<primitive: 'primitiveDomElementUnregisterAllInterest' module: 'CpDOMPlugin'>
 	self primitiveFailed
@@ -947,7 +1002,7 @@ CpDomElement >> unsubscribe: anObject [
 	^ self announcer unsubscribe: anObject
 ]
 
-{ #category : #'event handling' }
+{ #category : #announcing }
 CpDomElement >> when: anAnnouncementClass do: aBlock [
 
 	"Let the sender subscribe to the specified announcement of the receiver.
@@ -959,7 +1014,7 @@ CpDomElement >> when: anAnnouncementClass do: aBlock [
 	^ self announcer when: anAnnouncementClass do: aBlock
 ]
 
-{ #category : #'event handling' }
+{ #category : #announcing }
 CpDomElement >> when: anAnnouncementClass send: aSymbol to: anObject [
 
 	"Let the sender subscribe to the specified announcement of the receiver.
