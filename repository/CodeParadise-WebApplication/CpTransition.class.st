@@ -16,6 +16,17 @@ last tick to perform the final transition behavior.
 The Block of a Transition will receive two optional parameters: the progress (a Float
 value between 0.0 and 1.0) and the number of milliseconds which have passed since the
 start of the transition.
+
+Progress will always start at 0.0 and end with 1.0 (even if elapsed time does not fully
+match that progress percentage). This allows users to make use of this fact for certain
+init/exit behaviour.
+Two exceptions to the above:
+1. A Transition that is stopped will not reach progress 1.0 (use #finish to stop it and
+   still receive progress 1.0).
+2. A Transition with duration = 0 will only receive a single tick with progress 1.0.
+
+Transitions with duration = 0 can be used to execute a certain operation in the future
+using #startDelayedBy:.
 "
 Class {
 	#name : #CpTransition,
@@ -297,21 +308,25 @@ CpTransition >> handleTick: anInteger [
 
 	"Handle a tick of the receiver.
 	The specified Integer represents the number of milliseconds the transition is running.
+	Progress will always start with 0.0 and end with 1.0 (both values being provided to the block).
+	Progress is therefore not an accurate value for time elapsed, but assures full range is covered.
+	Two exceptions: When stopped, a Transition will never reach 1.0 and on Transitions with
+	duration = 0 a single tick with progress 1.0 will result.
 	See the class comment for further explanation."
 
 	started
+		ifTrue: [ self block cull: (self progressAt: anInteger) cull: anInteger ]
 		ifFalse: [
+			"First tick should be at 0.0 (progress)"
 			started := true.
-			self announce: CpTransitionStarted ].
-
-	self block cull: (self progressAt: anInteger) cull: anInteger.
+			self announce: CpTransitionStarted.
+			self block cull: (self progressAt: 0) cull: anInteger ].
 
 	"Prevent further handling if the receiver has finished"
 	anInteger >= self duration
 		ifTrue: [
 			startTick := nil.
 			self announce: CpTransitionEnded ]
-
 ]
 
 { #category : #initialization }
