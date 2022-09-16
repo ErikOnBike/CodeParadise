@@ -60,6 +60,13 @@ CpClientEnvironment class >> hasPreInstalledClass: aClass [
 	^ self preInstalledClasses includes: aClass
 ]
 
+{ #category : #'as yet unclassified' }
+CpClientEnvironment class >> installReconnectStrategy: aReconnectStrategy [
+
+	self current communicator
+		reconnectStrategy: aReconnectStrategy
+]
+
 { #category : #testing }
 CpClientEnvironment class >> isRunning [
 
