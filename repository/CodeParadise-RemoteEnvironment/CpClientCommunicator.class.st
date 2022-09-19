@@ -31,7 +31,7 @@ CpClientCommunicator >> checkConnection [
 CpClientCommunicator >> connectToUrl: urlString [
 
 	"Make a new connection to the specified server. Users of this method should afterwards
-	check whether the receiver has an open connection using #hasOpenConnection to check if
+	check whether the receiver has an open connection using #hasOpenMessageChannel to check if
 	connection was successful."
 
 	self close.
