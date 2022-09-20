@@ -248,6 +248,15 @@ CpClientEnvironment >> createInstanceOf: className withId: identifier [
 	^ instance
 ]
 
+{ #category : #logging }
+CpClientEnvironment >> error: aString [
+
+	"Log error message on Transcript/console"
+
+	<primitive: 'primitiveEnvironmentError:' module: 'CpSystemPlugin'>
+	^ self
+]
+
 { #category : #support }
 CpClientEnvironment >> exit [
 
@@ -398,7 +407,6 @@ CpClientEnvironment >> log: aString [
 
 	<primitive: 'primitiveEnvironmentLog:' module: 'CpSystemPlugin'>
 	^ self
-
 ]
 
 { #category : #accessing }
@@ -542,4 +550,13 @@ CpClientEnvironment >> variableAt: nameString put: valueString [
 
 	<primitive: 'primitiveEnvironmentVariableAt:put:' module: 'CpSystemPlugin'>
 	self primitiveFailed
+]
+
+{ #category : #logging }
+CpClientEnvironment >> warn: aString [
+
+	"Log warning message on Transcript/console"
+
+	<primitive: 'primitiveEnvironmentWarn:' module: 'CpSystemPlugin'>
+	^ self
 ]
