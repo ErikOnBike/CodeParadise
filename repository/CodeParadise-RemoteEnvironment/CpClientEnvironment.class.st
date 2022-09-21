@@ -322,10 +322,17 @@ CpClientEnvironment >> handleMessageSend: aMessageSend [
 
 	| receiverId |
 
-	receiverId := aMessageSend receiver.
-	aMessageSend receiver: (receiverId
-		ifNotNil: [ self objectRegistry objectWithId: receiverId ]
-		ifNil: [ self ]).
+	(receiverId := aMessageSend receiver)
+		ifNotNil: [
+			(self objectRegistry objectWithId: receiverId)
+				ifNotNil: [ :object | aMessageSend receiver: object ]
+				ifNil: [
+					"Send Announcement of error to server"
+					self serverAnnounce: (CpClientMessageSendFailed
+						messageSend: aMessageSend
+						description: 'Object with the specified id does not exist in the client').
+					^ self ] ]
+		ifNil: [ aMessageSend receiver: self ].
 
 	"Perform the message send"
 	[ aMessageSend value ] on: Error do: [ :error |

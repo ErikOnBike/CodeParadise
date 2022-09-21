@@ -168,7 +168,8 @@ CpServerEnvironment >> announce: anAnnouncement [
 
 	"Let the receiver announce the specified Announcement"
 
-	self announcer announce: anAnnouncement
+	[ self announcer announce: anAnnouncement ] on: Error do: [ :error |
+		self crError: 'Failed to Announce ', anAnnouncement printString, ': ', error printString ]
 ]
 
 { #category : #accessing }
