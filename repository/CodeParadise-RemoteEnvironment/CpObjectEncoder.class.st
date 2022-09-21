@@ -85,7 +85,8 @@ CpObjectEncoder >> basicWriteString: aString usingTable: aCollection [
 				ifTrue: [ aCollection add: aString ].
 			^ self basicWriteString: aString ].
 
-	self basicWriteStringIndex: index
+	"Since Smalltalk indices always start at 1 subtract 1 to use 0 value as well"
+	self basicWriteStringIndex: index - 1
 ]
 
 { #category : #writing }

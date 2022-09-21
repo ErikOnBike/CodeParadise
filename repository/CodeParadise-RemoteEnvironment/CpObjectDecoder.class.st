@@ -50,9 +50,16 @@ CpObjectDecoder >> basicReadStringWithIndexUsingTable: aCollection [
 
 	| index string |
 
+	"Read index which is 0-based"
 	index := ((readStream next bitAnd: 16r07) bitShift: 8) bitOr: readStream next.
+	index := index + 1.
 
-	string := aCollection at: index.
+	string := aCollection
+		at: index
+		ifAbsent: [
+			self crError: 'Error during String decoding: Accessing indexed String from invalid location ', index printString.
+			''	"Use empty String"
+			].
 
 	"For Strings (not Symbols) make a copy since these are unique instances"
 	^ aCollection == stringTable
