@@ -45,7 +45,7 @@ CpMvpWebClientBehavior >> createView: viewClassName withId: identifier atParentI
 				ifFalse: [ parentView appendChild: view ] ].
 
 	"Register the view instance in ClientEnvironment"
-	CpClientEnvironment current objectRegistry
+	self clientEnvironment objectRegistry
 		registerObject: view
 		withId: identifier.
 

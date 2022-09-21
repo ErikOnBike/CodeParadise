@@ -59,12 +59,18 @@ CpWebClientBehavior class >> updateTemplateViewClass: aViewClass in: aServerEnvi
 
 ]
 
+{ #category : #accessing }
+CpWebClientBehavior >> clientEnvironment [
+
+	^ CpClientEnvironment current
+]
+
 { #category : #actions }
 CpWebClientBehavior >> endSession [
 
 	"End the client session"
 
-	CpClientEnvironment current exit
+	self clientEnvironment exit
 ]
 
 { #category : #updating }
