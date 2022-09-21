@@ -252,8 +252,11 @@ CpPresenter >> destroy [
 	"Destroy the receiver.
 
 	Implementation:
-	Remove receiver from its application and its parent first to prevent
-	recursive updates."
+	Disconnect from model first to prevent further updates.
+	Then remove receiver from its application and its parent
+	to prevent recursive updates."
+
+	self model: nil.
 
 	application
 		ifNotNil: [ application removePresenter: self ].
@@ -263,6 +266,7 @@ CpPresenter >> destroy [
 
 	"Remove view from visible DOM"
 	self view remove.
+	needsRendering := false.
 
 	self
 		destroyChildPresenters ;
