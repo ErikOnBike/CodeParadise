@@ -330,16 +330,15 @@ CpClientEnvironment >> handleMessageSend: aMessageSend [
 	"Perform the message send"
 	[ aMessageSend value ] on: Error do: [ :error |
 
-		self crTrace: 'Error when sent message ', aMessageSend selector, ' to ', aMessageSend receiver printString.
-		self crTrace: error printString.
-		self crTrace: error signalerContext printString.
+		self crError: 'Error when sent message ', aMessageSend selector, ' to ', aMessageSend receiver printString.
+		self crError: error printString.
+		self crError: error signalerContext printString.
 
 		"Restore receiver id and send Announcement of error to server"
 		aMessageSend receiver: receiverId.
 		self serverAnnounce: (CpClientMessageSendFailed
 			messageSend: aMessageSend
 			description: error description) ]
-
 ]
 
 { #category : #accessing }
