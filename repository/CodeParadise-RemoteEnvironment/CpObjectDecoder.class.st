@@ -58,8 +58,11 @@ CpObjectDecoder >> basicReadStringWithIndexUsingTable: aCollection [
 		at: index
 		ifAbsent: [
 			self crError: 'Error during String decoding: Accessing indexed String from invalid location ', index printString.
-			''	"Use empty String"
-			].
+
+			"Answer an appropriate empty String"
+			^ aCollection == stringTable
+				ifTrue: [ '' ]
+				ifFalse: [ #'' ] ].
 
 	"For Strings (not Symbols) make a copy since these are unique instances"
 	^ aCollection == stringTable
