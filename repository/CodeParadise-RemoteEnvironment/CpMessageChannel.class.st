@@ -123,6 +123,14 @@ CpMessageChannel >> createMessageHandler [
 ]
 
 { #category : #'message handling' }
+CpMessageChannel >> handleMessageHandlerError: anError [ 
+
+	"Placeholder method to allow specific error handling by subclass or extension method."
+
+	self crTrace: 'Failed to handle messages: ' , anError printString
+]
+
+{ #category : #'message handling' }
 CpMessageChannel >> handleMessageReceived: aByteArray [
 
 	"Let the owner handle the message received.
@@ -214,10 +222,13 @@ CpMessageChannel >> runMessageHandler [
 	Implementation: After the connection has closed, clean up."
 
 	[ self isOpen ] whileTrue: [
-		"Handle available messages and update internal state"
-		self
-			handleMessages ;
-			updateState ].
+		[ 
+			"Handle available messages and update internal state"
+			self
+				handleMessages ;
+				updateState
+		 ] on: Error do: [ :error | 
+			self handleMessageHandlerError: error ] ].
 
 	"Signal connection is closed by sending a nil message"
 	self handleMessageReceived: nil.
