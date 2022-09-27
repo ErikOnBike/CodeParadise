@@ -127,7 +127,7 @@ CpMessageChannel >> handleMessageHandlerError: anError [
 
 	"Placeholder method to allow specific error handling by subclass or extension method."
 
-	self crTrace: 'Failed to handle messages: ' , anError printString
+	self crError: 'Failed to handle messages: ' , anError printString
 ]
 
 { #category : #'message handling' }
