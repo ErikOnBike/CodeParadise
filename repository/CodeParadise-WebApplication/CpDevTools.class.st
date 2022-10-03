@@ -4,6 +4,30 @@ Class {
 	#category : #'CodeParadise-WebApplication-DevTools'
 }
 
+{ #category : #actions }
+CpDevTools class >> actionApplications [ 
+
+	^ [ CpServerApplication allSubInstances inspect ]
+]
+
+{ #category : #actions }
+CpDevTools class >> actionOpen [ 
+
+	^ [ self open ]
+]
+
+{ #category : #actions }
+CpDevTools class >> actionReload [ 
+
+	^ [ self resetSession ]
+]
+
+{ #category : #actions }
+CpDevTools class >> actionReset [ 
+
+	^ [ self restart ]
+]
+
 { #category : #accessing }
 CpDevTools class >> allApplications [
 	"Answer all the defined CP web applications"
@@ -68,6 +92,30 @@ CpDevTools class >> restart [
 	self stop; start
 ]
 
+{ #category : #shortcuts }
+CpDevTools class >> shortcutApplications [ 
+
+	^ $r meta , $i meta
+]
+
+{ #category : #shortcuts }
+CpDevTools class >> shortcutOpen [ 
+
+	^ $r meta , $o meta
+]
+
+{ #category : #shortcuts }
+CpDevTools class >> shortcutReload [ 
+
+	^ $r meta , $r meta
+]
+
+{ #category : #shortcuts }
+CpDevTools class >> shortcutReset [ 
+
+	^ $r meta , $t meta
+]
+
 { #category : #scripts }
 CpDevTools class >> start [
 	"Start a server and examples"
@@ -118,7 +166,13 @@ CpDevTools class >> stop [
 
 { #category : #menu }
 CpDevTools class >> worldMenuCommandOn: aBuilder [
-	"Create the world menu for some Dev Tools"
+
+	"Create the world menu for some Dev Tools.
+
+	The accompanying key combination shortcuts (set using #keyText:) are implemented as extension 
+	methods on the class ToolShortcutsCategory. To enable these shortcuts in a running image, reset 
+	the keymap repository by evaluating: KMRepository reset."
+
 	<worldMenu>
 	 
 	| menuId |
@@ -132,17 +186,17 @@ CpDevTools class >> worldMenuCommandOn: aBuilder [
 		parent: menuId;
 		help: 'Open a web browser on a running application';
 		order: 10;
-		"keyText: 'r, o';"
+		keyText: 'r, o';
 		icon: (self iconNamed: #smallOpen);
-		action: [ self open ].
+		action: self actionOpen.
 		
 	(aBuilder item: #'Reload...')
 		parent: menuId;
-		help: 'Clear the session for a web application, and reload its''s page';
+		help: 'Clear the session for a web application, and reload its page';
 		order: 15;
 		keyText: 'r, r';
 		icon: (self iconNamed: #smallUpdate);
-		action: [ self resetSession ].
+		action: self actionReload.
 		
 	aBuilder withSeparatorAfter.
 	
@@ -150,9 +204,9 @@ CpDevTools class >> worldMenuCommandOn: aBuilder [
 		parent: menuId;
 		help: 'Reset the backend server and all web applications';
 		order: 20;
-		"keyText: 'r, t';"
+		keyText: 'r, t';
 		icon: (self iconNamed: #smallError);
-		action: [ self restart ].		
+		action: self actionReset.		
 	
 	(aBuilder item: #'Applications...')
 		parent: menuId;
@@ -160,10 +214,5 @@ CpDevTools class >> worldMenuCommandOn: aBuilder [
 		order: 25;
 		keyText: 'r, i';
 		icon: (self iconNamed: #smallInspectIt);
-		action: [ CpServerApplication allSubInstances inspect ].
-		
-	"aBuilder withSeparatorAfter"
-	
-	
-	
+		action: self actionApplications
 ]
