@@ -97,7 +97,7 @@ SlBadge >> isPulse [
 SlBadge >> label [
 
 	"Answer the label HTML element of the receiver.
-	For a simple String value use #helpLabel instead."
+	For a simple String value use #labelText instead."
 
 	^ self firstChildAtSlotNamed: nil
 ]

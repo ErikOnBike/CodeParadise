@@ -109,7 +109,9 @@ SlTooltip >> contentText [
 	"Answer the content text (a String) of the receiver.
 	For richer HTML element use #content instead."
 
-	^ self content textContent
+	^ self content
+		ifNotNil: [ :content | content textContent ]
+		ifNil: [ self textContent ]
 ]
 
 { #category : #accessing }
@@ -117,6 +119,13 @@ SlTooltip >> contentText: aString [
 
 	"Set the content text to the specified String value.
 	For richer HTML element use #content: instead."
+
+	"Optimize for simple tooltip content with <span> only"
+	self content ifNotNil: [ :content |
+		content tagName = #span
+			ifTrue: [
+				content textContent: aString.
+				^ self ] ].
 
 	self content: aString asHtmlElement
 ]

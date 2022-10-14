@@ -90,7 +90,7 @@ SlRadioButton >> isPill [
 SlRadioButton >> label [
 
 	"Answer the label HTML element of the receiver.
-	For a simple String value use #helpLabel instead."
+	For a simple String value use #labelText instead."
 
 	^ self firstChildAtSlotNamed: nil
 ]
@@ -121,7 +121,14 @@ SlRadioButton >> labelText: aString [
 	"Set the label text to the specified String value.
 	For richer HTML element use #label: instead."
 
-	self textContent: aString
+	"Optimize for simple radio button label with <span> only"
+	self label ifNotNil: [ :label |
+		label tagName = #span
+			ifTrue: [
+				label textContent: aString.
+				^ self ] ].
+
+	self label: aString asHtmlElement
 ]
 
 { #category : #'private - event handling' }
