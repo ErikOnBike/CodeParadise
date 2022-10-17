@@ -132,12 +132,12 @@ SlSelect >> help [
 ]
 
 { #category : #accessing }
-SlSelect >> help: anElement [
+SlSelect >> help: aStringOrElement [
 
 	"Set the help text to the specified Element.
 	For a simple String value use #helpText: instead."
 
-	self replaceAllChildrenWith: anElement atSlotNamed: #'help-text'
+	self replaceAllChildrenWith: aStringOrElement asHtmlElement atSlotNamed: #'help-text'
 ]
 
 { #category : #accessing }
@@ -204,12 +204,12 @@ SlSelect >> label [
 ]
 
 { #category : #accessing }
-SlSelect >> label: anElement [
+SlSelect >> label: aStringOrElement [
 
 	"Set the label to the specified Element.
 	For a simple String value use #labelText: instead."
 
-	self replaceAllChildrenWith: anElement atSlotNamed: #label
+	self replaceAllChildrenWith: aStringOrElement asHtmlElement atSlotNamed: #label
 ]
 
 { #category : #accessing }

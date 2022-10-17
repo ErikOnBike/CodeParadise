@@ -5,11 +5,11 @@ Class {
 }
 
 { #category : #'instance creation' }
-SlMenuItem class >> value: aSymbol label: aString [
+SlMenuItem class >> value: aSymbol label: aStringOrElement [
 
 	^ self new
 		value: aSymbol ;
-		labelText: aString ;
+		label: aStringOrElement ;
 		yourself
 ]
 
@@ -117,12 +117,12 @@ SlMenuItem >> label [
 ]
 
 { #category : #accessing }
-SlMenuItem >> label: anElement [
+SlMenuItem >> label: aStringOrElement [
 
 	"Set the label to the specified Element.
 	For a simple String value use #labelText: instead."
 
-	self replaceAllChildrenWith: anElement atSlotNamed: nil
+	self replaceAllChildrenWith: aStringOrElement asHtmlElement atSlotNamed: nil
 ]
 
 { #category : #accessing }

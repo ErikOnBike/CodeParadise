@@ -292,12 +292,12 @@ SlButton >> label [
 ]
 
 { #category : #accessing }
-SlButton >> label: anElement [
+SlButton >> label: aStringOrElement [
 
 	"Set the label to the specified Element.
 	For a simple String value use #labelText: instead."
 
-	self replaceAllChildrenWith: anElement atSlotNamed: nil
+	self replaceAllChildrenWith: aStringOrElement asHtmlElement atSlotNamed: nil
 ]
 
 { #category : #accessing }

@@ -87,12 +87,12 @@ SlAbstractPrompter >> content [
 ]
 
 { #category : #accessing }
-SlAbstractPrompter >> content: anElement [
+SlAbstractPrompter >> content: aStringOrElement [
 
 	"Set the content to the specified Element.
 	For a simple String value use #contentText: instead."
 
-	self replaceAllChildrenWith: anElement atSlotNamed: nil
+	self replaceAllChildrenWith: aStringOrElement asHtmlElement atSlotNamed: nil
 ]
 
 { #category : #accessing }
@@ -135,12 +135,12 @@ SlAbstractPrompter >> footer [
 ]
 
 { #category : #accessing }
-SlAbstractPrompter >> footer: anElement [
+SlAbstractPrompter >> footer: aStringOrElement [
 
 	"Set the footer to the specified Element.
 	For a simple String value use #footerText: instead."
 
-	self replaceAllChildrenWith: anElement atSlotNamed: #footer
+	self replaceAllChildrenWith: aStringOrElement asHtmlElement atSlotNamed: #footer
 ]
 
 { #category : #accessing }
@@ -224,12 +224,12 @@ SlAbstractPrompter >> label [
 ]
 
 { #category : #accessing }
-SlAbstractPrompter >> label: anElement [
+SlAbstractPrompter >> label: aStringOrElement [
 
 	"Set the label to the specified Element.
 	For a simple String value use #labelText: instead."
 
-	self replaceAllChildrenWith: anElement atSlotNamed: #label
+	self replaceAllChildrenWith: aStringOrElement asHtmlElement atSlotNamed: #label
 ]
 
 { #category : #accessing }

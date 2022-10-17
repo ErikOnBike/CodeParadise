@@ -106,12 +106,12 @@ SlTag >> content [
 ]
 
 { #category : #accessing }
-SlTag >> content: anElement [
+SlTag >> content: aStringOrElement [
 
 	"Set the content to the specified Element.
 	For a simple String value use #contentText: instead."
 
-	self replaceAllChildrenWith: anElement atSlotNamed: nil
+	self replaceAllChildrenWith: aStringOrElement asHtmlElement atSlotNamed: nil
 ]
 
 { #category : #accessing }

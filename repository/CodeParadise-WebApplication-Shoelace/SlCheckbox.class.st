@@ -5,10 +5,10 @@ Class {
 }
 
 { #category : #accessing }
-SlCheckbox class >> label: aString [
+SlCheckbox class >> label: aStringOrElement [
 
 	^ self new
-		label: aString ;
+		label: aStringOrElement ;
 		yourself
 ]
 

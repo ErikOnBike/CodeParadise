@@ -101,12 +101,12 @@ SlTooltip >> content [
 ]
 
 { #category : #accessing }
-SlTooltip >> content: anElement [
+SlTooltip >> content: aStringOrElement [
 
 	"Set the content to the specified Element.
 	For a simple String value use #contentText: instead."
 
-	self replaceAllChildrenWith: anElement atSlotNamed: #content
+	self replaceAllChildrenWith: aStringOrElement asHtmlElement atSlotNamed: #content
 ]
 
 { #category : #accessing }
