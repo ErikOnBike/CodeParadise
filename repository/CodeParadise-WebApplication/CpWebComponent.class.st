@@ -4,6 +4,12 @@ See https://developer.mozilla.org/en-US/docs/Web/Web_Components
 
 I register myself with the browser so my instances can be created using a custom tag name. This tag name is based on my (class) name. See #tagName.
 
+In contrast with my superclass CpDomElement I do allow text content to be set (using #textContent:) while preserving
+slotted Elements (not being the default/unnamed slot). Since it is not possible to specify a slot for text content
+(ie it does not have a tag to specify the slot name in), there is no method to set the text content for a slot.
+Use a HTML element (like <span>) to create an element which can be slotted and give it the required text content.
+Eg. through: myComponent appendChild: 'Hello world' asHtmlElement atSlotNamed: #mySlot
+
 "
 Class {
 	#name : #CpWebComponent,
@@ -211,4 +217,26 @@ CpWebComponent >> shadowedFirstDescendantMatching: cssSelectorString [
 	"Answer the first element inside the shadow DOM matching the specified CSS selector"
 
 	^ self shadowRoot firstDescendantMatching: cssSelectorString
+]
+
+{ #category : #content }
+CpWebComponent >> textContent [
+
+	"Answer the textual content of the receiver.
+	This will answer an aggregated value for all descendants (in the default/unnamed slot).
+	Text from Elements slotted in a named slot will not be part of the result."
+
+	<primitive: 'primitiveWebComponentTextContent' module: 'CpDOMPlugin'>
+	self primitiveFailed
+]
+
+{ #category : #content }
+CpWebComponent >> textContent: aString [
+
+	"Set the text of the receiver to the specified value.
+	Any existing content for the default slot is removed, including any child elements (at the
+	default/unnamed slot). Elements slotted in a named slot will not be changed."
+
+	<primitive: 'primitiveWebComponentTextContent:' module: 'CpDOMPlugin'>
+	self primitiveFailed
 ]
