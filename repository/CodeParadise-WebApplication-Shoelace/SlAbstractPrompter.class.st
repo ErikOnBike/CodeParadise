@@ -78,6 +78,42 @@ SlAbstractPrompter >> beOpen [
 ]
 
 { #category : #accessing }
+SlAbstractPrompter >> content [
+
+	"Answer the content HTML element of the receiver.
+	For a simple String value use #contentText instead."
+
+	^ self firstChildAtSlotNamed: nil
+]
+
+{ #category : #accessing }
+SlAbstractPrompter >> content: anElement [
+
+	"Set the content to the specified Element.
+	For a simple String value use #contentText: instead."
+
+	self replaceAllChildrenWith: anElement atSlotNamed: nil
+]
+
+{ #category : #accessing }
+SlAbstractPrompter >> contentText [
+
+	"Answer the content text (a String) of the receiver.
+	For richer HTML element use #content instead."
+
+	^ self textContent
+]
+
+{ #category : #accessing }
+SlAbstractPrompter >> contentText: aString [
+
+	"Set the content text to the specified String value.
+	For richer HTML element use #content: instead."
+
+	self textContent: aString
+]
+
+{ #category : #accessing }
 SlAbstractPrompter >> defaultFocusElement [
 
 	^ defaultFocusElement
@@ -92,13 +128,39 @@ SlAbstractPrompter >> defaultFocusElement: anElement [
 { #category : #accessing }
 SlAbstractPrompter >> footer [
 
+	"Answer the footer HTML element of the receiver.
+	For a simple String value use #footerText instead."
+
 	^ self firstChildAtSlotNamed: #footer
 ]
 
 { #category : #accessing }
 SlAbstractPrompter >> footer: anElement [
 
+	"Set the footer to the specified Element.
+	For a simple String value use #footerText: instead."
+
 	self replaceAllChildrenWith: anElement atSlotNamed: #footer
+]
+
+{ #category : #accessing }
+SlAbstractPrompter >> footerText [
+
+	"Answer the footer text (a String) of the receiver.
+	For richer HTML element use #footer instead."
+
+	^ self footer
+		ifNotNil: [ :footer | footer textContent ]
+		ifNil: [ '' ]
+]
+
+{ #category : #accessing }
+SlAbstractPrompter >> footerText: aString [
+
+	"Set the footer text to the specified String value.
+	For richer HTML element use #footer: instead."
+
+	self footer: aString asHtmlElement
 ]
 
 { #category : #testing }
@@ -167,32 +229,25 @@ SlAbstractPrompter >> label: anElement [
 	"Set the label to the specified Element.
 	For a simple String value use #labelText: instead."
 
-	self replaceAllChildrenWith: anElement asHtmlElement atSlotNamed: #label
+	self replaceAllChildrenWith: anElement atSlotNamed: #label
 ]
 
 { #category : #accessing }
 SlAbstractPrompter >> labelText [
 
 	"Answer the label text (a String) of the receiver.
-	For richer HTML element use #label instead."
+	For richer HTML element use #content instead."
 
 	^ self label
 		ifNotNil: [ :label | label textContent ]
-		ifNil: [ self textContent ]
+		ifNil: [ '' ]
 ]
 
 { #category : #accessing }
 SlAbstractPrompter >> labelText: aString [
 
 	"Set the label text to the specified String value.
-	For richer HTML element use #label: instead."
-
-	"Optimize for simple prompter label with <span> only"
-	self label ifNotNil: [ :label |
-		label tagName = #span
-			ifTrue: [
-				label textContent: aString.
-				^ self ] ].
+	For richer HTML element use #content: instead."
 
 	self label: aString asHtmlElement
 ]
