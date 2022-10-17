@@ -194,7 +194,7 @@ CpWebComponent >> shadowedAllDescendantsMatching: cssSelectorString [
 
 	"Answer all elements inside the shadow DOM matching the specified CSS selector"
 
-	^ self shadowRoot firstDescendantMatching: cssSelectorString
+	^ self shadowRoot allDescendantsMatching: cssSelectorString
 ]
 
 { #category : #querying }
