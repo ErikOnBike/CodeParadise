@@ -115,6 +115,22 @@ CpWebComponent >> childrenAtSlotNamed: nameString [
 	^ self children select: [ :each | each slot = nameString ]
 ]
 
+{ #category : #copying }
+CpWebComponent >> clone [
+
+	"Answer a (deep) clone of the receiver.
+	Explicitly set textContent, since this is specific for WebComponents with slots."
+
+	| clone |
+
+	clone := super clone.
+
+	self textContent ifNotEmpty: [ :text |
+		clone textContent: text ].
+
+	^ clone
+]
+
 { #category : #querying }
 CpWebComponent >> firstChildAtSlotNamed: nameString [
 
