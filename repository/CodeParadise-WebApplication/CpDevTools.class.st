@@ -47,6 +47,12 @@ CpDevTools class >> handleClientError: aClientError for: aServerEnvironment [
 	{ 'An error occurred in the Client Environment' . aClientError . aServerEnvironment } inspect
 ]
 
+{ #category : #shortcuts }
+CpDevTools class >> keyTextFromShortcut: aShortcut [
+
+	^ ', ' join: (aShortcut sequence collect: [ :each | each character asString ])
+]
+
 { #category : #scripts }
 CpDevTools class >> open [
 	"Open a Web Browser on a selected application"
@@ -95,25 +101,25 @@ CpDevTools class >> restart [
 { #category : #shortcuts }
 CpDevTools class >> shortcutApplications [ 
 
-	^ $r meta , $i meta
+	^ $p meta , $i meta
 ]
 
 { #category : #shortcuts }
 CpDevTools class >> shortcutOpen [ 
 
-	^ $r meta , $o meta
+	^ $p meta , $o meta
 ]
 
 { #category : #shortcuts }
 CpDevTools class >> shortcutReload [ 
 
-	^ $r meta , $r meta
+	^ $p meta , $r meta
 ]
 
 { #category : #shortcuts }
 CpDevTools class >> shortcutReset [ 
 
-	^ $r meta , $t meta
+	^ $p meta , $t meta
 ]
 
 { #category : #scripts }
@@ -186,7 +192,7 @@ CpDevTools class >> worldMenuCommandOn: aBuilder [
 		parent: menuId;
 		help: 'Open a web browser on a running application';
 		order: 10;
-		keyText: 'r, o';
+		keyText: (self keyTextFromShortcut: self shortcutOpen);
 		icon: (self iconNamed: #smallOpen);
 		action: self actionOpen.
 		
@@ -194,7 +200,7 @@ CpDevTools class >> worldMenuCommandOn: aBuilder [
 		parent: menuId;
 		help: 'Clear the session for a web application, and reload its page';
 		order: 15;
-		keyText: 'r, r';
+		keyText: (self keyTextFromShortcut: self shortcutReload);
 		icon: (self iconNamed: #smallUpdate);
 		action: self actionReload.
 		
@@ -204,7 +210,7 @@ CpDevTools class >> worldMenuCommandOn: aBuilder [
 		parent: menuId;
 		help: 'Reset the backend server and all web applications';
 		order: 20;
-		keyText: 'r, t';
+		keyText: (self keyTextFromShortcut: self shortcutReset);
 		icon: (self iconNamed: #smallError);
 		action: self actionReset.		
 	
@@ -212,7 +218,7 @@ CpDevTools class >> worldMenuCommandOn: aBuilder [
 		parent: menuId;
 		help: 'Open an inspector on the web application instances';
 		order: 25;
-		keyText: 'r, i';
+		keyText: (self keyTextFromShortcut: self shortcutApplications);
 		icon: (self iconNamed: #smallInspectIt);
 		action: self actionApplications
 ]
