@@ -125,8 +125,10 @@ CpWebComponent >> clone [
 
 	clone := super clone.
 
-	self textContent ifNotEmpty: [ :text |
-		clone textContent: text ].
+	"In case there is no element in the default/unnamed slot, clone text content"
+	(clone firstChildAtSlotNamed: nil) ifNil: [
+		self textContent ifNotEmpty: [ :text |
+			clone textContent: text ] ].
 
 	^ clone
 ]
