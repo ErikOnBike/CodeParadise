@@ -6,17 +6,17 @@ Class {
 	#name : #CpClientReady,
 	#superclass : #Announcement,
 	#instVars : [
-		'app',
+		'variables',
 		'environment'
 	],
 	#category : #'CodeParadise-RemoteEnvironment-Core-Announcements'
 }
 
 { #category : #organization }
-CpClientReady class >> app: identifier environment: anEnvironment [
+CpClientReady class >> variables: aDictionary environment: anEnvironment [
 
 	^ self new
-		app: identifier ;
+		variables: aDictionary ;
 		environment: anEnvironment ;
 		yourself
 ]
@@ -24,13 +24,7 @@ CpClientReady class >> app: identifier environment: anEnvironment [
 { #category : #accessing }
 CpClientReady >> app [
 
-	^ app
-]
-
-{ #category : #accessing }
-CpClientReady >> app: identifier [
-
-	app := identifier
+	^ self variableAt: CpClientEnvironment variableNameApp
 ]
 
 { #category : #accessing }
@@ -43,4 +37,18 @@ CpClientReady >> environment [
 CpClientReady >> environment: anEnvironment [
 
 	environment := anEnvironment
+]
+
+{ #category : #accessing }
+CpClientReady >> variableAt: aSymbol [ 
+
+	^ variables at: aSymbol ifAbsent: [ nil ]
+]
+
+{ #category : #accessing }
+CpClientReady >> variables [ 
+
+	"Answer copy to make sure my instance variable does not change."
+
+	^ variables copy
 ]

@@ -11,7 +11,8 @@ Class {
 	#name : #CpServerApplication,
 	#superclass : #Object,
 	#instVars : [
-		'environment'
+		'environment',
+		'clientVariables'
 	],
 	#classInstVars : [
 		'announcementSubscription'
@@ -38,7 +39,8 @@ CpServerApplication class >> clientLoaded: anAnnouncement [
 		ifFalse: [ ^ self ].
 
 	"Create new instance and call the load handler (faking the loaded event which triggered this invocation)"
-	(self newInEnvironment: anAnnouncement environment)
+	(self newInEnvironment: anAnnouncement environment) 
+		clientVariables: anAnnouncement variables ;
 		load
 ]
 
@@ -86,6 +88,24 @@ CpServerApplication class >> unregister [
 
 	CpServerEnvironment announcer removeSubscription: announcementSubscription.
 	announcementSubscription := nil
+]
+
+{ #category : #accessing }
+CpServerApplication >> clientVariableAt: aSymbol [ 
+
+	^ clientVariables at: aSymbol ifAbsent: [ nil ]
+]
+
+{ #category : #accessing }
+CpServerApplication >> clientVariables [ 
+
+	^ clientVariables 
+]
+
+{ #category : #accessing }
+CpServerApplication >> clientVariables: aDictionary [ 
+
+	clientVariables := aDictionary
 ]
 
 { #category : #accessing }
@@ -155,6 +175,16 @@ CpServerApplication >> reload [
 	"Perform any actions needed when the ClientEnvironment belonging to the receiver reloaded"
 ]
 
+{ #category : #actions }
+CpServerApplication >> reload: anAnnouncement [
+
+	"Client environment restarted. Update client variables and reload application."
+
+	self clientVariables: anAnnouncement variables.
+
+	self reload
+]
+
 { #category : #initialization }
 CpServerApplication >> setUp [
 
@@ -166,7 +196,7 @@ CpServerApplication >> setUp [
 	It will be handled in CpServerApplication >> #clientLoaded"
 
 	self environment
-		when: CpClientReloaded send: #reload to: self ;
+		when: CpClientReloaded send: #reload: to: self ;
 		when: CpClientStopped send: #stop to: self.
 
 	"Ensure the receiver reacts to methods being changed on the server"

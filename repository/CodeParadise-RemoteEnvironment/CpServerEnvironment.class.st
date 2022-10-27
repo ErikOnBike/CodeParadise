@@ -447,7 +447,7 @@ CpServerEnvironment >> started: anAnnouncement [
 
 	self beLoaded.
 
-	loadedAnnouncer announce: (announcementClass app: anAnnouncement app environment: self)
+	loadedAnnouncer announce: (announcementClass variables: anAnnouncement variables environment: self)
 ]
 
 { #category : #support }
