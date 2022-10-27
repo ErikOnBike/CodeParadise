@@ -52,3 +52,9 @@ CpClientReady >> variables [
 
 	^ variables copy
 ]
+
+{ #category : #accessing }
+CpClientReady >> variables: aDictionary [ 
+
+	variables := aDictionary
+]
