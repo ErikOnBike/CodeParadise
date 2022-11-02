@@ -107,19 +107,7 @@ CpDevTools class >> shortcutApplications [
 { #category : #shortcuts }
 CpDevTools class >> shortcutOpen [ 
 
-	^ $p meta , $o meta
-]
-
-{ #category : #shortcuts }
-CpDevTools class >> shortcutReload [ 
-
-	^ $p meta , $r meta
-]
-
-{ #category : #shortcuts }
-CpDevTools class >> shortcutReset [ 
-
-	^ $p meta , $t meta
+	^ $o meta , $a meta
 ]
 
 { #category : #scripts }
@@ -200,7 +188,6 @@ CpDevTools class >> worldMenuCommandOn: aBuilder [
 		parent: menuId;
 		help: 'Clear the session for a web application, and reload its page';
 		order: 15;
-		keyText: (self keyTextFromShortcut: self shortcutReload);
 		icon: (self iconNamed: #smallUpdate);
 		action: self actionReload.
 		
@@ -210,7 +197,6 @@ CpDevTools class >> worldMenuCommandOn: aBuilder [
 		parent: menuId;
 		help: 'Reset the backend server and all web applications';
 		order: 20;
-		keyText: (self keyTextFromShortcut: self shortcutReset);
 		icon: (self iconNamed: #smallError);
 		action: self actionReset.		
 	
@@ -218,7 +204,6 @@ CpDevTools class >> worldMenuCommandOn: aBuilder [
 		parent: menuId;
 		help: 'Open an inspector on the web application instances';
 		order: 25;
-		keyText: (self keyTextFromShortcut: self shortcutApplications);
 		icon: (self iconNamed: #smallInspectIt);
 		action: self actionApplications
 ]
