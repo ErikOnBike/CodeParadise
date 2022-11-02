@@ -3,7 +3,8 @@
 CodeParadise is the name of a framework and future platform. CodeParadise as framework enables remote Smalltalk code execution in a Javascript environment. This means you can run Smalltalk inside the web browser and not be concerned with any Javascript. A regular (but tiny) Smalltalk image runs on [SqueakJS VM](https://squeak.js.org) and replaces the use of Javascript. This tiny image runs the same bytecode as a regular Pharo/Squeak/Cuis image, so no transpilation taking place. With some pre-installed Classes which wrap the browser DOM functionality, all DOM manipulation is done through Smalltalk code. Did I mention, no more use of Javascript ;-).
 
 A few online videos:
-* UK Smalltalk UG [demo](https://vimeo.com/457353130)
+* UK Smalltalk UG May 2022 [demo](https://vimeo.com/719355883) - CodeParadise used in Expressive Systems by [ObjectGuild](https://objectguild.com)
+* UK Smalltalk UG August 2020 [demo](https://vimeo.com/457353130) - CodeParadise
 * short introduction [video](https://youtu.be/qvY7R6te7go) (it is a little outdated)
 * first two components [link and button](https://youtu.be/nxQSlf4kFs8) - 2:18 minutes
 * animated [checkbox](https://youtu.be/-l0S03jZTtc) 25 seconds
@@ -54,11 +55,11 @@ Thanks to [Tim](https://github.com/macta) there is a menu 'Paradise' now in Phar
 If all went well you should be able to fire up a number of browser tabs/pages and start using the example applications. Profit warning: the examples are still very limited, but should allow some insight in what is possible and allow you to play with it yourself.
 
 The example applications can be reached using the following URLs:
+* Introduction Presentation [http://localhost:8080/static/app.html?presentation](http://localhost:8080/static/app.html?presentation)
 * DOM Examples [http://localhost:8080/static/app.html?DOM-Examples](http://localhost:8080/static/app.html?DOM-Examples)
 * Component Examples [http://localhost:8080/static/app.html?Component-Examples](http://localhost:8080/static/app.html?Component-Examples)
 * Counter Example [http://localhost:8080/static/app.html?counter](http://localhost:8080/static/app.html?counter)
 * Shoelace Examples [http://localhost:8080/static/app.html?Shoelace-Examples](http://localhost:8080/static/app.html?Shoelace-Examples)
-* Introduction Presentation [http://localhost:8080/static/app.html?presentation](http://localhost:8080/static/app.html?presentation)
 * Fomantic Examples [http://localhost:8080/static/app.html?Fomantic-Examples](http://localhost:8080/static/app.html?Fomantic-Examples) (no longer supported)
 
 ### <a name="manually">Manually starting and stopping</a>
