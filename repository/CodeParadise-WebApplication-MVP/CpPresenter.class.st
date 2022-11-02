@@ -42,6 +42,14 @@ Class {
 	#category : #'CodeParadise-WebApplication-MVP-Core'
 }
 
+{ #category : #evaluating }
+CpPresenter class >> cull: anObject [
+
+	"Assume I'm used in #usingPresenter: construct and simply answer myself"
+
+	^ self
+]
+
 { #category : #accessing }
 CpPresenter class >> defaultViewClass [
 
