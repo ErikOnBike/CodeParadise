@@ -38,6 +38,9 @@ CjsChart class >> loadLibrary [
 						datasets[i].data = data[i];
 					}
 				};
+				window.cjsSetChartType = function(element, type) {
+					element.__cjs_chart.config._config.type = type;
+				};
 				window.cjsUpdateChart = function(element) {
 					element.__cjs_chart.update();
 				};'
@@ -90,6 +93,14 @@ CjsChart >> labels: aCollection [
 	"Replace all labels with the specified labels (Collection of Strings)"
 
 	CpDomElement globalApply: #cjsSetChartLabels withArguments: { element . aCollection }
+]
+
+{ #category : #accessing }
+CjsChart >> type: aString [
+
+	"Set the type of chart"
+
+	CpDomElement globalApply: #cjsSetChartType withArguments: { element . aString }
 ]
 
 { #category : #updating }
