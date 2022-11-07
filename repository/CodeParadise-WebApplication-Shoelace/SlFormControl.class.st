@@ -86,6 +86,22 @@ SlFormControl >> clone [
 ]
 
 { #category : #accessing }
+SlFormControl >> defaultValue [
+
+	^ self propertyAt: #defaultValue
+]
+
+{ #category : #accessing }
+SlFormControl >> defaultValue: anObject [
+
+	"Set the receiver's default value.
+
+	The type is depending on the receiver. E.g. SlRange has Number, SlInput has String"
+
+	self propertyAt: #defaultValue put: anObject
+]
+
+{ #category : #accessing }
 SlFormControl >> disabled: aBoolean [
 
 	self propertyAt: #disabled put: aBoolean
