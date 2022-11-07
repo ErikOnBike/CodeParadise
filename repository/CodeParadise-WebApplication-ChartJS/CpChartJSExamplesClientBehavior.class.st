@@ -241,6 +241,82 @@ CpChartJSExamplesClientBehavior >> exampleLineChartRandom [
 ]
 
 { #category : #examples }
+CpChartJSExamplesClientBehavior >> exampleMultiRandom [
+
+	<example: 'Multi chart random' order: 0>
+
+	| outputElement chartElement chart dataBlock labelsBlock repeatBlock animationBlock |
+
+	"Clear content"
+	outputElement := self outputElement.
+	outputElement textContent: ''.
+
+	outputElement appendChild: (SlButtonGroup new
+		appendChild: ((SlButton label: 'Line') when: CpPrimaryClickEvent do: [ chart ifNotNil: [ chart type: #line ] ] ; yourself) ;
+		appendChild: ((SlButton label: 'Bar') when: CpPrimaryClickEvent do: [ chart ifNotNil: [ chart type: #bar ] ] ; yourself) ;
+		appendChild: ((SlButton label: 'Pie') when: CpPrimaryClickEvent do: [ chart ifNotNil: [ chart type: #pie ] ] ; yourself) ;
+		appendChild: ((SlButton label: 'Doughnut') when: CpPrimaryClickEvent do: [ chart ifNotNil: [ chart type: #doughnut ] ] ; yourself) ;
+		appendChild: ((SlButton label: 'Polar area') when: CpPrimaryClickEvent do: [ chart ifNotNil: [ chart type: #polarArea ] ] ; yourself) ;
+		appendChild: ((SlButton label: 'Radar') when: CpPrimaryClickEvent do: [ chart ifNotNil: [ chart type: #radar ] ] ; yourself) ;
+		yourself).
+
+	outputElement appendChild: (chartElement := CpHtmlElement newWithTag: #canvas).
+
+	outputElement appendChild: ((CpHtmlElement newWithTag: #p)
+		textContent: 'Switching between types (using the buttons at the top of the page) might leave some traces of other charts. The rings of the polar area and the radar for example remain visible in other charts once shown (in ChartJS v3.9.1)' ;
+		yourself).
+
+	dataBlock := [
+		| count data |
+		count := 9 atRandom + 3.	"Max 12 datapoints, because we use months as labels in our examples"
+		data := Array new: count.
+		1 to: count do: [ :index | data at: index put: 50 atRandom ].
+		data
+	].
+	labelsBlock := [ :size |
+		#('January' 'February' 'March' 'April' 'May' 'June' 'July' 'August' 'September' 'October' 'November' 'December') first: size ].
+ 
+	chart := CjsChart on: chartElement config: {
+		#type -> #doughnut.
+		#data -> {
+			#datasets -> {
+				{
+					#label -> 'Chart'.
+					#backgroundColor -> { '#8dd3c7' . '#ffffb3' . '#bebada' . '#fb8072' . '#80b1d3' . '#fdb462' . '#b3de69' . '#fccde5' . '#d9d9d9' . '#bc80bd' . '#ccebc5' . '#ffed6f' }.
+					#data -> { }
+				} asDictionary
+			}.
+			#labels -> { }
+		} asDictionary.
+		#options -> {
+			#responsive -> true
+		} asDictionary
+	} asDictionary.
+
+	animationBlock := [
+		"Check whether the chart is still visible (still attached to the output area)"
+		chartElement parent ifNotNil: [
+
+			| data |
+
+			data := dataBlock value.
+			chart updateData: { data } labels: (labelsBlock value: data size).
+
+			"Repeat the operation"
+			repeatBlock value ]
+	].
+
+	repeatBlock := [
+		(CpTransition onBlock: animationBlock)
+			duration: 0 ;	"Execute once"
+			startDelayedBy: 2000 ].
+
+	"Start repetition"
+	self showProgressRing: 2000.
+	repeatBlock value
+]
+
+{ #category : #examples }
 CpChartJSExamplesClientBehavior >> exampleStackedBarChartRandom [
 
 	<example: 'Bar chart stacked random' order: 40>
@@ -398,18 +474,23 @@ CpChartJSExamplesClientBehavior >> showIndex [
 				position: relative;
 				width: 100%;
 				height: 100%;
-				max-width: 40em;
-				max-height: 40em;
 				overflow: hidden;
+			}
+			#output canvas {
+				max-width: 40em;
+				max-height: 45em;
 			}
 			#output sl-progress-ring {
 				position: absolute;
-				left: calc(50% - 12em);
-				top: calc(50% - 12em);
+				left: 12em;
+				top: 12em;
 				width: 24em;
 				height: 24em;
 				--size: 24em;
 				--indicator-transition-duration: 0s;
+			}
+			#output p {
+				margin-top: 2em;
 			}
 			div.separator {
 				height: 1em;
