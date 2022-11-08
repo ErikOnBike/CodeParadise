@@ -40,7 +40,7 @@ BaselineOfCodeParadise >> baseline: spec [
 
 		"Groups"
 		spec 
-			group: 'default' with: #( 'Core' 'Shoelace' 'Fomantic' 'Presentation' 'Beach' 'Tests' );
+			group: 'default' with: #( 'Core' 'Shoelace' 'Fomantic' 'ChartJS' 'Presentation' 'Beach' 'Tests' );
 
 			group: 'Core' with: #( 'CodeParadise-WebApplication' );
 			group: 'Tests' with: #( 'CodeParadise-WebApplication-Tests' 'CodeParadise-RemoteEnvironment-Tests' 'CodeParadise-Beach-Tests' );
@@ -49,6 +49,7 @@ BaselineOfCodeParadise >> baseline: spec [
 
 			group: 'Shoelace' with: #( 'CodeParadise-WebApplication-Shoelace' );
 			group: 'Fomantic' with: #( 'CodeParadise-WebApplication-Fomantic' );
+			group: 'ChartJS' with: #( 'CodeParadise-WebApplication-CharJS' );
 			group: 'Presentation' with: #( 'CodeParadise-WebApplication-Presentation' );
 			group: 'Beach' with: #( 'CodeParadise-Beach' );
 
