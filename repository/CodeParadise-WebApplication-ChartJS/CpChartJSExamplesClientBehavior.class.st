@@ -155,6 +155,20 @@ CpChartJSExamplesClientBehavior >> exampleLineChart [
 	outputElement := self outputElement.
 	outputElement textContent: ''.
 
+	outputElement appendChild: ('Use the range selector below to set the line tension' inHtmlTag: #p).
+
+	outputElement appendChild: (SlRange new
+		styleAt: #width put: '30em' ;
+		min: 0 ;
+		max: 4 ;
+		step: 0.1 ;
+		when: SlChangeEvent do: [ :changeEvent |
+			chart ifNotNil: [
+				chart
+					propertyAt: #(data datasets 0 tension) put: (changeEvent target value) ;
+					update ] ] ;
+		yourself).
+
 	outputElement appendChild: (chartElement := CpHtmlElement newWithTag: #canvas).
  
 	chart := CjsChart on: chartElement config: {
@@ -262,9 +276,7 @@ CpChartJSExamplesClientBehavior >> exampleMultiRandom [
 
 	outputElement appendChild: (chartElement := CpHtmlElement newWithTag: #canvas).
 
-	outputElement appendChild: ((CpHtmlElement newWithTag: #p)
-		textContent: 'Switching between types (using the buttons at the top of the page) might leave some traces of other charts. The rings of the polar area and the radar for example remain visible in other charts once shown (in ChartJS v3.9.1)' ;
-		yourself).
+	outputElement appendChild: ('Switching between types (using the buttons at the top of the page) might leave some traces of other charts. The rings of the polar area and the radar for example remain visible in other charts once shown (in ChartJS v3.9.1)' inHtmlTag: #p).
 
 	dataBlock := [
 		| count data |
