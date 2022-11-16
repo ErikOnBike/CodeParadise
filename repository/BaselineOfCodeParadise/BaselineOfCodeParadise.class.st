@@ -49,7 +49,7 @@ BaselineOfCodeParadise >> baseline: spec [
 
 			group: 'Shoelace' with: #( 'CodeParadise-WebApplication-Shoelace' );
 			group: 'Fomantic' with: #( 'CodeParadise-WebApplication-Fomantic' );
-			group: 'ChartJS' with: #( 'CodeParadise-WebApplication-CharJS' );
+			group: 'ChartJS' with: #( 'CodeParadise-WebApplication-ChartJS' );
 			group: 'Presentation' with: #( 'CodeParadise-WebApplication-Presentation' );
 			group: 'Beach' with: #( 'CodeParadise-Beach' );
 
