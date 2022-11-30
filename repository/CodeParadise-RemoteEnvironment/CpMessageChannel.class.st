@@ -118,7 +118,7 @@ CpMessageChannel >> createMessageHandler [
 		"TODO: Fix this in tiny image. Probably better handling of Processes.
 		The current tiny image requires the Process to be terminated.
 		Otherwise it fails with a #cannotReturn:"
-		Processor activeProcess terminate ] forkAt: Processor highIOPriority
+		Processor activeProcess terminate ] forkAt: Processor highIOPriority named: 'CodeParadise Message Handler'
 
 ]
 

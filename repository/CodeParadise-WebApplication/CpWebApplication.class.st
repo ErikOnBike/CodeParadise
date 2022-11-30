@@ -95,10 +95,10 @@ CpWebApplication >> forceEnd [
 
 			"If not, end forcefully by faking a stop request"
 			self isEnded
-				ifFalse: [ environment fakeStop ] ] fork.
+				ifFalse: [ environment fakeStop ] ] forkAt: Processor systemBackgroundPriority named: 'Stopping server environment'.
 	] ifCurtailed: [
 
-		"End forecefully in case of errors"
+		"End forcefully in case of errors"
 		self isEnded
 			ifFalse: [ environment fakeStop ]
 	]
