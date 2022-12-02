@@ -62,7 +62,7 @@ CpEncodeDecodeObjectTest class >> compareMethodPropertiesFrom: aMethodProperties
 	aMethodProperties size = anotherMethodProperties size
 		ifFalse: [ ^ false ].
 
-	aMethodProperties pragmas doWithIndex: [ :eachPragma :index |
+	aMethodProperties pragmas withIndexDo: [ :eachPragma :index |
 		| otherPragma |
 		otherPragma := anotherMethodProperties pragmas at: index.
 		eachPragma selector = otherPragma selector
