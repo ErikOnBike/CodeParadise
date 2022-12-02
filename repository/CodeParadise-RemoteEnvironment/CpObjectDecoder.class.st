@@ -231,6 +231,40 @@ CpObjectDecoder >> decodeClassVariable [
 ]
 
 { #category : #decoding }
+CpObjectDecoder >> decodeCompiledBlock [
+
+	"Decode a CompiledBlock. It will have its outerCode set,
+	based on the current method being decoded (a CompiledBlock
+	should only be present in context of a CompiledMethod)."
+
+	| block header bytecodeSize initialPC endPC |
+
+	"Raise error if the receiver is not running in the ClientEnvironment"
+	CpClientEnvironment isRunning
+		ifFalse: [ ^ self error: 'ClientEnvironment sent CompiledBlock to ServerEnvironment' ].
+
+	"Read header and bytecode size"
+	header := self denormalizeHeader: self readUInt32.
+	bytecodeSize := self readLength.
+
+	"Create empty block instance"
+	block := CompiledBlock newMethod: bytecodeSize header: header.
+
+	"Add bytecode to the block"
+	initialPC := block initialPC.
+	endPC := block endPC.
+	initialPC to: endPC do: [ :byteIndex | block byteAt: byteIndex put: readStream next ].
+
+	"Add literals  (excl. outerCode which is positioned at index 'numLiterals')"
+	1 to: block numLiterals - 1 do: [ :index | block literalAt: index put: self decodeNext ].
+
+	"Add outerCode (which resides at index 'numLiterals')"
+	block outerCode: currentMethod.
+
+	^ block
+]
+
+{ #category : #decoding }
 CpObjectDecoder >> decodeCompiledMethod [
 
 	"Decode a CompiledMethod. Although it is not installed here, it will have its bound Class set
@@ -243,7 +277,7 @@ CpObjectDecoder >> decodeCompiledMethod [
 		ifFalse: [ ^ self error: 'ClientEnvironment sent CompiledMethod to ServerEnvironment' ].
 
 	"Read header and bytecode size"
-	header := self readUInt32.
+	header := self denormalizeHeader: self readUInt32.
 	bytecodeSize := self readLength.
 
 	"Create empty method instance"
@@ -418,6 +452,7 @@ CpObjectDecoder >> decodeNext [
 		decodeMessageSend
 		decodeMessage
 		decodePoint
+		decodeCompiledBlock
 	) at: type ifAbsent: [ self error: 'Unknown type in decode stream' ].
 
 	^ self perform: selector
@@ -471,6 +506,19 @@ CpObjectDecoder >> decodeSymbol [
 CpObjectDecoder >> decodeTrue [
 
 	^ true
+]
+
+{ #category : #accessing }
+CpObjectDecoder >> denormalizeHeader: header [
+
+	"De-normalize the header value of CompiledCode. (See comment of CpObjectEncoder >> #normalizeHeader:)
+
+	Implementation:
+	Reset the position of the sign flag, which is used to indicate secondary bytecode set being used."
+
+	^ (header bitAnd: 16r40000000) ~~ 0
+		ifTrue: [ (header bitAnd: 16r3fffffff) + SmallInteger minVal ]
+		ifFalse: [ header ]
 ]
 
 { #category : #reading }
