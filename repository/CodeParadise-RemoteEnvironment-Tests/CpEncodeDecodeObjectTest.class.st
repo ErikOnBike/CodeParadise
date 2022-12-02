@@ -231,6 +231,9 @@ CpEncodeDecodeObjectTest >> testFloat [
 		assert: (CpObjectDecoder on: (CpObjectEncoder new encodeFloat: Float negativeInfinity ; bytes)) decodeNext negative
 		description: 'Encode/decode Float negativeInfinity'.
 	self
+		assert: (CpObjectDecoder on: -123.456 cpEncoded) decodeNext = -123.456
+		description: 'Decode an encoded negative Float'.
+	self
 		assert: (CpObjectDecoder on: 1.23 cpEncoded) decodeNext = 1.23
 		description: 'Decode an encoded Float'
 ]
