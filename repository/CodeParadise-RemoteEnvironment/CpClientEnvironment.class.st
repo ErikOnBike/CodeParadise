@@ -412,15 +412,6 @@ CpClientEnvironment >> invalidSession [
 		reload
 ]
 
-{ #category : #logging }
-CpClientEnvironment >> log: aString [
-
-	"Log message on Transcript/console"
-
-	<primitive: 'primitiveEnvironmentLog:' module: 'CpSystemPlugin'>
-	^ self
-]
-
 { #category : #accessing }
 CpClientEnvironment >> objectRegistry [
 
