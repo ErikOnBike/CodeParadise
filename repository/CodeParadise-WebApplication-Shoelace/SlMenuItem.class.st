@@ -13,6 +13,15 @@ SlMenuItem class >> value: aSymbol label: aStringOrElement [
 		yourself
 ]
 
+{ #category : #'instance creation' }
+SlMenuItem class >> value: aSymbol labelText: aString [
+
+	^ self new
+		value: aSymbol ;
+		labelText: aString ;
+		yourself
+]
+
 { #category : #accessing }
 SlMenuItem >> beChecked [
 
