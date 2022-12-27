@@ -35,9 +35,6 @@ BaselineOfCodeParadise >> baseline: spec [
 
 			package: 'CodeParadise-Beach-Tests' with: [ spec requires: #('CodeParadise-Beach') ].
 
-		"Pharo 9.x specific"
-		spec for: #'pharo9.x' do: [ spec package: 'CodeParadise-RemoteEnvironment-Pharo9' ].
-
 		"Groups"
 		spec 
 			group: 'default' with: #( 'Core' 'Shoelace' 'Fomantic' 'ChartJS' 'Presentation' 'Beach' 'Tests' );
@@ -53,6 +50,11 @@ BaselineOfCodeParadise >> baseline: spec [
 			group: 'Presentation' with: #( 'CodeParadise-WebApplication-Presentation' );
 			group: 'Beach' with: #( 'CodeParadise-Beach' );
 
-			group: 'CI' with: #( 'Tests' ).
-	 ]
+			group: 'CI' with: #( 'Tests' ) ].
+
+	"Pharo 9.x, 10.x and 11.x specific"
+	spec for: #(#'pharo9.x' #'pharo10.x' #'pharo11.x') do: [
+		spec
+			package: 'CodeParadise-RemoteEnvironment-Pharo9' ;
+			package: 'CodeParadise-RemoteEnvironment' with: [ spec requires: 'CodeParadise-RemoteEnvironment-Pharo9' ] ]
 ]
