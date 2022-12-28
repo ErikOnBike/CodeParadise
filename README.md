@@ -13,38 +13,24 @@ See [introduction](introduction.md) for a more thorough explanation of CodeParad
 
 ## Getting started
 
-Currently CodeParadise can only be used in a Pharo7 or Pharo8 image (**Pharo9 and up can't be used at the moment, see compatibility info below**). In the future other platforms like Cuis will probably be supported as well.
+Currently CodeParadise can only be used in a Pharo environment. In the future other platforms like Cuis might be supported as well.
 
 Getting started requires a few simple steps:
-* Load ClientEnvironment consisting of SqueakJS VM and tiny Smalltalk image
-* Load ServerEnvironment into regular Pharo image
+* Load CodeParadise
 * Start HTTP and WebSocket server
 * Start your browsers!
 
-### Load ClientEnvironment
+### Load CodeParadise
 
-Install the ClientEnvironment through Metacello:
-
-```Smalltalk
-Metacello new
-  repository: 'github://ErikOnBike/CP-ClientEnvironment';
-  baseline: 'CpClientEnvironment';
-  load.
-```
-
-**Tip**: Do not forget to pull this repo regularly, since some code changes will need to be made on the ClientEnvironment as well.
-
-### Load ServerEnvironment
-
-Load the ServerEnvironment in the same image as the ClientEnvironment.
-
-Loading the ServerEnvironment can be done using:
+Loading CodeParadise can be done using:
 ```Smalltalk
 Metacello new
   repository: 'github://ErikOnBike/CodeParadise';
   baseline: 'CodeParadise';
   load.
 ```
+
+Depending on your image version it should also load the ClientEnvironment. If you run on a Pharo 8 environment, it should load the "pharo8" branch and otherwise just the "main" branch.
 
 ### Start HTTP and WebSocket Server
 
@@ -145,6 +131,6 @@ For the mobile applications for example, the following could be done:
 
 ## Compatibility
 
-The means of installing (Compiled) code in the ClientEnvironment is by sending the relevant bytecode. The current implementation assumes that both the ServerEnvironment and the ClientEnvironment share the same bytecode set. Since the ClientEnvironment is running on SqueakJS VM, only bytecode sets supported by SqueakJS VM are usable. At the moment Pharo9 and up can't be used as a development platform, because it uses the newer Sista bytecode set. Support for Sista in SqueakJS VM has been implemented, but is not tested with CodeParadise yet and requires a new tiny image to be created.
+The means of installing (Compiled) code in the ClientEnvironment is by sending the relevant bytecode. The current implementation assumes that both the ServerEnvironment and the ClientEnvironment share the same bytecode set. Since the ClientEnvironment is running on SqueakJS VM, only bytecode sets supported by SqueakJS VM are usable.
 
 There is no explicit list of supported browsers at the moment. Please use a recent browser version. If you have trouble using (the pre-Chrome based) Microsoft Edge, please consider switching to Chrome, Firefox or one of the derivatives.
