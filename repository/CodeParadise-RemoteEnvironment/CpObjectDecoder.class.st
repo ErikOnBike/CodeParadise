@@ -301,6 +301,22 @@ CpObjectDecoder >> decodeCompiledMethod [
 ]
 
 { #category : #decoding }
+CpObjectDecoder >> decodeConstantBlockClosure [
+
+	| numArgs literal |
+
+	"Raise error if the receiver is not running in the ClientEnvironment"
+	CpClientEnvironment isRunning
+		ifFalse: [ ^ self error: 'ClientEnvironment sent CompiledBlock to ServerEnvironment' ].
+
+	"Read number of arguments and literal"
+	numArgs := self readLength.
+	literal := self decodeNext.
+
+	^ ConstantBlockClosure numArgs: numArgs literal: literal
+]
+
+{ #category : #decoding }
 CpObjectDecoder >> decodeDictionary [
 
 	^ self readArray asDictionary

@@ -13,7 +13,6 @@ BaselineOfCodeParadise >> baseline: spec [
 
 		"Dependencies"
 		spec
-			baseline: 'CpClientEnvironment' with: [ spec repository: 'github://ErikOnBike/CP-ClientEnvironment' ];
 			baseline: 'ZincHTTPComponents' with: [ spec loads: #('Core' 'WebSocket') ; repository: 'github://svenvc/zinc' ].
 
 		"Packages"
@@ -52,9 +51,23 @@ BaselineOfCodeParadise >> baseline: spec [
 
 			group: 'CI' with: #( 'Tests' ) ].
 
-	"Pharo 9.x, 10.x and 11.x specific"
+	"Pharo 8.x specific"
+	spec for: #(#'pharo8.x') do: [
+		spec
+			"For Pharo 8 we need a Client Environment with a tiny image based on older pre-Sista bytecode set"
+			baseline: 'CpClientEnvironment' with: [ spec repository: 'github://ErikOnBike/CP-ClientEnvironment:pharo8' ] ].
+
+	"Pharo 9.x (and upward) specific"
 	spec for: #(#'pharo9.x' #'pharo10.x' #'pharo11.x') do: [
 		spec
+			"For Pharo 9 (and above) we need a Client Environment with a tiny image based on the newer Sista bytecode set"
+			baseline: 'CpClientEnvironment' with: [ spec repository: 'github://ErikOnBike/CP-ClientEnvironment' ] ;
 			package: 'CodeParadise-RemoteEnvironment-Pharo9' ;
-			package: 'CodeParadise-RemoteEnvironment' with: [ spec requires: 'CodeParadise-RemoteEnvironment-Pharo9' ] ]
+			package: 'CodeParadise-RemoteEnvironment' with: [ spec requires: 'CodeParadise-RemoteEnvironment-Pharo9' ] ].
+
+	"Pharo 11.x (and upward) specific"
+	spec for: #(#'pharo11.x') do: [
+		spec
+			package: 'CodeParadise-RemoteEnvironment-Pharo11' ;
+			package: 'CodeParadise-RemoteEnvironment' with: [ spec requires: 'CodeParadise-RemoteEnvironment-Pharo11' ] ].
 ]

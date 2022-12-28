@@ -289,6 +289,19 @@ CpObjectEncoder >> encodeCompiledMethod: aCompiledMethod [
 ]
 
 { #category : #encoding }
+CpObjectEncoder >> encodeConstantBlockClosure: aConstantBlockClosure [
+
+	"Encode aConstantBlockClosure using its number of arguments
+	and the literal representing its constant value"
+
+	writeStream nextPut: 31.
+
+	self writeLength: aConstantBlockClosure numArgs.
+
+	aConstantBlockClosure literal cpEncodeWith: self
+]
+
+{ #category : #encoding }
 CpObjectEncoder >> encodeDictionary: aDictionary [
 
 	"Encode the Dictionary as an Array of Associations"
