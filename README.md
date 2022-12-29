@@ -1,10 +1,12 @@
 # CodeParadise
 
-CodeParadise is the name of a framework and future platform. CodeParadise as framework enables remote Smalltalk code execution in a Javascript environment. This means you can run Smalltalk inside the web browser and not be concerned with any Javascript. A regular (but tiny) Smalltalk image runs on [SqueakJS VM](https://squeak.js.org) and replaces the use of Javascript. This tiny image runs the same bytecode as a regular Pharo/Squeak/Cuis image, so no transpilation taking place. With some pre-installed Classes which wrap the browser DOM functionality, all DOM manipulation is done through Smalltalk code. Did I mention, no more use of Javascript ;-).
+CodeParadise is the name of a framework and future platform. CodeParadise as framework allows developing web applications in Smalltalk using WebComponents. WebComponents are written using HTML/CSS and Smalltalk. A web application has a server side and a client side environment which interact using websockets. Applications can be built using a [Model View Presenter](docs/MVP.md) design.
+
+The framework enables remote Smalltalk code execution in a Javascript environment. This means you can run Smalltalk inside the web browser and not be concerned with any Javascript. A regular (but tiny) Smalltalk image runs on [SqueakJS VM](https://squeak.js.org) and replaces the use of Javascript. This tiny image runs the same bytecode as a regular Pharo/Squeak/Cuis image, so no transpilation taking place. With some pre-installed Classes which wrap the browser DOM functionality, all DOM manipulation is done through Smalltalk code. Did I mention, no more use of Javascript ;-). For more detail read the [implementation docs](docs/Implementation.md).
 
 A few online videos:
-* UK Smalltalk UG May 2022 [demo](https://vimeo.com/719355883) - CodeParadise used in Expressive Systems by [Object Guild](https://objectguild.com)
 * UK Smalltalk UG August 2020 [demo](https://vimeo.com/457353130) - CodeParadise
+* UK Smalltalk UG May 2022 [demo](https://vimeo.com/719355883) - CodeParadise used in Expressive Systems by [Object Guild](https://objectguild.com)
 * short introduction [video](https://youtu.be/qvY7R6te7go) (it is a little outdated)
 * first two components [link and button](https://youtu.be/nxQSlf4kFs8) - 2:18 minutes
 * animated [checkbox](https://youtu.be/-l0S03jZTtc) 25 seconds
@@ -30,11 +32,11 @@ Metacello new
   load.
 ```
 
-Depending on your image version it should also load the ClientEnvironment. If you run on a Pharo 8 environment, it should load the "pharo8" branch and otherwise just the "main" branch.
+Depending on your image version it should also load the [ClientEnvironment](https://github.com/ErikOnBike/CP-ClientEnvironment). If you run on a Pharo 8 environment, it should load the "pharo8" branch and otherwise just the "master" branch.
 
 ### Start HTTP and WebSocket Server
 
-Thanks to [Tim](https://github.com/macta) there is a menu 'Paradise' now in Pharo's menubar which allows starting the environment. First select 'Reset' from the 'Paradise' menu and then open one of the existing applications through 'Open'. Some more explanation follows for [manually starting and stopping servers](#manually) and applications.
+Thanks to [Tim](https://github.com/macta) there is a menu 'Paradise' now in Pharo's menubar which allows starting the environment. First select 'Reset' from the 'Paradise' menu and then open one of the existing applications through 'Open'. Some more explanation follows below for [manually starting and stopping servers](#manually) and applications.
 
 ### Start your browsers
 
@@ -78,7 +80,7 @@ CpWebApplicationServerStarter startUsingConfig: {
 "CpApplicationServer newOnPort: 8080 path: '/io'."
 ```
 
-The WebSocket server is listening on path `/io` by default (see example above). If you change this, please also update `app.html` in which the path is hardcoded. 
+The WebSocket server is listening on path `/io` by default (see example above). If you change this, please also update `app.html` (in the client environment) in which the path is hardcoded. 
 
 When you are done or want to reset the environment, the following code can be executed:
 ```Smalltalk
@@ -123,7 +125,7 @@ The remote code execution capabilities of CodeParadise can be used to create Web
 
 To create WebApplications a small part of MVP (Model View Presenter) is implemented in the Counter Example. It is based on [WebComponents](https://developer.mozilla.org/en-US/docs/Web/Web_Components) and more specifically it uses the HTML templates technology. The idea is to create a full set of components/widgets to create full featured web applications. All under the control of a Smalltalk application.
 
-For the mobile applications for example, the following could be done:
+For mobile applications for example, the following could be done:
 * load a ClientEnvironment with all application code (can be done dynamically and include all kinds of tests)
 * execute code to remove the ClientEnvironment's Communicator (disconnecting it from the ServerEnvironment) and test code
 * save the ClientEnvironment image (currently not working because of tiny image format, but seems fixable ;-)
@@ -131,6 +133,6 @@ For the mobile applications for example, the following could be done:
 
 ## Compatibility
 
-The means of installing (Compiled) code in the ClientEnvironment is by sending the relevant bytecode. The current implementation assumes that both the ServerEnvironment and the ClientEnvironment share the same bytecode set. Since the ClientEnvironment is running on SqueakJS VM, only bytecode sets supported by SqueakJS VM are usable.
+The means of installing (Compiled) code in the ClientEnvironment is by sending the relevant bytecode. The current implementation assumes that both the ServerEnvironment and the ClientEnvironment share the same bytecode set. Since the ClientEnvironment is running on SqueakJS VM, only bytecode sets supported by SqueakJS VM are usable. Currently Pharo 8, 9 and 10 are supported. Pharo 11 currently has some issues and freezes up when restarting an image.
 
 There is no explicit list of supported browsers at the moment. Please use a recent browser version. If you have trouble using (the pre-Chrome based) Microsoft Edge, please consider switching to Chrome, Firefox or one of the derivatives.
