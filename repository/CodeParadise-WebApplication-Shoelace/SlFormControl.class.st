@@ -68,7 +68,7 @@ SlFormControl >> blur [
 
 	"Removes focus from the input."
 
-	self apply: #blur withArguments: #()
+	self removeFocus
 ]
 
 { #category : #accessing }
