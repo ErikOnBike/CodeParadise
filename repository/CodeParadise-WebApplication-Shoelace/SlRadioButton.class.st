@@ -60,12 +60,6 @@ SlRadioButton >> click [
 	self apply: #click withArguments: #()
 ]
 
-{ #category : #testing }
-SlRadioButton >> hasFocus [
-
-	^ self = CpHtmlElement activeElement
-]
-
 { #category : #initialization }
 SlRadioButton >> initialize [
 
