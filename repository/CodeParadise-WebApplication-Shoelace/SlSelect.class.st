@@ -303,3 +303,19 @@ SlSelect >> suffix: anElement [
 
 	self replaceAllChildrenWith: anElement atSlotNamed: #suffix
 ]
+
+{ #category : #accessing }
+SlSelect >> value [
+
+	self flag: #TODO. "Temporary fix for values with spaces in them (replace by non-breakable space)."
+
+	^ super value replaceAll: (Character value: 160) with: Character space
+]
+
+{ #category : #accessing }
+SlSelect >> value: aString [
+
+	self flag: #TODO. "Temporary fix for values with spaces in them (replace by non-breakable space)."
+
+	^ super value: (aString asString replaceAll: Character space with: (Character value: 160))
+]
