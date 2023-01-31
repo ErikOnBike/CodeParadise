@@ -388,30 +388,30 @@ CpShoelaceExamplesClientBehavior >> exampleSelect [
 	outputElement
 		appendChild: ('Regular select' inHtmlTag: #p) ;
 		appendChild: (SlSelect new
-			appendChild: (SlMenuItem value: #first labelText: 'First' ) ;
-			appendChild: (SlMenuItem value: #second labelText: 'Second' ) ;
-			appendChild: (SlMenuItem value: #third labelText: 'Third' ) ;
+			appendChild: (SlOption value: #first labelText: 'First' ) ;
+			appendChild: (SlOption value: #second labelText: 'Second' ) ;
+			appendChild: (SlOption value: #third labelText: 'Third' ) ;
 			yourself) ;
 		appendChild: ('Multiple select' inHtmlTag: #p) ;
 		appendChild: (SlSelect new
 			beMultiple ;
-			appendChild: (SlMenuItem value: #first labelText: 'First' ) ;
-			appendChild: (SlMenuItem value: #second labelText: 'Second' ) ;
-			appendChild: (SlMenuItem value: #third labelText: 'Third' ) ;
+			appendChild: (SlOption value: #first labelText: 'First' ) ;
+			appendChild: (SlOption value: #second labelText: 'Second' ) ;
+			appendChild: (SlOption value: #third labelText: 'Third' ) ;
 			yourself) ;
 		appendChild: ('Disabled select' inHtmlTag: #p) ;
 		appendChild: (SlSelect new
 			beDisabled ;
-			appendChild: (SlMenuItem value: #first labelText: 'First' ) ;
-			appendChild: (SlMenuItem value: #second labelText: 'Second' ) ;
-			appendChild: (SlMenuItem value: #third labelText: 'Third' ) ;
+			appendChild: (SlOption value: #first labelText: 'First' ) ;
+			appendChild: (SlOption value: #second labelText: 'Second' ) ;
+			appendChild: (SlOption value: #third labelText: 'Third' ) ;
 			yourself) ;
 		appendChild: ('Pilled select' inHtmlTag: #p) ;
 		appendChild: (SlSelect new
 			bePill ;
-			appendChild: (SlMenuItem value: #first labelText: 'First' ) ;
-			appendChild: (SlMenuItem value: #second labelText: 'Second' ) ;
-			appendChild: (SlMenuItem value: #third labelText: 'Third' ) ;
+			appendChild: (SlOption value: #first labelText: 'First' ) ;
+			appendChild: (SlOption value: #second labelText: 'Second' ) ;
+			appendChild: (SlOption value: #third labelText: 'Third' ) ;
 			yourself)
 ]
 
