@@ -166,6 +166,8 @@ CpServerApplication >> release [
 		environment release.
 		environment := nil ].
 
+	clientVariables := nil.
+
 	super release
 ]
 
