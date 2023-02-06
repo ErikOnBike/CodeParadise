@@ -174,22 +174,31 @@ CpTransition class >> performTransitions [
 
 	"Handle 'ticking' all transitions of the receiver"
 
-	| currentTick |
+	| currentTick finishedTransitions index |
+
+	Transitions ifEmpty: [ ^ self ].
 
 	currentTick := self tickCount.
 
-	"Handle all transitions, but only keep the ones needing future handling"
-	Transitions := Transitions select: [ :each |
-
+	"Handle all transitions keeping track which have finished"
+	finishedTransitions := Transitions select: [ :each |
 		each startTick
 			ifNotNil: [ :startTick |
 				startTick <= currentTick
 					ifTrue: [
 						each handleTick: currentTick - startTick.
-						each startTick notNil "remove transition if finished" ]
-					ifFalse: [ true "keep transition because it runs in the future" ] ]
-			ifNil: [ false "remove transition because it has no start time" ] ]
+						each startTick isNil "remove transition if finished" ]
+					ifFalse: [ false "keep transition because it runs in the future" ] ]
+			ifNil: [ true "remove transition because it has no start time" ] ].
 
+	"Remove all transitions which have finished.
+	Use a reverse lookup for performance (typically iterating over few items)."
+	index := Transitions size.
+	finishedTransitions reverseDo: [ :each |
+		(Transitions lastIndexOf: each startingAt: index ifAbsent: [ nil ])
+			ifNotNil: [ :foundIndex |
+				Transitions removeAt: foundIndex.
+				index := foundIndex ] ]
 ]
 
 { #category : #'class initialization' }
