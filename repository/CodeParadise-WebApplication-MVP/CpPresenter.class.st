@@ -266,8 +266,12 @@ CpPresenter >> destroy [
 
 	self model: nil.
 
+	"Remove presenter from the application and also remove its subscriptions"
 	application
-		ifNotNil: [ application removePresenter: self ].
+		ifNotNil: [
+			application
+				unsubscribe: self ;
+				removePresenter: self ].
 
 	self hasParent
 		ifTrue: [ self parent removeChildPresenter: self ].
