@@ -186,7 +186,7 @@ CpIntroductionPresentationWebApplication >> createModelClassSlide [
 					yourself) ;
 				addBullet: (CpDemoApplicationCodeContent new
 					code: ('self presentation currentSlide content
-	addBullet: (CpTextContent text: ''Added dynamically'')' replaceAll: Character cr with: Character lf) ;
+	addBullet: (CpTextContent text: ''Added dynamically'')' copyReplaceAll: String cr with: String lf) ;
 					yourself) ;
 				yourself) ;
 			yourself) ;
