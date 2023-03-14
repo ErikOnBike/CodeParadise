@@ -174,7 +174,7 @@ CpTransition class >> performTransitions [
 
 	"Handle 'ticking' all transitions of the receiver"
 
-	| currentTick finishedTransitions index |
+	| currentTick finishedTransitions |
 
 	Transitions ifEmpty: [ ^ self ].
 
@@ -191,14 +191,7 @@ CpTransition class >> performTransitions [
 					ifFalse: [ false "keep transition because it runs in the future" ] ]
 			ifNil: [ true "remove transition because it has no start time" ] ].
 
-	"Remove all transitions which have finished.
-	Use a reverse lookup for performance (typically iterating over few items)."
-	index := Transitions size.
-	finishedTransitions reverseDo: [ :each |
-		(Transitions lastIndexOf: each startingAt: index ifAbsent: [ nil ])
-			ifNotNil: [ :foundIndex |
-				Transitions removeAt: foundIndex.
-				index := foundIndex ] ]
+	self unregisterFinishedTransitions: finishedTransitions startingFrom: Transitions size
 ]
 
 { #category : #'class initialization' }
@@ -234,6 +227,26 @@ CpTransition class >> tickCount [
 	<primitive: 'primitiveTransitionTickCount' module: 'CpDOMPlugin'>
 	self primitiveFailed
 
+]
+
+{ #category : #'processing - private' }
+CpTransition class >> unregisterFinishedTransitions: finishedTransitions startingFrom: startIndex [
+	"Remove all transitions which have finished.
+	Use a reverse lookup for performance (typically iterating over few items)."
+
+	| index currentTransitions |
+	index := startIndex.
+
+	"For avoiding 'Transitions' class variable captured as nil in reverseDo: block. (Bug in SqueakJS?)"
+	currentTransitions := Transitions.
+
+	finishedTransitions reverseDo: [ :each |
+		(currentTransitions
+			 lastIndexOf: each
+			 startingAt: index
+			 ifAbsent: [ nil ]) ifNotNil: [ :foundIndex |
+			currentTransitions removeAt: foundIndex.
+			index := foundIndex - 1 ] ]
 ]
 
 { #category : #'accessing - private' }
