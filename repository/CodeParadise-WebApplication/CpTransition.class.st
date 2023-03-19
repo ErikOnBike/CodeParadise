@@ -198,7 +198,7 @@ CpTransition class >> performTransitions [
 		(Transitions lastIndexOf: each startingAt: index ifAbsent: [ nil ])
 			ifNotNil: [ :foundIndex |
 				Transitions removeAt: foundIndex.
-				index := foundIndex ] ]
+				index := foundIndex min: Transitions size ] ]
 ]
 
 { #category : #'class initialization' }
