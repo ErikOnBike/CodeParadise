@@ -94,6 +94,15 @@ CpObjectDecoder >> basicReadStringWithLength: anInteger usingTable: aCollection 
 	^ aCollection add: string
 ]
 
+{ #category : #accessing }
+CpObjectDecoder >> cacheString: aString [
+
+	"Add the specified String to the receiver's cache (String table)"
+
+	(stringTable ifNil: [ stringTable := OrderedCollection new ])
+		addIfNotPresent: aString
+]
+
 { #category : #decoding }
 CpObjectDecoder >> decodeAdditionalMethodState [
 

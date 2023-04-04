@@ -274,6 +274,7 @@ CpServerEnvironment >> handleMessageReceived: aByteArray [
 	| decoder |
 
 	decoder := CpObjectDecoder on: aByteArray.
+	decoder cacheString: self id.
 
 	[ decoder hasMoreData ] whileTrue: [
 		self handleClientAnnouncement: decoder decodeNext ]
