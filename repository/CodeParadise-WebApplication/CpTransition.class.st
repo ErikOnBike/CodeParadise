@@ -245,7 +245,7 @@ CpTransition class >> unregisterFinishedTransitions: finishedTransitions [
  		(currentTransitions lastIndexOf: each startingAt: index ifAbsent: [ nil ])
 			ifNotNil: [ :foundIndex |
  				currentTransitions removeAt: foundIndex.
- 				index := foundIndex min: currentTransitions size ] ]
+ 				index := foundIndex - 1 min: currentTransitions size ] ]
 ]
 
 { #category : #'accessing - private' }
