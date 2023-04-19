@@ -141,7 +141,7 @@ CpObjectDecoder >> decodeAnnouncement [
 	instVars := self readArray.
 
 	"Instanciate new announcement"
-	announcement := (Smalltalk classNamed: className) new.
+	announcement := (Smalltalk classNamed: className) basicNew.
 	self class putInstVars: instVars in: announcement.
 
 	^ announcement
