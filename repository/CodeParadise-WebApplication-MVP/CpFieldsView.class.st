@@ -1,3 +1,24 @@
+"
+I am a base class for Views which have input fields. I live in the browser.
+I provide some convenience methods to allow updates to fields to be handled
+with a minimal effort.
+
+I support updates at key stroke level as well as 'commit' level, in which case
+the entry field only changes when losing focus or pressing 'enter' key explicitly.
+For updates on key strokes I apply a debouncing strategy. This prevents (too) many
+announcements to be generated and send to the Presenter (which lives on the server).
+Every subclass can specify how long a debounce period is used. By default (see
+#debounceTime) this is 3 seconds. During this debounce period, changes are not send.
+When the debounce period ends, the latest change value is announced to the server.
+If during the debounce period a 'commit' level update takes place, the change IS
+announced directly (without delay) and the debounce is disgarded.
+
+A subclass can choose to not use debouncing by either setting the debounceTime
+to 0 or using the direct update method #field:changedTo:. To set a debounce time
+on a field basis (different debounce times per input field) implement the class
+method #debounceTimeForField:.
+
+"
 Class {
 	#name : #CpFieldsView,
 	#superclass : #CpView,
@@ -37,7 +58,7 @@ CpFieldsView >> field: aSymbol changedTo: anObject [
 
 	"Announce the field with the specified name has changed to the specified value"
 
-	self serverAnnounce: (CpFieldChanged field: aSymbol value: anObject)
+	self serverAnnounce: (CpFieldChanged id: aSymbol value: anObject)
 ]
 
 { #category : #accessing }
