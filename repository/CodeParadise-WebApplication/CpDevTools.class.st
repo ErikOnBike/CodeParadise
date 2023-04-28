@@ -47,12 +47,6 @@ CpDevTools class >> handleClientError: aClientError for: aServerEnvironment [
 	{ 'An error occurred in the Client Environment' . aClientError . aServerEnvironment } inspect
 ]
 
-{ #category : #shortcuts }
-CpDevTools class >> keyTextFromShortcut: aShortcut [
-
-	^ ', ' join: (aShortcut sequence collect: [ :each | each character asString ])
-]
-
 { #category : #scripts }
 CpDevTools class >> open [
 	"Open a Web Browser on a selected application"
@@ -96,18 +90,6 @@ CpDevTools class >> restart [
 	<script>
 
 	self stop; start
-]
-
-{ #category : #shortcuts }
-CpDevTools class >> shortcutApplications [ 
-
-	^ $p meta , $i meta
-]
-
-{ #category : #shortcuts }
-CpDevTools class >> shortcutOpen [ 
-
-	^ $o meta , $a meta
 ]
 
 { #category : #scripts }
@@ -180,7 +162,6 @@ CpDevTools class >> worldMenuCommandOn: aBuilder [
 		parent: menuId;
 		help: 'Open a web browser on a running application';
 		order: 10;
-		keyText: (self keyTextFromShortcut: self shortcutOpen);
 		icon: (self iconNamed: #smallOpen);
 		action: self actionOpen.
 		
