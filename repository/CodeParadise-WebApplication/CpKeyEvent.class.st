@@ -11,6 +11,334 @@ Class {
 	#category : #'CodeParadise-WebApplication-Events'
 }
 
+{ #category : #'navigation keys' }
+CpKeyEvent class >> arrowDown [
+
+	"Answer a ConditionalEvent for the receiver on the key defined by the selector"
+
+	^ self createConditionalEvent
+]
+
+{ #category : #'navigation keys' }
+CpKeyEvent class >> arrowLeft [
+
+	"Answer a ConditionalEvent for the receiver on the key defined by the selector"
+
+	^ self createConditionalEvent
+]
+
+{ #category : #'navigation keys' }
+CpKeyEvent class >> arrowRight [
+
+	"Answer a ConditionalEvent for the receiver on the key defined by the selector"
+
+	^ self createConditionalEvent
+]
+
+{ #category : #'navigation keys' }
+CpKeyEvent class >> arrowUp [
+
+	"Answer a ConditionalEvent for the receiver on the key defined by the selector"
+
+	^ self createConditionalEvent
+]
+
+{ #category : #'audio keys' }
+CpKeyEvent class >> audioVolumeDown [
+
+	"Answer a ConditionalEvent for the receiver on the key defined by the selector"
+
+	^ self createConditionalEvent
+]
+
+{ #category : #'audio keys' }
+CpKeyEvent class >> audioVolumeMute [
+
+	"Answer a ConditionalEvent for the receiver on the key defined by the selector"
+
+	^ self createConditionalEvent
+]
+
+{ #category : #'audio keys' }
+CpKeyEvent class >> audioVolumeUp [
+
+	"Answer a ConditionalEvent for the receiver on the key defined by the selector"
+
+	^ self createConditionalEvent
+]
+
+{ #category : #'editing keys' }
+CpKeyEvent class >> backspace [
+
+	"Answer a ConditionalEvent for the receiver on the key defined by the selector"
+
+	^ self createConditionalEvent
+]
+
+{ #category : #'editing keys' }
+CpKeyEvent class >> clear [
+
+	"Answer a ConditionalEvent for the receiver on the key defined by the selector"
+
+	^ self createConditionalEvent
+]
+
+{ #category : #'ui keys' }
+CpKeyEvent class >> contextMenu [
+
+	"Answer a ConditionalEvent for the receiver on the key defined by the selector"
+
+	^ self createConditionalEvent
+]
+
+{ #category : #private }
+CpKeyEvent class >> createConditionalEvent [
+
+	"Answer a ConditionalEvent for the receiver on the key defined by the calling method (selector)"
+
+	^ self & (CpKeyEventCondition key: thisContext sender method selector asString capitalized)
+]
+
+{ #category : #'editing keys' }
+CpKeyEvent class >> delete [
+
+	"Answer a ConditionalEvent for the receiver on the key defined by the selector"
+
+	^ self createConditionalEvent
+]
+
+{ #category : #'navigation keys' }
+CpKeyEvent class >> end [
+
+	"Answer a ConditionalEvent for the receiver on the key defined by the selector"
+
+	^ self createConditionalEvent
+]
+
+{ #category : #'whitespace keys' }
+CpKeyEvent class >> enter [
+
+	"Answer a ConditionalEvent for the receiver on the key defined by the selector"
+
+	^ self createConditionalEvent
+]
+
+{ #category : #'ui keys' }
+CpKeyEvent class >> escape [
+
+	"Answer a ConditionalEvent for the receiver on the key defined by the selector"
+
+	^ self createConditionalEvent
+]
+
+{ #category : #'function keys' }
+CpKeyEvent class >> f1 [
+
+	"Answer a ConditionalEvent for the receiver on the key defined by the selector"
+
+	^ self createConditionalEvent
+]
+
+{ #category : #'function keys' }
+CpKeyEvent class >> f10 [
+
+	"Answer a ConditionalEvent for the receiver on the key defined by the selector"
+
+	^ self createConditionalEvent
+]
+
+{ #category : #'function keys' }
+CpKeyEvent class >> f11 [
+
+	"Answer a ConditionalEvent for the receiver on the key defined by the selector"
+
+	^ self createConditionalEvent
+]
+
+{ #category : #'function keys' }
+CpKeyEvent class >> f12 [
+
+	"Answer a ConditionalEvent for the receiver on the key defined by the selector"
+
+	^ self createConditionalEvent
+]
+
+{ #category : #'function keys' }
+CpKeyEvent class >> f13 [
+
+	"Answer a ConditionalEvent for the receiver on the key defined by the selector"
+
+	^ self createConditionalEvent
+]
+
+{ #category : #'function keys' }
+CpKeyEvent class >> f14 [
+
+	"Answer a ConditionalEvent for the receiver on the key defined by the selector"
+
+	^ self createConditionalEvent
+]
+
+{ #category : #'function keys' }
+CpKeyEvent class >> f15 [
+
+	"Answer a ConditionalEvent for the receiver on the key defined by the selector"
+
+	^ self createConditionalEvent
+]
+
+{ #category : #'function keys' }
+CpKeyEvent class >> f16 [
+
+	"Answer a ConditionalEvent for the receiver on the key defined by the selector"
+
+	^ self createConditionalEvent
+]
+
+{ #category : #'function keys' }
+CpKeyEvent class >> f17 [
+
+	"Answer a ConditionalEvent for the receiver on the key defined by the selector"
+
+	^ self createConditionalEvent
+]
+
+{ #category : #'function keys' }
+CpKeyEvent class >> f18 [
+
+	"Answer a ConditionalEvent for the receiver on the key defined by the selector"
+
+	^ self createConditionalEvent
+]
+
+{ #category : #'function keys' }
+CpKeyEvent class >> f19 [
+
+	"Answer a ConditionalEvent for the receiver on the key defined by the selector"
+
+	^ self createConditionalEvent
+]
+
+{ #category : #'function keys' }
+CpKeyEvent class >> f2 [
+
+	"Answer a ConditionalEvent for the receiver on the key defined by the selector"
+
+	^ self createConditionalEvent
+]
+
+{ #category : #'function keys' }
+CpKeyEvent class >> f20 [
+
+	"Answer a ConditionalEvent for the receiver on the key defined by the selector"
+
+	^ self createConditionalEvent
+]
+
+{ #category : #'function keys' }
+CpKeyEvent class >> f3 [
+
+	"Answer a ConditionalEvent for the receiver on the key defined by the selector"
+
+	^ self createConditionalEvent
+]
+
+{ #category : #'function keys' }
+CpKeyEvent class >> f4 [
+
+	"Answer a ConditionalEvent for the receiver on the key defined by the selector"
+
+	^ self createConditionalEvent
+]
+
+{ #category : #'function keys' }
+CpKeyEvent class >> f5 [
+
+	"Answer a ConditionalEvent for the receiver on the key defined by the selector"
+
+	^ self createConditionalEvent
+]
+
+{ #category : #'function keys' }
+CpKeyEvent class >> f6 [
+
+	"Answer a ConditionalEvent for the receiver on the key defined by the selector"
+
+	^ self createConditionalEvent
+]
+
+{ #category : #'function keys' }
+CpKeyEvent class >> f7 [
+
+	"Answer a ConditionalEvent for the receiver on the key defined by the selector"
+
+	^ self createConditionalEvent
+]
+
+{ #category : #'function keys' }
+CpKeyEvent class >> f8 [
+
+	"Answer a ConditionalEvent for the receiver on the key defined by the selector"
+
+	^ self createConditionalEvent
+]
+
+{ #category : #'function keys' }
+CpKeyEvent class >> f9 [
+
+	"Answer a ConditionalEvent for the receiver on the key defined by the selector"
+
+	^ self createConditionalEvent
+]
+
+{ #category : #'ui keys' }
+CpKeyEvent class >> help [
+
+	"Answer a ConditionalEvent for the receiver on the key defined by the selector"
+
+	^ self createConditionalEvent
+]
+
+{ #category : #'navigation keys' }
+CpKeyEvent class >> home [
+
+	"Answer a ConditionalEvent for the receiver on the key defined by the selector"
+
+	^ self createConditionalEvent
+]
+
+{ #category : #'navigation keys' }
+CpKeyEvent class >> pageDown [
+
+	"Answer a ConditionalEvent for the receiver on the key defined by the selector"
+
+	^ self createConditionalEvent
+]
+
+{ #category : #'navigation keys' }
+CpKeyEvent class >> pageUp [
+
+	"Answer a ConditionalEvent for the receiver on the key defined by the selector"
+
+	^ self createConditionalEvent
+]
+
+{ #category : #'whitespace keys' }
+CpKeyEvent class >> space [
+
+	"Answer a ConditionalEvent for the receiver on the key defined by the selector"
+
+	^ self createConditionalEvent
+]
+
+{ #category : #'whitespace keys' }
+CpKeyEvent class >> tab [
+
+	"Answer a ConditionalEvent for the receiver on the key defined by the selector"
+
+	^ self createConditionalEvent
+]
+
 { #category : #accessing }
 CpKeyEvent >> isComposing [
 
@@ -26,14 +354,14 @@ CpKeyEvent >> key [
 	Control characters (more precisely: characters with a non printable representation)
 	are answered as Strings (like 'Enter', 'Tab', 'ArrowLeft', etc).
 	In contrast with browsers a space is answered as 'Space' which allows #keyWithModifiers
-	do behave more consistently."
+	to behave more consistently."
 
 	| key |
 
 	key := self propertyAt: #key.
 
 	^ key = ' '
-		ifTrue: [ #Space ]
+		ifTrue: [ 'Space' ]
 		ifFalse: [ key ]
 ]
 

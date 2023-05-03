@@ -11,6 +11,24 @@ Class {
 	#category : #'CodeParadise-WebApplication-Events'
 }
 
+{ #category : #'conditional events' }
+CpBaseEvent class >> & aCondition [
+
+	^ self asConditionalEvent & aCondition
+]
+
+{ #category : #'conditional events' }
+CpBaseEvent class >> asConditionalEvent [
+
+	^ CpConditionalEvent eventClass: self
+]
+
+{ #category : #announcing }
+CpBaseEvent class >> asEventClass [
+
+	^ self
+]
+
 { #category : #announcing }
 CpBaseEvent class >> handlesAnnouncement: anAnnouncement [
 

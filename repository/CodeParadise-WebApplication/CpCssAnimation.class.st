@@ -55,6 +55,24 @@ CpCssAnimation class >> pulseKeyframes [
 ]
 
 { #category : #'animation - keyframes' }
+CpCssAnimation class >> shakeKeyframes [
+
+	^ {
+		{ #transform -> 'translateX(0)' } asDictionary.
+		{ #transform -> 'translateX(-10px)' } asDictionary.
+		{ #transform -> 'translateX(10px)' } asDictionary.
+		{ #transform -> 'translateX(-10px)' } asDictionary.
+		{ #transform -> 'translateX(10px)' } asDictionary.
+		{ #transform -> 'translateX(-10px)' } asDictionary.
+		{ #transform -> 'translateX(10px)' } asDictionary.
+		{ #transform -> 'translateX(-10px)' } asDictionary.
+		{ #transform -> 'translateX(10px)' } asDictionary.
+		{ #transform -> 'translateX(-10px)' } asDictionary.
+		{ #transform -> 'translateX(0px)' } asDictionary.
+	}
+]
+
+{ #category : #'animation - keyframes' }
 CpCssAnimation class >> tadaKeyframes [
 
 	^ {

@@ -83,6 +83,12 @@ CpClickAnnouncementClass >> addListenerTo: anElement [
 	anElement when: CpPointerDownEvent send: #clickStart: to: self
 ]
 
+{ #category : #converting }
+CpClickAnnouncementClass >> asEventClass [
+
+	^ clickEventClass
+]
+
 { #category : #'processing - private' }
 CpClickAnnouncementClass >> clickEnd: aPointerUpEvent [
 

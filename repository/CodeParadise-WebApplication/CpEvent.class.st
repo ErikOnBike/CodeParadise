@@ -117,10 +117,15 @@ CpEvent class >> latestEvents [
 	^ #()
 ]
 
-{ #category : #'accessing - modifiers' }
+{ #category : #'conditional events' }
 CpEvent class >> noModifiers [
 
-	^ 0
+	"Answer a ConditionalEvent for the receiver disallowing any modifiers.
+
+	This is useful to specify only a click event is allowed, but no modifier should
+	be down when clicked."
+
+	^ self & CpNoModifiersDown
 ]
 
 { #category : #'class initialization' }
@@ -274,14 +279,6 @@ CpEvent >> isStopped [
 
 	<primitive: 'primitiveEventIsStopped' module: 'CpDOMPlugin'>
 	self primitiveFailed
-]
-
-{ #category : #accessing }
-CpEvent >> keyModifier [
-
-	"Answer a KeyModifier instance representing the receiver's key modifier state"
-
-	^ CpKeyModifier value: self modifiers
 ]
 
 { #category : #accessing }

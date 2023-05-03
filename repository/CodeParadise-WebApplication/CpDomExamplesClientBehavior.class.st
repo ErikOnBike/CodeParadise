@@ -171,6 +171,7 @@ CpDomExamplesClientBehavior >> exampleClickEvents [
 	outputElement := self outputElement.
 
 	buttonDefs := {
+		'Native click' -> CpClickEvent.
 		'Any button (no modifier)' -> CpAnyClickEvent.
 		'Primary button (no modifier)' -> CpPrimaryClickEvent.
 		'Primary button (no modifier, short click)' -> (CpPrimaryClickEvent + CpShortClickModifier).
@@ -389,6 +390,88 @@ CpDomExamplesClientBehavior >> exampleMathFormula [
 ]
 
 { #category : #examples }
+CpDomExamplesClientBehavior >> exampleNestedClickEvents [
+
+	<example: 'Nested Click Events' order: 901>
+
+	| outputElement buttonDefs1 buttonDefs2 buttonDefs3 installBlock id |
+	
+	self clearOutput.
+	outputElement := self outputElement.
+
+	buttonDefs1 := {
+		'Any button (no modifier)' -> CpAnyClickEvent.
+		'Primary button (no modifier)' -> CpPrimaryClickEvent.
+		'Primary button with shift' -> (CpPrimaryClickEvent + CpShiftModifier).
+		'Any button (no modifier)' -> CpAnyClickEvent.
+		'Secondary button (no modifier)' -> CpSecondaryClickEvent.
+		'Secondary button (shift, long click)' -> (CpSecondaryClickEvent + CpShiftModifier + CpLongClickModifier).
+		'Primary button (no modifier)' -> CpPrimaryClickEvent.
+		'Any button (no modifier)' -> CpAnyClickEvent.
+	}.
+
+	buttonDefs2 := {
+		'Any button (shift modifier)' -> (CpAnyClickEvent + CpShiftModifier).
+		'Primary button (no modifier)' -> CpPrimaryClickEvent.
+		'Primary button with shift' -> (CpPrimaryClickEvent + CpShiftModifier).
+		'Any button (shift modifier)' -> (CpAnyClickEvent + CpShiftModifier).
+		'Secondary button (no modifier)' -> CpSecondaryClickEvent.
+		'Secondary button (shift, long click)' -> (CpSecondaryClickEvent + CpShiftModifier + CpLongClickModifier).
+		'Primary button (no modifier)' -> CpPrimaryClickEvent.
+		'Any button (no modifier)' -> CpAnyClickEvent.
+	}.
+
+	buttonDefs3 := {
+		'Any button (shift modifier)' -> (CpAnyClickEvent + CpShiftModifier).
+		'Primary button (no modifier)' -> CpPrimaryClickEvent.
+		'Primary button with shift' -> (CpPrimaryClickEvent + CpShiftModifier).
+		'Any button (shift modifier)' -> (CpAnyClickEvent + CpShiftModifier).
+		'Native button' -> CpClickEvent.
+		'Secondary button (no modifier)' -> CpSecondaryClickEvent.
+		'Secondary button (shift, long click)' -> (CpSecondaryClickEvent + CpShiftModifier + CpLongClickModifier).
+		'Primary button (no modifier)' -> CpPrimaryClickEvent.
+		'Native button' -> CpClickEvent.
+	}.
+
+	id := 1.
+	installBlock := [ :buttonDefs |
+		| parent |
+		parent := outputElement.
+		buttonDefs do: [ :each |
+			parent := parent appendChild: ((CpHtmlElement newWithTag: #div)
+				styleAt: #width put: '80%' ;
+				styleAt: #'margin-left' put: '10%' ;
+				styleAt: #'min-height' put: '2em' ;
+				styleAt: #'border-radius' put: '1em' ;
+				styleAt: #'background-color' put: 'rgba(0, 0, 255, .2)' ;
+				styleAt: #color put: #white ;
+				styleAt: #cursor put: #pointer ;
+				styleAt: #'text-align' put: #center ;
+				styleAt: #'line-height' put: '2em' ;
+				styleAt: #'user-select' put: #none ;
+				styleAt: #'-webkit-user-select' put: #none ;
+				id: 'div', id printString ; 
+				appendChild: ((CpHtmlElement newWithTag: #span)
+					styleAt: #display put: #'inline-block' ;	"Make it transformable for shake animation"
+					id: 'span', id printString ; 
+					textContent: each key ;
+					yourself) ;
+				appendChild: (' Stop propagation: ' asHtmlElement) ;
+				appendChild: ((CpHtmlElement newWithTag: #input)
+					attributeAt: #type put: #checkbox ;
+					yourself) ;
+				when: each value send: #shakeLabelOnEvent: to: self ;
+				yourself).
+			id := id + 1 ].
+		outputElement appendChild: (CpHtmlElement newWithTag: #p).	"Make some room" ].
+
+	installBlock value: buttonDefs1.
+	installBlock value: buttonDefs2.
+	installBlock value: buttonDefs3.
+
+]
+
+{ #category : #examples }
 CpDomExamplesClientBehavior >> exampleSVGGears [
 
 	<example: 'SVG Gears (animated)' order: 210>
@@ -558,6 +641,19 @@ CpDomExamplesClientBehavior >> outputElement [
 	^ CpHtmlElement documentBody firstDescendantMatching: '#output'
 ]
 
+{ #category : #'event handling' }
+CpDomExamplesClientBehavior >> shakeLabelOnEvent: aClickEvent [
+
+	(aClickEvent target tagName = #input)
+		ifTrue: [ ^ self ].
+
+	((aClickEvent currentTarget firstDescendantMatching: #input) propertyAt: #checked)
+		ifTrue: [ aClickEvent stopPropagation ].
+
+	(aClickEvent currentTarget firstDescendantMatching: #span)
+		animate: CpCssAnimation shakeKeyframes duration: 750
+]
+
 { #category : #examples }
 CpDomExamplesClientBehavior >> showIndex [
 
@@ -625,7 +721,7 @@ CpDomExamplesClientBehavior >> showIndex [
 			yourself) ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 CpDomExamplesClientBehavior >> showText: textString in: selectorString [
 
 	textRegistry at: selectorString ifPresent: [ :textTransition | textTransition finish ].
