@@ -86,7 +86,7 @@ CpClickAnnouncementClass >> addListenerTo: anElement [
 { #category : #converting }
 CpClickAnnouncementClass >> asEventClass [
 
-	^ clickEventClass
+	^ self
 ]
 
 { #category : #'processing - private' }
