@@ -16,7 +16,7 @@ Class {
 	#category : #'CodeParadise-WebApplication-Events-Custom'
 }
 
-{ #category : #adding }
+{ #category : #announcing }
 CpSyntheticEvent class >> addListenerTo: anElement [
 
 	"Add a listener for the receiver to the specified DOM element.
@@ -36,6 +36,18 @@ CpSyntheticEvent class >> handlesAnnouncement: anAnnouncement [
 
 	^ (super handlesAnnouncement: anAnnouncement)
 		and: [ anAnnouncement isStopped not ]
+]
+
+{ #category : #announcing }
+CpSyntheticEvent class >> removeListenerFrom: anElement [
+
+	"Remove a listener for the receiver from the specified DOM element.
+	Since no actual browser event exists, ignore this.
+
+	Subclasses might override this and add other (typically non-
+	synthetic) events to the specified element. See for example
+	CpAnyClickEvent or CpDragEvent subclasses."
+
 ]
 
 { #category : #accessing }
@@ -71,7 +83,7 @@ CpSyntheticEvent >> isStopped [
 
 	Implementation:
 	Validate for stopPropagation vs stopImmediatePropagation based on value of
-	#stopAfter. See #stopPropagation and #stopImmediagePropagation methods."
+	#stopAfter. See #stopPropagation and #stopImmediatePropagation methods."
 
 	stopPropagation
 		ifTrue: [
@@ -128,6 +140,18 @@ CpSyntheticEvent >> stopPropagation [
 
 	stopPropagation := true.
 	stopAfter := currentTarget
+]
+
+{ #category : #accessing }
+CpSyntheticEvent >> target [
+
+	"Answer the target of the receiver.
+
+	Implementation:
+	For synthetic events this is (by default) the current target.
+	Subclasses might override this."
+
+	^ self currentTarget
 ]
 
 { #category : #accessing }

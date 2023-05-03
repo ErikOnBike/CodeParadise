@@ -1,10 +1,14 @@
 "
 I am a SyntheticEvent representing the user clicking on DOM elements.
 
-I exist as a convenience, because the default browser click event only works for primary clicks.
+I exist as a convenience, because the default browser click event only works for primary clicks
+and does not distinguish between modifiers being pressed.
 I represent any type of button being used to click on a DOM element. You can ask me which button
 is pressed during the click event. You can also ask me for the modifiers which where pressed
 when the click event took place (the key state during the pointer up event are deciding here).
+
+Like most applications, I do not support multi-button clicks (ie clicking both primary and secundary
+buttons simultaneously).
 
 A number of my subclasses allow for describing the need for some specific events like
 the PrimaryButton being used to click (ie CpPrimaryClickEvent) or the SecondaryButton. I can be
@@ -20,6 +24,11 @@ For example:
 		when: CpPrimaryClickEvent + CpShiftModifier send: #primaryButtonAndShiftKey to: self.
 	aDomElement
 		when: CpSecondaryClickEvent + CpMetaModifier + CpLongClickModifier send: #longSecondaryButtonAndMetaKey to: self.
+
+BE AWARE: because of my implementation (see below) I will not work correctly if a PointerDown
+or PointerUp event is being stopped using either #stopPropagation or #stopImmediatePropagation.
+In such situations the regular CpClickEvent will work, but still requires the additional check
+for modifiers being used.
 
 Implementation:
 The combination of a PointerDown followed by a PointerUp event is used to 'detect' a click is
@@ -38,7 +47,8 @@ Class {
 	],
 	#classVars : [
 		'ClickInstances',
-		'ClickTargets'
+		'ClickTargets',
+		'SupportingEventsInstalled'
 	],
 	#category : #'CodeParadise-WebApplication-Events-Custom'
 }
@@ -53,63 +63,85 @@ CpAnyClickEvent class >> + aModifier [
 		yourself
 ]
 
-{ #category : #'processing - private' }
+{ #category : #announcing }
 CpAnyClickEvent class >> addListenerTo: anElement [
 
 	"Add an event listener to the specified DOM element.
 
 	Simulate our click event by setting up an event handler to catch the pointer
-	'down' and 'up' events which are the start and end of a click. A global
-	pointer 'up' event handler is installed in #postInstallOnce for clean up."
+	'down' event which is the start of a click. A pointer 'up' event is installed
+	once the click is started."
 
-	anElement
-		when: CpPointerDownEvent send: #clickStart: to: self ;
-		when: CpPointerUpEvent send: #clickEnd: to: self
+	super addListenerTo: anElement.
+
+	anElement when: CpPointerDownEvent send: #clickStart: to: self
 ]
 
-{ #category : #'processing - private' }
+{ #category : #'event handling - private' }
+CpAnyClickEvent class >> cleanUpAfterEvent: aPointerOrAnyClickEvent [
+
+	"Clean up any remaining event handlers after receiving the pointer or click event specified"
+
+	| pointerId |
+
+	pointerId := aPointerOrAnyClickEvent pointerId.
+	ClickInstances removeKey: pointerId ifAbsent: [ "ignore" ].
+
+	ClickTargets at: pointerId ifPresent: [ :targetsAndRequirements |
+
+		"Remove the helper event listeners (added in #clickStart:)"
+		targetsAndRequirements do: [ :each |
+			each key removeInterestIn: CpPointerUpEvent for: CpAnyClickEvent ].
+
+		"Now remove target and requirements collection itself"
+		ClickTargets removeKey: pointerId ifAbsent: [ "ignore" ] ].
+
+	self removeSupportingEvents
+]
+
+{ #category : #'event handling - private' }
+CpAnyClickEvent class >> clickDone: aPointerUpEvent [
+
+	"All click events should be handled, remove any pending handlers"
+
+	self cleanUpAfterEvent: aPointerUpEvent
+]
+
+{ #category : #'event handling - private' }
 CpAnyClickEvent class >> clickEnd: aPointerUpEvent [
 
 	"Finalize (if possible) the click event.
 
 	Implementation: see #clickStart:"
 
-	| pointerId |
+	| pointerId clickEvent |
 
 	"Handle pending click event matching the specified pointerup event"
 	pointerId := aPointerUpEvent pointerId.
-	ClickInstances
-		at: pointerId
-		ifPresent: [ :clickEvent |
+	clickEvent := ClickInstances at: pointerId ifAbsent: [ ^ self ].
 
-			| targetAndRequirements targetIndex |
+	"Update the click event"
+	clickEvent updateWithPointerUpEvent: aPointerUpEvent.
 
-			targetAndRequirements := ClickTargets at: pointerId ifAbsent: [ ^ self ].
+	"Handle the matching target and requirements by dispatching the click event"
+	(ClickTargets at: pointerId ifAbsent: [ ^ self ]) do: [ :each |
+		(clickEvent matchesTargetAndRequirements: each)
+			ifTrue: [ clickEvent dispatch ] ].
 
-			"Update the click event"
-			(clickEvent updateWith: aPointerUpEvent)
-				ifFalse: [
-
-					"Failed to update, meaning a mismatching event. Perform clean up."
-					self removeClickEvents: aPointerUpEvent.
-					^ self ].
-
-			"Find the first matching target and dispatch event"
-			targetIndex := targetAndRequirements findFirst: [ :each | clickEvent matchesTargetAndRequirements: each ].
-			targetIndex > 0
-				ifTrue: [
-self crTrace: 'ClickTargets before: ', (ClickTargets at: pointerId) size printString.
-					"Remove all targets up to and including our current target to prevent
-					repeated dispatching when listener is set on the same target multiple times.
-					Use of #removeFirst is efficient since it does not require moving elements
-					(and does not create a temporary list of elements like in #removeFirst:)."
-					targetIndex timesRepeat: [ targetAndRequirements removeFirst ].
-self crTrace: 'ClickTargets after: ', (ClickTargets at: pointerId) size printString.
-
-					clickEvent dispatch ] ]
+	"Do not remove ClickInstances or ClickTargets here. The event might bubble and reach more
+	targets. Clean up is done in #clickDone: which is called when all click events have been
+	handled and the event bubbled up to the html document itself."
 ]
 
-{ #category : #'processing - private' }
+{ #category : #'event handling - private' }
+CpAnyClickEvent class >> clickInterrupted: aPointerLeaveEvent [
+
+	"The pointer left the browser window and clicking is therefore interrupted"
+
+	self cleanUpAfterEvent: aPointerLeaveEvent
+]
+
+{ #category : #'event handling - private' }
 CpAnyClickEvent class >> clickStart: aPointerDownEvent [
 
 	"Handle the click start using 'no key modifiers' as additional (ClickAnnouncement) requirement"
@@ -119,7 +151,7 @@ CpAnyClickEvent class >> clickStart: aPointerDownEvent [
 		withClickAnnouncement: (CpClickAnnouncementClass noKeyModifierForClickEventClass: self)
 ]
 
-{ #category : #'processing - private' }
+{ #category : #'event handling - private' }
 CpAnyClickEvent class >> clickStart: aPointerDownEvent withClickAnnouncement: aClickAnnouncementClass [
 
 	"Keep track of our pointer down event (the possible start of a click),
@@ -132,37 +164,31 @@ CpAnyClickEvent class >> clickStart: aPointerDownEvent withClickAnnouncement: aC
 	button, key modifiers, click duration) and target."
 
 	| pointerId currentTarget |
-self crTrace: 'Click start ', aPointerDownEvent printString.
+
 	"Validate the click can be handled by the receiver"
 	(self handlesClickEvent: aPointerDownEvent)
 		ifFalse: [ ^ self ].
 
-	"Create a unique click event for the specified PointerDown event"
+	"Create a unique click event for the specified PointerDown event.
+	Prevent multiple occurrences from being created, so only add on first encounter."
 	pointerId := aPointerDownEvent pointerId.
-	ClickInstances
-		at: pointerId
-		ifPresent: [ :clickEvent |
-			(clickEvent originatedFrom: aPointerDownEvent)
-				ifFalse: [
-					self crTrace: 'Old click present from other PointerDownEvent ', aPointerDownEvent printString.
-					ClickInstances at: pointerId put: aPointerDownEvent asClickEvent ] ]
-		ifAbsentPut: [ aPointerDownEvent asClickEvent ].
+	ClickInstances at: pointerId ifAbsentPut: [ aPointerDownEvent asClickEvent ].
 
 	"Keep track of the target (it will be lost once the pointerdown event is processed)
 	and keep track of its requirements as specified by the ClickAnnouncementClass."
 	currentTarget := aPointerDownEvent currentTarget.
 	ClickTargets
 		at: pointerId
-		ifPresent: [ :targetAndRequirements |
+		ifPresent: [ :targetAndRequirements | targetAndRequirements add: currentTarget -> aClickAnnouncementClass ]
+		ifAbsentPut: [ OrderedCollection with: currentTarget -> aClickAnnouncementClass ].
 
-			"Do not store the same target, since the announcement mechanism already takes care of this"
-			(targetAndRequirements anySatisfy: [ :each | each key == currentTarget ])
-				ifTrue: [ self crTrace: 'Skip known target: ', aPointerDownEvent printString. ^ self ].
+	"Add supporting event handlers (now that clicking can actually start).
+	Use CpAnyClickEvent to specify the subscriber because we don't want subclasses
+	being specified explicitly. They should work the same and without explicit
+	subscriber we would not be able to unsubscribe later."
+	currentTarget when: CpPointerUpEvent send: #clickEnd: to: CpAnyClickEvent.
 
-			"Store the unique target"
-			self crTrace: 'Adding target ', currentTarget printString.
-			targetAndRequirements add: currentTarget -> aClickAnnouncementClass ]
-		ifAbsentPut: [ OrderedCollection with: currentTarget -> aClickAnnouncementClass ]
+	self installSupportingEvents
 ]
 
 { #category : #announcing }
@@ -174,6 +200,31 @@ CpAnyClickEvent class >> handlesClickEvent: aClickEvent [
 	This method is called with PointerDown and PointerUp events."
 
 	^ true
+]
+
+{ #category : #'event handling - private' }
+CpAnyClickEvent class >> installSupportingEvents [
+
+	"Install (if needed) helper events when clicking started
+	(when the first PointerDownEvent has occurred).
+
+	Implementation:
+	Add additional event handlers. Use pointer up event on the document
+	itself to identify the event bubbled up to the top and is therefore done.
+	The pointer leave event on the same document means the click is interrupted
+	and can't be ended in a normal way.
+	Do NOT use 'self' to specify where the event should be sent to, but specify
+	CpAnyClickEvent explicitly. This is to prevent subclasses (which can be used
+	as well) from being the subscriber here. In #removeSupportingEvents there
+	would be no way of knowing which subclass has been used. And there should be
+	no difference."
+
+	SupportingEventsInstalled ifTrue: [ ^ self ].
+
+	[ CpHtmlElement document
+		when: CpPointerUpEvent send: #clickDone: to: CpAnyClickEvent ;
+		when: CpPointerLeaveEvent send: #clickInterrupted: to: CpAnyClickEvent
+	] ensure: [ SupportingEventsInstalled := true ]
 ]
 
 { #category : #accessing }
@@ -206,93 +257,34 @@ CpAnyClickEvent class >> postInstallOnce [
 
 	ClickInstances := IdentityDictionary new.
 	ClickTargets := IdentityDictionary new.
-
-	CpHtmlElement document
-		when: CpPointerUpEvent send: #removeClickEvents: to: self
+	SupportingEventsInstalled := false
 ]
 
-{ #category : #'processing - private' }
-CpAnyClickEvent class >> removeClickEvents: aPointerUpEvent [
-
-	"Remove the stored click events for the specified pointer"
-
-	| pointerId |
-
-self crTrace: 'Remove click events now that all clicks are handled'.
-	pointerId := aPointerUpEvent pointerId.
-	ClickInstances at: pointerId ifPresent: [ :clickEvent | self crTrace: 'Removing click event: ', clickEvent printString. clickEvent release ].
-	ClickInstances removeKey: pointerId ifAbsent: [ "Ignore" ].
-
-	ClickTargets removeKey: pointerId ifAbsent: [ "Ignore" ]
-]
-
-{ #category : #'processing - private' }
+{ #category : #announcing }
 CpAnyClickEvent class >> removeListenerFrom: anElement [
 
 	"Remove event listener from the specified DOM element.
 
 	Impementation: see #addEventListenerTo:"
-self crTrace: 'Remove anyclick listener'.
-	CpPointerDownEvent removeListenerFrom: anElement.
-	CpPointerUpEvent removeListenerFrom: anElement
+
+	super removeListenerFrom: anElement.
+
+	CpPointerDownEvent removeListenerFrom: anElement
 ]
 
-{ #category : #dispatching }
-CpAnyClickEvent class >> stopImmediatePropagationOf: aClickEvent [
+{ #category : #'event handling - private' }
+CpAnyClickEvent class >> removeSupportingEvents [
 
-	"Stop immediate propagation of the specified click event.
+	"Remove (if needed) helper events for clicking (see #installSupportingEvents)"
 
-	Implementation clean up any remaining instances and targets.
-	See also CpEvent >> #stopPropagation and
-	CpEvent >> #stopImmediatePropagation to explain their difference."
+	SupportingEventsInstalled ifFalse: [ ^ self ].
+	ClickInstances ifNotEmpty: [ ^ self ].
 
-	| pointerId |
-
-self crTrace: 'Stop immediate, removing all events/targets'.
-	pointerId := aClickEvent pointerId.
-	ClickTargets removeKey: pointerId ifAbsent: [ "Ignore" ].
-	ClickInstances removeKey: pointerId ifAbsent: [ "Ignore" ]
-]
-
-{ #category : #dispatching }
-CpAnyClickEvent class >> stopPropagationOf: aClickEvent [
-
-	"Stop propagation of the specified click event.
-
-	Implementation:
-	Clean up any remaining instances and targets which are NOT equal to
-	the specified click event. See the comments in #clickStart: for further
-	explanation of the internal structure used."
-
-	| removeClickEvent pointerId |
-
-	"Assume the click event itself will be removed, because no events
-	will remain (general case). See also CpEvent >> #stopPropagation and
-	CpEvent >> #stopImmediatePropagation to explain their difference."
-	removeClickEvent := true.
-
-	pointerId := aClickEvent pointerId.
-	ClickTargets
-		at: pointerId
-		ifPresent: [ :targetAndRequirements |
-
-			| removeIndex currentTarget |
-
-			"Remove all events except for events aimed at same target.
-			Events are added 'in bubbling order', so expect events to be
-			at the front of the targets collection."
-			currentTarget := aClickEvent currentTarget.
-			removeIndex := targetAndRequirements findFirst: [ :each | each key ~= currentTarget ].
-			removeIndex <= 1
-				ifTrue: [ self crTrace: 'Remove all targets'. ClickTargets removeKey: pointerId ifAbsent: [ "Ignore" ] ]
-				ifFalse: [
-					"Some events remain, do not remove the click event just yet"
-					removeClickEvent := false.
-self crTrace: 'Keeping ', (removeIndex - 1) printString, ' elements to handle after stopPropagation'.
-					ClickTargets at: pointerId put: (targetAndRequirements first: removeIndex - 1) ] ].
-
-	removeClickEvent
-		ifTrue: [ ClickInstances removeKey: pointerId ifAbsent: [ "Ignore" ] ]
+	[ CpHtmlElement document
+		removeInterestIn: CpPointerUpEvent for: CpAnyClickEvent ;
+		removeInterestIn: CpPointerLeaveEvent for: CpAnyClickEvent
+	] ensure: [
+		SupportingEventsInstalled := false ]
 ]
 
 { #category : #accessing }
@@ -321,6 +313,14 @@ CpAnyClickEvent >> duration [
 	will only answer a valid value if the pointer (up) event is set."
 
 	^ pointerUpEvent timeStamp - pointerDownEvent timeStamp
+]
+
+{ #category : #testing }
+CpAnyClickEvent >> hasOriginatedFrom: aPointerDownEvent [
+
+	"Answer whether the receiver is created using the specified PointerDown event"
+
+	^ pointerDownEvent == aPointerDownEvent
 ]
 
 { #category : #initialization }
@@ -429,14 +429,6 @@ CpAnyClickEvent >> offsetY [
 	^ pointerUpEvent offsetY
 ]
 
-{ #category : #testing }
-CpAnyClickEvent >> originatedFrom: aPointerDownEvent [
-
-	"Answer whether the receiver is created using the specified PointerDown event"
-
-	^ pointerDownEvent == aPointerDownEvent
-]
-
 { #category : #accessing }
 CpAnyClickEvent >> pageX [
 
@@ -470,6 +462,10 @@ CpAnyClickEvent >> printOn: aStream [
 			aStream
 				nextPutAll: ', point: ' ;
 				print: self point ;
+				nextPutAll: ', currentTarget: ' ;
+				print: self currentTarget ;
+				nextPutAll: ', target: ' ;
+				print: self target ;
 				nextPutAll: ', offset: ' ;
 				print: self offset ;
 				nextPutAll: ', button: ' ;
@@ -505,47 +501,23 @@ CpAnyClickEvent >> screenY [
 	^ pointerUpEvent screenY
 ]
 
-{ #category : #dispatching }
-CpAnyClickEvent >> stopImmediatePropagation [
+{ #category : #accessing }
+CpAnyClickEvent >> target [
 
-	"Stop propagation immediately. Not even 'same target' events will fire.
-
-	Implementation:
-	Stop the synthetic (receiver's) propagation mechanism.
-	Clean up the receiver's internal state."
-
-	super stopImmediatePropagation.
-
-	self class stopImmediatePropagationOf: self
-]
-
-{ #category : #dispatching }
-CpAnyClickEvent >> stopPropagation [
-
-	"Stop propagation. Only 'same target' events will still fire.
-
-	Implementation:
-	Stop the synthetic (receiver's) propagation mechanism.
-	Clean up the receiver's internal state."
-
-	super stopPropagation.
-
-	self class stopPropagationOf: self
+	^ pointerUpEvent target
 ]
 
 { #category : #'processing - private' }
-CpAnyClickEvent >> updateWith: aPointerUpEvent [
+CpAnyClickEvent >> updateWithPointerUpEvent: aPointerUpEvent [
 
 	"Update the receiver for dispatching, by registering the PointerUpEvent.
-	Answer a Boolean specifying whether the PointerUpEvent matches the receiver.
 
+	Implementation:
 	The PointerUpEvent resembles the click event better (position, timestamp)
 	than the PointerDownEvent registered during click start.
 	After this update the receiver can be dispatched to the current target."
 
 	timeStamp := aPointerUpEvent timeStamp.
 	currentTarget := aPointerUpEvent currentTarget.
-	pointerUpEvent := aPointerUpEvent.
-
-	^ pointerDownEvent modifiers = pointerUpEvent modifiers
+	pointerUpEvent := aPointerUpEvent
 ]

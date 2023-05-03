@@ -77,11 +77,10 @@ CpClickAnnouncementClass >> addListenerTo: anElement [
 	"Add an event listener to the specified DOM element.
 
 	Simulate our click event by setting up an event handler to catch the pointer
-	'down' and 'up' events which are the start and end of a click."
+	'down' event which is the start of a click. See the class CpAnyClickEvent for
+	further explanation."
 
-	anElement
-		when: CpPointerDownEvent send: #clickStart: to: self ;
-		when: CpPointerUpEvent send: #clickEnd: to: self
+	anElement when: CpPointerDownEvent send: #clickStart: to: self
 ]
 
 { #category : #'processing - private' }
@@ -161,8 +160,7 @@ CpClickAnnouncementClass >> removeListenerFrom: anElement [
 
 	Impementation: see #addEventListenerTo:"
 
-	CpPointerDownEvent removeListenerFrom: anElement.
-	CpPointerUpEvent removeListenerFrom: anElement
+	CpPointerDownEvent removeListenerFrom: anElement
 ]
 
 { #category : #combining }

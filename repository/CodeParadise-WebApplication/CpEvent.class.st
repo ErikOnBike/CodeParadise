@@ -92,6 +92,18 @@ CpEvent class >> isListenedToOn: anElement [
 	self primitiveFailed
 ]
 
+{ #category : #testing }
+CpEvent class >> isPoint: aPoint similarTo: otherPoint [
+
+	"Answer whether the two specified Points are close together and therefore seamingly similar"
+
+	| distance |
+
+	distance := aPoint dist: otherPoint.
+
+	^ distance < self similarDistance
+]
+
 { #category : #'processing - private' }
 CpEvent class >> latestEvents [
 
@@ -109,16 +121,6 @@ CpEvent class >> latestEvents [
 CpEvent class >> noModifiers [
 
 	^ 0
-]
-
-{ #category : #accessing }
-CpEvent class >> point: aPoint isSimilarTo: otherPoint [
-
-	| distance |
-
-	distance := aPoint dist: otherPoint.
-
-	^ distance < self similarDistance
 ]
 
 { #category : #'class initialization' }
@@ -169,7 +171,9 @@ CpEvent class >> removeListenerFrom: anElement [
 { #category : #accessing }
 CpEvent class >> similarDistance [
 
-	^ 8
+	"Maximum distance in pixels (as a Float value) between two points to consider the similar"
+
+	^ 8.0
 ]
 
 { #category : #accessing }
