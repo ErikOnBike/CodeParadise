@@ -384,17 +384,17 @@ CpKeyEvent >> keyWithModifiers [
 	| key |
 
 	key := self key ifNil: [ ^ nil ].
-	(key size = 1 or: [ self hasModifiers not ])
+	(key size = 1 or: [ self isNoModifierDown ])
 		ifTrue: [ ^ key ].
 
 	^ String streamContents: [ :stream |
-		self hasAltModifier
+		self isAltKeyDown
 			ifTrue: [ stream nextPutAll: 'A-' ].
-		self hasCtrlModifier
+		self isCtrlKeyDown
 			ifTrue: [ stream nextPutAll: 'C-' ].
-		self hasMetaModifier
+		self isMetaKeyDown
 			ifTrue: [ stream nextPutAll: 'M-' ].
-		self hasShiftModifier
+		self isShiftKeyDown
 			ifTrue: [ stream nextPutAll: 'S-' ].
 		stream nextPutAll: self key ]
 ]

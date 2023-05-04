@@ -36,11 +36,10 @@ CpConditionalEvent class >> eventClass: anEventClass [
 	need for a class per combination.
 
 	For example:
-		aDomElement when: CpPrimaryClickEvent + CpShiftModifier send: #shiftAndPrimary to: self.
-		aDomElement when: CpSecondaryClickEvent + CpMetaModifier + CpLongClickModifier send: #lomgMetaSecondary to: self.
+		aDomElement when: CpPrimaryClickEvent & CpShiftKeyDown send: #onShiftPrimaryClick: to: self.
+		aDomElement when: CpSecondaryClickEvent & CpMetaKeyDown & CpLongClick send: #onLongMetaSecondaryClick: to: self.
 	"
 
-self flag: #TODO. "Fix examples above"
 	^ self basicNew
 		initializeWithEventClass: anEventClass ;
 		yourself
@@ -55,6 +54,17 @@ CpConditionalEvent >> & aCondition [
 		add: aCondition
 ]
 
+{ #category : #testing }
+CpConditionalEvent >> areConditionsMetForEvent: anEvent [
+
+	"Answer a Boolean indicating whether all conditions are met for the specified event"
+
+	^ conditions
+		ifNotNil: [
+			conditions allSatisfy: [ :each | each value: anEvent ] ]
+		ifNil: [ true ]
+]
+
 { #category : #announcing }
 CpConditionalEvent >> asEventClass [
 
@@ -62,20 +72,17 @@ CpConditionalEvent >> asEventClass [
 ]
 
 { #category : #announcing }
-CpConditionalEvent >> handlesAnnouncement: anAnnouncement [
+CpConditionalEvent >> handlesAnnouncement: anEvent [
 
 	"Answer whether the receiver handles the specified announcement.
 
 	Implementation:
-	The announcement is for the event we registered in #addListenerTo:
-	(no need to check this). Check if all conditions are met.
+	Check if all conditions are met (next to being correct event).
 	Since this method is called for different events, an optimized
 	implementation is chosen. This limits the readability a little."
 
-	^ conditions
-		ifNotNil: [
-			conditions allSatisfy: [ :each | each matches: anAnnouncement ] ]
-		ifNil: [ true ]
+	^ (eventClass handlesAnnouncement: anEvent)
+		and: [ self areConditionsMetForEvent: anEvent ]
 ]
 
 { #category : #initialization }
@@ -91,6 +98,6 @@ CpConditionalEvent >> printOn: aStream [
 
 	aStream
 		nextPutAll: self class name ;
-		nextPutAll: ', conditions: ' ;
+		nextPutAll: ' conditions: ' ;
 		print: (conditions ifNil: [ #() ])
 ]

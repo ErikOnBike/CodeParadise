@@ -117,17 +117,6 @@ CpEvent class >> latestEvents [
 	^ #()
 ]
 
-{ #category : #'conditional events' }
-CpEvent class >> noModifiers [
-
-	"Answer a ConditionalEvent for the receiver disallowing any modifiers.
-
-	This is useful to specify only a click event is allowed, but no modifier should
-	be down when clicked."
-
-	^ self & CpNoModifiersDown
-]
-
 { #category : #'class initialization' }
 CpEvent class >> postInstall [
 
@@ -198,75 +187,39 @@ CpEvent >> currentTarget [
 ]
 
 { #category : #testing }
-CpEvent >> hasAllModifiers: aKeyModifier [
+CpEvent >> isAltKeyDown [
 
-	"Answer whether the receiver has at least the specified modifiers.
-
-	Can be used to validate specific combinations.
-	Example: To check if at least shift and ctrl are pressed:
-		keyEvent hasAllModifiers: CpShiftModifier + CpCtrlModifier"
-
-	^ self modifiers allMask: aKeyModifier value
+	^ self modifiers allMask: CpAltKeyDown modifiers
 ]
 
 { #category : #testing }
-CpEvent >> hasAltModifier [
-
-	^ CpAltModifier isPresentIn: self modifiers
-]
-
-{ #category : #testing }
-CpEvent >> hasCtrlModifier [
-
-	^ CpCtrlModifier isPresentIn: self modifiers
-]
-
-{ #category : #testing }
-CpEvent >> hasExactModifiers: aKeyModifier [
-
-	"Answer whether the receiver has the exact specified modifiers.
-
-	Can be used to validate specific combinations.
-	Example: To check if only shift and ctrl are pressed:
-		keyEvent hasExactModifiers: CpKeyEvent shiftModifier + CpKeyEvent ctrlModifier"
-
-	^ self modifiers = aKeyModifier value
-]
-
-{ #category : #testing }
-CpEvent >> hasMetaModifier [
-
-	^ CpMetaModifier isPresentIn: self modifiers
-]
-
-{ #category : #testing }
-CpEvent >> hasModifiers [
+CpEvent >> isAnyModifierDown [
 
 	^ self modifiers ~= 0
 ]
 
 { #category : #testing }
-CpEvent >> hasNoModifiers [
+CpEvent >> isCtrlKeyDown [
+
+	^ self modifiers allMask: CpCtrlKeyDown modifiers
+]
+
+{ #category : #testing }
+CpEvent >> isMetaKeyDown [
+
+	^ self modifiers allMask: CpMetaKeyDown modifiers
+]
+
+{ #category : #testing }
+CpEvent >> isNoModifierDown [
 
 	^ self modifiers = 0
 ]
 
 { #category : #testing }
-CpEvent >> hasShiftModifier [
+CpEvent >> isShiftKeyDown [
 
-	^ CpShiftModifier isPresentIn: self modifiers
-]
-
-{ #category : #testing }
-CpEvent >> hasSomeModifiers: aKeyModifier [
-
-	"Answer whether the receiver has at least one the specified modifiers.
-
-	Can be used to validate specific combinations.
-	Example: To check if at least one of shift or ctrl is pressed (i.e. or both are pressed):
-		keyEvent hasSomeModifiers: CpKeyEvent shiftModifier + CpKeyEvent ctrlModifier"
-
-	^ (self modifiers bitAnd: aKeyModifier value) ~= 0
+	^ self modifiers allMask: CpShiftKeyDown modifiers
 ]
 
 { #category : #testing }
@@ -279,6 +232,14 @@ CpEvent >> isStopped [
 
 	<primitive: 'primitiveEventIsStopped' module: 'CpDOMPlugin'>
 	self primitiveFailed
+]
+
+{ #category : #testing }
+CpEvent >> matchesKeyDownCondition: aKeyDownCondition [
+
+	"Answer whether the specified key down condition matches (modifiers are equal)"
+
+	^ self modifiers = aKeyDownCondition modifiers
 ]
 
 { #category : #accessing }

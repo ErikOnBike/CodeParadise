@@ -53,16 +53,6 @@ Class {
 	#category : #'CodeParadise-WebApplication-Events-Custom'
 }
 
-{ #category : #combining }
-CpAnyClickEvent class >> + aModifier [
-
-	"Answer a  ClickAnnouncement combining the receiver with the specified modifier"
-
-	^ (CpClickAnnouncementClass clickEventClass: self)
-		+ aModifier ;
-		yourself
-]
-
 { #category : #announcing }
 CpAnyClickEvent class >> addListenerTo: anElement [
 
@@ -80,21 +70,13 @@ CpAnyClickEvent class >> addListenerTo: anElement [
 { #category : #'event handling - private' }
 CpAnyClickEvent class >> cleanUpAfterEvent: aPointerOrAnyClickEvent [
 
-	"Clean up any remaining event handlers after receiving the pointer or click event specified"
+	"Clean up any remaining event handlers after receiving the pointer event"
 
-	| pointerId |
+	ClickInstances removeKey: aPointerOrAnyClickEvent pointerId ifAbsent: [ "ignore" ].
 
-	pointerId := aPointerOrAnyClickEvent pointerId.
-	ClickInstances removeKey: pointerId ifAbsent: [ "ignore" ].
-
-	ClickTargets at: pointerId ifPresent: [ :targetsAndRequirements |
-
-		"Remove the helper event listeners (added in #clickStart:)"
-		targetsAndRequirements do: [ :each |
-			each key removeInterestIn: CpPointerUpEvent for: CpAnyClickEvent ].
-
-		"Now remove target and requirements collection itself"
-		ClickTargets removeKey: pointerId ifAbsent: [ "ignore" ] ].
+	"Remove any listeners for the pointer up event"
+	ClickTargets do: [ :each | each removeInterestIn: CpPointerUpEvent for: CpAnyClickEvent ].
+	ClickTargets removeAll.
 
 	self removeSupportingEvents
 ]
@@ -102,7 +84,7 @@ CpAnyClickEvent class >> cleanUpAfterEvent: aPointerOrAnyClickEvent [
 { #category : #'event handling - private' }
 CpAnyClickEvent class >> clickDone: aPointerUpEvent [
 
-	"All click events should be handled, remove any pending handlers"
+	"All click events have been handled, remove any pending handlers"
 
 	self cleanUpAfterEvent: aPointerUpEvent
 ]
@@ -110,27 +92,35 @@ CpAnyClickEvent class >> clickDone: aPointerUpEvent [
 { #category : #'event handling - private' }
 CpAnyClickEvent class >> clickEnd: aPointerUpEvent [
 
-	"Finalize (if possible) the click event.
+	"Finalize the click event.
 
-	Implementation: see #clickStart:"
+	Implementation:
+	Find the correct pre-created AnyClickEvent instance and update it with the
+	current information. This means the currentTarget is set, as well as the
+	duration becomes available.
 
-	| pointerId clickEvent |
+	Do not remove ClickInstances here. The event might bubble and reach more targets.
+	For every (nested) target this method is invoked.
+	Clean up is done in #clickDone: which is called when all click events have been
+	handled and the event bubbled up to the html document itself. See also the method
+	#installSupportingEvents for clean up code.
+
+	See also #clickStart: for more details."
+
+	| clickEvent |
 
 	"Handle pending click event matching the specified pointerup event"
-	pointerId := aPointerUpEvent pointerId.
-	clickEvent := ClickInstances at: pointerId ifAbsent: [ ^ self ].
+	clickEvent := ClickInstances at: aPointerUpEvent pointerId ifAbsent: [ ^ self ].
+
+	"Dispatch event once per target (annoucement mechanism already reaches all listeners)"
+	clickEvent currentTarget == aPointerUpEvent currentTarget
+		ifTrue: [ ^ self ].
 
 	"Update the click event"
 	clickEvent updateWithPointerUpEvent: aPointerUpEvent.
 
-	"Handle the matching target and requirements by dispatching the click event"
-	(ClickTargets at: pointerId ifAbsent: [ ^ self ]) do: [ :each |
-		(clickEvent matchesTargetAndRequirements: each)
-			ifTrue: [ clickEvent dispatch ] ].
-
-	"Do not remove ClickInstances or ClickTargets here. The event might bubble and reach more
-	targets. Clean up is done in #clickDone: which is called when all click events have been
-	handled and the event bubbled up to the html document itself."
+	"Dispatch the click event"
+	clickEvent dispatch
 ]
 
 { #category : #'event handling - private' }
@@ -144,55 +134,36 @@ CpAnyClickEvent class >> clickInterrupted: aPointerLeaveEvent [
 { #category : #'event handling - private' }
 CpAnyClickEvent class >> clickStart: aPointerDownEvent [
 
-	"Handle the click start using 'no key modifiers' as additional (ClickAnnouncement) requirement"
-
-	self
-		clickStart: aPointerDownEvent
-		withClickAnnouncement: (CpClickAnnouncementClass noKeyModifierForClickEventClass: self)
-]
-
-{ #category : #'event handling - private' }
-CpAnyClickEvent class >> clickStart: aPointerDownEvent withClickAnnouncement: aClickAnnouncementClass [
-
-	"Keep track of our pointer down event (the possible start of a click),
-	its requirements as specified in a ClickAnnouncement.
+	"The start of an AnyClickEvent is triggered by a pointer down event.
 
 	Implementation:
-	Create an instance of the receiver containing information about the
-	pointer down event. When the pointer up event is triggered (see #clickEnd:)
-	it will be dispatched, validating it still matches its requirements (like
-	button, key modifiers, click duration) and target."
+	The pointer down event can be announced for multiple DOM elements under the pointer
+	(overlapping DOM elements). In such a situation, this method will be called multiple
+	times consecutively. We only need a single instance of AnyClickEvent, because it will
+	be dispatched to the different (matching) DOM elements."
 
-	| pointerId currentTarget |
+	| currentTarget |
 
 	"Validate the click can be handled by the receiver"
 	(self handlesClickEvent: aPointerDownEvent)
 		ifFalse: [ ^ self ].
 
-	"Create a unique click event for the specified PointerDown event.
-	Prevent multiple occurrences from being created, so only add on first encounter."
-	pointerId := aPointerDownEvent pointerId.
-	ClickInstances at: pointerId ifAbsentPut: [ aPointerDownEvent asClickEvent ].
-
-	"Keep track of the target (it will be lost once the pointerdown event is processed)
-	and keep track of its requirements as specified by the ClickAnnouncementClass."
-	currentTarget := aPointerDownEvent currentTarget.
-	ClickTargets
-		at: pointerId
-		ifPresent: [ :targetAndRequirements | targetAndRequirements add: currentTarget -> aClickAnnouncementClass ]
-		ifAbsentPut: [ OrderedCollection with: currentTarget -> aClickAnnouncementClass ].
+	"Create the single instance (per pointer id)"
+	ClickInstances at: aPointerDownEvent pointerId ifAbsentPut: [ aPointerDownEvent asClickEvent ].
 
 	"Add supporting event handlers (now that clicking can actually start).
 	Use CpAnyClickEvent to specify the subscriber because we don't want subclasses
 	being specified explicitly. They should work the same and without explicit
 	subscriber we would not be able to unsubscribe later."
+	currentTarget := aPointerDownEvent currentTarget.
 	currentTarget when: CpPointerUpEvent send: #clickEnd: to: CpAnyClickEvent.
+	ClickTargets add: currentTarget.
 
 	self installSupportingEvents
 ]
 
-{ #category : #announcing }
-CpAnyClickEvent class >> handlesClickEvent: aClickEvent [
+{ #category : #'event handling - private' }
+CpAnyClickEvent class >> handlesClickEvent: aPointerEvent [
 
 	"Accept any kind of click.
 
@@ -227,15 +198,6 @@ CpAnyClickEvent class >> installSupportingEvents [
 	] ensure: [ SupportingEventsInstalled := true ]
 ]
 
-{ #category : #accessing }
-CpAnyClickEvent class >> minimalLongPressDuration [
-
-	"Answer the number of milliseconds which is considered minimal to describe
-	a click as a long press click"
-
-	^ 750
-]
-
 { #category : #'instance creation' }
 CpAnyClickEvent class >> newFromPointerEvent: aPointerDownEvent [
 
@@ -256,7 +218,7 @@ CpAnyClickEvent class >> postInstallOnce [
 	for the pointer 'up' event to clean up click events (see also: #addListenerTo:)."
 
 	ClickInstances := IdentityDictionary new.
-	ClickTargets := IdentityDictionary new.
+	ClickTargets := OrderedCollection new.
 	SupportingEventsInstalled := false
 ]
 
@@ -338,6 +300,7 @@ CpAnyClickEvent >> initializeWithPointerDownEvent: aPointerDownEvent [
 
 	self initialize.
 
+	timeStamp := aPointerDownEvent timeStamp.
 	pointerDownEvent := aPointerDownEvent
 ]
 
@@ -350,7 +313,7 @@ CpAnyClickEvent >> isLongClick [
 	This method should not be used during the #clickStart: and #clickEnd:
 	process. After/during dispatching it is valid to use."
 
-	^ CpLongClickModifier isValidDuration: self duration
+	^ CpLongClick matches: self
 ]
 
 { #category : #testing }
@@ -374,17 +337,7 @@ CpAnyClickEvent >> isShortClick [
 	This method should not be used during the #clickStart: and #clickEnd:
 	process. After/during dispatching it is valid to use."
 
-	^ CpShortClickModifier isValidDuration: self duration
-]
-
-{ #category : #'processing - private' }
-CpAnyClickEvent >> matchesTargetAndRequirements: anAssociation [
-
-	"Answer whether the receiver matches the target (key) and requirements (value)
-	in the specified Association"
-
-	^ anAssociation key == currentTarget
-		and: [ anAssociation value isNil or: [ anAssociation value matchesClickEvent: self ] ]
+	^ CpShortClick matches: self
 ]
 
 { #category : #accessing }

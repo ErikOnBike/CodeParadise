@@ -4,7 +4,7 @@ Class {
 	#category : #'CodeParadise-WebApplication-Events-Custom'
 }
 
-{ #category : #announcing }
+{ #category : #testing }
 CpSecondaryClickEvent class >> handlesClickEvent: aClickEvent [
 
 	"Accept only secondary click"
@@ -16,13 +16,7 @@ CpSecondaryClickEvent class >> handlesClickEvent: aClickEvent [
 CpSecondaryClickEvent class >> postInstallOnce [
 
 	CpHtmlElement document
-		when: CpContextMenuEvent send: #preventContextMenu: to: self
-]
-
-{ #category : #'event handling' }
-CpSecondaryClickEvent class >> preventContextMenu: aContextMenuEvent [
-
-	aContextMenuEvent preventDefault
+		when: CpContextMenuEvent send: #preventDefault: to: CpHtmlElement document
 ]
 
 { #category : #testing }

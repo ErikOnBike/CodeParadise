@@ -19,7 +19,8 @@ CpEventCondition class >> matches: anEvent [
 { #category : #accessing }
 CpEventCondition class >> value: anEvent [
 
-	"Answer a Boolean value representing whether the specified event matches the receiver"
+	"Answer a Boolean value representing whether the specified event matches the receiver.
+	This method is part of the default API to allow regular blocks to be used as conditions."
 
 	^ self matches: anEvent
 ]
@@ -39,7 +40,8 @@ CpEventCondition >> matches: anEvent [
 { #category : #accessing }
 CpEventCondition >> value: anEvent [
 
-	"Answer a Boolean value representing whether the specified event matches the receiver"
+	"Answer a Boolean value representing whether the specified event matches the receiver.
+	This method is part of the default API to allow regular blocks to be used as conditions."
 
 	^ self matches: anEvent
 ]

@@ -2,28 +2,27 @@ Class {
 	#name : #CpDropEvent,
 	#superclass : #CpSyntheticEvent,
 	#instVars : [
-		'dragEvent',
-		'pointerId'
+		'dragEvent'
 	],
 	#category : #'CodeParadise-WebApplication-Events-Custom'
 }
 
 { #category : #'event handling' }
-CpDropEvent class >> dispatchInstanceForDragEvent: aDragEvent pointerEvent: aPointerEvent [
+CpDropEvent class >> dispatchInstanceForDragEvent: aDragEvent [
 
 	"Dispatch an instance of the receiver based on the specified DragEvent"
 
-	(self newFromDragEvent: aDragEvent withPointerEvent: aPointerEvent)
+	(self newFromDragEvent: aDragEvent)
 		dispatch
 ]
 
 { #category : #'instance creation' }
-CpDropEvent class >> newFromDragEvent: aDragEvent withPointerEvent: aPointerEvent [
+CpDropEvent class >> newFromDragEvent: aDragEvent [
 
 	"Create a new instance of the receiver from the specified DragEvent and PointerEvent"
 
 	^ self basicNew
-		initializeWithDragEvent: aDragEvent pointerEvent: aPointerEvent ;
+		initializeWithDragEvent: aDragEvent ;
 		yourself
 ]
 
@@ -60,22 +59,13 @@ CpDropEvent >> initialize [
 ]
 
 { #category : #initialization }
-CpDropEvent >> initializeWithDragEvent: aDragEvent pointerEvent: aPointerEvent [
+CpDropEvent >> initializeWithDragEvent: aDragEvent [
 
 	self initialize.
 
-"	timeStamp := aPointerEvent timeStamp.
-	target := aPointerEvent target.
-	pageX := aPointerEvent pageX.
-	pageY := aPointerEvent pageY.
-	offsetX := aPointerEvent offsetX.
-	offsetY := aPointerEvent offsetY.
-	elements := aPointerEvent elements select: [ :each | each isListeningTo: self class ].
-	buttons := aPointerEvent buttons.
-	modifiers := aPointerEvent modifiers.
-"	dragEvent := aDragEvent.
-	pointerId := aPointerEvent pointerId
-
+	timeStamp := aDragEvent timeStamp.
+	currentTarget := aDragEvent currentTarget.
+	dragEvent := aDragEvent
 ]
 
 { #category : #testing }
@@ -85,9 +75,11 @@ CpDropEvent >> isCanceled [
 ]
 
 { #category : #accessing }
-CpDropEvent >> modifiers [
+CpDropEvent >> point [
 
-	^ dragEvent modifiers
+	"Answer the receiver's point (which is the drag's end point)"
+
+	^ self dragEndPoint point
 ]
 
 { #category : #printing }
@@ -96,7 +88,5 @@ CpDropEvent >> printOn: aStream [
 	super printOn: aStream.
 	aStream
 		nextPutAll: ', dragEvent: ' ;
-		print: dragEvent ;
-		nextPutAll: ', pointerId: ' ;
-		print: pointerId
+		print: dragEvent
 ]

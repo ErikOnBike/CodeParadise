@@ -64,8 +64,8 @@ CpCustomEvent >> initializeWithDetail: anObject [
 { #category : #printing }
 CpCustomEvent >> printOn: aStream [
 
-	super printOn: aStream.
 	aStream
-		nextPutAll: ', detail: ' ;
+		nextPutAll: self class name ;
+		nextPutAll: ' detail: ' ;
 		print: self detail
 ]

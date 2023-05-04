@@ -68,6 +68,9 @@ CpDragEvent class >> dragCancel: aPointerEvent [
 	DragInstances removeKey: aPointerEvent pointerId.
 	self removeSupportingEvents.
 
+	"Update the drag event with current timestamp"
+	dragEvent timeStamp: aPointerEvent timeStamp.
+
 	"Cancel the drag event"
 	dragEvent cancel.
 
@@ -95,22 +98,24 @@ CpDragEvent class >> dragEnd: aPointerUpEvent [
 
 	dragEvent := DragInstances at: aPointerUpEvent pointerId ifAbsent: [ ^ self ].
 
-	"Remove temporary storage"
+	"Remove temporary storage (it is okay to remove supporting events here since dragging
+	does not bubble and no further events are to be expected, in contrast with AnyClickEvent)"
 	DragInstances removeKey: aPointerUpEvent pointerId.
 	self removeSupportingEvents.
 
 	"Stop if no actual drag (move) happened"
 	dragEvent hasMoved ifFalse: [ ^ self ].
 
-	"Update the final position of the drag event"
+	"Update the final position and timestamp of the drag event"
 	dragEvent endPoint: aPointerUpEvent point.
+	dragEvent timeStamp: aPointerUpEvent timeStamp.
 
 	"Dispatch the event to allow updates to take place"
 	dragEvent dispatch.
 
 	"If drag is finished successfully (and not canceled during ending), create a drop event"
 	dragEvent ifCanceled: [ ^ self ].
-	CpDropEvent dispatchInstanceForDragEvent: dragEvent pointerEvent: aPointerUpEvent
+	CpDropEvent dispatchInstanceForDragEvent: dragEvent
 ]
 
 { #category : #'event handling - private' }
@@ -253,7 +258,7 @@ CpDragEvent class >> updateAll [
 	DragInstances valuesDo: [ :each | each dispatch ]
 ]
 
-{ #category : #accessing }
+{ #category : #'private - accessing' }
 CpDragEvent >> addTracePoint: aPoint [
 
 	^ tracePoints add: aPoint
@@ -271,7 +276,7 @@ CpDragEvent >> endPoint [
 	^ endPoint
 ]
 
-{ #category : #accessing }
+{ #category : #'private - accessing' }
 CpDragEvent >> endPoint: aPoint [
 
 	endPoint := aPoint
@@ -327,6 +332,7 @@ CpDragEvent >> initializeWithPointerEvent: aPointerEvent [
 
 	self initialize.
 
+	timeStamp := aPointerEvent timeStamp.
 	currentTarget := aPointerEvent currentTarget.
 	offset := aPointerEvent offset.
 	tracePoints := OrderedCollection with: aPointerEvent point
@@ -412,13 +418,7 @@ CpDragEvent >> startPoint [
 	^ tracePoints first
 ]
 
-{ #category : #accessing }
-CpDragEvent >> timeStamp [
-
-	^ timeStamp ifNil: [ timeStamp := super timeStamp ]
-]
-
-{ #category : #accessing }
+{ #category : #'private - accessing' }
 CpDragEvent >> timeStamp: anInteger [
 
 	"Set the relative timeStamp (in milliseconds)"

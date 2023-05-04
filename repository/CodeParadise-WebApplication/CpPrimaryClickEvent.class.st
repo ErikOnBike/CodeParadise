@@ -4,7 +4,7 @@ Class {
 	#category : #'CodeParadise-WebApplication-Events-Custom'
 }
 
-{ #category : #announcing }
+{ #category : #testing }
 CpPrimaryClickEvent class >> handlesClickEvent: aClickEvent [
 
 	"Accept only primary click"

@@ -96,6 +96,28 @@ CpDomExamplesClientBehavior class >> someValue [
 	^ 3 + 4
 ]
 
+{ #category : #examples }
+CpDomExamplesClientBehavior >> addEventListenersIn: outputElement to: listElement [
+
+	"DO NOT ADD EVENT LISTENERS HERE, it will cause infinite recursion"	
+
+	| subscriptions |
+
+	subscriptions := outputElement announcer subscriptions subscriptions.
+
+	subscriptions do: [ :each |
+		listElement appendChild: ((CpHtmlElement newWithTag: #li)
+			appendChild: outputElement printString asHtmlElement ;
+			appendChild: ': ' asHtmlElement ;
+			appendChild: each announcementClass printString asHtmlElement ;
+			appendChild: ' subscriber: ' asHtmlElement ;
+			appendChild: each subscriber printString asHtmlElement ;
+			yourself) ].
+
+	outputElement children do: [ :each |
+		self addEventListenersIn: each to: listElement ]
+]
+
 { #category : #accessing }
 CpDomExamplesClientBehavior >> clearOutput [
 
@@ -174,21 +196,21 @@ CpDomExamplesClientBehavior >> exampleClickEvents [
 		'Native click' -> CpClickEvent.
 		'Any button (no modifier)' -> CpAnyClickEvent.
 		'Primary button (no modifier)' -> CpPrimaryClickEvent.
-		'Primary button (no modifier, short click)' -> (CpPrimaryClickEvent + CpShortClickModifier).
-		'Primary button (no modifier, long click)' -> (CpPrimaryClickEvent + CpLongClickModifier).
-		'Primary button with shift' -> (CpPrimaryClickEvent + CpShiftModifier).
-		'Primary button with alt' -> (CpPrimaryClickEvent + CpAltModifier).
-		'Primary button with ctrl' -> (CpPrimaryClickEvent + CpCtrlModifier).
-		'Primary button with meta' -> (CpPrimaryClickEvent + CpMetaModifier).
-		'Primary button with ctrl + meta' -> (CpPrimaryClickEvent + CpMetaModifier + CpCtrlModifier).
+		'Primary button (no modifier, short click)' -> (CpPrimaryClickEvent & CpShortClick).
+		'Primary button (no modifier, long click)' -> (CpPrimaryClickEvent & CpLongClick).
+		'Primary button with shift' -> (CpPrimaryClickEvent & CpShiftKeyDown).
+		'Primary button with alt' -> (CpPrimaryClickEvent & CpAltKeyDown).
+		'Primary button with ctrl' -> (CpPrimaryClickEvent & CpCtrlKeyDown).
+		'Primary button with meta' -> (CpPrimaryClickEvent & CpMetaKeyDown).
+		'Primary button with ctrl + meta' -> (CpPrimaryClickEvent & (CpMetaKeyDown + CpCtrlKeyDown)).
 		'Secondary button (no modifier)' -> CpSecondaryClickEvent.
-		'Secondary button (no modifier, short click)' -> (CpSecondaryClickEvent + CpShortClickModifier).
-		'Secondary button (no modifier, long click)' -> (CpSecondaryClickEvent + CpLongClickModifier).
-		'Secondary button with shift' -> (CpSecondaryClickEvent + CpShiftModifier).
-		'Secondary button with alt' -> (CpSecondaryClickEvent + CpAltModifier).
-		'Secondary button with ctrl' -> (CpSecondaryClickEvent + CpCtrlModifier).
-		'Secondary button with meta' -> (CpSecondaryClickEvent + CpMetaModifier).
-		'Secondary button with ctrl + shift' -> (CpSecondaryClickEvent + CpCtrlModifier + CpShiftModifier).
+		'Secondary button (no modifier, short click)' -> (CpSecondaryClickEvent & CpShortClick).
+		'Secondary button (no modifier, long click)' -> (CpSecondaryClickEvent & CpLongClick).
+		'Secondary button with shift' -> (CpSecondaryClickEvent & CpShiftKeyDown).
+		'Secondary button with alt' -> (CpSecondaryClickEvent & CpAltKeyDown).
+		'Secondary button with ctrl' -> (CpSecondaryClickEvent & CpCtrlKeyDown).
+		'Secondary button with meta' -> (CpSecondaryClickEvent & CpMetaKeyDown).
+		'Secondary button with ctrl + shift' -> (CpSecondaryClickEvent & (CpCtrlKeyDown + CpShiftKeyDown)).
 	}.
 
 	buttonDefs do: [ :each |
@@ -285,9 +307,93 @@ CpDomExamplesClientBehavior >> exampleCreateRandomEllipses [
 ]
 
 { #category : #examples }
-CpDomExamplesClientBehavior >> exampleEvents [
+CpDomExamplesClientBehavior >> exampleEventListeners [
 
-	<example: 'Events' order: 910>
+	<example: 'EventListeners - debug' order: 9999>
+
+	| outputElement logElement listElement |
+
+	outputElement := self outputElement.
+	logElement := (outputElement firstDescendantMatching: '#log')
+		ifNil: [ outputElement appendChild: ((CpHtmlElement newWithTag: #div)
+			id: #log ;
+			appendChild: ((CpHtmlElement newWithTag: #h1)
+				textContent: 'EventListeners' ;
+				yourself) ;
+			appendChild: (CpHtmlElement newWithTag: #ul) ;
+			yourself) ].
+
+	listElement := logElement firstDescendantMatching: #ul.
+	listElement removeChildren.
+
+	self addEventListenersIn: outputElement to: listElement
+]
+
+{ #category : #examples }
+CpDomExamplesClientBehavior >> exampleEventMultipleHandlers [
+
+	<example: 'Event multiple handlers' order: 920>
+
+	| outputElement |
+
+	textRegistry := Dictionary new.
+	self clearOutput.
+	outputElement := self outputElement.
+
+	outputElement appendChild: ((CpHtmlElement newWithTag: #div)
+		markupContent: '
+			<h3>Double events on inner and outer</h3>
+			<div id="outer" style="padding: 2em; background-color: rgba(255, 0, 0, .1)">
+				<div id="inner" style="padding: 2em; background-color: rgba(0, 255, 0, .1)">
+					<span style="display: inline-block" class="text1"></span>
+					<span style="display: inline-block" class="text2"></span>
+				</div>
+				<span style="display: inline-block" class="text1"></span>
+				<span style="display: inline-block" class="text2"></span>
+			</div>
+
+			<h3>Double events on inner and outer and additional low level pointerdown/pointerup events (used in CpAnyClickEvent)</h3>
+			<p>Use CTRL + click</p>
+			<div id="outer2" style="padding: 2em; background-color: rgba(255, 0, 0, .1)">
+				<div id="inner2" style="padding: 2em; background-color: rgba(0, 255, 0, .1)">
+					<span style="display: inline-block" class="text1"></span>
+					<span style="display: inline-block" class="text2"></span>
+				</div>
+					<span style="display: inline-block" class="text1"></span>
+					<span style="display: inline-block" class="text2"></span>
+			</div>
+		' ;
+		yourself).
+	self crTrace: 'Setup event handlers'.
+	(outputElement firstDescendantMatching: '#outer')
+		when: CpPrimaryClickEvent do: [ self crTrace: 'outer first' ; showText: 'Clicked first' in: '#outer > .text1' ] ;
+		when: CpPrimaryClickEvent do: [ self crTrace: 'outer second' ; showText: 'Clicked second' in: '#outer > .text2' ].
+	(outputElement firstDescendantMatching: '#inner')
+		when: CpPrimaryClickEvent do: [ self crTrace: 'inner first' ; showText: 'Clicked first' in: '#inner > .text1' ] ;
+		when: CpPrimaryClickEvent do: [ self crTrace: 'inner second' ; showText: 'Clicked second' in: '#inner > .text2' ].
+	self crTrace: 'Done setup event handlers'.
+
+	self crTrace: 'Setup event handlers'.
+	(outputElement firstDescendantMatching: '#outer2')
+		when: CpPointerDownEvent do: [ self crTrace: 'PointerDown single on outer2' ] ;
+		when: CpPointerUpEvent do: [ self crTrace: 'PointerUp single on outer2' ] ;
+		when: CpPrimaryClickEvent & CpCtrlKeyDown do: [ self crTrace: 'outer2 first' ; showText: 'Clicked first' in: '#outer2 > .text1' ] ;
+		when: CpPrimaryClickEvent & CpCtrlKeyDown do: [ self crTrace: 'outer2 second' ; showText: 'Clicked second' in: '#outer2 > .text2' ].
+	(outputElement firstDescendantMatching: '#inner2')
+		when: CpPointerDownEvent do: [ self crTrace: 'PointerDown first on inner2' ] ;
+		when: CpPointerDownEvent do: [ self crTrace: 'PointerDown second on inner2' ] ;
+		when: CpPointerUpEvent do: [ self crTrace: 'PointerUp first on inner2' ] ;
+		when: CpPointerUpEvent do: [ self crTrace: 'PointerUp second on inner2' ] ;
+		when: CpPrimaryClickEvent & CpCtrlKeyDown do: [ self crTrace: 'inner2 first' ; showText: 'Clicked first' in: '#inner2 > .text1' ] ;
+		when: CpPrimaryClickEvent & CpCtrlKeyDown do: [ self crTrace: 'inner2 second' ; showText: 'Clicked second' in: '#inner2 > .text2' ].
+	self crTrace: 'Done setup event handlers'.
+
+]
+
+{ #category : #examples }
+CpDomExamplesClientBehavior >> exampleEventPropagation [
+
+	<example: 'Event propagation' order: 910>
 
 	| outputElement |
 
@@ -333,18 +439,21 @@ CpDomExamplesClientBehavior >> exampleEvents [
 		when: CpPrimaryClickEvent do: [ self showText: 'Clicked' in: '#inner > .text' ].
 
 	(outputElement firstDescendantMatching: '#outer2')
-		when: CpPrimaryClickEvent + CpShiftModifier do: [ self showText: 'Clicked' in: '#outer2 > .text' ].
+		when: CpPrimaryClickEvent & CpShiftKeyDown do: [ self showText: 'Clicked' in: '#outer2 > .text' ] ;
+		when: CpClickEvent send: #preventDefault: to: outputElement.
 	(outputElement firstDescendantMatching: '#inner2')
-		when: CpPrimaryClickEvent + CpShiftModifier do: [ :event | event stopPropagation. self showText: 'Clicked (1st handler)' in: '#inner2 > .text1' ].
+		when: CpPrimaryClickEvent & CpShiftKeyDown do: [ :event | event stopPropagation. self showText: 'Clicked (1st handler)' in: '#inner2 > .text1' ] ;
+		when: CpClickEvent send: #preventDefault: to: outputElement.
 	(outputElement firstDescendantMatching: '#inner2')
-		when: CpPrimaryClickEvent + CpShiftModifier do: [ :event | self showText: 'Clicked (2nd handler)' in: '#inner2 > .text2' ].
+		when: CpPrimaryClickEvent & CpShiftKeyDown do: [ self showText: 'Clicked (2nd handler)' in: '#inner2 > .text2' ] ;
+		when: CpClickEvent send: #preventDefault: to: outputElement.
 
 	(outputElement firstDescendantMatching: '#outer3')
-		when: CpPrimaryClickEvent + CpCtrlModifier do: [ self showText: 'Clicked' in: '#outer3 > .text' ].
+		when: CpPrimaryClickEvent & CpCtrlKeyDown do: [ self showText: 'Clicked' in: '#outer3 > .text' ].
 	(outputElement firstDescendantMatching: '#inner3')
-		when: CpPrimaryClickEvent + CpCtrlModifier do: [ :event | event stopImmediatePropagation. self showText: 'Clicked (1st handler)' in: '#inner3 > .text1' ].
+		when: CpPrimaryClickEvent & CpCtrlKeyDown do: [ :event | event stopImmediatePropagation. self showText: 'Clicked (1st handler)' in: '#inner3 > .text1' ].
 	(outputElement firstDescendantMatching: '#inner3')
-		when: CpPrimaryClickEvent + CpCtrlModifier do: [ :event | self showText: 'Clicked (2nd handler)' in: '#inner3 > .text2' ].
+		when: CpPrimaryClickEvent & CpCtrlKeyDown do: [ :event | self showText: 'Clicked (2nd handler)' in: '#inner3 > .text2' ].
 
 ]
 
@@ -400,36 +509,36 @@ CpDomExamplesClientBehavior >> exampleNestedClickEvents [
 	outputElement := self outputElement.
 
 	buttonDefs1 := {
-		'Any button (no modifier)' -> CpAnyClickEvent.
-		'Primary button (no modifier)' -> CpPrimaryClickEvent.
-		'Primary button with shift' -> (CpPrimaryClickEvent + CpShiftModifier).
-		'Any button (no modifier)' -> CpAnyClickEvent.
-		'Secondary button (no modifier)' -> CpSecondaryClickEvent.
-		'Secondary button (shift, long click)' -> (CpSecondaryClickEvent + CpShiftModifier + CpLongClickModifier).
-		'Primary button (no modifier)' -> CpPrimaryClickEvent.
-		'Any button (no modifier)' -> CpAnyClickEvent.
+		'Any button (no modifier, short click)' -> (CpAnyClickEvent noModifiers & CpShortClick).
+		'Primary button (ignore modifiers)' -> CpPrimaryClickEvent.
+		'Primary button with shift' -> (CpPrimaryClickEvent & CpShiftKeyDown).
+		'Any button (ignore modifiers, long click)' -> (CpAnyClickEvent & CpLongClick).
+		'Secondary button (no modifier)' -> CpSecondaryClickEvent noModifiers.
+		'Secondary button (shift, long click)' -> (CpSecondaryClickEvent & CpShiftKeyDown & CpLongClick).
+		'Primary button (no modifier)' -> CpPrimaryClickEvent noModifiers.
+		'Any button (ignore modifier)' -> CpAnyClickEvent.
 	}.
 
 	buttonDefs2 := {
-		'Any button (shift modifier)' -> (CpAnyClickEvent + CpShiftModifier).
-		'Primary button (no modifier)' -> CpPrimaryClickEvent.
-		'Primary button with shift' -> (CpPrimaryClickEvent + CpShiftModifier).
-		'Any button (shift modifier)' -> (CpAnyClickEvent + CpShiftModifier).
-		'Secondary button (no modifier)' -> CpSecondaryClickEvent.
-		'Secondary button (shift, long click)' -> (CpSecondaryClickEvent + CpShiftModifier + CpLongClickModifier).
-		'Primary button (no modifier)' -> CpPrimaryClickEvent.
-		'Any button (no modifier)' -> CpAnyClickEvent.
+		'Any button (shift modifier)' -> (CpAnyClickEvent & CpShiftKeyDown).
+		'Primary button (no modifier)' -> CpPrimaryClickEvent noModifiers.
+		'Primary button with shift' -> (CpPrimaryClickEvent & CpShiftKeyDown).
+		'Any button (shift modifier)' -> (CpAnyClickEvent & CpShiftKeyDown).
+		'Secondary button (no modifier)' -> CpSecondaryClickEvent noModifiers.
+		'Secondary button (shift, long click)' -> (CpSecondaryClickEvent & CpShiftKeyDown & CpLongClick).
+		'Primary button (no modifier)' -> CpPrimaryClickEvent noModifiers.
+		'Any button (no modifier)' -> CpAnyClickEvent noModifiers.
 	}.
 
 	buttonDefs3 := {
-		'Any button (shift modifier)' -> (CpAnyClickEvent + CpShiftModifier).
-		'Primary button (no modifier)' -> CpPrimaryClickEvent.
-		'Primary button with shift' -> (CpPrimaryClickEvent + CpShiftModifier).
-		'Any button (shift modifier)' -> (CpAnyClickEvent + CpShiftModifier).
+		'Any button (shift modifier, short click)' -> (CpAnyClickEvent & CpShiftKeyDown & CpShortClick).
+		'Primary button (ignore modifiers)' -> CpPrimaryClickEvent.
+		'Primary button with shift' -> (CpPrimaryClickEvent & CpShiftKeyDown).
+		'Any button (shift modifier)' -> (CpAnyClickEvent & CpShiftKeyDown).
 		'Native button' -> CpClickEvent.
-		'Secondary button (no modifier)' -> CpSecondaryClickEvent.
-		'Secondary button (shift, long click)' -> (CpSecondaryClickEvent + CpShiftModifier + CpLongClickModifier).
-		'Primary button (no modifier)' -> CpPrimaryClickEvent.
+		'Secondary button (ignore modifiers)' -> CpSecondaryClickEvent.
+		'Secondary button (shift, long click)' -> (CpSecondaryClickEvent & CpShiftKeyDown & CpLongClick).
+		'Primary button (no modifier)' -> CpPrimaryClickEvent noModifiers.
 		'Native button' -> CpClickEvent.
 	}.
 

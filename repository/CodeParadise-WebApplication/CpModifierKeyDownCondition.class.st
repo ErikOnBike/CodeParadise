@@ -8,7 +8,7 @@ Class {
 }
 
 { #category : #'logical operations' }
-CpModifierKeyDownCondition class >> & aModifierKeyCondition [
+CpModifierKeyDownCondition class >> + aModifierKeyCondition [
 
 	"Answer an instance of the receiver specifying an additional modifier to be combined with the receiver"
 
@@ -52,7 +52,7 @@ CpModifierKeyDownCondition class >> new [
 ]
 
 { #category : #accessing }
-CpModifierKeyDownCondition >> & aModifierKeyCondition [
+CpModifierKeyDownCondition >> + aModifierKeyCondition [
 
 	"Update the receiver specifying an additional modifier to be combined with the receiver"
 

@@ -39,6 +39,17 @@ CpBaseEvent class >> handlesAnnouncement: anAnnouncement [
 	^ anAnnouncement class includesBehavior: self
 ]
 
+{ #category : #'conditional events' }
+CpBaseEvent class >> noModifiers [
+
+	"Answer a ConditionalEvent for the receiver disallowing any modifiers.
+
+	This is useful to specify only a click event is allowed, but no modifier should
+	be down when clicked."
+
+	^ self & CpNoModifiersDown
+]
+
 { #category : #announcing }
 CpBaseEvent >> asAnnouncement [
 
@@ -58,6 +69,12 @@ CpBaseEvent >> dispatch [
 
 	(self currentTarget ifNil: [ ^ self ])
 		announce: self
+]
+
+{ #category : #testing }
+CpBaseEvent >> hasDuration [
+
+	^ false
 ]
 
 { #category : #announcing }
