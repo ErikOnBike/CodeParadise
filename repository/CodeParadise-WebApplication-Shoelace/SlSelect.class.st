@@ -132,12 +132,12 @@ SlSelect >> help [
 ]
 
 { #category : #accessing }
-SlSelect >> help: anElement [
+SlSelect >> help: aStringOrElement [
 
 	"Set the help text to the specified Element.
 	For a simple String value use #helpText: instead."
 
-	self replaceAllChildrenWith: anElement asHtmlElement atSlotNamed: #'help-text'
+	self replaceAllChildrenWith: aStringOrElement asHtmlElement atSlotNamed: #'help-text'
 ]
 
 { #category : #accessing }
@@ -198,18 +198,18 @@ SlSelect >> isPill [
 SlSelect >> label [
 
 	"Answer the label HTML element of the receiver.
-	For a simple String value use #helpLabel instead."
+	For a simple String value use #labelText instead."
 
 	^ self firstChildAtSlotNamed: #label
 ]
 
 { #category : #accessing }
-SlSelect >> label: anElement [
+SlSelect >> label: aStringOrElement [
 
 	"Set the label to the specified Element.
 	For a simple String value use #labelText: instead."
 
-	self replaceAllChildrenWith: anElement asHtmlElement atSlotNamed: #label
+	self replaceAllChildrenWith: aStringOrElement asHtmlElement atSlotNamed: #label
 ]
 
 { #category : #accessing }
@@ -220,7 +220,7 @@ SlSelect >> labelText [
 
 	^ self label
 		ifNotNil: [ :label | label textContent ]
-		ifNil: [ self textContent ]
+		ifNil: [ '' ]
 ]
 
 { #category : #accessing }
@@ -228,13 +228,6 @@ SlSelect >> labelText: aString [
 
 	"Set the label text to the specified String value.
 	For richer HTML element use #label: instead."
-
-	"Optimize for simple select label with <span> only"
-	self label ifNotNil: [ :label |
-		label tagName = #span
-			ifTrue: [
-				label textContent: aString.
-				^ self ] ].
 
 	self label: aString asHtmlElement
 ]
@@ -309,4 +302,20 @@ SlSelect >> suffix [
 SlSelect >> suffix: anElement [
 
 	self replaceAllChildrenWith: anElement atSlotNamed: #suffix
+]
+
+{ #category : #accessing }
+SlSelect >> value [
+
+	self flag: #TODO. "Temporary fix for values with spaces in them (replace by non-breakable space)."
+
+	^ super value replaceAll: (Character value: 160) with: Character space
+]
+
+{ #category : #accessing }
+SlSelect >> value: aString [
+
+	self flag: #TODO. "Temporary fix for values with spaces in them (replace by non-breakable space)."
+
+	^ super value: (aString asString replaceAll: Character space with: (Character value: 160))
 ]

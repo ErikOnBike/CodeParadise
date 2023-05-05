@@ -52,7 +52,11 @@ CpObjectRegistry >> objectWithId: identifier [
 	objectsMutex critical: [
 		^ objects
 			keyAtIdentityValue: identifier
-			ifAbsent: [ Error signal: 'No object registered with identifier: ', identifier printString ] ]
+			ifAbsent: [
+				self crError: 'No object registered with identifier: ', identifier printString.
+
+				"Answer nil"
+				nil ] ]
 ]
 
 { #category : #'public api' }

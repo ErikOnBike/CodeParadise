@@ -6,27 +6,41 @@ Class {
 	#name : #CpClientStarted,
 	#superclass : #Announcement,
 	#instVars : [
-		'app'
+		'variables'
 	],
 	#category : #'CodeParadise-RemoteEnvironment-Core-Announcements'
 }
 
 { #category : #'instance creation' }
-CpClientStarted class >> app: identifier [
+CpClientStarted class >> variables: aDictionary [ 
 
 	^ self new
-		app: identifier ;
+		variables: aDictionary ;
 		yourself
 ]
 
 { #category : #accessing }
 CpClientStarted >> app [
 
-	^ app
+	^ self variableAt: CpClientEnvironment variableNameApp
 ]
 
 { #category : #accessing }
-CpClientStarted >> app: identifier [
+CpClientStarted >> variableAt: aSymbol [ 
 
-	app := identifier
+	^ variables at: aSymbol ifAbsent: [ nil ]
+]
+
+{ #category : #accessing }
+CpClientStarted >> variables [ 
+
+	"Answer copy to make sure my instance variable does not change."
+
+	^ variables copy
+]
+
+{ #category : #accessing }
+CpClientStarted >> variables: aDictionary [ 
+
+	variables := aDictionary
 ]

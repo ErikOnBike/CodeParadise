@@ -180,12 +180,12 @@ SlTextControl >> help [
 ]
 
 { #category : #accessing }
-SlTextControl >> help: anElement [
+SlTextControl >> help: aStringOrElement [
 
 	"Set the help text to the specified Element.
 	For a simple String value use #helpText: instead."
 
-	self replaceAllChildrenWith: anElement asHtmlElement atSlotNamed: #'help-text'
+	self replaceAllChildrenWith: aStringOrElement asHtmlElement atSlotNamed: #'help-text'
 ]
 
 { #category : #accessing }
@@ -194,7 +194,9 @@ SlTextControl >> helpText [
 	"Answer the help text (a String) of the receiver.
 	For richer HTML element use #help instead."
 
-	^ self help textContent
+	^ self help
+		ifNotNil: [ :help | help textContent ]
+		ifNil: [ '' ]
 ]
 
 { #category : #accessing }
@@ -300,12 +302,12 @@ SlTextControl >> label [
 ]
 
 { #category : #accessing }
-SlTextControl >> label: anElement [
+SlTextControl >> label: aStringOrElement [
 
 	"Set the label to the specified Element.
 	For a simple String value use #labelText: instead."
 
-	self replaceAllChildrenWith: anElement asHtmlElement atSlotNamed: #label
+	self replaceAllChildrenWith: aStringOrElement asHtmlElement atSlotNamed: #label
 ]
 
 { #category : #accessing }
@@ -316,7 +318,7 @@ SlTextControl >> labelText [
 
 	^ self label
 		ifNotNil: [ :label | label textContent ]
-		ifNil: [ self textContent ]
+		ifNil: [ '' ]
 ]
 
 { #category : #accessing }
@@ -324,13 +326,6 @@ SlTextControl >> labelText: aString [
 
 	"Set the label text to the specified String value.
 	For richer HTML element use #label: instead."
-
-	"Optimize for simple text control label with <span> only"
-	self label ifNotNil: [ :label |
-		label tagName = #span
-			ifTrue: [
-				label textContent: aString.
-				^ self ] ].
 
 	self label: aString asHtmlElement
 ]

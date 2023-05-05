@@ -86,6 +86,12 @@ CpCommunicator >> hasOpenMessageChannel [
 	^ messageChannel notNil and: [ messageChannel isOpen ]
 ]
 
+{ #category : #testing }
+CpCommunicator >> hasUnsentMessages [
+
+	^ self unsentMessagesCount > 0
+]
+
 { #category : #initialization }
 CpCommunicator >> initialize [
 

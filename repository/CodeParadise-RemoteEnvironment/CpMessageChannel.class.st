@@ -118,8 +118,16 @@ CpMessageChannel >> createMessageHandler [
 		"TODO: Fix this in tiny image. Probably better handling of Processes.
 		The current tiny image requires the Process to be terminated.
 		Otherwise it fails with a #cannotReturn:"
-		Processor activeProcess terminate ] forkAt: Processor highIOPriority
+		Processor activeProcess terminate ] forkAt: Processor highIOPriority named: 'CodeParadise Message Handler'
 
+]
+
+{ #category : #'message handling' }
+CpMessageChannel >> handleMessageHandlerError: anError [ 
+
+	"Placeholder method to allow specific error handling by subclass or extension method."
+
+	self crError: 'Failed to handle messages: ' , anError printString
 ]
 
 { #category : #'message handling' }
@@ -214,10 +222,13 @@ CpMessageChannel >> runMessageHandler [
 	Implementation: After the connection has closed, clean up."
 
 	[ self isOpen ] whileTrue: [
-		"Handle available messages and update internal state"
-		self
-			handleMessages ;
-			updateState ].
+		[ 
+			"Handle available messages and update internal state"
+			self
+				handleMessages ;
+				updateState
+		 ] on: Error do: [ :error | 
+			self handleMessageHandlerError: error ] ].
 
 	"Signal connection is closed by sending a nil message"
 	self handleMessageReceived: nil.

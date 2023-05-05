@@ -13,7 +13,6 @@ BaselineOfCodeParadise >> baseline: spec [
 
 		"Dependencies"
 		spec
-			baseline: 'CpClientEnvironment' with: [ spec repository: 'github://ErikOnBike/CP-ClientEnvironment' ];
 			baseline: 'ZincHTTPComponents' with: [ spec loads: #('Core' 'WebSocket') ; repository: 'github://svenvc/zinc' ].
 
 		"Packages"
@@ -26,6 +25,7 @@ BaselineOfCodeParadise >> baseline: spec [
 			package: 'CodeParadise-WebApplication-Shoelace' with: [ spec requires: #('CodeParadise-WebApplication-MVP') ];
 			package: 'CodeParadise-WebApplication-Fomantic' with: [ spec requires: #('CodeParadise-WebApplication-MVP') ];
 			package: 'CodeParadise-WebApplication-Presentation' with: [ spec requires: #('CodeParadise-WebApplication-MVP') ];
+			package: 'CodeParadise-WebApplication-ChartJS' with: [ spec requires: #('CodeParadise-WebApplication-MVP') ];
 			package: 'CodeParadise-Beach' with: [ spec requires: #('CodeParadise-WebApplication-MVP') ].
 
 		spec
@@ -34,12 +34,9 @@ BaselineOfCodeParadise >> baseline: spec [
 
 			package: 'CodeParadise-Beach-Tests' with: [ spec requires: #('CodeParadise-Beach') ].
 
-		"Pharo 9.x specific"
-		spec for: #'pharo9.x' do: [ spec package: 'CodeParadise-RemoteEnvironment-Pharo9' ].
-
 		"Groups"
 		spec 
-			group: 'default' with: #( 'Core' 'Shoelace' 'Fomantic' 'Presentation' 'Beach' 'Tests' );
+			group: 'default' with: #( 'Core' 'Shoelace' 'Fomantic' 'ChartJS' 'Presentation' 'Beach' 'Tests' );
 
 			group: 'Core' with: #( 'CodeParadise-WebApplication' );
 			group: 'Tests' with: #( 'CodeParadise-WebApplication-Tests' 'CodeParadise-RemoteEnvironment-Tests' 'CodeParadise-Beach-Tests' );
@@ -48,9 +45,29 @@ BaselineOfCodeParadise >> baseline: spec [
 
 			group: 'Shoelace' with: #( 'CodeParadise-WebApplication-Shoelace' );
 			group: 'Fomantic' with: #( 'CodeParadise-WebApplication-Fomantic' );
+			group: 'ChartJS' with: #( 'CodeParadise-WebApplication-ChartJS' );
 			group: 'Presentation' with: #( 'CodeParadise-WebApplication-Presentation' );
 			group: 'Beach' with: #( 'CodeParadise-Beach' );
 
-			group: 'CI' with: #( 'Tests' ).
-	 ]
+			group: 'CI' with: #( 'Tests' ) ].
+
+	"Pharo 8.x specific"
+	spec for: #(#'pharo8.x') do: [
+		spec
+			"For Pharo 8 we need a Client Environment with a tiny image based on older pre-Sista bytecode set"
+			baseline: 'CpClientEnvironment' with: [ spec repository: 'github://ErikOnBike/CP-ClientEnvironment:pharo8' ] ].
+
+	"Pharo 9.x (and upward) specific"
+	spec for: #(#'pharo9.x' #'pharo10.x' #'pharo11.x') do: [
+		spec
+			"For Pharo 9 (and above) we need a Client Environment with a tiny image based on the newer Sista bytecode set"
+			baseline: 'CpClientEnvironment' with: [ spec repository: 'github://ErikOnBike/CP-ClientEnvironment' ] ;
+			package: 'CodeParadise-RemoteEnvironment-Pharo9' ;
+			package: 'CodeParadise-RemoteEnvironment' with: [ spec requires: 'CodeParadise-RemoteEnvironment-Pharo9' ] ].
+
+	"Pharo 11.x (and upward) specific"
+	spec for: #(#'pharo11.x') do: [
+		spec
+			package: 'CodeParadise-RemoteEnvironment-Pharo11' ;
+			package: 'CodeParadise-RemoteEnvironment' with: [ spec requires: 'CodeParadise-RemoteEnvironment-Pharo11' ] ].
 ]

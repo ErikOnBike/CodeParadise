@@ -62,7 +62,7 @@ CpEncodeDecodeObjectTest class >> compareMethodPropertiesFrom: aMethodProperties
 	aMethodProperties size = anotherMethodProperties size
 		ifFalse: [ ^ false ].
 
-	aMethodProperties pragmas doWithIndex: [ :eachPragma :index |
+	aMethodProperties pragmas withIndexDo: [ :eachPragma :index |
 		| otherPragma |
 		otherPragma := anotherMethodProperties pragmas at: index.
 		eachPragma selector = otherPragma selector
@@ -230,6 +230,9 @@ CpEncodeDecodeObjectTest >> testFloat [
 	self
 		assert: (CpObjectDecoder on: (CpObjectEncoder new encodeFloat: Float negativeInfinity ; bytes)) decodeNext negative
 		description: 'Encode/decode Float negativeInfinity'.
+	self
+		assert: (CpObjectDecoder on: -123.456 cpEncoded) decodeNext = -123.456
+		description: 'Decode an encoded negative Float'.
 	self
 		assert: (CpObjectDecoder on: 1.23 cpEncoded) decodeNext = 1.23
 		description: 'Decode an encoded Float'

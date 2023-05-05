@@ -75,7 +75,7 @@ CpDemoCodeContentView >> initialize [
 	super initialize.
 
 	self
-		when: CpClickEvent send: #handleClickEvent: to: self ;
+		when: CpPrimaryClickEvent send: #handleClickEvent: to: self ;
 		when: CpPointerMoveEvent send: #handlePointerMoveEvent: to: self
 ]
 

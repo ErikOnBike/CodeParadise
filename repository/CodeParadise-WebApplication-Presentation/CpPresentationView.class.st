@@ -95,7 +95,7 @@ CpPresentationView >> initialize [
 	The KeyUpEvent is used, since it will prevent repeating keys and also supports
 	arrow keys (which do not generate a KeyPress event)."
 	CpHtmlElement documentBody
-		when: CpClickEvent send: #handleClickEvent: to: self ;
+		when: CpPrimaryClickEvent send: #handleClickEvent: to: self ;
 		when: CpKeyUpEvent send: #handleKeyPressEvent: to: self
 ]
 

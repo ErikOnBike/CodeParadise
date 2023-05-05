@@ -42,6 +42,14 @@ Class {
 	#category : #'CodeParadise-WebApplication-MVP-Core'
 }
 
+{ #category : #evaluating }
+CpPresenter class >> cull: anObject [
+
+	"Assume I'm used in #usingPresenter: construct and simply answer myself"
+
+	^ self
+]
+
 { #category : #accessing }
 CpPresenter class >> defaultViewClass [
 
@@ -252,17 +260,25 @@ CpPresenter >> destroy [
 	"Destroy the receiver.
 
 	Implementation:
-	Remove receiver from its application and its parent first to prevent
-	recursive updates."
+	Disconnect from model first to prevent further updates.
+	Then remove receiver from its application and its parent
+	to prevent recursive updates."
 
+	self model: nil.
+
+	"Remove presenter from the application and also remove its subscriptions"
 	application
-		ifNotNil: [ application removePresenter: self ].
+		ifNotNil: [
+			application
+				unsubscribe: self ;
+				removePresenter: self ].
 
 	self hasParent
 		ifTrue: [ self parent removeChildPresenter: self ].
 
 	"Remove view from visible DOM"
 	self view remove.
+	needsRendering := false.
 
 	self
 		destroyChildPresenters ;

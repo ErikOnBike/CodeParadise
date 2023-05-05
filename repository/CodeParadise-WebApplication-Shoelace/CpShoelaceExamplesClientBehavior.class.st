@@ -340,6 +340,82 @@ CpShoelaceExamplesClientBehavior >> exampleInput [
 ]
 
 { #category : #examples }
+CpShoelaceExamplesClientBehavior >> exampleRange [
+
+	<example: 'Range' order: 100>
+
+	| outputElement |
+
+	"Clear content"
+	outputElement := self outputElement.
+	outputElement textContent: ''.
+
+	outputElement appendChild: ((CpHtmlElement newWithTag: #div)
+		styleAt: #width put: '30em' ;
+
+		appendChild: SlRange new ;
+
+		appendChild: (CpHtmlElement newWithTag: #p) ;
+
+		appendChild: (SlRange new labelText: 'Labelled range' ; yourself) ;
+
+		appendChild: (CpHtmlElement newWithTag: #p) ;
+
+		appendChild: (SlRange new label: ((CpHtmlElement newWithTag: 'span') markupContent: 'Label <i>with</i> some <b>more</b> markup' ; yourself)) ;
+
+		appendChild: (CpHtmlElement newWithTag: #p) ;
+
+		appendChild: (SlRange new labelText: 'Disableded range' ; disabled: true ; value: 25 ; yourself) ;
+
+		appendChild: (CpHtmlElement newWithTag: #p) ;
+
+		appendChild: (SlRange new labelText: 'Range with min/max/step (6/12/2)' ; min: 6 ; max: 12 ; step: 2 ; yourself) ;
+
+		yourself)
+]
+
+{ #category : #examples }
+CpShoelaceExamplesClientBehavior >> exampleSelect [
+
+	<example: 'Select' order: 100>
+
+	| outputElement |
+
+	"Clear content"
+	outputElement := self outputElement.
+	outputElement textContent: ''.
+
+	outputElement
+		appendChild: ('Regular select' inHtmlTag: #p) ;
+		appendChild: (SlSelect new
+			appendChild: (SlOption value: #first labelText: 'First' ) ;
+			appendChild: (SlOption value: #second labelText: 'Second' ) ;
+			appendChild: (SlOption value: #third labelText: 'Third' ) ;
+			yourself) ;
+		appendChild: ('Multiple select' inHtmlTag: #p) ;
+		appendChild: (SlSelect new
+			beMultiple ;
+			appendChild: (SlOption value: #first labelText: 'First' ) ;
+			appendChild: (SlOption value: #second labelText: 'Second' ) ;
+			appendChild: (SlOption value: #third labelText: 'Third' ) ;
+			yourself) ;
+		appendChild: ('Disabled select' inHtmlTag: #p) ;
+		appendChild: (SlSelect new
+			beDisabled ;
+			appendChild: (SlOption value: #first labelText: 'First' ) ;
+			appendChild: (SlOption value: #second labelText: 'Second' ) ;
+			appendChild: (SlOption value: #third labelText: 'Third' ) ;
+			yourself) ;
+		appendChild: ('Pilled select' inHtmlTag: #p) ;
+		appendChild: (SlSelect new
+			bePill ;
+			appendChild: (SlOption value: #first labelText: 'First' ) ;
+			appendChild: (SlOption value: #second labelText: 'Second' ) ;
+			appendChild: (SlOption value: #third labelText: 'Third' ) ;
+			yourself)
+]
+
+{ #category : #examples }
 CpShoelaceExamplesClientBehavior >> exampleSwitch [
 
 	<example: 'Switch' order: 100>

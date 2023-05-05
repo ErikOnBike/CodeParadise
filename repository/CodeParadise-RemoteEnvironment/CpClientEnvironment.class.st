@@ -60,6 +60,13 @@ CpClientEnvironment class >> hasPreInstalledClass: aClass [
 	^ self preInstalledClasses includes: aClass
 ]
 
+{ #category : #'as yet unclassified' }
+CpClientEnvironment class >> installReconnectStrategy: aReconnectStrategy [
+
+	self current communicator
+		reconnectStrategy: aReconnectStrategy
+]
+
 { #category : #testing }
 CpClientEnvironment class >> isRunning [
 
@@ -179,6 +186,12 @@ CpClientEnvironment class >> release [
 	PreInstalledClasses := nil
 ]
 
+{ #category : #constants }
+CpClientEnvironment class >> variableNameApp [ 
+
+	^ #APP
+]
+
 { #category : #'user interaction' }
 CpClientEnvironment >> alert: aString [
 
@@ -193,11 +206,11 @@ CpClientEnvironment >> alert: aString [
 CpClientEnvironment >> app [
 
 	"Answer a Symbol identifying the application that is running.
-	The environment variable #APP should provide this information."
+	The app environment variable should provide this information."
 
-	^ (self variableAt: #APP)
+	^ (self variableAt: self class variableNameApp)
 		ifNotNil: [ :appString | appString asSymbol ]
-		ifNil: [ self fatal: 'The environment variable #APP is not properly set' ]
+		ifNil: [ self fatal: 'The environment variable ' , self class variableNameApp printString , ' is not properly set' ]
 ]
 
 { #category : #'user interaction' }
@@ -239,6 +252,15 @@ CpClientEnvironment >> createInstanceOf: className withId: identifier [
 	instance initialize.
 
 	^ instance
+]
+
+{ #category : #logging }
+CpClientEnvironment >> error: aString [
+
+	"Log error message on Transcript/console"
+
+	<primitive: 'primitiveEnvironmentError:' module: 'CpSystemPlugin'>
+	^ self
 ]
 
 { #category : #support }
@@ -306,24 +328,30 @@ CpClientEnvironment >> handleMessageSend: aMessageSend [
 
 	| receiverId |
 
-	receiverId := aMessageSend receiver.
-	aMessageSend receiver: (receiverId
-		ifNotNil: [ self objectRegistry objectWithId: receiverId ]
-		ifNil: [ self ]).
+	(receiverId := aMessageSend receiver)
+		ifNotNil: [
+			(self objectRegistry objectWithId: receiverId)
+				ifNotNil: [ :object | aMessageSend receiver: object ]
+				ifNil: [
+					"Send Announcement of error to server"
+					self serverAnnounce: (CpClientMessageSendFailed
+						messageSend: aMessageSend
+						description: 'Object with the specified id does not exist in the client').
+					^ self ] ]
+		ifNil: [ aMessageSend receiver: self ].
 
 	"Perform the message send"
 	[ aMessageSend value ] on: Error do: [ :error |
 
-		self crTrace: 'Error when sent message ', aMessageSend selector, ' to ', aMessageSend receiver printString.
-		self crTrace: error printString.
-		self crTrace: error signalerContext printString.
+		self crError: 'Error when sent message ', aMessageSend selector, ' to ', aMessageSend receiver printString.
+		self crError: error printString.
+		self crError: error signalerContext printString.
 
 		"Restore receiver id and send Announcement of error to server"
 		aMessageSend receiver: receiverId.
 		self serverAnnounce: (CpClientMessageSendFailed
 			messageSend: aMessageSend
 			description: error description) ]
-
 ]
 
 { #category : #accessing }
@@ -382,16 +410,6 @@ CpClientEnvironment >> invalidSession [
 	self
 		removeSession ;
 		reload
-]
-
-{ #category : #logging }
-CpClientEnvironment >> log: aString [
-
-	"Log message on Transcript/console"
-
-	<primitive: 'primitiveEnvironmentLog:' module: 'CpSystemPlugin'>
-	^ self
-
 ]
 
 { #category : #accessing }
@@ -502,8 +520,7 @@ CpClientEnvironment >> startCommunication [
 	super startCommunication.
 
 	"Send initial event to server to actually start communication"
-	self serverAnnounce: (CpClientStarted app: self app)
-
+	self serverAnnounce: (CpClientStarted variables: self variables)
 ]
 
 { #category : #support }
@@ -521,7 +538,7 @@ CpClientEnvironment >> variableAt: nameString [
 
 	"Answer the value (a String) of the environment variable with the specified name
 	or nil if a variable with the specified name does not exist.
-	Case sensitivity is not defined, for compatibilty best use all uppercase names."
+	Case sensitivity is not defined, for compatibility best use all uppercase names."
 
 	<primitive: 'primitiveEnvironmentVariableAt:' module: 'CpSystemPlugin'>
 	^ nil
@@ -531,8 +548,41 @@ CpClientEnvironment >> variableAt: nameString [
 CpClientEnvironment >> variableAt: nameString put: valueString [
 
 	"Set the environment variable with the specified name to the specified value.
-	Case sensitivity is not defined, for compatibilty best use all uppercase names."
+	Case sensitivity is not defined, for compatibility best use all uppercase names."
 
 	<primitive: 'primitiveEnvironmentVariableAt:put:' module: 'CpSystemPlugin'>
 	self primitiveFailed
+]
+
+{ #category : #accessing }
+CpClientEnvironment >> variableNames [
+
+	"Answer an array with the names of available environment variables."
+
+	<primitive: 'primitiveEnvironmentVariableNames' module: 'CpSystemPlugin'>
+	self primitiveFailed
+]
+
+{ #category : #accessing }
+CpClientEnvironment >> variables [
+
+	"Answer a dictionary with the names and values of available environment variables."
+
+	| variables |
+
+	variables := Dictionary new.
+
+	self variableNames do: [ :each | 
+		variables at: each put: (self variableAt: each) ].
+
+	^ variables
+]
+
+{ #category : #logging }
+CpClientEnvironment >> warn: aString [
+
+	"Log warning message on Transcript/console"
+
+	<primitive: 'primitiveEnvironmentWarn:' module: 'CpSystemPlugin'>
+	^ self
 ]

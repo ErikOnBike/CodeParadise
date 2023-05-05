@@ -5,7 +5,16 @@ Class {
 }
 
 { #category : #'instance creation' }
-SlMenuItem class >> value: aSymbol label: aString [
+SlMenuItem class >> value: aSymbol label: aStringOrElement [
+
+	^ self new
+		value: aSymbol ;
+		label: aStringOrElement ;
+		yourself
+]
+
+{ #category : #'instance creation' }
+SlMenuItem class >> value: aSymbol labelText: aString [
 
 	^ self new
 		value: aSymbol ;
@@ -108,9 +117,28 @@ SlMenuItem >> isEnabled [
 ]
 
 { #category : #accessing }
+SlMenuItem >> label [
+
+	"Answer the label HTML element of the receiver.
+	For a simple String value use #labelText instead."
+
+	^ self firstChildAtSlotNamed: nil
+]
+
+{ #category : #accessing }
+SlMenuItem >> label: aStringOrElement [
+
+	"Set the label to the specified Element.
+	For a simple String value use #labelText: instead."
+
+	self replaceAllChildrenWith: aStringOrElement asHtmlElement atSlotNamed: nil
+]
+
+{ #category : #accessing }
 SlMenuItem >> labelText [
 
-	"Answer the label text (a String) of the receiver"
+	"Answer the label text (a String) of the receiver.
+	For richer HTML element use #label instead."
 
 	^ self textContent
 ]
@@ -118,7 +146,8 @@ SlMenuItem >> labelText [
 { #category : #accessing }
 SlMenuItem >> labelText: aString [
 
-	"Set the label text to the specified String value"
+	"Set the label text to the specified String value.
+	For richer HTML element use #label: instead."
 
 	self textContent: aString
 ]

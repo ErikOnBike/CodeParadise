@@ -57,9 +57,9 @@ CpEvent class >> createEventProcess [
 CpEvent class >> dispatchEvent: anEvent [
 
 	[ anEvent dispatch ] on: Error do: [ :error |
-		self crTrace: 'Error when handling event ', anEvent printString.
-		self crTrace: error description.
-		self crTrace: error signalerContext printString ]
+		self crError: 'Error when handling event ', anEvent printString.
+		self crError: error description.
+		self crError: error signalerContext printString ]
 ]
 
 { #category : #'processing - private' }

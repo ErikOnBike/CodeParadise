@@ -205,15 +205,6 @@ SlButton >> clone [
 ]
 
 { #category : #accessing }
-SlButton >> content: anElement [
-
-	"Set the content of the receiver to the specified element.
-	Any existing content is removed."
-
-	self replaceAllChildrenWith: anElement asHtmlElement
-]
-
-{ #category : #accessing }
 SlButton >> disabled: aBoolean [
 
 	self propertyAt: #disabled put: aBoolean
@@ -287,18 +278,18 @@ SlButton >> isPill [
 SlButton >> label [
 
 	"Answer the label HTML element of the receiver.
-	For a simple String value use #helpLabel instead."
+	For a simple String value use #labelText instead."
 
 	^ self firstChildAtSlotNamed: nil
 ]
 
 { #category : #accessing }
-SlButton >> label: anElement [
+SlButton >> label: aStringOrElement [
 
 	"Set the label to the specified Element.
 	For a simple String value use #labelText: instead."
 
-	self replaceAllChildrenWith: anElement asHtmlElement atSlotNamed: nil
+	self replaceAllChildrenWith: aStringOrElement asHtmlElement atSlotNamed: nil
 ]
 
 { #category : #accessing }
@@ -307,9 +298,7 @@ SlButton >> labelText [
 	"Answer the label text (a String) of the receiver.
 	For richer HTML element use #label instead."
 
-	^ self label
-		ifNotNil: [ :label | label textContent ]
-		ifNil: [ self textContent ]
+	^ self textContent
 ]
 
 { #category : #accessing }
@@ -318,14 +307,7 @@ SlButton >> labelText: aString [
 	"Set the label text to the specified String value.
 	For richer HTML element use #label: instead."
 
-	"Optimize for simple button label with <span> only"
-	self label ifNotNil: [ :label |
-		label tagName = #span
-			ifTrue: [
-				label textContent: aString.
-				^ self ] ].
-
-	self label: aString asHtmlElement
+	self textContent: aString
 ]
 
 { #category : #accessing }

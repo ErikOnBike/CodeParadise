@@ -168,7 +168,8 @@ CpServerEnvironment >> announce: anAnnouncement [
 
 	"Let the receiver announce the specified Announcement"
 
-	self announcer announce: anAnnouncement
+	[ self announcer announce: anAnnouncement ] on: Error do: [ :error |
+		self crError: 'Failed to Announce ', anAnnouncement printString, ': ', error printString ]
 ]
 
 { #category : #accessing }
@@ -273,6 +274,7 @@ CpServerEnvironment >> handleMessageReceived: aByteArray [
 	| decoder |
 
 	decoder := CpObjectDecoder on: aByteArray.
+	decoder cacheString: self id.
 
 	[ decoder hasMoreData ] whileTrue: [
 		self handleClientAnnouncement: decoder decodeNext ]
@@ -446,7 +448,7 @@ CpServerEnvironment >> started: anAnnouncement [
 
 	self beLoaded.
 
-	loadedAnnouncer announce: (announcementClass app: anAnnouncement app environment: self)
+	loadedAnnouncer announce: (announcementClass variables: anAnnouncement variables environment: self)
 ]
 
 { #category : #support }

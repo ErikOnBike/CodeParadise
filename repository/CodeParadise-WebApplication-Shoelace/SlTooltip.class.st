@@ -94,13 +94,19 @@ SlTooltip >> clone [
 { #category : #accessing }
 SlTooltip >> content [
 
+	"Answer the content HTML element of the receiver.
+	For a simple String value use #contentText instead."
+
 	^ self firstChildAtSlotNamed: #content
 ]
 
 { #category : #accessing }
-SlTooltip >> content: anElement [
+SlTooltip >> content: aStringOrElement [
 
-	self replaceAllChildrenWith: anElement atSlotNamed: #content
+	"Set the content to the specified Element.
+	For a simple String value use #contentText: instead."
+
+	self replaceAllChildrenWith: aStringOrElement asHtmlElement atSlotNamed: #content
 ]
 
 { #category : #accessing }
@@ -109,7 +115,9 @@ SlTooltip >> contentText [
 	"Answer the content text (a String) of the receiver.
 	For richer HTML element use #content instead."
 
-	^ self content textContent
+	^ self content
+		ifNotNil: [ :content | content textContent ]
+		ifNil: [ '' ]
 ]
 
 { #category : #accessing }

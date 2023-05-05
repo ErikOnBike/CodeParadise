@@ -25,7 +25,7 @@ SlElement class >> hasAbstractTag [
 { #category : #accessing }
 SlElement class >> importBasePath [
 
-	^ 'https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.0.0-beta.73/dist/'
+	^ 'https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.0.0/dist/'
 ]
 
 { #category : #accessing }

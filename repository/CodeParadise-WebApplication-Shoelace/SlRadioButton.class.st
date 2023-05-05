@@ -66,6 +66,14 @@ SlRadioButton >> hasFocus [
 	^ self = CpHtmlElement activeElement
 ]
 
+{ #category : #initialization }
+SlRadioButton >> initialize [
+
+	super initialize.
+
+	self when: CpPrimaryClickEvent send: #onPrivateClick: to: self
+]
+
 { #category : #testing }
 SlRadioButton >> isChecked [
 
@@ -82,18 +90,18 @@ SlRadioButton >> isPill [
 SlRadioButton >> label [
 
 	"Answer the label HTML element of the receiver.
-	For a simple String value use #helpLabel instead."
+	For a simple String value use #labelText instead."
 
 	^ self firstChildAtSlotNamed: nil
 ]
 
 { #category : #accessing }
-SlRadioButton >> label: anElement [
+SlRadioButton >> label: aStringOrElement [
 
 	"Set the label to the specified Element.
 	For a simple String value use #labelText: instead."
 
-	self replaceAllChildrenWith: anElement asHtmlElement atSlotNamed: nil
+	self replaceAllChildrenWith: aStringOrElement asHtmlElement atSlotNamed: nil
 ]
 
 { #category : #accessing }
@@ -102,9 +110,7 @@ SlRadioButton >> labelText [
 	"Answer the label text (a String) of the receiver.
 	For richer HTML element use #label instead."
 
-	^ self label
-		ifNotNil: [ :label | label textContent ]
-		ifNil: [ self textContent ]
+	^ self textContent
 ]
 
 { #category : #accessing }
@@ -113,14 +119,7 @@ SlRadioButton >> labelText: aString [
 	"Set the label text to the specified String value.
 	For richer HTML element use #label: instead."
 
-	"Optimize for simple button label with <span> only"
-	self label ifNotNil: [ :label |
-		label tagName = #span
-			ifTrue: [
-				label textContent: aString.
-				^ self ] ].
-
-	self label: aString asHtmlElement
+	self textContent: aString
 ]
 
 { #category : #accessing }
