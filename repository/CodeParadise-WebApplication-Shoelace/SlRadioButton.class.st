@@ -66,14 +66,6 @@ SlRadioButton >> hasFocus [
 	^ self = CpHtmlElement activeElement
 ]
 
-{ #category : #initialization }
-SlRadioButton >> initialize [
-
-	super initialize.
-
-	self when: CpPrimaryClickEvent send: #onPrivateClick: to: self
-]
-
 { #category : #testing }
 SlRadioButton >> isChecked [
 
