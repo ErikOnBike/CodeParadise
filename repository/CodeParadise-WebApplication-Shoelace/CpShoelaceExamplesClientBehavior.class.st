@@ -454,41 +454,38 @@ CpShoelaceExamplesClientBehavior >> showIndex [
 
 	| body list items |
 
-	CpHtmlElement documentHead appendChild: ((CpHtmlElement newWithTag: #style)
-		textContent: '
-			#menu {
-				display: inline-block;
-				width: 20em;
-				height: calc(100vh - 6em);
-				border-right: 1px solid #999;
-			}
-			#menu ul {
-				list-style: none;
-			}
-			#menu li { 
-				cursor: pointer;
-				margin-bottom: .6em;
-			}
-			#result {
-				position: absolute;
-				display: inline-block;
-				width: calc(100% - 24em);
-				height: calc(100vh - 10em);
-				padding: 2em;
-			}
-			#output {
-				position: relative;
-				width: 100%;
-				height: 100%;
-			}
-			#output div {
-				padding-top: 1em;
-			}
-			div.separator {
-				height: 1em;
-			}
-		' ;
-		yourself).
+	CpHtmlElement documentAddStyle: '
+		#menu {
+			display: inline-block;
+			width: 20em;
+			height: calc(100vh - 6em);
+			border-right: 1px solid #999;
+		}
+		#menu ul {
+			list-style: none;
+		}
+		#menu li { 
+			cursor: pointer;
+			margin-bottom: .6em;
+		}
+		#result {
+			position: absolute;
+			display: inline-block;
+			width: calc(100% - 24em);
+			height: calc(100vh - 10em);
+			padding: 2em;
+		}
+		#output {
+			position: relative;
+			width: 100%;
+			height: 100%;
+		}
+		#output div {
+			padding-top: 1em;
+		}
+		div.separator {
+			height: 1em;
+		}'.
 	body := CpHtmlElement documentBody.
 	body markupContent: '<h1>Shoelace Examples</h1>
 		<div style="width: 100%; margin: 0; padding: 0;">

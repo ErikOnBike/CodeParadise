@@ -31,12 +31,7 @@ SlIcon class >> loadComponent [
 
 	super loadComponent.
 
-	CpHtmlElement documentHead
-		appendChild:
-			((CpHtmlElement newWithTag: #script)
-				attributeAt: #type put: 'module' ;
-				textContent: 'import { setBasePath } from "', self importBasePath, 'utilities/base-path.js";setBasePath("', self importBasePath, '");' ;
-				yourself)
+	CpHtmlElement documentAddModuleScript: 'import { setBasePath } from "', self importBasePath, 'utilities/base-path.js";setBasePath("', self importBasePath, '");'
 ]
 
 { #category : #accessing }
@@ -60,12 +55,7 @@ SlIcon class >> registerFontAwesome [
 
 	"Register Font Awesome as icon library to load icons from CDN"
 
-	CpHtmlElement documentHead
-		appendChild:
-			((CpHtmlElement newWithTag: #script)
-				attributeAt: #type put: 'module' ;
-				textContent: self registerFontAwesomeCode ;
-				yourself)
+	CpHtmlElement documentAddModuleScript: self registerFontAwesomeCode
 ]
 
 { #category : #'class initialization' }

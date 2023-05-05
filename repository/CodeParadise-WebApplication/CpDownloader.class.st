@@ -38,7 +38,5 @@ CpDownloader class >> postInstall [
 
 	super postInstall.
 
-	CpHtmlElement documentHead appendChild: ((CpHtmlElement newWithTag: #script)
-		textContent: self downloadContentScript ;
-		yourself)
+	CpHtmlElement documentAddScript: self downloadContentScript
 ]

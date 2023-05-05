@@ -57,6 +57,52 @@ CpHtmlElement class >> activeElement [
 	^ self document propertyAt: #activeElement
 ]
 
+{ #category : #adding }
+CpHtmlElement class >> documentAddModuleScript: aString [
+
+	self documentAddScript: aString type: 'module' id: nil
+]
+
+{ #category : #adding }
+CpHtmlElement class >> documentAddScript: aString [
+
+	self documentAddScript: aString type: nil id: nil
+]
+
+{ #category : #adding }
+CpHtmlElement class >> documentAddScript: contentString type: typeString id: idString [
+
+	"Add the specified Javascript content to the receiver"
+
+	self documentHead appendChild: ((self newWithTag: #script)
+		attributeAt: #id put: idString ;
+		attributeAt: #type put: typeString ;
+		textContent: contentString ;
+		yourself)
+]
+
+{ #category : #adding }
+CpHtmlElement class >> documentAddStyle: aString [
+
+	"Add the specified CSS content to the receiver"
+
+	self documentHead appendChild: ((self newWithTag: #style)
+		textContent: aString ;
+		yourself)
+]
+
+{ #category : #adding }
+CpHtmlElement class >> documentAddStylesheet: aString [
+
+	"Add the specified (external) stylesheet to the receiver"
+
+	self documentHead appendChild: ((CpHtmlElement newWithTag: #link)
+		attributeAt: #rel put: 'stylesheet' ;
+		attributeAt: #type put: 'text/css' ;
+		attributeAt: #href put: aString ;
+		yourself)
+]
+
 { #category : #'acccessing-ui' }
 CpHtmlElement class >> documentBody [
 

@@ -81,32 +81,22 @@ SlElement class >> loadComponent [
 
 	"Load component from CDN"
 
-	CpHtmlElement documentHead
-		appendChild:
-			((CpHtmlElement newWithTag: #script)
-				attributeAt: #id put: self componentLoaderName ;
-				attributeAt: #type put: 'module' ;
-				textContent: self importComponentCode ;
-				yourself)
+	CpHtmlElement
+		documentAddScript: self importComponentCode
+		type: 'module'
+		id: self componentLoaderName
 ]
 
 { #category : #'class initialization' }
 SlElement class >> loadLibrary [
 
-	"Load library from CDN"
+	"Load library from CDN.
 
-	CpHtmlElement documentHead
-		appendChild:
-			((CpHtmlElement newWithTag: #meta)
-				attributeAt: #name put: 'viewport' ;
-				attributeAt: #content put: 'width=device-width, initial-scale=1.0' ;
-				yourself) ;
-		appendChild:
-			((CpHtmlElement newWithTag: #link)
-				attributeAt: #rel put: 'stylesheet' ;
-				attributeAt: #type put: 'text/css' ;
-				attributeAt: #href put: self importThemesPath ;
-				yourself)
+	Implementation:
+	Load stylesheet here. All components will load themselves.
+	See SlElement class >> #loadComponent"
+
+	CpHtmlElement documentAddStylesheet: self importThemesPath
 ]
 
 { #category : #'instance creation' }
