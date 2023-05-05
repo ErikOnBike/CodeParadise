@@ -21,12 +21,12 @@ To retrieve a positional parameter use (or one of the three convenience methods)
 	actionRequested secondParameter
 	actionRequested thirdParameter
 
-See some examples in the class comment for CpBaseEvent.
+See some examples in the class comment for CpBasicEvent.
 
 "
 Class {
 	#name : #CpActionRequested,
-	#superclass : #CpBaseEvent,
+	#superclass : #CpBasicEvent,
 	#instVars : [
 		'parameters'
 	],

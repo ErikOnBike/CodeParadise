@@ -2,12 +2,12 @@
 I am a generic announcement for (input) Fields being changed in the View.
 I can have a value to further specify what has actually changed.
 
-See some examples in the class comment for CpBaseEvent.
+See some examples in the class comment for CpBasicEvent.
 
 "
 Class {
 	#name : #CpFieldChanged,
-	#superclass : #CpBaseEvent,
+	#superclass : #CpBasicEvent,
 	#instVars : [
 		'value'
 	],

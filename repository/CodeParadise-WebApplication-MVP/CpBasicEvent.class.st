@@ -42,7 +42,7 @@ from the View). The examples are based on some of my concrete subclasses.
 
 "
 Class {
-	#name : #CpBaseEvent,
+	#name : #CpBasicEvent,
 	#superclass : #Announcement,
 	#instVars : [
 		'id'
@@ -51,7 +51,7 @@ Class {
 }
 
 { #category : #'instance creation' }
-CpBaseEvent class >> id: aSymbol [
+CpBasicEvent class >> id: aSymbol [
 
 	^ self basicNew
 		initializeWithId: aSymbol ;
@@ -59,7 +59,7 @@ CpBaseEvent class >> id: aSymbol [
 ]
 
 { #category : #'instance creation' }
-CpBaseEvent class >> new [
+CpBasicEvent class >> new [
 
 	"Do not instantiate events directly"
 
@@ -67,7 +67,7 @@ CpBaseEvent class >> new [
 ]
 
 { #category : #testing }
-CpBaseEvent >> handlesAnnouncement: anAnnouncement [
+CpBasicEvent >> handlesAnnouncement: anAnnouncement [
 
 	"Answer whether the receiver handles the specified announcement.
 	This is normally a class side method, but it is used as an instance
@@ -83,13 +83,13 @@ CpBaseEvent >> handlesAnnouncement: anAnnouncement [
 ]
 
 { #category : #accessing }
-CpBaseEvent >> id [
+CpBasicEvent >> id [
 
 	^ id
 ]
 
 { #category : #initialization }
-CpBaseEvent >> initializeWithId: aSymbol [
+CpBasicEvent >> initializeWithId: aSymbol [
 
 	self initialize.
 
