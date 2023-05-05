@@ -239,7 +239,7 @@ CpEvent >> matchesKeyDownCondition: aKeyDownCondition [
 
 	"Answer whether the specified key down condition matches (modifiers are equal)"
 
-	^ self modifiers = aKeyDownCondition modifiers
+	^ aKeyDownCondition matches: self
 ]
 
 { #category : #accessing }
