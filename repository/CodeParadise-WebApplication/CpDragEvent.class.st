@@ -218,7 +218,17 @@ CpDragEvent class >> newFromPointerEvent: aPointerEvent [
 CpDragEvent class >> postInstallOnce [
 
 	DragInstances := IdentityDictionary new.
-	SupportingEventsInstalled := false
+	SupportingEventsInstalled := false.
+
+	self preventNativeDragEvents
+]
+
+{ #category : #'event handling - private' }
+CpDragEvent class >> preventNativeDragEvents [
+
+	"The native drag support of Some browsers (like Firefox) need to be prevented"
+
+	CpHtmlElement documentAddScript: 'document.body.addEventListener("dragstart", function(event) { event.preventDefault(); });'
 ]
 
 { #category : #announcing }
