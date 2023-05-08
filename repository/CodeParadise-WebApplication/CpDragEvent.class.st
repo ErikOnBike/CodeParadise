@@ -68,8 +68,8 @@ CpDragEvent class >> dragCancel: aPointerEvent [
 	DragInstances removeKey: aPointerEvent pointerId.
 	self removeSupportingEvents.
 
-	"Update the drag event with current timestamp"
-	dragEvent timeStamp: aPointerEvent timeStamp.
+	"Update the drag event"
+	dragEvent updateWithPointerEvent: aPointerEvent.
 
 	"Cancel the drag event"
 	dragEvent cancel.
@@ -107,8 +107,10 @@ CpDragEvent class >> dragEnd: aPointerUpEvent [
 	dragEvent hasMoved ifFalse: [ ^ self ].
 
 	"Update the final position and timestamp of the drag event"
-	dragEvent endPoint: aPointerUpEvent point.
-	dragEvent timeStamp: aPointerUpEvent timeStamp.
+	dragEvent updateWithPointerEvent: aPointerUpEvent.
+
+	"Mark the drag event ended"
+	dragEvent end.
 
 	"Dispatch the event to allow updates to take place"
 	dragEvent dispatch.
@@ -145,8 +147,7 @@ CpDragEvent class >> dragMove: aPointerMoveEvent [
 		ifTrue: [ ^ self ].
 
 	"Update the latest position of the drag event"
-	dragEvent addTracePoint: aPointerMoveEvent point.
-	dragEvent timeStamp: aPointerMoveEvent timeStamp.
+	dragEvent updateWithPointerEvent: aPointerMoveEvent.
 
 	"Dispatch the event to allow updates to take place"
 	dragEvent dispatch
@@ -343,6 +344,7 @@ CpDragEvent >> initializeWithPointerEvent: aPointerEvent [
 	self initialize.
 
 	timeStamp := aPointerEvent timeStamp.
+	modifiers := aPointerEvent modifiers.
 	currentTarget := aPointerEvent currentTarget.
 	offset := aPointerEvent offset.
 	tracePoints := OrderedCollection with: aPointerEvent point
@@ -443,4 +445,12 @@ CpDragEvent >> tracePoints [
 	The trace points will include the 'historic' point, ie not the current drag point."
 
 	^ tracePoints
+]
+
+{ #category : #'processing - private' }
+CpDragEvent >> updateWithPointerEvent: aPointerEvent [
+
+	timeStamp := aPointerEvent timeStamp.
+	modifiers := aPointerEvent modifiers.
+	tracePoints add: aPointerEvent point
 ]

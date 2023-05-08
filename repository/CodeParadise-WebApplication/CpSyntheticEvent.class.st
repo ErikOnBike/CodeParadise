@@ -10,6 +10,7 @@ Class {
 	#instVars : [
 		'currentTarget',
 		'timeStamp',
+		'modifiers',
 		'stopPropagation',
 		'stopAfter'
 	],
@@ -72,6 +73,9 @@ CpSyntheticEvent >> initialize [
 
 	super initialize.
 
+	"By default, no modifiers"
+	modifiers := 0.
+
 	"By default events propagate (bubble) up"
 	stopPropagation := false
 ]
@@ -98,6 +102,15 @@ CpSyntheticEvent >> isStopped [
 					^ true ] ].
 
 	^ false
+]
+
+{ #category : #accessing }
+CpSyntheticEvent >> modifiers [
+
+	"Answer an Integer specifying the different modifiers pressed.
+	See superclass' implementation for details."
+
+	^ modifiers
 ]
 
 { #category : #initialization }

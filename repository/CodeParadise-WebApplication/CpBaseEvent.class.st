@@ -71,6 +71,66 @@ CpBaseEvent >> dispatch [
 		announce: self
 ]
 
+{ #category : #testing }
+CpBaseEvent >> isAltKeyDown [
+
+	^ self modifiers allMask: CpAltKeyDown modifiers
+]
+
+{ #category : #testing }
+CpBaseEvent >> isAnyModifierDown [
+
+	^ self modifiers ~= 0
+]
+
+{ #category : #testing }
+CpBaseEvent >> isCtrlKeyDown [
+
+	^ self modifiers allMask: CpCtrlKeyDown modifiers
+]
+
+{ #category : #testing }
+CpBaseEvent >> isMetaKeyDown [
+
+	^ self modifiers allMask: CpMetaKeyDown modifiers
+]
+
+{ #category : #testing }
+CpBaseEvent >> isNoModifierDown [
+
+	^ self modifiers = 0
+]
+
+{ #category : #testing }
+CpBaseEvent >> isShiftKeyDown [
+
+	^ self modifiers allMask: CpShiftKeyDown modifiers
+]
+
+{ #category : #testing }
+CpBaseEvent >> matchesKeyDownCondition: aKeyDownCondition [
+
+	"Answer whether the specified key down condition matches (modifiers are equal)"
+
+	^ aKeyDownCondition matches: self
+]
+
+{ #category : #accessing }
+CpBaseEvent >> modifiers [
+
+	"Answer an Integer specifying the different modifiers pressed.
+	Combine the following individual numbers:
+		1 - alt
+		2 - ctrl
+		4 - meta
+		8 - shift
+
+	Implementation: The browser Key, Mouse, Touch and Gesture events support this as well as some
+	Synthetic events, all others will answer 0."
+
+	^ 0
+]
+
 { #category : #announcing }
 CpBaseEvent >> prepareForDelivery [
 

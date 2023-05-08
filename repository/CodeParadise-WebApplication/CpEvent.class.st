@@ -187,42 +187,6 @@ CpEvent >> currentTarget [
 ]
 
 { #category : #testing }
-CpEvent >> isAltKeyDown [
-
-	^ self modifiers allMask: CpAltKeyDown modifiers
-]
-
-{ #category : #testing }
-CpEvent >> isAnyModifierDown [
-
-	^ self modifiers ~= 0
-]
-
-{ #category : #testing }
-CpEvent >> isCtrlKeyDown [
-
-	^ self modifiers allMask: CpCtrlKeyDown modifiers
-]
-
-{ #category : #testing }
-CpEvent >> isMetaKeyDown [
-
-	^ self modifiers allMask: CpMetaKeyDown modifiers
-]
-
-{ #category : #testing }
-CpEvent >> isNoModifierDown [
-
-	^ self modifiers = 0
-]
-
-{ #category : #testing }
-CpEvent >> isShiftKeyDown [
-
-	^ self modifiers allMask: CpShiftKeyDown modifiers
-]
-
-{ #category : #testing }
 CpEvent >> isStopped [
 
 	"Answer whether the receiver is stopped by either
@@ -234,25 +198,11 @@ CpEvent >> isStopped [
 	self primitiveFailed
 ]
 
-{ #category : #testing }
-CpEvent >> matchesKeyDownCondition: aKeyDownCondition [
-
-	"Answer whether the specified key down condition matches (modifiers are equal)"
-
-	^ aKeyDownCondition matches: self
-]
-
 { #category : #accessing }
 CpEvent >> modifiers [
 
 	"Answer an Integer specifying the different modifiers pressed.
-	Combine the following individual numbers:
-		1 - alt
-		2 - ctrl
-		4 - meta
-		8 - shift
-
-	Implementation: Only Key, Mouse and Touch events support this, all others will answer 0."
+	See superclass' implementation for details."
 
 	<primitive: 'primitiveEventModifiers' module: 'CpDOMPlugin'>
 	self primitiveFailed

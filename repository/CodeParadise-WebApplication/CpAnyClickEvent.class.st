@@ -301,6 +301,7 @@ CpAnyClickEvent >> initializeWithPointerDownEvent: aPointerDownEvent [
 	self initialize.
 
 	timeStamp := aPointerDownEvent timeStamp.
+	modifiers := aPointerDownEvent modifiers.
 	pointerDownEvent := aPointerDownEvent
 ]
 
@@ -338,12 +339,6 @@ CpAnyClickEvent >> isShortClick [
 	process. After/during dispatching it is valid to use."
 
 	^ CpShortClick matches: self
-]
-
-{ #category : #accessing }
-CpAnyClickEvent >> modifiers [
-
-	^ pointerUpEvent modifiers
 ]
 
 { #category : #accessing }
@@ -465,6 +460,7 @@ CpAnyClickEvent >> updateWithPointerUpEvent: aPointerUpEvent [
 	After this update the receiver can be dispatched to the current target."
 
 	timeStamp := aPointerUpEvent timeStamp.
+	modifiers := aPointerUpEvent modifiers.
 	currentTarget := aPointerUpEvent currentTarget.
 	pointerUpEvent := aPointerUpEvent
 ]
