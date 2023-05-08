@@ -269,28 +269,29 @@ CpDragEvent class >> updateAll [
 	DragInstances valuesDo: [ :each | each dispatch ]
 ]
 
-{ #category : #'private - accessing' }
-CpDragEvent >> addTracePoint: aPoint [
-
-	^ tracePoints add: aPoint
-]
-
 { #category : #actions }
 CpDragEvent >> cancel [
 
 	canceled := true
 ]
 
+{ #category : #actions }
+CpDragEvent >> end [
+
+	"Mark the receiver is ended (make the last added trace point the end point).
+
+	Implementation:
+	Repeatedly calling this method will have no effect."
+
+	endPoint ifNotNil: [ ^ self ].
+
+	endPoint := tracePoints removeLast
+]
+
 { #category : #accessing }
 CpDragEvent >> endPoint [
 
 	^ endPoint
-]
-
-{ #category : #'private - accessing' }
-CpDragEvent >> endPoint: aPoint [
-
-	endPoint := aPoint
 ]
 
 { #category : #testing }
@@ -428,14 +429,6 @@ CpDragEvent >> printOn: aStream [
 CpDragEvent >> startPoint [
 
 	^ tracePoints first
-]
-
-{ #category : #'private - accessing' }
-CpDragEvent >> timeStamp: anInteger [
-
-	"Set the relative timeStamp (in milliseconds)"
-
-	timeStamp := anInteger
 ]
 
 { #category : #accessing }
