@@ -15,3 +15,25 @@ Class {
 	#superclass : #CpMouseEvent,
 	#category : #'CodeParadise-WebApplication-Events'
 }
+
+{ #category : #announcing }
+CpClickEvent class >> shortPrimaryNoModifiers [
+
+	"Answer a short primary click with no key modifiers to be used as announcement class.
+
+	For example:
+		aButton when: ClickEvent shortPrimaryUnmodified send: #onClick: to: self"
+
+	^ CpPrimaryClickEvent & CpShortClick & CpNoModifiersDown
+]
+
+{ #category : #announcing }
+CpClickEvent class >> shortSecondaryNoModifiers [
+
+	"Answer a short secondary click with no key modifiers to be used as announcement class.
+
+	For example:
+		aButton when: ClickEvent shortSecondaryUnmodified send: #onClick: to: self"
+
+	^ CpSecondaryClickEvent & CpShortClick & CpNoModifiersDown
+]
