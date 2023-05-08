@@ -96,7 +96,7 @@ CpKeyEvent class >> createConditionalEvent [
 
 	"Answer a ConditionalEvent for the receiver on the key defined by the calling method (selector)"
 
-	^ self & (CpKeyEventCondition key: thisContext sender method selector asString capitalized)
+	^ self key: thisContext sender method selector asString capitalized
 ]
 
 { #category : #'editing keys' }
@@ -305,6 +305,14 @@ CpKeyEvent class >> home [
 	"Answer a ConditionalEvent for the receiver on the key defined by the selector"
 
 	^ self createConditionalEvent
+]
+
+{ #category : #announcing }
+CpKeyEvent class >> key: aString [
+
+	"Answer a ConditionalEvent for the receiver on the key specified"
+
+	^ self & (CpKeyEventCondition key: aString)
 ]
 
 { #category : #'navigation keys' }
