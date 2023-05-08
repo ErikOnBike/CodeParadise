@@ -341,12 +341,6 @@ CpAnyClickEvent >> isShortClick [
 ]
 
 { #category : #accessing }
-CpAnyClickEvent >> modifierCount [
-
-	^ pointerUpEvent modifierCount
-]
-
-{ #category : #accessing }
 CpAnyClickEvent >> modifiers [
 
 	^ pointerUpEvent modifiers

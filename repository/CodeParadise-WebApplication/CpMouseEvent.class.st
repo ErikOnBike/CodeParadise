@@ -107,12 +107,6 @@ CpMouseEvent >> isThirdButtonPressed [
 ]
 
 { #category : #accessing }
-CpMouseEvent >> modifierCount [
-
-	^ self modifiers bitCount
-]
-
-{ #category : #accessing }
 CpMouseEvent >> movementX [
 
 	^ self propertyAt: #movementX
