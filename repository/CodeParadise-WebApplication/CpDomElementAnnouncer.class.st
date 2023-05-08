@@ -38,11 +38,8 @@ CpDomElementAnnouncer >> initializeWithElement: anElement [
 { #category : #removing }
 CpDomElementAnnouncer >> removeInterestIn: anAnnouncementClass for: anObject [
 
-	| eventClass |
-
-	eventClass := anAnnouncementClass asEventClass.
-
-	eventClass removeListenerFrom: self element.
+	anAnnouncementClass asEventClass
+		removeListenerFrom: self element.
 
 	super removeInterestIn: anAnnouncementClass for: anObject
 ]
@@ -50,11 +47,8 @@ CpDomElementAnnouncer >> removeInterestIn: anAnnouncementClass for: anObject [
 { #category : #'registration api' }
 CpDomElementAnnouncer >> when: anAnnouncementClass do: aBlock [
 
-	| eventClass |
-
-	eventClass := anAnnouncementClass asEventClass.
-
-	eventClass addListenerTo: self element.
+	anAnnouncementClass asEventClass
+		addListenerTo: self element.
 
 	super when: anAnnouncementClass do: aBlock
 ]
