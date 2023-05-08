@@ -71,12 +71,6 @@ CpBaseEvent >> dispatch [
 		announce: self
 ]
 
-{ #category : #testing }
-CpBaseEvent >> hasDuration [
-
-	^ false
-]
-
 { #category : #announcing }
 CpBaseEvent >> prepareForDelivery [
 
