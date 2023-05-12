@@ -15,8 +15,12 @@ CpSecondaryClickEvent class >> handlesClickEvent: aClickEvent [
 { #category : #initialization }
 CpSecondaryClickEvent class >> postInstallOnce [
 
-	CpHtmlElement document
-		when: CpContextMenuEvent send: #preventDefault: to: CpHtmlElement document
+	"Prevent default handling of ContextMenu (similar to secondary click)"
+
+	| documentBody |
+
+	(documentBody := CpHtmlElement documentBody)
+		when: CpContextMenuEvent send: #preventDefault: to: documentBody
 ]
 
 { #category : #testing }
