@@ -430,7 +430,18 @@ CpDomExamplesClientBehavior >> exampleEventPropagation [
 				</div>
 					<span style="display: inline-block" class="text"></span>
 			</div>
+
+			<h3>Inner and outer (inner has synthetic and native, outer has only native primary click event handler)</h3>
+			<p>Use SHIFT + click for stopPropagation, use ALT + click for stopImmediatePropagation</p>
+			<div id="outer4" style="padding: 2em; background-color: rgba(255, 0, 0, .1)">
+				<div id="inner4" style="padding: 2em; background-color: rgba(0, 255, 0, .1)">
+					<span style="display: inline-block" class="text1"></span>
+					<span style="display: inline-block" class="text2"></span>
+				</div>
+					<span style="display: inline-block" class="text"></span>
+			</div>
 		' ;
+		when: CpPointerDownEvent do: [ :event | event preventDefault  "Prevent selections" ] ;
 		yourself).
 
 	(outputElement firstDescendantMatching: '#outer')
@@ -439,21 +450,24 @@ CpDomExamplesClientBehavior >> exampleEventPropagation [
 		when: CpPrimaryClickEvent do: [ self showText: 'Clicked' in: '#inner > .text' ].
 
 	(outputElement firstDescendantMatching: '#outer2')
-		when: CpPrimaryClickEvent & CpShiftKeyDown do: [ self showText: 'Clicked' in: '#outer2 > .text' ] ;
-		when: CpClickEvent send: #preventDefault: to: outputElement.
+		when: CpPrimaryClickEvent & CpShiftKeyDown do: [ self showText: 'Clicked' in: '#outer2 > .text' ].
 	(outputElement firstDescendantMatching: '#inner2')
 		when: CpPrimaryClickEvent & CpShiftKeyDown do: [ :event | event stopPropagation. self showText: 'Clicked (1st handler)' in: '#inner2 > .text1' ] ;
-		when: CpClickEvent send: #preventDefault: to: outputElement.
-	(outputElement firstDescendantMatching: '#inner2')
-		when: CpPrimaryClickEvent & CpShiftKeyDown do: [ self showText: 'Clicked (2nd handler)' in: '#inner2 > .text2' ] ;
-		when: CpClickEvent send: #preventDefault: to: outputElement.
+		when: CpClickEvent send: #preventDefault: to: outputElement ;
+		when: CpPrimaryClickEvent & CpShiftKeyDown do: [ self showText: 'Clicked (2nd handler)' in: '#inner2 > .text2' ].
 
 	(outputElement firstDescendantMatching: '#outer3')
 		when: CpPrimaryClickEvent & CpCtrlKeyDown do: [ self showText: 'Clicked' in: '#outer3 > .text' ].
 	(outputElement firstDescendantMatching: '#inner3')
-		when: CpPrimaryClickEvent & CpCtrlKeyDown do: [ :event | event stopImmediatePropagation. self showText: 'Clicked (1st handler)' in: '#inner3 > .text1' ].
-	(outputElement firstDescendantMatching: '#inner3')
+		when: CpPrimaryClickEvent & CpCtrlKeyDown do: [ :event | event stopImmediatePropagation. self showText: 'Clicked (1st handler)' in: '#inner3 > .text1' ] ;
 		when: CpPrimaryClickEvent & CpCtrlKeyDown do: [ :event | self showText: 'Clicked (2nd handler)' in: '#inner3 > .text2' ].
+
+	(outputElement firstDescendantMatching: '#outer4')
+		when: CpClickEvent do: [ self showText: 'Clicked (native)' in: '#outer4 > .text' ].
+	(outputElement firstDescendantMatching: '#inner4')
+		when: CpPrimaryClickEvent & CpShiftKeyDown do: [ :event | event stopPropagation. self showText: 'SHIFT Clicked (stopped)' in: '#inner4 > .text1' ] ;
+		when: CpPrimaryClickEvent & CpAltKeyDown do: [ :event | event stopImmediatePropagation. self showText: 'ALT Clicked (stopped immediately)' in: '#inner4 > .text1' ] ;
+		when: CpClickEvent do: [ :event | self showText: 'Clicked (native)' in: '#inner4 > .text2' ].
 
 ]
 

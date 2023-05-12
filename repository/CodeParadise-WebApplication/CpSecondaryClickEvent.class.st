@@ -15,7 +15,7 @@ CpSecondaryClickEvent class >> handlesClickEvent: aClickEvent [
 { #category : #initialization }
 CpSecondaryClickEvent class >> postInstallOnce [
 
-	"Prevent default handling of ContextMenu (similar to secondary click)"
+	"Prevent default handling of ContextMenu by default (because it interferes with secondary click)"
 
 	| documentBody |
 
