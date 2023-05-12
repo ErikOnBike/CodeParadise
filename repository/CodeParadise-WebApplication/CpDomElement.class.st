@@ -540,6 +540,19 @@ CpDomElement >> isConnected [
 	^ self propertyAt: #isConnected
 ]
 
+{ #category : #testing }
+CpDomElement >> isDescendantOf: aDomElement [
+
+	"Answer whether the receiver is a descendant of the specified DOM element.
+	A descendant is either a child or a child of a child, etc.
+
+	A DOM element is never a descendant of itself:
+		(aDomElement isDescendantOf: aDomElement) == false"
+
+	<primitive: 'primitiveDomElementIsDescendantOf:' module: 'CpDOMPlugin'>
+	self primitiveFailed
+]
+
 { #category : #announcing }
 CpDomElement >> isListeningTo: anEventClass [
 
