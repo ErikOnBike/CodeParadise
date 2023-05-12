@@ -12,7 +12,7 @@ below as well.
 
 	aDomElement
 		when: CpKeyPressed & CpAltKeyDown send: #someKeyAndAltPressed: to: self ;
-		when: CpClickEvent & (CpAltKeyDown & CpShiftKeyDown) send: #onClickAndAltAndShift: to: self ;
+		when: CpClickEvent & (CpAltKeyDown + CpShiftKeyDown) send: #onClickAndAltAndShift: to: self ;
 		when: CpKeyPressEvent enter send: #onEnterPressed: to: self ;
 		when: CpKeyPressEvent space & CpCtrlKeyDown send: #onCtrlSpacePressed: to: self ;
 		when: CpClickEvent noModifiers send: #onClickWithoutModifiers: to: self.
