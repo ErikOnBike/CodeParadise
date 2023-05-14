@@ -97,7 +97,15 @@ CpAnyClickEvent class >> clickEnd: aPointerUpEvent [
 	Implementation:
 	Find the correct pre-created AnyClickEvent instance and update it with the
 	current information. This means the currentTarget is set, as well as the
-	duration becomes available.
+	duration which becomes available.
+
+	Handle all individual pointer up events (this method, like #clickStart: will be
+	invoked for all listeners). Not all registered targets might actually receive
+	the pointer up event. Not only because of stopping propagation, but a small
+	pointer move might have but a target just outside the click position. A future
+	version might prevent moving the pointer too much (moving cancels the click),
+	but even then a small move might make a (pointer down) target to be missed on
+	pointer up.
 
 	Do not remove ClickInstances here. The event might bubble and reach more targets.
 	For every (nested) target this method is invoked.
@@ -116,7 +124,7 @@ CpAnyClickEvent class >> clickEnd: aPointerUpEvent [
 	clickEvent currentTarget == aPointerUpEvent currentTarget
 		ifTrue: [ ^ self ].
 
-	"Update the click event"
+	"Update the click event with latest timestamp, modifier and duration information"
 	clickEvent updateWithPointerUpEvent: aPointerUpEvent.
 
 	"Dispatch the click event"
