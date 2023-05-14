@@ -29,7 +29,7 @@ CpDropEvent class >> newFromDragEvent: aDragEvent [
 { #category : #accessing }
 CpDropEvent >> dragElement [
 
-	^ dragEvent currentElement
+	^ dragEvent currentTarget
 ]
 
 { #category : #accessing }
