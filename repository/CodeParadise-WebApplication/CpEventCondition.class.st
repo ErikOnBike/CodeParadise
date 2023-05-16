@@ -16,6 +16,12 @@ CpEventCondition class >> matches: anEvent [
 	SubclassResponsibility signalFor: thisContext selector
 ]
 
+{ #category : #'logical operations' }
+CpEventCondition class >> not [
+
+	^ CpNegatedEventCondition condition: self
+]
+
 { #category : #accessing }
 CpEventCondition class >> value: anEvent [
 
@@ -35,6 +41,12 @@ CpEventCondition >> matches: anEvent [
 	implement this method because it might be implemented as a class side method."
 
 	SubclassResponsibility signalFor: thisContext selector
+]
+
+{ #category : #'logical operations' }
+CpEventCondition >> not [
+
+	^ CpNegatedEventCondition condition: self
 ]
 
 { #category : #accessing }
