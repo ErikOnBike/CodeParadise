@@ -102,16 +102,6 @@ SlAlert >> hide [
 	self apply: #hide withArguments: #()
 ]
 
-{ #category : #initialization }
-SlAlert >> initialize [
-
-	super initialize.
-
-	"Prevent the close click from propagating"
-	self when: CpPrimaryClickEvent send: #noop to: self
-
-]
-
 { #category : #accessing }
 SlAlert >> open [
 
