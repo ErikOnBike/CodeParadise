@@ -161,7 +161,7 @@ CpShoelaceExamplesClientBehavior >> exampleDialog [
 
 	"Add a close button in the dialog footer"
 	regularDialog footer: ((SlButton label: 'Close')
-		when: CpPrimaryClickEvent send: #hide to: regularDialog ;
+		when: CpClickEvent basicPrimary send: #hide to: regularDialog ;
 		yourself).
 
 	"Create a simple dialog with a paragraph of text"
@@ -172,7 +172,7 @@ CpShoelaceExamplesClientBehavior >> exampleDialog [
 
 	"Add a close button in the dialog footer"
 	modalDialog footer: ((SlButton label: 'Close please!')
-		when: CpPrimaryClickEvent send: #hide to: modalDialog ;
+		when: CpClickEvent basicPrimary send: #hide to: modalDialog ;
 		yourself).
 
 	"Create a mixed dialog with a paragraph of text"
@@ -183,7 +183,7 @@ CpShoelaceExamplesClientBehavior >> exampleDialog [
 
 	"Add a close button in the dialog footer"
 	mixedDialog footer: ((SlButton label: 'Bye!')
-		when: CpPrimaryClickEvent send: #hide to: mixedDialog ;
+		when: CpClickEvent basicPrimary send: #hide to: mixedDialog ;
 		yourself).
 
 	"Create a focus dialog with a paragraph of text and 3 input fields"
@@ -197,28 +197,28 @@ CpShoelaceExamplesClientBehavior >> exampleDialog [
 
 	"Add a close button in the dialog footer"
 	focusDialog footer: ((SlButton label: 'Ciao!')
-		when: CpPrimaryClickEvent send: #hide to: focusDialog ;
+		when: CpClickEvent basicPrimary send: #hide to: focusDialog ;
 		yourself).
 
 	"Add buttons to the example, these open the dialog in different ways"
 	outputElement
 		appendChild: ((SlButton label: 'Open regular')
-			when: CpPrimaryClickEvent send: #show to: regularDialog ;
+			when: CpClickEvent basicPrimary send: #show to: regularDialog ;
 			yourself) ;
 		appendChild: ((SlButton label: 'Open modal')
-			when: CpPrimaryClickEvent send: #showModal to: modalDialog ;
+			when: CpClickEvent basicPrimary send: #showModal to: modalDialog ;
 			yourself) ;
 		appendChild: ('' inHtmlTag: #p) ;
 		appendChild: (modalCheckbox := SlCheckbox label: 'modal') ;
 		appendChild: (' ' inHtmlTag: #span) ;
 		appendChild: ((SlButton label: 'Mixed dialog')
-			when: CpPrimaryClickEvent do: [ modalCheckbox isChecked ifTrue: [ mixedDialog showModal ] ifFalse: [ mixedDialog showNonModal ] ] ;
+			when: CpClickEvent basicPrimary do: [ modalCheckbox isChecked ifTrue: [ mixedDialog showModal ] ifFalse: [ mixedDialog showNonModal ] ] ;
 			yourself) ;
 		appendChild: ('' inHtmlTag: #p) ;
 		appendChild: (focusCheckbox := SlCheckbox label: 'focus 3rd input field') ;
 		appendChild: (' ' inHtmlTag: #span) ;
 		appendChild: ((SlButton label: 'Focus dialog')
-			when: CpPrimaryClickEvent do: [ focusCheckbox isChecked ifTrue: [ focusDialog showFocusing: (focusDialog firstDescendantMatching: '#third') ] ifFalse: [ focusDialog resetDefaultFocusElement ; show ] ] ;
+			when: CpClickEvent basicPrimary do: [ focusCheckbox isChecked ifTrue: [ focusDialog showFocusing: (focusDialog firstDescendantMatching: '#third') ] ifFalse: [ focusDialog resetDefaultFocusElement ; show ] ] ;
 			yourself) ;
 		appendChild: regularDialog ;
 		appendChild: modalDialog ;
@@ -250,23 +250,23 @@ CpShoelaceExamplesClientBehavior >> exampleDrawer [
 
 	"Add a close button in the drawer footer"
 	drawer1 footer: ((SlButton label: 'Close')
-		when: CpPrimaryClickEvent send: #hide to: drawer1 ;
+		when: CpClickEvent basicPrimary send: #hide to: drawer1 ;
 		yourself).
 
 	"Add a close button in the drawer footer"
 	drawer2 footer: ((SlButton label: 'Close')
-		when: CpPrimaryClickEvent send: #hide to: drawer2 ;
+		when: CpClickEvent basicPrimary send: #hide to: drawer2 ;
 		yourself).
 
 	"Add buttons to the example, these open the dialog in different ways"
 	outputElement
 		appendChild: ((SlButton label: 'Open left')
 			bePrimary ;
-			when: CpPrimaryClickEvent send: #show to: drawer1 ;
+			when: CpClickEvent basicPrimary send: #show to: drawer1 ;
 			yourself) ;
 		appendChild: ((SlButton label: 'Open right')
 			beWarning ;
-			when: CpPrimaryClickEvent send: #showModal to: drawer2 ;
+			when: CpClickEvent basicPrimary send: #showModal to: drawer2 ;
 			yourself) ;
 		appendChild: drawer1 ;
 		appendChild: drawer2
@@ -599,5 +599,5 @@ CpShoelaceExamplesClientBehavior >> showIndex [
 			yourself).
 
 		"Register interest in events on the list item"
-		example when: CpPrimaryClickEvent send: item key to: self ]
+		example when: CpClickEvent basicPrimary send: item key to: self ]
 ]

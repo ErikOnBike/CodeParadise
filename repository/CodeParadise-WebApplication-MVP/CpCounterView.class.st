@@ -69,7 +69,7 @@ CpCounterView >> initialize [
 
 	super initialize.
 
-	self when: CpPrimaryClickEvent send: #handleClickEvent: to: self
+	self when: CpClickEvent basicPrimary send: #handleClickEvent: to: self
 ]
 
 { #category : #rendering }

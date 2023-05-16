@@ -31,6 +31,30 @@ CpClickEvent class >> addConditionsToDenySpecialsTo: aConditionalEvent [
 ]
 
 { #category : #announcing }
+CpClickEvent class >> basicPrimary [
+
+	"Answer a primary click event to be used as announcement class
+	in which only a short click and no modifiers are allowed.
+
+	For example:
+		aButton when: ClickEvent basicPrimary send: #onBasicClick: to: self"
+
+	^ self primary only
+]
+
+{ #category : #announcing }
+CpClickEvent class >> basicSecondary [
+
+	"Answer a secondary click event to be used as announcement class
+	in which only a short click and no modifiers are allowed.
+
+	For example:
+		aButton when: ClickEvent basicSecondary send: #onBasicRightClick: to: self"
+
+	^ self secondary only
+]
+
+{ #category : #announcing }
 CpClickEvent class >> primary [
 
 	"Answer a primary click event to be used as announcement class.

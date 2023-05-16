@@ -194,18 +194,18 @@ CpDomExamplesClientBehavior >> exampleClickEvents [
 
 	buttonDefs := {
 		'Native click' -> CpClickEvent.
-		'Any button (no modifier)' -> CpAnyClickEvent.
-		'Primary button (no modifier)' -> CpPrimaryClickEvent.
-		'Primary button (no modifier, short click)' -> (CpPrimaryClickEvent & CpShortClick).
-		'Primary button (no modifier, long click)' -> (CpPrimaryClickEvent & CpLongClick).
+		'Any button (no modifier)' -> CpAnyClickEvent & CpNoModifiersDown.
+		'Primary button (no modifier)' -> CpPrimaryClickEvent & CpNoModifiersDown.
+		'Primary button (no modifier, short click)' -> (CpPrimaryClickEvent & CpNoModifiersDown & CpShortClick).
+		'Primary button (no modifier, long click)' -> (CpPrimaryClickEvent & CpNoModifiersDown & CpLongClick).
 		'Primary button with shift' -> (CpPrimaryClickEvent & CpShiftKeyDown).
 		'Primary button with alt' -> (CpPrimaryClickEvent & CpAltKeyDown).
 		'Primary button with ctrl' -> (CpPrimaryClickEvent & CpCtrlKeyDown).
 		'Primary button with meta' -> (CpPrimaryClickEvent & CpMetaKeyDown).
 		'Primary button with ctrl + meta' -> (CpPrimaryClickEvent & (CpMetaKeyDown + CpCtrlKeyDown)).
-		'Secondary button (no modifier)' -> CpSecondaryClickEvent.
-		'Secondary button (no modifier, short click)' -> (CpSecondaryClickEvent & CpShortClick).
-		'Secondary button (no modifier, long click)' -> (CpSecondaryClickEvent & CpLongClick).
+		'Secondary button (no modifier)' -> CpSecondaryClickEvent & CpNoModifiersDown.
+		'Secondary button (no modifier, short click)' -> (CpSecondaryClickEvent & CpNoModifiersDown & CpShortClick).
+		'Secondary button (no modifier, long click)' -> (CpSecondaryClickEvent & CpNoModifiersDown & CpLongClick).
 		'Secondary button with shift' -> (CpSecondaryClickEvent & CpShiftKeyDown).
 		'Secondary button with alt' -> (CpSecondaryClickEvent & CpAltKeyDown).
 		'Secondary button with ctrl' -> (CpSecondaryClickEvent & CpCtrlKeyDown).
@@ -366,26 +366,26 @@ CpDomExamplesClientBehavior >> exampleEventMultipleHandlers [
 		yourself).
 	self crTrace: 'Setup event handlers'.
 	(outputElement firstDescendantMatching: '#outer')
-		when: CpPrimaryClickEvent do: [ self crTrace: 'outer first' ; showText: 'Clicked first' in: '#outer > .text1' ] ;
-		when: CpPrimaryClickEvent do: [ self crTrace: 'outer second' ; showText: 'Clicked second' in: '#outer > .text2' ].
+		when: CpClickEvent basicPrimary do: [ self crTrace: 'outer first' ; showText: 'Clicked first' in: '#outer > .text1' ] ;
+		when: CpClickEvent basicPrimary do: [ self crTrace: 'outer second' ; showText: 'Clicked second' in: '#outer > .text2' ].
 	(outputElement firstDescendantMatching: '#inner')
-		when: CpPrimaryClickEvent do: [ self crTrace: 'inner first' ; showText: 'Clicked first' in: '#inner > .text1' ] ;
-		when: CpPrimaryClickEvent do: [ self crTrace: 'inner second' ; showText: 'Clicked second' in: '#inner > .text2' ].
+		when: CpClickEvent basicPrimary do: [ self crTrace: 'inner first' ; showText: 'Clicked first' in: '#inner > .text1' ] ;
+		when: CpClickEvent basicPrimary do: [ self crTrace: 'inner second' ; showText: 'Clicked second' in: '#inner > .text2' ].
 	self crTrace: 'Done setup event handlers'.
 
 	self crTrace: 'Setup event handlers'.
 	(outputElement firstDescendantMatching: '#outer2')
 		when: CpPointerDownEvent do: [ self crTrace: 'PointerDown single on outer2' ] ;
 		when: CpPointerUpEvent do: [ self crTrace: 'PointerUp single on outer2' ] ;
-		when: CpPrimaryClickEvent & CpCtrlKeyDown do: [ self crTrace: 'outer2 first' ; showText: 'Clicked first' in: '#outer2 > .text1' ] ;
-		when: CpPrimaryClickEvent & CpCtrlKeyDown do: [ self crTrace: 'outer2 second' ; showText: 'Clicked second' in: '#outer2 > .text2' ].
+		when: CpClickEvent primary & CpCtrlKeyDown do: [ self crTrace: 'outer2 first' ; showText: 'Clicked first' in: '#outer2 > .text1' ] ;
+		when: CpClickEvent primary & CpCtrlKeyDown do: [ self crTrace: 'outer2 second' ; showText: 'Clicked second' in: '#outer2 > .text2' ].
 	(outputElement firstDescendantMatching: '#inner2')
 		when: CpPointerDownEvent do: [ self crTrace: 'PointerDown first on inner2' ] ;
 		when: CpPointerDownEvent do: [ self crTrace: 'PointerDown second on inner2' ] ;
 		when: CpPointerUpEvent do: [ self crTrace: 'PointerUp first on inner2' ] ;
 		when: CpPointerUpEvent do: [ self crTrace: 'PointerUp second on inner2' ] ;
-		when: CpPrimaryClickEvent & CpCtrlKeyDown do: [ self crTrace: 'inner2 first' ; showText: 'Clicked first' in: '#inner2 > .text1' ] ;
-		when: CpPrimaryClickEvent & CpCtrlKeyDown do: [ self crTrace: 'inner2 second' ; showText: 'Clicked second' in: '#inner2 > .text2' ].
+		when: CpClickEvent primary & CpCtrlKeyDown do: [ self crTrace: 'inner2 first' ; showText: 'Clicked first' in: '#inner2 > .text1' ] ;
+		when: CpClickEvent primary & CpCtrlKeyDown do: [ self crTrace: 'inner2 second' ; showText: 'Clicked second' in: '#inner2 > .text2' ].
 	self crTrace: 'Done setup event handlers'.
 
 ]
@@ -526,7 +526,7 @@ CpDomExamplesClientBehavior >> exampleNestedClickEvents [
 		'Any button (no modifier, short click)' -> (CpAnyClickEvent noModifiers & CpShortClick).
 		'Primary button (ignore modifiers)' -> CpPrimaryClickEvent.
 		'Primary button with shift' -> (CpPrimaryClickEvent & CpShiftKeyDown).
-		'Any button (ignore modifiers, long click)' -> (CpAnyClickEvent & CpLongClick).
+		'Any button (ignore modifiers, long click)' -> (CpAnyClickEvent & CpNoModifiersDown & CpLongClick).
 		'Secondary button (no modifier)' -> CpSecondaryClickEvent noModifiers.
 		'Secondary button (shift, long click)' -> (CpSecondaryClickEvent & CpShiftKeyDown & CpLongClick).
 		'Primary button (no modifier)' -> CpPrimaryClickEvent noModifiers.
@@ -608,11 +608,11 @@ CpDomExamplesClientBehavior >> exampleSVGGears [
 	speed := 5.
 	outputElement appendChild: ((CpHtmlElement newWithTag: #button)
 		textContent: '-' ;
-		when: CpPrimaryClickEvent do: [ speed := speed + 1 ] ;
+		when: CpClickEvent basicPrimary do: [ speed := speed + 1 ] ;
 		yourself).
 	outputElement appendChild: ((CpHtmlElement newWithTag: #button)
 		textContent: '+' ;
-		when: CpPrimaryClickEvent do: [ speed := (speed - 1) max: 2 ] ;
+		when: CpClickEvent basicPrimary do: [ speed := (speed - 1) max: 2 ] ;
 		yourself).
 	outputElement appendChild: (CpHtmlElement newWithTag: #p). "Separator"
 
