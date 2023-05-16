@@ -113,6 +113,15 @@ CpSyntheticEvent >> modifiers [
 	^ modifiers
 ]
 
+{ #category : #printing }
+CpSyntheticEvent >> printOn: aStream [
+
+	aStream
+		nextPutAll: self class name ;
+		nextPutAll: ' currentTarget: ' ;
+		print: currentTarget
+]
+
 { #category : #initialization }
 CpSyntheticEvent >> release [
 

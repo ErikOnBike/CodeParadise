@@ -7,6 +7,21 @@ Class {
 	#category : #'CodeParadise-WebApplication-Events-Custom'
 }
 
+{ #category : #announcing }
+CpDropEvent class >> addListenerTo: anElement [
+
+	"Add a listener for the receiver to the specified DOM element.
+
+	Implementation:
+	Simulate a DropEvent by using a native drop event to signal the
+	DOM element is droppable. The event handler is a no-operation.
+	Everything is handled from CpDragEvent >> #dragEnd:"
+
+	super addListenerTo: anElement.
+
+	anElement when: CpNativeDropEvent send: #noop to: self
+]
+
 { #category : #'event handling' }
 CpDropEvent class >> dispatchInstanceForDragEvent: aDragEvent [
 
@@ -24,6 +39,18 @@ CpDropEvent class >> newFromDragEvent: aDragEvent [
 	^ self basicNew
 		initializeWithDragEvent: aDragEvent ;
 		yourself
+]
+
+{ #category : #announcing }
+CpDropEvent class >> removeListenerFrom: anElement [
+
+	"Remove event listener from the specified DOM element.
+
+	Impementation: see #addEventListenerTo:"
+
+	super removeListenerFrom: anElement.
+
+	CpNativeDropEvent removeListenerFrom: anElement
 ]
 
 { #category : #accessing }
@@ -50,13 +77,25 @@ CpDropEvent >> dragTracePoints [
 	^ dragEvent tracePoints
 ]
 
+{ #category : #'processing - private' }
+CpDropEvent >> dropTargetUnderPointer: aPoint [
+
+	| dropTargetsUnderPointer |
+
+	dropTargetsUnderPointer := CpHtmlElement elementsFromPoint: aPoint.
+
+	^ dropTargetsUnderPointer
+		detect: [ :each | each isListeningTo: CpNativeDropEvent ]
+		ifNone: [ nil ]
+]
+
 { #category : #initialization }
 CpDropEvent >> initializeWithDragEvent: aDragEvent [
 
 	self initialize.
 
 	timeStamp := aDragEvent timeStamp.
-	currentTarget := aDragEvent currentTarget.
+	currentTarget := self dropTargetUnderPointer: aDragEvent point.
 	dragEvent := aDragEvent
 ]
 
@@ -71,7 +110,7 @@ CpDropEvent >> point [
 
 	"Answer the receiver's point (which is the drag's end point)"
 
-	^ self dragEndPoint point
+	^ self dragEndPoint
 ]
 
 { #category : #printing }
