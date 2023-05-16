@@ -21,11 +21,33 @@ Class {
 }
 
 { #category : #announcing }
+CpClickEvent class >> primary [
+
+	"Answer a primary click event to be used as announcement class.
+
+	For example:
+		aButton when: ClickEvent primary send: #onClick: to: self"
+
+	^ self primaryClickEventClass
+]
+
+{ #category : #announcing }
 CpClickEvent class >> primaryClickEventClass [
 
 	"Prevent circular dependencies, therefore use this indirect access"
 
 	^ PrimaryClickClass ifNil: [ PrimaryClickClass := Smalltalk classNamed: #CpPrimaryClickEvent ]
+]
+
+{ #category : #announcing }
+CpClickEvent class >> secondary [
+
+	"Answer a secondary click event to be used as announcement class.
+
+	For example:
+		aButton when: ClickEvent secondary send: #onRightClick: to: self"
+
+	^ self secondaryClickEventClass
 ]
 
 { #category : #announcing }
@@ -37,17 +59,6 @@ CpClickEvent class >> secondaryClickEventClass [
 ]
 
 { #category : #announcing }
-CpClickEvent class >> shortPrimaryNoModifiers [
-
-	"Answer a short primary click with no key modifiers to be used as announcement class.
-
-	For example:
-		aButton when: ClickEvent shortPrimaryNoModifiers send: #onClick: to: self"
-
-	^ self primaryClickEventClass & CpShortClick & CpNoModifiersDown
-]
-
-{ #category : #announcing }
 CpClickEvent class >> shortSecondaryNoModifiers [
 
 	"Answer a short secondary click with no key modifiers to be used as announcement class.
@@ -55,7 +66,7 @@ CpClickEvent class >> shortSecondaryNoModifiers [
 	For example:
 		aButton when: ClickEvent shortSecondaryNoModifiers send: #onClick: to: self"
 
-	^ self secondaryClickEventClass & CpShortClick & CpNoModifiersDown
+	^ self secondaryClickEventClass only
 ]
 
 { #category : #testing }

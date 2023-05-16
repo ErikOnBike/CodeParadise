@@ -19,6 +19,17 @@ Class {
 	#category : #'CodeParadise-WebApplication-Events'
 }
 
+{ #category : #conditionals }
+CpEvent class >> addConditionsToDenySpecialsTo: aConditionalEvent [
+
+	"Add condition to specified conditional event which prevents
+	special conditions to be allowed. By default all modifiers are denied.
+
+	Subclasses might add other conditions."
+
+	aConditionalEvent addCondition: CpNoModifiersDown
+]
+
 { #category : #'processing - private' }
 CpEvent class >> addListenerTo: anElement [
 

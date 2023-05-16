@@ -48,9 +48,20 @@ CpConditionalEvent class >> eventClass: anEventClass [
 { #category : #combining }
 CpConditionalEvent >> & aCondition [
 
+	"Add the specified condition to the receiver.
+	(Answer the receiver to allow other conditions to be added using & again.)"
+
+	self addCondition: aCondition.
+
+	^ self
+]
+
+{ #category : #combining }
+CpConditionalEvent >> addCondition: aCondition [
+
 	"Add the specified condition to the receiver"
 
-	(conditions ifNil: [ conditions := Set new ])
+	^ (conditions ifNil: [ conditions := Set new ])
 		add: aCondition
 ]
 
@@ -91,6 +102,14 @@ CpConditionalEvent >> initializeWithEventClass: anEventClass [
 	self initialize.
 
 	eventClass := anEventClass
+]
+
+{ #category : #limiting }
+CpConditionalEvent >> only [
+
+	"Answer an instance of the receiver without any 'special' conditions"
+
+	eventClass addConditionsToDenySpecialsTo: self
 ]
 
 { #category : #printing }

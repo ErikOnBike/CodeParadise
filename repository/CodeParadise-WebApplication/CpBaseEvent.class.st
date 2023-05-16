@@ -17,6 +17,15 @@ CpBaseEvent class >> & aCondition [
 	^ self asConditionalEvent & aCondition
 ]
 
+{ #category : #adding }
+CpBaseEvent class >> addConditionsToDenySpecialsTo: aConditionalEvent [
+
+	"Add condition to specified conditional event which prevents special conditions to be allowed.
+
+	Subclasses might should add conditions."
+
+]
+
 { #category : #'conditional events' }
 CpBaseEvent class >> asConditionalEvent [
 
@@ -48,6 +57,20 @@ CpBaseEvent class >> noModifiers [
 	be down when clicked."
 
 	^ self & CpNoModifiersDown
+]
+
+{ #category : #'conditional events' }
+CpBaseEvent class >> only [
+
+	"Answer an instance of the receiver without any 'special' conditions"
+
+	| conditionalEvent |
+
+	conditionalEvent := self asConditionalEvent.
+
+	self addConditionsToDenySpecialsTo: conditionalEvent.
+
+	^ conditionalEvent
 ]
 
 { #category : #announcing }

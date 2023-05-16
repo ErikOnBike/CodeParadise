@@ -10,3 +10,12 @@ Announcement class >> addListenerTo: anElement [
 	Implementation:
 	For non-event Announcements this should be a no-op."
 ]
+
+{ #category : #'*CodeParadise-WebApplication' }
+Announcement class >> asEventClass [
+
+	"Answer the event class (for use in adding the receiver to a DOM element).
+	By default the receiver is the event class."
+
+	^ self
+]
