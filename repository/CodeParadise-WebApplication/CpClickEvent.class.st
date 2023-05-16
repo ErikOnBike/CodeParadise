@@ -20,6 +20,16 @@ Class {
 	#category : #'CodeParadise-WebApplication-Events'
 }
 
+{ #category : #conditionals }
+CpClickEvent class >> addConditionsToDenySpecialsTo: aConditionalEvent [
+
+	"Add condition to specified conditional event which prevents special conditions to be allowed.
+	A short click is considered 'regular' therefore set this as a required condition (thereby
+	prevent the special long click from being accepted)."
+
+	aConditionalEvent addCondition: CpShortClick
+]
+
 { #category : #announcing }
 CpClickEvent class >> primary [
 
