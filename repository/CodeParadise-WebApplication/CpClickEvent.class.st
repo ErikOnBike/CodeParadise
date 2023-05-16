@@ -58,17 +58,6 @@ CpClickEvent class >> secondaryClickEventClass [
 	^ SecondaryClickClass ifNil: [ SecondaryClickClass := Smalltalk classNamed: #CpSecondaryClickEvent ]
 ]
 
-{ #category : #announcing }
-CpClickEvent class >> shortSecondaryNoModifiers [
-
-	"Answer a short secondary click with no key modifiers to be used as announcement class.
-
-	For example:
-		aButton when: ClickEvent shortSecondaryNoModifiers send: #onClick: to: self"
-
-	^ self secondaryClickEventClass only
-]
-
 { #category : #testing }
 CpClickEvent >> isStopped [
 
