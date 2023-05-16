@@ -51,14 +51,6 @@ CpDropEvent >> dragTracePoints [
 ]
 
 { #category : #initialization }
-CpDropEvent >> initialize [
-
-	super initialize.
-
-"	type := #drop"
-]
-
-{ #category : #initialization }
 CpDropEvent >> initializeWithDragEvent: aDragEvent [
 
 	self initialize.
