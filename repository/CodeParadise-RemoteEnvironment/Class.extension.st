@@ -41,6 +41,14 @@ Class >> cpAllRequiredClassesMatching: matchBlock [
 	"Only unique instances should be added"
 	addUniqueClassBlock := [ :class |
 
+		"Validate the class is not obsolete. Sometimes during class updates, including Iceberg operations,
+		a class can become obsolete. When a debugger in the CodeParadise class loader code is triggered
+		during a class update, it might leave such a class obsolete. Installing an obsolete class is of
+		course useless."
+		self flag: #TODO.	"A better check or preventing this situation all together would be useful"
+		(class isObsolete and: [ (Smalltalk classNamed: #ESDevTools) isNotNil ])
+			ifTrue: [ self halt ].
+
 		"Check for matched classes which are not already in the process of being added"
 		((matchBlock value: class) and: [ (processingClasses includes: class) not ])
 			ifTrue: [
