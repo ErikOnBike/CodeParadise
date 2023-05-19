@@ -8,6 +8,8 @@ AnnouncementSet >> addListenerTo: anElement [
 	Implementation:
 	Add the event listener to all elements in the set."
 
+	<webApplicationExtension>
+
 	self do: [ :each | each addListenerTo: anElement ]
 ]
 
@@ -17,6 +19,8 @@ AnnouncementSet >> removeListenerFrom: anElement [
 	"Remove an event listener from the specified element.
 
 	Implementation: see #addListenerTo:"
+
+	<webApplicationExtension>
 
 	self do: [ :each | each removeListenerFrom: anElement ]
 ]
