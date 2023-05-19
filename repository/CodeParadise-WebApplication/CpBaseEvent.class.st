@@ -153,11 +153,11 @@ CpBaseEvent >> isShiftKeyDown [
 ]
 
 { #category : #testing }
-CpBaseEvent >> matchesKeyDownCondition: aKeyDownCondition [
+CpBaseEvent >> matchesModifierKeyDownCondition: aModifierKeyDownCondition [
 
 	"Answer whether the specified key down condition matches (modifiers are equal)"
 
-	^ aKeyDownCondition matches: self
+	^ aModifierKeyDownCondition matches: self
 ]
 
 { #category : #accessing }
