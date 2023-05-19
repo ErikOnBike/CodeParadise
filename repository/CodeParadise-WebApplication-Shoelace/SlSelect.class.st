@@ -122,6 +122,14 @@ SlSelect >> filled: aBoolean [
 	self propertyAt: #filled put: aBoolean
 ]
 
+{ #category : #testing }
+SlSelect >> hasFocus [
+
+	"Answer whether the receiver or one of its options has focus"
+
+	^ super hasFocus or: [ self = CpHtmlElement activeElement parent ]
+]
+
 { #category : #accessing }
 SlSelect >> help [
 
