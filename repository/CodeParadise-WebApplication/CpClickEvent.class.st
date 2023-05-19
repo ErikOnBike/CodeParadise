@@ -13,10 +13,6 @@ modifiers being down, use the following example:
 Class {
 	#name : #CpClickEvent,
 	#superclass : #CpMouseEvent,
-	#classVars : [
-		'PrimaryClickClass',
-		'SecondaryClickClass'
-	],
 	#category : #'CodeParadise-WebApplication-Events'
 }
 
@@ -68,9 +64,9 @@ CpClickEvent class >> primary [
 { #category : #announcing }
 CpClickEvent class >> primaryClickEventClass [
 
-	"Prevent circular dependencies, therefore use this indirect access"
+	"Answer the class representing the primary click (a synthetic event)"
 
-	^ PrimaryClickClass ifNil: [ PrimaryClickClass := Smalltalk classNamed: #CpPrimaryClickEvent ]
+	^ CpPrimaryClickEvent
 ]
 
 { #category : #announcing }
@@ -87,9 +83,9 @@ CpClickEvent class >> secondary [
 { #category : #announcing }
 CpClickEvent class >> secondaryClickEventClass [
 
-	"Prevent circular dependencies, therefore use this indirect access"
+	"Answer the class representing the secondary click (a synthetic event)"
 
-	^ SecondaryClickClass ifNil: [ SecondaryClickClass := Smalltalk classNamed: #CpSecondaryClickEvent ]
+	^ CpSecondaryClickEvent
 ]
 
 { #category : #testing }
