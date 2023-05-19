@@ -13,7 +13,7 @@ CpEventCondition class >> matches: anEvent [
 	The message #subclassResponsibility is not sent to prevent subclasses having to
 	implement this method because it might be implemented as an instance side method."
 
-	SubclassResponsibility signalFor: thisContext selector
+	self error: 'Subclass should implement #matches: class side in class ', self name
 ]
 
 { #category : #'logical operations' }
@@ -40,7 +40,7 @@ CpEventCondition >> matches: anEvent [
 	The message #subclassResponsibility is not sent to prevent subclasses having to
 	implement this method because it might be implemented as a class side method."
 
-	SubclassResponsibility signalFor: thisContext selector
+	self error: 'Subclass should implement #matches: instance side in class ', self class name
 ]
 
 { #category : #'logical operations' }
