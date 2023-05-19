@@ -113,11 +113,7 @@ CpDragEvent class >> dragEnd: aPointerUpEvent [
 	dragEvent end.
 
 	"Dispatch the event to allow updates to take place"
-	dragEvent dispatch.
-
-	"If drag is finished successfully (and not canceled during ending), create a drop event"
-	dragEvent ifCanceled: [ ^ self ].
-	CpDropEvent dispatchInstanceForDragEvent: dragEvent
+	dragEvent dispatch
 ]
 
 { #category : #'event handling - private' }
@@ -276,6 +272,17 @@ CpDragEvent >> cancel [
 ]
 
 { #category : #actions }
+CpDragEvent >> drop [
+
+	"Create a drop event and dispatch it, if the receiver is ended and not canceled.
+	Use #forceDrop to dispatch even if not ended and/or canceled."
+
+	self ifCanceled: [ ^ self ].
+
+	self forceDrop
+]
+
+{ #category : #actions }
 CpDragEvent >> end [
 
 	"Mark the receiver is ended (make the last added trace point the end point).
@@ -292,6 +299,18 @@ CpDragEvent >> end [
 CpDragEvent >> endPoint [
 
 	^ endPoint
+]
+
+{ #category : #actions }
+CpDragEvent >> forceDrop [
+
+	"Dispatch drop event.
+	
+	See #drop for a more safe version of the drop beahvior.
+	Using forceDrop allows to create 'droplets' during a drag
+	event (on key presses for example)."
+
+	CpDropEvent dispatchInstanceForDragEvent: self
 ]
 
 { #category : #testing }

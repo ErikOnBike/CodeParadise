@@ -95,6 +95,7 @@ CpDropEvent >> initializeWithDragEvent: aDragEvent [
 	self initialize.
 
 	timeStamp := aDragEvent timeStamp.
+	modifiers := aDragEvent modifiers.
 	currentTarget := self dropTargetUnderPointer: aDragEvent point.
 	dragEvent := aDragEvent
 ]

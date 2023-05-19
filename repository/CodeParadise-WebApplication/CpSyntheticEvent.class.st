@@ -118,8 +118,14 @@ CpSyntheticEvent >> printOn: aStream [
 
 	aStream
 		nextPutAll: self class name ;
-		nextPutAll: ' currentTarget: ' ;
-		print: currentTarget
+		nextPutAll: ' timeStamp: ' ;
+		print: timeStamp ;
+		nextPutAll: ', modifiers: ' ;
+		print: modifiers ;
+		nextPutAll: ', currentTarget: ' ;
+		print: currentTarget ;
+		nextPutAll: ', propagate: ' ;
+		nextPutAll: (stopPropagation ifTrue: [ stopAfter ifNotNil: [ 'stop' ] ifNil: [ 'stopImmediate' ] ] ifFalse: [ 'normal' ])
 ]
 
 { #category : #initialization }
