@@ -167,7 +167,7 @@ CpEvent class >> registerEventProcess: eventHandlerProcess [
 { #category : #'processing - private' }
 CpEvent class >> removeListenerFrom: anElement [
 
-	"Remove a browser event listener to the specified element"
+	"Remove a browser event listener from the specified element"
 
 	<primitive: 'primitiveEventRemoveListenerFrom:' module: 'CpDOMPlugin'>
 	self primitiveFailed

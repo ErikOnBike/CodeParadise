@@ -12,10 +12,12 @@ Announcement class >> addListenerTo: anElement [
 ]
 
 { #category : #'*CodeParadise-WebApplication' }
-Announcement class >> asEventClass [
+Announcement class >> removeListenerFrom: anElement [
 
-	"Answer the event class (for use in adding the receiver to a DOM element).
-	By default the receiver is the event class."
+	<webApplicationExtension>
 
-	^ self
+	"Remove a browser event listener from the specified element.
+
+	Implementation:
+	For non-event Announcements this should be a no-op."
 ]

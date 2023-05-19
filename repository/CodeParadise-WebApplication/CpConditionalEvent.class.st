@@ -56,6 +56,18 @@ CpConditionalEvent >> & aCondition [
 	^ self
 ]
 
+{ #category : #copying }
+CpConditionalEvent >> , anEvent [
+
+	"Combine the receiver with the specified event.
+
+	For example in:
+		aDomElement when: (CpKeyPressEvent key: '/'), (CpKeyPressEvent key: '?') send: #onSearch to: self
+	"
+
+	^ AnnouncementSet with: self with: anEvent
+]
+
 { #category : #combining }
 CpConditionalEvent >> addCondition: aCondition [
 
@@ -63,6 +75,20 @@ CpConditionalEvent >> addCondition: aCondition [
 
 	^ (conditions ifNil: [ conditions := Set new ])
 		add: aCondition
+]
+
+{ #category : #announcing }
+CpConditionalEvent >> addListenerTo: anElement [
+
+	"Add an event listener to the specified element.
+
+	Implementation:
+	Let the actual event class add the listener. The receiver's
+	conditions should not change the listener. The conditions are
+	only used during announcement of the event to decide if the
+	event should be dispatched."
+
+	eventClass addListenerTo: anElement
 ]
 
 { #category : #testing }
@@ -74,12 +100,6 @@ CpConditionalEvent >> areConditionsMetForEvent: anEvent [
 		ifNotNil: [
 			conditions allSatisfy: [ :each | each value: anEvent ] ]
 		ifNil: [ true ]
-]
-
-{ #category : #announcing }
-CpConditionalEvent >> asEventClass [
-
-	^ eventClass
 ]
 
 { #category : #announcing }
@@ -119,4 +139,14 @@ CpConditionalEvent >> printOn: aStream [
 		nextPutAll: self class name ;
 		nextPutAll: ' conditions: ' ;
 		print: (conditions ifNil: [ #() ])
+]
+
+{ #category : #announcing }
+CpConditionalEvent >> removeListenerFrom: anElement [
+
+	"Remove an event listener from the specified element.
+
+	Implementation: see #addListenerTo:"
+
+	eventClass removeListenerFrom: anElement
 ]

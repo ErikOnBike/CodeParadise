@@ -17,6 +17,18 @@ CpBaseEvent class >> & aCondition [
 	^ self asConditionalEvent & aCondition
 ]
 
+{ #category : #announcing }
+CpBaseEvent class >> , anEvent [
+
+	"Combine the receiver with the specified event.
+
+	For example in:
+		aDomElement when: CpKeyUpEvent, CpKeyDownEvent send: #onKey: to: self
+	"
+
+	^ AnnouncementSet with: self with: anEvent
+]
+
 { #category : #adding }
 CpBaseEvent class >> addConditionsToDenySpecialsTo: aConditionalEvent [
 
@@ -26,16 +38,18 @@ CpBaseEvent class >> addConditionsToDenySpecialsTo: aConditionalEvent [
 
 ]
 
+{ #category : #adding }
+CpBaseEvent class >> addListenerTo: anElement [
+
+	"Add a browser event listener to the specified element"
+
+	self subclassResponsibility
+]
+
 { #category : #'conditional events' }
 CpBaseEvent class >> asConditionalEvent [
 
 	^ CpConditionalEvent eventClass: self
-]
-
-{ #category : #announcing }
-CpBaseEvent class >> asEventClass [
-
-	^ self
 ]
 
 { #category : #announcing }
@@ -71,6 +85,14 @@ CpBaseEvent class >> only [
 	self addConditionsToDenySpecialsTo: conditionalEvent.
 
 	^ conditionalEvent
+]
+
+{ #category : #adding }
+CpBaseEvent class >> removeListenerFrom: anElement [
+
+	"Remove a browser event listener from the specified element"
+
+	self subclassResponsibility
 ]
 
 { #category : #announcing }
