@@ -132,7 +132,10 @@ CpServerEnvironment >> addClass: aClass [
 
 				"Install in ClientEnvironment"
 				self installClass: each ].
-		
+
+		"Perform the post installation on all the installed (possibly inter dependent) classes"
+		self postInstallClasses.
+
 		^ aClass ]
 ]
 
@@ -388,6 +391,22 @@ CpServerEnvironment >> installedMethods [
 CpServerEnvironment >> isLoaded [
 
 	^ loaded
+]
+
+{ #category : #installing }
+CpServerEnvironment >> postInstallClasses [
+
+	"Perform the post install of the classes installed in the client environment.
+
+	Implementation:
+	The classes can have inter dependencies, therefore perform this method only
+	after a class is added using #addClass:. After #addClass: any dependencies will
+	have been sent to the client. The post installation can then be done on all
+	these inter dependent classes."
+
+	self sendMessage: (MessageSend
+		receiver: nil
+		selector: #postInstallClasses)
 ]
 
 { #category : #initialization }
