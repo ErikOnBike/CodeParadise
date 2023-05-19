@@ -133,6 +133,6 @@ For mobile applications for example, the following could be done:
 
 ## Compatibility
 
-The means of installing (Compiled) code in the ClientEnvironment is by sending the relevant bytecode. The current implementation assumes that both the ServerEnvironment and the ClientEnvironment share the same bytecode set. Since the ClientEnvironment is running on SqueakJS VM, only bytecode sets supported by SqueakJS VM are usable. Currently Pharo 8, 9 and 10 are supported. Pharo 11 currently has some issues and freezes up when restarting an image.
+The means of installing (Compiled) code in the ClientEnvironment is by sending the relevant bytecode. The current implementation assumes that both the ServerEnvironment and the ClientEnvironment share the same bytecode set. Since the ClientEnvironment is running on SqueakJS VM, only bytecode sets supported by SqueakJS VM are usable. Currently Pharo 8, 9, 10 and 11 are supported. Active development is on P11 and at some point support for P8 and P9 will be dropped because of the non-standard process of creating the tiny Smalltalk image which runs in the browser. From P10 onwards this is standardized using [TinyBootstrap](https://github.com/ErikOnBike/TinyBootstrap)
 
 There is no explicit list of supported browsers at the moment. Please use a recent browser version. If you have trouble using (the pre-Chrome based) Microsoft Edge, please consider switching to Chrome, Firefox or one of the derivatives.
