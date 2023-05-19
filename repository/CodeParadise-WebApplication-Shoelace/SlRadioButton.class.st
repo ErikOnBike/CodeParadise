@@ -61,12 +61,6 @@ SlRadioButton >> click [
 ]
 
 { #category : #testing }
-SlRadioButton >> hasFocus [
-
-	^ self = CpHtmlElement activeElement
-]
-
-{ #category : #testing }
 SlRadioButton >> isChecked [
 
 	^ self propertyAt: #checked
