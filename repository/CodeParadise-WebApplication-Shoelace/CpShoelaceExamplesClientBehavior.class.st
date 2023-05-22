@@ -435,6 +435,50 @@ CpShoelaceExamplesClientBehavior >> exampleSwitch [
 ]
 
 { #category : #examples }
+CpShoelaceExamplesClientBehavior >> exampleTabGroup [
+
+	<example: 'TabGroup' order: 100>
+
+	| outputElement tab1 tab2 tabGroup placementSelect closableState disabledState |
+
+	"Clear content"
+	outputElement := self outputElement.
+	outputElement textContent: ''.
+
+	tab1 := SlTab panel: 'tab1' labelText: 'Tab 1'.
+	tab2 := SlTab panel: 'tab2' labelText: 'Tab 2'.
+
+	outputElement appendChild: (tabGroup := SlTabGroup new
+		appendChild: tab1 atSlotNamed: 'nav';
+		appendChild: tab2 atSlotNamed: 'nav';
+		appendChild: (SlTabPanel new name: 'tab1'; contentText: 'Content of Tab 1'; yourself);
+		appendChild: (SlTabPanel new name: 'tab2'; contentText: 'Content of Tab 2'; yourself);
+		yourself).
+
+	outputElement
+		appendChild: ('Tab Placement' inHtmlTag: #p);
+		appendChild: (placementSelect := SlSelect new
+			appendChild: (SlOption value: #top labelText: 'Top');
+			appendChild: (SlOption value: #bottom labelText: 'Bottom');
+			appendChild: (SlOption value: #start labelText: 'Start');
+			appendChild: (SlOption value: #end labelText: 'End');
+			value: #top;
+			yourself).
+
+	placementSelect when: SlChangeEvent do: [ :event | tabGroup placement: placementSelect value ].
+
+	outputElement appendChild: ('Tab 2 States' inHtmlTag: #p).
+	outputElement appendChild: (closableState := SlCheckbox label: 'Closable').
+	outputElement appendChild: (disabledState := SlCheckbox label: 'Disabled').
+
+	closableState when: SlChangeEvent do: [ tab2 closable: tab2 isClosable not ].
+	disabledState when: SlChangeEvent do: [ tab2 disabled: tab2 isDisabled not ].
+
+	
+
+]
+
+{ #category : #examples }
 CpShoelaceExamplesClientBehavior >> exampleTextarea [
 
 	<example: 'Textarea' order: 100>
