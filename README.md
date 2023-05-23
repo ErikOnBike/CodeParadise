@@ -32,7 +32,7 @@ Metacello new
   load.
 ```
 
-Depending on your image version it should also load the [ClientEnvironment](https://github.com/ErikOnBike/CP-ClientEnvironment). If you run on a Pharo 8 environment, it should load the "pharo8" branch and otherwise just the "master" branch.
+Depending on your image version it should also load the [ClientEnvironment](https://github.com/ErikOnBike/CP-ClientEnvironment). If you run on a Pharo 8 or 9 environment, it should load the "pharo8" branch and otherwise just the "master" branch.
 
 ### Start HTTP and WebSocket Server
 
@@ -108,8 +108,6 @@ Smalltalk garbageCollect.
 
 **Tip**: Consider switching to [Shoelace](https://shoelace.style) if you are still using Fomantic UI: Fomantic UI support has stopped (June 2022). The reason is the fact that using Fomantic UI elements inside a View's template [which is a technology used inside of HTML WebComponents](https://developer.mozilla.org/en-US/docs/Web/Web_Components/Using_templates_and_slots) does not scale well. To be able to have the correct look and feel, the full Fomantic UI stylesheet needs to be loaded inside this WebComponent's shadow DOM. Although browsers should be able to cache this kind of (re)use of stylesheets, it does not work very well on large scale applications. So currently we have Shoelace as a nice alternative. Shoelace is compact, feature rich and is under active development. Shoelace itself is also based on WebComponents, meaning it can integrate well inside our Views: every WebComponent 'carries' its own styling.
 
-**Tip**: Adding additional classes to an application is currently not always correctly propagated to a running environment. Even reloading a tab/window might not always yield the required result. Try opening a new tab/window just to be sure. And if it still results in an exception, you might try to reset the environment with the code above and restart it.
-
 **Tip**: The server image keeps all sessions in memory at the moment (they never expire yet). So once in a while use the reset code above to clean up the sessions. Remember the sessions will also be saved in the image. So closing and reopening your image should bring you back the session and you can continu where you left off.
 
 
@@ -123,16 +121,16 @@ Once you have a client running and change code, the client environment might not
 
 The remote code execution capabilities of CodeParadise can be used to create WebApplications, remote worker instances, mobile applications, etc.
 
-To create WebApplications a small part of MVP (Model View Presenter) is implemented in the Counter Example. It is based on [WebComponents](https://developer.mozilla.org/en-US/docs/Web/Web_Components) and more specifically it uses the HTML templates technology. The idea is to create a full set of components/widgets to create full featured web applications. All under the control of a Smalltalk application.
+To create WebApplications MVP (Model View Presenter) is implemented in the Presentation Example. It is based on [WebComponents](https://developer.mozilla.org/en-US/docs/Web/Web_Components) and more specifically it uses the HTML templates technology. The idea is to create a full set of components/widgets to create full featured web applications. All under the control of a Smalltalk application.
 
 For mobile applications for example, the following could be done:
 * load a ClientEnvironment with all application code (can be done dynamically and include all kinds of tests)
 * execute code to remove the ClientEnvironment's Communicator (disconnecting it from the ServerEnvironment) and test code
-* save the ClientEnvironment image (currently not working because of tiny image format, but seems fixable ;-)
+* save the ClientEnvironment image (currently only supported for Pharo 10 and up)
 * use the saved image stand-alone in a mobile application (combine with SqueakJS VM into single package)
 
 ## Compatibility
 
-The means of installing (Compiled) code in the ClientEnvironment is by sending the relevant bytecode. The current implementation assumes that both the ServerEnvironment and the ClientEnvironment share the same bytecode set. Since the ClientEnvironment is running on SqueakJS VM, only bytecode sets supported by SqueakJS VM are usable. Currently Pharo 8, 9, 10 and 11 are supported. Active development is on P11 and at some point support for P8 and P9 will be dropped because of the non-standard process of creating the tiny Smalltalk image which runs in the browser. From P10 onwards this is standardized using [TinyBootstrap](https://github.com/ErikOnBike/TinyBootstrap)
+The means of installing (Compiled) code in the ClientEnvironment is by sending the relevant bytecode. The current implementation assumes that both the ServerEnvironment and the ClientEnvironment share the same bytecode set. Since the ClientEnvironment is running on SqueakJS VM, only bytecode sets supported by SqueakJS VM are usable. Currently Pharo 8, 9, 10 and 11 are supported. Active development is on P11 and at some point support for P8 and P9 will be dropped because of the non-standard process of creating the tiny Smalltalk image which runs in the browser. From P10 onwards this is standardized using [TinyBootstrap](https://github.com/ErikOnBike/TinyBootstrap).
 
 There is no explicit list of supported browsers at the moment. Please use a recent browser version. If you have trouble using (the pre-Chrome based) Microsoft Edge, please consider switching to Chrome, Firefox or one of the derivatives.
