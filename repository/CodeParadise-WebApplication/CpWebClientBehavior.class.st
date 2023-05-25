@@ -5,9 +5,6 @@ I only live in a ClientEnvironment.
 Class {
 	#name : #CpWebClientBehavior,
 	#superclass : #Object,
-	#instVars : [
-		'eventHandler'
-	],
 	#category : #'CodeParadise-WebApplication-Core'
 }
 
