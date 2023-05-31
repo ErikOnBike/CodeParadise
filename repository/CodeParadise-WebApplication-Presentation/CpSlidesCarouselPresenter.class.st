@@ -12,12 +12,6 @@ Class {
 	#category : #'CodeParadise-WebApplication-Presentation-Presenter'
 }
 
-{ #category : #accessing }
-CpSlidesCarouselPresenter class >> defaultViewClass [
-
-	^ CpSlidesCarouselView
-]
-
 { #category : #model }
 CpSlidesCarouselPresenter >> currentSlide [
 

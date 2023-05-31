@@ -53,10 +53,9 @@ CpPresenter class >> cull: anObject [
 { #category : #accessing }
 CpPresenter class >> defaultViewClass [
 
-	| suffix baseName viewClass | 
+	| baseName viewClass | 
 
-	suffix := 'Presenter'.
-	baseName := self name withoutSuffix: suffix.
+	baseName := self name withoutSuffix: 'Presenter'.
 	viewClass := Smalltalk classNamed: baseName , 'View'.
 
 	"If no valid View class is found, raise an error to indicate subclass should implement #defaultViewClass"

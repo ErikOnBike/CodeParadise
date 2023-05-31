@@ -8,12 +8,6 @@ Class {
 	#category : #'CodeParadise-WebApplication-Presentation-Presenter'
 }
 
-{ #category : #accessing }
-CpPresentationPresenter class >> defaultViewClass [
-
-	^ CpPresentationView
-]
-
 { #category : #model }
 CpPresentationPresenter >> currentSlideModel [
 

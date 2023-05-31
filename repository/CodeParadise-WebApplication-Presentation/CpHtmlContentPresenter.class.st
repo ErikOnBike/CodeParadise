@@ -4,12 +4,6 @@ Class {
 	#category : #'CodeParadise-WebApplication-Presentation-Presenter'
 }
 
-{ #category : #accessing }
-CpHtmlContentPresenter class >> defaultViewClass [
-
-	^ CpHtmlContentView
-]
-
 { #category : #view }
 CpHtmlContentPresenter >> renderView [
 

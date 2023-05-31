@@ -9,12 +9,6 @@ Class {
 	#category : #'CodeParadise-WebApplication-Presentation-Presenter'
 }
 
-{ #category : #accessing }
-CpCarouselSlidePresenter class >> defaultViewClass [
-
-	^ CpCarouselSlideView
-]
-
 { #category : #view }
 CpCarouselSlidePresenter >> renderView [
 

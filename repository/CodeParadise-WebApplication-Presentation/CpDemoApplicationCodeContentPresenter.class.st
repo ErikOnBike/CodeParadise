@@ -4,12 +4,6 @@ Class {
 	#category : #'CodeParadise-WebApplication-Presentation-Examples'
 }
 
-{ #category : #accessing }
-CpDemoApplicationCodeContentPresenter class >> defaultViewClass [
-
-	^ CpDemoApplicationCodeContentView
-]
-
 { #category : #'user interaction' }
 CpDemoApplicationCodeContentPresenter >> openInspector [
 

@@ -12,12 +12,6 @@ Class {
 	#category : #'CodeParadise-WebApplication-Presentation-Presenter'
 }
 
-{ #category : #accessing }
-CpBulletPresenter class >> defaultViewClass [
-
-	^ CpBulletView
-]
-
 { #category : #model }
 CpBulletPresenter >> contentModel [
 

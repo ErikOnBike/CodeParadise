@@ -8,12 +8,6 @@ Class {
 	#category : #'CodeParadise-WebApplication-Presentation-Presenter'
 }
 
-{ #category : #accessing }
-CpTextContentPresenter class >> defaultViewClass [
-
-	^ CpTextContentView
-]
-
 { #category : #view }
 CpTextContentPresenter >> renderView [
 

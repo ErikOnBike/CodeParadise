@@ -4,12 +4,6 @@ Class {
 	#category : #'CodeParadise-WebApplication-Presentation-Presenter'
 }
 
-{ #category : #accessing }
-CpLinkedContentPresenter class >> defaultViewClass [
-
-	^ CpLinkedContentView
-]
-
 { #category : #model }
 CpLinkedContentPresenter >> contentModel [
 

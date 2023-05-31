@@ -8,12 +8,6 @@ Class {
 	#category : #'CodeParadise-WebApplication-Presentation-Presenter'
 }
 
-{ #category : #accessing }
-CpImageContentPresenter class >> defaultViewClass [
-
-	^ CpImageContentView
-]
-
 { #category : #model }
 CpImageContentPresenter >> hasHeight [
 

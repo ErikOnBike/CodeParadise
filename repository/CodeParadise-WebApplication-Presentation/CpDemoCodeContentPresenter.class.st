@@ -4,12 +4,6 @@ Class {
 	#category : #'CodeParadise-WebApplication-Presentation-Examples'
 }
 
-{ #category : #accessing }
-CpDemoCodeContentPresenter class >> defaultViewClass [
-
-	^ CpDemoCodeContentView
-]
-
 { #category : #'user interaction' }
 CpDemoCodeContentPresenter >> copyClipboard [
 

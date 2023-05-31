@@ -8,12 +8,6 @@ Class {
 	#category : #'CodeParadise-WebApplication-Presentation-Presenter'
 }
 
-{ #category : #accessing }
-CpBulletedContentPresenter class >> defaultViewClass [
-
-	^ CpBulletedContentView
-]
-
 { #category : #model }
 CpBulletedContentPresenter >> bulletModels [
 

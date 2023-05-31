@@ -7,12 +7,6 @@ Class {
 	#category : #'CodeParadise-WebApplication-MVP-Examples'
 }
 
-{ #category : #accessing }
-CpCounterPresenter class >> defaultViewClass [
-
-	^ CpCounterView
-]
-
 { #category : #model }
 CpCounterPresenter >> modelDecrease [
 

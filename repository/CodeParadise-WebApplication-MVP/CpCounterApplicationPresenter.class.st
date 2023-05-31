@@ -4,12 +4,6 @@ Class {
 	#category : #'CodeParadise-WebApplication-MVP-Examples'
 }
 
-{ #category : #accessing }
-CpCounterApplicationPresenter class >> defaultViewClass [
-
-	^ CpCounterApplicationView
-]
-
 { #category : #view }
 CpCounterApplicationPresenter >> renderView [
 

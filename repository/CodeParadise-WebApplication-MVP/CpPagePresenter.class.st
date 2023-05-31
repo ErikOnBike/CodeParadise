@@ -4,12 +4,6 @@ Class {
 	#category : #'CodeParadise-WebApplication-MVP-Core'
 }
 
-{ #category : #accessing }
-CpPagePresenter class >> defaultViewClass [
-
-	^ CpPageView
-]
-
 { #category : #rendering }
 CpPagePresenter >> renderView [
 

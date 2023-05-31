@@ -8,12 +8,6 @@ Class {
 	#category : #'CodeParadise-WebApplication-Presentation-Presenter'
 }
 
-{ #category : #accessing }
-CpTitledSlidePresenter class >> defaultViewClass [
-
-	^ CpTitledSlideView
-]
-
 { #category : #view }
 CpTitledSlidePresenter >> renderView [
 
