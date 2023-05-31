@@ -94,7 +94,9 @@ CpPrimaryClickEvent >> stopImmediatePropagation [
 	either. So store the location from which propagation to stop.
 	This allows CpClickEvent to check for this situation."
 
-	self class stopPropagationFrom: self currentTarget
+	self class stopPropagationFrom: self currentTarget.
+
+	super stopImmediatePropagation
 ]
 
 { #category : #dispatching }
@@ -107,5 +109,7 @@ CpPrimaryClickEvent >> stopPropagation [
 	either. So store the location from which propagation to stop.
 	This allows CpClickEvent to check for this situation."
 
-	self class stopPropagationFrom: self currentTarget parent
+	self class stopPropagationFrom: self currentTarget parent.
+
+	super stopPropagation
 ]
