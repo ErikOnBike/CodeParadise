@@ -70,11 +70,11 @@ CpDemoCodeContentView >> handlePointerMoveEvent: aPointerEvent [
 ]
 
 { #category : #initialization }
-CpDemoCodeContentView >> initialize [
+CpDemoCodeContentView >> initializeShadowRoot [
 
-	super initialize.
+	super initializeShadowRoot.
 
-	self
+	self shadowRoot
 		when: CpPrimaryClickEvent send: #handleClickEvent: to: self ;
 		when: CpPointerMoveEvent send: #handlePointerMoveEvent: to: self
 ]
