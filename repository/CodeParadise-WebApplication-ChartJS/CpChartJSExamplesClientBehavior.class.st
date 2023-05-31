@@ -496,9 +496,7 @@ CpChartJSExamplesClientBehavior >> showIndex [
 				position: absolute;
 				left: 12em;
 				top: 12em;
-				width: 24em;
-				height: 24em;
-				--size: 24em;
+				--size: 300px;
 				--indicator-transition-duration: 0s;
 			}
 			#output p {
