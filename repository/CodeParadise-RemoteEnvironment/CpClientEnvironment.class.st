@@ -438,7 +438,7 @@ CpClientEnvironment >> persistentVariableAt: nameString put: valueString [
 	self primitiveFailed
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #installing }
 CpClientEnvironment >> postInstallClasses [
 
 	"Perform the post install method for all installed classes"
