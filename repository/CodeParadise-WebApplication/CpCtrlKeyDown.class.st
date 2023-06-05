@@ -4,7 +4,7 @@ Class {
 	#category : #'CodeParadise-WebApplication-Events-Custom'
 }
 
-{ #category : #testing }
+{ #category : #accessing }
 CpCtrlKeyDown class >> modifiers [
 
 	"Answer the modifiers (an Integer, see CpEvent >> #modifiers) the receiver represents"
