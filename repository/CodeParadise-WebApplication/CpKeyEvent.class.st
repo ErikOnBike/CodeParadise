@@ -315,6 +315,12 @@ CpKeyEvent class >> key: aString [
 	^ self & (CpKeyEventCondition key: aString)
 ]
 
+{ #category : #announcing }
+CpKeyEvent class >> keyRangeFrom: lowerBoundKeyString to: upperBoundKeyString [
+
+	^ self & (CpKeyRangeEventCondition fromKey: lowerBoundKeyString to: upperBoundKeyString)
+]
+
 { #category : #'navigation keys' }
 CpKeyEvent class >> pageDown [
 
