@@ -173,9 +173,10 @@ CpWebApplication >> methodChanged: anAnnouncement [
 		ifFalse: [ ^ false ].
 
 	method := anAnnouncement method.
-	methodClass := method methodClass instanceSide.
 	pragma := method pragmaAt: self class webResourcePragmaName.
 	pragma ifNil: [ ^ true ].
+
+	methodClass := method methodClass instanceSide.
 	resourceType := pragma argumentAt: 1.
 	resourceType == self class webResourceCSS
 		ifTrue: [
