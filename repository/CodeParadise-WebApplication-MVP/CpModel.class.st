@@ -96,7 +96,7 @@ CpModel >> valueChanged [
 	Implementation:
 	This method is for compatibility with Model and NewValueHolder"
 
-	self announcer announce: (ValueChanged newValue: self)
+	self announce: (ValueChanged newValue: self)
 ]
 
 { #category : #announcing }
