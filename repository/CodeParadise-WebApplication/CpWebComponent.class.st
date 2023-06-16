@@ -154,6 +154,15 @@ CpWebComponent >> insertChild: childElement before: siblingElement atSlotNamed: 
 	^ self insertChild: childElement before: siblingElement
 ]
 
+{ #category : #querying }
+CpWebComponent >> partNamed: aString [
+
+	"Answer the part with the specified name"
+
+	^ self shadowRoot
+		firstDescendantMatching: '[part="', aString, '"]'
+]
+
 { #category : #'adding/removing' }
 CpWebComponent >> removeChildrenAtSlotNamed: nameString [
 
