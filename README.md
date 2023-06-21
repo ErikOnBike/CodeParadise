@@ -11,7 +11,7 @@ A few online videos:
 * first two components [link and button](https://youtu.be/nxQSlf4kFs8) - 2:18 minutes
 * animated [checkbox](https://youtu.be/-l0S03jZTtc) 25 seconds
 
-See [introduction](introduction.md) for a more thorough explanation of CodeParadise as the future platform.
+See [introduction](docs/introduction.md) for a more thorough explanation of CodeParadise as the future platform.
 
 ## Getting started
 
