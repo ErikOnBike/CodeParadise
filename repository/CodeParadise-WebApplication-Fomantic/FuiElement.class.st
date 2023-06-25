@@ -74,102 +74,99 @@ FuiElement class >> installFomanticPlugin [
 	"Install the Fomantic plugin which allows HTML elements to be
 	mapped to Smalltalk classes"
 
-	CpHtmlElement documentHead appendChild: ((CpDomElement newWithTag: #script)
-		textContent: '"use strict";
-			Squeak.registerExternalModule("CpFomanticPlugin", {
-				getModuleName: function() {  return "CpFomanticPlugin"; },
-				interpreterProxy: null,
-				domPlugin: null,
-				elementClassMap: [],
-				setInterpreter: function(anInterpreter) {
-					this.interpreterProxy = anInterpreter;
-					this.domPlugin = Squeak.externalModules.CpDOMPlugin;
-					this.systemPlugin = Squeak.externalModules.CpSystemPlugin;
+	CpHtmlElement documentAddScript: '"use strict";
+		Squeak.registerExternalModule("CpFomanticPlugin", {
+			getModuleName: function() {  return "CpFomanticPlugin"; },
+			interpreterProxy: null,
+			domPlugin: null,
+			elementClassMap: [],
+			setInterpreter: function(anInterpreter) {
+				this.interpreterProxy = anInterpreter;
+				this.domPlugin = Squeak.externalModules.CpDOMPlugin;
+				this.systemPlugin = Squeak.externalModules.CpSystemPlugin;
 
-					// Add element class mapper which allows to specify which Smalltalk class
-					// represents a given DOM element
-					let elementClassMap = this.elementClassMap;
-					this.domPlugin.addElementClassMapper(function(domElement) {
-						let classList = domElement.classList;
-						if(classList && classList.contains("ui")) {
-							for(let i = 0; i < elementClassMap.length; i++) {
-								if(classList.contains(elementClassMap[i].elementName)) {
-									// Answer Smalltalk class
-									return elementClassMap[i].elementClass;
-								}
+				// Add element class mapper which allows to specify which Smalltalk class
+				// represents a given DOM element
+				let elementClassMap = this.elementClassMap;
+				this.domPlugin.addElementClassMapper(function(domElement) {
+					let classList = domElement.classList;
+					if(classList && classList.contains("ui")) {
+						for(let i = 0; i < elementClassMap.length; i++) {
+							if(classList.contains(elementClassMap[i].elementName)) {
+								// Answer Smalltalk class
+								return elementClassMap[i].elementClass;
 							}
 						}
-						return null;
-					});
-					return true;
-				},
-				elementNameFromClass: function(fuiElementClass) {
-					return fuiElementClass.className().replace(/^Fui/, "").toLowerCase();
-				},
-				withJQuery: function(callback) {
-					// jQuery and Fomantic might not be loaded yet, retry until loaded
-					if(window.jQuery && window.jQuery.prototype.calendar) {
-						return callback(window.jQuery);
-					} else {
-console.log("Waiting for Fomantic library to load");
-						let thisHandle = this;
-						window.setTimeout(function() {
-							thisHandle.withJQuery(callback);
-						}, 100);
 					}
-				},
-				"primitiveFuiElementElementName": function(argCount) {
-					if(argCount !== 0) return false;
-					let receiver = this.interpreterProxy.stackValue(argCount);
-					let elementName = this.elementNameFromClass(receiver);
-					return this.domPlugin.answer(argCount, elementName);
-				},
-				"primitiveFuiElementRegister": function(argCount) {
-					if(argCount !== 0) return false;
-					let receiver = this.interpreterProxy.stackValue(argCount);
-					let elementName = this.elementNameFromClass(receiver);
-					this.elementClassMap.push({ elementName: elementName, elementClass: receiver });
-					this.domPlugin.answerSelf(argCount);
-				},
-				"primitiveFuiElementNewWithTag:": function(argCount) {
-					if(argCount !== 1) return false;
-					let tagName = this.interpreterProxy.stackValue(0).asString();
-					if(!tagName) return false;
-					let receiver = this.interpreterProxy.stackValue(argCount);
-
-					// Create DOM element with the CSS class (denoting its type) of the receiver
-					let domElement = document.createElement(tagName);
-					domElement.setAttribute("class", "ui " + this.elementNameFromClass(receiver));
-
-					// Answer instance through DOM plugin since it will cache instances					
-					return this.domPlugin.answer(argCount, this.domPlugin.instanceForElement(domElement));
-				},
-				"primitiveFuiElementPerformOnElement:as:": function(argCount) {
-					if(argCount !== 2) return false;
-					let properties = this.systemPlugin.asJavascriptObject(this.interpreterProxy.stackValue(1));
-					let elementName = this.interpreterProxy.stackValue(0).asString();
-					if(!elementName) return false;
-					let receiver = this.interpreterProxy.stackValue(argCount);
-
-					// Perform behavior
-					let result = this.withJQuery(function(jQuery) {
-						let jQueryElement = jQuery(receiver.domElement);
-						try {
-							return jQueryElement[elementName](properties);
-						} catch(e) {
-							throw Error("Unsupported elementName " + elementName + " or error " + e.message);
-						}
-					});
-
-					// If result looks like the component itself, answer "self"
-					if(typeof result[elementName] === "function") {
-						result = receiver;
-					}
-					return this.domPlugin.answer(argCount, result);
+					return null;
+				});
+				return true;
+			},
+			elementNameFromClass: function(fuiElementClass) {
+				return fuiElementClass.className().replace(/^Fui/, "").toLowerCase();
+			},
+			withJQuery: function(callback) {
+				// jQuery and Fomantic might not be loaded yet, retry until loaded
+				if(window.jQuery && window.jQuery.prototype.calendar) {
+					return callback(window.jQuery);
+				} else {
+					console.debug("Waiting for Fomantic library to load");
+					let thisHandle = this;
+					window.setTimeout(function() {
+						thisHandle.withJQuery(callback);
+					}, 100);
 				}
-			});
-		' ;
-		yourself)
+			},
+			"primitiveFuiElementElementName": function(argCount) {
+				if(argCount !== 0) return false;
+				let receiver = this.interpreterProxy.stackValue(argCount);
+				let elementName = this.elementNameFromClass(receiver);
+				return this.domPlugin.answer(argCount, elementName);
+			},
+			"primitiveFuiElementRegister": function(argCount) {
+				if(argCount !== 0) return false;
+				let receiver = this.interpreterProxy.stackValue(argCount);
+				let elementName = this.elementNameFromClass(receiver);
+				this.elementClassMap.push({ elementName: elementName, elementClass: receiver });
+				this.domPlugin.answerSelf(argCount);
+			},
+			"primitiveFuiElementNewWithTag:": function(argCount) {
+				if(argCount !== 1) return false;
+				let tagName = this.interpreterProxy.stackValue(0).asString();
+				if(!tagName) return false;
+				let receiver = this.interpreterProxy.stackValue(argCount);
+
+				// Create DOM element with the CSS class (denoting its type) of the receiver
+				let domElement = document.createElement(tagName);
+				domElement.setAttribute("class", "ui " + this.elementNameFromClass(receiver));
+
+				// Answer instance through DOM plugin since it will cache instances					
+				return this.domPlugin.answer(argCount, this.domPlugin.instanceForElement(domElement));
+			},
+			"primitiveFuiElementPerformOnElement:as:": function(argCount) {
+				if(argCount !== 2) return false;
+				let properties = this.systemPlugin.asJavascriptObject(this.interpreterProxy.stackValue(1));
+				let elementName = this.interpreterProxy.stackValue(0).asString();
+				if(!elementName) return false;
+				let receiver = this.interpreterProxy.stackValue(argCount);
+
+				// Perform behavior
+				let result = this.withJQuery(function(jQuery) {
+					let jQueryElement = jQuery(receiver.domElement);
+					try {
+						return jQueryElement[elementName](properties);
+					} catch(e) {
+						throw Error("Unsupported elementName " + elementName + " or error " + e.message);
+					}
+				});
+
+				// If result looks like the component itself, answer "self"
+				if(typeof result[elementName] === "function") {
+					result = receiver;
+				}
+				return this.domPlugin.answer(argCount, result);
+			}
+		});'
 ]
 
 { #category : #'class initialization' }
@@ -177,18 +174,10 @@ FuiElement class >> loadFomantic [
 
 	"Load Fomantic library ("
 
-	CpHtmlElement documentHead
-		appendChild: ((CpHtmlElement newWithTag: #script)
-			attributeAt: #src put: 'https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js' ;
-			yourself) ;
-		appendChild: ((CpHtmlElement newWithTag: #link)
-			attributeAt: #rel put: 'stylesheet' ;
-			attributeAt: #type put: 'text/css' ;
-			attributeAt: #href put: 'https://cdn.jsdelivr.net/npm/fomantic-ui@2.8.7/dist/semantic.min.css' ;
-			yourself) ;
-		appendChild: ((CpHtmlElement newWithTag: #script)
-			attributeAt: #src put: 'https://cdn.jsdelivr.net/npm/fomantic-ui@2.8.7/dist/semantic.min.js' ;
-			yourself)
+	CpHtmlElement
+		documentAddExternalScript: 'https://cdn.jsdelivr.net/npm/jquery@3.3.1/dist/jquery.min.js' ;
+		documentAddStylesheet: 'https://cdn.jsdelivr.net/npm/fomantic-ui@2.8.7/dist/semantic.min.css' ;
+		documentAddExternalScript: 'https://cdn.jsdelivr.net/npm/fomantic-ui@2.8.7/dist/semantic.min.js'
 ]
 
 { #category : #'instance creation' }

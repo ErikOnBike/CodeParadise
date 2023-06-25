@@ -443,70 +443,68 @@ CpChartJSExamplesClientBehavior >> showIndex [
 
 	| body list items |
 
-	CpHtmlElement documentHead appendChild: ((CpHtmlElement newWithTag: #style)
-		textContent: '
-			html {
-				height: 100%;
-			}
-			body {
-				width: 100%;
-				height: 100%;
-				padding: 0;
-				margin: 0;
-				overflow: hidden;
-			}
-			h1 {
-				margin-left: 1em;
-			}
-			#screen {
-				width: 100%;
-				height: calc(100% - 6em);
-			}
-			#menu {
-				display: inline-block;
-				width: 20em;
-				height: 100%;
-				border-right: 1px solid #999;
-			}
-			#menu ul {
-				list-style: none;
-			}
-			#menu li { 
-				cursor: pointer;
-				margin-bottom: .6em;
-			}
-			#result {
-				position: absolute;
-				display: inline-block;
-				width: calc(100% - 24em);
-				height: calc(100% - 10em);
-				padding: 2em;
-			}
-			#output {
-				position: relative;
-				width: 100%;
-				height: 100%;
-				overflow: hidden;
-			}
-			#output canvas {
-				max-width: 40em;
-				max-height: 45em;
-			}
-			#output sl-progress-ring {
-				position: absolute;
-				left: 12em;
-				top: 12em;
-				--size: 300px;
-				--indicator-transition-duration: 0s;
-			}
-			#output p {
-				margin-top: 2em;
-			}
-			div.separator {
-				height: 1em;
-			}
-		' ;
-		yourself).
+	CpHtmlElement documentAddStyle:'
+		html {
+			height: 100%;
+		}
+		body {
+			width: 100%;
+			height: 100%;
+			padding: 0;
+			margin: 0;
+			overflow: hidden;
+		}
+		h1 {
+			margin-left: 1em;
+		}
+		#screen {
+			width: 100%;
+			height: calc(100% - 6em);
+		}
+		#menu {
+			display: inline-block;
+			width: 20em;
+			height: 100%;
+			border-right: 1px solid #999;
+		}
+		#menu ul {
+			list-style: none;
+		}
+		#menu li { 
+			cursor: pointer;
+			margin-bottom: .6em;
+		}
+		#result {
+			position: absolute;
+			display: inline-block;
+			width: calc(100% - 24em);
+			height: calc(100% - 10em);
+			padding: 2em;
+		}
+		#output {
+			position: relative;
+			width: 100%;
+			height: 100%;
+			overflow: hidden;
+		}
+		#output canvas {
+			max-width: 40em;
+			max-height: 45em;
+		}
+		#output sl-progress-ring {
+			position: absolute;
+			left: 12em;
+			top: 12em;
+			--size: 300px;
+			--indicator-transition-duration: 0s;
+		}
+		#output p {
+			margin-top: 2em;
+		}
+		div.separator {
+			height: 1em;
+		}
+	'.
 	body := CpHtmlElement documentBody.
 	body markupContent: '<h1>ChartJS Examples</h1>
 		<div id="screen">

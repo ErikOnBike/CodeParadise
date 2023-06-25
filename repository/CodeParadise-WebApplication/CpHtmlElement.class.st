@@ -58,6 +58,25 @@ CpHtmlElement class >> activeElement [
 ]
 
 { #category : #adding }
+CpHtmlElement class >> documentAddExternalScript: urlString [
+
+	"Add the specified Javascript resource to the receiver"
+
+	self documentAddExternalScript: urlString type: nil
+]
+
+{ #category : #adding }
+CpHtmlElement class >> documentAddExternalScript: urlString type: typeString [
+
+	"Add the specified Javascript resource to the receiver"
+
+	self documentHead appendChild: ((self newWithTag: #script)
+		attributeAt: #src put: urlString ;
+		attributeAt: #type put: typeString ;
+		yourself)
+]
+
+{ #category : #adding }
 CpHtmlElement class >> documentAddModuleScript: aString [
 
 	self documentAddScript: aString type: 'module' id: nil

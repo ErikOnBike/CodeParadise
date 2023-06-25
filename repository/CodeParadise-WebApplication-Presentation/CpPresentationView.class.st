@@ -78,18 +78,16 @@ CpPresentationView >> initialize [
 	super initialize.
 
 	"Set styling of the page"
-	CpHtmlElement documentHead appendChild: ((CpHtmlElement newWithTag: #style)
-		textContent: '
-			body {
-				margin: 0;
-				padding: 0 ;
-				width: 100vw;
-				height: 100vh;
-				overflow: hidden;
-				font-family: "SF Pro Text", "Helvetica Neue", Helvetica, Arial, sans-serif;
+	CpHtmlElement documentAddStyle: '
+		body {
+			margin: 0;
+			padding: 0 ;
+			width: 100vw;
+			height: 100vh;
+			overflow: hidden;
+			font-family: "SF Pro Text", "Helvetica Neue", Helvetica, Arial, sans-serif;
 
-			}' ;
-		yourself).
+		}'.
 
 	"Add a key event handler on the body (where all key events will end up at the moment).
 	The KeyUpEvent is used, since it will prevent repeating keys and also supports
