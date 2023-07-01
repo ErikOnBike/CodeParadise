@@ -97,7 +97,7 @@ CpDomElement class >> globalApply: aSymbol withArguments: anArray [
 	"Perform the specified symbol on the global scope (ie 'window' in the browser
 	environment) with the specified arguments"
 
-	CpClientEnvironment current
+	^ CpClientEnvironment current
 		globalApply: aSymbol withArguments: anArray
 ]
 
