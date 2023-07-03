@@ -13,12 +13,6 @@ Class {
 	#category : #'CodeParadise-WebApplication-DOM'
 }
 
-{ #category : #testing }
-CpTemplateComponent class >> hasAbstractTag [
-
-	^ self classSide includesSelector: #isAbstractTag
-]
-
 { #category : #updating }
 CpTemplateComponent class >> installStyle: styleString [
 
@@ -51,20 +45,6 @@ CpTemplateComponent class >> isAbstractTag [
 
 	"The method is present to indicate the receiver is abstract.
 	This method will NOT be evaluated to decide if the receiver is abstract."
-]
-
-{ #category : #'instance creation' }
-CpTemplateComponent class >> new [
-
-	"Answer a new instance of the receiver.
-	Although not allowed on the receiver or its superclasses,
-	new instances of the receiver's subclasses are allowed to be created,
-	because the receiver knows its own tag."
-
-	self hasAbstractTag
-		ifTrue: [ self error: self name, ' is abstract and cannot be instantiated' ].
-
-	^ self newWithTag: self tagName
 ]
 
 { #category : #'class initialization' }
@@ -163,9 +143,19 @@ CpTemplateComponent >> initialize [
 
 	super initialize.
 
-	self ensureShadowRoot.
+	self
+		ensureShadowRoot ;
+		initializeShadowRoot ;
+		initializeChildren
+]
 
-	self initializeShadowRoot
+{ #category : #initialization }
+CpTemplateComponent >> initializeChildren [
+
+	"Initialize any child Views"
+
+	(self shadowRoot allDescendantsMatching: '*')
+		do: [ :each | each initialize ]
 ]
 
 { #category : #initialization }

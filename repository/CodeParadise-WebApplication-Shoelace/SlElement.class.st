@@ -16,12 +16,6 @@ SlElement class >> componentName [
 	^ self nameWithoutPrefix asKebabCase
 ]
 
-{ #category : #testing }
-SlElement class >> hasAbstractTag [
-
-	^ self classSide includesSelector: #isAbstractTag
-]
-
 { #category : #accessing }
 SlElement class >> importBasePath [
 
@@ -97,20 +91,6 @@ SlElement class >> loadLibrary [
 	See SlElement class >> #loadComponent"
 
 	CpHtmlElement documentAddStylesheet: self importThemesPath
-]
-
-{ #category : #'instance creation' }
-SlElement class >> new [
-
-	"Answer a new instance of the receiver.
-	Although not allowed on the receiver or its superclasses,
-	new instances of the receiver's subclasses are allowed to be created,
-	because the receiver knows its own tag."
-
-	self hasAbstractTag
-		ifTrue: [ self error: self name, ' is abstract and cannot be instantiated' ].
-
-	^ self newWithTag: self tagName
 ]
 
 { #category : #'class initialization' }

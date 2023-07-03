@@ -78,18 +78,7 @@ CpView >> initialize [
 	keymapper := CpKeyMapper new.
 
 	self class defaultKeyMapping keysAndValuesDo: [ :key :value |
-		keymapper addMappingFrom: key to: value ].
-
-	self initializeChildren
-]
-
-{ #category : #initialization }
-CpView >> initializeChildren [
-
-	"Initialize any child Views"
-
-	(self shadowRoot allDescendantsMatching: '*')
-		do: [ :each | each initialize ]
+		keymapper addMappingFrom: key to: value ]
 ]
 
 { #category : #accessing }

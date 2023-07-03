@@ -24,6 +24,14 @@ CpWebComponent class >> asCssSelector [
 
 ]
 
+{ #category : #'instance creation' }
+CpWebComponent class >> basicNew [
+
+	"Answer a new (non-initialized) basic instance of the receiver"
+
+	^ self basicNewWithTag: self tagName
+]
+
 { #category : #accessing }
 CpWebComponent class >> first [
 
@@ -32,6 +40,19 @@ CpWebComponent class >> first [
 
 	^ self document
 		firstDescendantMatching: self asCssSelector
+]
+
+{ #category : #testing }
+CpWebComponent class >> hasAbstractTag [
+
+	^ self classSide includesSelector: #isAbstractTag
+]
+
+{ #category : #testing }
+CpWebComponent class >> isAbstractTag [
+
+	"The method is present to indicate the receiver is abstract.
+	This method will NOT be evaluated to decide if the receiver is abstract."
 ]
 
 { #category : #primitives }
@@ -54,6 +75,21 @@ CpWebComponent class >> last [
 	^ (self document allDescendantsMatching: self asCssSelector)
 		ifNotEmpty: [ :matches | matches last ]
 		ifEmpty: [ nil ]
+]
+
+{ #category : #'instance creation' }
+CpWebComponent class >> new [
+
+	"Answer a new instance of the receiver.
+	Although not allowed on the receiver, new instances of the receiver's subclasses
+	are allowed to be created, because the receiver knows its own tag."
+
+	self hasAbstractTag
+		ifTrue: [ self error: self name, ' is abstract and cannot be instantiated' ].
+
+	^ self basicNew
+		initialize ;
+		yourself
 ]
 
 { #category : #'class initialization' }
