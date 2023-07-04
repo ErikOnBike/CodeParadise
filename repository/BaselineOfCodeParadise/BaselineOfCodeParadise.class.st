@@ -13,7 +13,7 @@ BaselineOfCodeParadise >> baseline: spec [
 
 		"Dependencies"
 		spec
-			baseline: 'ZincHTTPComponents' with: [ spec loads: #('Core' 'WebSocket') ; repository: 'github://svenvc/zinc' ].
+			baseline: 'ZincHTTPComponents' with: [ spec loads: #('Core' 'WebSocket') ; repository: 'github://svenvc/zinc:master' ].
 
 		"Packages"
 		spec
