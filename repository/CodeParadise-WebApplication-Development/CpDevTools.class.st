@@ -1,7 +1,7 @@
 Class {
 	#name : #CpDevTools,
 	#superclass : #Object,
-	#category : #'CodeParadise-WebApplication-DevTools'
+	#category : #'CodeParadise-WebApplication-Development-Tools'
 }
 
 { #category : #actions }
