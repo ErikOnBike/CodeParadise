@@ -103,12 +103,16 @@ CpClientEnvironment class >> preInstalledClasses [
 			add: ArrayedCollection ;
 			add: Association ;
 			add: Behavior ;
-"			add: Block ;
-"			add: ByteArray ;
+"			add: Block ;				Only in tiny image (for P8 version)
+"			add: BlockClosure ;
+			add: ByteArray ;
+			add: ByteString ;
 			add: Character ;
 			add: Class ;
-"			add: ClassBuilder ;
+"			add: ClassBuilder ;	Only in tiny image
 "			add: Collection ;
+			add: CompiledBlock ;
+			add: CompiledCode ;
 			add: CompiledMethod ;
 			add: Context ;
 			add: CpClientCommunicator ;
@@ -133,6 +137,7 @@ CpClientEnvironment class >> preInstalledClasses [
 			add: ExceptionSetWithExclusions ;
 			add: False ;
 			add: Float ;
+			add: FullBlockClosure ;
 			add: IdentityDictionary ;
 			add: IdentitySet ;
 			add: IllegalResumeAttempt ;
@@ -146,7 +151,7 @@ CpClientEnvironment class >> preInstalledClasses [
 			add: MessageNotUnderstood ;
 			add: MessageSend ;
 			add: Metaclass ;
-"			add: MethodContext ;
+"			add: MethodContext ;		Only in tiny image (for P8 version)
 "			add: MethodDictionary ;
 			add: Mutex ;
 			add: Number ;
@@ -168,12 +173,14 @@ CpClientEnvironment class >> preInstalledClasses [
 			add: String ;
 			add: SubscriptionRegistry ;
 			add: Symbol ;
-"			add: System ;"
-			add: SystemDictionary ;
+"			add: System ;			Only in tiny image (for P8 version)
+"			add: SystemDictionary ;
 			add: True ;
 			add: UndefinedObject ;
 			add: UnhandledError ;
 			add: ValueLink ;
+			add: WideString ;
+			add: WordArray ;
 			add: WriteStream ;
 		yourself ]
 ]
