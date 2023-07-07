@@ -65,10 +65,7 @@ CpServerApplication class >> register [
 
 	self unregister.
 
-	announcementSubscription := CpServerEnvironment announcer
-		when: CpClientLoaded
-		send: #clientLoaded:
-		to: self
+	announcementSubscription := CpServerEnvironment whenClientLoadedSend: #clientLoaded: to: self
 ]
 
 { #category : #'class initialization' }
@@ -86,7 +83,7 @@ CpServerApplication class >> unregister [
 
 	announcementSubscription ifNil: [ ^ self ].
 
-	CpServerEnvironment announcer removeSubscription: announcementSubscription.
+	CpServerEnvironment removeSubscription: announcementSubscription.
 	announcementSubscription := nil
 ]
 

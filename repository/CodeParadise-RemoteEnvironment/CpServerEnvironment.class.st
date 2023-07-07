@@ -42,7 +42,7 @@ Class {
 	#category : #'CodeParadise-RemoteEnvironment-Core'
 }
 
-{ #category : #announce }
+{ #category : #announcing }
 CpServerEnvironment class >> announce: anAnnouncement [
 
 	"Let the receiver annouce the specified Announcement"
@@ -107,6 +107,21 @@ CpServerEnvironment class >> newWithId: id [
 	^ self new
 		id: id ;
 		yourself
+]
+
+{ #category : #announcing }
+CpServerEnvironment class >> removeSubscription: aSubscription [
+
+	self announcer removeSubscription: aSubscription
+]
+
+{ #category : #announcing }
+CpServerEnvironment class >> whenClientLoadedSend: aSymbol to: anObject [
+
+	^ self announcer
+		when: CpClientLoaded
+		send: aSymbol
+		to: anObject
 ]
 
 { #category : #'adding/removing' }
