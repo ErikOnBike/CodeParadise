@@ -194,8 +194,8 @@ CpDomExamplesClientBehavior >> exampleClickEvents [
 
 	buttonDefs := {
 		'Native click' -> CpClickEvent.
-		'Any button (no modifier)' -> CpAnyClickEvent & CpNoModifiersDown.
-		'Primary button (no modifier)' -> CpPrimaryClickEvent & CpNoModifiersDown.
+		'Any button (no modifier)' -> (CpAnyClickEvent & CpNoModifiersDown).
+		'Primary button (no modifier)' -> (CpPrimaryClickEvent & CpNoModifiersDown).
 		'Primary button (no modifier, short click)' -> (CpPrimaryClickEvent & CpNoModifiersDown & CpShortClick).
 		'Primary button (no modifier, long click)' -> (CpPrimaryClickEvent & CpNoModifiersDown & CpLongClick).
 		'Primary button with shift' -> (CpPrimaryClickEvent & CpShiftKeyDown).
@@ -203,7 +203,7 @@ CpDomExamplesClientBehavior >> exampleClickEvents [
 		'Primary button with ctrl' -> (CpPrimaryClickEvent & CpCtrlKeyDown).
 		'Primary button with meta' -> (CpPrimaryClickEvent & CpMetaKeyDown).
 		'Primary button with ctrl + meta' -> (CpPrimaryClickEvent & (CpMetaKeyDown + CpCtrlKeyDown)).
-		'Secondary button (no modifier)' -> CpSecondaryClickEvent & CpNoModifiersDown.
+		'Secondary button (no modifier)' -> (CpSecondaryClickEvent & CpNoModifiersDown).
 		'Secondary button (no modifier, short click)' -> (CpSecondaryClickEvent & CpNoModifiersDown & CpShortClick).
 		'Secondary button (no modifier, long click)' -> (CpSecondaryClickEvent & CpNoModifiersDown & CpLongClick).
 		'Secondary button with shift' -> (CpSecondaryClickEvent & CpShiftKeyDown).
