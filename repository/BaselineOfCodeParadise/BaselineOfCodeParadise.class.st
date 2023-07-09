@@ -63,7 +63,7 @@ BaselineOfCodeParadise >> baseline: spec [
 			baseline: 'CpClientEnvironment' with: [ spec repository: 'github://ErikOnBike/CP-ClientEnvironment:pharo8' ] ].
 
 	"Pharo 9.x (and upward) specific"
-	spec for: #(#'pharo9.x' #'pharo10.x' #'pharo11.x') do: [
+	spec for: #(#'pharo9.x' #'pharo10.x' #'pharo11.x' #'pharo12.x') do: [
 		spec
 			"For Pharo 9 (and above) we need a Client Environment with a tiny image based on the newer Sista bytecode set"
 			baseline: 'CpClientEnvironment' with: [ spec repository: 'github://ErikOnBike/CP-ClientEnvironment' ] ;
