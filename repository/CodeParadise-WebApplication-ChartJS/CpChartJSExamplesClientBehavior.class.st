@@ -76,7 +76,7 @@ CpChartJSExamplesClientBehavior >> exampleBarChartRandom [
 			startDelayedBy: 2000 ].
 
 	"Start repetition"
-	self showProgressRing: 2000.
+	self showProgressBar: 2000.
 	repeatBlock value
 ]
 
@@ -140,7 +140,7 @@ CpChartJSExamplesClientBehavior >> exampleDoughnutChartRandom [
 			startDelayedBy: 2000 ].
 
 	"Start repetition"
-	self showProgressRing: 2000.
+	self showProgressBar: 2000.
 	repeatBlock value
 ]
 
@@ -157,15 +157,18 @@ CpChartJSExamplesClientBehavior >> exampleLineChart [
 
 	outputElement appendChild: ('Use the range selector below to set the line tension' inHtmlTag: #p).
 
-	outputElement appendChild: (SlRange new
+	outputElement appendChild: ((CpHtmlElement newWithTag: #input)
+		attributeAt: #type put: #range ;
+		attributeAt: #min put: '0' ;
+		attributeAt: #value put: '0' ;
+		attributeAt: #max put: '4' ;
+		attributeAt: #step put: '0.1' ;
 		styleAt: #width put: '30em' ;
-		min: 0 ;
-		max: 4 ;
-		step: 0.1 ;
-		when: SlChangeEvent do: [ :changeEvent |
+		when: CpChangeEvent do: [ :changeEvent |
+			self crTrace: (changeEvent currentTarget propertyAt: #value) printString.
 			chart ifNotNil: [
 				chart
-					propertyAt: #(data datasets 0 tension) put: (changeEvent target value) ;
+					propertyAt: #(data datasets 0 tension) put: (changeEvent currentTarget propertyAt: #value) ;
 					update ] ] ;
 		yourself).
 
@@ -250,7 +253,7 @@ CpChartJSExamplesClientBehavior >> exampleLineChartRandom [
 			startDelayedBy: 2000 ].
 
 	"Start repetition"
-	self showProgressRing: 2000.
+	self showProgressBar: 2000.
 	repeatBlock value
 ]
 
@@ -265,13 +268,14 @@ CpChartJSExamplesClientBehavior >> exampleMultiRandom [
 	outputElement := self outputElement.
 	outputElement textContent: ''.
 
-	outputElement appendChild: (SlButtonGroup new
-		appendChild: ((SlButton label: 'Line') when: CpPrimaryClickEvent do: [ chart ifNotNil: [ chart type: #line ] ] ; yourself) ;
-		appendChild: ((SlButton label: 'Bar') when: CpPrimaryClickEvent do: [ chart ifNotNil: [ chart type: #bar ] ] ; yourself) ;
-		appendChild: ((SlButton label: 'Pie') when: CpPrimaryClickEvent do: [ chart ifNotNil: [ chart type: #pie ] ] ; yourself) ;
-		appendChild: ((SlButton label: 'Doughnut') when: CpPrimaryClickEvent do: [ chart ifNotNil: [ chart type: #doughnut ] ] ; yourself) ;
-		appendChild: ((SlButton label: 'Polar area') when: CpPrimaryClickEvent do: [ chart ifNotNil: [ chart type: #polarArea ] ] ; yourself) ;
-		appendChild: ((SlButton label: 'Radar') when: CpPrimaryClickEvent do: [ chart ifNotNil: [ chart type: #radar ] ] ; yourself) ;
+	outputElement appendChild: ((CpHtmlElement newWithTag: #div)
+		addClass: #buttons ;
+		appendChild: ((CpHtmlElement newWithTag: #button) textContent: 'Line' ; when: CpPrimaryClickEvent do: [ chart ifNotNil: [ chart type: #line ] ] ; yourself) ;
+		appendChild: ((CpHtmlElement newWithTag: #button) textContent: 'Bar' ; when: CpPrimaryClickEvent do: [ chart ifNotNil: [ chart type: #bar ] ] ; yourself) ;
+		appendChild: ((CpHtmlElement newWithTag: #button) textContent: 'Pie' ; when: CpPrimaryClickEvent do: [ chart ifNotNil: [ chart type: #pie ] ] ; yourself) ;
+		appendChild: ((CpHtmlElement newWithTag: #button) textContent: 'Doughnut' ; when: CpPrimaryClickEvent do: [ chart ifNotNil: [ chart type: #doughnut ] ] ; yourself) ;
+		appendChild: ((CpHtmlElement newWithTag: #button) textContent: 'Polar area' ; when: CpPrimaryClickEvent do: [ chart ifNotNil: [ chart type: #polarArea ] ] ; yourself) ;
+		appendChild: ((CpHtmlElement newWithTag: #button) textContent: 'Radar' ; when: CpPrimaryClickEvent do: [ chart ifNotNil: [ chart type: #radar ] ] ; yourself) ;
 		yourself).
 
 	outputElement appendChild: (chartElement := CpHtmlElement newWithTag: #canvas).
@@ -324,7 +328,7 @@ CpChartJSExamplesClientBehavior >> exampleMultiRandom [
 			startDelayedBy: 2000 ].
 
 	"Start repetition"
-	self showProgressRing: 2000.
+	self showProgressBar: 2000.
 	repeatBlock value
 ]
 
@@ -406,7 +410,7 @@ CpChartJSExamplesClientBehavior >> exampleStackedBarChartRandom [
 			startDelayedBy: 2000 ].
 
 	"Start repetition"
-	self showProgressRing: 2000.
+	self showProgressBar: 2000.
 	repeatBlock value
 ]
 
@@ -415,8 +419,6 @@ CpChartJSExamplesClientBehavior >> initialize [
 
 	super initialize.
 
-	SlButton beLoaded.
-	SlIcon beLoaded.
 	CpTransition beLoaded.
 
 	self showIndex
@@ -429,10 +431,10 @@ CpChartJSExamplesClientBehavior >> outputElement [
 ]
 
 { #category : #progress }
-CpChartJSExamplesClientBehavior >> removeProgressRing [
+CpChartJSExamplesClientBehavior >> removeProgressBar [
 
-	(self outputElement firstDescendantMatching: SlProgressRing asCssSelector)
-		ifNotNil: [ :progressRing | progressRing destroy ]
+	(self outputElement firstDescendantMatching: #progress)
+		ifNotNil: [ :progressBar | progressBar destroy ]
 ]
 
 { #category : #examples }
@@ -491,18 +493,43 @@ CpChartJSExamplesClientBehavior >> showIndex [
 			max-width: 40em;
 			max-height: 45em;
 		}
-		#output sl-progress-ring {
+		#output progress {
 			position: absolute;
 			left: 12em;
 			top: 12em;
-			--size: 300px;
-			--indicator-transition-duration: 0s;
+			width: 300px;
+			height: 8px;
 		}
 		#output p {
 			margin-top: 2em;
 		}
 		div.separator {
 			height: 1em;
+		}
+		button {
+			display: inline-block;
+			height: 32px;
+			padding: 8px;
+			border: 0;
+			border-radius: 0;
+			box-shadow: none;
+			font-size: 14px;
+			margin-right: 1px;
+			overflow: hidden;
+			text-overflow: ellipsis;
+			white-space: nowrap;
+		}
+		button:hover {
+			background-color: rgba(0, 0, 255, .1);
+			cursor: pointer;
+		}
+		.buttons > button:first-child {
+			border-top-left-radius: 4px;
+			border-bottom-left-radius: 4px;
+		}
+		.buttons > button:last-child {
+			border-top-right-radius: 4px;
+			border-bottom-right-radius: 4px;
 		}
 	'.
 	body := CpHtmlElement documentBody.
@@ -533,9 +560,9 @@ CpChartJSExamplesClientBehavior >> showIndex [
 	items do: [ :item |
 		| example |
 
-		example := SlButton
-			label: item value first		"ie title"
-			suffix: 'arrow-right' asShoelaceIcon.
+		example := (CpHtmlElement newWithTag: #button)
+			textContent: item value first ;		"ie title"
+			yourself.
 
 		list appendChild: ((CpHtmlElement newWithTag: #li)
 			appendChild: example ;
@@ -546,15 +573,15 @@ CpChartJSExamplesClientBehavior >> showIndex [
 ]
 
 { #category : #progress }
-CpChartJSExamplesClientBehavior >> showProgressRing: aDuration [
+CpChartJSExamplesClientBehavior >> showProgressBar: aDuration [
 
-	| progressRing |
+	| progressBar |
 
-	self outputElement appendChild: (progressRing := SlProgressRing new).
+	self outputElement appendChild: (progressBar := CpHtmlElement newWithTag: #progress).
 
 	"Start animation to fill progress ring"
-	(CpTransition onBlock: [ :p | progressRing value: (p * 100) floor ; labelText: (p * 100) floor printString, '%' ])
+	(CpTransition onBlock: [ :p | progressBar attributeAt: #value put: p printString ; textContent: (p * 100) floor printString, '%' ])
 		duration: aDuration ;
-		when: CpTransitionEnded send: #removeProgressRing to: self ;
+		when: CpTransitionEnded send: #removeProgressBar to: self ;
 		start
 ]
