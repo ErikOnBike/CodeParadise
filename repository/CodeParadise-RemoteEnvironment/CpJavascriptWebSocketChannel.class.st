@@ -102,6 +102,15 @@ CpJavascriptWebSocketChannel >> connectToUrl: urlString withEventSemaphore: sema
 	self primitiveFailed
 ]
 
+{ #category : #'message handling' }
+CpJavascriptWebSocketChannel >> handleMessageHandlerError: anError [ 
+
+	"Announce the error (for debugger or otherwise)"
+	CpExceptionAnnouncer announceException: anError.
+
+	super handleMessageHandlerError: anError
+]
+
 { #category : #initialization }
 CpJavascriptWebSocketChannel >> initialize [
 
