@@ -67,10 +67,12 @@ BaselineOfCodeParadise >> baseline: spec [
 		spec
 			"For Pharo 9 (and above) we need a Client Environment with a tiny image based on the newer Sista bytecode set"
 			baseline: 'CpClientEnvironment' with: [ spec repository: 'github://ErikOnBike/CP-ClientEnvironment' ] ;
+			package: 'CodeParadise-RemoteEnvironment' with: [ spec includes: 'CodeParadise-RemoteEnvironment-Pharo9' ] ;
 			package: 'CodeParadise-RemoteEnvironment-Pharo9' with: [ spec requires: 'CodeParadise-RemoteEnvironment' ] ].
 
 	"Pharo 11.x (and upward) specific"
-	spec for: #(#'pharo11.x') do: [
+	spec for: #(#'pharo11.x' #'pharo12.x') do: [
 		spec
+			package: 'CodeParadise-RemoteEnvironment' with: [ spec includes: 'CodeParadise-RemoteEnvironment-Pharo11' ] ;
 			package: 'CodeParadise-RemoteEnvironment-Pharo11' with: [ spec requires: 'CodeParadise-RemoteEnvironment' ] ].
 ]
