@@ -60,7 +60,7 @@ CpClientDebuggerSupport >> initializeWithEnvironment: anEnvironment [
 { #category : #'event handling' }
 CpClientDebuggerSupport >> sourceCodeRequest: aSourceCodeRequest [
 
-	| methodClass method sourceCodeRange |
+	| methodClass method |
 
 	[
 		methodClass := Smalltalk classNamed: aSourceCodeRequest className.
@@ -68,9 +68,9 @@ CpClientDebuggerSupport >> sourceCodeRequest: aSourceCodeRequest [
 			self debuggerSourceCodeAlert: 'Unknown class ', aSourceCodeRequest className printString.
 			^ self ].
 
-		method := methodClass >> aSourceCodeRequest selector.
+		method := methodClass lookupSelector: aSourceCodeRequest selector.
 		method ifNil: [
-			self debuggerSourceCodeAlert: 'No method ', aSourceCodeRequest selector printString, ' in class ', methodClass printString.
+			self debuggerSourceCodeAlert: 'No method ', aSourceCodeRequest selector printString, ' in class (or one of its superclasses) ', methodClass printString.
 			^ self ].
 
 		aSourceCodeRequest openBrowser
