@@ -105,6 +105,21 @@ CpDebuggerView class >> style [
 	}
 	#context {
 		flex: 1 0 auto;
+	}
+	button {
+		display: inline-block;
+		height: 32px;
+		padding: 8px;
+		border: 0;
+		border-radius: 4px;
+		box-shadow: none;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+	}
+	button:hover {
+		background-color: rgba(0, 0, 255, .1);
+		cursor: pointer;
 	}'
 ]
 
@@ -114,7 +129,7 @@ CpDebuggerView class >> template [
 	<webResource: #html>
 
 	^ '<div id="container">
-		<div id="exception"><slot name="exception"></slot><sl-button id="close-button">Close</sl-button></div>
+		<div id="exception"><slot name="exception"></slot><button id="close-button">Close</button></div>
 		<div id="call-stack">
 			<div id="call-stack-label">Call stack:</div>
 			<div id="call-stack-list"><slot name="call-stack"></slot></div>
@@ -201,21 +216,10 @@ CpDebuggerView >> initialize [
 
 	self attributeAt: #style put: 'display: none; position: absolute; top: 0; left: 0; width: 100%; height: 100%;'.
 
-	"Add some styling which needs to be done outside the components themselves.
-	The pseudo CSS elements ::slotted and ::part don't work togeher, for explanation see:
-	see https://github.com/w3c/csswg-drafts/issues/3896"
-	CpHtmlElement documentAddStyle: 'cp-inspector sl-button::part(label) {
-		overflow: hidden;
-		text-overflow: ellipsis;
-		white-space: nowrap;
-	}'.
-
 	"Install break handler"
 "	CpHtmlElement documentBody
 		when: (CpKeyDownEvent key: '.') & (CpAltKeyDown + CpCtrlKeyDown + CpShiftKeyDown) send: #halt to: self.
 "
-	SlButton beLoaded.
-	SlSkeleton beLoaded
 ]
 
 { #category : #initialization }

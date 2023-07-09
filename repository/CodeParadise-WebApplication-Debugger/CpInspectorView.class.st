@@ -34,9 +34,26 @@ CpInspectorView class >> style [
 		display: inline-block;
 		white-space: nowrap;
 	}
-	::slotted(sl-button) {
+	::slotted(button) {
+		display: inline-block;
 		width: 15em;
+		height: 32px;
+		padding: 8px;
+		border: 0;
+		border-radius: 4px;
+		box-shadow: none;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
 		margin-right: 4px;
+	}
+	::slotted(button:hover) {
+		background-color: rgba(0, 0, 255, .1);
+		cursor: pointer;
+	}
+	::slotted(button.selected) {
+		background-color: rgba(0, 0, 255, .3);
+		cursor: pointer;
 	}
 	#fields {
 		height: 100%;
@@ -116,7 +133,7 @@ CpInspectorView >> render [
 	(self childrenAtSlotNamed: #objects)
 		ifNotEmpty: [ :objectElements |
 			objectElements last
-				bePrimary ;
+				addClass: #selected ;
 				apply: #scrollIntoView withArguments: { #behavior -> #smooth } ].
 
 	"Render fields or show 'nil'"
@@ -142,9 +159,8 @@ CpInspectorView >> renderObject: anObject [
 
 	| button |
 	
-	button := ((SlButton new)
+	button := ((CpHtmlElement newWithTag: #button)
 		textContent: anObject printString ;
-		beSmall ;
 		when: CpClickEvent basicPrimary send: #updateObjects: to: self ;
 		yourself). 
 

@@ -68,6 +68,10 @@ CpContextView class >> style [
 		padding: 8px;
 		border-right: 2px #666 solid;
 	}
+	::slotted(cp-variable:hover) {
+		background-color: rgba(0, 0, 0, .05);
+		cursor: pointer;
+	}
 	#variable {
 		flex: 1 1 50%;
 		position: relative;
@@ -80,11 +84,31 @@ CpContextView class >> style [
 		display: block;
 		white-space: pre;
 	}
-	::slotted(sl-skeleton) {
-		padding-top: 8px;
+	::slotted(.skeleton) {
+		height: 16px;
+		border-radius: 8px;
+		background-color: #999 ;
+		margin-top: 8px;
 	}
-	::slotted(cp-variable:hover) {
-		background-color: rgba(0, 0, 0, .05);
+	::slotted(.skeleton.selector) {
+		background-color: #666;
+	}
+	::slotted(.break) {
+		height: 16px;
+   }
+	button {
+		display: inline-block;
+		height: 32px;
+		padding: 8px;
+		border: 0;
+		border-radius: 4px;
+		box-shadow: none;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+	}
+	button:hover {
+		background-color: rgba(0, 0, 255, .1);
 		cursor: pointer;
 	}'
 ]
@@ -96,7 +120,7 @@ CpContextView class >> template [
 
 	^ '<div id="container">
 		<div id="method"><slot name="method"></slot></div>
-		<sl-button id="open-browser">Open browser (on server)</sl-button>
+		<button id="open-browser">Open browser (on server)</button>
 		<div id="columns">
 			<div id="variables"><slot name="variables"></slot></div>
 			<div id="variable"><slot name="variable"></slot</div>
@@ -183,19 +207,24 @@ CpContextView >> renderFakeMethod [
 
 	"Fake the method signature"
 	self
-		appendChild: ((SlSkeleton new)
+		appendChild: ((CpHtmlElement newWithTag: #div)
+			addClass: #skeleton ;
+			addClass: #selector ;
 			styleAt: #width put: (20 + 40 atRandom) printString, '%' ;
-			styleAt: #'--color' put: '#999' ;
 			yourself)
 		atSlotNamed: #method.
 
-	self appendChild: (CpHtmlElement newWithTag: #p) atSlotNamed: #method.
+	self
+		appendChild: ((CpHtmlElement newWithTag: #div)
+			addClass: #break ;
+			yourself)
+		atSlotNamed: #method.
 
 	4 + 4 atRandom timesRepeat: [
 		self
-			appendChild: ((SlSkeleton new)
+			appendChild: ((CpHtmlElement newWithTag: #div)
+				addClass: #skeleton ;
 				styleAt: #width put: (40 + 60 atRandom) printString, '%' ;
-				effectPulse ;
 				yourself)
 			atSlotNamed: #method ]
 ]
