@@ -15,8 +15,8 @@ CpRichTextField class >> defaultKeyMapping [
 	^ Dictionary new
 		at: 'ArrowLeft' put: 'CharacterLeft' ;
 		at: 'ArrowRight' put: 'CharacterRight' ;
-		at: (self isPlatformMacOS ifTrue: [ 'A-ArrowLeft' ] ifFalse: [ 'C-ArrowLeft' ]) put: 'WordLeft' ;
-		at: (self isPlatformMacOS ifTrue: [ 'A-ArrowRight' ] ifFalse: [ 'C-ArrowRight' ]) put: 'WordRight' ;
+		at: (CpClientEnvironment isPlatformMacOS ifTrue: [ 'A-ArrowLeft' ] ifFalse: [ 'C-ArrowLeft' ]) put: 'WordLeft' ;
+		at: (CpClientEnvironment isPlatformMacOS ifTrue: [ 'A-ArrowRight' ] ifFalse: [ 'C-ArrowRight' ]) put: 'WordRight' ;
 		yourself
 ]
 

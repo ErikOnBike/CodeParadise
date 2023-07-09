@@ -17,33 +17,9 @@ Class {
 }
 
 { #category : #accessing }
-CpView class >> currentPlatform [
-
-	^ CpClientEnvironment current variableAt: #OS
-]
-
-{ #category : #accessing }
 CpView class >> defaultKeyMapping [
 
 	^ Dictionary new
-]
-
-{ #category : #testing }
-CpView class >> isPlatformLinux [
-
-	^ self currentPlatform = #linux
-]
-
-{ #category : #testing }
-CpView class >> isPlatformMacOS [
-
-	^ self currentPlatform = #macos
-]
-
-{ #category : #testing }
-CpView class >> isPlatformWindows [
-
-	^ self currentPlatform = #windows
 ]
 
 { #category : #removing }

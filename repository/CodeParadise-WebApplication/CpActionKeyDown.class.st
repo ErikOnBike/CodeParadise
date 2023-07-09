@@ -20,7 +20,7 @@ CpActionKeyDown class >> postInstallOnce [
 
 	"Set the modifiers based on the current platform"
 
-	PlatformModifier := CpView isPlatformMacOS
+	PlatformModifier := CpClientEnvironment isPlatformMacOS
 		ifTrue: [ CpMetaKeyDown modifiers ]
 		ifFalse: [ CpCtrlKeyDown modifiers ]
 ]

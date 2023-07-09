@@ -69,6 +69,24 @@ CpClientEnvironment class >> installReconnectStrategy: aReconnectStrategy [
 ]
 
 { #category : #testing }
+CpClientEnvironment class >> isPlatformLinux [
+
+	^ self current isPlatformLinux
+]
+
+{ #category : #testing }
+CpClientEnvironment class >> isPlatformMacOS [
+
+	^ self current isPlatformMacOS
+]
+
+{ #category : #testing }
+CpClientEnvironment class >> isPlatformWindows [
+
+	^ self current isPlatformWindows
+]
+
+{ #category : #testing }
 CpClientEnvironment class >> isRunning [
 
 	"Answer whether the ClientEnvironment is running/active"
@@ -262,6 +280,12 @@ CpClientEnvironment >> createInstanceOf: className withId: identifier [
 	^ instance
 ]
 
+{ #category : #accessing }
+CpClientEnvironment >> currentPlatform [
+
+	^ self variableAt: #OS
+]
+
 { #category : #support }
 CpClientEnvironment >> exit [
 
@@ -417,6 +441,24 @@ CpClientEnvironment >> invalidSession [
 	self
 		removeSession ;
 		reload
+]
+
+{ #category : #testing }
+CpClientEnvironment >> isPlatformLinux [
+
+	^ self currentPlatform = #linux
+]
+
+{ #category : #testing }
+CpClientEnvironment >> isPlatformMacOS [
+
+	^ self currentPlatform = #macos
+]
+
+{ #category : #testing }
+CpClientEnvironment >> isPlatformWindows [
+
+	^ self currentPlatform = #windows
 ]
 
 { #category : #accessing }
