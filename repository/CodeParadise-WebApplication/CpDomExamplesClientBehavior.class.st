@@ -307,26 +307,48 @@ CpDomExamplesClientBehavior >> exampleCreateRandomEllipses [
 ]
 
 { #category : #examples }
-CpDomExamplesClientBehavior >> exampleEventListeners [
+CpDomExamplesClientBehavior >> exampleDebugger [
 
-	<example: 'EventListeners - debug' order: 9999>
+	<example: 'Debugger' order: 9999>
 
-	| outputElement logElement listElement |
+	| outputElement debuggerViewClass |
 
+	debuggerViewClass := Smalltalk classNamed: #CpDebuggerView.
+
+	self clearOutput.
 	outputElement := self outputElement.
-	logElement := (outputElement firstDescendantMatching: '#log')
-		ifNil: [ outputElement appendChild: ((CpHtmlElement newWithTag: #div)
-			id: #log ;
-			appendChild: ((CpHtmlElement newWithTag: #h1)
-				textContent: 'EventListeners' ;
-				yourself) ;
-			appendChild: (CpHtmlElement newWithTag: #ul) ;
+
+	outputElement appendChild: ((CpHtmlElement newWithTag: #h1)
+		textContent: 'Hello 😀 debugger' ;
+		yourself).
+
+	debuggerViewClass ifNil: [
+		outputElement appendChild: ((CpHtmlElement newWithTag: #h2)
+			textContent: 'No debugger is present in this image, please load the development package to obtain the debugger.' ;
 			yourself) ].
 
-	listElement := logElement firstDescendantMatching: #ul.
-	listElement removeChildren.
+	outputElement appendChild: ((CpHtmlElement newWithTag: #p)
+		textContent: 'Use button below to create a DoesNotUnderstand exception.' ;
+		yourself).
+		
+	(outputElement appendChild: ((CpHtmlElement newWithTag: #button)
+		textContent: 'self unknownMethodSelector' ;
+		attributeAt: #disabled put: (debuggerViewClass ifNotNil: [ nil ] ifNil: [ '' ]) ;
+		yourself)) ifNotNil: [ :button |
+			debuggerViewClass ifNotNil: [
+				button when: CpClickEvent basicPrimary do: [ self perform: #unknownMethodSelector ] ] ].
 
-	self addEventListenersIn: outputElement to: listElement
+	outputElement appendChild: ((CpHtmlElement newWithTag: #p)
+		textContent: 'Use button below to create a halt.' ;
+		yourself).
+		
+	(outputElement appendChild: ((CpHtmlElement newWithTag: #button)
+		textContent: 'self halt' ;
+		attributeAt: #disabled put: (debuggerViewClass ifNotNil: [ nil ] ifNil: [ '' ]) ;
+		yourself)) ifNotNil: [ :button |
+			debuggerViewClass ifNotNil: [
+				button when: CpClickEvent basicPrimary do: [ self perform: #halt ] ] ].
+
 ]
 
 { #category : #examples }
