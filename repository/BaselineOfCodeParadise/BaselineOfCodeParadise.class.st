@@ -49,7 +49,7 @@ BaselineOfCodeParadise >> baseline: spec [
 			group: 'Presentation' with: #( 'CodeParadise-WebApplication-Presentation' );
 			group: 'Beach' with: #( 'CodeParadise-Beach' );
 
-			group: 'Development' with: #( 'CodeParadise-WebApplication-Development' );
+			group: 'Development' with: #( 'CodeParadise-WebApplication-Development' 'CodeParadise-WebApplication-Debugger' );
 
 			group: 'CI' with: #( 'Tests' ) ].
 
