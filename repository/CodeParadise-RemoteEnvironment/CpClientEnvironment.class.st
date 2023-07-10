@@ -71,19 +71,19 @@ CpClientEnvironment class >> installReconnectStrategy: aReconnectStrategy [
 { #category : #testing }
 CpClientEnvironment class >> isPlatformLinux [
 
-	^ self current isPlatformLinux
+	^ self current platform == #linux
 ]
 
 { #category : #testing }
 CpClientEnvironment class >> isPlatformMacOS [
 
-	^ self current isPlatformMacOS
+	^ self current platform == #macos
 ]
 
 { #category : #testing }
 CpClientEnvironment class >> isPlatformWindows [
 
-	^ self current isPlatformWindows
+	^ self current platform == #windows
 ]
 
 { #category : #testing }
@@ -280,12 +280,6 @@ CpClientEnvironment >> createInstanceOf: className withId: identifier [
 	^ instance
 ]
 
-{ #category : #accessing }
-CpClientEnvironment >> currentPlatform [
-
-	^ self variableAt: #OS
-]
-
 { #category : #support }
 CpClientEnvironment >> exit [
 
@@ -443,24 +437,6 @@ CpClientEnvironment >> invalidSession [
 		reload
 ]
 
-{ #category : #testing }
-CpClientEnvironment >> isPlatformLinux [
-
-	^ self currentPlatform = #linux
-]
-
-{ #category : #testing }
-CpClientEnvironment >> isPlatformMacOS [
-
-	^ self currentPlatform = #macos
-]
-
-{ #category : #testing }
-CpClientEnvironment >> isPlatformWindows [
-
-	^ self currentPlatform = #windows
-]
-
 { #category : #accessing }
 CpClientEnvironment >> objectRegistry [
 
@@ -491,6 +467,12 @@ CpClientEnvironment >> persistentVariableAt: nameString put: valueString [
 
 	<primitive: 'primitiveEnvironmentPersistentVariableAt:put:' module: 'CpSystemPlugin'>
 	self primitiveFailed
+]
+
+{ #category : #accessing }
+CpClientEnvironment >> platform [
+
+	^ self variableAt: #OS
 ]
 
 { #category : #installing }
