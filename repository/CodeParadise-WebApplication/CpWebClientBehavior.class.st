@@ -76,7 +76,8 @@ CpWebClientBehavior >> updateStyleViewClass: viewClassName [
 	"Update the style of the specified View"
 
 	(self viewClassForName: viewClassName)
-		updateStyle
+		updateStyle ;
+		updateGlobalStyle
 ]
 
 { #category : #updating }

@@ -13,6 +13,25 @@ Class {
 	#category : #'CodeParadise-WebApplication-DOM'
 }
 
+{ #category : #'web resources' }
+CpTemplateComponent class >> globalStyle [
+
+	"Answer the style (a CSS description) to support the receiver's instances from the light DOM
+	(instead of the shadow DOM like #style does)"
+
+	<webResource: #css>
+
+	^ ''
+]
+
+{ #category : #updating }
+CpTemplateComponent class >> installGlobalStyle [
+
+	"Install the global (light DOM) style for the instances of the receiver"
+
+	self updateGlobalStyle
+]
+
 { #category : #updating }
 CpTemplateComponent class >> installStyle: styleString [
 
@@ -54,7 +73,9 @@ CpTemplateComponent class >> postInstall [
 
 	super postInstall.
 
-	self installStyle: self style andTemplate: self template
+	self
+		installStyle: self style andTemplate: self template ;
+		installGlobalStyle
 ]
 
 { #category : #primitives }
@@ -89,7 +110,9 @@ CpTemplateComponent class >> renderAllInstances [
 { #category : #'web resources' }
 CpTemplateComponent class >> style [
 
-	"Answer the style (a CSS description) of the receiver's instances"
+	"Answer the style (a CSS description) of the receiver's instances
+	(as applies to the shadow DOM and/or slotted elements through ::slotted(),
+	to set some supporting CSS in the light DOM, please use #globalStyle)"
 
 	<webResource: #css>
 
@@ -110,6 +133,33 @@ CpTemplateComponent class >> template [
 CpTemplateComponent class >> updateAllInstances [
 
 	self allInstancesDo: [ :each | each initializeShadowRoot ]
+]
+
+{ #category : #updating }
+CpTemplateComponent class >> updateGlobalStyle [
+
+	"Install or update the global (light DOM) style for the instances of the receiver.
+
+	Implementation:
+	A <style> tag is added or updated with the current global style (as described in #globalStyle).
+	The method can therefore be called multiple times to update the global style as well (without
+	adding unnecessary DOM elements)."
+
+	| cssIdentifier globalStyle |
+
+	cssIdentifier := 'global-css-', self tagName.
+	globalStyle := self globalStyle.
+
+	(CpHtmlElement documentHead firstDescendantMatching: '#', cssIdentifier)
+		ifNotNil: [ :styleElement |
+			globalStyle
+				ifNotEmpty: [ styleElement textContent: globalStyle ]
+				ifEmpty: [ styleElement remove ] ]
+		ifNil: [
+			globalStyle
+				ifNotEmpty: [
+					(CpHtmlElement documentAddStyle: self globalStyle)
+						id: cssIdentifier ] ]
 ]
 
 { #category : #updating }
