@@ -70,7 +70,7 @@ CpHtmlElement class >> documentAddExternalScript: urlString type: typeString [
 
 	"Add the specified Javascript resource to the receiver"
 
-	self documentHead appendChild: ((self newWithTag: #script)
+	^ self documentHead appendChild: ((self newWithTag: #script)
 		attributeAt: #src put: urlString ;
 		attributeAt: #type put: typeString ;
 		yourself)
@@ -93,7 +93,7 @@ CpHtmlElement class >> documentAddScript: contentString type: typeString id: idS
 
 	"Add the specified Javascript content to the receiver"
 
-	self documentHead appendChild: ((self newWithTag: #script)
+	^ self documentHead appendChild: ((self newWithTag: #script)
 		attributeAt: #id put: idString ;
 		attributeAt: #type put: typeString ;
 		textContent: contentString ;
@@ -105,7 +105,7 @@ CpHtmlElement class >> documentAddStyle: aString [
 
 	"Add the specified CSS content to the receiver"
 
-	self documentHead appendChild: ((self newWithTag: #style)
+	^ self documentHead appendChild: ((self newWithTag: #style)
 		textContent: aString ;
 		yourself)
 ]
@@ -115,7 +115,7 @@ CpHtmlElement class >> documentAddStylesheet: aString [
 
 	"Add the specified (external) stylesheet to the receiver"
 
-	self documentHead appendChild: ((CpHtmlElement newWithTag: #link)
+	^ self documentHead appendChild: ((CpHtmlElement newWithTag: #link)
 		attributeAt: #rel put: 'stylesheet' ;
 		attributeAt: #type put: 'text/css' ;
 		attributeAt: #href put: aString ;
