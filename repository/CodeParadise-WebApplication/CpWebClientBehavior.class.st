@@ -32,6 +32,17 @@ CpWebClientBehavior class >> installIn: aServerEnvironment [
 	aServerEnvironment addClass: self
 ]
 
+{ #category : #'class initialization' }
+CpWebClientBehavior class >> postInstallOnce [
+
+	"Remove any loader running in the HTML page starting this client"
+
+	(CpHtmlElement document elementWithId: 'loader-block')
+		ifNotNil: [ :loaderBlock | loaderBlock remove ].
+	(CpHtmlElement document elementWithId: 'loader-style')
+		ifNotNil: [ :loaderStyle | loaderStyle remove ]
+]
+
 { #category : #updating }
 CpWebClientBehavior class >> updateStyleViewClass: aViewClass in: aServerEnvironment [
 
