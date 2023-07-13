@@ -28,14 +28,14 @@ CpContextView class >> style [
 		flex-direction: column;
 		justify-content: space-between;
 		height: 100%;
+		overflow: hidden;
 	}
 	#method {
 		flex: 0 0 50%;
 		position: relative;
-		height: 50%;
 		padding: 8px;
 		border-bottom: 4px #666 solid;
-		overflow-y: scroll;
+		overflow: hidden;
 	}
 	#method.local:before {
 		display: block;
@@ -50,6 +50,24 @@ CpContextView class >> style [
 	#method.error slot {
 		background-color: rgba(255, 0, 0, .3);
 	}
+	::slotted(span[slot="method"]) {
+		display: block;
+		white-space: pre;
+		height: 100%;
+		overflow: scroll;
+	}
+	::slotted(.skeleton) {
+		height: 16px;
+		border-radius: 8px;
+		background-color: #999 ;
+		margin-top: 8px;
+	}
+	::slotted(.skeleton.selector) {
+		background-color: #666;
+	}
+	::slotted(.break) {
+		height: 16px;
+   }
 	#open-browser {
 		position: absolute;
 		top: 8px;
@@ -80,22 +98,6 @@ CpContextView class >> style [
 		padding: 8px;
 		border-left: 2px #666 solid;
 	}
-	::slotted(span[slot="method"]) {
-		display: block;
-		white-space: pre;
-	}
-	::slotted(.skeleton) {
-		height: 16px;
-		border-radius: 8px;
-		background-color: #999 ;
-		margin-top: 8px;
-	}
-	::slotted(.skeleton.selector) {
-		background-color: #666;
-	}
-	::slotted(.break) {
-		height: 16px;
-   }
 	button {
 		display: inline-block;
 		height: 32px;

@@ -95,6 +95,7 @@ CpDebuggerView class >> style [
 		height: 30%;
 		padding: 8px;
 		border-bottom: 4px #666 solid;
+		overflow: hidden;
 	}
 	#call-stack-list {
 		overflow-y: scroll;
@@ -105,6 +106,8 @@ CpDebuggerView class >> style [
 	}
 	#context {
 		flex: 1 0 auto;
+		height: max-content;
+		overflow: hidden;
 	}
 	button {
 		display: inline-block;
