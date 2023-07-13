@@ -132,9 +132,9 @@ CpServerEnvironment >> addClass: aClass [
 	might need to be installed. This collection requires an order. For example to prevent
 	the installation of a subclass before its superclass."
 
-	"Validate the class has no breakpoints or halts (which will currently fail in the client)"
+	"Validate the class has no breakpoints (which will currently fail in the client)"
 	aClass containsDebuggingCode
-		ifTrue: [ self error: 'It is not allowed to have debugging code (breakpoints or halts) in client code' ].
+		ifTrue: [ self error: 'It is not allowed to have debugging code (breakpoints) in client code' ].
 
 	installationMutex critical: [
 

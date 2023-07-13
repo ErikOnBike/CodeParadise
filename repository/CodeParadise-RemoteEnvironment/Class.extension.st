@@ -14,17 +14,22 @@ Class >> beLoaded [
 { #category : #'*CodeParadise-RemoteEnvironment' }
 Class >> containsDebuggingCode [
 
+	"Answer whether the receiver contains debugging code.
+
+	Implementation:
+	Currently only breakpoints, since these can't be decoded in
+	the client environment. See CpServerEnvironment >> #addClass:"
+
 	| checkPresence |
 
 	checkPresence := [ :compiledMethod |
-		(compiledMethod hasBreakpoint or: [ compiledMethod containsHalt ])
+		compiledMethod hasBreakpoint
 			ifTrue: [ ^ true ] ].
 
 	self methodDictionary do: checkPresence.
 	self class methodDictionary do: checkPresence.
 
 	^ false
-
 ]
 
 { #category : #'*CodeParadise-RemoteEnvironment' }

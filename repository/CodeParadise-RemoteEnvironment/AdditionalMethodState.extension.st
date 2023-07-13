@@ -14,8 +14,19 @@ AdditionalMethodState >> cpEncodeWith: anEncoder [
 { #category : #'*CodeParadise-RemoteEnvironment' }
 AdditionalMethodState >> hasNonEmptyProperties [
 
-	^ self properties
-		ifNotEmpty: [ :properties | properties anySatisfy: [ :property | property notNil ] ]
-		ifEmpty: [ false ]
+	"Answer whether the receiver has non-empty properties.
+	(Properties are not supported in the client environment)
 
+	Impementation:
+	The property #containsHalt is allowed, because it simply indicates #halt is sent.
+	The property #reflectiveMethod is allowed if it has a nil value (meaning 'no value',
+	because a meta link has been removed)."
+
+	^ self properties
+		ifNotEmpty: [ :properties |
+			properties allSatisfy: [ :property |
+				property isNil
+					or: [ property == #containsHalt
+						or: [ property == #reflectiveMethod and: [ (self propertyAt: #reflectiveMethod) isNil ] ] ] ] ]
+		ifEmpty: [ false ]
 ]

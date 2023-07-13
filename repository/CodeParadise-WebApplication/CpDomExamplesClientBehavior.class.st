@@ -347,7 +347,7 @@ CpDomExamplesClientBehavior >> exampleDebugger [
 		attributeAt: #disabled put: (debuggerViewClass ifNotNil: [ nil ] ifNil: [ '' ]) ;
 		yourself)) ifNotNil: [ :button |
 			debuggerViewClass ifNotNil: [
-				button when: CpClickEvent basicPrimary do: [ self perform: #halt ] ] ].
+				button when: CpClickEvent basicPrimary do: [ self halt ] ] ].
 
 ]
 
