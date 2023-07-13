@@ -5,11 +5,13 @@ CodeParadise is the name of a framework and future platform. CodeParadise as fra
 The framework enables remote Smalltalk code execution in a Javascript environment. This means you can run Smalltalk inside the web browser and not be concerned with any Javascript. A regular (but tiny) Smalltalk image runs on [SqueakJS VM](https://squeak.js.org) and replaces the use of Javascript. This tiny image runs the same bytecode as a regular Pharo/Squeak/Cuis image, so no transpilation taking place. With some pre-installed Classes which wrap the browser DOM functionality, all DOM manipulation is done through Smalltalk code. Did I mention, no more use of Javascript ;-). For more detail read the [implementation docs](docs/Implementation.md).
 
 A few online videos:
-* UK Smalltalk UG August 2020 [demo](https://vimeo.com/457353130) - CodeParadise
+* Zettelkasten example application [video](https://youtu.be/omKrz9stuOQ) - 1:37 minutes
+* short demo of debugger [video](https://youtu.be/hCwlrWRhrZc) - 1:07 minutes
 * UK Smalltalk UG May 2022 [demo](https://vimeo.com/719355883) - CodeParadise used in Expressive Systems by [Object Guild](https://objectguild.com)
-* short introduction [video](https://youtu.be/qvY7R6te7go) (it is a little outdated)
-* first two components [link and button](https://youtu.be/nxQSlf4kFs8) - 2:18 minutes
-* animated [checkbox](https://youtu.be/-l0S03jZTtc) 25 seconds
+* UK Smalltalk UG August 2020 [demo](https://vimeo.com/457353130) - CodeParadise
+* short introduction [video](https://youtu.be/qvY7R6te7go) - 12:47 minutes (outdated)
+* first two components [link and button](https://youtu.be/nxQSlf4kFs8) - 2:18 minutes (outdated)
+* animated [checkbox](https://youtu.be/-l0S03jZTtc) - 25 seconds (outdated)
 
 See [introduction](docs/introduction.md) for a more thorough explanation of CodeParadise as the future platform.
 
@@ -48,7 +50,6 @@ The example applications can be reached using the following URLs:
 * Component Examples [http://localhost:8080/static/app.html?Component-Examples](http://localhost:8080/static/app.html?Component-Examples)
 * Counter Example [http://localhost:8080/static/app.html?counter](http://localhost:8080/static/app.html?counter)
 * Shoelace Examples [http://localhost:8080/static/app.html?Shoelace-Examples](http://localhost:8080/static/app.html?Shoelace-Examples)
-* Fomantic Examples [http://localhost:8080/static/app.html?Fomantic-Examples](http://localhost:8080/static/app.html?Fomantic-Examples) (no longer supported)
 
 ### <a name="manually">Manually starting and stopping</a>
 
@@ -68,7 +69,6 @@ CpComponentExamplesWebApplication register.
 CpCounterWebApplication register.
 CpShoelaceExamplesWebApplication register.
 CpIntroductionPresentationWebApplication register.
-CpFomanticExamplesWebApplication register. "No longer supported"
 
 "Start the HTTP and WeSocket servers (use the path where you stored the ClientEnvironment)"
 CpWebApplicationServerStarter startUsingConfig: {
@@ -96,7 +96,6 @@ CpCounterWebApplication unregister.
 CpCounterWebApplication release.
 CpShoelaceExamplesWebApplication unregister.
 CpIntroductionPresentationWebApplication unregister.
-CpFomanticExamplesWebApplication unregister. "No longer supported"
 
 "Garbage collect works better in triples ;-)"
 Smalltalk garbageCollect.
@@ -106,10 +105,7 @@ Smalltalk garbageCollect.
 
 ## Tips and troubleshooting
 
-**Tip**: Consider switching to [Shoelace](https://shoelace.style) if you are still using Fomantic UI: Fomantic UI support has stopped (June 2022). The reason is the fact that using Fomantic UI elements inside a View's template [which is a technology used inside of HTML WebComponents](https://developer.mozilla.org/en-US/docs/Web/Web_Components/Using_templates_and_slots) does not scale well. To be able to have the correct look and feel, the full Fomantic UI stylesheet needs to be loaded inside this WebComponent's shadow DOM. Although browsers should be able to cache this kind of (re)use of stylesheets, it does not work very well on large scale applications. So currently we have Shoelace as a nice alternative. Shoelace is compact, feature rich and is under active development. Shoelace itself is also based on WebComponents, meaning it can integrate well inside our Views: every WebComponent 'carries' its own styling.
-
 **Tip**: The server image keeps all sessions in memory at the moment (they never expire yet). So once in a while use the reset code above to clean up the sessions. Remember the sessions will also be saved in the image. So closing and reopening your image should bring you back the session and you can continu where you left off.
-
 
 #### Resource not found
 If you encounter any problems with connecting to the server, please check that no other web server is running on the port you are using/trying to use. If you have started a web server pointing to the wrong client environment, please first stop that instance. Otherwise you will keep on serving files from an empty or non-existing directory. Use the reset as described above to stop the server. You might want to check if all ZnServer instances are really stopped. Then create a new instance of the server.
@@ -126,11 +122,11 @@ To create WebApplications MVP (Model View Presenter) is implemented in the Prese
 For mobile applications for example, the following could be done:
 * load a ClientEnvironment with all application code (can be done dynamically and include all kinds of tests)
 * execute code to remove the ClientEnvironment's Communicator (disconnecting it from the ServerEnvironment) and test code
-* save the ClientEnvironment image (currently only supported for Pharo 10 and up)
+* save the ClientEnvironment image (only supported for Pharo 10 and up)
 * use the saved image stand-alone in a mobile application (combine with SqueakJS VM into single package)
 
 ## Compatibility
 
-The means of installing (Compiled) code in the ClientEnvironment is by sending the relevant bytecode. The current implementation assumes that both the ServerEnvironment and the ClientEnvironment share the same bytecode set. Since the ClientEnvironment is running on SqueakJS VM, only bytecode sets supported by SqueakJS VM are usable. Currently Pharo 8, 9, 10 and 11 are supported. Active development is on P11 and at some point support for P8 and P9 will be dropped because of the non-standard process of creating the tiny Smalltalk image which runs in the browser. From P10 onwards this is standardized using [TinyBootstrap](https://github.com/ErikOnBike/TinyBootstrap).
+The means of installing (Compiled) code in the ClientEnvironment is by sending the relevant bytecode. The current implementation assumes that both the ServerEnvironment and the ClientEnvironment share the same bytecode set. Since the ClientEnvironment is running on SqueakJS VM, only bytecode sets supported by SqueakJS VM are usable. Currently Pharo 8 up to 12 (and including) are supported. Active development is on P11 and at some point support for P8 and P9 will be dropped because of the non-standard process of creating the tiny Smalltalk image which runs in the browser. From P10 onwards this is standardized using [TinyBootstrap](https://github.com/ErikOnBike/TinyBootstrap).
 
 There is no explicit list of supported browsers at the moment. Please use a recent browser version. If you have trouble using (the pre-Chrome based) Microsoft Edge, please consider switching to Chrome, Firefox or one of the derivatives.
