@@ -51,6 +51,10 @@ The example applications can be reached using the following URLs:
 * Counter Example [http://localhost:8080/static/app.html?counter](http://localhost:8080/static/app.html?counter)
 * Shoelace Examples [http://localhost:8080/static/app.html?Shoelace-Examples](http://localhost:8080/static/app.html?Shoelace-Examples)
 
+A bigger example application is under development. It is a [Zettelkasten](https://en.wikipedia.org/wiki/Zettelkasten) application.
+* Source code: [repo](https://github.com/ErikOnBike/CodeParadise-Zettelkasten) (you will have to load it manually into CodeParadise)
+* Short demonstration: [video](https://youtu.be/omKrz9stuOQ)
+
 ### <a name="manually">Manually starting and stopping</a>
 
 Besides the Paradise menu, you can also start and stop the ApplicationServer manually.
