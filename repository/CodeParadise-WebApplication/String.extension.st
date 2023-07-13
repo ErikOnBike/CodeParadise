@@ -56,9 +56,10 @@ String >> asKebabCase [
 				ifFalse: [
 					charToWrite isUppercase
 						ifTrue: [
-							stream
-								nextPut: $- ;
-								nextPut: charToWrite asLowercase ]
+							"Do not write 'skewer' at start"
+							stream position > 0
+								ifTrue: [ stream nextPut: $- ].
+							stream nextPut: charToWrite asLowercase ]
 						ifFalse: [ stream nextPut: charToWrite ] ].
 			charToWrite := each ].
 
