@@ -17,7 +17,7 @@ See [introduction](docs/introduction.md) for a more thorough explanation of Code
 
 ## Getting started
 
-Currently CodeParadise can only be used in a Pharo environment. In the future other platforms like Cuis might be supported as well.
+Currently CodeParadise can only be used in a Pharo environment (P8 until P12 are supported). In the future other platforms like Cuis might be supported as well.
 
 Getting started requires a few simple steps:
 * Load CodeParadise
