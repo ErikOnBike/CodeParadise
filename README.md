@@ -55,6 +55,8 @@ A bigger example application is under development. It is a [Zettelkasten](https:
 * Source code: [repo](https://github.com/ErikOnBike/CodeParadise-Zettelkasten) (you will have to load it manually into CodeParadise)
 * Short demonstration: [video](https://youtu.be/omKrz9stuOQ)
 
+---
+
 ### <a name="manually">Manually starting and stopping</a>
 
 Besides the Paradise menu, you can also start and stop the ApplicationServer manually.
