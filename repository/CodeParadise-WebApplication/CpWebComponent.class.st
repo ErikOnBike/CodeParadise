@@ -130,7 +130,8 @@ CpWebComponent class >> tagName [
 		Speciality -> x-speciality"
 
 	<primitive: 'primitiveWebComponentTagName' module: 'CpDOMPlugin'>
-	self primitiveFailed
+
+	^ (self name withoutSuffix: #View) asKebabCase
 ]
 
 { #category : #'adding/removing' }
