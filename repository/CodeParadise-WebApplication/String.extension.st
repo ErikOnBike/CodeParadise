@@ -41,26 +41,31 @@ String >> asKebabCase [
 
 	^ self class streamContents: [ :stream |
 
-		| charToWrite |
+		| charToWrite hasSkewer |
 
 		charToWrite := self first.
+		hasSkewer := true.	"This prevents that the result starts with a 'skewer'"
 		self allButFirstDo: [ :each |
 			each isUppercase
 				ifTrue: [
 					charToWrite isUppercase
-						ifTrue: [ stream nextPut: charToWrite asLowercase ]
+						ifTrue: [
+							stream nextPut: charToWrite asLowercase.
+							hasSkewer := false ]
 						ifFalse: [
 							stream
 								nextPut: charToWrite ;
-								nextPut: $-. ] ]
+								nextPut: $-.
+							hasSkewer := true ] ]
 				ifFalse: [
 					charToWrite isUppercase
 						ifTrue: [
-							"Do not write 'skewer' at start"
-							stream position > 0
-								ifTrue: [ stream nextPut: $- ].
+							"Do not write two 'skewers' after each other"
+							hasSkewer
+								ifFalse: [ stream nextPut: $- ].
 							stream nextPut: charToWrite asLowercase ]
-						ifFalse: [ stream nextPut: charToWrite ] ].
+						ifFalse: [ stream nextPut: charToWrite ].
+					hasSkewer := false ].
 			charToWrite := each ].
 
 		"Write last character (unknown if it is upper- or lowercase)"
