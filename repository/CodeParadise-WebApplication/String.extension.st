@@ -27,19 +27,43 @@ String >> asKebabCase [
 		'ReadWriteStream' asKebabCase -> 'read-write-stream'
 		'asString' asKebabCase -> 'as-string'
 		'asKebabCase' asKebabCase -> 'as-kebab-case'
-	"
+		'OSProcess' asKebabCase -> 'os-process'
+
+	Implementation:
+	Use two consecutive characters to decide if the 'skewer' should be shown (2 cases).
+	IF first is lowercase AND second is uppercase THEN show: <first>-
+	IF first is uppercase AND second is lowercase THEN show: -<first>
+
+	Reason for this algorithm is that a 'string' of uppercase characters should be
+	regarded as a whole. This avoids results as 'OSProcess' to become 'o-s-process'."
 
 	self ifEmpty: [ ^ '' ].
 
 	^ self class streamContents: [ :stream |
 
-		"Simply copy first character"
-		stream nextPut: self first asLowercase.
+		| charToWrite |
 
+		charToWrite := self first.
 		self allButFirstDo: [ :each |
 			each isUppercase
-				ifTrue: [ stream nextPut: $- ].
-			stream nextPut: each asLowercase ] ]
+				ifTrue: [
+					charToWrite isUppercase
+						ifTrue: [ stream nextPut: charToWrite asLowercase ]
+						ifFalse: [
+							stream
+								nextPut: charToWrite ;
+								nextPut: $-. ] ]
+				ifFalse: [
+					charToWrite isUppercase
+						ifTrue: [
+							stream
+								nextPut: $- ;
+								nextPut: charToWrite asLowercase ]
+						ifFalse: [ stream nextPut: charToWrite ] ].
+			charToWrite := each ].
+
+		"Write last character (unknown if it is upper- or lowercase)"
+		stream nextPut: charToWrite asLowercase ]
 ]
 
 { #category : #'*CodeParadise-WebApplication' }
