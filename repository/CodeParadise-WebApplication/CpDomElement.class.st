@@ -777,6 +777,15 @@ CpDomElement >> removeClass: aString [
 
 ]
 
+{ #category : #'tag/id/classes' }
+CpDomElement >> removeClasses: aCollection [
+
+	"Remove the specified classes from the receiver."
+
+	aCollection do: [ :each | self removeClass: each ]
+
+]
+
 { #category : #'text input' }
 CpDomElement >> removeFocus [
 
