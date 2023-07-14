@@ -32,16 +32,18 @@ CpServerApplication class >> app [
 { #category : #support }
 CpServerApplication class >> clientLoaded: anAnnouncement [
 
-	"Create a new instance of the receiver if the ClientEnvironment loaded
-	matches the receiver's unqiue app identifier"
+	"Create and answer a new instance of the receiver if the ClientEnvironment loaded
+	matches the receiver's unqiue app identifier.
+	If the receiver does not match, answer nil."
 
  	anAnnouncement app = self app
-		ifFalse: [ ^ self ].
+		ifFalse: [ ^ nil ].
 
 	"Create new instance and call the load handler (faking the loaded event which triggered this invocation)"
-	(self newInEnvironment: anAnnouncement environment) 
+	^ (self newInEnvironment: anAnnouncement environment) 
 		clientVariables: anAnnouncement variables ;
-		load
+		load ;
+		yourself
 ]
 
 { #category : #'instance creation' }

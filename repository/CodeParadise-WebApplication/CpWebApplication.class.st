@@ -17,6 +17,15 @@ CpWebApplication class >> clientBehaviorClass [
 	^ CpWebClientBehavior
 ]
 
+{ #category : #'event handling' }
+CpWebApplication class >> clientLoaded: anAnnouncement [
+
+	"Handle the client loaded event and remove the loader afterwards"
+
+	(super clientLoaded: anAnnouncement)
+		ifNotNil: [ :application | application removeLoader ]
+]
+
 { #category : #'class initialization' }
 CpWebApplication class >> initialize [
 
@@ -202,6 +211,26 @@ CpWebApplication >> reload [
 	"Create an instance of the ClientBehavior in the ClientEnvironment
 	(class is already installed during initial #load)"
 	self clientBehaviorClass createIn: self environment
+]
+
+{ #category : #actions }
+CpWebApplication >> reload: anAnnouncement [
+
+	"Reload the application and afterwards remove the loader"
+
+	super reload: anAnnouncement.
+
+	self removeLoader
+]
+
+{ #category : #updating }
+CpWebApplication >> removeLoader [
+
+	"Remove the loader in the client"
+
+	self sendMessage: (MessageSend
+		receiver: self clientBehaviorClass clientId
+		selector: #removeLoader)
 ]
 
 { #category : #'input/output' }
