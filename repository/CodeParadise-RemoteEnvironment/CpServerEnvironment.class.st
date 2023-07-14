@@ -116,6 +116,18 @@ CpServerEnvironment class >> removeSubscription: aSubscription [
 ]
 
 { #category : #announcing }
+CpServerEnvironment class >> resetAnnouncer [
+
+	<script>
+
+	"Reset the class side announcer to prevent keeping references to registered applications"
+
+	ClassSideAnnouncer ifNotNil: [
+		ClassSideAnnouncer subscriptions reset.
+		ClassSideAnnouncer := nil ]
+]
+
+{ #category : #announcing }
 CpServerEnvironment class >> whenClientLoadedSend: aSymbol to: anObject [
 
 	^ self announcer

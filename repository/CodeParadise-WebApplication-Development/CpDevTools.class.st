@@ -134,6 +134,9 @@ CpDevTools class >> stop [
 	"Unregister applications"
 	self allApplications do: [ :app | app unregister ].
 
+	"Reset the server environment"
+	CpServerEnvironment resetAnnouncer.
+
 	"Garbage collect works better in triples ;-)"
 	Smalltalk garbageCollect.
 	Smalltalk garbageCollect.
