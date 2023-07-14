@@ -224,9 +224,13 @@ CpTransition class >> registerTransitionProcess: transitionProcess [
 { #category : #accessing }
 CpTransition class >> tickCount [
 
+	"Answer a milliseconds based tick count.
+
+	Implementation:
+	The value will be relative to the moment the receiver got initialized."
+
 	<primitive: 'primitiveTransitionTickCount' module: 'CpDOMPlugin'>
 	self primitiveFailed
-
 ]
 
 { #category : #'accessing - private' }
