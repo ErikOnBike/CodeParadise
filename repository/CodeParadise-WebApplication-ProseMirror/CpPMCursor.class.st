@@ -122,7 +122,7 @@ CpPMCursor >> raiseFlag [
 	self stopLowerFlagTransition.
 
 	"Position the flag (below the pole) when the cursor is on the top part
-	and to the left if on the right part"
+	and to the left if cursor is on the right part"
 	self editor
 		ifNotNil: [ :editor |
 			((self propertyAt: #offsetTop) - 30) < (editor propertyAt: #scrollTop)

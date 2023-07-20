@@ -2,15 +2,16 @@ Class {
 	#name : #CpPMCollaborativeDocumentChange,
 	#superclass : #Announcement,
 	#instVars : [
+		'content',
 		'steps',
-		'selection',
-		'version'
+		'version',
+		'selection'
 	],
 	#category : #'CodeParadise-WebApplication-ProseMirror-Announcements'
 }
 
 { #category : #'instance creation' }
-CpPMCollaborativeDocumentChange class >> steps: aCollection selection: aDictionary version: anInteger [
+CpPMCollaborativeDocumentChange class >> steps: aCollection version: anInteger selection: aDictionary [
 
 	^ self basicNew
 		initializeWithSteps: aCollection selection: aDictionary version: anInteger ;
@@ -20,7 +21,19 @@ CpPMCollaborativeDocumentChange class >> steps: aCollection selection: aDictiona
 { #category : #accessing }
 CpPMCollaborativeDocumentChange >> content [
 
-	^ nil
+	^ content
+]
+
+{ #category : #accessing }
+CpPMCollaborativeDocumentChange >> content: aString [
+
+	content := aString
+]
+
+{ #category : #testing }
+CpPMCollaborativeDocumentChange >> hasContent [
+
+	^ self content isNotNil
 ]
 
 { #category : #initialization }

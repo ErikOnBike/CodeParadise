@@ -9,14 +9,8 @@ CpPMDocumentChange >> asCollaborativeChangeAnnouncement [
 
 	^ CpPMCollaborativeDocumentChange
 		steps: self steps
-		selection: self selection
 		version: self version
-]
-
-{ #category : #accessing }
-CpPMDocumentChange >> content [
-
-	^ nil
+		selection: self selection
 ]
 
 { #category : #private }
