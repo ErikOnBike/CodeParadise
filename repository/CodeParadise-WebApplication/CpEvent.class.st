@@ -59,6 +59,7 @@ CpEvent class >> createEventProcess [
 
 	"Register the event process so the VM (plugin) can activate it"
 	self registerEventProcess: eventProcess.
+	eventProcess name: self name.
 
 	"Start the process (which will actually put it to sleep waiting for the first event)"
 	eventProcess resume
@@ -143,10 +144,9 @@ CpEvent class >> postInstall [
 { #category : #'class initialization' }
 CpEvent class >> postInstallOnce [
 
-	"Create the event handler process once"
+	"Register the event handler process once"
 
-	self createEventProcess
-
+	self registerEventProcess
 ]
 
 { #category : #'processing - private' }
@@ -157,6 +157,20 @@ CpEvent class >> registerEventClass: anEventClass forType: aString [
 
 	<primitive: 'primitiveEventRegisterClass:forType:' module: 'CpDOMPlugin'>
 	self primitiveFailed
+]
+
+{ #category : #'processing - private' }
+CpEvent class >> registerEventProcess [
+
+	"Register a new or reregister the existing event process"
+
+	Process allInstancesDo: [ :each |
+		each name = self name
+			ifTrue: [
+				self registerEventProcess: each.
+				^ self ] ].
+
+	self createEventProcess
 ]
 
 { #category : #'processing - private' }
