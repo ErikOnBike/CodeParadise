@@ -43,7 +43,7 @@ CpDownloader class >> downloadContentScript [
 	linkElement.click();
 	document.body.removeChild(linkElement);
 	URL.revokeObjectURL(objectURL);
-}'
+};'
 ]
 
 { #category : #'class initialization' }
