@@ -65,6 +65,7 @@ CpTransition class >> createTransitionProcess [
 
 	"Register the transition process so the VM (plugin) can activate it"
 	self registerTransitionProcess: transitionProcess.
+	transitionProcess name: self name.
 
 	"Start the process (which will actually put it to sleep waiting for the first tick)"
 	transitionProcess resume
@@ -197,12 +198,11 @@ CpTransition class >> performTransitions [
 { #category : #'class initialization' }
 CpTransition class >> postInstallOnce [
 
-	"Create transition process to perform transitions periodically"
+	"Register transition process to perform transitions periodically"
 
 	Transitions := OrderedCollection new.
 
-	self createTransitionProcess
-
+	self registerTransitionProcess
 ]
 
 { #category : #'accessing - private' }
@@ -211,6 +211,21 @@ CpTransition class >> registerTransition: aTransition [
 	"Register the specified Transition for handling"
 
 	^ Transitions add: aTransition
+]
+
+{ #category : #'processing - private' }
+CpTransition class >> registerTransitionProcess [
+
+	"Register a new or reregister the existing transition process"
+
+	Process allInstancesDo: [ :each |
+		each name = self name
+			ifTrue: [
+				self crTrace: 'Reregister transition process'.
+				self registerTransitionProcess: each.
+				^ self ] ].
+
+	self createTransitionProcess
 ]
 
 { #category : #'processing - private' }
