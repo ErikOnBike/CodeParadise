@@ -191,6 +191,12 @@ CpWebComponent >> insertChild: childElement before: siblingElement atSlotNamed: 
 	^ self insertChild: childElement before: siblingElement
 ]
 
+{ #category : #testing }
+CpWebComponent >> isWebComponent [
+
+	^ true
+]
+
 { #category : #querying }
 CpWebComponent >> partNamed: aString [
 

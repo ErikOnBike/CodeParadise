@@ -561,6 +561,12 @@ CpDomElement >> isListeningTo: anEventClass [
 	^ anEventClass isListenedToOn: self
 ]
 
+{ #category : #testing }
+CpDomElement >> isWebComponent [
+
+	^ false
+]
+
 { #category : #querying }
 CpDomElement >> lastAncestorMatching: cssSelectorString [
 
