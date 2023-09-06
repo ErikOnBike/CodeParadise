@@ -291,6 +291,39 @@ CpKeyEvent class >> f9 [
 	^ self createConditionalEvent
 ]
 
+{ #category : #'instance creation' }
+CpKeyEvent class >> fromString: aString [
+
+	"Answer an instance of the receiver (for use as an Event to listen for).
+	The input may contain markers like A, C, M, S to indicate modifiers.
+
+	For example:
+		CpKeyPressEvent fromString: 'C-S-s' => (CpKeyPressEvent key: 's') & (CpCtrlKeyDown + CpShiftKeyDown)
+		CpKeyPressEvent fromString: #'S-Enter' => (CpKeyPressEvent enter & CpNoModifiersDown)
+	"
+
+	| keyString modifiers |
+
+	modifiers := CpNoModifiersDown.
+	keyString := aString copy.
+
+	"Repeatedly add modifiers (duplicates will be ignored because of modifier implementation)"
+	[ keyString size > 2 and: [ keyString second = $- ] ] whileTrue: [
+
+		"Add modifier if found, otherwise signal error"
+		(CpModifierKeyDownCondition fromCharacter: keyString first)
+			ifNotNil: [ :modifierCondition | modifiers := modifiers + modifierCondition ]
+			ifNil: [ self error: 'Unknown modifier ', keyString first asString, ' in ', aString, ' for KeyEvent' ].
+
+		keyString := keyString allButFirst: 2 ].
+
+	"Validate a key is left"
+	keyString ifEmpty: [ 	self error: 'Invalid KeyEvent string representation: ', aString ].
+
+	"Answer key event with the modifiers applied"
+	^ (self key: keyString) & modifiers
+]
+
 { #category : #'ui keys' }
 CpKeyEvent class >> help [
 

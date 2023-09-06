@@ -15,6 +15,21 @@ CpModifierKeyDownCondition class >> + aModifierKeyCondition [
 	^ CpModifierKeyDownCondition modifiers: (self modifiers bitOr: aModifierKeyCondition modifiers)
 ]
 
+{ #category : #'instance creation' }
+CpModifierKeyDownCondition class >> fromCharacter: aCharacter [
+
+	"Answer one of the receiver's subclasses which matches the specified modifier Character
+	or nil if none exists.
+
+	For example $A results in CpAltKeyDown and $C results in CpCtrlKeyDown."
+
+	self subclassesDo: [ :each |
+		(each modifierCharacter = aCharacter)
+			ifTrue: [ ^ each ] ].
+
+	^ nil
+]
+
 { #category : #testing }
 CpModifierKeyDownCondition class >> matches: anEvent [
 
@@ -22,6 +37,14 @@ CpModifierKeyDownCondition class >> matches: anEvent [
 	The modifers should be identical for a match."
 
 	^ self modifiers = anEvent modifiers
+]
+
+{ #category : #accessing }
+CpModifierKeyDownCondition class >> modifierCharacter [
+
+	"Answer my modifier Character, subclasses should override"
+
+	^ nil
 ]
 
 { #category : #accessing }
