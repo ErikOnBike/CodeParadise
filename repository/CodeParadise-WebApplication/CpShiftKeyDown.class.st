@@ -5,6 +5,12 @@ Class {
 }
 
 { #category : #accessing }
+CpShiftKeyDown class >> modifierCharacter [
+
+	^ $S
+]
+
+{ #category : #accessing }
 CpShiftKeyDown class >> modifiers [
 
 	"Answer the modifiers (an Integer, see CpEvent >> #modifiers) the receiver represents"

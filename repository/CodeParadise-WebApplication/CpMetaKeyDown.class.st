@@ -5,6 +5,12 @@ Class {
 }
 
 { #category : #accessing }
+CpMetaKeyDown class >> modifierCharacter [
+
+	^ $M
+]
+
+{ #category : #accessing }
 CpMetaKeyDown class >> modifiers [
 
 	"Answer the modifiers (an Integer, see CpEvent >> #modifiers) the receiver represents"

@@ -8,6 +8,12 @@ Class {
 }
 
 { #category : #accessing }
+CpActionKeyDown class >> modifierCharacter [
+
+	^ $X
+]
+
+{ #category : #accessing }
 CpActionKeyDown class >> modifiers [
 
 	"Answer the modifiers (an Integer, see CpEvent >> #modifiers) the receiver represents"
