@@ -472,7 +472,8 @@ CpClientEnvironment >> persistentVariableAt: nameString put: valueString [
 { #category : #accessing }
 CpClientEnvironment >> platform [
 
-	^ self variableAt: #OS
+	^ (self variableAt: #OS)
+		ifNotNil: [ :platform | platform asSymbol ]
 ]
 
 { #category : #installing }
