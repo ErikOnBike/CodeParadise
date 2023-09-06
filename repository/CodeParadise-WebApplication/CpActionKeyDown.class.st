@@ -1,3 +1,9 @@
+"
+I represent a modifier key being pressed down. I have platform specific behavior.
+On Windows and Linux I am represented as the Ctrl key being pressed down.
+On macOS I am represented as the Cmd key being pressed down.
+
+"
 Class {
 	#name : #CpActionKeyDown,
 	#superclass : #CpModifierKeyDownCondition,

@@ -117,6 +117,15 @@ CpBaseEvent >> dispatch [
 ]
 
 { #category : #testing }
+CpBaseEvent >> isActionKeyDown [
+
+	"Answer whether the action key is down.
+	The action key is platform specific: See CpActionKeyDown class comment."
+
+	^ self modifiers allMask: CpActionKeyDown modifiers
+]
+
+{ #category : #testing }
 CpBaseEvent >> isAltKeyDown [
 
 	^ self modifiers allMask: CpAltKeyDown modifiers
