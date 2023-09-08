@@ -123,11 +123,42 @@ CpServerApplication >> environment: aServerEnvironment [
 	environment := aServerEnvironment
 ]
 
+{ #category : #installing }
+CpServerApplication >> installExtensionMethods [
+
+	"Install the extension methods from known Classes"
+
+	self installExtensionMethodsFor: #applicationExtension
+]
+
+{ #category : #installing }
+CpServerApplication >> installExtensionMethodsFor: aSymbol [
+
+	"Install the extension methods for specified (pragma) Symbol.
+
+	Implementation:
+	First find senders of specified Symbol and then explicitly check for
+	pragma in both instance and class methods."
+
+	((CpFinder allSendersOf: aSymbol) collect: [ :each | each realClass ]) asSet
+		do: [ :eachClass |
+
+			"Install instance methods"
+			(Pragma allNamed: aSymbol in: eachClass) do: [ :eachPragma |
+				self environment addMethod: eachPragma method ].
+
+			"Install class methods"
+			(Pragma allNamed: aSymbol in: eachClass class) do: [ :eachPragma |
+				self environment addMethod: eachPragma method ] ]
+]
+
 { #category : #actions }
 CpServerApplication >> load [
 
 	"Perform any actions needed when the ClientEnvironment belonging to the receiver loaded (for the first time)"
 
+	"Install required extensions"
+	self installExtensionMethods
 ]
 
 { #category : #updating }

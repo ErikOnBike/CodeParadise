@@ -118,28 +118,9 @@ CpWebApplication >> installExtensionMethods [
 
 	"Install the extension methods from known Classes"
 
+	super installExtensionMethods.
+
 	self installExtensionMethodsFor: #webApplicationExtension
-]
-
-{ #category : #installing }
-CpWebApplication >> installExtensionMethodsFor: aSymbol [
-
-	"Install the extension methods for specified (pragma) Symbol.
-
-	Implementation:
-	First find senders of specified Symbol and then explicitly check for
-	pragma in both instance and class methods."
-
-	((CpFinder allSendersOf: aSymbol) collect: [ :each | each realClass ]) asSet
-		do: [ :eachClass |
-
-			"Install instance methods"
-			(Pragma allNamed: aSymbol in: eachClass) do: [ :eachPragma |
-				self environment addMethod: eachPragma method ].
-
-			"Install class methods"
-			(Pragma allNamed: aSymbol in: eachClass class) do: [ :eachPragma |
-				self environment addMethod: eachPragma method ] ]
 ]
 
 { #category : #testing }
@@ -156,9 +137,6 @@ CpWebApplication >> load [
 	"Perform the initial loading of the receiver"
 
 	super load.
-
-	"Install required extensions"
-	self installExtensionMethods.
 
 	"Install the base HTMLElement class"
 	self environment addClass: CpHtmlElement.

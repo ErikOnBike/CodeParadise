@@ -7,8 +7,7 @@ Class >> beLoaded [
 	from a method to be installed in a ClientEnvironment will also install the receiver (class)
 	in the ClientEnvironment"
 
-	<clientEnvironment>
-
+	<applicationExtension>
 ]
 
 { #category : #'*CodeParadise-RemoteEnvironment' }
