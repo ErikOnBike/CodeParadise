@@ -1,0 +1,202 @@
+"
+I am the snapshot feature for CodeParadise webapplications.
+Currently I only support MVP-based webapplications.
+When installed, the Ctrl-Shift-s or Cmd-Shift-s (Linux/Windows vs macOS) key combination
+performs a snapshot. The snapshot will be downloaded by your browser (using the name 'snapshot.image').
+You can later start this image again.
+The image will be 'sealed' during the snapshot process. Meaning it will not interact with the
+server environment anymore. It is possible however to add communication components to have an
+interactive webapplication.
+
+"
+Class {
+	#name : #CpClientEnvironmentSnapshot,
+	#superclass : #Object,
+	#category : #'CodeParadise-WebApplication-Snapshot-Core'
+}
+
+{ #category : #accessing }
+CpClientEnvironmentSnapshot class >> collectWebComponentsFrom: anElement into: aDictionary [
+
+	"Collect the receiver and all children which are WebComponents into the specified Dictionary.
+	Use the component's ID as key and the component itself as value."
+
+	anElement isWebComponent
+		ifTrue: [
+			anElement id
+				ifNotNil: [ :id | aDictionary at: id put: anElement ] ].
+
+	anElement children do: [ :each | self collectWebComponentsFrom: each into: aDictionary ]
+]
+
+{ #category : #'web resources' }
+CpClientEnvironmentSnapshot class >> downloadImageScript [
+
+	"Answer a Javascript download image script.
+	Assume the snapshot primitive is called just before executing this script.
+
+	Implementation:
+	Use the Squeak JS VM's file storage implementation to retrieve the image content."
+
+	^ '// Add empty function to mimic presence of FilePlugin
+Squeak.flushAllFiles = function() {};
+
+// Add default download operation to the filePut method
+Squeak.filePut = function(name, buffer) {
+	if(name === "./client-environment") {
+		console.log("Saving image");
+		window.cpDownload(buffer, "application/octet-stream", "snapshot.image");
+	}
+};'
+]
+
+{ #category : #private }
+CpClientEnvironmentSnapshot class >> loadDOMPlugin [
+
+	"Load the DOM plugin by executing a trivial primitive from the plugin"
+
+	<primitive: 'primitiveDomElementDocument' module: 'CpDOMPlugin'>
+	self primitiveFailed
+]
+
+{ #category : #'class initialization' }
+CpClientEnvironmentSnapshot class >> postInstall [
+
+	super postInstall.
+
+	"The downloader is used to download the snapshot image (see #downloadImageScript)"
+	CpDownloader beLoaded.
+
+	"Add script to download the snapshot"
+	CpHtmlElement documentAddScript: self downloadImageScript.
+
+	"Install the keyboard handler to perform the snapshot operation"
+	CpHtmlElement document
+		when: (CpKeyDownEvent fromString: 'X-S-s') send: #saveSnapshot: to: self
+]
+
+{ #category : #'class initialization' }
+CpClientEnvironmentSnapshot class >> postSnapshotOnce [
+
+	"Add script to allow reattaching Smalltalk CpDomElements to browser DOM elements"
+
+	CpHtmlElement documentAddScript: self privateAttachToIdScript
+]
+
+{ #category : #'web resources' }
+CpClientEnvironmentSnapshot class >> privateAttachToIdScript [
+
+	"Answer a Javascript primitive for attaching a Smalltalk CpDomElement to a browser DOM element.
+
+	Add this primitive to the DOMPlugin."
+
+	^ '// Add extra primitive to the DOM plugin
+Squeak.externalModules.CpDOMPlugin["primitiveDomElementPrivateAttachToId:"] = function(argCount) {
+	if(argCount !== 1) return false;
+	var id = this.interpreterProxy.stackValue(0).asString();
+	if(!id) return false;
+	var receiver = this.interpreterProxy.stackValue(argCount);
+	var domElement = document.getElementById(id);
+	if(!domElement) return false;
+	receiver.domElement = domElement;
+	this.domElementMap.set(domElement, receiver);
+	return this.answerSelf(argCount); 
+};'
+]
+
+{ #category : #private }
+CpClientEnvironmentSnapshot class >> saveSnapshot: aKeyEvent [
+
+	"Save a snapshot of the image"
+
+	"Prevent default behavior for the key being pressed"
+	aKeyEvent preventDefault.
+
+	"Start snapshot in separate process which terminates itself"
+	(Process forContext: [
+		self snapshotImage.
+		Processor activeProcess terminate ] asContext  priority: 2) resume
+]
+
+{ #category : #actions }
+CpClientEnvironmentSnapshot class >> snapshotImage [
+
+	"Snapshot the image for later restarting it with the current content.
+
+	Implementation:
+	Currently it is assumed the receiver is running inside an MVP-based
+	webapplication and no 'manual' DOM manipulation has been performed.
+	In the future support might be added for other environments as well
+	(like NodeJS based environments or WebWorker threads which don't have
+	access to the DOM). Also non MVP webapplications might be supported.
+
+	Currently the image is 'sealed' meaning it does not try to reconnect
+	to a server environment. Such a feature might be added in the future
+	as well, although the TinyBootstrap process can already create images
+	with additional classes installed.
+	Currently no effort is done to minimize the image. Since the image
+	is sealed, some communication classes like CpClientCommunicator and
+	CpJavascriptWebSocketChannel could be removed from the image. Even
+	the receiver (except for the 'restart' behavior) could be removed.
+
+	Only the HTML body is preserved during the snapshot process. The
+	head content is assumed to be created by the different classes and/or
+	components and will be recreated during the restart.
+	Since WebComponents do not know their content nor where they are
+	placed inside the DOM, a dictionary is kept with their id, so they
+	can be restored in the proper location.
+
+	See also https://github.com/ErikOnBike/TinyBootstrap for an
+	alternative to create custom images."
+
+	| content components |
+
+	"Prepare image for snapshot"
+	CpTransition preSnapshot.
+	CpEvent preSnapshot.
+	CpEvent allSubclassesDo: [ :each | each preSnapshot ].
+
+	"Save application content"
+	content := CpHtmlElement documentBody markupContent.
+
+	"Save components"
+	components := Dictionary new.
+	self collectWebComponentsFrom: CpHtmlElement documentBody into: components.
+
+	"Snapshot image"	
+	self crTrace: 'About to save image'.
+	Smalltalk snapshotPrimitive
+		ifFalse: [
+			self crTrace: 'Saved image'.
+
+			"Prepare image for restart"
+			CpEvent allSubclassesDo: [ :each | each postSnapshot ].
+			CpEvent postSnapshot.
+			CpTransition postSnapshot.
+
+			^ self ].
+	self crTrace: 'Restoring saved image'.
+
+	"Load necessary DOM plugin"
+	self loadDOMPlugin.
+
+	"Restore the application content"
+	CpHtmlElement documentBody markupContent: content.
+
+	"Prepare image for restart"
+	CpEvent allSubclassesDo: [ :each | each postSnapshot ].
+	CpEvent postSnapshot.
+
+	"Restore components"
+	self postSnapshot.
+	CpWebComponent allSubclassesDo: [ :each | each postInstall ].
+	components keysAndValuesDo: [ :id :element |
+		element
+			privateAttachToId: id ;
+			initialize ].
+
+	"Restart transition process as last step in restart"
+	CpTransition postSnapshot.
+
+	self crTrace: 'Image restored, continuing execution'
+]

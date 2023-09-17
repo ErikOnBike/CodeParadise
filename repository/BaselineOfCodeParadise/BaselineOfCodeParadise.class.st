@@ -30,6 +30,8 @@ BaselineOfCodeParadise >> baseline: spec [
 			"2022-06: No longer maintained"
 			package: 'CodeParadise-WebApplication-Fomantic' with: [ spec requires: #('CodeParadise-WebApplication') ];
 
+			package: 'CodeParadise-WebApplication-Snapshot' with: [ spec requires: #('CodeParadise-WebApplication') ];
+
 			package: 'CodeParadise-WebApplication-Development' with: [ spec requires: #('CodeParadise-WebApplication') ];
 			package: 'CodeParadise-WebApplication-Debugger' with: [ spec requires: #('CodeParadise-WebApplication') ].
 
@@ -41,7 +43,7 @@ BaselineOfCodeParadise >> baseline: spec [
 
 		"Groups"
 		spec 
-			group: 'default' with: #( 'Core' 'Shoelace' 'ChartJS' 'Presentation' 'Beach' 'Tests' 'Development');
+			group: 'default' with: #( 'Core' 'Shoelace' 'ChartJS' 'Presentation' 'Beach' 'Snapshot' 'Tests' 'Development');
 
 			group: 'Core' with: #( 'CodeParadise-WebApplication' );
 			group: 'Tests' with: #( 'CodeParadise-WebApplication-Tests' 'CodeParadise-RemoteEnvironment-Tests' 'CodeParadise-Beach-Tests' );
@@ -55,6 +57,8 @@ BaselineOfCodeParadise >> baseline: spec [
 
 			"2022-06: No longer maintained (needs to be loaded manually)"
 			group: 'Fomantic' with: #( 'CodeParadise-WebApplication-Fomantic' );
+
+			group: 'Snapshot' with: #( 'CodeParadise-WebApplication-Snapshot' );
 
 			group: 'Development' with: #( 'CodeParadise-WebApplication-Development' 'CodeParadise-WebApplication-Debugger' );
 
