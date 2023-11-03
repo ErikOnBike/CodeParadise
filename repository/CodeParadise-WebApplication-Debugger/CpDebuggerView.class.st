@@ -230,7 +230,7 @@ CpDebuggerView >> initializeShadowRoot [
 
 	super initializeShadowRoot.
 
-	(self shadowRoot elementWithId: #'close-button')
+	(self shadowedElementWithId: #'close-button')
 		when: CpClickEvent basicPrimary send: #close to: self class
 ]
 

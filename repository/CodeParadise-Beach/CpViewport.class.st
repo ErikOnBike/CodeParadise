@@ -104,7 +104,7 @@ CpViewport >> render [
 { #category : #rendering }
 CpViewport >> renderPosition [
 
-	(self shadowRoot elementWithId: #container)
+	(self shadowedElementWithId: #container)
 		styleAt: #transform put: 'translate(', position x negated printString, 'px,', position y negated printString, 'px)'
 ]
 

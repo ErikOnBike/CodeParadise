@@ -324,17 +324,13 @@ CpWindow >> initialize [
 { #category : #initialization }
 CpWindow >> initializeShadowRoot [
 
-	| shadowRoot |
-
 	super initializeShadowRoot.
 
-	shadowRoot := self shadowRoot.
-
-	(shadowRoot allDescendantsMatching: '.corner')
-		do: [ :each | each when: CpDragEvent send: #handleWindowResizeCorner: to: self  ].
-	(shadowRoot allDescendantsMatching: '.side')
+	(self shadowedAllDescendantsMatching: '.corner')
+		do: [ :each | each when: CpDragEvent send: #handleWindowResizeCorner: to: self ].
+	(self shadowedAllDescendantsMatching: '.side')
 		do: [ :each | each when: CpDragEvent send: #handleWindowResizeSide: to: self ].
-	(shadowRoot elementWithId: #titleBar)
+	(self shadowedElementWithId: #titleBar)
 		when: CpDragEvent send: #handleWindowMove: to: self
 ]
 

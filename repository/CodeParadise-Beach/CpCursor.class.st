@@ -98,5 +98,5 @@ CpCursor >> focus [
 
 	"Delegate setting focus to the input field in the receiver's shadow DOM"
 
-	(self shadowRoot firstDescendantMatching: #input) focus
+	(self shadowedFirstDescendantMatching: #input) focus
 ]

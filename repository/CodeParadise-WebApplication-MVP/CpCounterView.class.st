@@ -72,8 +72,7 @@ CpCounterView >> initialize [
 	"Add the click event handler on the shadow root (otherwise click will have the receiver as target,
 	not the individual buttons inside the shadow DOM).
 	Instead of a single event handler, one could have been installed on every button."
-	self shadowRoot
-		when: CpClickEvent basicPrimary send: #handleClickEvent: to: self
+	self shadowedWhen: CpClickEvent basicPrimary send: #handleClickEvent: to: self
 ]
 
 { #category : #rendering }

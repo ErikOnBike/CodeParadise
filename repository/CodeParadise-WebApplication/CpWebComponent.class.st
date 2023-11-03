@@ -202,8 +202,7 @@ CpWebComponent >> partNamed: aString [
 
 	"Answer the part with the specified name"
 
-	^ self shadowRoot
-		firstDescendantMatching: '[part="', aString, '"]'
+	^ self shadowedFirstDescendantMatching: '[part="', aString, '"]'
 ]
 
 { #category : #'adding/removing' }
@@ -287,6 +286,14 @@ CpWebComponent >> shadowedFirstDescendantMatching: cssSelectorString [
 	"Answer the first element inside the shadow DOM matching the specified CSS selector"
 
 	^ self shadowRoot firstDescendantMatching: cssSelectorString
+]
+
+{ #category : #querying }
+CpWebComponent >> shadowedWhen: anAnnouncementClass send: aSymbol to: anObject [
+
+	"Add subscription to the shadow DOM for the specified announcement"
+
+	^ self shadowRoot when: anAnnouncementClass send: aSymbol to: anObject
 ]
 
 { #category : #content }

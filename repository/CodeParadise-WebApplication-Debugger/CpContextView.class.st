@@ -154,7 +154,7 @@ CpContextView >> initializeShadowRoot [
 
 	super initializeShadowRoot.
 
-	(self shadowRoot elementWithId: #'open-browser')
+	(self shadowedElementWithId: #'open-browser')
 		when: CpClickEvent basicPrimary send: #openBrowser to: self
 ]
 
@@ -268,7 +268,7 @@ CpContextView >> renderSourceCode: aDictionary [
 
 	"Render source code (remove potential error flag)"
 	self replaceAllChildrenWith: sourceCode asHtmlElement atSlotNamed: #method.
-	(self shadowRoot elementWithId: #method)
+	(self shadowedElementWithId: #method)
 		classed: #local if: (aDictionary at: #isLocalMethod ifAbsent: [ false ]) ;
 		removeClass: #error
 ]
@@ -277,7 +277,7 @@ CpContextView >> renderSourceCode: aDictionary [
 CpContextView >> renderSourceCodeError: aString [
 
 	self replaceAllChildrenWith: aString asHtmlElement atSlotNamed: #method.
-	(self shadowRoot elementWithId: #method)
+	(self shadowedElementWithId: #method)
 		removeClass: #local ;
 		addClass: #error
 ]
