@@ -247,7 +247,8 @@ CpComponentExamplesClientBehavior >> exampleRadioButtons [
 { #category : #examples }
 CpComponentExamplesClientBehavior >> exampleRichTextField [
 
-	<example: 'Rich text fields' order: 400>
+	"Temporary remove this example, because it is no longer working"
+	"<example: 'Rich text fields' order: 400>"
 
 	| outputElement |
 	

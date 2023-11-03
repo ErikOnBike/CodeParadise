@@ -2,7 +2,8 @@ Class {
 	#name : #CpRichTextField,
 	#superclass : #CpView,
 	#instVars : [
-		'text'
+		'text',
+		'keymapper'
 	],
 	#category : #'CodeParadise-Beach-Components'
 }
@@ -229,7 +230,28 @@ CpRichTextField >> initialize [
 
 	super initialize.
 
+	keymapper := CpKeyMapper new.
+
+	self class defaultKeyMapping keysAndValuesDo: [ :key :value |
+		keymapper addMappingFrom: key to: value ].
+
 	self flag: #todo "This class needs fixing: handlers are not installed by default anymore"
+]
+
+{ #category : #accessing }
+CpRichTextField >> keymapper [
+
+	^ keymapper
+]
+
+{ #category : #initialization }
+CpRichTextField >> release [
+
+	keymapper ifNotNil: [
+		keymapper release.
+		keymapper := nil ].
+
+	super release
 ]
 
 { #category : #accessing }

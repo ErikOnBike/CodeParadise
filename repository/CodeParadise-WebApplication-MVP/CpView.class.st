@@ -10,17 +10,8 @@ environements and message sends to objects are implemented as 'fire and forget'.
 Class {
 	#name : #CpView,
 	#superclass : #CpTemplateComponent,
-	#instVars : [
-		'keymapper'
-	],
 	#category : #'CodeParadise-WebApplication-MVP-Core'
 }
-
-{ #category : #accessing }
-CpView class >> defaultKeyMapping [
-
-	^ Dictionary new
-]
 
 { #category : #removing }
 CpView >> destroy [
@@ -46,39 +37,12 @@ CpView >> downloadContent: anObject type: typeString filename: filenameString [
 	CpDownloader content: anObject type: typeString filename: filenameString
 ]
 
-{ #category : #initialization }
-CpView >> initialize [
-
-	super initialize.
-
-	keymapper := CpKeyMapper new.
-
-	self class defaultKeyMapping keysAndValuesDo: [ :key :value |
-		keymapper addMappingFrom: key to: value ]
-]
-
-{ #category : #accessing }
-CpView >> keymapper [
-
-	^ keymapper
-]
-
 { #category : #performing }
 CpView >> performMessage: aMessage [
 
 	"Perform the specified message on the receiver"
 
 	aMessage sendTo: self
-]
-
-{ #category : #initialization }
-CpView >> release [
-
-	keymapper ifNotNil: [
-		keymapper release.
-		keymapper := nil ].
-
-	super release
 ]
 
 { #category : #announcing }
