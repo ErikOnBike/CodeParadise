@@ -23,7 +23,7 @@ CpMvpWebClientBehavior >> createView: viewClassName withId: identifier atParentI
 
 	"Find the parent View based on the specified identifier"
 	parentView := parentIdentifier
-		ifNotNil: [ CpHtmlElement document elementWithId: parentIdentifier ]
+		ifNotNil: [ CpHtmlElement elementWithId: parentIdentifier ]
 		ifNil: [ CpHtmlElement documentBody ].
 
 	"Create instance of the View class specified"

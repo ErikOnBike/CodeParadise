@@ -75,9 +75,9 @@ CpWebClientBehavior >> removeLoader [
 
 	"Remove the loader running in the HTML page starting this client"
 
-	(CpHtmlElement document elementWithId: 'loader-block')
+	(CpHtmlElement elementWithId: 'loader-block')
 		ifNotNil: [ :loaderBlock | loaderBlock remove ].
-	(CpHtmlElement document elementWithId: 'loader-style')
+	(CpHtmlElement elementWithId: 'loader-style')
 		ifNotNil: [ :loaderStyle | loaderStyle remove ]
 ]
 

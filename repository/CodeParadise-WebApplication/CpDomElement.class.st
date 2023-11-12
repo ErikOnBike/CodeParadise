@@ -82,6 +82,16 @@ CpDomElement class >> document [
 	self primitiveFailed
 ]
 
+{ #category : #querying }
+CpDomElement class >> elementWithId: aString [
+
+	"Convenience method to answer the element with the specified id.
+	To retrieve an element with a specified id from a WebComponent's
+	shadow DOM, use the WebComponent's #shadowedElementWithId:"
+
+	^ self document elementWithId: aString
+]
+
 { #category : #'acccessing-ui' }
 CpDomElement class >> elementsFromPoint: aPoint [
 
