@@ -194,7 +194,13 @@ CpWebApplication >> reload [
 { #category : #actions }
 CpWebApplication >> reload: anAnnouncement [
 
-	"Reload the application and afterwards remove the loader"
+	"Reload the application and afterwards remove the loader.
+
+	Implementation:
+	Do not move the call to #removeLoader to the #reload method,
+	since it will be called to early in the reload process.
+	By calling it after the call to #reload itself completed,
+	the visual update will be much smoother."
 
 	super reload: anAnnouncement.
 
