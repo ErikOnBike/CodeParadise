@@ -17,6 +17,15 @@ Class {
 	#category : #'CodeParadise-WebApplication-DOM'
 }
 
+{ #category : #accessing }
+CpWebComponent class >> all [
+
+	"Answer a collection containing all instances of the receiver in the current document"
+
+	^ self document
+		allDescendantsMatching: self asCssSelector
+]
+
 { #category : #converting }
 CpWebComponent class >> asCssSelector [
 
@@ -72,7 +81,7 @@ CpWebComponent class >> last [
 	"Answer the last instance of the receiver in the current document
 	or nil if none exists"
 
-	^ (self document allDescendantsMatching: self asCssSelector)
+	^ self all
 		ifNotEmpty: [ :matches | matches last ]
 		ifEmpty: [ nil ]
 ]

@@ -139,7 +139,7 @@ CpRichTextField >> handleCharacterRight [
 CpRichTextField >> handleClickEvent: aClickEvent [
 
 	"Remove existing cursor"
-	(self allDescendantsMatching: #'cp-cursor') do: [ :each | each remove ].
+	CpCursor all do: [ :each | each remove ].
 
 	"Set new cursor and give focus"
 	(self appendChild: CpCursor new atSlotNamed: #text) focus

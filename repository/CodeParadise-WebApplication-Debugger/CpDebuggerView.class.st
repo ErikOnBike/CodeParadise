@@ -144,7 +144,7 @@ CpDebuggerView class >> template [
 { #category : #accessing }
 CpDebuggerView >> callStackLineView [
 
-	^ (self allDescendantsMatching: CpContextLineView asCssSelector)
+	^ CpContextLineView all
 		detect: [ :each | each context == currentContext ] ifNone: [ nil ]
 ]
 

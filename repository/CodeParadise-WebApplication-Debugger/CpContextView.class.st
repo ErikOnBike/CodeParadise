@@ -145,7 +145,7 @@ CpContextView >> context: aContext [
 { #category : #accessing }
 CpContextView >> currentVariableView [
 
-	^ (self allDescendantsMatching: CpVariableView asCssSelector)
+	^ CpVariableView all
 		detect: [ :each | each variable == currentVariable ] ifNone: [ nil ]
 ]
 
