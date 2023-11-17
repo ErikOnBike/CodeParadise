@@ -3,8 +3,9 @@ Extension { #name : #String }
 { #category : #'*CodeParadise-WebApplication' }
 String >> asCssSelector [
 
-	^ self
+	<webApplicationExtension>
 
+	^ self
 ]
 
 { #category : #'*CodeParadise-WebApplication' }

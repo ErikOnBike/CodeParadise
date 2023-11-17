@@ -154,12 +154,48 @@ CpHtmlElement class >> prefix [
 	^ #xhtml
 ]
 
+{ #category : #querying }
+CpHtmlElement >> allAncestorsMatching: cssSelector [
+
+	"Answer all ancestors of the receiver matching the specified CSS selector
+	(which can either be a WebComponent class or a String)"
+
+	^ super allAncestorsMatching: cssSelector asCssSelector
+]
+
+{ #category : #querying }
+CpHtmlElement >> allDescendantsMatching: cssSelector [
+
+	"Answer all ancestors of the receiver matching the specified CSS selector
+	(which can either be a WebComponent class or a String)"
+
+	^ super allDescendantsMatching: cssSelector asCssSelector
+]
+
 { #category : #converting }
 CpHtmlElement >> asHtmlElement [
 
 	"Answer the receiver as DOM element"
 
 	^ self
+]
+
+{ #category : #querying }
+CpHtmlElement >> firstAncestorMatching: cssSelector [
+
+	"Answer the first ancestor of the receiver matching the specified CSS selector
+	(which can either be a WebComponent class or a String)"
+
+	^ super firstAncestorMatching: cssSelector asCssSelector
+]
+
+{ #category : #querying }
+CpHtmlElement >> firstDescendantMatching: cssSelector [
+
+	"Answer the first descendant of the receiver matching the specified CSS selector
+	(which can either be a WebComponent class or a String)"
+
+	^ super firstDescendantMatching: cssSelector asCssSelector
 ]
 
 { #category : #accessing }
@@ -170,6 +206,33 @@ CpHtmlElement >> isSlotted [
 	Implementation: Only validates whether a slot is named, not whether it actually exists."
 
 	^ self hasAttributeAt: #slot
+]
+
+{ #category : #querying }
+CpHtmlElement >> lastAncestorMatching: cssSelector [
+
+	"Answer the last ancestor of the receiver matching the specified CSS selector
+	(which can either be a WebComponent class or a String)"
+
+	^ super lastAncestorMatching: cssSelector asCssSelector
+]
+
+{ #category : #querying }
+CpHtmlElement >> lastDescendantMatching: cssSelector [
+
+	"Answer the last descendant of the receiver matching the specified CSS selector
+	(which can either be a WebComponent class or a String)"
+
+	^ super lastDescendantMatching: cssSelector asCssSelector
+]
+
+{ #category : #querying }
+CpHtmlElement >> matches: cssSelector [
+
+	"Answer whether the receiver matches the specified CSS selector
+	(which can either be a WebComponent class or a String)"
+
+	^ super matches: cssSelector asCssSelector
 ]
 
 { #category : #accessing }
