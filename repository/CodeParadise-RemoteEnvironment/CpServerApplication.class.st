@@ -15,10 +15,31 @@ Class {
 		'clientVariables'
 	],
 	#classInstVars : [
-		'announcementSubscription'
+		'announcementSubscription',
+		'announcer'
 	],
 	#category : #'CodeParadise-RemoteEnvironment-Core'
 }
+
+{ #category : #announcing }
+CpServerApplication class >> announce: anAnnouncement [
+
+	"Announce the specified Announcement (only if there are interested listeners,
+	in which case the announcer is already instantiated)"
+
+	announcer ifNil: [ ^ self ].
+
+	announcer announce: anAnnouncement
+]
+
+{ #category : #accessing }
+CpServerApplication class >> announcer [
+
+	"Answer the announcer for this specific 'type' of application.
+	This announcer can be used for live cycle announcements."
+
+	^ announcer ifNil: [ announcer := Announcer new ]
+]
 
 { #category : #accessing }
 CpServerApplication class >> app [
@@ -42,7 +63,7 @@ CpServerApplication class >> clientLoaded: anAnnouncement [
 	"Create new instance and call the load handler (faking the loaded event which triggered this invocation)"
 	^ (self newInEnvironment: anAnnouncement environment) 
 		clientVariables: anAnnouncement variables ;
-		load ;
+		load: anAnnouncement ;
 		yourself
 ]
 
@@ -78,6 +99,14 @@ CpServerApplication class >> release [
 	self unregister
 ]
 
+{ #category : #announcing }
+CpServerApplication class >> removeSubscription: aSubscription [
+
+	announcer ifNil: [ ^ self ].
+
+	announcer removeSubscription: aSubscription
+]
+
 { #category : #support }
 CpServerApplication class >> unregister [
 
@@ -87,6 +116,57 @@ CpServerApplication class >> unregister [
 
 	CpServerEnvironment removeSubscription: announcementSubscription.
 	announcementSubscription := nil
+]
+
+{ #category : #announcing }
+CpServerApplication class >> whenLoadedSend: aSymbol to: anObject [
+
+	^ self announcer
+		when: CpApplicationLoaded
+		send: aSymbol
+		to: anObject
+]
+
+{ #category : #announcing }
+CpServerApplication class >> whenReloadedSend: aSymbol to: anObject [
+
+	^ self announcer
+		when: CpApplicationReloaded
+		send: aSymbol
+		to: anObject
+]
+
+{ #category : #announcing }
+CpServerApplication class >> whenStoppedSend: aSymbol to: anObject [
+
+	^ self announcer
+		when: CpApplicationStopped
+		send: aSymbol
+		to: anObject
+]
+
+{ #category : #announcing }
+CpServerApplication >> announceLoaded [
+
+	self classSideAnnounce: (CpApplicationLoaded application: self)
+]
+
+{ #category : #announcing }
+CpServerApplication >> announceReloaded [
+
+	self classSideAnnounce: (CpApplicationReloaded application: self)
+]
+
+{ #category : #announcing }
+CpServerApplication >> announceStopped [
+
+	self classSideAnnounce: (CpApplicationStopped application: self)
+]
+
+{ #category : #announcing }
+CpServerApplication >> classSideAnnounce: anAnnouncement [
+
+	self class announce: anAnnouncement
 ]
 
 { #category : #accessing }
@@ -161,6 +241,16 @@ CpServerApplication >> load [
 	self installExtensionMethods
 ]
 
+{ #category : #'private - actions' }
+CpServerApplication >> load: anAnnoucement [
+
+	"Perform any actions needed when the ClientEnvironment belonging to the receiver loaded (for the first time)"
+
+	self load.
+
+	self announceLoaded
+]
+
 { #category : #updating }
 CpServerApplication >> methodChanged: anAnnouncement [
 
@@ -207,14 +297,16 @@ CpServerApplication >> reload [
 	"Perform any actions needed when the ClientEnvironment belonging to the receiver reloaded"
 ]
 
-{ #category : #actions }
+{ #category : #'private - actions' }
 CpServerApplication >> reload: anAnnouncement [
 
 	"Client environment restarted. Update client variables and reload application."
 
 	self clientVariables: anAnnouncement variables.
 
-	self reload
+	self reload.
+
+	self announceReloaded
 ]
 
 { #category : #initialization }
@@ -229,7 +321,7 @@ CpServerApplication >> setUp [
 
 	self environment
 		when: CpClientReloaded send: #reload: to: self ;
-		when: CpClientStopped send: #stop to: self.
+		when: CpClientStopped send: #stop: to: self.
 
 	"Ensure the receiver reacts to methods being changed on the server"
 	self flag: #todo. "Need to be able to remove methods in the ClientEnvironment as well"
@@ -246,4 +338,14 @@ CpServerApplication >> stop [
 	perform such behavior before calling 'super stop'."
 
 	self release
+]
+
+{ #category : #'private - actions' }
+CpServerApplication >> stop: anAnnouncement [
+
+	"ClientEnvironment stopped. Stop receiver."
+
+	self stop.
+
+	self announceStopped
 ]
