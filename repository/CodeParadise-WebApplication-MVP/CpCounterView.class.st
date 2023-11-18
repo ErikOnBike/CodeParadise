@@ -51,28 +51,26 @@ CpCounterView class >> template [
 ]
 
 { #category : #'event handling' }
-CpCounterView >> handleClickEvent: clickEvent [
+CpCounterView >> handleDecrease [
 
-	| buttonId |
-
-	(buttonId := clickEvent target id)
-		ifNil: [ ^ self ].
-
-	buttonId = #decrease
-		ifTrue: [ ^ self serverAnnounce: CpCounterDecrease ].
-	buttonId = #increase
-		ifTrue: [ ^ self serverAnnounce: CpCounterIncrease ]
+	self serverAnnounce: CpCounterDecrease
 ]
 
 { #category : #'event handling' }
-CpCounterView >> initialize [
+CpCounterView >> handleIncrease [
 
-	super initialize.
+	self serverAnnounce: CpCounterIncrease
+]
 
-	"Add the click event handler on the shadow root (otherwise click will have the receiver as target,
-	not the individual buttons inside the shadow DOM).
-	Instead of a single event handler, one could have been installed on every button."
-	self shadowedWhen: CpClickEvent basicPrimary send: #handleClickEvent: to: self
+{ #category : #'event handling' }
+CpCounterView >> initializeShadowRoot [
+
+	super initializeShadowRoot.
+
+	(self shadowedElementWithId: #increase)
+		when: CpClickEvent basicPrimary send: #handleIncrease to: self.
+	(self shadowedElementWithId: #decrease)
+		when: CpClickEvent basicPrimary send: #handleDecrease to: self
 ]
 
 { #category : #rendering }

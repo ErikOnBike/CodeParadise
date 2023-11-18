@@ -36,6 +36,7 @@ CpCounterApplicationView class >> template [
 	<webResource: #html>
 
 	^ '<div id="container">
+	<h2>Basic counter example</h2>
 	<p>
 	This is a very basic counter example. It shows two counters. One is attached to a global Counter Model and the other to a client specific Counter Model. If you change the first Counter (by pressing the increase/decrease buttons) all other browser tabs open on this same Counter Example will also update their value. Try it out! It will probably also run on your mobile ;-).
 	</p>
