@@ -34,7 +34,7 @@ CpFieldChanged class >> id: aSymbol [
 CpFieldChanged class >> id: aSymbol value: anObject [
 
 	^ self basicNew
-		initializeWithField: aSymbol value: anObject ;
+		initializeWithId: aSymbol value: anObject ;
 		yourself
 ]
 
@@ -62,7 +62,7 @@ CpFieldChanged >> hasValue [
 ]
 
 { #category : #initialization }
-CpFieldChanged >> initializeWithField: aSymbol value: anObject [
+CpFieldChanged >> initializeWithId: aSymbol value: anObject [
 
 	self initializeWithId: aSymbol.
 
