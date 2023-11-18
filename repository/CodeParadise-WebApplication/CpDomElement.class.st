@@ -971,16 +971,6 @@ CpDomElement >> syncApply: aSymbol withArguments: anArray [
 ]
 
 { #category : #'tag/id/classes' }
-CpDomElement >> tag [
-
-	self
-		deprecated: 'Please use #tagName instead.'
-		transformWith: '`@receiver tag' -> '`@receiver tagName'.
-
-	^ self tagName
-]
-
-{ #category : #'tag/id/classes' }
 CpDomElement >> tagName [
 
 	"Answer the tag of the receiver"
