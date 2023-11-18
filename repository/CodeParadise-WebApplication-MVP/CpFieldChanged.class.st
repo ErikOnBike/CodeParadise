@@ -87,6 +87,15 @@ CpFieldChanged >> matchesValueIn: anAnnouncement [
 	^ value = anAnnouncement value
 ]
 
+{ #category : #printing }
+CpFieldChanged >> printOn: aStream [
+
+	super printOn: aStream.
+	aStream
+		nextPutAll: ', value: ' ;
+		print: value
+]
+
 { #category : #accessing }
 CpFieldChanged >> value [
 

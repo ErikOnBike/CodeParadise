@@ -83,7 +83,18 @@ CpFieldsView >> handleChangeEvent: aChangeEvent forField: aSymbol [
 	(debounceTransition isNotNil and: [ debounceTransition isRunning ])
 		ifTrue: [ debounceTransition stop ].
 
-	self field: aSymbol changedTo: aChangeEvent target value
+	self field: aSymbol changedTo: (self valueFromEvent: aChangeEvent)
+]
+
+{ #category : #'event handling' }
+CpFieldsView >> handleEvent: anEvent forField: aSymbol [
+
+	"Handle the (Change or Input) Event for the specified field.
+
+	Implementation:
+	Use double dispatch to handle the specific event type."
+
+	anEvent handleEventForField: aSymbol inView: self
 ]
 
 { #category : #'event handling' }
@@ -106,11 +117,19 @@ CpFieldsView >> handleInputEvent: anInputEvent forField: aSymbol [
 	debounceTransition
 		ifNotNil: [ debounceTransition stop ]
 		ifNil: [
-			debounceTransition := (CpTransition onBlock: [ self field: aSymbol changedTo: anInputEvent target value ])
+			debounceTransition := (CpTransition onBlock: [ self field: aSymbol changedTo: (self valueFromEvent: anInputEvent) ])
 				duration: 0 "Execute once" ].
 
 	"Set timeout for the debounce"
 	debounceTransition startDelayedBy: (self class debounceTimeForField: aSymbol).
 
 	self fieldDebouncers at: aSymbol put: debounceTransition
+]
+
+{ #category : #accessing }
+CpFieldsView >> valueFromEvent: anEvent [
+
+	"Answer the value (property) of the field that changed as specified by the change event"
+
+	^ anEvent currentTarget propertyAt: #value
 ]

@@ -189,6 +189,15 @@ CpActionRequested >> parameterKeys [
 		ifNil: [ #() ]
 ]
 
+{ #category : #printing }
+CpActionRequested >> printOn: aStream [
+
+	super printOn: aStream.
+	aStream
+		nextPutAll: ', parameters: ' ;
+		print: parameters
+]
+
 { #category : #accessing }
 CpActionRequested >> secondParameter [
 

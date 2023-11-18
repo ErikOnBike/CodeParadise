@@ -95,3 +95,12 @@ CpBasicEvent >> initializeWithId: aSymbol [
 
 	id := aSymbol
 ]
+
+{ #category : #printing }
+CpBasicEvent >> printOn: aStream [
+
+	aStream
+		nextPutAll: self class name ;
+		nextPutAll: ', id: ' ;
+		print: id
+]
