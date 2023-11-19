@@ -58,7 +58,12 @@ CpFieldsView >> field: aSymbol changedTo: anObject [
 
 	"Announce the field with the specified name has changed to the specified value"
 
-	self serverAnnounce: (self fieldChangedEventForId: aSymbol value: anObject)
+	| event |
+
+	(event := self fieldChangedEventForId: aSymbol value: anObject)
+		ifNil: [ ^ self ].
+
+	self serverAnnounce: event
 ]
 
 { #category : #accessing }
