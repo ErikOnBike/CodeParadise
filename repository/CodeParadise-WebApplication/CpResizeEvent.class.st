@@ -4,7 +4,7 @@ Class {
 	#category : #'CodeParadise-WebApplication-Events-Custom'
 }
 
-{ #category : #'processing - private' }
+{ #category : #announcing }
 CpResizeEvent class >> addListenerTo: anElement [
 
 	"Add a browser event listener to the specified element"
@@ -15,7 +15,7 @@ CpResizeEvent class >> addListenerTo: anElement [
 	super addListenerTo: anElement
 ]
 
-{ #category : #'processing - private' }
+{ #category : #announcing }
 CpResizeEvent class >> addResizeObserverTo: anElement [
 
 	CpHtmlElement globalApply: #addResizeObserverTo: withArguments: { anElement }
@@ -55,7 +55,7 @@ CpResizeEvent class >> postInstallOnce [
 	self installCode
 ]
 
-{ #category : #'processing - private' }
+{ #category : #announcing }
 CpResizeEvent class >> removeListenerFrom: anElement [
 
 	"Remove a browser event listener from the specified element"
@@ -66,7 +66,7 @@ CpResizeEvent class >> removeListenerFrom: anElement [
 	super removeListenerFrom: anElement
 ]
 
-{ #category : #'processing - private' }
+{ #category : #announcing }
 CpResizeEvent class >> removeResizeObserverFrom: anElement [
 
 	CpHtmlElement globalApply: #removeResizeObserverFrom: withArguments: { anElement }

@@ -29,16 +29,16 @@ CpBaseEvent class >> , anEvent [
 	^ AnnouncementSet with: self with: anEvent
 ]
 
-{ #category : #adding }
+{ #category : #'conditional events' }
 CpBaseEvent class >> addConditionsToDenySpecialsTo: aConditionalEvent [
 
 	"Add condition to specified conditional event which prevents special conditions to be allowed.
 
-	Subclasses might should add conditions."
+	Subclasses should add conditions."
 
 ]
 
-{ #category : #adding }
+{ #category : #announcing }
 CpBaseEvent class >> addListenerTo: anElement [
 
 	"Add a browser event listener to the specified element"
@@ -87,7 +87,7 @@ CpBaseEvent class >> only [
 	^ conditionalEvent
 ]
 
-{ #category : #adding }
+{ #category : #announcing }
 CpBaseEvent class >> removeListenerFrom: anElement [
 
 	"Remove a browser event listener from the specified element"
