@@ -424,6 +424,14 @@ CpTransition >> release [
 	super release
 ]
 
+{ #category : #announcing }
+CpTransition >> removeSubscription: aSubscription [
+
+	"Remove the specified subscription from the receiver"
+
+	^ self announcer removeSubscription: aSubscription
+]
+
 { #category : #actions }
 CpTransition >> start [
 
@@ -484,20 +492,19 @@ CpTransition >> stop [
 { #category : #announcing }
 CpTransition >> unsubscribe: anObject [
 
-	self announcer
-		unsubscribe: anObject
+	"Unsubscribe the specified Object from Announcements of the receiver"
+
+	^ self announcer unsubscribe: anObject
 ]
 
 { #category : #announcing }
 CpTransition >> when: anAnnouncement do: aBlock [
 
-	self announcer
-		when: anAnnouncement do: aBlock
+	^ self announcer when: anAnnouncement do: aBlock
 ]
 
 { #category : #announcing }
 CpTransition >> when: anAnnouncement send: aSymbol to: anObject [
 
-	self announcer
-		when: anAnnouncement send: aSymbol to: anObject
+	^ self announcer when: anAnnouncement send: aSymbol to: anObject
 ]

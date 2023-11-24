@@ -35,12 +35,25 @@ CpDomElementAnnouncer >> initializeWithElement: anElement [
 	element := anElement
 ]
 
-{ #category : #removing }
-CpDomElementAnnouncer >> removeInterestIn: anAnnouncementClass for: anObject [
+{ #category : #subscription }
+CpDomElementAnnouncer >> removeSubscription: aSubscription [
 
-	anAnnouncementClass removeListenerFrom: self element.
+	"Remove the specified subscription from the receiver"
 
-	super removeInterestIn: anAnnouncementClass for: anObject
+	aSubscription announcementClass removeListenerFrom: self element.
+
+	^ super removeSubscription: aSubscription
+]
+
+{ #category : #subscription }
+CpDomElementAnnouncer >> unsubscribe: anObject [
+
+	"Unsubscribe all subscriptions of anObject from the receiver"
+	
+	registry subscriptionsOf: anObject do: [ :each |
+		each announcementClass removeListenerFrom: each subscriber ].
+
+	super unsubscribe: anObject
 ]
 
 { #category : #'registration api' }
@@ -48,7 +61,7 @@ CpDomElementAnnouncer >> when: anAnnouncementClass do: aBlock [
 
 	anAnnouncementClass addListenerTo: self element.
 
-	super when: anAnnouncementClass do: aBlock
+	^ super when: anAnnouncementClass do: aBlock
 ]
 
 { #category : #'registration api' }
@@ -60,5 +73,5 @@ CpDomElementAnnouncer >> when: anAnnouncementClass send: aSymbol to: anObject [
 	Simply perform the same behavior as the superclass. Do NOT add a listener here as in the
 	method #when:do: because then it will be added twice."
 
-	self when: anAnnouncementClass do: (MessageSend receiver: anObject selector: aSymbol)
+	^ self when: anAnnouncementClass do: (MessageSend receiver: anObject selector: aSymbol)
 ]

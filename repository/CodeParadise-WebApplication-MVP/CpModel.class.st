@@ -81,6 +81,14 @@ CpModel >> release [
 ]
 
 { #category : #announcing }
+CpModel >> removeSubscription: aSubscription [
+
+	"Remove the specified subscription from the receiver"
+
+	^ self announcer removeSubscription: aSubscription
+]
+
+{ #category : #announcing }
 CpModel >> unsubscribe: anObject [
 
 	"Unsubscribe the specified Object from Announcements of the receiver"
@@ -105,7 +113,7 @@ CpModel >> when: anAnnouncementClass do: aValuable [
 	"Let the sender subscribe to the specified announcement of the receiver.
 	See Announcer>>#when:do:"
 
-	self announcer when: anAnnouncementClass do: aValuable
+	^ self announcer when: anAnnouncementClass do: aValuable
 ]
 
 { #category : #announcing }
@@ -125,7 +133,7 @@ CpModel >> whenChangedDo: aBlock [
 	Implementation:
 	This method is for compatibility with Model and NewValueHolder"
 
-	self when: ValueChanged do: aBlock
+	^ self when: ValueChanged do: aBlock
 ]
 
 { #category : #announcing }

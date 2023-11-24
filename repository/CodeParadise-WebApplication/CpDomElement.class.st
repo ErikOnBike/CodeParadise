@@ -848,6 +848,14 @@ CpDomElement >> removeStyleAt: nameString [
 
 ]
 
+{ #category : #announcing }
+CpDomElement >> removeSubscription: aSubscription [
+
+	"Remove the specified subscription from the receiver"
+
+	^ self announcer removeSubscription: aSubscription
+]
+
 { #category : #'adding/removing' }
 CpDomElement >> replaceAllChildrenWith: childElement [
 

@@ -102,9 +102,9 @@ CpServerApplication class >> release [
 { #category : #announcing }
 CpServerApplication class >> removeSubscription: aSubscription [
 
-	announcer ifNil: [ ^ self ].
+	announcer ifNil: [ ^ aSubscription ].
 
-	announcer removeSubscription: aSubscription
+	^ announcer removeSubscription: aSubscription
 ]
 
 { #category : #support }

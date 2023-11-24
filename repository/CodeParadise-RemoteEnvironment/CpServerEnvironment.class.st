@@ -112,7 +112,7 @@ CpServerEnvironment class >> newWithId: id [
 { #category : #announcing }
 CpServerEnvironment class >> removeSubscription: aSubscription [
 
-	self announcer removeSubscription: aSubscription
+	^ self announcer removeSubscription: aSubscription
 ]
 
 { #category : #announcing }
@@ -454,6 +454,14 @@ CpServerEnvironment >> release [
 	super release
 ]
 
+{ #category : #announcing }
+CpServerEnvironment >> removeSubscription: aSubscription [
+
+	"Remove the specified subscription from the receiver"
+
+	^ self announcer removeSubscription: aSubscription
+]
+
 { #category : #'input/output' }
 CpServerEnvironment >> sendMessage: aMessageSend [
 
@@ -508,6 +516,14 @@ CpServerEnvironment >> stop [
 		release
 ]
 
+{ #category : #announcing }
+CpServerEnvironment >> unsubscribe: anObject [
+
+	"Unsubscribe the specified Object from Announcements of the receiver"
+
+	^ self announcer unsubscribe: anObject
+]
+
 { #category : #updating }
 CpServerEnvironment >> updateCommunicatorWith: aMessageChannel [
 
@@ -535,7 +551,7 @@ CpServerEnvironment >> when: anAnnouncementClass do: aValuable [
 	"Let the sender subscribe to the specified announcement of the receiver.
 	See Announcer>>#when:do:"
 
-	self announcer when: anAnnouncementClass do: aValuable
+	^ self announcer when: anAnnouncementClass do: aValuable
 ]
 
 { #category : #announcing }
