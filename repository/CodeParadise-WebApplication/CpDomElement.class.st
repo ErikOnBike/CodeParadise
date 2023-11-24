@@ -518,6 +518,17 @@ CpDomElement >> id: aString [
 ]
 
 { #category : #'adding/removing' }
+CpDomElement >> insertChild: childElement [
+
+	"Insert childElement as the first child of the receiver.
+	Answer the child element."
+
+	^ self firstChild
+		ifNotNil: [ :firstChildElement | self insertChild: childElement before: firstChildElement ]
+		ifNil: [ self appendChild: childElement ]
+]
+
+{ #category : #'adding/removing' }
 CpDomElement >> insertChild: childElement before: siblingElement [
 
 	"Insert childElement as a child of the receiver, directly before the existing sibling element.
