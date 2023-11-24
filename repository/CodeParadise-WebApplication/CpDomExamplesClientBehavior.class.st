@@ -535,6 +535,78 @@ CpDomExamplesClientBehavior >> exampleMathFormula [
 ]
 
 { #category : #examples }
+CpDomExamplesClientBehavior >> exampleMutationEvents [
+
+	<example: 'Mutation Events' order: 930>
+
+	| outputElement log addLogBlock subscription |
+
+	self clearOutput.
+	outputElement := self outputElement.
+
+	outputElement appendChild: ((CpHtmlElement newWithTag: #div)
+		markupContent: '
+			<h3>MutationObserver</h3>
+			<p>
+				On the outer container a full blown MutationObserver is installed. On the inner container only one for checking attribute mutations on the container itself.
+			</p>
+			<p>
+				Use the buttons below the containers to change the DOM. Or use the browser''s development tools to change them. 
+			</p>
+			<div id="outer" style="padding: 2em; margin-bottom: 2em; background-color: rgba(255, 0, 0, .1)">
+				<div id="inner" style="padding: 2em; background-color: rgba(0, 255, 0, .1)">
+				</div>
+			</div>
+
+			<div><button id="addOuter">Add in outer</button><div>
+			<div><button id="addInner">Add in inner</button><div>
+			<div><button id="updateOuterAttr">Update outer</button><div>
+			<div><button id="updateInnerAttr">Update inner</button><div>
+			<div><button id="updateWithinInnerAttr">Update within inner</button><div>
+			<div><button id="removeOuter">Remove from outer</button><div>
+			<div><button id="removeInner">Remove from inner</button><div>
+			<div><button id="removeObserver">Remove observer for outer</button><div>
+
+			<div id="log" style="height: 10em; overflow-y: scroll; margin-top: 2em; border: 1px solid #666;"></div>
+		' ;
+		yourself).
+
+	log := CpHtmlElement elementWithId: #log.
+	addLogBlock := [ :text | log insertChild: (text inHtmlTag: #div) ].
+	(CpHtmlElement elementWithId: #addOuter)
+		when: CpClickEvent basicPrimary do: [ addLogBlock value: 'Add outer'. (CpHtmlElement elementWithId: #outer) appendChild: 'Hello ' asHtmlElement ].
+	(CpHtmlElement elementWithId: #addInner)
+		when: CpClickEvent basicPrimary do: [ addLogBlock value: 'Add inner'. (CpHtmlElement elementWithId: #inner) appendChild: 'World ' asHtmlElement ].
+	(CpHtmlElement elementWithId: #updateOuterAttr)
+		when: CpClickEvent basicPrimary do: [ addLogBlock value: 'Update outer'. (CpHtmlElement elementWithId: #outer) toggleClass: #test ].
+	(CpHtmlElement elementWithId: #updateInnerAttr)
+		when: CpClickEvent basicPrimary do: [ addLogBlock value: 'Update inner'. (CpHtmlElement elementWithId: #inner) toggleClass: #test ].
+	(CpHtmlElement elementWithId: #updateWithinInnerAttr)
+		when: CpClickEvent basicPrimary do: [ addLogBlock value: 'Update within inner'. ((CpHtmlElement elementWithId: #inner) firstDescendantMatching: #span) ifNotNil: [ :c | c toggleClass: #test ] ].
+	(CpHtmlElement elementWithId: #removeOuter)
+		when: CpClickEvent basicPrimary do: [ addLogBlock value: 'Remove outer'. ((CpHtmlElement elementWithId: #outer) firstDescendantMatching: #span) ifNotNil: [ :c | c remove ] ].
+	(CpHtmlElement elementWithId: #removeInner)
+		when: CpClickEvent basicPrimary do: [ addLogBlock value: 'Remove inner'. ((CpHtmlElement elementWithId: #inner) firstDescendantMatching: #span) ifNotNil: [ :c | c remove ] ].
+
+	subscription := (CpHtmlElement elementWithId: #outer)
+		when: CpMutationEvent & CpSubtreeMutation & CpAttributesMutation & CpChildListMutation & CpAttributeOldValueMutation do: [ :event | addLogBlock value: 'Outer mutation: ', event printString ].
+	
+	(CpHtmlElement elementWithId: #inner)
+		when: CpMutationEvent & CpAttributesMutation & CpAttributeOldValueMutation do: [ :event | addLogBlock value: 'Inner (attr only) mutation: ', event printString ] ;
+		when: CpMutationEvent & (CpAttributeFilterMutation attributes: #('data-test')) do: [ :event | addLogBlock value: 'You found the data-test! ', event printString ].
+
+	(CpHtmlElement elementWithId: #removeObserver)
+		when: CpClickEvent basicPrimary do: [
+			subscription
+				ifNotNil: [
+					addLogBlock value: 'Remove observer for outer'.
+					(CpHtmlElement elementWithId: #outer) removeSubscription: subscription.
+					subscription := nil ]
+				ifNil: [ addLogBlock value: 'Observer already removed' ] ].
+
+]
+
+{ #category : #examples }
 CpDomExamplesClientBehavior >> exampleNestedClickEvents [
 
 	<example: 'Nested Click Events' order: 901>
