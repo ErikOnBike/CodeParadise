@@ -83,12 +83,14 @@ CpConditionalEvent >> addListenerTo: anElement [
 	"Add an event listener to the specified element.
 
 	Implementation:
-	Let the actual event class add the listener. The receiver's
-	conditions should not change the listener. The conditions are
-	only used during announcement of the event to decide if the
-	event should be dispatched."
+	Let the actual event class add the listener. Provide the conditions
+	to allow specific handling, although normally this will be handled
+	by the receiver which will check for the conditions when the event
+	is triggered. For some specific situations, like performance of the
+	MutationObserver, conditions are used to set the Javascript event
+	listener up correctly."
 
-	eventClass addListenerTo: anElement
+	eventClass addListenerTo: anElement withConditions: (conditions ifNil: [ #() ])
 ]
 
 { #category : #testing }
@@ -148,5 +150,5 @@ CpConditionalEvent >> removeListenerFrom: anElement [
 
 	Implementation: see #addListenerTo:"
 
-	eventClass removeListenerFrom: anElement
+	eventClass removeListenerFrom: anElement withConditions: (conditions ifNil: [ #() ])
 ]

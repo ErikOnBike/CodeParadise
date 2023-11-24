@@ -47,6 +47,18 @@ CpBaseEvent class >> addListenerTo: anElement [
 ]
 
 { #category : #'conditional events' }
+CpBaseEvent class >> addListenerTo: anElement withConditions: aCollection [
+
+	"Add a browser event listener to the specified element using the specified conditions.
+	By default conditions do not need to be used, because handling the event will check
+	for the conditions (see CpConditionalEvent >> #handlesAnnouncement:). In some situations
+	the actual Javascript event handler needs a specific setup. Subclasses should therefore
+	override if necessary."
+
+	self addListenerTo: anElement
+]
+
+{ #category : #'conditional events' }
 CpBaseEvent class >> asConditionalEvent [
 
 	^ CpConditionalEvent eventClass: self
@@ -93,6 +105,18 @@ CpBaseEvent class >> removeListenerFrom: anElement [
 	"Remove a browser event listener from the specified element"
 
 	self subclassResponsibility
+]
+
+{ #category : #'conditional events' }
+CpBaseEvent class >> removeListenerFrom: anElement withConditions: aCollection [
+
+	"Remove a browser event listener from the specified element using the specified conditions.
+	By default conditions do not need to be used, because handling the event will check
+	for the conditions (see CpConditionalEvent >> #handlesAnnouncement:). In some situations
+	the actual Javascript event handler needs a specific setup. Subclasses should therefore
+	override if necessary."
+
+	self removeListenerFrom: anElement
 ]
 
 { #category : #announcing }
