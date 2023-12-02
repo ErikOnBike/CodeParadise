@@ -30,12 +30,10 @@ CpSlidesCarouselView class >> style [
 			overflow: hidden;
 		}
 		.scene {
-			margin: 40px 0;
 			position: relative;
 			width: 1050px;
 			height: 700px;
 			margin: 80px auto;
-			perspective: 2000px;
 		}'
 ]
 
@@ -67,7 +65,7 @@ CpSlidesCarouselView >> centerAround: anInteger [
 	radius := (525 / ((Float pi / slides size) tan)) rounded.
 	angle := theta * anInteger * -1.
 	wrapper styleAt: #transform put: (String streamContents: [ :stream |
-			stream nextPutAll: 'translateZ('.
+			stream nextPutAll: 'perspective(2000px)translateZ('.
 			radius negated printOn: stream.
 			stream nextPutAll: 'px) rotateY('.
 			angle printOn: stream.
@@ -90,7 +88,7 @@ CpSlidesCarouselView >> renderSlidesCenteredAround: anInteger [
 			styleAt: #width put: '100%' ;
 			styleAt: #height put: '100%' ;
 			styleAt: #position put: 'absolute' ;
-			styleAt: #transform put: 'translateZ(-1442px)' ;
+			styleAt: #transform put: 'perspective(2000px)translateZ(-1442px)' ;
 			styleAt: #'transform-style' put: 'preserve-3d' ;
 			styleAt: #transition put: 'transform 1s' ;
 			yourself).
