@@ -15,12 +15,6 @@ CpPresentationWebApplication >> applicationModel [
 	^ self presentation
 ]
 
-{ #category : #presenter }
-CpPresentationWebApplication >> applicationPresenterClass [
-
-	^ CpPresentationPresenter
-]
-
 { #category : #model }
 CpPresentationWebApplication >> createPresentationModel [
 

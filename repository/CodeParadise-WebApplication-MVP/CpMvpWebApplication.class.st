@@ -68,14 +68,16 @@ CpMvpWebApplication >> applicationPresenter [
 { #category : #presenter }
 CpMvpWebApplication >> applicationPresenterClass [
 
-	"Answer the ApplicationPresenter class of the receiver. Subclasses can override this.
+	"Answer the Presenter class for the application model of the receiver.
 
-	Implementation:
-	By default a PagesApplicationPresenter is answered. It will use PagePresenters to
-	present the content of the receiver to the user. The PagePresenters in turn will
-	ask the receiver for its #preferredPresenterClass which will represent the content."
+	By default the application model's preferred presenter class will be answered.
 
-	^ CpPagesApplicationPresenter
+	For some type of application, a specific presenter class might be answered,
+	which is not related to the application model. For example a page or window
+	based presenter class could be used for the application
+	(i.e. CpPagesApplicationPresenterClass or CpWindowsApplicationPresenter)."
+
+	^ self applicationModel preferredPresenterClass
 ]
 
 { #category : #view }
