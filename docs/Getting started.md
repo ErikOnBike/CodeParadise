@@ -2,19 +2,15 @@
 This document will describe how to get started on building your own webapplication. This description is for an [MVP](MVP.md)-based application, since this offers a rich environment to build your application in. For an explanation how an application 'works', please read the [implementation](Implementation.md) document first.
 
 ## Creating an application
-As described in the [implementation](Implementation.md) document an application is described by a subclass of `CpWebApplication`. For MVP-based applications, we subclass from `CpMvpWebApplication`. For the examples here, we'll call this subclass `MyWebApplication`. An instance of an application class represents an application session. So session information is normally stored in the instance variables of your application. Furthermore, we need to implement a couple of methods to setup the application. These methods include:
+As described in the [implementation](Implementation.md) document an application is described by a subclass of `CpWebApplication`. For MVP-based applications, we subclass from `CpMvpWebApplication`. For the examples here, we'll call this subclass `MyWebApplication`. An instance of an application class represents an application session. So session information is normally stored in the instance variables of your application. Furthermore, we need to implement at least the following two methods to setup the application.
 
 * `MyWebApplication class >> #app`
 
-    This class method should answer a Symbol representing the identifier of the application. This should be a unique value (amongst applications) to allow different applications to be hosted from the same environment. It will be part of the URL we use to access the application. Assuming you are running it from the Pharo environment and the identifier chose is #myapp, the default URL will be: `http://localhost:8080/static/app.html?myapp`.
+    This class method should answer a Symbol representing the identifier of the application. This should be a unique value (amongst applications) to allow different applications to be hosted from the same environment. It will be part of the URL we use to access the application. Assuming you are running it from the Pharo environment and the identifier chose is `#myapp``, the default URL will be: `http://localhost:8080/static/app.html?myapp`.
 
 * `MyWebApplication >> #applicationModel`
 
-    This instance method should answer a model (see [MVP](MVP.md)) which acts as your 'root' model or entry point for the application. You can also use the application itself, since it already has an announcer you will only need to announce `ValueChanged` if this top level element needs updating (do not worry about updating children, they can take care of themselves).
-
-* `MyWebApplication >> #applicationPresenterClass`
-
-    This instance method should answer the presenter class (subclass of `CpPresenter`) which is responsible for updating the view and model based on model changes and view announcements/events. More on this below.
+    This instance method should answer a model (see [MVP](MVP.md)) which acts as your 'root' model or entry point for the application. You can also use the application itself. Since it already has an announcer you will only need to announce `ValueChanged` if this top level element needs updating (do not worry about updating children, they can take care of themselves).
 
 Some example applications with their implementation:
 
@@ -28,7 +24,7 @@ Deciding on the model to use for the application might at first be a bit tricky.
 * For a board game, the model could consist of a number of players and the board itself. The application presenter (and view), could render the surface (to place the board on) and allow users to be added to the game. Remember that the board is itself a model responsible for being rendered, so the application presenter should only render the surface. The application presenter will delegate the board rendering to the board.
 * For a drawing application with an SDI (Single Document Interface), the model could contain a drawing model. The application presenter will render all the tools available. It will delegate rendering of the drawing to the drawing model. To keep track of toolboxes which can be opened and closed and moved around, the state and position of these toolboxes might need to become part of the application model.
 * For a drawing application with a MDI (Multiple Document Interface), the model could contain a collection of drawings (empty at first or a blanc drawing to start with). The application presenter could show a menu which allows the user to create a new drawing, which would then be added to the application model. And (like SDI variant) it could keep track of the status of the different tools.
-* For any application which requires a user to login, the model could include the user. When no user is logged in yet, the application model will render as a login page. Once logged in (and the user being set in the application model) it will render the application 'content' for that specific user.
+* For any application which requires a user to login, the model could include the user. When no user is logged in yet, the application model will render as a login page. Once logged in (and the user being set in the application model) it will render the application 'content' for that specific user. For this state based presenter, implement the method `MyWebApplication >> #applicationPresenterClass` (or in the application model's #preferredPresenterClass` method) to answer a different presenter based on the presence of a logged in user.
 
 ## The application presenter and view
 All applications are rendered as a tree (components with subcomponents), since browser pages are (DOM) trees. The application presenter and view are the root of the rendering tree which make up the (visual) application. All other models will render inside the application (either directly or indirectly as part of another descendant of the application presenter/view). Apart from being the root of the rendering tree, the application presenter and view are not special.
@@ -43,7 +39,7 @@ A view is rendered from the presenter. The presenter has to implement an instanc
 
 Every presenter knows its model (through method `#model`) and view (through method `#view`). It also knows its application (through method `#application`) to allow access to the session information. The parent and child presenters can also be accessed, but this is often not necessary.
 
-Below is an example from the `CpPresentationPresenter` class which is the application presenter for a presentation. It will render the current slide, a slide carousel (which is shown floating on top of the slide) and the title (which becomes part of the browser's tab):
+Below is an example from the `CpPresentationPresenter` class which is the application presenter for a slideshow/presentation. It will render the current slide, a slide carousel (which is shown floating on top of the slide) and the title (which becomes part of the browser's tab):
 
 ```Smalltalk
 renderView
@@ -93,7 +89,7 @@ A number of rendering methods exist. These are the main methods to use during re
 
     renders a view for the specified model using the explicitly defined presenter in the specified slot (i.e. the model is not asked for a preferred presenter)
 
-When using a variant with `#usingPresenter:` either a presenter class or a block can be provided as argument. When a block is provided it will receive the model as (optional) first argument. This allows the model to be asked for a specific kind of presenter. For example from withing some overview presenter we could ask children to be rendered as item (instead of some full blown component) by using:
+When using a variant with `#usingPresenter:` either a presenter class or a block can be provided as argument. When a block is provided it will receive the model as first argument (block argument is optional through `#cull:`). This allows the model to be asked for a specific kind of presenter. For example from withing some overview presenter we could ask children to be rendered as item (instead of some full blown component) by using:
 
 ```Smalltalk
 renderView
