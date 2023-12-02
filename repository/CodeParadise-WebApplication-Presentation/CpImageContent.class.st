@@ -29,12 +29,6 @@ CpImageContent >> height: aString [
 	self valueChanged
 ]
 
-{ #category : #api }
-CpImageContent >> preferredPresenterClass [
-
-	^ CpImageContentPresenter
-]
-
 { #category : #accessing }
 CpImageContent >> url [
 

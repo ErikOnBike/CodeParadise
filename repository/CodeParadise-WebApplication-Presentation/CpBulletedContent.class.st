@@ -48,9 +48,3 @@ CpBulletedContent >> insertBullet: aSlideContent beforeBullet: anotherSlideConte
 
 	^ aSlideContent
 ]
-
-{ #category : #api }
-CpBulletedContent >> preferredPresenterClass [
-
-	^ CpBulletedContentPresenter
-]

@@ -22,12 +22,6 @@ CpTextContent class >> text: aString [
 		yourself
 ]
 
-{ #category : #api }
-CpTextContent >> preferredPresenterClass [
-
-	^ CpTextContentPresenter
-]
-
 { #category : #accessing }
 CpTextContent >> text [
 

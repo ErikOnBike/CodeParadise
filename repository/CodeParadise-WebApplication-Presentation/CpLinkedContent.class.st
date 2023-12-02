@@ -31,9 +31,3 @@ CpLinkedContent >> linkedSlide: aSlide [
 
 	linkedSlide := aSlide
 ]
-
-{ #category : #api }
-CpLinkedContent >> preferredPresenterClass [
-
-	^ CpLinkedContentPresenter
-]

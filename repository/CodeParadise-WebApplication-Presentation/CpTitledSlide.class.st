@@ -7,12 +7,6 @@ Class {
 	#category : #'CodeParadise-WebApplication-Presentation-Model'
 }
 
-{ #category : #api }
-CpTitledSlide >> preferredPresenterClass [
-
-	^ CpTitledSlidePresenter
-]
-
 { #category : #accessing }
 CpTitledSlide >> title [
 

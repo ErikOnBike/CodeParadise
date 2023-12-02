@@ -34,12 +34,6 @@ CpCounterModel >> initialize [
 	value := 0
 ]
 
-{ #category : #presenter }
-CpCounterModel >> preferredPresenterClass [
-
-	^ CpCounterPresenter
-]
-
 { #category : #accessing }
 CpCounterModel >> value [
 

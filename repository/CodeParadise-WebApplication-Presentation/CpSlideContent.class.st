@@ -8,9 +8,3 @@ Class {
 	#superclass : #CpModel,
 	#category : #'CodeParadise-WebApplication-Presentation-Model'
 }
-
-{ #category : #api }
-CpSlideContent >> preferredPresenterClass [
-
-	self subclassResponsibility
-]

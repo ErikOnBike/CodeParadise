@@ -30,9 +30,3 @@ CpDemoCodeContent >> code: aString [
 
 	self valueChanged
 ]
-
-{ #category : #api }
-CpDemoCodeContent >> preferredPresenterClass [
-
-	^ CpDemoCodeContentPresenter
-]

@@ -25,9 +25,3 @@ CpSlide >> content: aSlideContent [
 
 	self valueChanged
 ]
-
-{ #category : #api }
-CpSlide >> preferredPresenterClass [
-
-	self subclassResponsibility
-]

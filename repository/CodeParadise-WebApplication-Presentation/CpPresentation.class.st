@@ -85,12 +85,6 @@ CpPresentation >> nextSlide [
 	self valueChanged
 ]
 
-{ #category : #presenter }
-CpPresentation >> preferredPresenterClass [
-
-	^ CpPresentationPresenter
-]
-
 { #category : #api }
 CpPresentation >> previousSlide [
 

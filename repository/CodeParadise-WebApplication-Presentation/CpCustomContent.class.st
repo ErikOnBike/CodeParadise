@@ -13,12 +13,6 @@ Class {
 	#category : #'CodeParadise-WebApplication-Presentation-Model'
 }
 
-{ #category : #api }
-CpCustomContent >> preferredPresenterClass [
-
-	^ CpCustomContentPresenter
-]
-
 { #category : #view }
 CpCustomContent >> viewClass [
 

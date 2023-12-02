@@ -53,14 +53,21 @@ CpPresenter class >> cull: anObject [
 { #category : #accessing }
 CpPresenter class >> defaultViewClass [
 
-	| baseName viewClass | 
+	"Answer the default View class for the receiver.
+	By default the class with a matching name will be used (if present in the image).
+	The matching name is created by replacing the postfix #Presenter with #View.
+	Otherwise an error is raised to make clear a view class should be implemented
+	or a subclass should override this method to answer a specific view class."
 
-	baseName := self name withoutSuffix: 'Presenter'.
-	viewClass := Smalltalk classNamed: baseName , 'View'.
+	| className viewClass | 
 
-	"If no valid View class is found, raise an error to indicate subclass should implement #defaultViewClass"
-	(viewClass isNotNil and: [ viewClass inheritsFrom: CpView ])
-		ifFalse: [ self shouldBeImplemented ].
+	className := (self name withoutSuffix: #Presenter) asSymbol , #View.
+	viewClass := Smalltalk classNamed: className.
+
+	"If no View class is found, raise an error to indicate the class should be created
+	or the subclass should implement #defaultViewClass"
+	viewClass
+		ifNil: [ self error: 'The View class ', className , ' does not exist. Either create it or implement ' , self class name , ' >> #defaultViewClass to answer a specific class' ].
 
 	^ viewClass
 ]

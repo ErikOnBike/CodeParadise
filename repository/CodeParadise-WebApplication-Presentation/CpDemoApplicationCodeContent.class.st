@@ -3,9 +3,3 @@ Class {
 	#superclass : #CpDemoCodeContent,
 	#category : #'CodeParadise-WebApplication-Presentation-Examples'
 }
-
-{ #category : #api }
-CpDemoApplicationCodeContent >> preferredPresenterClass [
-
-	^ CpDemoApplicationCodeContentPresenter
-]

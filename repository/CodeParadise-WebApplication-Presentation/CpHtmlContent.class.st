@@ -30,9 +30,3 @@ CpHtmlContent >> html: aString [
 
 	self valueChanged
 ]
-
-{ #category : #api }
-CpHtmlContent >> preferredPresenterClass [
-
-	^ CpHtmlContentPresenter
-]
