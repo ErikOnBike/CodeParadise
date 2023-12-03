@@ -16,10 +16,16 @@ CpDemoApplicationCodeContentView class >> style [
 			display: inline-block;
 			vertical-align: top;
 		}
+		#container {
+			padding-top: 8px;
+			padding-bottom: 8px;
+		}
 		code {
+			display: inline-block;
 			font-family: monospace, monospace;
 			font-size: 1em;
 			white-space: pre;
+			background-color: rgba(255, 255, 255, .1);
 		}
 		#actions {
 			display: none;
@@ -49,7 +55,7 @@ CpDemoApplicationCodeContentView class >> template [
 
 	<webResource: #html>
 
-	^ '<div class="container">
+	^ '<div id="container">
 			<code><slot></slot></code><div id="actions"><span id="clipboard">Copy to clipboard</span> <span id="inspector">(Re)open Inspector</span></div>
 		</div>'
 ]
@@ -79,6 +85,12 @@ CpDemoApplicationCodeContentView >> initializeShadowRoot [
 	self shadowRoot
 		when: CpPrimaryClickEvent send: #handleClickEvent: to: self ;
 		when: CpPointerMoveEvent send: #handlePointerMoveEvent: to: self
+]
+
+{ #category : #rendering }
+CpDemoApplicationCodeContentView >> renderCode: aString [
+
+	self textContent: (aString replaceAll: Character cr with: Character lf)
 ]
 
 { #category : #'event handling' }
