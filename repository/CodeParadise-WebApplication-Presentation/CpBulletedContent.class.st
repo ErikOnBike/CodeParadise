@@ -7,7 +7,6 @@ Class {
 	#name : #CpBulletedContent,
 	#superclass : #CpSlideContent,
 	#instVars : [
-		'description',
 		'bullets'
 	],
 	#category : #'CodeParadise-WebApplication-Presentation-Model'
@@ -27,18 +26,6 @@ CpBulletedContent >> addBullet: aSlideContent [
 CpBulletedContent >> bullets [
 
 	^ bullets
-]
-
-{ #category : #accessing }
-CpBulletedContent >> description [
-
-	^ description
-]
-
-{ #category : #accessing }
-CpBulletedContent >> description: aString [
-
-	description := aString
 ]
 
 { #category : #initialization }

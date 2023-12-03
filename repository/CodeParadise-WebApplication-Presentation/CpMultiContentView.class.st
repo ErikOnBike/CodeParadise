@@ -1,11 +1,11 @@
 Class {
-	#name : #CpBulletedContentView,
+	#name : #CpMultiContentView,
 	#superclass : #CpView,
 	#category : #'CodeParadise-WebApplication-Presentation-View'
 }
 
 { #category : #'web resources' }
-CpBulletedContentView class >> style [
+CpMultiContentView class >> style [
 
 	<webResource: #css>
 
@@ -15,19 +15,17 @@ CpBulletedContentView class >> style [
 		:host {
 			width: 100%;
 		}
-		ul {
-			margin: 0;
+		::slotted(*) {
+			display: block;
 		}'
 ]
 
 { #category : #'web resources' }
-CpBulletedContentView class >> template [
+CpMultiContentView class >> template [
 
 	<webResource: #html>
 
 	^ '<div id="container">
-			<ul>
-				<slot></slot>
-			</ul>
+			<slot></slot>
 		</div>'
 ]

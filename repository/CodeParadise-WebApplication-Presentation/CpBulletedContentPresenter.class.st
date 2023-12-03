@@ -19,8 +19,5 @@ CpBulletedContentPresenter >> renderView [
 
 	"Render view of the receiver"
 
-	self model description
-		ifNotNil: [ :description | self view renderDescription: description ].
-	
 	self renderAllChildViewsForModels: self bulletModels usingPresenter: CpBulletPresenter
 ]
