@@ -13,7 +13,7 @@ CpPresentationView class >> style [
 			box-sizing: border-box;
 		}
 		:host,
-		.container {
+		#container {
 			width: 100%;
 			height: 100%;
 			overflow: hidden;
@@ -25,7 +25,7 @@ CpPresentationView class >> template [
 
 	<webResource: #html>
 
-	^ '<div class="container">
+	^ '<div id="container">
 			<slot name="slide"></slot>
 			<slot name="carousel"></slot>
 		</div>'

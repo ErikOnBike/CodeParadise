@@ -13,12 +13,12 @@ CpTitledSlideView class >> style [
 			box-sizing: border-box;
 		}
 		:host,
-		.container {
+		#container {
 			width: 100%;
 			height: 100%;
 			overflow: hidden;
 		}
-		.header {
+		#header {
 			width: 100%;
 			height: 1.6em;
 			font-size: 4.5em;
@@ -28,7 +28,7 @@ CpTitledSlideView class >> style [
 			border-bottom: .3em solid rgba(255, 255, 255, .9);
 			background-color: rgba(255, 240, 201, .7);
 		}
-		.content {
+		#content {
 			width: 100%;
 			height: calc(100% - 1.6em);
 			padding: 2.5% 2.5% 2.5% 2.5%;
@@ -44,11 +44,11 @@ CpTitledSlideView class >> template [
 
 	<webResource: #html>
 
-	^ '<div class="container">
-			<div class="header">
+	^ '<div id="container">
+			<div id="header">
 				<slot name="title"></slot>
 			</div>
-			<div class="content">
+			<div id="content">
 				<slot name="content"></slot>
 			</div>
 		</div>'

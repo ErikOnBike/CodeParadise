@@ -24,8 +24,7 @@ CpCarouselSlideView class >> style [
 			transition: transform 1s, opacity 1s;
 			overflow: hidden;
 		}
-		.container {
-			width: 100%;
+		#container {
 			height: 100%;
 			overflow: hidden;
 			background-color: rgba(30, 30, 30, .2);
@@ -37,7 +36,7 @@ CpCarouselSlideView class >> template [
 
 	<webResource: #html>
 
-	^ '<div class="container">
+	^ '<div id="container">
 			<slot></slot>
 		</div>'
 ]

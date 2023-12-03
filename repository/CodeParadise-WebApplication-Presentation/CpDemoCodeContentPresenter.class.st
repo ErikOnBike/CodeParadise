@@ -13,7 +13,7 @@ CpDemoCodeContentPresenter >> copyClipboard [
 { #category : #view }
 CpDemoCodeContentPresenter >> renderView [
 
-	self view textContent: self model code
+	self view renderCode: self model code
 ]
 
 { #category : #view }

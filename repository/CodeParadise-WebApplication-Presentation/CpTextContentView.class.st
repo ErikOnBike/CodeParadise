@@ -22,7 +22,7 @@ CpTextContentView class >> template [
 
 	<webResource: #html>
 
-	^ '<div class="container">
+	^ '<div id="container">
 			<slot></slot>
 		</div>'
 ]

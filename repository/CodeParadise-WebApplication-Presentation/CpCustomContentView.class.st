@@ -13,7 +13,7 @@ CpCustomContentView class >> style [
 			box-sizing: border-box;
 		}
 		:host,
-		.container {
+		#container {
 			width: 100%;
 			height: 100%;
 			overflow: hidden;
@@ -25,7 +25,7 @@ CpCustomContentView class >> template [
 
 	<webResource: #html>
 
-	^ '<div class="container">
+	^ '<div id="container">
 			<slot></slot>
 		</div>'
 ]

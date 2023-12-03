@@ -24,12 +24,12 @@ CpSlidesCarouselView class >> style [
 			display: block;
 		}
 		:host,
-		.container {
+		#container {
 			width: 100%;
 			height: 100%;
 			overflow: hidden;
 		}
-		.scene {
+		#scene {
 			position: relative;
 			width: 1050px;
 			height: 700px;
@@ -44,8 +44,8 @@ CpSlidesCarouselView class >> template [
 
 	"Code based on https://3dtransforms.desandro.com/carousel"
 
-	^ '<div class="container">
-			<div class="scene">
+	^ '<div id="container">
+			<div id="scene">
 				<slot></slot>
 			</div>
 		</div>'

@@ -16,9 +16,6 @@ CpBulletView class >> style [
 			display: list-item;
 			width: 100%;
 			margin: 0 5% 0 5%;
-		}
-		.container {
-			width: 100%;
 		}'
 ]
 
@@ -27,7 +24,7 @@ CpBulletView class >> template [
 
 	<webResource: #html>
 
-	^ '<div class="container">
+	^ '<div id="container">
 			<slot></slot>
 		</div>'
 ]

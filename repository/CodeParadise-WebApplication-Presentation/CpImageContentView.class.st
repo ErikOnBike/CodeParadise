@@ -15,9 +15,6 @@ CpImageContentView class >> style [
 		:host {
 			display: inline-block;
 			width: 100%;
-		}
-		.container {
-			width: 100%;
 		}'
 ]
 
@@ -26,7 +23,7 @@ CpImageContentView class >> template [
 
 	<webResource: #html>
 
-	^ '<div class="container">
+	^ '<div id="container">
 			<slot></slot>
 		</div>'
 ]
