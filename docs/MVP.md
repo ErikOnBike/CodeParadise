@@ -24,7 +24,7 @@ Below is an example from the `CpPresentationPresenter` class which is the applic
 renderView
 
     "Render the current slide"
-	self renderChildViewForModel: self currentSlideModel atSlotNamed: 'slides'.
+	self renderChildViewForModel: self currentSlideModel atSlotNamed: #slide.
 
 	"Only render the carousel if it is present"
 	self slidesCarouselPresenter
