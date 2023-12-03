@@ -19,7 +19,7 @@ CpSlidePresenter >> renderView [
 
 	"Render view of the receiver"
 
-	self renderChildViewForModel: self contentModel atSlotNamed: 'content'
+	self renderChildViewForModel: self contentModel atSlotNamed: #content
 ]
 
 { #category : #'user interaction' }

@@ -42,14 +42,6 @@ CpSlidesCarouselPresenter >> nextSlide [
 	self currentSlideIndex: self currentSlideIndex + 1
 ]
 
-{ #category : #presenters }
-CpSlidesCarouselPresenter >> presenterClassForModel: aModel atSlotNamed: aString [
-
-	"All my models should be presented using a CarouselSlidePresenter"
-
-	^ CpCarouselSlidePresenter
-]
-
 { #category : #'user interaction' }
 CpSlidesCarouselPresenter >> previousSlide [
 
@@ -69,7 +61,7 @@ CpSlidesCarouselPresenter >> renderView [
 
 	"Render view of the receiver"
 
-	self renderAllChildViewsForModels: self slideModels.
+	self renderAllChildViewsForModels: self slideModels usingPresenter: CpCarouselSlidePresenter.
 
 	"Render the current slide AFTER the children have been rendered"
 	self renderCurrentSlide

@@ -17,11 +17,6 @@ CpBulletView class >> style [
 			width: 100%;
 			margin: 0 5% 0 5%;
 		}
-		:host(.sub) { 
-			display: block;
-			font-size: .8em;
-			padding-bottom: .6em;
-		}
 		.container {
 			width: 100%;
 		}'

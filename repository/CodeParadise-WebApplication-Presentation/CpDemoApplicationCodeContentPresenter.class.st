@@ -7,10 +7,9 @@ Class {
 { #category : #'user interaction' }
 CpDemoApplicationCodeContentPresenter >> openInspector [
 
-	"Open a new Inspector on the application showing the code of the receiver's model"
+	"Open a new Inspector on the application"
 
-	self application openInspectorEvaluatorWithSelectedText: self model code
-
+	self application openInspector
 ]
 
 { #category : #view }

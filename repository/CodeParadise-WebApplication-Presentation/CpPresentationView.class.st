@@ -26,7 +26,7 @@ CpPresentationView class >> template [
 	<webResource: #html>
 
 	^ '<div class="container">
-			<slot name="slides"></slot>
+			<slot name="slide"></slot>
 			<slot name="carousel"></slot>
 		</div>'
 ]

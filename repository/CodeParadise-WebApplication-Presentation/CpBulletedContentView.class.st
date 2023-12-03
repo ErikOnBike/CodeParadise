@@ -27,8 +27,15 @@ CpBulletedContentView class >> template [
 	<webResource: #html>
 
 	^ '<div class="container">
+			<slot name="description"></slot>
 			<ul>
 				<slot></slot>
 			</ul>
 		</div>'
+]
+
+{ #category : #rendering }
+CpBulletedContentView >> renderDescription: aString [
+
+	self replaceAllChildrenWith: aString asHtmlElement atSlotNamed: #description
 ]

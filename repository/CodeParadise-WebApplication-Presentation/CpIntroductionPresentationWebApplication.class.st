@@ -22,10 +22,8 @@ CpIntroductionPresentationWebApplication >> createExplainApplicationSlide [
 			addBullet: (CpTextContent new
 				text: 'Using Smalltalk only' ;
 				yourself) ;
-			addBullet: (CpTextContent new
-				text: 'Web applications are created using' ;
-				yourself) ;
 			addBullet: (CpBulletedContent new
+				description: 'Web applications are created using' ;
 				addBullet: (CpTextContent new
 					text: 'A server-side CpWebApplication class (or subclass)' ;
 					yourself) ;
@@ -33,10 +31,8 @@ CpIntroductionPresentationWebApplication >> createExplainApplicationSlide [
 					text: 'A client-side CpWebClientBehavior class (or subclass)' ;
 					yourself) ;
 				yourself) ;
-			addBullet: (CpTextContent new
-				text: 'The client-side code runs in the browser' ;
-				yourself) ;
 			addBullet: (CpBulletedContent new
+				description: 'The client-side code runs in the browser' ;
 				addBullet: (CpHtmlContent new
 					html: 'Using SqueakJS VM - <a href="https://squeak.js.org" target="_target">https://squeak.js.org</a>' ;
 					yourself) ;
@@ -63,10 +59,8 @@ CpIntroductionPresentationWebApplication >> createExplainMvpApplicationSlide [
 			addBullet: (CpTextContent new
 				text: 'For the MVP pattern specific classes are present' ;
 				yourself) ;
-			addBullet: (CpTextContent new
-				text: 'Server-side' ;
-				yourself) ;
 			addBullet: (CpBulletedContent new
+				description: 'Server-side' ;
 				addBullet: (CpTextContent new
 					text: 'CpMvpWebApplication' ;
 					yourself) ;
@@ -77,10 +71,8 @@ CpIntroductionPresentationWebApplication >> createExplainMvpApplicationSlide [
 					text: 'CpPresenter' ;
 					yourself) ;
 				yourself) ;
-			addBullet: (CpTextContent new
-				text: 'Client-side (running in the browser)' ;
-				yourself) ;
 			addBullet: (CpBulletedContent new
+				description: 'Client-side (running in the browser)' ;
 				addBullet: (CpTextContent new
 					text: 'CpMvpWebClientBehavior' ;
 					yourself) ;
@@ -177,10 +169,8 @@ CpIntroductionPresentationWebApplication >> createModelClassSlide [
 			addBullet: (CpTextContent new
 				text: 'Let''s update the presentation model' ;
 				yourself) ;
-			addBullet: (CpTextContent new
-				text: 'From the application Inspector' ;
-				yourself) ;
 			addBullet: (CpBulletedContent new
+				description: 'From the application Inspector' ;
 				addBullet: (CpDemoApplicationCodeContent new
 					code: 'self presentation currentSlide title: ''Change!''' ;
 					yourself) ;
@@ -202,10 +192,8 @@ CpIntroductionPresentationWebApplication >> createMvpWebApplicationClassSlide [
 			addBullet: (CpTextContent new
 				text: 'Yes, the next slide is shown!' ;
 				yourself) ;
-			addBullet: (CpTextContent new
-				text: 'This demo application is derived from CpMvpWebApplication' ;
-				yourself) ;
 			addBullet: (CpBulletedContent new
+				description: 'This demo application is derived from CpMvpWebApplication' ;
 				addBullet: (CpTextContent new
 					text: 'Which keeps track of its models' ;
 					yourself) ;
@@ -213,10 +201,8 @@ CpIntroductionPresentationWebApplication >> createMvpWebApplicationClassSlide [
 					text: 'And its presenters' ;
 					yourself) ;
 				yourself) ;
-			addBullet: (CpTextContent new
-				text: 'Try again (from the Inspector)' ;
-				yourself) ;
 			addBullet: (CpBulletedContent new
+				description: 'Try again (from the Inspector)' ;
 				addBullet: (CpDemoApplicationCodeContent new
 					code: 'self showNextSlide' ;
 					yourself) ;
@@ -231,10 +217,8 @@ CpIntroductionPresentationWebApplication >> createMvpWebClientBehaviorClassSlide
 	^ CpTitledSlide new
 		title: 'CpMvpWebClientBehavior class' ;
 		content: (CpBulletedContent new
-			addBullet: (CpTextContent new
-				text: 'This browser runs an instance of CpMvpWebClientBehavior' ;
-				yourself) ;
 			addBullet: (CpBulletedContent new
+				description: 'This browser runs an instance of CpMvpWebClientBehavior' ;
 				addBullet: (CpTextContent new
 					text: 'Which installs an event handler' ;
 					yourself) ;
@@ -248,10 +232,8 @@ CpIntroductionPresentationWebApplication >> createMvpWebClientBehaviorClassSlide
 					html: 'The views are WebComponents - <a href="https://www.webcomponents.org/introduction" target="_blank">https://www.webcomponents.org</a>' ;
 					yourself) ;
 				yourself) ;
-			addBullet: (CpTextContent new
-				text: 'Let''s update a view live' ;
-				yourself) ;
 			addBullet: (CpBulletedContent new
+				description: 'Let''s update a view live' ;
 				addBullet: (CpTextContent new
 					text: 'Open a Browser on CpTitledSlideView' ;
 					yourself) ;
@@ -314,10 +296,8 @@ CpIntroductionPresentationWebApplication >> createPresenterClassSlide [
 			addBullet: (CpTextContent new
 				text: 'It asks the View to render information' ;
 				yourself) ;
-			addBullet: (CpTextContent new
-				text: 'Don''t make it too smart!' ;
-				yourself) ;
 			addBullet: (CpBulletedContent new
+				description: 'Don''t make it too smart!' ;
 				addBullet: (CpTextContent new
 					text: 'Don''t add business logic' ;
 					yourself) ;
@@ -341,10 +321,8 @@ CpIntroductionPresentationWebApplication >> createSlideIndexSlide [
 			addBullet: (CpTextContent new
 				text: 'WebComponents should be reusable components' ;
 				yourself) ;
-			addBullet: (CpTextContent new
-				text: 'As a small example' ;
-				yourself) ;
 			addBullet: (CpBulletedContent new
+				description: 'As a small example' ;
 				addBullet: (CpTextContent new
 					text: 'Open a slide-index by pressing <i>' ;
 					yourself) ;
@@ -408,10 +386,8 @@ CpIntroductionPresentationWebApplication >> createWebApplicationClassSlide [
 			addBullet: (CpTextContent new
 				text: 'Currently no session management implemented' ;
 				yourself) ;
-			addBullet: (CpTextContent new
-				text: 'Therefore use following to clean up sessions' ;
-				yourself) ;
 			addBullet: (CpBulletedContent new
+				description: 'Therefore use following to clean up sessions' ;
 				addBullet: (CpDemoCodeContent new
 					code: 'CpWebApplication allSubInstances do: [ :each | each stop ]' ;
 					yourself) ;
@@ -419,10 +395,8 @@ CpIntroductionPresentationWebApplication >> createWebApplicationClassSlide [
 			addBullet: (CpTextContent new
 				text: 'An Inspector is opened on this demo application' ;
 				yourself) ;
-			addBullet: (CpTextContent new
-				text: 'Interact with the application by executing (from Inspector)' ;
-				yourself) ;
 			addBullet: (CpBulletedContent new
+				description: 'Interact with the application by executing (from Inspector)' ;
 				addBullet: (CpDemoApplicationCodeContent new
 					code: 'self showNextSlide' ;
 					yourself) ;
@@ -451,32 +425,6 @@ CpIntroductionPresentationWebApplication >> openInspector [
 	"Open an Inspector on the receiver and answer it"
 
 	^ self inspector
-]
-
-{ #category : #actions }
-CpIntroductionPresentationWebApplication >> openInspectorEvaluator [
-
-	"Answer the evaluator of a newly opened Inspector on the receiver"
-
-	self openInspector allMorphsDo: [ :morph |
-		(morph class name includesSubstring: 'TextMorph')
-			ifTrue: [ ^ morph ] ].
-
-	^ nil
-]
-
-{ #category : #actions }
-CpIntroductionPresentationWebApplication >> openInspectorEvaluatorWithSelectedText: aString [
-
-	"Open a new Inspector on the receiver and show selected text"
-
-	| evaluator |
-
-	evaluator := self openInspectorEvaluator ifNil: [ ^ self ].
-
-	evaluator
-		setTextWith: aString ;
-		selectAll
 ]
 
 { #category : #actions }

@@ -22,17 +22,6 @@ CpPresentationPresenter >> nextSlide [
 		ifNil: [ self model nextSlide ]
 ]
 
-{ #category : #presenters }
-CpPresentationPresenter >> presenterClassForModel: aModel atSlotNamed: aString [
-
-	"Answer the Presenter class for displaying the specified model.
-	The SlidesCarouselPresenter is answered explicitly."
-
-	^ aString = #carousel
-		ifTrue: [ CpSlidesCarouselPresenter ]
-		ifFalse: [ aModel preferredPresenterClass ]
-]
-
 { #category : #'user interaction' }
 CpPresentationPresenter >> previousSlide [
 
@@ -60,7 +49,7 @@ CpPresentationPresenter >> renderView [
 	"Render view of the receiver"
 
 	"Render the current slide"
-	self renderChildViewForModel: self currentSlideModel atSlotNamed: 'slides'.
+	self renderChildViewForModel: self currentSlideModel atSlotNamed: #slide.
 
 	"Only render the carousel if it is present"
 	self slidesCarouselPresenter
@@ -80,7 +69,7 @@ CpPresentationPresenter >> slidesCarouselPresenter [
 
 	"Answer the slides carousel Presenter or nil if it is not currently present"
 
-	^ self firstChildPresenterAtSlotNamed: 'carousel'
+	^ self firstChildPresenterAtSlotNamed: #carousel
 ]
 
 { #category : #'user interaction' }
@@ -94,7 +83,7 @@ CpPresentationPresenter >> toggleSlideIndex [
 			"Position the presentation where the carousel is"
 			self model goToSlide: carouselPresenter currentSlide.
 			carouselPresenter destroy ]
-		ifNil: [ self createChildPresenterForModel: self model atSlotNamed: 'carousel' ]
+		ifNil: [ self renderChildViewForModel: self model usingPresenter: CpSlidesCarouselPresenter atSlotNamed: #carousel ]
 ]
 
 { #category : #view }

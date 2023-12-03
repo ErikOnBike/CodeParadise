@@ -14,16 +14,13 @@ CpBulletedContentPresenter >> bulletModels [
 	^ self model bullets
 ]
 
-{ #category : #presenters }
-CpBulletedContentPresenter >> presenterClassForModel: aModel atSlotNamed: aString [
-
-	^ CpBulletPresenter
-]
-
 { #category : #view }
 CpBulletedContentPresenter >> renderView [
 
 	"Render view of the receiver"
 
-	self renderAllChildViewsForModels: self bulletModels
+	self model description
+		ifNotNil: [ :description | self view renderDescription: description ].
+	
+	self renderAllChildViewsForModels: self bulletModels usingPresenter: CpBulletPresenter
 ]
