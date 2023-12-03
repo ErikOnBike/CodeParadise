@@ -13,6 +13,8 @@ CpLinkedContentPresenter >> contentModel [
 { #category : #'user interaction' }
 CpLinkedContentPresenter >> linkedSlideSelected [
 
+	"Tell the parent presenter the linked slide is selected"
+
 	self parent slideSelected: self model linkedSlide
 ]
 
