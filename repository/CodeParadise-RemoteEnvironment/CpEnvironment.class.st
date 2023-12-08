@@ -44,6 +44,19 @@ CpEnvironment >> createCommunicator [
 	^ self class communicatorClass newForOwner: self
 ]
 
+{ #category : #'error handling' }
+CpEnvironment >> handleError: aString [
+
+	"Handle an error with the specified description.
+	By default only an error message is written to the console.
+	This is to allow the environment to keep running.
+	Both the Client as well as the ServerEnvironment can
+	override this behavior. For a development environment the
+	actual error can be signaled to allow debugging for example."
+
+	self crError: aString
+]
+
 { #category : #'event handling' }
 CpEnvironment >> handleMessageReceived: aByteArray [
 
