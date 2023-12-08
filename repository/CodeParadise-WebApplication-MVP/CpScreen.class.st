@@ -8,6 +8,24 @@ Class {
 }
 
 { #category : #'web resources' }
+CpScreen class >> globalStyle [
+
+	<webResource: #css>
+
+	^ '*, *:before, *:after {
+		box-sizing: border-box;
+	}
+	html {
+		font-size: 100%;
+		-webkit-text-size-adjust: 100%;
+		font-family: "SF Pro Text", "Helvetica Neue", Helvetica, Arial, sans-serif;
+	}
+	body {
+		overscroll-behavior-x: none; /* Prevent Chrome from navigating back on swipe */
+	}'
+]
+
+{ #category : #'web resources' }
 CpScreen class >> style [
 
 	<webResource: #css>
@@ -47,26 +65,6 @@ CpScreen class >> template [
 CpScreen >> height [
 
 	^ self propertyAt: #clientHeight
-]
-
-{ #category : #initialization }
-CpScreen >> initialize [
-
-	super initialize.
-
-	"Add some default styling to the full document"
-	CpHtmlElement documentAddStyle: '
-		*, *:before, *:after {
-			box-sizing: border-box;
-		}
-		html {
-			font-size: 100%;
-			-webkit-text-size-adjust: 100%;
-			font-family: "SF Pro Text", "Helvetica Neue", Helvetica, Arial, sans-serif;
-		}
-		body {
-			overscroll-behavior-x: none; /* Prevent Chrome from navigating back on swipe */
-		}'
 ]
 
 { #category : #sizing }
