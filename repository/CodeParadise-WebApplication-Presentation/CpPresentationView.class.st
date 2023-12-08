@@ -5,6 +5,22 @@ Class {
 }
 
 { #category : #'web resources' }
+CpPresentationView class >> globalStyle [
+
+	<webResource: #css>
+
+	^ 'body {
+		margin: 0;
+		padding: 0 ;
+		width: 100vw;
+		height: 100vh;
+		overflow: hidden;
+		font-family: "SF Pro Text", "Helvetica Neue", Helvetica, Arial, sans-serif;
+		font-size: .9vw;
+	}'
+]
+
+{ #category : #'web resources' }
 CpPresentationView class >> style [
 
 	<webResource: #css>
@@ -77,24 +93,28 @@ CpPresentationView >> initialize [
 
 	super initialize.
 
-	"Set styling of the page"
-	CpHtmlElement documentAddStyle: '
-		body {
-			margin: 0;
-			padding: 0 ;
-			width: 100vw;
-			height: 100vh;
-			overflow: hidden;
-			font-family: "SF Pro Text", "Helvetica Neue", Helvetica, Arial, sans-serif;
-
-		}'.
-
 	"Add a key event handler on the body (where all key events will end up at the moment).
 	The KeyUpEvent is used, since it will prevent repeating keys and also supports
 	arrow keys (which do not generate a KeyPress event)."
 	CpHtmlElement documentBody
-		when: CpPrimaryClickEvent send: #handleClickEvent: to: self ;
-		when: CpKeyUpEvent send: #handleKeyPressEvent: to: self
+		when: CpPrimaryClickEvent only send: #handleClickEvent: to: self ;
+		when: CpKeyUpEvent arrowLeft only send: #showPreviousSlide to: self ;
+		when: CpKeyUpEvent arrowRight only send: #showNextSlide to: self ;
+		when: (CpKeyUpEvent key: 'i') only send: #toggleSlideIndex to: self ;
+		when: (CpKeyUpEvent escape) only send: #removeSlideIndex to: self ;
+		when: (CpKeyUpEvent key: 'r') only send: #refreshSlide to: self
+]
+
+{ #category : #actions }
+CpPresentationView >> refreshSlide [
+
+	self serverAnnounce: CpRefreshSlide
+]
+
+{ #category : #actions }
+CpPresentationView >> removeSlideIndex [
+
+	self serverAnnounce: CpRemoveSlideIndex
 ]
 
 { #category : #rendering }
@@ -105,6 +125,24 @@ CpPresentationView >> renderTitle: aString [
 	((headElement := CpHtmlElement documentHead) firstDescendantMatching: #title)
 		ifNotNil: [ :titleElement | titleElement textContent: aString ]
 		ifNil: [ headElement appendChild: (aString inHtmlTag: #title) ]
+]
+
+{ #category : #actions }
+CpPresentationView >> showNextSlide [
+
+	self serverAnnounce: CpNextSlide
+]
+
+{ #category : #actions }
+CpPresentationView >> showPreviousSlide [
+
+	self serverAnnounce: CpPreviousSlide
+]
+
+{ #category : #actions }
+CpPresentationView >> toggleSlideIndex [
+
+	self serverAnnounce: CpSlideIndex
 ]
 
 { #category : #accessing }
