@@ -11,7 +11,28 @@ CpIntroductionPresentationWebApplication class >> app [
 ]
 
 { #category : #model }
-CpIntroductionPresentationWebApplication >> createExplainApplicationSlide [
+CpIntroductionPresentationWebApplication >> createPresentationModel [
+
+	"Create and answer the PresentationModel for the presentation"
+
+	^ (CpPresentation titled: 'CodeParadise')
+		addSlide: self introductionSlide ;
+		addSlide: self explanationSlide ;
+		addSlide: self explainApplicationSlide ;
+		addSlide: self explainMvpApplicationSlide ;
+		addSlide: self webApplicationClassSlide ;
+		addSlide: self mvpWebApplicationClassSlide ;
+		addSlide: self mvpWebClientBehaviorClassSlide ;
+		addSlide: self viewClassSlide ;
+		addSlide: self modelClassSlide ;
+		addSlide: self presenterClassSlide ;
+		addSlide: self slideIndexSlide ;
+		addSlide: self finalSlide ;
+		yourself
+]
+
+{ #category : #slides }
+CpIntroductionPresentationWebApplication >> explainApplicationSlide [
 
 	^ CpTitledSlide new
 		title: 'Web applications' ;
@@ -55,8 +76,8 @@ CpIntroductionPresentationWebApplication >> createExplainApplicationSlide [
 		yourself
 ]
 
-{ #category : #model }
-CpIntroductionPresentationWebApplication >> createExplainMvpApplicationSlide [
+{ #category : #slides }
+CpIntroductionPresentationWebApplication >> explainMvpApplicationSlide [
 
 	^ CpTitledSlide new
 		title: 'Web applications with MVP' ;
@@ -103,8 +124,8 @@ CpIntroductionPresentationWebApplication >> createExplainMvpApplicationSlide [
 		yourself
 ]
 
-{ #category : #model }
-CpIntroductionPresentationWebApplication >> createExplanationSlide [
+{ #category : #slides }
+CpIntroductionPresentationWebApplication >> explanationSlide [
 
 	^ CpTitledSlide new
 		title: 'Explanation' ;
@@ -125,8 +146,8 @@ CpIntroductionPresentationWebApplication >> createExplanationSlide [
 		yourself
 ]
 
-{ #category : #model }
-CpIntroductionPresentationWebApplication >> createFinalSlide [
+{ #category : #slides }
+CpIntroductionPresentationWebApplication >> finalSlide [
 
 	^ CpTitledSlide new
 		title: 'The End' ;
@@ -153,8 +174,8 @@ CpIntroductionPresentationWebApplication >> createFinalSlide [
 		yourself
 ]
 
-{ #category : #model }
-CpIntroductionPresentationWebApplication >> createIntroductionSlide [
+{ #category : #slides }
+CpIntroductionPresentationWebApplication >> introductionSlide [
 
 	^ CpFullPageSlide new
 		content: (CpImageContent new
@@ -164,8 +185,22 @@ CpIntroductionPresentationWebApplication >> createIntroductionSlide [
 		yourself
 ]
 
-{ #category : #model }
-CpIntroductionPresentationWebApplication >> createModelClassSlide [
+{ #category : #actions }
+CpIntroductionPresentationWebApplication >> load [
+
+	"Convenience implementation to show the receiver (ie Application)
+	in an Inspector. From this Inspector the receiver's Presenters,
+	Models and the ServerEnvironment can be accessed. This allows the
+	manipulation of the receiver from the development environment.
+	This should not be used in production environments."
+
+	super load.
+
+	self inspect
+]
+
+{ #category : #slides }
+CpIntroductionPresentationWebApplication >> modelClassSlide [
 
 	^ CpTitledSlide new
 		title: 'CpModel class' ;
@@ -201,8 +236,8 @@ CpIntroductionPresentationWebApplication >> createModelClassSlide [
 		yourself
 ]
 
-{ #category : #model }
-CpIntroductionPresentationWebApplication >> createMvpWebApplicationClassSlide [
+{ #category : #slides }
+CpIntroductionPresentationWebApplication >> mvpWebApplicationClassSlide [
 
 	^ CpTitledSlide new
 		title: 'CpMvpWebApplication class' ;
@@ -237,8 +272,8 @@ CpIntroductionPresentationWebApplication >> createMvpWebApplicationClassSlide [
 		yourself
 ]
 
-{ #category : #model }
-CpIntroductionPresentationWebApplication >> createMvpWebClientBehaviorClassSlide [
+{ #category : #slides }
+CpIntroductionPresentationWebApplication >> mvpWebClientBehaviorClassSlide [
 
 	^ CpTitledSlide new
 		title: 'CpMvpWebClientBehavior class' ;
@@ -288,29 +323,16 @@ CpIntroductionPresentationWebApplication >> createMvpWebClientBehaviorClassSlide
 		yourself
 ]
 
-{ #category : #model }
-CpIntroductionPresentationWebApplication >> createPresentationModel [
+{ #category : #actions }
+CpIntroductionPresentationWebApplication >> openInspector [
 
-	"Create and answer the PresentationModel for the presentation"
+	"Open an Inspector on the receiver and answer it"
 
-	^ (CpPresentation titled: 'CodeParadise')
-		addSlide: self createIntroductionSlide ;
-		addSlide: self createExplanationSlide ;
-		addSlide: self createExplainApplicationSlide ;
-		addSlide: self createExplainMvpApplicationSlide ;
-		addSlide: self createWebApplicationClassSlide ;
-		addSlide: self createMvpWebApplicationClassSlide ;
-		addSlide: self createMvpWebClientBehaviorClassSlide ;
-		addSlide: self createViewClassSlide ;
-		addSlide: self createModelClassSlide ;
-		addSlide: self createPresenterClassSlide ;
-		addSlide: self createSlideIndexSlide ;
-		addSlide: self createFinalSlide ;
-		yourself
+	^ self inspector
 ]
 
-{ #category : #model }
-CpIntroductionPresentationWebApplication >> createPresenterClassSlide [
+{ #category : #slides }
+CpIntroductionPresentationWebApplication >> presenterClassSlide [
 
 	^ CpTitledSlide new
 		title: 'CpPresenter class' ;
@@ -350,8 +372,20 @@ CpIntroductionPresentationWebApplication >> createPresenterClassSlide [
 		yourself
 ]
 
-{ #category : #model }
-CpIntroductionPresentationWebApplication >> createSlideIndexSlide [
+{ #category : #actions }
+CpIntroductionPresentationWebApplication >> showNextSlide [
+
+	self presentation nextSlide
+]
+
+{ #category : #actions }
+CpIntroductionPresentationWebApplication >> showPreviousSlide [
+
+	self presentation previousSlide
+]
+
+{ #category : #slides }
+CpIntroductionPresentationWebApplication >> slideIndexSlide [
 
 	^ CpTitledSlide new
 		title: 'WebComponent reuse' ;
@@ -391,8 +425,8 @@ CpIntroductionPresentationWebApplication >> createSlideIndexSlide [
 		yourself
 ]
 
-{ #category : #model }
-CpIntroductionPresentationWebApplication >> createViewClassSlide [
+{ #category : #slides }
+CpIntroductionPresentationWebApplication >> viewClassSlide [
 
 	^ CpTitledSlide new
 		title: 'CpView class' ;
@@ -416,8 +450,8 @@ CpIntroductionPresentationWebApplication >> createViewClassSlide [
 		yourself
 ]
 
-{ #category : #model }
-CpIntroductionPresentationWebApplication >> createWebApplicationClassSlide [
+{ #category : #slides }
+CpIntroductionPresentationWebApplication >> webApplicationClassSlide [
 
 	^ CpTitledSlide new
 		title: 'CpWebApplication class' ;
@@ -449,38 +483,4 @@ CpIntroductionPresentationWebApplication >> createWebApplicationClassSlide [
 				yourself) ;
 			yourself) ;
 		yourself
-]
-
-{ #category : #actions }
-CpIntroductionPresentationWebApplication >> load [
-
-	"Convenience implementation to show the receiver (ie Application)
-	in an Inspector. From this Inspector the receiver's Presenters,
-	Models and the ServerEnvironment can be accessed. This allows the
-	manipulation of the receiver from the development environment.
-	This should not be used in production environments."
-
-	super load.
-
-	self inspect
-]
-
-{ #category : #actions }
-CpIntroductionPresentationWebApplication >> openInspector [
-
-	"Open an Inspector on the receiver and answer it"
-
-	^ self inspector
-]
-
-{ #category : #actions }
-CpIntroductionPresentationWebApplication >> showNextSlide [
-
-	self presentation nextSlide
-]
-
-{ #category : #actions }
-CpIntroductionPresentationWebApplication >> showPreviousSlide [
-
-	self presentation previousSlide
 ]
