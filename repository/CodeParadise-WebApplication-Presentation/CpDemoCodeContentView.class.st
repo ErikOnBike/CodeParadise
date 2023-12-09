@@ -28,21 +28,24 @@ CpDemoCodeContentView class >> style [
 			background-color: rgba(255, 255, 255, .1);
 		}
 		#actions {
+			position: absolute;
 			display: none;
+			-webkit-user-select: none;
+			user-select: none;
 		}
 		code:hover ~ #actions,
 		#actions:hover {
-			position: absolute;
 			display: block;
 		}
-		#clipboard {
+		::slotted([slot="actions"]) {
 			padding: 4px 12px;
+			margin-right: 8px;
 			border-radius: 8px;
 			background-color: rgba(255, 240, 201, .7);
 			color: rgba(0, 105, 148, 1);
 			cursor: pointer;
 		}
-		#clipboard:hover {
+		::slotted([slot="actions"]:hover) {
 			background-color: rgba(255, 240, 201, 1);
 		}
 		:host(.action-done) #actions {
@@ -56,15 +59,14 @@ CpDemoCodeContentView class >> template [
 	<webResource: #html>
 
 	^ '<div id="container">
-			<code><slot></slot></code><div id="actions"><span id="clipboard">Copy to clipboard</span></div>
+			<code><slot></slot></code><div id="actions"><slot name="actions"></slot></div>
 		</div>'
 ]
 
 { #category : #'event handling' }
-CpDemoCodeContentView >> handleClickEvent: aClickEvent [
+CpDemoCodeContentView >> copyToClipboard [
 
-	aClickEvent target id = #clipboard
-		ifTrue: [ ^ self serverAnnounce: CpDemoCodeCopyClipboard ]
+	self serverAnnounce: CpDemoCodeCopyClipboard
 ]
 
 { #category : #'event handling' }
@@ -76,13 +78,23 @@ CpDemoCodeContentView >> handlePointerMoveEvent: aPointerEvent [
 ]
 
 { #category : #initialization }
+CpDemoCodeContentView >> initialize [
+
+	super initialize.
+
+	self
+		appendChild: ('Copy to clipboard' asHtmlElement
+			when: CpPrimaryClickEvent only send: #copyToClipboard to: self ;
+			yourself)
+		atSlotNamed: #actions
+]
+
+{ #category : #initialization }
 CpDemoCodeContentView >> initializeShadowRoot [
 
 	super initializeShadowRoot.
 
-	self shadowRoot
-		when: CpPrimaryClickEvent send: #handleClickEvent: to: self ;
-		when: CpPointerMoveEvent send: #handlePointerMoveEvent: to: self
+	self shadowRoot when: CpPointerMoveEvent send: #handlePointerMoveEvent: to: self
 ]
 
 { #category : #rendering }
