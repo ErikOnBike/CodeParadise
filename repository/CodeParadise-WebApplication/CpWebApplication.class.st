@@ -150,9 +150,15 @@ CpWebApplication >> load [
 { #category : #updating }
 CpWebApplication >> methodChanged: anAnnouncement [
 
-	"Update the View if a resource method is uodated.
+	"Update the View if a resource method is updated.
 	Answer a Boolean indicating whether the method is installed in the client.
-	Implementation: Answer true is the super call answered true, since the method got installed."
+
+	Implementation:
+	Answer true is the super call answered true, since the method got installed.
+	The method is only checked for presence of specific CSS or HTML pragmas.
+	Since methods could call other methods, it is assumed the style or template
+	of a CpTemplateComponent (subclass of CpWebComponent) is changed, whenever
+	either a CSS or HTML tagged method is changed."
 
 	| method pragma resourceType methodClass |
 
@@ -163,7 +169,11 @@ CpWebApplication >> methodChanged: anAnnouncement [
 	pragma := method pragmaAt: self class webResourcePragmaName.
 	pragma ifNil: [ ^ true ].
 
+	"Changes are only relevant for CpTemplateComponent or subclasses"
 	methodClass := method methodClass instanceSide.
+	(methodClass includesBehavior: CpTemplateComponent)
+		ifFalse: [ ^ true ].
+
 	resourceType := pragma argumentAt: 1.
 	resourceType == self class webResourceCSS
 		ifTrue: [

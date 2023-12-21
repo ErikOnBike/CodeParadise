@@ -881,7 +881,10 @@ CpPresenter >> viewInitialized [
 	"The client side view is initialized, perform any additional setup
 	(most notably instruct the client side view to perform operations).
 	This method will be executed on initial load AND on reload.
-	For setup needed only on initial load use #viewCreated."
+	Don't use this method to subscribe to view announcements, since it
+	will add additional subscriptions when reloading a webapplication.
+	For setup needed only on initial load use #viewCreated (so also
+	for subscribing to view announcements)."
 
 ]
 
