@@ -207,6 +207,17 @@ CpWebComponent >> isWebComponent [
 ]
 
 { #category : #querying }
+CpWebComponent >> lastChildAtSlotNamed: nameString [
+
+	"Answer the last child element (in document order) of the receiver
+	which is located in the specified template slot or nil if no such child is present"
+
+	^ (self childrenAtSlotNamed: nameString)
+		ifNotEmpty: [ :children | children last ]
+		ifEmpty: [ nil ]
+]
+
+{ #category : #querying }
 CpWebComponent >> partNamed: aString [
 
 	"Answer the part with the specified name"
