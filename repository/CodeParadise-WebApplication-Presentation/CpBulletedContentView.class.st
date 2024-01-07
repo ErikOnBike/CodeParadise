@@ -12,9 +12,6 @@ CpBulletedContentView class >> style [
 	^ '* {
 			box-sizing: border-box;
 		}
-		:host {
-			width: 100%;
-		}
 		ul {
 			margin: 0;
 		}'

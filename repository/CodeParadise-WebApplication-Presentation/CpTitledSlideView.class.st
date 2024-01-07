@@ -19,7 +19,6 @@ CpTitledSlideView class >> style [
 			overflow: hidden;
 		}
 		#header {
-			width: 100%;
 			height: 1.6em;
 			font-size: 4.5em;
 			text-align: center;
@@ -29,7 +28,6 @@ CpTitledSlideView class >> style [
 			background-color: rgba(255, 240, 201, .7);
 		}
 		#content {
-			width: 100%;
 			height: calc(100% - 1.6em);
 			padding: 2.5% 2.5% 2.5% 2.5%;
 			font-size: 2em;
