@@ -178,12 +178,14 @@ CpWebApplication >> methodChanged: anAnnouncement [
 	resourceType == self class webResourceCSS
 		ifTrue: [
 			methodClass withAllSubclassesDo: [ :c |
-				self updateStyleViewClass: c ].
+				(self environment clientKnowsClass: c)
+					ifTrue: [ self updateStyleViewClass: c ] ].
 			^ true ].
 	resourceType == self class webResourceHTML
 		ifTrue: [
 			methodClass withAllSubclassesDo: [ :c |
-				self updateTemplateViewClass: c ].
+				(self environment clientKnowsClass: c)
+					ifTrue: [ self updateTemplateViewClass: c ] ].
 			^ true ].
 
 	^ true
