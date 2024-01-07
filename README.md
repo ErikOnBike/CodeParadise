@@ -46,6 +46,7 @@ If all went well you should be able to fire up a number of browser tabs/pages an
 
 The example applications can be reached using the following URLs:
 * Introduction Presentation [http://localhost:8080/static/app.html?presentation](http://localhost:8080/static/app.html?presentation)
+* **Building your first app** [http://localhost:8080/static/app.html?building-my-first-app](http://localhost:8080/static/app.html?building-my-first-app) [*NEW*]
 * DOM Examples [http://localhost:8080/static/app.html?DOM-Examples](http://localhost:8080/static/app.html?DOM-Examples)
 * Component Examples [http://localhost:8080/static/app.html?Component-Examples](http://localhost:8080/static/app.html?Component-Examples)
 * Counter Example [http://localhost:8080/static/app.html?counter](http://localhost:8080/static/app.html?counter)
