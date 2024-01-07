@@ -61,6 +61,14 @@ CpSlideDeck >> insertSlide: aSlide beforeSlide: anotherSlide [
 ]
 
 { #category : #accessing }
+CpSlideDeck >> lastSlide [
+
+	^ self slides
+		ifNotEmpty: [ :allSlides | allSlides last ]
+		ifEmpty: [ nil ]
+]
+
+{ #category : #accessing }
 CpSlideDeck >> slideAfter: aSlide [
 
 	|index |
