@@ -13,6 +13,26 @@ Class {
 	#category : #'CodeParadise-WebApplication-MVP-Core'
 }
 
+{ #category : #accessing }
+CpView class >> allProxies [
+
+	<serverEnvironment>
+
+	"Answer a collection of ViewProxy instances which refer to the receiver"
+
+	^ CpViewProxy allInstancesForViewClass: self
+]
+
+{ #category : #accessing }
+CpView class >> allProxiesDo: aBlock [
+
+	<serverEnvironment>
+
+	"Perform the specified block for all ViewProxy instances which refer to the receiver"
+
+	CpViewProxy allInstancesForViewClass: self do: aBlock
+]
+
 { #category : #removing }
 CpView >> destroy [
 

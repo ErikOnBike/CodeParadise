@@ -13,6 +13,31 @@ Class {
 	#category : #'CodeParadise-WebApplication-MVP-Core'
 }
 
+{ #category : #accessing }
+CpViewProxy class >> allInstancesForViewClass: aClass [
+
+	<serverEnvironment>
+
+	"Answer a collection of instances of the receiver which refer to the
+	specified view class"
+
+	^ self allInstances
+		select: [ :each | each viewClass == aClass ]
+]
+
+{ #category : #accessing }
+CpViewProxy class >> allInstancesForViewClass: aClass do: aBlock [
+
+	<serverEnvironment>
+
+	"Perform the specified block for all instances of the receiver
+	which refer to the specified view class"
+
+	self allInstancesDo: [ :each |
+		each viewClass == aClass
+			ifTrue: [ aBlock value: each ] ]
+]
+
 { #category : #'instance creation' }
 CpViewProxy class >> new [
 
