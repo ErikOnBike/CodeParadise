@@ -12,6 +12,17 @@ Class {
 	#category : #'CodeParadise-WebApplication-Presentation-Model'
 }
 
+{ #category : #'instance creation' }
+CpBulletedContent class >> withAll: aContentCollection [
+
+	| instance |
+
+	instance := self new.
+	aContentCollection do: [ :each | instance addBullet: each ].
+
+	^ instance
+]
+
 { #category : #adding }
 CpBulletedContent >> addBullet: aSlideContent [
 

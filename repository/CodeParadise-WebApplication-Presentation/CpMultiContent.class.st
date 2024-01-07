@@ -7,6 +7,17 @@ Class {
 	#category : #'CodeParadise-WebApplication-Presentation-Model'
 }
 
+{ #category : #'instance creation' }
+CpMultiContent class >> withAll: aContentCollection [
+
+	| instance |
+
+	instance := self new.
+	aContentCollection do: [ :each | instance addContent: each ].
+
+	^ instance
+]
+
 { #category : #adding }
 CpMultiContent >> addContent: aContent [
 
