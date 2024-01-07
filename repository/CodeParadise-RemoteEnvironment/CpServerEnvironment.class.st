@@ -169,9 +169,13 @@ CpServerEnvironment >> addClass: aClass [
 { #category : #'adding/removing' }
 CpServerEnvironment >> addMethod: aCompiledMethod [
 
-	"Add the specified CompiledMethod to the client environment of the receiver and answer it"
+	"Add the specified CompiledMethod to the client environment of the receiver and answer it.
+	If the CompiledMethod is marked <serverEnvironment> it will not be installed."
 
 	| methodElement |
+
+	(aCompiledMethod hasPragmaNamed: #serverEnvironment)
+		ifTrue: [ ^ aCompiledMethod ].
 
 	installationMutex critical: [
 
