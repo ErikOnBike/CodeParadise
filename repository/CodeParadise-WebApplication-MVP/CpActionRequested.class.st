@@ -105,7 +105,7 @@ CpActionRequested >> handlesAnnouncement: anAnnouncement [
 
 	"Answer whether the receiver handles the specified announcement.
 	This is normally a class side method, but it is used as an instance
-	variant to allow a action id and optionally parameters to be specified.
+	variant to allow an action id and optionally parameters to be specified.
 	This makes it possible to define a 'parameterized' announcement.
 	See class comment for further explanation and examples."
 
