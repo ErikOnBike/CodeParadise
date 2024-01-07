@@ -5,6 +5,32 @@ Class {
 }
 
 { #category : #'web resources' }
+CpDemoCodeContentView class >> globalStyle [
+
+	<webResource: #css>
+
+	^ '#messages {
+		position: absolute;
+		top: 0;
+		right: 0;
+		width: 20em;
+		height: 100%;
+		overflow: hidden;
+		font-size: 2em;
+		pointer-events: none;
+		z-index: 10;
+	}'
+]
+
+{ #category : #'class initialization' }
+CpDemoCodeContentView class >> postInstallOnce [
+
+	CpHtmlElement documentBody appendChild: ((CpHtmlElement newWithTag: #div)
+		id: #messages ;
+		yourself)
+]
+
+{ #category : #'web resources' }
 CpDemoCodeContentView class >> style [
 
 	<webResource: #css>
@@ -15,17 +41,67 @@ CpDemoCodeContentView class >> style [
 		:host {
 			display: inline-block;
 			vertical-align: top;
+			--code-zoom-factor: 0.7;
 		}
 		#container {
 			padding-top: 8px;
 			padding-bottom: 8px;
+			line-height: 1.2em;
 		}
 		code {
 			display: inline-block;
+			position: relative;
+			min-width: 80%;
 			font-family: monospace, monospace;
 			font-size: 1em;
 			white-space: pre;
+			max-height: 19.5em;
+			overflow-y: scroll;
+			overflow-x: hidden;
 			background-color: rgba(255, 255, 255, .1);
+			transition: width .5s;
+		}
+		::slotted(:not([slot])) {
+			display: block;
+			width: 100%;
+			overflow-x: scroll;
+			transition: width .5s, font-size .5s;
+		}
+		::slotted([slot="other"]) {
+			display: block;
+			position: absolute;
+			top: 0;
+			left: 100%;
+			width: 50%;
+			height: 0;
+			overflow-x: scroll;
+			transition: left .5s, font-size .5s;
+		}
+		:host(.show-other) code {
+			width: 100%;
+		}
+		:host(.show-other) ::slotted(:not([slot])) {
+			width: 50%;
+			font-size: calc(1em * var(--code-zoom-factor));
+		}
+		:host(.show-other) ::slotted([slot="other"]) {
+			left: 50%;
+			font-size: calc(1em * var(--code-zoom-factor));
+			height: auto;
+		}
+		::slotted([slot="banner"]) {
+			display: block;
+			position: absolute;
+			top: 0;
+			right: 0;
+			width: 10em;
+			text-align: center;
+			font-family: "SF Pro Text", "Helvetica Neue", Helvetica, Arial, sans-serif;
+			font-size: .6em;
+			font-weight: bold;
+			transform: translate(30%,60%)rotate(45deg);
+			background-color: rgba(255, 0, 0, .1);
+			color: white;
 		}
 		#actions {
 			position: absolute;
@@ -59,7 +135,7 @@ CpDemoCodeContentView class >> template [
 	<webResource: #html>
 
 	^ '<div id="container">
-			<code><slot></slot></code><div id="actions"><slot name="actions"></slot></div>
+			<code><slot></slot><slot name="other"></slot><slot name="banner"></slot></code><div id="actions"><slot name="actions"></slot></div>
 		</div>'
 ]
 
@@ -75,6 +151,12 @@ CpDemoCodeContentView >> handlePointerMoveEvent: aPointerEvent [
 	"Fix our little hack from #serverAnnounce:"
 
 	self removeClass: #'action-done'
+]
+
+{ #category : #actions }
+CpDemoCodeContentView >> hideOther [
+
+	self removeClass: #'show-other'
 ]
 
 { #category : #initialization }
@@ -98,9 +180,40 @@ CpDemoCodeContentView >> initializeShadowRoot [
 ]
 
 { #category : #rendering }
+CpDemoCodeContentView >> renderBanner: aString [
+
+	aString
+		ifNotNil: [ self replaceAllChildrenWith: aString asHtmlElement atSlotNamed: #banner ]
+		ifNil: [ self removeChildrenAtSlotNamed: #banner ]
+]
+
+{ #category : #rendering }
 CpDemoCodeContentView >> renderCode: aString [
 
-	self textContent: (aString replaceAll: Character cr with: Character lf)
+	aString
+		ifNotNil: [ self replaceAllChildrenWith: (aString replaceAll: Character cr with: Character lf) asHtmlElement atSlotNamed: nil ]
+		ifNil: [ self removeChildrenAtSlotNamed: nil ]
+]
+
+{ #category : #rendering }
+CpDemoCodeContentView >> renderMessage: aString [
+
+	(CpHtmlElement elementWithId: #messages)
+		ifNotNil: [ :messages |
+			messages appendChild: (CpDemoMessageView new
+				renderMessage: aString ;
+				yourself) ]
+]
+
+{ #category : #rendering }
+CpDemoCodeContentView >> renderOtherCode: aString [
+
+	aString
+		ifNotNil: [
+			self
+				replaceAllChildrenWith: (aString replaceAll: Character cr with: Character lf) asHtmlElement
+				atSlotNamed: #other ]
+		ifNil: [ self removeChildrenAtSlotNamed: #other ]
 ]
 
 { #category : #'event handling' }
@@ -111,4 +224,16 @@ CpDemoCodeContentView >> serverAnnounce: anAnnouncement [
 
 	self addClass: #'action-done'.
 	super serverAnnounce: anAnnouncement
+]
+
+{ #category : #actions }
+CpDemoCodeContentView >> showOther [
+
+	self addClass: #'show-other'
+]
+
+{ #category : #actions }
+CpDemoCodeContentView >> toggleOther [
+
+	self toggleClass: #'show-other'
 ]

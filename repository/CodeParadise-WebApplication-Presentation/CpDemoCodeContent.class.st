@@ -30,3 +30,11 @@ CpDemoCodeContent >> code: aString [
 
 	self valueChanged
 ]
+
+{ #category : #queries }
+CpDemoCodeContent >> statusString [
+
+	"Answer the status of the receiver or nil if no partical status is applicable"
+
+	^ nil
+]
