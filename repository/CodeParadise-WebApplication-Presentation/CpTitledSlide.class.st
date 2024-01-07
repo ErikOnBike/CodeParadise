@@ -1,19 +1,21 @@
 Class {
-	#name : #CpTitledSlide,
-	#superclass : #CpSlide,
+	#name : 'CpTitledSlide',
+	#superclass : 'CpSlide',
 	#instVars : [
 		'title'
 	],
-	#category : #'CodeParadise-WebApplication-Presentation-Model'
+	#category : 'CodeParadise-WebApplication-Presentation-Model',
+	#package : 'CodeParadise-WebApplication-Presentation',
+	#tag : 'Model'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpTitledSlide >> title [
 
 	^ title
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpTitledSlide >> title: aString [
 
 	title := aString.

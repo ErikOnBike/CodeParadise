@@ -1,10 +1,12 @@
 Class {
-	#name : #CpFullPageSlideView,
-	#superclass : #CpView,
-	#category : #'CodeParadise-WebApplication-Presentation-View'
+	#name : 'CpFullPageSlideView',
+	#superclass : 'CpView',
+	#category : 'CodeParadise-WebApplication-Presentation-View',
+	#package : 'CodeParadise-WebApplication-Presentation',
+	#tag : 'View'
 }
 
-{ #category : #'web resources' }
+{ #category : 'web resources' }
 CpFullPageSlideView class >> style [
 
 	<webResource: #css>
@@ -19,7 +21,7 @@ CpFullPageSlideView class >> style [
 		}'
 ]
 
-{ #category : #'web resources' }
+{ #category : 'web resources' }
 CpFullPageSlideView class >> template [
 
 	<webResource: #html>

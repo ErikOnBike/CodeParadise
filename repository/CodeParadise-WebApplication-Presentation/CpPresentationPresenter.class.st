@@ -3,18 +3,20 @@ I am a Presentation Presenter.
 I support a PresentationModel and use a PresentationView.
 "
 Class {
-	#name : #CpPresentationPresenter,
-	#superclass : #CpPresenter,
-	#category : #'CodeParadise-WebApplication-Presentation-Presenter'
+	#name : 'CpPresentationPresenter',
+	#superclass : 'CpPresenter',
+	#category : 'CodeParadise-WebApplication-Presentation-Presenter',
+	#package : 'CodeParadise-WebApplication-Presentation',
+	#tag : 'Presenter'
 }
 
-{ #category : #model }
+{ #category : 'model' }
 CpPresentationPresenter >> currentSlideModel [
 
 	^ self model currentSlide
 ]
 
-{ #category : #'user interaction' }
+{ #category : 'user interaction' }
 CpPresentationPresenter >> nextSlide [
 
 	self slidesCarouselPresenter
@@ -22,7 +24,7 @@ CpPresentationPresenter >> nextSlide [
 		ifNil: [ self model nextSlide ]
 ]
 
-{ #category : #'user interaction' }
+{ #category : 'user interaction' }
 CpPresentationPresenter >> previousSlide [
 
 	self slidesCarouselPresenter
@@ -30,20 +32,20 @@ CpPresentationPresenter >> previousSlide [
 		ifNil: [ self model previousSlide ]
 ]
 
-{ #category : #'user interaction' }
+{ #category : 'user interaction' }
 CpPresentationPresenter >> refreshSlide [
 
 	self renderView
 ]
 
-{ #category : #'user interaction' }
+{ #category : 'user interaction' }
 CpPresentationPresenter >> removeSlideIndex [
 
 	self slidesCarouselPresenter
 		ifNotNil: [ :slidesCarouselPresenter | slidesCarouselPresenter destroy ]
 ]
 
-{ #category : #view }
+{ #category : 'view' }
 CpPresentationPresenter >> renderView [
 
 	"Render view of the receiver"
@@ -58,13 +60,13 @@ CpPresentationPresenter >> renderView [
 	self view renderTitle: self model title
 ]
 
-{ #category : #'user interaction' }
+{ #category : 'user interaction' }
 CpPresentationPresenter >> slideSelected: aSlide [
 
 	self model goToSlide: aSlide
 ]
 
-{ #category : #'presenter - carousel' }
+{ #category : 'presenter - carousel' }
 CpPresentationPresenter >> slidesCarouselPresenter [
 
 	"Answer the slides carousel Presenter or nil if it is not currently present"
@@ -72,7 +74,7 @@ CpPresentationPresenter >> slidesCarouselPresenter [
 	^ self firstChildPresenterAtSlotNamed: #carousel
 ]
 
-{ #category : #'user interaction' }
+{ #category : 'user interaction' }
 CpPresentationPresenter >> toggleSlideIndex [
 
 	"Toggle the presence of the carousel presenter"
@@ -86,7 +88,7 @@ CpPresentationPresenter >> toggleSlideIndex [
 		ifNil: [ self renderChildViewForModel: self model usingPresenter: CpSlidesCarouselPresenter atSlotNamed: #carousel ]
 ]
 
-{ #category : #view }
+{ #category : 'view' }
 CpPresentationPresenter >> viewCreated [
 
 	super viewCreated.

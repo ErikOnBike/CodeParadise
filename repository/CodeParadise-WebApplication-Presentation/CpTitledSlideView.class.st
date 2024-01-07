@@ -1,10 +1,12 @@
 Class {
-	#name : #CpTitledSlideView,
-	#superclass : #CpView,
-	#category : #'CodeParadise-WebApplication-Presentation-View'
+	#name : 'CpTitledSlideView',
+	#superclass : 'CpView',
+	#category : 'CodeParadise-WebApplication-Presentation-View',
+	#package : 'CodeParadise-WebApplication-Presentation',
+	#tag : 'View'
 }
 
-{ #category : #'web resources' }
+{ #category : 'web resources' }
 CpTitledSlideView class >> style [
 
 	<webResource: #css>
@@ -37,7 +39,7 @@ CpTitledSlideView class >> style [
 		}'
 ]
 
-{ #category : #'web resources' }
+{ #category : 'web resources' }
 CpTitledSlideView class >> template [
 
 	<webResource: #html>
@@ -52,7 +54,7 @@ CpTitledSlideView class >> template [
 		</div>'
 ]
 
-{ #category : #rendering }
+{ #category : 'rendering' }
 CpTitledSlideView >> renderTitle: aString [
 
 	self

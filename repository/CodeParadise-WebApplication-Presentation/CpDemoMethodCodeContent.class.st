@@ -1,14 +1,16 @@
 Class {
-	#name : #CpDemoMethodCodeContent,
-	#superclass : #CpDemoCodeContent,
+	#name : 'CpDemoMethodCodeContent',
+	#superclass : 'CpDemoCodeContent',
 	#instVars : [
 		'methodClass',
 		'methodClassifier'
 	],
-	#category : #'CodeParadise-WebApplication-Presentation-Examples'
+	#category : 'CodeParadise-WebApplication-Presentation-Examples',
+	#package : 'CodeParadise-WebApplication-Presentation',
+	#tag : 'Examples'
 }
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 CpDemoMethodCodeContent class >> code: aString methodClass: aClass classified: aSymbol [
 
 	^ (self code: aString)
@@ -16,7 +18,7 @@ CpDemoMethodCodeContent class >> code: aString methodClass: aClass classified: a
 		yourself
 ]
 
-{ #category : #operations }
+{ #category : 'operations' }
 CpDemoMethodCodeContent >> installMethod [
 
 	| class |
@@ -29,26 +31,26 @@ CpDemoMethodCodeContent >> installMethod [
 	self valueChanged
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpDemoMethodCodeContent >> methodClass [
 
 	^ methodClass
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpDemoMethodCodeContent >> methodClass: aClass classified: aSymbol [
 
 	methodClass := aClass.
 	methodClassifier := aSymbol
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpDemoMethodCodeContent >> methodClassifier [
 
 	^ methodClassifier
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpDemoMethodCodeContent >> methodSelector [
 
 	| keywords signature |
@@ -75,7 +77,7 @@ CpDemoMethodCodeContent >> methodSelector [
 	^ (($: join: keywords), ':') asSymbol
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpDemoMethodCodeContent >> otherCode [
 
 	"Answer the code of the other method installed (assuming it is different then the receiver's code)
@@ -89,7 +91,7 @@ CpDemoMethodCodeContent >> otherCode [
 	^ class sourceCodeAt: self methodSelector ifAbsent: [ ^ nil ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpDemoMethodCodeContent >> status [
 
 	"Answer whether the method is already installed, another method is installed or nil (if method does not exist yet)"
@@ -106,7 +108,7 @@ CpDemoMethodCodeContent >> status [
 		ifFalse: [ #other ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpDemoMethodCodeContent >> statusString [
 
 	"Answer whether the method is already installed, another method is installed or nil (if method does not exist yet)"

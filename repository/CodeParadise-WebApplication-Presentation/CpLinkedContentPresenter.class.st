@@ -1,16 +1,18 @@
 Class {
-	#name : #CpLinkedContentPresenter,
-	#superclass : #CpSlideContentPresenter,
-	#category : #'CodeParadise-WebApplication-Presentation-Presenter'
+	#name : 'CpLinkedContentPresenter',
+	#superclass : 'CpSlideContentPresenter',
+	#category : 'CodeParadise-WebApplication-Presentation-Presenter',
+	#package : 'CodeParadise-WebApplication-Presentation',
+	#tag : 'Presenter'
 }
 
-{ #category : #model }
+{ #category : 'model' }
 CpLinkedContentPresenter >> contentModel [
 
 	^ self model content
 ]
 
-{ #category : #'user interaction' }
+{ #category : 'user interaction' }
 CpLinkedContentPresenter >> linkedSlideSelected [
 
 	"Tell the parent presenter the linked slide is selected"
@@ -18,7 +20,7 @@ CpLinkedContentPresenter >> linkedSlideSelected [
 	self parent slideSelected: self model linkedSlide
 ]
 
-{ #category : #view }
+{ #category : 'view' }
 CpLinkedContentPresenter >> renderView [
 
 	"Render view of the receiver"
@@ -26,7 +28,7 @@ CpLinkedContentPresenter >> renderView [
 	self renderChildViewForModel: self contentModel
 ]
 
-{ #category : #view }
+{ #category : 'view' }
 CpLinkedContentPresenter >> viewCreated [
 
 	super viewCreated.

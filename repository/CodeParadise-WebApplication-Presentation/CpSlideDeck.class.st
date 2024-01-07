@@ -4,15 +4,17 @@ I have zero or more slides.
 
 "
 Class {
-	#name : #CpSlideDeck,
-	#superclass : #CpModel,
+	#name : 'CpSlideDeck',
+	#superclass : 'CpModel',
 	#instVars : [
 		'slides'
 	],
-	#category : #'CodeParadise-WebApplication-Presentation-Model'
+	#category : 'CodeParadise-WebApplication-Presentation-Model',
+	#package : 'CodeParadise-WebApplication-Presentation',
+	#tag : 'Model'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpSlideDeck >> addSlide: aSlide [
 
 	self slides add: aSlide.
@@ -22,7 +24,7 @@ CpSlideDeck >> addSlide: aSlide [
 	^ aSlide
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpSlideDeck >> firstSlide [
 
 	^ self slides
@@ -30,7 +32,7 @@ CpSlideDeck >> firstSlide [
 		ifEmpty: [ nil ]
 ]
 
-{ #category : #'accessing - private' }
+{ #category : 'accessing - private' }
 CpSlideDeck >> indexOfSlide: aSlide [
 
 	"Answer the index of the specified slide or 0 if the slide is not part of the receiver"
@@ -38,7 +40,7 @@ CpSlideDeck >> indexOfSlide: aSlide [
 	^ self slides indexOf: aSlide ifAbsent: [ 0 ]
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 CpSlideDeck >> initialize [
 
 	super initialize.
@@ -46,7 +48,7 @@ CpSlideDeck >> initialize [
 	slides := OrderedCollection new
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpSlideDeck >> insertSlide: aSlide beforeSlide: anotherSlide [
 
 	| index |
@@ -60,7 +62,7 @@ CpSlideDeck >> insertSlide: aSlide beforeSlide: anotherSlide [
 	^ aSlide
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpSlideDeck >> lastSlide [
 
 	^ self slides
@@ -68,7 +70,7 @@ CpSlideDeck >> lastSlide [
 		ifEmpty: [ nil ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpSlideDeck >> slideAfter: aSlide [
 
 	|index |
@@ -78,7 +80,7 @@ CpSlideDeck >> slideAfter: aSlide [
 	^ self slides at: index + 1 ifAbsent: [ nil ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpSlideDeck >> slideBefore: aSlide [
 
 	|index |
@@ -88,7 +90,7 @@ CpSlideDeck >> slideBefore: aSlide [
 	^ self slides at: index - 1 ifAbsent: [ nil ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpSlideDeck >> slides [
 
 	^ slides

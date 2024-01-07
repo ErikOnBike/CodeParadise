@@ -1,16 +1,18 @@
 Class {
-	#name : #CpMyFirstAppPresentationWebApplication,
-	#superclass : #CpPresentationWebApplication,
-	#category : #'CodeParadise-WebApplication-Presentation-Examples'
+	#name : 'CpMyFirstAppPresentationWebApplication',
+	#superclass : 'CpPresentationWebApplication',
+	#category : 'CodeParadise-WebApplication-Presentation-Examples',
+	#package : 'CodeParadise-WebApplication-Presentation',
+	#tag : 'Examples'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpMyFirstAppPresentationWebApplication class >> app [
 
 	^ #'building-my-first-app'
 ]
 
-{ #category : #slides }
+{ #category : 'slides' }
 CpMyFirstAppPresentationWebApplication >> addApplicationMethodsSlide [
 
 	^ CpTitledSlide new
@@ -42,7 +44,7 @@ CpMyFirstAppPresentationWebApplication >> addApplicationMethodsSlide [
 		yourself
 ]
 
-{ #category : #slides }
+{ #category : 'slides' }
 CpMyFirstAppPresentationWebApplication >> addNewToDoItemAnnouncementMethodsSlide [
 
 	^ CpTitledSlide new
@@ -71,7 +73,7 @@ CpMyFirstAppPresentationWebApplication >> addNewToDoItemAnnouncementMethodsSlide
 		yourself
 ]
 
-{ #category : #slides }
+{ #category : 'slides' }
 CpMyFirstAppPresentationWebApplication >> addToDoItemModelMethods2Slide [
 
 	^ CpTitledSlide new
@@ -97,7 +99,7 @@ CpMyFirstAppPresentationWebApplication >> addToDoItemModelMethods2Slide [
 		yourself
 ]
 
-{ #category : #slides }
+{ #category : 'slides' }
 CpMyFirstAppPresentationWebApplication >> addToDoItemModelMethodsSlide [
 
 	^ CpTitledSlide new
@@ -127,7 +129,7 @@ CpMyFirstAppPresentationWebApplication >> addToDoItemModelMethodsSlide [
 		yourself
 ]
 
-{ #category : #slides }
+{ #category : 'slides' }
 CpMyFirstAppPresentationWebApplication >> addToDoItemPresenters2Slide [
 
 	^ CpTitledSlide new
@@ -180,7 +182,7 @@ CpMyFirstAppPresentationWebApplication >> addToDoItemPresenters2Slide [
 		yourself
 ]
 
-{ #category : #slides }
+{ #category : 'slides' }
 CpMyFirstAppPresentationWebApplication >> addToDoItemPresenters3Slide [
 
 	^ CpTitledSlide new
@@ -210,7 +212,7 @@ CpMyFirstAppPresentationWebApplication >> addToDoItemPresenters3Slide [
 		yourself
 ]
 
-{ #category : #slides }
+{ #category : 'slides' }
 CpMyFirstAppPresentationWebApplication >> addToDoItemPresenters4Slide [
 
 	^ CpTitledSlide new
@@ -232,7 +234,7 @@ CpMyFirstAppPresentationWebApplication >> addToDoItemPresenters4Slide [
 		yourself
 ]
 
-{ #category : #slides }
+{ #category : 'slides' }
 CpMyFirstAppPresentationWebApplication >> addToDoItemPresenters5Slide [
 
 	^ CpTitledSlide new
@@ -259,7 +261,7 @@ CpMyFirstAppPresentationWebApplication >> addToDoItemPresenters5Slide [
 		yourself
 ]
 
-{ #category : #slides }
+{ #category : 'slides' }
 CpMyFirstAppPresentationWebApplication >> addToDoItemPresentersSlide [
 
 	^ CpTitledSlide new
@@ -267,14 +269,23 @@ CpMyFirstAppPresentationWebApplication >> addToDoItemPresentersSlide [
 		content: (CpBulletedContent withAll: {
 			CpMultiContent withAll: {
 				CpTextContent text: 'Add the following Presenter and View classes:'.
-				CpDemoExecutableCodeContent code: 'CpPresenter subclass: #MyToDoItemDonePresenter
+				CpDemoExecutableCodeContent code: (self isRecentVersion
+					ifTrue: [ 'CpPresenter << #MyToDoItemDonePresenter
+	slots: {};
+	package: ''My-ToDo-Application''.
+
+CpView << #MyToDoItemDoneView
+	slots: { };
+	package: ''My-ToDo-Application''.' ]
+					ifFalse: [ 'CpPresenter subclass: #MyToDoItemDonePresenter
 	instanceVariableNames: ''''
 	classVariableNames: ''''
 	package: ''My-ToDo-Application''.
+
 CpView subclass: #MyToDoItemDoneView
 	instanceVariableNames: ''''
 	classVariableNames: ''''
-	package: ''My-ToDo-Application''.'.
+	package: ''My-ToDo-Application''.' ]).
 			}.
 			CpMultiContent withAll: {
 				CpTextContent text: 'Add the following class method to MyToDoItemDoneView:'.
@@ -292,7 +303,7 @@ CpView subclass: #MyToDoItemDoneView
 		yourself
 ]
 
-{ #category : #slides }
+{ #category : 'slides' }
 CpMyFirstAppPresentationWebApplication >> addToDoItemSlide [
 
 	^ CpTitledSlide new
@@ -317,7 +328,7 @@ GlobalMyToDoList addItem: (MyToDoItem description: ''My first item'')'.
 		yourself
 ]
 
-{ #category : #slides }
+{ #category : 'slides' }
 CpMyFirstAppPresentationWebApplication >> addToDoItemViewMethods2Slide [
 
 	^ CpTitledSlide new
@@ -346,7 +357,7 @@ CpMyFirstAppPresentationWebApplication >> addToDoItemViewMethods2Slide [
 		yourself
 ]
 
-{ #category : #slides }
+{ #category : 'slides' }
 CpMyFirstAppPresentationWebApplication >> addToDoItemViewMethodsSlide [
 
 	^ CpTitledSlide new
@@ -380,7 +391,7 @@ CpMyFirstAppPresentationWebApplication >> addToDoItemViewMethodsSlide [
 		yourself
 ]
 
-{ #category : #slides }
+{ #category : 'slides' }
 CpMyFirstAppPresentationWebApplication >> addToDoItemViewStyleSlide [
 
 	^ CpTitledSlide new
@@ -435,7 +446,7 @@ CpMyFirstAppPresentationWebApplication >> addToDoItemViewStyleSlide [
 		yourself
 ]
 
-{ #category : #slides }
+{ #category : 'slides' }
 CpMyFirstAppPresentationWebApplication >> addToDoListModelMethods2Slide [
 
 	^ CpTitledSlide new
@@ -466,7 +477,7 @@ CpMyFirstAppPresentationWebApplication >> addToDoListModelMethods2Slide [
 		yourself
 ]
 
-{ #category : #slides }
+{ #category : 'slides' }
 CpMyFirstAppPresentationWebApplication >> addToDoListModelMethodsSlide [
 
 	^ CpTitledSlide new
@@ -489,7 +500,7 @@ CpMyFirstAppPresentationWebApplication >> addToDoListModelMethodsSlide [
 		yourself
 ]
 
-{ #category : #slides }
+{ #category : 'slides' }
 CpMyFirstAppPresentationWebApplication >> addToDoListPresenterMethodsSlide [
 
 	^ CpTitledSlide new
@@ -517,7 +528,7 @@ CpMyFirstAppPresentationWebApplication >> addToDoListPresenterMethodsSlide [
 		yourself
 ]
 
-{ #category : #slides }
+{ #category : 'slides' }
 CpMyFirstAppPresentationWebApplication >> addToDoListViewBehaviourSlide [
 
 	^ CpTitledSlide new
@@ -539,17 +550,21 @@ CpMyFirstAppPresentationWebApplication >> addToDoListViewBehaviourSlide [
 			CpTextContent text: 'Let''s create a new Announcement to inform the Presenter of new input.'.
 			CpMultiContent withAll: {
 				CpTextContent text: 'Execute the following in a Playground:'.
-				CpDemoExecutableCodeContent code: 'Announcement subclass: #MyNewToDoItem
+				CpDemoExecutableCodeContent code: (self isRecentVersion
+					ifTrue: [ 'Announcement << #MyNewToDoItem
+	slots: { #description };
+	package: ''My-ToDo-Application''.' ]
+					ifFalse: [ 'Announcement subclass: #MyNewToDoItem
 	instanceVariableNames: ''description''
 	classVariableNames: ''''
-	package: ''My-ToDo-Application''.'.
+	package: ''My-ToDo-Application''.' ]).
 			}.
 			CpTextContent text: 'The announcement holds the to-do item description (taken from the input field).'.
 		}) ;
 		yourself
 ]
 
-{ #category : #slides }
+{ #category : 'slides' }
 CpMyFirstAppPresentationWebApplication >> addToDoListViewEventHandler2Slide [
 
 	^ CpTitledSlide new
@@ -581,7 +596,7 @@ CpMyFirstAppPresentationWebApplication >> addToDoListViewEventHandler2Slide [
 		yourself
 ]
 
-{ #category : #slides }
+{ #category : 'slides' }
 CpMyFirstAppPresentationWebApplication >> addToDoListViewEventHandlerSlide [
 
 	^ CpTitledSlide new
@@ -613,7 +628,7 @@ CpMyFirstAppPresentationWebApplication >> addToDoListViewEventHandlerSlide [
 		yourself
 ]
 
-{ #category : #slides }
+{ #category : 'slides' }
 CpMyFirstAppPresentationWebApplication >> addToDoListViewMethodsSlide [
 
 	^ CpTitledSlide new
@@ -642,7 +657,7 @@ CpMyFirstAppPresentationWebApplication >> addToDoListViewMethodsSlide [
 		yourself
 ]
 
-{ #category : #slides }
+{ #category : 'slides' }
 CpMyFirstAppPresentationWebApplication >> addToDoListViewStyle2Slide [
 
 	^ CpTitledSlide new
@@ -709,7 +724,7 @@ CpMyFirstAppPresentationWebApplication >> addToDoListViewStyle2Slide [
 		yourself
 ]
 
-{ #category : #slides }
+{ #category : 'slides' }
 CpMyFirstAppPresentationWebApplication >> addToDoListViewStyleSlide [
 
 	^ CpTitledSlide new
@@ -738,7 +753,7 @@ CpMyFirstAppPresentationWebApplication >> addToDoListViewStyleSlide [
 		yourself
 ]
 
-{ #category : #slides }
+{ #category : 'slides' }
 CpMyFirstAppPresentationWebApplication >> createApplicationSlide [
 
 	^ CpTitledSlide new
@@ -748,10 +763,14 @@ CpMyFirstAppPresentationWebApplication >> createApplicationSlide [
 			CpTextContent text: 'So we are subclassing CpMvpWebApplication.'.
 			CpMultiContent withAll: {
 				CpTextContent text: 'Execute the following in a Playground:'.
-				CpDemoExecutableCodeContent code: 'CpMvpWebApplication subclass: #MyToDoWebApplication
+				CpDemoExecutableCodeContent code: (self isRecentVersion
+					ifTrue: [ 'CpMvpWebApplication << #MyToDoWebApplication
+	slots: { #toDoList };
+	package: ''My-ToDo-Application''.' ]
+					ifFalse: [ 'CpMvpWebApplication subclass: #MyToDoWebApplication
 	instanceVariableNames: ''toDoList''
 	classVariableNames: ''''
-	package: ''My-ToDo-Application''.'.
+	package: ''My-ToDo-Application''.' ]).
 			}.
 			CpTextContent text: 'The application needs an identifier.'.
 			CpTextContent text: 'And the ''root'' model for the application (the instVar ''toDoList'').'.
@@ -760,7 +779,7 @@ CpMyFirstAppPresentationWebApplication >> createApplicationSlide [
 		yourself
 ]
 
-{ #category : #slides }
+{ #category : 'slides' }
 CpMyFirstAppPresentationWebApplication >> createModelSlide [
 
 	^ CpTitledSlide new
@@ -769,7 +788,15 @@ CpMyFirstAppPresentationWebApplication >> createModelSlide [
 			CpTextContent text: 'Our simple model requires just 2 classes: MyToDoList and MyToDoItem.'.
 			CpMultiContent withAll: {
 				CpTextContent text: 'Execute the following in a Playground:'.
-				CpDemoExecutableCodeContent code: 'CpModel subclass: #MyToDoList
+				CpDemoExecutableCodeContent code: (self isRecentVersion
+					ifTrue: [ 'CpModel << #MyToDoList
+	slots: { #items };
+	package: ''My-ToDo-Application''.
+
+CpModel << #MyToDoItem
+	slots: { #description . #done };
+	package: ''My-ToDo-Application''.' ]
+					ifFalse: [ 'CpModel subclass: #MyToDoList
 	instanceVariableNames: ''items''
 	classVariableNames: ''''
 	package: ''My-ToDo-Application''.
@@ -777,14 +804,14 @@ CpMyFirstAppPresentationWebApplication >> createModelSlide [
 CpModel subclass: #MyToDoItem
 	instanceVariableNames: ''description done''
 	classVariableNames: ''''
-	package: ''My-ToDo-Application''.'.
+	package: ''My-ToDo-Application''.' ]).
 			}.
 			CpTextContent text: 'We''ll add some behaviour on the following slides.'.
 		}) ;
 		yourself
 ]
 
-{ #category : #model }
+{ #category : 'model' }
 CpMyFirstAppPresentationWebApplication >> createPresentationModel [
 
 	"Create and answer the PresentationModel for the presentation"
@@ -845,7 +872,7 @@ CpMyFirstAppPresentationWebApplication >> createPresentationModel [
 		yourself
 ]
 
-{ #category : #slides }
+{ #category : 'slides' }
 CpMyFirstAppPresentationWebApplication >> createPresentersSlide [
 
 	^ CpTitledSlide new
@@ -855,21 +882,30 @@ CpMyFirstAppPresentationWebApplication >> createPresentersSlide [
 			CpTextContent text: 'By using matching names as the Models they are ''recognised'' as default presenter.'.
 			CpMultiContent withAll: {
 				CpTextContent text: 'Execute the following in a Playground:'.
-				CpDemoExecutableCodeContent code: 'CpPresenter subclass: #MyToDoItemPresenter
+				CpDemoExecutableCodeContent code: (self isRecentVersion
+					ifTrue: [ 'CpPresenter << #MyToDoItemPresenter
+	slots: {};
+	package: ''My-ToDo-Application''.
+
+CpPresenter << #MyToDoListPresenter
+	slots: {};
+	package: ''My-ToDo-Application''.' ]
+					ifFalse: [ 'CpPresenter subclass: #MyToDoItemPresenter
 	instanceVariableNames: ''''
 	classVariableNames: ''''
 	package: ''My-ToDo-Application''.
+
 CpPresenter subclass: #MyToDoListPresenter
 	instanceVariableNames: ''''
 	classVariableNames: ''''
-	package: ''My-ToDo-Application''.'.
+	package: ''My-ToDo-Application''.' ]).
 			}.
 			CpTextContent text: 'We simply start with the default implementation and add behaviour later.'.
 		}) ;
 		yourself
 ]
 
-{ #category : #slides }
+{ #category : 'slides' }
 CpMyFirstAppPresentationWebApplication >> createViewsSlide [
 
 	^ CpTitledSlide new
@@ -879,14 +915,23 @@ CpMyFirstAppPresentationWebApplication >> createViewsSlide [
 			CpTextContent text: 'By using matching names as the Presenters they are ''recognised'' as default view.'.
 			CpMultiContent withAll: {
 				CpTextContent text: 'Execute the following in a Playground:'.
-				CpDemoExecutableCodeContent code: 'CpView subclass: #MyToDoItemView
+				CpDemoExecutableCodeContent code: (self isRecentVersion
+					ifTrue: [ 'CpView << #MyToDoItemView
+	slots: {};
+	package: ''My-ToDo-Application''.
+
+CpView << #MyToDoListView
+	slots: {};
+	package: ''My-ToDo-Application''.' ]
+					ifFalse: [ 'CpView subclass: #MyToDoItemView
 	instanceVariableNames: ''''
 	classVariableNames: ''''
 	package: ''My-ToDo-Application''.
+
 CpView subclass: #MyToDoListView
 	instanceVariableNames: ''''
 	classVariableNames: ''''
-	package: ''My-ToDo-Application''.'.
+	package: ''My-ToDo-Application''.' ]).
 			}.
 			CpTextContent text: 'These View classes are WebComponents.'.
 			CpMultiContent withAll: {
@@ -898,7 +943,7 @@ CpView subclass: #MyToDoListView
 		yourself
 ]
 
-{ #category : #slides }
+{ #category : 'slides' }
 CpMyFirstAppPresentationWebApplication >> explanationSlide [
 
 	^ CpTitledSlide new
@@ -918,7 +963,7 @@ CpMyFirstAppPresentationWebApplication >> explanationSlide [
 		yourself
 ]
 
-{ #category : #slides }
+{ #category : 'slides' }
 CpMyFirstAppPresentationWebApplication >> finalSlide [
 
 	^ CpTitledSlide new
@@ -926,15 +971,16 @@ CpMyFirstAppPresentationWebApplication >> finalSlide [
 		content: (CpBulletedContent withAll: {
 			CpTextContent text: 'This is the end of this tutorial presentation.'.
 			CpTextContent text: 'We created our first web application! Hope you like it.'.
-			CpTextContent text: 'By showing each step you hopefully learned how this can be done and seen a few of the considerations you''ll have to take.'.
+			CpTextContent text: 'By showing each step you hopefully learned how this can be done and seen a few of the choices you''ll have to make.'.
 			CpTextContent text: 'The CodeParadise framework offers the ability to create MVP-based web applications in which a lot of the update and rendering is taken care of automagically 🪄. Use these powers wisely and if unsure about how to use it (how to approach an issue), feel free to reach out.'.
-			CpTextContent text: 'Try and add or change some features or start a new app!'.
+			CpTextContent text: 'Maybe you have not looked at the actual code (besides what is shown during this presentation). Please do take a little time to look around the classes and methods we created during this tutorial.'.
+			CpTextContent text: 'Please feel invited to try and add or change some features or start a new app as well!'.
 			CpTextContent text: 'And please share your work with others. 🙏'.
 		}) ;
 		yourself
 ]
 
-{ #category : #slides }
+{ #category : 'slides' }
 CpMyFirstAppPresentationWebApplication >> introductionSlide [
 
 	^ CpFullPageSlide new
@@ -945,7 +991,20 @@ CpMyFirstAppPresentationWebApplication >> introductionSlide [
 		yourself
 ]
 
-{ #category : #actions }
+{ #category : 'testing' }
+CpMyFirstAppPresentationWebApplication >> isRecentVersion [
+
+	"Answer whether the receiver is running in a recent Pharo version"
+
+	[
+		SystemVersion current major >= 11
+			ifTrue: [ ^ true ]
+	 ] on: Error do: [ "Ignore error, probably older version" ].
+
+	^ false
+]
+
+{ #category : 'actions' }
 CpMyFirstAppPresentationWebApplication >> openInspector [
 
 	"Open an Inspector on the receiver and answer it"
@@ -953,19 +1012,19 @@ CpMyFirstAppPresentationWebApplication >> openInspector [
 	^ self inspector
 ]
 
-{ #category : #actions }
+{ #category : 'actions' }
 CpMyFirstAppPresentationWebApplication >> showNextSlide [
 
 	self presentation nextSlide
 ]
 
-{ #category : #actions }
+{ #category : 'actions' }
 CpMyFirstAppPresentationWebApplication >> showPreviousSlide [
 
 	self presentation previousSlide
 ]
 
-{ #category : #slides }
+{ #category : 'slides' }
 CpMyFirstAppPresentationWebApplication >> startApplicationSlide [
 
 	^ CpTitledSlide new
@@ -1000,7 +1059,7 @@ CpMyFirstAppPresentationWebApplication >> startApplicationSlide [
 		yourself
 ]
 
-{ #category : #slides }
+{ #category : 'slides' }
 CpMyFirstAppPresentationWebApplication >> updateToDoItemViewMethods2Slide [
 
 	^ CpTitledSlide new
@@ -1030,7 +1089,7 @@ CpMyFirstAppPresentationWebApplication >> updateToDoItemViewMethods2Slide [
 		yourself
 ]
 
-{ #category : #slides }
+{ #category : 'slides' }
 CpMyFirstAppPresentationWebApplication >> updateToDoItemViewMethods3Slide [
 
 	^ CpTitledSlide new
@@ -1061,7 +1120,7 @@ CpMyFirstAppPresentationWebApplication >> updateToDoItemViewMethods3Slide [
 		yourself
 ]
 
-{ #category : #slides }
+{ #category : 'slides' }
 CpMyFirstAppPresentationWebApplication >> updateToDoItemViewMethods4Slide [
 
 	^ CpTitledSlide new
@@ -1082,7 +1141,7 @@ CpMyFirstAppPresentationWebApplication >> updateToDoItemViewMethods4Slide [
 		yourself
 ]
 
-{ #category : #slides }
+{ #category : 'slides' }
 CpMyFirstAppPresentationWebApplication >> updateToDoItemViewMethodsSlide [
 
 	^ CpTitledSlide new
@@ -1105,7 +1164,7 @@ CpMyFirstAppPresentationWebApplication >> updateToDoItemViewMethodsSlide [
 		yourself
 ]
 
-{ #category : #slides }
+{ #category : 'slides' }
 CpMyFirstAppPresentationWebApplication >> updateToDoListModel2Slide [
 
 	^ CpTitledSlide new
@@ -1136,7 +1195,7 @@ CpMyFirstAppPresentationWebApplication >> updateToDoListModel2Slide [
 		yourself
 ]
 
-{ #category : #slides }
+{ #category : 'slides' }
 CpMyFirstAppPresentationWebApplication >> updateToDoListModel3Slide [
 
 	^ CpTitledSlide new
@@ -1160,7 +1219,7 @@ CpMyFirstAppPresentationWebApplication >> updateToDoListModel3Slide [
 		yourself
 ]
 
-{ #category : #slides }
+{ #category : 'slides' }
 CpMyFirstAppPresentationWebApplication >> updateToDoListModel4Slide [
 
 	^ CpTitledSlide new
@@ -1190,7 +1249,7 @@ CpMyFirstAppPresentationWebApplication >> updateToDoListModel4Slide [
 		yourself
 ]
 
-{ #category : #slides }
+{ #category : 'slides' }
 CpMyFirstAppPresentationWebApplication >> updateToDoListModel5Slide [
 
 	^ CpTitledSlide new
@@ -1219,7 +1278,7 @@ CpMyFirstAppPresentationWebApplication >> updateToDoListModel5Slide [
 		yourself
 ]
 
-{ #category : #slides }
+{ #category : 'slides' }
 CpMyFirstAppPresentationWebApplication >> updateToDoListModel6Slide [
 
 	^ CpTitledSlide new
@@ -1294,7 +1353,7 @@ CpMyFirstAppPresentationWebApplication >> updateToDoListModel6Slide [
 		yourself
 ]
 
-{ #category : #slides }
+{ #category : 'slides' }
 CpMyFirstAppPresentationWebApplication >> updateToDoListModel7Slide [
 
 	^ CpTitledSlide new
@@ -1325,7 +1384,7 @@ CpMyFirstAppPresentationWebApplication >> updateToDoListModel7Slide [
 		yourself
 ]
 
-{ #category : #slides }
+{ #category : 'slides' }
 CpMyFirstAppPresentationWebApplication >> updateToDoListModelSlide [
 
 	^ CpTitledSlide new
@@ -1350,7 +1409,7 @@ CpMyFirstAppPresentationWebApplication >> updateToDoListModelSlide [
 		yourself
 ]
 
-{ #category : #slides }
+{ #category : 'slides' }
 CpMyFirstAppPresentationWebApplication >> updateToDoListPresenterMethods2Slide [
 
 	^ CpTitledSlide new
@@ -1373,7 +1432,7 @@ CpMyFirstAppPresentationWebApplication >> updateToDoListPresenterMethods2Slide [
 		yourself
 ]
 
-{ #category : #slides }
+{ #category : 'slides' }
 CpMyFirstAppPresentationWebApplication >> updateToDoListPresenterMethods3Slide [
 
 	^ CpTitledSlide new
@@ -1405,7 +1464,7 @@ CpMyFirstAppPresentationWebApplication >> updateToDoListPresenterMethods3Slide [
 	yourself
 ]
 
-{ #category : #slides }
+{ #category : 'slides' }
 CpMyFirstAppPresentationWebApplication >> updateToDoListPresenterMethodsSlide [
 
 	^ CpTitledSlide new
@@ -1434,7 +1493,7 @@ CpMyFirstAppPresentationWebApplication >> updateToDoListPresenterMethodsSlide [
 		yourself
 ]
 
-{ #category : #slides }
+{ #category : 'slides' }
 CpMyFirstAppPresentationWebApplication >> updateToDoListPresenterMoreMethods2Slide [
 
 	^ CpTitledSlide new
@@ -1460,7 +1519,7 @@ CpMyFirstAppPresentationWebApplication >> updateToDoListPresenterMoreMethods2Sli
 		yourself
 ]
 
-{ #category : #slides }
+{ #category : 'slides' }
 CpMyFirstAppPresentationWebApplication >> updateToDoListPresenterMoreMethods3Slide [
 
 	^ CpTitledSlide new
@@ -1482,7 +1541,7 @@ CpMyFirstAppPresentationWebApplication >> updateToDoListPresenterMoreMethods3Sli
 		yourself
 ]
 
-{ #category : #slides }
+{ #category : 'slides' }
 CpMyFirstAppPresentationWebApplication >> updateToDoListPresenterMoreMethods4Slide [
 
 	^ CpTitledSlide new
@@ -1512,7 +1571,7 @@ CpMyFirstAppPresentationWebApplication >> updateToDoListPresenterMoreMethods4Sli
 		yourself
 ]
 
-{ #category : #slides }
+{ #category : 'slides' }
 CpMyFirstAppPresentationWebApplication >> updateToDoListPresenterMoreMethods5Slide [
 
 	^ CpTitledSlide new
@@ -1554,7 +1613,7 @@ CpMyFirstAppPresentationWebApplication >> updateToDoListPresenterMoreMethods5Sli
 		yourself
 ]
 
-{ #category : #slides }
+{ #category : 'slides' }
 CpMyFirstAppPresentationWebApplication >> updateToDoListPresenterMoreMethods6Slide [
 
 	^ CpTitledSlide new
@@ -1579,7 +1638,7 @@ CpMyFirstAppPresentationWebApplication >> updateToDoListPresenterMoreMethods6Sli
 		yourself
 ]
 
-{ #category : #slides }
+{ #category : 'slides' }
 CpMyFirstAppPresentationWebApplication >> updateToDoListPresenterMoreMethods7Slide [
 
 	^ CpTitledSlide new
@@ -1606,7 +1665,7 @@ CpMyFirstAppPresentationWebApplication >> updateToDoListPresenterMoreMethods7Sli
 		yourself
 ]
 
-{ #category : #slides }
+{ #category : 'slides' }
 CpMyFirstAppPresentationWebApplication >> updateToDoListPresenterMoreMethodsSlide [
 
 	^ CpTitledSlide new
@@ -1615,14 +1674,23 @@ CpMyFirstAppPresentationWebApplication >> updateToDoListPresenterMoreMethodsSlid
 			CpTextContent text: 'Removing a to-do item is behaviour of MyToDoList, but requires us to know which item we want to remove. One solution to achieve this is to have a ''remove'' button displayed after each to-do item. We ''decorate'' the to-do item View with a ''remove'' button.'.
 			CpMultiContent withAll: {
 				CpTextContent text: 'Create the following Presenter and View:'.
-				CpDemoExecutableCodeContent code: 'CpPresenter subclass: #MyRemovableToDoItemPresenter
+				CpDemoExecutableCodeContent code: (self isRecentVersion
+					ifTrue: [ 'CpPresenter << #MyRemovableToDoItemPresenter
+	slots: {};
+	package: ''My-ToDo-Application''.
+
+CpView << #MyRemovableToDoItemView
+	slots: {};
+	package: ''My-ToDo-Application''.' ]
+					ifFalse: [ 'CpPresenter subclass: #MyRemovableToDoItemPresenter
 	instanceVariableNames: ''''
 	classVariableNames: ''''
 	package: ''My-ToDo-Application''.
+
 CpView subclass: #MyRemovableToDoItemView
 	instanceVariableNames: ''''
 	classVariableNames: ''''
-	package: ''My-ToDo-Application''.'.
+	package: ''My-ToDo-Application''.' ]).
 			}.
 			CpTextContent text: 'On the following slides we''ll be adding the looks and feel.'.
 		}) ;

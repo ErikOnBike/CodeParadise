@@ -1,10 +1,12 @@
 Class {
-	#name : #CpCarouselSlideView,
-	#superclass : #CpView,
-	#category : #'CodeParadise-WebApplication-Presentation-View'
+	#name : 'CpCarouselSlideView',
+	#superclass : 'CpView',
+	#category : 'CodeParadise-WebApplication-Presentation-View',
+	#package : 'CodeParadise-WebApplication-Presentation',
+	#tag : 'View'
 }
 
-{ #category : #'web resources' }
+{ #category : 'web resources' }
 CpCarouselSlideView class >> style [
 
 	<webResource: #css>
@@ -31,7 +33,7 @@ CpCarouselSlideView class >> style [
 		}'
 ]
 
-{ #category : #'web resources' }
+{ #category : 'web resources' }
 CpCarouselSlideView class >> template [
 
 	<webResource: #html>

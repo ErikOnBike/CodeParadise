@@ -1,10 +1,12 @@
 Class {
-	#name : #CpHtmlContentView,
-	#superclass : #CpView,
-	#category : #'CodeParadise-WebApplication-Presentation-View'
+	#name : 'CpHtmlContentView',
+	#superclass : 'CpView',
+	#category : 'CodeParadise-WebApplication-Presentation-View',
+	#package : 'CodeParadise-WebApplication-Presentation',
+	#tag : 'View'
 }
 
-{ #category : #'web resources' }
+{ #category : 'web resources' }
 CpHtmlContentView class >> style [
 
 	<webResource: #css>
@@ -17,7 +19,7 @@ CpHtmlContentView class >> style [
 		}'
 ]
 
-{ #category : #'web resources' }
+{ #category : 'web resources' }
 CpHtmlContentView class >> template [
 
 	<webResource: #html>

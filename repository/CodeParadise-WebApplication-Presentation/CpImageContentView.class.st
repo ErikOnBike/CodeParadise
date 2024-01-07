@@ -1,10 +1,12 @@
 Class {
-	#name : #CpImageContentView,
-	#superclass : #CpView,
-	#category : #'CodeParadise-WebApplication-Presentation-View'
+	#name : 'CpImageContentView',
+	#superclass : 'CpView',
+	#category : 'CodeParadise-WebApplication-Presentation-View',
+	#package : 'CodeParadise-WebApplication-Presentation',
+	#tag : 'View'
 }
 
-{ #category : #'web resources' }
+{ #category : 'web resources' }
 CpImageContentView class >> style [
 
 	<webResource: #css>
@@ -18,7 +20,7 @@ CpImageContentView class >> style [
 		}'
 ]
 
-{ #category : #'web resources' }
+{ #category : 'web resources' }
 CpImageContentView class >> template [
 
 	<webResource: #html>
@@ -28,7 +30,7 @@ CpImageContentView class >> template [
 		</div>'
 ]
 
-{ #category : #rendering }
+{ #category : 'rendering' }
 CpImageContentView >> renderImage: stringUrl [
 
 	| image |
@@ -39,7 +41,7 @@ CpImageContentView >> renderImage: stringUrl [
 	image attributeAt: #src put: stringUrl
 ]
 
-{ #category : #rendering }
+{ #category : 'rendering' }
 CpImageContentView >> renderImage: stringUrl width: widthString height: heightString [
 
 	self renderImage: stringUrl.

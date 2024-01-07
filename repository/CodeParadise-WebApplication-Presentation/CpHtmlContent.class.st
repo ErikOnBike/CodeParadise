@@ -1,13 +1,15 @@
 Class {
-	#name : #CpHtmlContent,
-	#superclass : #CpSlideContent,
+	#name : 'CpHtmlContent',
+	#superclass : 'CpSlideContent',
 	#instVars : [
 		'html'
 	],
-	#category : #'CodeParadise-WebApplication-Presentation-Model'
+	#category : 'CodeParadise-WebApplication-Presentation-Model',
+	#package : 'CodeParadise-WebApplication-Presentation',
+	#tag : 'Model'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpHtmlContent class >> html: aString [
 
 	"Answer an instance of the receiver with the specified HTML"
@@ -17,13 +19,13 @@ CpHtmlContent class >> html: aString [
 		yourself
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpHtmlContent >> html [
 
 	^ html
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpHtmlContent >> html: aString [
 
 	html := aString.
