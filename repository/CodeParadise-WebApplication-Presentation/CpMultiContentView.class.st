@@ -1,12 +1,10 @@
 Class {
-	#name : 'CpMultiContentView',
-	#superclass : 'CpView',
-	#category : 'CodeParadise-WebApplication-Presentation-View',
-	#package : 'CodeParadise-WebApplication-Presentation',
-	#tag : 'View'
+	#name : #CpMultiContentView,
+	#superclass : #CpView,
+	#category : 'CodeParadise-WebApplication-Presentation-View'
 }
 
-{ #category : 'web resources' }
+{ #category : #'web resources' }
 CpMultiContentView class >> style [
 
 	<webResource: #css>
@@ -22,7 +20,7 @@ CpMultiContentView class >> style [
 		}'
 ]
 
-{ #category : 'web resources' }
+{ #category : #'web resources' }
 CpMultiContentView class >> template [
 
 	<webResource: #html>

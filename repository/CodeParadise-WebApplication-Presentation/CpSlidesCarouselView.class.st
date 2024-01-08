@@ -1,12 +1,10 @@
 Class {
-	#name : 'CpSlidesCarouselView',
-	#superclass : 'CpView',
-	#category : 'CodeParadise-WebApplication-Presentation-View',
-	#package : 'CodeParadise-WebApplication-Presentation',
-	#tag : 'View'
+	#name : #CpSlidesCarouselView,
+	#superclass : #CpView,
+	#category : 'CodeParadise-WebApplication-Presentation-View'
 }
 
-{ #category : 'web resources' }
+{ #category : #'web resources' }
 CpSlidesCarouselView class >> style [
 
 	<webResource: #css>
@@ -39,7 +37,7 @@ CpSlidesCarouselView class >> style [
 		}'
 ]
 
-{ #category : 'web resources' }
+{ #category : #'web resources' }
 CpSlidesCarouselView class >> template [
 
 	<webResource: #html>
@@ -53,7 +51,7 @@ CpSlidesCarouselView class >> template [
 		</div>'
 ]
 
-{ #category : 'rendering' }
+{ #category : #rendering }
 CpSlidesCarouselView >> centerAround: anInteger [
 
 	"Put the carousel in the correct 'orientation'.
@@ -74,7 +72,7 @@ CpSlidesCarouselView >> centerAround: anInteger [
 			stream nextPutAll: 'deg)' ])
 ]
 
-{ #category : 'rendering' }
+{ #category : #rendering }
 CpSlidesCarouselView >> renderSlidesCenteredAround: anInteger [
 
 	"Put the slides in the correct 'position'.

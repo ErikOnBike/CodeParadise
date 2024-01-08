@@ -1,12 +1,10 @@
 Class {
-	#name : 'CpLinkedContentView',
-	#superclass : 'CpView',
-	#category : 'CodeParadise-WebApplication-Presentation-View',
-	#package : 'CodeParadise-WebApplication-Presentation',
-	#tag : 'View'
+	#name : #CpLinkedContentView,
+	#superclass : #CpView,
+	#category : 'CodeParadise-WebApplication-Presentation-View'
 }
 
-{ #category : 'web resources' }
+{ #category : #'web resources' }
 CpLinkedContentView class >> style [
 
 	<webResource: #css>
@@ -20,7 +18,7 @@ CpLinkedContentView class >> style [
 		}'
 ]
 
-{ #category : 'web resources' }
+{ #category : #'web resources' }
 CpLinkedContentView class >> template [
 
 	<webResource: #html>
@@ -28,13 +26,13 @@ CpLinkedContentView class >> template [
 	^ '<slot></slot>'
 ]
 
-{ #category : 'event handling' }
+{ #category : #'event handling' }
 CpLinkedContentView >> handleClickEvent: aClickEvent [
 
 	self serverAnnounce: CpLinkActivated
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 CpLinkedContentView >> initialize [
 
 	super initialize.

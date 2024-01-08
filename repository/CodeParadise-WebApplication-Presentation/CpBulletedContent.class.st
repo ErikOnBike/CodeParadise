@@ -4,17 +4,15 @@ I have zero or more bullets, each of which can be SlideContent.
 
 "
 Class {
-	#name : 'CpBulletedContent',
-	#superclass : 'CpSlideContent',
+	#name : #CpBulletedContent,
+	#superclass : #CpSlideContent,
 	#instVars : [
 		'bullets'
 	],
-	#category : 'CodeParadise-WebApplication-Presentation-Model',
-	#package : 'CodeParadise-WebApplication-Presentation',
-	#tag : 'Model'
+	#category : 'CodeParadise-WebApplication-Presentation-Model'
 }
 
-{ #category : 'instance creation' }
+{ #category : #'instance creation' }
 CpBulletedContent class >> withAll: aContentCollection [
 
 	| instance |
@@ -25,7 +23,7 @@ CpBulletedContent class >> withAll: aContentCollection [
 	^ instance
 ]
 
-{ #category : 'adding' }
+{ #category : #adding }
 CpBulletedContent >> addBullet: aSlideContent [
 
 	self bullets add: aSlideContent.
@@ -35,13 +33,13 @@ CpBulletedContent >> addBullet: aSlideContent [
 	^ aSlideContent
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 CpBulletedContent >> bullets [
 
 	^ bullets
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 CpBulletedContent >> initialize [
 
 	super initialize.
@@ -49,7 +47,7 @@ CpBulletedContent >> initialize [
 	bullets := OrderedCollection new
 ]
 
-{ #category : 'adding' }
+{ #category : #adding }
 CpBulletedContent >> insertBullet: aSlideContent beforeBullet: anotherSlideContent [
 
 	| index |

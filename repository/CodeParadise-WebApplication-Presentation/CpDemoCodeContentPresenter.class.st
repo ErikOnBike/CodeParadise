@@ -1,24 +1,22 @@
 Class {
-	#name : 'CpDemoCodeContentPresenter',
-	#superclass : 'CpSlideContentPresenter',
-	#category : 'CodeParadise-WebApplication-Presentation-Examples',
-	#package : 'CodeParadise-WebApplication-Presentation',
-	#tag : 'Examples'
+	#name : #CpDemoCodeContentPresenter,
+	#superclass : #CpSlideContentPresenter,
+	#category : 'CodeParadise-WebApplication-Presentation-Examples'
 }
 
-{ #category : 'user interaction' }
+{ #category : #'user interaction' }
 CpDemoCodeContentPresenter >> copyClipboard [
 
 	Clipboard clipboardText: (self model code copyReplaceAll: String lf with: String cr)
 ]
 
-{ #category : 'view' }
+{ #category : #view }
 CpDemoCodeContentPresenter >> renderView [
 
 	self view renderCode: self model code
 ]
 
-{ #category : 'view' }
+{ #category : #view }
 CpDemoCodeContentPresenter >> viewCreated [
 
 	super viewCreated.

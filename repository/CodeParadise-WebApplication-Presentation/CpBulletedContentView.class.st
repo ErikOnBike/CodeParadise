@@ -1,12 +1,10 @@
 Class {
-	#name : 'CpBulletedContentView',
-	#superclass : 'CpView',
-	#category : 'CodeParadise-WebApplication-Presentation-View',
-	#package : 'CodeParadise-WebApplication-Presentation',
-	#tag : 'View'
+	#name : #CpBulletedContentView,
+	#superclass : #CpView,
+	#category : 'CodeParadise-WebApplication-Presentation-View'
 }
 
-{ #category : 'web resources' }
+{ #category : #'web resources' }
 CpBulletedContentView class >> style [
 
 	<webResource: #css>
@@ -19,7 +17,7 @@ CpBulletedContentView class >> style [
 		}'
 ]
 
-{ #category : 'web resources' }
+{ #category : #'web resources' }
 CpBulletedContentView class >> template [
 
 	<webResource: #html>

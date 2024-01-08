@@ -1,12 +1,10 @@
 Class {
-	#name : 'CpDemoMethodCodeContentView',
-	#superclass : 'CpDemoCodeContentView',
-	#category : 'CodeParadise-WebApplication-Presentation-Examples',
-	#package : 'CodeParadise-WebApplication-Presentation',
-	#tag : 'Examples'
+	#name : #CpDemoMethodCodeContentView,
+	#superclass : #CpDemoCodeContentView,
+	#category : 'CodeParadise-WebApplication-Presentation-Examples'
 }
 
-{ #category : 'web resources' }
+{ #category : #'web resources' }
 CpDemoMethodCodeContentView class >> style [
 
 	<webResource: #css>
@@ -18,7 +16,7 @@ CpDemoMethodCodeContentView class >> style [
 	}'
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 CpDemoMethodCodeContentView >> initialize [
 
 	super initialize.
@@ -30,13 +28,13 @@ CpDemoMethodCodeContentView >> initialize [
 		atSlotNamed: #actions
 ]
 
-{ #category : 'event handling' }
+{ #category : #'event handling' }
 CpDemoMethodCodeContentView >> installMethod [
 
 	self serverAnnounce: CpDemoCodeInstall
 ]
 
-{ #category : 'rendering' }
+{ #category : #rendering }
 CpDemoMethodCodeContentView >> renderBanner: aString showOther: aBoolean [
 
 	(self firstChildAtSlotNamed: #banner) ifNotNil: [ :banner | banner unsubscribe: self ].
@@ -50,7 +48,7 @@ CpDemoMethodCodeContentView >> renderBanner: aString showOther: aBoolean [
 		banner when: CpClickEvent primary only send: #toggleOther: to: self ]
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : #'as yet unclassified' }
 CpDemoMethodCodeContentView >> toggleOther: aClickEvent [
 
 	aClickEvent stopPropagation.

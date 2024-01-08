@@ -1,15 +1,13 @@
 Class {
-	#name : 'CpPresentationWebApplication',
-	#superclass : 'CpMvpWebApplication',
+	#name : #CpPresentationWebApplication,
+	#superclass : #CpMvpWebApplication,
 	#instVars : [
 		'presentation'
 	],
-	#category : 'CodeParadise-WebApplication-Presentation-Application',
-	#package : 'CodeParadise-WebApplication-Presentation',
-	#tag : 'Application'
+	#category : 'CodeParadise-WebApplication-Presentation-Application'
 }
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 CpPresentationWebApplication >> applicationModel [
 
 	"Answer the Model for the receiver"
@@ -17,7 +15,7 @@ CpPresentationWebApplication >> applicationModel [
 	^ self presentation
 ]
 
-{ #category : 'model' }
+{ #category : #model }
 CpPresentationWebApplication >> createPresentationModel [
 
 	"Create and answer the PresentationModel for the presentation"
@@ -25,7 +23,7 @@ CpPresentationWebApplication >> createPresentationModel [
 	self subclassResponsibility
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 CpPresentationWebApplication >> initialize [
 
 	"Set up the receiver with a single presenter and single model"
@@ -37,7 +35,7 @@ CpPresentationWebApplication >> initialize [
 	presentation start
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 CpPresentationWebApplication >> presentation [
 
 	^ presentation

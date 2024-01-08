@@ -1,12 +1,10 @@
 Class {
-	#name : 'CpTextContentView',
-	#superclass : 'CpView',
-	#category : 'CodeParadise-WebApplication-Presentation-View',
-	#package : 'CodeParadise-WebApplication-Presentation',
-	#tag : 'View'
+	#name : #CpTextContentView,
+	#superclass : #CpView,
+	#category : 'CodeParadise-WebApplication-Presentation-View'
 }
 
-{ #category : 'web resources' }
+{ #category : #'web resources' }
 CpTextContentView class >> style [
 
 	<webResource: #css>
@@ -19,7 +17,7 @@ CpTextContentView class >> style [
 		}'
 ]
 
-{ #category : 'web resources' }
+{ #category : #'web resources' }
 CpTextContentView class >> template [
 
 	<webResource: #html>

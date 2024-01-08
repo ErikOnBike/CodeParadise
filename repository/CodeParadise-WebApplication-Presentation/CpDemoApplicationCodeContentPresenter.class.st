@@ -1,12 +1,10 @@
 Class {
-	#name : 'CpDemoApplicationCodeContentPresenter',
-	#superclass : 'CpDemoCodeContentPresenter',
-	#category : 'CodeParadise-WebApplication-Presentation-Examples',
-	#package : 'CodeParadise-WebApplication-Presentation',
-	#tag : 'Examples'
+	#name : #CpDemoApplicationCodeContentPresenter,
+	#superclass : #CpDemoCodeContentPresenter,
+	#category : 'CodeParadise-WebApplication-Presentation-Examples'
 }
 
-{ #category : 'user interaction' }
+{ #category : #'user interaction' }
 CpDemoApplicationCodeContentPresenter >> openInspector [
 
 	"Open a new Inspector on the application"
@@ -14,7 +12,7 @@ CpDemoApplicationCodeContentPresenter >> openInspector [
 	self application openInspector
 ]
 
-{ #category : 'view' }
+{ #category : #view }
 CpDemoApplicationCodeContentPresenter >> viewCreated [
 
 	super viewCreated.
