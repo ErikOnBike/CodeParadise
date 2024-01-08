@@ -89,6 +89,7 @@ CpDemoCodeContentView class >> style [
 			left: 50%;
 			font-size: calc(1em * var(--code-zoom-factor));
 			height: auto;
+			border-left: 1px solid white;
 		}
 		::slotted([slot="banner"]) {
 			display: block;
