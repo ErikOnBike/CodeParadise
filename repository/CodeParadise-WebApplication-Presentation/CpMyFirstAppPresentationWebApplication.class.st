@@ -1,7 +1,7 @@
 Class {
 	#name : #CpMyFirstAppPresentationWebApplication,
 	#superclass : #CpPresentationWebApplication,
-	#category : 'CodeParadise-WebApplication-Presentation-Examples'
+	#category : #'CodeParadise-WebApplication-Presentation-Examples'
 }
 
 { #category : #accessing }
@@ -267,23 +267,8 @@ CpMyFirstAppPresentationWebApplication >> addToDoItemPresentersSlide [
 		content: (CpBulletedContent withAll: {
 			CpMultiContent withAll: {
 				CpTextContent text: 'Add the following Presenter and View classes:'.
-				CpDemoExecutableCodeContent code: (self isRecentVersion
-					ifTrue: [ 'CpPresenter << #MyToDoItemDonePresenter
-	slots: {};
-	package: ''My-ToDo-Application''.
-
-CpView << #MyToDoItemDoneView
-	slots: { };
-	package: ''My-ToDo-Application''.' ]
-					ifFalse: [ 'CpPresenter subclass: #MyToDoItemDonePresenter
-	instanceVariableNames: ''''
-	classVariableNames: ''''
-	package: ''My-ToDo-Application''.
-
-CpView subclass: #MyToDoItemDoneView
-	instanceVariableNames: ''''
-	classVariableNames: ''''
-	package: ''My-ToDo-Application''.' ]).
+				CpDemoClassDefinitionCodeContent superclassName: #CpPresenter className: #MyToDoItemDonePresenter slotNames: #() packageName: 'My-ToDo-Application'.
+				CpDemoClassDefinitionCodeContent superclassName: #CpView className: #MyToDoItemDoneView slotNames: #() packageName: 'My-ToDo-Application'.
 			}.
 			CpMultiContent withAll: {
 				CpTextContent text: 'Add the following class method to MyToDoItemDoneView:'.
@@ -548,14 +533,7 @@ CpMyFirstAppPresentationWebApplication >> addToDoListViewBehaviourSlide [
 			CpTextContent text: 'Let''s create a new Announcement to inform the Presenter of new input.'.
 			CpMultiContent withAll: {
 				CpTextContent text: 'Execute the following in a Playground:'.
-				CpDemoExecutableCodeContent code: (self isRecentVersion
-					ifTrue: [ 'Announcement << #MyNewToDoItem
-	slots: { #description };
-	package: ''My-ToDo-Application''.' ]
-					ifFalse: [ 'Announcement subclass: #MyNewToDoItem
-	instanceVariableNames: ''description''
-	classVariableNames: ''''
-	package: ''My-ToDo-Application''.' ]).
+				CpDemoClassDefinitionCodeContent superclassName: #Announcement className: #MyNewToDoItem slotNames: #(#description) packageName: 'My-ToDo-Application'.
 			}.
 			CpTextContent text: 'The announcement holds the to-do item description (taken from the input field).'.
 		}) ;
@@ -761,14 +739,7 @@ CpMyFirstAppPresentationWebApplication >> createApplicationSlide [
 			CpTextContent text: 'So we are subclassing CpMvpWebApplication.'.
 			CpMultiContent withAll: {
 				CpTextContent text: 'Execute the following in a Playground:'.
-				CpDemoExecutableCodeContent code: (self isRecentVersion
-					ifTrue: [ 'CpMvpWebApplication << #MyToDoWebApplication
-	slots: { #toDoList };
-	package: ''My-ToDo-Application''.' ]
-					ifFalse: [ 'CpMvpWebApplication subclass: #MyToDoWebApplication
-	instanceVariableNames: ''toDoList''
-	classVariableNames: ''''
-	package: ''My-ToDo-Application''.' ]).
+				CpDemoClassDefinitionCodeContent superclassName: #CpMvpWebApplication className: #MyToDoWebApplication slotNames: #(#toDoList) packageName: 'My-ToDo-Application'.
 			}.
 			CpTextContent text: 'The application needs an identifier.'.
 			CpTextContent text: 'And the ''root'' model for the application (the instVar ''toDoList'').'.
@@ -786,23 +757,8 @@ CpMyFirstAppPresentationWebApplication >> createModelSlide [
 			CpTextContent text: 'Our simple model requires just 2 classes: MyToDoList and MyToDoItem.'.
 			CpMultiContent withAll: {
 				CpTextContent text: 'Execute the following in a Playground:'.
-				CpDemoExecutableCodeContent code: (self isRecentVersion
-					ifTrue: [ 'CpModel << #MyToDoList
-	slots: { #items };
-	package: ''My-ToDo-Application''.
-
-CpModel << #MyToDoItem
-	slots: { #description . #done };
-	package: ''My-ToDo-Application''.' ]
-					ifFalse: [ 'CpModel subclass: #MyToDoList
-	instanceVariableNames: ''items''
-	classVariableNames: ''''
-	package: ''My-ToDo-Application''.
-
-CpModel subclass: #MyToDoItem
-	instanceVariableNames: ''description done''
-	classVariableNames: ''''
-	package: ''My-ToDo-Application''.' ]).
+				CpDemoClassDefinitionCodeContent superclassName: #CpModel className: #MyToDoList slotNames: #(#items) packageName: 'My-ToDo-Application'.
+				CpDemoClassDefinitionCodeContent superclassName: #CpModel className: #MyToDoItem slotNames: #(#description #done) packageName: 'My-ToDo-Application'.
 			}.
 			CpTextContent text: 'We''ll add some behaviour on the following slides.'.
 		}) ;
@@ -880,23 +836,8 @@ CpMyFirstAppPresentationWebApplication >> createPresentersSlide [
 			CpTextContent text: 'By using matching names as the Models they are ''recognised'' as default presenter.'.
 			CpMultiContent withAll: {
 				CpTextContent text: 'Execute the following in a Playground:'.
-				CpDemoExecutableCodeContent code: (self isRecentVersion
-					ifTrue: [ 'CpPresenter << #MyToDoItemPresenter
-	slots: {};
-	package: ''My-ToDo-Application''.
-
-CpPresenter << #MyToDoListPresenter
-	slots: {};
-	package: ''My-ToDo-Application''.' ]
-					ifFalse: [ 'CpPresenter subclass: #MyToDoItemPresenter
-	instanceVariableNames: ''''
-	classVariableNames: ''''
-	package: ''My-ToDo-Application''.
-
-CpPresenter subclass: #MyToDoListPresenter
-	instanceVariableNames: ''''
-	classVariableNames: ''''
-	package: ''My-ToDo-Application''.' ]).
+				CpDemoClassDefinitionCodeContent superclassName: #CpPresenter className: #MyToDoItemPresenter slotNames: #() packageName: 'My-ToDo-Application'.
+				CpDemoClassDefinitionCodeContent superclassName: #CpPresenter className: #MyToDoListPresenter slotNames: #() packageName: 'My-ToDo-Application'.
 			}.
 			CpTextContent text: 'We simply start with the default implementation and add behaviour later.'.
 		}) ;
@@ -913,23 +854,8 @@ CpMyFirstAppPresentationWebApplication >> createViewsSlide [
 			CpTextContent text: 'By using matching names as the Presenters they are ''recognised'' as default view.'.
 			CpMultiContent withAll: {
 				CpTextContent text: 'Execute the following in a Playground:'.
-				CpDemoExecutableCodeContent code: (self isRecentVersion
-					ifTrue: [ 'CpView << #MyToDoItemView
-	slots: {};
-	package: ''My-ToDo-Application''.
-
-CpView << #MyToDoListView
-	slots: {};
-	package: ''My-ToDo-Application''.' ]
-					ifFalse: [ 'CpView subclass: #MyToDoItemView
-	instanceVariableNames: ''''
-	classVariableNames: ''''
-	package: ''My-ToDo-Application''.
-
-CpView subclass: #MyToDoListView
-	instanceVariableNames: ''''
-	classVariableNames: ''''
-	package: ''My-ToDo-Application''.' ]).
+				CpDemoClassDefinitionCodeContent superclassName: #CpView className: #MyToDoItemView slotNames: #() packageName: 'My-ToDo-Application'.
+				CpDemoClassDefinitionCodeContent superclassName: #CpView className: #MyToDoListView slotNames: #() packageName: 'My-ToDo-Application'.
 			}.
 			CpTextContent text: 'These View classes are WebComponents.'.
 			CpMultiContent withAll: {
@@ -1672,23 +1598,8 @@ CpMyFirstAppPresentationWebApplication >> updateToDoListPresenterMoreMethodsSlid
 			CpTextContent text: 'Removing a to-do item is behaviour of MyToDoList, but requires us to know which item we want to remove. One solution to achieve this is to have a ''remove'' button displayed after each to-do item. We ''decorate'' the to-do item View with a ''remove'' button.'.
 			CpMultiContent withAll: {
 				CpTextContent text: 'Create the following Presenter and View:'.
-				CpDemoExecutableCodeContent code: (self isRecentVersion
-					ifTrue: [ 'CpPresenter << #MyRemovableToDoItemPresenter
-	slots: {};
-	package: ''My-ToDo-Application''.
-
-CpView << #MyRemovableToDoItemView
-	slots: {};
-	package: ''My-ToDo-Application''.' ]
-					ifFalse: [ 'CpPresenter subclass: #MyRemovableToDoItemPresenter
-	instanceVariableNames: ''''
-	classVariableNames: ''''
-	package: ''My-ToDo-Application''.
-
-CpView subclass: #MyRemovableToDoItemView
-	instanceVariableNames: ''''
-	classVariableNames: ''''
-	package: ''My-ToDo-Application''.' ]).
+				CpDemoClassDefinitionCodeContent superclassName: #CpPresenter className: #MyRemovableToDoItemPresenter slotNames: #() packageName: 'My-ToDo-Application'.
+				CpDemoClassDefinitionCodeContent superclassName: #CpView className: #MyRemovableToDoItemView slotNames: #() packageName: 'My-ToDo-Application'.
 			}.
 			CpTextContent text: 'On the following slides we''ll be adding the looks and feel.'.
 		}) ;
