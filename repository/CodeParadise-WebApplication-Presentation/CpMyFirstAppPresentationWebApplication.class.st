@@ -1379,7 +1379,7 @@ CpMyFirstAppPresentationWebApplication >> updateToDoListModel7Slide [
 				CpTextContent text: 'Execute the following code to update the view (or simply reload the to-do app browser tab).'.
 				CpDemoExecutableCodeContent code: 'GlobalMyToDoList valueChanged'.
 			}.
-			CpTextContent text: 'So we now can limit to amount of to-do items! 🙏'.
+			CpTextContent text: 'So we now can limit the amount of to-do items! 🙏'.
 		}) ;
 		yourself
 ]
