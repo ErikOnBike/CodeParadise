@@ -1,13 +1,15 @@
 Class {
-	#name : #CpDemoCodeContent,
-	#superclass : #CpSlideContent,
+	#name : 'CpDemoCodeContent',
+	#superclass : 'CpSlideContent',
 	#instVars : [
 		'code'
 	],
-	#category : 'CodeParadise-WebApplication-Presentation-Examples'
+	#category : 'CodeParadise-WebApplication-Presentation-Examples',
+	#package : 'CodeParadise-WebApplication-Presentation',
+	#tag : 'Examples'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpDemoCodeContent class >> code: aString [
 
 	"Answer an instance of the receiver with the specified code"
@@ -17,13 +19,13 @@ CpDemoCodeContent class >> code: aString [
 		yourself
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpDemoCodeContent >> code [
 
 	^ code
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpDemoCodeContent >> code: aString [
 
 	code := aString.
@@ -31,7 +33,7 @@ CpDemoCodeContent >> code: aString [
 	self valueChanged
 ]
 
-{ #category : #queries }
+{ #category : 'queries' }
 CpDemoCodeContent >> statusString [
 
 	"Answer the status of the receiver or nil if no partical status is applicable"

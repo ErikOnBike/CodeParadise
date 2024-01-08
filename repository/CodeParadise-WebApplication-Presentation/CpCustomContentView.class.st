@@ -1,10 +1,12 @@
 Class {
-	#name : #CpCustomContentView,
-	#superclass : #CpView,
-	#category : 'CodeParadise-WebApplication-Presentation-View'
+	#name : 'CpCustomContentView',
+	#superclass : 'CpView',
+	#category : 'CodeParadise-WebApplication-Presentation-View',
+	#package : 'CodeParadise-WebApplication-Presentation',
+	#tag : 'View'
 }
 
-{ #category : #'web resources' }
+{ #category : 'web resources' }
 CpCustomContentView class >> style [
 
 	<webResource: #css>
@@ -20,7 +22,7 @@ CpCustomContentView class >> style [
 		}'
 ]
 
-{ #category : #'web resources' }
+{ #category : 'web resources' }
 CpCustomContentView class >> template [
 
 	<webResource: #html>
@@ -30,7 +32,7 @@ CpCustomContentView class >> template [
 		</div>'
 ]
 
-{ #category : #rendering }
+{ #category : 'rendering' }
 CpCustomContentView >> render [
 
 	"Render custom content"

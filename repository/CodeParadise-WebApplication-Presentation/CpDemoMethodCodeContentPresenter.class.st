@@ -1,10 +1,12 @@
 Class {
-	#name : #CpDemoMethodCodeContentPresenter,
-	#superclass : #CpDemoCodeContentPresenter,
-	#category : 'CodeParadise-WebApplication-Presentation-Examples'
+	#name : 'CpDemoMethodCodeContentPresenter',
+	#superclass : 'CpDemoCodeContentPresenter',
+	#category : 'CodeParadise-WebApplication-Presentation-Examples',
+	#package : 'CodeParadise-WebApplication-Presentation',
+	#tag : 'Examples'
 }
 
-{ #category : #'user interaction' }
+{ #category : 'user interaction' }
 CpDemoMethodCodeContentPresenter >> installMethod [
 
 	self model installMethod.
@@ -12,7 +14,7 @@ CpDemoMethodCodeContentPresenter >> installMethod [
 	self view renderMessage: 'Installed method: ', self model methodSelector
 ]
 
-{ #category : #rendering }
+{ #category : 'rendering' }
 CpDemoMethodCodeContentPresenter >> renderView [
 
 	| codeStatus codeStatusString otherCode |
@@ -34,7 +36,7 @@ CpDemoMethodCodeContentPresenter >> renderView [
 		renderBanner: codeStatusString showOther: otherCode isNotNil
 ]
 
-{ #category : #view }
+{ #category : 'view' }
 CpDemoMethodCodeContentPresenter >> viewCreated [
 
 	super viewCreated.

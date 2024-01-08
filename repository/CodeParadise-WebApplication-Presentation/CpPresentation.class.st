@@ -12,24 +12,26 @@ use my slideDeck and for #previousSlide I use my slideStack.
 
 "
 Class {
-	#name : #CpPresentation,
-	#superclass : #CpModel,
+	#name : 'CpPresentation',
+	#superclass : 'CpModel',
 	#instVars : [
 		'title',
 		'slideDeck',
 		'slideStack',
 		'useStack'
 	],
-	#category : 'CodeParadise-WebApplication-Presentation-Model'
+	#category : 'CodeParadise-WebApplication-Presentation-Model',
+	#package : 'CodeParadise-WebApplication-Presentation',
+	#tag : 'Model'
 }
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 CpPresentation class >> titled: aString [
 
 	^ self titled: aString usingSlideDeck: CpSlideDeck new
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 CpPresentation class >> titled: aString usingSlideDeck: aSlideDeck [
 
 	^ self new
@@ -38,13 +40,13 @@ CpPresentation class >> titled: aString usingSlideDeck: aSlideDeck [
 		yourself
 ]
 
-{ #category : #api }
+{ #category : 'api' }
 CpPresentation >> addSlide: aSlide [
 
 	^ self slideDeck addSlide: aSlide
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpPresentation >> beDeckBased [
 
 	useStack := false.
@@ -53,13 +55,13 @@ CpPresentation >> beDeckBased [
 	slideStack := OrderedCollection with: self currentSlide
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpPresentation >> beStackBased [
 
 	useStack := true
 ]
 
-{ #category : #api }
+{ #category : 'api' }
 CpPresentation >> currentSlide [
 
 	"Answer the current Slide or nil if the receiver has no slides"
@@ -69,7 +71,7 @@ CpPresentation >> currentSlide [
 		ifEmpty: [ self slideDeck firstSlide ]
 ]
 
-{ #category : #api }
+{ #category : 'api' }
 CpPresentation >> goToSlide: aSlide [
 
 	"Make the specified slide the current slide"
@@ -85,7 +87,7 @@ CpPresentation >> goToSlide: aSlide [
 	self valueChanged
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 CpPresentation >> initialize [
 
 	super initialize.
@@ -94,7 +96,7 @@ CpPresentation >> initialize [
 	useStack := true
 ]
 
-{ #category : #api }
+{ #category : 'api' }
 CpPresentation >> nextSlide [
 
 	"Go to the next slide (based on the slides in the slideDeck)"
@@ -113,7 +115,7 @@ CpPresentation >> nextSlide [
 	self valueChanged
 ]
 
-{ #category : #api }
+{ #category : 'api' }
 CpPresentation >> previousSlide [
 
 	"Go to the previously shown slide.
@@ -140,13 +142,13 @@ CpPresentation >> previousSlide [
 	self valueChanged
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpPresentation >> slideDeck [
 
 	^ slideDeck
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpPresentation >> slideDeck: aSlideDeck [
 
 	slideDeck := aSlideDeck.
@@ -154,13 +156,13 @@ CpPresentation >> slideDeck: aSlideDeck [
 	self valueChanged
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpPresentation >> slideStack [
 
 	^ slideStack
 ]
 
-{ #category : #api }
+{ #category : 'api' }
 CpPresentation >> start [
 
 	"Start the receiver by making the first Slide of the SlideDeck the current
@@ -176,13 +178,13 @@ CpPresentation >> start [
 	self valueChanged
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpPresentation >> title [
 
 	^ title
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpPresentation >> title: aString [
 
 	title := aString.
@@ -190,7 +192,7 @@ CpPresentation >> title: aString [
 	self valueChanged
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpPresentation >> useStack [
 
 	^ useStack
