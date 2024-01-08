@@ -5,7 +5,7 @@ Class {
 		'methodClass',
 		'methodClassifier'
 	],
-	#category : 'CodeParadise-WebApplication-Presentation-Examples'
+	#category : #'CodeParadise-WebApplication-Presentation-Examples'
 }
 
 { #category : #'instance creation' }
@@ -81,7 +81,7 @@ CpDemoMethodCodeContent >> otherCode [
 	"Answer the code of the other method installed (assuming it is different then the receiver's code)
 	or nil if no code is installed"
 
-	| class currentCode |
+	| class |
 
 	(class := Smalltalk classNamed: self methodClass)
 		ifNil: [ ^ nil ].
@@ -104,15 +104,4 @@ CpDemoMethodCodeContent >> status [
 	^ self code = currentCode
 		ifTrue: [ #installed ]
 		ifFalse: [ #other ]
-]
-
-{ #category : #accessing }
-CpDemoMethodCodeContent >> statusString [
-
-	"Answer whether the method is already installed, another method is installed or nil (if method does not exist yet)"
-
-	^ self status ifNotNil: [ :status |
-		status == #installed
-			ifTrue: [ 'installed' ]
-			ifFalse: [ 'other impl.' ] ]
 ]

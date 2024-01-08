@@ -915,19 +915,6 @@ CpMyFirstAppPresentationWebApplication >> introductionSlide [
 		yourself
 ]
 
-{ #category : #testing }
-CpMyFirstAppPresentationWebApplication >> isRecentVersion [
-
-	"Answer whether the receiver is running in a recent Pharo version"
-
-	[
-		SystemVersion current major >= 11
-			ifTrue: [ ^ true ]
-	 ] on: Error do: [ "Ignore error, probably older version" ].
-
-	^ false
-]
-
 { #category : #actions }
 CpMyFirstAppPresentationWebApplication >> openInspector [
 
