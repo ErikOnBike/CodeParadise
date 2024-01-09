@@ -5,6 +5,7 @@ CodeParadise is the name of a framework and future platform. CodeParadise as fra
 The framework enables remote Smalltalk code execution in a Javascript environment. This means you can run Smalltalk inside the web browser and not be concerned with any Javascript. A regular (but tiny) Smalltalk image runs on [SqueakJS VM](https://squeak.js.org) and replaces the use of Javascript. This tiny image runs the same bytecode as a regular Pharo/Squeak/Cuis image, so no transpilation taking place. With some pre-installed Classes which wrap the browser DOM functionality, all DOM manipulation is done through Smalltalk code. Did I mention, no more use of Javascript ;-). For more detail read the [implementation docs](docs/Implementation.md).
 
 A few online videos:
+* to-do list tutorial walk through [video](https://youtu.be/Y-i6C_yVHxA) - 47:47 minutes
 * Zettelkasten example application [video](https://youtu.be/omKrz9stuOQ) - 1:37 minutes
 * short demo of debugger [video](https://youtu.be/hCwlrWRhrZc) - 1:07 minutes
 * UK Smalltalk UG May 2022 [demo](https://vimeo.com/719355883) - CodeParadise used in Expressive Systems by [Object Guild](https://objectguild.com)
