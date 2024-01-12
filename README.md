@@ -72,16 +72,19 @@ To start a server allowing incoming HTTP and WebSockets the following code has t
 CpMessageChannel environmentImplementation: CpZincWebSocketChannel.
 
 "Register the example applications"
+CpIntroductionPresentationWebApplication register.
+CpMyFirstAppPresentationWebApplication register.
+CpShoelaceExamplesWebApplication register.
+CpChartJSExamplesWebApplication register.
+CpCounterApplication register.
 CpDomExamplesWebApplication register.
 CpComponentExamplesWebApplication register.
-CpCounterWebApplication register.
-CpShoelaceExamplesWebApplication register.
-CpIntroductionPresentationWebApplication register.
 
 "Start the HTTP and WeSocket servers (use the path where you stored the ClientEnvironment)"
-CpWebApplicationServerStarter startUsingConfig: {
+CpApplicationServerStarter startUsingConfig: {
 	#portNumber -> 8080 .
-	#staticFilesDirectoryName -> (IceRepository directoryNamed: 'html' in: 'CP-ClientEnvironment')
+	#staticFilesDirectoryName -> (IceRepository directoryNamed: 'html' in: 'CP-ClientEnvironment').
+	#clientErrorHandler -> self
 } asDictionary.
 
 "If you serve the static files using your own HTTP server, you can start the WebSocket server using:"
@@ -98,12 +101,13 @@ CpServerApplication allSubInstances do: [ :each | each stop ].
 CpApplicationServer allInstances do: [ :each | each stop ].
 
 "Unregister applications"
+CpIntroductionPresentationWebApplication unregister.
+CpMyFirstAppPresentationWebApplication unregister.
+CpShoelaceExamplesWebApplication unregister.
+CpChartJSExamplesWebApplication unregister.
+CpCounterApplication unregister.
 CpDomExamplesWebApplication unregister.
 CpComponentExamplesWebApplication unregister.
-CpCounterWebApplication unregister.
-CpCounterWebApplication release.
-CpShoelaceExamplesWebApplication unregister.
-CpIntroductionPresentationWebApplication unregister.
 
 "Garbage collect works better in triples ;-)"
 Smalltalk garbageCollect.
