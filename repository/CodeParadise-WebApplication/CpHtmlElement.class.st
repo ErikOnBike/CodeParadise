@@ -60,7 +60,7 @@ CpHtmlElement class >> activeElement [
 { #category : #adding }
 CpHtmlElement class >> documentAddExternalScript: urlString [
 
-	"Add the specified Javascript resource to the receiver"
+	"Add the specified JavaScript resource to the receiver"
 
 	^ self documentAddExternalScript: urlString type: nil
 ]
@@ -68,7 +68,7 @@ CpHtmlElement class >> documentAddExternalScript: urlString [
 { #category : #adding }
 CpHtmlElement class >> documentAddExternalScript: urlString type: typeString [
 
-	"Add the specified Javascript resource to the receiver"
+	"Add the specified JavaScript resource to the receiver"
 
 	^ self documentHead appendChild: ((self newWithTag: #script)
 		attributeAt: #src put: urlString ;
@@ -91,7 +91,7 @@ CpHtmlElement class >> documentAddScript: aString [
 { #category : #adding }
 CpHtmlElement class >> documentAddScript: contentString type: typeString id: idString [
 
-	"Add the specified Javascript content to the receiver"
+	"Add the specified JavaScript content to the receiver"
 
 	^ self documentHead appendChild: ((self newWithTag: #script)
 		attributeAt: #id put: idString ;

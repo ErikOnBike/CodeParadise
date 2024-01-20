@@ -32,7 +32,7 @@ CpClientEnvironmentSnapshot class >> collectWebComponentsFrom: anElement into: a
 { #category : #'web resources' }
 CpClientEnvironmentSnapshot class >> downloadImageScript [
 
-	"Answer a Javascript download image script.
+	"Answer a JavaScript download image script.
 	Assume the snapshot primitive is called just before executing this script.
 
 	Implementation:
@@ -86,7 +86,7 @@ CpClientEnvironmentSnapshot class >> postSnapshotOnce [
 { #category : #'web resources' }
 CpClientEnvironmentSnapshot class >> privateAttachToIdScript [
 
-	"Answer a Javascript primitive for attaching a Smalltalk CpDomElement to a browser DOM element.
+	"Answer a JavaScript primitive for attaching a Smalltalk CpDomElement to a browser DOM element.
 
 	Add this primitive to the DOMPlugin."
 
@@ -136,7 +136,7 @@ CpClientEnvironmentSnapshot class >> snapshotImage [
 	with additional classes installed.
 	Currently no effort is done to minimize the image. Since the image
 	is sealed, some communication classes like CpClientCommunicator and
-	CpJavascriptWebSocketChannel could be removed from the image. Even
+	CpJavaScriptWebSocketChannel could be removed from the image. Even
 	the receiver (except for the 'restart' behavior) could be removed.
 
 	Only the HTML body is preserved during the snapshot process. The

@@ -87,7 +87,7 @@ CpConditionalEvent >> addListenerTo: anElement [
 	to allow specific handling, although normally this will be handled
 	by the receiver which will check for the conditions when the event
 	is triggered. For some specific situations, like performance of the
-	MutationObserver, conditions are used to set the Javascript event
+	MutationObserver, conditions are used to set the JavaScript event
 	listener up correctly."
 
 	eventClass addListenerTo: anElement withConditions: (conditions ifNil: [ #() ])

@@ -156,7 +156,7 @@ CpMutationEvent class >> installCode [
 { #category : #announcing }
 CpMutationEvent class >> optionsFromConditions: aCollection [
 
-	"Answer a Dictionary representing the Javascript options argument
+	"Answer a Dictionary representing the JavaScript options argument
 	for the MutationObserver observe method.
 
 	See: https://developer.mozilla.org/en-US/docs/Web/API/MutationObserver/observe

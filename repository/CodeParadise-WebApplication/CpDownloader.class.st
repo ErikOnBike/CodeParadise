@@ -19,7 +19,7 @@ CpDownloader class >> content: anObject type: typeString filename: filenameStrin
 { #category : #accessing }
 CpDownloader class >> downloadContentScript [
 
-	"Answer a Javascript download script.
+	"Answer a JavaScript download script.
 
 	Implementation:
 	When an event handler is producing another event, the SqueakJS VM

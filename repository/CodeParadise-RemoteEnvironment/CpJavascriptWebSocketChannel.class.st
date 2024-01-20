@@ -57,13 +57,13 @@ CpJavascriptWebSocketChannel class >> startServerForOwner: ownerObject onPort: a
 	specified owner. The owner Object will need to handle the relevant events.
 	See CpMessageChannel>>#owner:."
 
-	"A Javascript implementation for Node.js is in the making. There will not be
+	"A JavaScript implementation for Node.js is in the making. There will not be
 	a web browser implementation, since web browsers should not allow incoming network
 	connections (because of security reasons)."
 
 	self flag: #todo.
 
-	Error signal: 'Currently the Javascript implementation is still missing'
+	Error signal: 'Currently the JavaScript implementation is still missing'
 ]
 
 { #category : #'public api' }

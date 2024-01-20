@@ -77,7 +77,7 @@ CjsChart >> data: aCollection [
 	"Replace the data of the datasets with the specified data (a Collection of Collection of values)"
 
 	aCollection withIndexDo: [ :data :index |
-		"Datasets are 0-based indexed because it runs in Javascript environment"
+		"Datasets are 0-based indexed because it runs in JavaScript environment"
 		self propertyAt: { #data . #datasets . index - 1 . #data } put: data ]
 ]
 
@@ -126,7 +126,7 @@ CjsChart >> propertyAt: anArray put: anObject [
 		Setting the full options object (will overwrite )
 		chart propertyAt: #(options) put: { #scales -> { #y -> { #beginAtZero -> true } asDictionary } asDictionary } asDictionary.
 
-		Setting the labels for the first dataset (remember Javascript is 0-based)
+		Setting the labels for the first dataset (remember JavaScript is 0-based)
 		chart propertyAt: #(data datasets 0 labels) put: labels.
 	"
 

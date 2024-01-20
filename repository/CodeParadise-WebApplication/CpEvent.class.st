@@ -202,7 +202,7 @@ CpEvent class >> similarDistance [
 { #category : #accessing }
 CpEvent class >> type [
 
-	"Answer the Javascript type (a String) representing the receiver"
+	"Answer the JavaScript type (a String) representing the receiver"
 
 	^ (self nameWithoutPrefix withoutSuffix: #Event) asLowercase
 ]
