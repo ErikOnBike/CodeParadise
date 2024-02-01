@@ -221,11 +221,14 @@ CpClientEnvironment class >> variableNameApp [
 { #category : #'user interaction' }
 CpClientEnvironment >> alert: aString [
 
-	"Alert user with specified message (please use sparsely)"
+	"Alert user with specified message (please use sparsely).
+
+	Implementation:
+	In a web browser this will show an alert dialog.
+	In NodeJS this will show a warning message on the console (even if used from #fatal:)."
 
 	<primitive: 'primitiveEnvironmentAlert:' module: 'CpSystemPlugin'>
 	^ self
-
 ]
 
 { #category : #accessing }
@@ -242,7 +245,11 @@ CpClientEnvironment >> app [
 { #category : #'user interaction' }
 CpClientEnvironment >> confirm: aString [
 
-	"Confirm specified message with user (please use sparsely)"
+	"Confirm specified message with user (please use sparsely).
+
+	Implementation:
+	In a web browser this will show a confirmation dialog.
+	In NodeJS the primitive will fail and therefor false is always answered."
 
 	<primitive: 'primitiveEnvironmentConfirm:' module: 'CpSystemPlugin'>
 	^ false
