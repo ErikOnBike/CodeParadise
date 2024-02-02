@@ -20,18 +20,23 @@ Class >> nameWithoutPrefix [
 	
 	<webApplicationExtension>
 
-	| firstLowercaseIndex secondUppercaseIndex |
+	| className firstLowercaseIndex secondUppercaseIndex |
 
-	firstLowercaseIndex := name findFirst: [ :each | each isLowercase ].
+	"Retrieve class name using method, since in P11 the class layout is different than
+	P10/P12 and it would access the wrong instVar in the tiny Smalltalk image in the
+	remote environment which is based on P10/P12 layout."
+	className := self name.
+
+	firstLowercaseIndex := className findFirst: [ :each | each isLowercase ].
 	firstLowercaseIndex < 2
-		ifTrue: [ ^ name asString ].
+		ifTrue: [ ^ className asString ].
 
-	secondUppercaseIndex := name findNext: [ :each | each isUppercase ] after: firstLowercaseIndex.
+	secondUppercaseIndex := className findNext: [ :each | each isUppercase ] after: firstLowercaseIndex.
 	secondUppercaseIndex = 0
-		ifTrue: [ ^ name asString allButFirst: firstLowercaseIndex - 2 ].
+		ifTrue: [ ^ className asString allButFirst: firstLowercaseIndex - 2 ].
 
 	^ secondUppercaseIndex <= 4
-		ifTrue: [ name asString allButFirst: secondUppercaseIndex - 1 ]
-		ifFalse: [ name asString allButFirst: firstLowercaseIndex - 2 ]
+		ifTrue: [ className asString allButFirst: secondUppercaseIndex - 1 ]
+		ifFalse: [ className asString allButFirst: firstLowercaseIndex - 2 ]
 
 ]
