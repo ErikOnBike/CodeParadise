@@ -52,7 +52,7 @@ SlTextarea >> scrollPosition [
 	"Gets the textarea's scroll position.
 	Answer will be a dictionaty with keys 'top' and 'left', both being Numbers."
 
-	^ self syncApply: #scrollPosition withArguments: #()
+	^ self apply: #scrollPosition withArguments: #()
 ]
 
 { #category : #'accessing style' }

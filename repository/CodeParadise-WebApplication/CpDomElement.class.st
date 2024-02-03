@@ -286,13 +286,9 @@ CpDomElement >> appendChild: childElement [
 { #category : #performing }
 CpDomElement >> apply: aSymbol withArguments: anArray [
 
-	"Perform the specified symbol as JS function on the receiver with the specified arguments.
-	Always answers the receiver.
-
-	Be aware that the JS function will be evaluated asynchronously. Meaning that any synchronous
-	events (like #focusin after a #focus method) will not be executed directly. A synchronous
-	execution would leave the VM stack unbalanced since events are handled with priority and
-	would interfere with the primitive being executed itself."
+	"Perform the specified symbol as JavaScript function on the receiver with the specified arguments
+	(nil means no arguments).
+	Answer the result of the JavaScript function."
 
 	<primitive: 'primitiveDomElementApply:withArguments:' module: 'CpDOMPlugin'>
 	self primitiveFailed
@@ -977,16 +973,9 @@ CpDomElement >> styleAt: nameString put: valueString [
 { #category : #performing }
 CpDomElement >> syncApply: aSymbol withArguments: anArray [
 
-	"Perform the specified symbol as JS function on the receiver with the specified arguments.
-	Answer the result of the JS function. Use with care (read below)!
+	self crWarn: 'Method #syncApply:withArguments: is deprecated, please replace by #apply:withArguments:'.
 
-	Be aware that the JS function will be evaluated synchronously. This is less safe than
-	using #apply:withArguments:. Only use this synchronous variant for performing getter
-	functions or in places where it is certain that no events will be triggered. When in
-	doubt and when the resulting value is not attainable otherwise, use #apply:withArguments."
-
-	<primitive: 'primitiveDomElementSyncApply:withArguments:' module: 'CpDOMPlugin'>
-	self primitiveFailed
+	^ self apply: aSymbol withArguments: anArray
 ]
 
 { #category : #'tag/id/classes' }
