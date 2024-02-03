@@ -23,6 +23,22 @@ String >> cpEncodeWith: anEncoder [
 ]
 
 { #category : #'*CodeParadise-RemoteEnvironment' }
+String class >> fromUTF8EncodedByteArray: aByteArray [
+
+	"Answer a String containing the information from the specified ByteArray
+	assume an UTF-8 encoding is applied"
+
+	<webApplicationExtension>
+
+	| objectDecoder |
+
+	objectDecoder := CpObjectDecoder on: aByteArray.
+	^ self streamContents: [ :aStream |
+		[  objectDecoder hasMoreData ] whileTrue: [
+			aStream nextPut: (Character value: objectDecoder readUTF8CodePoint) ] ]
+]
+
+{ #category : #'*CodeParadise-RemoteEnvironment' }
 String class >> fromWordArray: aWordArray [
 
 	"Answer an instance of the receiver consisting of Characters having
