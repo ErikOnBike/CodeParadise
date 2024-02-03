@@ -8,6 +8,28 @@ Class {
 	#category : #'CodeParadise-RemoteEnvironment-Support'
 }
 
+{ #category : #convenience }
+CpJavaScriptPromise class >> on: executorBlock [
+
+	"Answer a new instance of the receiver with the specified executor Block.
+	The executor Block should accept two arguments, both of which are Blocks.
+	The first argument is the resolve Block which resolves the Promise.
+	The second argument is the reject Block which rejects the Promise.
+
+	Implementation:
+	Since a JavaScript Promise adds functions to perform its operations
+	and these function calls perform automatic Smalltalk to JavaScript
+	conversions and vice versa on the boundaries between the two, we need
+	some special handling here. Otherwise this automatic conversion
+	mechanism will 'undo' any explicit conversions made in Blocks which
+	are required (for example in CpBrowserClipboard read operation)."
+
+	^ self newInstanceWithArguments: { [ :resolveFunc :rejectFunc |
+		executorBlock
+			value: [ :value | resolveFunc apply: #applyPassThrough withArguments: { nil . { value } } ]
+			value: [ :reason | rejectFunc apply: #applyPassThrough withArguments: { nil . { reason } } ] ] }
+]
+
 { #category : #accessing }
 CpJavaScriptPromise >> catch: rejectedBlock [
 
