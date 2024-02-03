@@ -165,7 +165,6 @@ CpChartJSExamplesClientBehavior >> exampleLineChart [
 		attributeAt: #step put: '0.1' ;
 		styleAt: #width put: '30em' ;
 		when: CpChangeEvent do: [ :changeEvent |
-			self crTrace: (changeEvent currentTarget propertyAt: #value) printString.
 			chart ifNotNil: [
 				chart
 					propertyAt: #(data datasets 0 tension) put: (changeEvent currentTarget propertyAt: #value) ;
