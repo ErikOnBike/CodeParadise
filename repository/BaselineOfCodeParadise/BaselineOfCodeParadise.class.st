@@ -19,6 +19,7 @@ BaselineOfCodeParadise >> baseline: spec [
 		spec
 			package: 'CodeParadise-RemoteEnvironment' with: [ spec requires: #('CpClientEnvironment' 'ZincHTTPComponents') ];
 			package: 'CodeParadise-WebApplication' with: [ spec requires: #('CodeParadise-RemoteEnvironment') ];
+			package: 'CodeParadise-Browser-Support' with: [ spec requires: #('CodeParadise-RemoteEnvironment') ];
 
 			package: 'CodeParadise-WebApplication-MVP' with: [ spec requires: #('CodeParadise-WebApplication') ];
 
@@ -45,7 +46,7 @@ BaselineOfCodeParadise >> baseline: spec [
 		spec 
 			group: 'default' with: #( 'Core' 'Shoelace' 'ChartJS' 'Presentation' 'Beach' 'Snapshot' 'Tests' 'Development');
 
-			group: 'Core' with: #( 'CodeParadise-WebApplication' );
+			group: 'Core' with: #( 'CodeParadise-WebApplication' 'CodeParadise-Browser-Support' );
 			group: 'Tests' with: #( 'CodeParadise-WebApplication-Tests' 'CodeParadise-RemoteEnvironment-Tests' 'CodeParadise-Beach-Tests' );
 
 			group: 'MVP' with: #( 'CodeParadise-WebApplication-MVP' );
