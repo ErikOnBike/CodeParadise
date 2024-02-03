@@ -312,11 +312,14 @@ CpClientEnvironment >> fatal: aString [
 CpClientEnvironment >> globalApply: aSymbol withArguments: anArray [
 
 	"Perform the specified symbol on the global scope (ie 'window' in the browser
-	environment) with the specified arguments"
+	environment, 'global' in NodeJS) with the specified arguments (nil means no arguments).
+
+	This method allows access to JavaScript objects which are reachable through the
+	global object (scope). To allow more thorough access to these objects, make sure to
+	install the CpJavaScriptProxy support and CpCallbackEvaluator in the client environment."
 
 	<primitive: 'primitiveEnvironmentGlobalApply:withArguments:' module: 'CpSystemPlugin'>
 	self primitiveFailed
-
 ]
 
 { #category : #'input/output' }

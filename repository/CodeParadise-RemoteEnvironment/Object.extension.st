@@ -13,3 +13,11 @@ Object >> cpEncoded [
 	self cpEncodeWith: encoder.
 	^ encoder bytes
 ]
+
+{ #category : #'*CodeParadise-RemoteEnvironment' }
+Object >> isJavaScriptObject [
+
+	<webApplicationExtension>
+
+	^ false
+]

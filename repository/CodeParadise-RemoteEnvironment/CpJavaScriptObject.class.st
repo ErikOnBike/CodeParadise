@@ -1,0 +1,461 @@
+"
+I am a Proxy class for JavaScript objects.
+I have a very limited set of capabilities, because I am a generic class which
+tries to access JavaScript properties and functions in a single way (sending
+a message). This has at least one caveat: accessing JavaScript classes is
+hard to distinguish from accessing JavaScript functions (a JavaScript class
+is represented by its constructor method/function). Therefore accessing a
+JavaScript property which happens to be a reference to a JavaScript class,
+will fail in the 'default' single way (because the constructor function will
+be called, since my behavior assumes the intention was to call the function
+instead of answering it). For this situation a special method #getClassRefFrom:
+exists which will answer an instance of CpJavaScriptClass which can then be
+used to instantiate JavaScript objects from or call static functions (ie Class
+methods) on.
+
+To distinguish between regular Smalltalk objects and proxied JavaScript
+objects, performing a message is called 'apply' for JavaScript objects
+(because JavaScript functions have a method 'apply()' this name is chosen).
+There are a few variants like #apply:, #apply:withArguments:, #apply:resultAs:
+and #apply:withArguments:resultAs:. The variants with #resultAs: proxy the
+result in the specified Proxy Class. This allows subclasses to be created
+with a more meaningful interface. See for example CpJavaScriptPromise.
+
+Please do not use me on JavaScript 'primitives' like numbers or strings.
+These are, by default, already mapped to Smalltalk classes and will be
+converted automagically (two ways).
+
+When a JavaScript object is proxied using me, I can send messages to the
+JavaScript object to:
+- get/set properties (which have explicit get/set functions)
+- get/set attributes (which do not have explicit get/set functions)
+- call functions
+
+If a message with selector #something is sent to an instance of me, the
+following steps are taken:
+- Check if property exists with the specified name
+    - If so, check if zero arguments are present and perform getter
+    - If so, check if one argument is present and perform setter
+- Check if function exists with the specified name
+    - If so, perform it with the supplied arguments (zero or more)
+- Check if attribute exists with the specified name
+    - If so, check if zero arguments are present and answer value
+    - If so, check if one argument is present and assign it to attribute
+
+This means that if a message is sent with multiple arguments and the
+selector refers to a property or an attribute, a regular DNU error will
+be raised. There is no check for the number of arguments on a function,
+since the number of required arguments can't be retrieved from a
+JavaScript function.
+
+The known element names (selectors) can be retrieved from the proxied
+JavaScript object in my instances using: #getSelectorNames. To get the
+type of element use :#getSelectorType: which will answer a symbol (see
+the method comment for possible values).
+
+For convenience a DNU handler is installed which will perform the
+message on the proxied JavaScript object. This might result in selectors
+like #setTimeout:duration: to be send to the JavaScript object. In most
+cases this will fail (although JavaScript functions can have colons in
+their name, but you have to install these functions a little differently).
+If no element is found using the provided selector AND the selector
+contains a colon, the selector is trimmed to this colon (excluding it).
+So in the above example #setTimeout is used (and the remainder is
+ignored).
+
+Implementation:
+Since function calls are probably used more often, the described mechanism
+above also has a 'fast path' which checks for a function with the specified
+selector and if it exists executes it immediately. This fast path does not
+take selectors with colons into account. The fast path is for methods we
+explicitly call like in CpJavaScriptPromise >> #then:onRejected:
+
+"
+Class {
+	#name : #CpJavaScriptObject,
+	#superclass : #Object,
+	#category : #'CodeParadise-RemoteEnvironment-Support'
+}
+
+{ #category : #accessing }
+CpJavaScriptObject class >> apply: aSymbol [
+
+	"Apply the specified selector on the proxied JavaScript object's class side"
+
+	^ self getClass
+		apply: aSymbol withArguments: nil resultAs: nil
+]
+
+{ #category : #accessing }
+CpJavaScriptObject class >> apply: aSymbol resultAs: aProxyClass [
+
+	"Apply the specified selector on the proxied JavaScript object's class side
+	and answer the result as an instance of the proxy class specified or answer
+	a default object if aProxyClass is nil."
+
+	^ self getClass
+		apply: aSymbol withArguments: nil resultAs: aProxyClass
+]
+
+{ #category : #accessing }
+CpJavaScriptObject class >> apply: aSymbol withArguments: anArray [
+
+	"Apply the specified selector on the proxied JavaScript object's class side
+	using the specified arguments (nil means no arguments)"
+
+	^ self getClass
+		apply: aSymbol withArguments: anArray resultAs: nil
+]
+
+{ #category : #accessing }
+CpJavaScriptObject class >> apply: aSymbol withArguments: anArray resultAs: aProxyClass [
+
+	"Apply the specified selector on the proxied JavaScript object's class side
+	using the specified arguments (nil means no arguments). And answer the result
+	as an instance of the proxy class specified or answer a default object
+	if aProxyClass is nil."
+
+	^ self getClass
+		apply: aSymbol withArguments: anArray resultAs: aProxyClass
+]
+
+{ #category : #accessing }
+CpJavaScriptObject class >> getClass [
+
+	"Answer the class side Object for the receiver to allow calling class side methods"
+
+	^ CpJavaScriptClass forName: self getClassName
+]
+
+{ #category : #accessing }
+CpJavaScriptObject class >> getClassName [
+
+	"Answer the name of the JavaScript class.
+
+	Implementation:
+	Already taking Browser and NodeJS support into account to
+	prevent having to implement this on many layers."
+
+	^ ((self nameWithoutPrefix
+		withoutPrefix: 'JavaScript')
+		withoutPrefix: 'Browser')
+		withoutPrefix: 'NodeJS'
+]
+
+{ #category : #accessing }
+CpJavaScriptObject class >> global [
+
+	"Answer a Proxy for the global object/global scope
+	(i.e. 'window' object in a web browser and 'global' object in NodeJS)"
+
+	^ CpClientEnvironment current
+		globalApply: #identity withArguments: nil
+]
+
+{ #category : #'instance creation' }
+CpJavaScriptObject class >> newInstance [
+
+	^ self newInstanceWithArguments: nil resultAs: self
+]
+
+{ #category : #'instance creation' }
+CpJavaScriptObject class >> newInstanceFor: aString [
+
+	^ self newInstanceFor: aString withArguments: nil resultAs: self
+]
+
+{ #category : #'instance creation' }
+CpJavaScriptObject class >> newInstanceFor: aString resultAs: aProxyClass [
+
+	^ self newInstanceFor: aString withArguments: nil resultAs: aProxyClass
+]
+
+{ #category : #'instance creation' }
+CpJavaScriptObject class >> newInstanceFor: aString withArguments: anArray [
+
+	^ self newInstanceFor: aString withArguments: anArray resultAs: self
+]
+
+{ #category : #'instance creation' }
+CpJavaScriptObject class >> newInstanceFor: aString withArguments: anArray resultAs: aProxyClass [
+
+	"Answer a new proxied instance of the globally defined JavaScript class name
+	specified using the specified (optional) arguments when calling the constructor.
+	If no Proxy Class is specified, use the default Proxy Class."
+
+	^ (CpJavaScriptClass forName: aString)
+		newInstanceWithArguments: anArray resultAs: aProxyClass
+]
+
+{ #category : #'instance creation' }
+CpJavaScriptObject class >> newInstanceResultAs: aProxyClass [
+
+	^ self newInstanceWithArguments: nil resultAs: aProxyClass
+]
+
+{ #category : #'instance creation' }
+CpJavaScriptObject class >> newInstanceWithArguments: anArray [
+
+	^ self newInstanceWithArguments: anArray resultAs: self
+]
+
+{ #category : #'instance creation' }
+CpJavaScriptObject class >> newInstanceWithArguments: anArray resultAs: aProxyClass [
+
+	"Answer a new proxied instance of the receiver's JavaScript class
+	using the specified (optional) arguments when calling the constructor.
+	If no Proxy Class is specified, use the default Proxy Class."
+
+	^ self getClass
+		newInstanceWithArguments: anArray resultAs: aProxyClass
+]
+
+{ #category : #'class initialization' }
+CpJavaScriptObject class >> postInstallOnce [
+
+	self registerProxyClass
+]
+
+{ #category : #'class initialization' }
+CpJavaScriptObject class >> registerProxyClass [
+
+	self registerProxyClass: self
+]
+
+{ #category : #'class initialization' }
+CpJavaScriptObject class >> registerProxyClass: aClass [
+
+	"Register the class which acts as a proxy for JavaScript objects"
+
+	<primitive: 'primitiveJavaScriptObjectRegisterProxyClass:' module: 'CpSystemPlugin'>
+	self primitiveFailed
+]
+
+{ #category : #accessing }
+CpJavaScriptObject >> apply: aSymbol [
+
+	"Apply the specified selector on the proxied JavaScript object.
+
+	The selector can refer to properties, attributes or functions. When the selector refers
+	to a property a get operation is assumed (since no arguments are specified, please use
+	#apply:withAhArguments: for setters).
+
+	To retrieve all selector names allowed, use: #getSelectorNames
+	To retrieve the type of a selector use: #getSelectorType:"
+
+	^ self apply: aSymbol withArguments: nil resultAs: nil
+]
+
+{ #category : #accessing }
+CpJavaScriptObject >> apply: aSymbol resultAs: aProxyClass [
+
+	"Apply the specified selector on the proxied JavaScript object and answer the result as an
+	instance of the proxy class specified or answer a default object if aProxyClass is nil.
+	The default object will either be a Smalltalk instance if a Smalltalk to JavaScript
+	conversion exists and otherwise the default proxy class CpJavaScriptProxy is used.
+	If the JavaScript result is 'undefined' or 'null' a nil value is answered (and aProxyClass
+	is ignored)."
+
+	^ self apply: aSymbol withArguments: nil resultAs: aProxyClass
+]
+
+{ #category : #accessing }
+CpJavaScriptObject >> apply: aSymbol withArguments: anArray [
+
+	"Apply the specified selector on the proxied JavaScript object using the specified arguments
+	 (nil means no arguments).
+
+	The selector can refer to properties, attributes or functions. When the selector refers
+	to a property or an attribute zero or one arguments are allowed for get respectively set.
+	The set might fail on read-only properties.
+	To retrieve all selector names allowed, use: #getSelectorNames
+	To retrieve the type of a selector use: #getSelectorType:
+
+	Since JavaScript functions, by default, do not use colons (to create keyword messages)
+	there is a naming mismatch. To allow a more Smalltalk like usage (from our #doesNotUnderstand:
+	method for example), the specified selector is tried exactly, but if it fails AND it does
+	contain one or more colons, a function is tried which consists of the part before the
+	first colon. So for examply: #setTimeout:duration: could be used for the window.setTimeout
+	function which expects 2 arguments."
+
+	^ self apply: aSymbol withArguments: anArray resultAs: nil
+]
+
+{ #category : #accessing }
+CpJavaScriptObject >> apply: aSymbol withArguments: anArray resultAs: aProxyClass [
+
+	"Apply the specified selector on the proxied JavaScript object using the specified arguments
+	(nil means no arguments). And answer the result as an instance of the proxy class specified
+	or answer a default object if aProxyClass is nil. The default object will either be a Smalltalk
+	instance if a Smalltalk to JavaScript conversion exists and otherwise the default proxy class
+	CpJavaScriptProxy is used.
+	If the JavaScript result is 'undefined' or 'null' a nil value is answered (and aProxyClass
+	is ignored)."
+
+	| type |
+
+	<primitive: 'primitiveJavaScriptObjectApply:withArguments:resultAs:' module: 'CpSystemPlugin'>
+
+	"Check if selector exists by using #getSelectorType: (if that fails, do not do a DNU)"
+	[ type := self getSelectorType: aSymbol ] on: Error do: [ #skipDNU ].
+
+	type ifNil: [ ^ super doesNotUnderstand: (Message selector: aSymbol arguments: anArray) ].
+
+	self primitiveFailed
+]
+
+{ #category : #converting }
+CpJavaScriptObject >> as: aProxyClass [
+
+	"Answer the receiver as the specified Proxy class (kindof like casting ;-).
+
+	If aProxyClass is nil, a default Smalltalk conversion is tried. If that
+	fails the default Proxy Class is used."
+
+	^ self class global
+		apply: #identity withArguments: { self } resultAs: aProxyClass
+]
+
+{ #category : #converting }
+CpJavaScriptObject >> asSmalltalkObject [
+
+	"Answer the receiver as a Smalltalk object (if this is possible, nil otherwise)"
+
+	| instance |
+
+	"By default a conversion to a Smalltalk object is tried if no Proxy Class is specified"
+	instance := self as: nil.
+
+	instance isJavaScriptObject
+		ifTrue: [ ^ nil ].
+
+	^ instance
+]
+
+{ #category : #converting }
+CpJavaScriptObject >> asString [
+
+	"Answer a bare representation of the receiver
+	(see #printOn: for an explanation)"
+
+	| className |
+
+	className := self class name.
+
+	^ String streamContents: [ :aStream |
+		aStream
+			nextPutAll: (className first isVowel ifTrue: [ 'an ' ] ifFalse: [ 'a ' ]) ;
+			nextPutAll: className ]
+]
+
+{ #category : #'reflective operations' }
+CpJavaScriptObject >> doesNotUnderstand: aMessage [
+
+	"Convenience method to allow messages to be sent to a Proxy object directly"
+
+	^ self apply: aMessage selector withArguments: aMessage arguments
+]
+
+{ #category : #accessing }
+CpJavaScriptObject >> getClass [
+
+	"Answer the class of the proxied JavaScript object"
+
+	^ self apply: #constructor resultAs: CpJavaScriptClass
+]
+
+{ #category : #accessing }
+CpJavaScriptObject >> getClassRefFrom: aSymbol [
+
+	^ self getClassRefFrom: aSymbol resultAs: CpJavaScriptClass
+]
+
+{ #category : #accessing }
+CpJavaScriptObject >> getClassRefFrom: aSymbol resultAs: aClass [
+
+	"Answer the JavaScript class which is stored in either a property or
+	attribute of the proxied JavaScript object of the receiver using the
+	specified class as JavaScript class representation.
+
+	This method will fail if no such element is available. Since the
+	distinction between a Class and a function in JavaScript is very
+	difficult to make, no checks are performed here.
+	
+	See also:
+	https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/prototype#description"
+
+	<primitive: 'primitiveJavaScriptObjectGetClassRefFrom:resultAs:' module: 'CpSystemPlugin'>
+	self primitiveFailed
+]
+
+{ #category : #accessing }
+CpJavaScriptObject >> getSelectorNames [
+
+	"Answer the selector names of the proxied JavaScript object (as an Array of Strings).
+
+	Implementation:
+	Selector names are answered for actual properties (which have a getter and/or setter),
+	attributes (which can be read-only or read-write) and functions."
+
+	<primitive: 'primitiveJavaScriptObjectGetSelectorNames' module: 'CpSystemPlugin'>
+	self primitiveFailed
+]
+
+{ #category : #accessing }
+CpJavaScriptObject >> getSelectorType: aSymbol [
+
+	"Answer a Symbol representing the specified selector's type
+	or nil if the specified selector does not exist in the proxied JavaScript object.
+
+	One of the following will be answered:
+		#'read-write-prop'
+		#'read-prop'
+		#'write-prop'
+		#'read-write-attr'
+		#'read-attr'
+		#function
+		#unknown
+
+	It is unsure if #unknown will ever be answered (it should not)."
+
+	<primitive: 'primitiveJavaScriptObjectGetSelectorType:' module: 'CpSystemPlugin'>
+	self primitiveFailed
+]
+
+{ #category : #testing }
+CpJavaScriptObject >> isJavaScriptObject [
+
+	^ true
+]
+
+{ #category : #printing }
+CpJavaScriptObject >> printOn: aStream [
+
+	"Print a representation of the receiver onto the specified Stream.
+
+	Implementation:
+	Only property and/or attribute values are shown. The internal __proto__
+	property is not shown.
+	To prevent cycles in Dictionary-like graphs from becoming an infinite
+	recursive call, use #asString on the field values of the object."
+
+	| isFirst |
+
+	aStream
+		nextPutAll: self class name ;
+		nextPut: $(.
+
+	isFirst := true.
+	self getSelectorNames do: [ :each |
+		((self getSelectorType: each) ~= #function and: [ each ~= #'__proto__' ])
+			ifTrue: [
+				isFirst
+					ifTrue: [ isFirst := false ]
+					ifFalse: [ aStream nextPutAll: ', ' ].
+				aStream
+					nextPutAll: each ;
+					nextPutAll: ': ' ;
+					nextPutAll: ([ (self apply: each) asString ] on: Error do: [ '<error>' ]) ] ].
+
+	aStream nextPut: $)
+]
