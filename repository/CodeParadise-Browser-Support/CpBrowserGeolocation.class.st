@@ -19,6 +19,14 @@ CpBrowserGeolocation class >> newInstanceWithArguments: anArray resultAs: aProxy
 	self error: 'A Geolocation instance should be retrieved using the selector ', #current
 ]
 
+{ #category : #'class initialization' }
+CpBrowserGeolocation class >> postInstallOnce [
+
+	CpBrowserGeolocationPosition beLoaded.
+	CpBrowserGeolocationPositionError beLoaded.
+	CpBrowserGeolocationCoordinates beLoaded
+]
+
 { #category : #accessing }
 CpBrowserGeolocation >> getCurrentPosition: successBlock onError: errorBlock [
 
