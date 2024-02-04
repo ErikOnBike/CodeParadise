@@ -146,8 +146,10 @@ CpWebApplication >> load [
 
 	super load.
 
-	"Install the base HTMLElement class"
-	self environment addClass: CpHtmlElement.
+	"Install the base HTMLElement class and Window proxy"
+	self environment
+		addClass: CpHtmlElement ;
+		addClass: CpBrowserWindow.
 
 	"Install the ClientBehavior"
 	self clientBehaviorClass
