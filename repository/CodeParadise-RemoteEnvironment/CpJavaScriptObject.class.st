@@ -25,6 +25,13 @@ Please do not use me on JavaScript 'primitives' like numbers or strings.
 These are, by default, already mapped to Smalltalk classes and will be
 converted automagically (two ways).
 
+When creating subclasses, please use the same naming as in JavaScript.
+These names should be publicly available (i.e. reachable from global scope).
+A prefix and additionally 'JavaScript', 'Browser' and 'NodeJS' are
+allowed before the actual Class name. For example:
+	CpBrowserClipboard => Clipboard
+	MyJavaScriptChart = Chart
+
 When a JavaScript object is proxied using me, I can send messages to the
 JavaScript object to:
 - get/set properties (which have explicit get/set functions)
@@ -211,7 +218,7 @@ CpJavaScriptObject class >> newInstanceWithArguments: anArray resultAs: aProxyCl
 ]
 
 { #category : #'class initialization' }
-CpJavaScriptObject class >> postInstallOnce [
+CpJavaScriptObject class >> postInstall [
 
 	self registerProxyClass
 ]
@@ -219,15 +226,16 @@ CpJavaScriptObject class >> postInstallOnce [
 { #category : #'class initialization' }
 CpJavaScriptObject class >> registerProxyClass [
 
-	self registerProxyClass: self
+	self registerProxyClass: self forClassName: self getClassName
 ]
 
 { #category : #'class initialization' }
-CpJavaScriptObject class >> registerProxyClass: aClass [
+CpJavaScriptObject class >> registerProxyClass: aClass forClassName: aString [
 
-	"Register the class which acts as a proxy for JavaScript objects"
+	"Register the specified class which acts as a proxy for JavaScript objects with
+	the given class name (should be public on global scope)"
 
-	<primitive: 'primitiveJavaScriptObjectRegisterProxyClass:' module: 'CpSystemPlugin'>
+	<primitive: 'primitiveJavaScriptObjectRegisterProxyClass:forClassName:' module: 'CpSystemPlugin'>
 	self primitiveFailed
 ]
 
