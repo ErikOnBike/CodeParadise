@@ -19,7 +19,7 @@ BaselineOfCodeParadise >> baseline: spec [
 		spec
 			package: 'CodeParadise-RemoteEnvironment' with: [ spec requires: #('CpClientEnvironment' 'ZincHTTPComponents') ];
 			package: 'CodeParadise-WebApplication' with: [ spec requires: #('CodeParadise-RemoteEnvironment') ];
-			package: 'CodeParadise-Browser-Support' with: [ spec requires: #('CodeParadise-RemoteEnvironment') ];
+			package: 'CodeParadise-Browser-Support' with: [ spec requires: #('CodeParadise-WebApplication') ];
 
 			package: 'CodeParadise-WebApplication-MVP' with: [ spec requires: #('CodeParadise-WebApplication') ];
 
