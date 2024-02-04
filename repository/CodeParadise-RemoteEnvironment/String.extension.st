@@ -28,7 +28,7 @@ String class >> fromUTF8EncodedByteArray: aByteArray [
 	"Answer a String containing the information from the specified ByteArray
 	assume an UTF-8 encoding is applied"
 
-	<webApplicationExtension>
+	<applicationExtension>
 
 	| objectDecoder |
 

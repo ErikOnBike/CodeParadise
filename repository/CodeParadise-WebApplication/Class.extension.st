@@ -18,7 +18,7 @@ Class >> nameWithoutPrefix [
 		SDL2Handle nameWithoutPrefix -> 'Handle'
 	"
 	
-	<webApplicationExtension>
+	<applicationExtension>
 
 	| className firstLowercaseIndex secondUppercaseIndex |
 

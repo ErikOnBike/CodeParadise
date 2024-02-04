@@ -17,7 +17,7 @@ Object >> cpEncoded [
 { #category : #'*CodeParadise-RemoteEnvironment' }
 Object >> isJavaScriptObject [
 
-	<webApplicationExtension>
+	<applicationExtension>
 
 	^ false
 ]
