@@ -22,6 +22,12 @@ CpBrowserClipboard class >> newInstanceWithArguments: anArray resultAs: aProxyCl
 	self error: 'A Clipboard instance should be retrieved using the selector ', #current
 ]
 
+{ #category : #'class initialization' }
+CpBrowserClipboard class >> postInstallOnce [
+
+	CpBrowserClipboardItem beLoaded
+]
+
 { #category : #accessing }
 CpBrowserClipboard >> read [
 
