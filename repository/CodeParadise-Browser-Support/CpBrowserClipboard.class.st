@@ -72,8 +72,8 @@ CpBrowserClipboard >> readThenDo: successBlock onError: errorBlock [
 	exception as (optional) argument."
 
 	^ self read
-		then: [ :anArray | self crTrace: 'in then'. self crTrace: anArray printString. successBlock value: anArray ]
-		onRejected: [ :reason | self crTrace: 'in reject'. errorBlock value: reason ]
+		then: [ :anArray | successBlock value: anArray ]
+		onRejected: [ :reason | errorBlock value: reason ]
 ]
 
 { #category : #writing }
