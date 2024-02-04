@@ -22,6 +22,14 @@ CpBrowserBlob class >> newWith: anObject type: aString [
 		{ #type -> aString } asDictionary }
 ]
 
+{ #category : #'class initialization' }
+CpBrowserBlob class >> postInstallOnce [
+
+	"Make sure ArrayBuffer support is loaded"
+
+	CpJavaScriptArrayBuffer beLoaded
+]
+
 { #category : #accessing }
 CpBrowserBlob >> arrayBuffer [
 
@@ -66,13 +74,7 @@ CpBrowserBlob >> withContentDo: aBlock [
 	"Evaluate the specified Block with the content (as ByteArray) of the receiver"
 
 	self arrayBuffer then: [ :buffer |
-		| content |
-
-		"Create ByteArray instance from the JavaScript ArrayBuffer through a TypedArray (with bytes)"
-		content := (CpJavaScriptObject newInstanceFor: #Uint8Array withArguments: { buffer })
-			asSmalltalkObject.
-
-		aBlock value: content ]
+		aBlock value: buffer asByteArray ]
 ]
 
 { #category : #convenience }

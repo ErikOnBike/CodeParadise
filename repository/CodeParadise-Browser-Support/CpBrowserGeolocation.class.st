@@ -31,7 +31,7 @@ CpBrowserGeolocation >> getCurrentPosition: successBlock onError: errorBlock wit
 	"Determines the device's current location and gives back a GeolocationPosition object with the data."
 
 	^ self apply: #getCurrentPosition withArguments: {
-		[ :position | successBlock value: (position as: CpBrowserGeolocationPosition) ].
-		[ :error | errorBlock value: (error as: CpBrowserGeolocationPositionError) ].
+		[ :position | successBlock value: position ].
+		[ :error | errorBlock value: error ].
 		aDictionary }
 ]

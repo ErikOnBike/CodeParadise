@@ -29,6 +29,8 @@ CpJavaScriptClass class >> forName: aString [
 { #category : #'instance creation' }
 CpJavaScriptClass >> newInstance [
 
+	"For better performance use #newInstanceResultAs: if the result Class is known."
+
 	^ self newInstanceWithArguments: nil resultAs: nil
 ]
 
@@ -40,6 +42,8 @@ CpJavaScriptClass >> newInstanceResultAs: aProxyClass [
 
 { #category : #'instance creation' }
 CpJavaScriptClass >> newInstanceWithArguments: anArray [
+
+	"For better performance use #newInstanceWithArguments:resultAs: if the result Class is known."
 
 	^ self newInstanceWithArguments: anArray resultAs: nil
 ]

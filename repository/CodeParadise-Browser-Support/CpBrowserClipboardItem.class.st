@@ -36,7 +36,7 @@ CpBrowserClipboardItem >> getHtmlTextThenDo: successBlock [
 	"Retrieve the HTML text from the clipboard content and evaluate the
 	successBlock with the content (a String)"
 
-	self getHtmlTextThenDo: successBlock onError: []
+	self getHtmlTextThenDo: successBlock onError: [ "ignore errors" ]
 ]
 
 { #category : #convenience }
@@ -49,7 +49,7 @@ CpBrowserClipboardItem >> getHtmlTextThenDo: successBlock onError: errorBlock [
 
 	(self getType: 'text/html')
 		then: [ :blob |
-			(blob as: CpBrowserBlob) withTextDo: [ :content |
+			blob withTextDo: [ :content |
 				successBlock value: content ] ]
 		onRejected: [ :reason |
 			errorBlock cull: reason ]
@@ -61,7 +61,7 @@ CpBrowserClipboardItem >> getPlainTextThenDo: successBlock [
 	"Retrieve the plain text from the clipboard content and evaluate the
 	successBlock with the content (a String)"
 
-	self getHtmlTextThenDo: successBlock onError: []
+	self getHtmlTextThenDo: successBlock onError: [ "ignore errors" ]
 ]
 
 { #category : #convenience }
@@ -74,7 +74,7 @@ CpBrowserClipboardItem >> getPlainTextThenDo: successBlock onError: errorBlock [
 
 	(self getType: 'text/plain')
 		then: [ :blob |
-			(blob as: CpBrowserBlob) withTextDo: [ :content |
+			blob withTextDo: [ :content |
 				successBlock value: content ] ]
 		onRejected: [ :reason |
 			errorBlock cull: reason ]
@@ -91,7 +91,7 @@ CpBrowserClipboardItem >> getType: aString [
 { #category : #convenience }
 CpBrowserClipboardItem >> getType: aString thenDo: successBlock [
 
-	self getType: aString thenDo: successBlock onError: []
+	self getType: aString thenDo: successBlock onError: [ "ignore errors" ]
 ]
 
 { #category : #convenience }
@@ -103,7 +103,7 @@ CpBrowserClipboardItem >> getType: aString thenDo: successBlock onError: errorBl
 
 	(self getType: aString)
 		then: [ :blob |
-			(blob as: CpBrowserBlob) withContentDo: [ :content |
+			blob withContentDo: [ :content |
 				successBlock value: content ] ]
 		onRejected: [ :reason | errorBlock cull: reason ]
 ]

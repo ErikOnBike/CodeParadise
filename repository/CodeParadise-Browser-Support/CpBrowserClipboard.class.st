@@ -28,10 +28,7 @@ CpBrowserClipboard >> read [
 	"Requests arbitrary data (such as images) from the clipboard, returning a Promise
 	that resolves with an array of ClipboardItem objects containing the clipboard's contents."
 
-	^ CpJavaScriptPromise on: [ :resolveBlock :rejectBlock |
-		self
-			readThenDo: [ :anArray | resolveBlock value: anArray ]
-			onError: [ :reason | rejectBlock value: reason ] ]
+	^ self apply: #read withArguments: nil resultAs: CpJavaScriptPromise
 ]
 
 { #category : #accessing }
@@ -45,7 +42,7 @@ CpBrowserClipboard >> readText [
 { #category : #convenience }
 CpBrowserClipboard >> readTextThenDo: successBlock [
 
-	^ self readTextThenDo: successBlock onError: []
+	^ self readTextThenDo: successBlock onError: [ "ignore errors" ]
 ]
 
 { #category : #convenience }
@@ -63,7 +60,7 @@ CpBrowserClipboard >> readTextThenDo: successBlock onError: errorBlock [
 { #category : #convenience }
 CpBrowserClipboard >> readThenDo: successBlock [
 
-	^ self readThenDo: successBlock onError: []
+	^ self readThenDo: successBlock onError: [ "ignore errors" ]
 ]
 
 { #category : #convenience }
@@ -74,9 +71,9 @@ CpBrowserClipboard >> readThenDo: successBlock onError: errorBlock [
 	If the user does not have permission, the errorBlock is evaluated with the JavaScript
 	exception as (optional) argument."
 
-	^ (self apply: #read withArguments: nil resultAs: CpJavaScriptPromise)
-		then: [ :anArray | successBlock value: (anArray collect: [ :each | each as: CpBrowserClipboardItem ]) ]
-		onRejected: [ :reason | errorBlock value: reason ]
+	^ self read
+		then: [ :anArray | self crTrace: 'in then'. self crTrace: anArray printString. successBlock value: anArray ]
+		onRejected: [ :reason | self crTrace: 'in reject'. errorBlock value: reason ]
 ]
 
 { #category : #writing }
@@ -91,7 +88,7 @@ CpBrowserClipboard >> write: anArray [
 { #category : #writing }
 CpBrowserClipboard >> write: anArray thenDo: successBlock [
 
-	^ self write: anArray thenDo: successBlock onError: []
+	^ self write: anArray thenDo: successBlock onError: [ "ignore errors" ]
 ]
 
 { #category : #writing }
@@ -119,7 +116,7 @@ CpBrowserClipboard >> writeText: aString [
 { #category : #writing }
 CpBrowserClipboard >> writeText: aString thenDo: successBlock [
 
-	^ self writeText: aString thenDo: successBlock onError: []
+	^ self writeText: aString thenDo: successBlock onError: [ "ignore errors" ]
 ]
 
 { #category : #writing }
