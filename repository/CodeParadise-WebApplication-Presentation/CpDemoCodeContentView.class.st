@@ -1,12 +1,10 @@
 Class {
-	#name : 'CpDemoCodeContentView',
-	#superclass : 'CpView',
-	#category : 'CodeParadise-WebApplication-Presentation-Examples',
-	#package : 'CodeParadise-WebApplication-Presentation',
-	#tag : 'Examples'
+	#name : #CpDemoCodeContentView,
+	#superclass : #CpView,
+	#category : 'CodeParadise-WebApplication-Presentation-Examples'
 }
 
-{ #category : 'web resources' }
+{ #category : #'web resources' }
 CpDemoCodeContentView class >> globalStyle [
 
 	<webResource: #css>
@@ -24,7 +22,7 @@ CpDemoCodeContentView class >> globalStyle [
 	}'
 ]
 
-{ #category : 'class initialization' }
+{ #category : #'class initialization' }
 CpDemoCodeContentView class >> postInstallOnce [
 
 	CpHtmlElement documentBody appendChild: ((CpHtmlElement newWithTag: #div)
@@ -32,7 +30,7 @@ CpDemoCodeContentView class >> postInstallOnce [
 		yourself)
 ]
 
-{ #category : 'web resources' }
+{ #category : #'web resources' }
 CpDemoCodeContentView class >> style [
 
 	<webResource: #css>
@@ -134,7 +132,7 @@ CpDemoCodeContentView class >> style [
 		}'
 ]
 
-{ #category : 'web resources' }
+{ #category : #'web resources' }
 CpDemoCodeContentView class >> template [
 
 	<webResource: #html>
@@ -144,13 +142,13 @@ CpDemoCodeContentView class >> template [
 		</div>'
 ]
 
-{ #category : 'event handling' }
+{ #category : #'event handling' }
 CpDemoCodeContentView >> copyToClipboard [
 
 	self serverAnnounce: CpDemoCodeCopyClipboard
 ]
 
-{ #category : 'event handling' }
+{ #category : #'event handling' }
 CpDemoCodeContentView >> handlePointerMoveEvent: aPointerEvent [
 
 	"Fix our little hack from #serverAnnounce:"
@@ -158,13 +156,13 @@ CpDemoCodeContentView >> handlePointerMoveEvent: aPointerEvent [
 	self removeClass: #'action-done'
 ]
 
-{ #category : 'actions' }
+{ #category : #actions }
 CpDemoCodeContentView >> hideOther [
 
 	self removeClass: #'show-other'
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 CpDemoCodeContentView >> initialize [
 
 	super initialize.
@@ -176,7 +174,7 @@ CpDemoCodeContentView >> initialize [
 		atSlotNamed: #actions
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 CpDemoCodeContentView >> initializeShadowRoot [
 
 	super initializeShadowRoot.
@@ -184,7 +182,7 @@ CpDemoCodeContentView >> initializeShadowRoot [
 	self shadowRoot when: CpPointerMoveEvent send: #handlePointerMoveEvent: to: self
 ]
 
-{ #category : 'rendering' }
+{ #category : #rendering }
 CpDemoCodeContentView >> renderBanner: aString [
 
 	aString
@@ -192,7 +190,7 @@ CpDemoCodeContentView >> renderBanner: aString [
 		ifNil: [ self removeChildrenAtSlotNamed: #banner ]
 ]
 
-{ #category : 'rendering' }
+{ #category : #rendering }
 CpDemoCodeContentView >> renderCode: aString [
 
 	aString
@@ -200,7 +198,7 @@ CpDemoCodeContentView >> renderCode: aString [
 		ifNil: [ self removeChildrenAtSlotNamed: nil ]
 ]
 
-{ #category : 'rendering' }
+{ #category : #rendering }
 CpDemoCodeContentView >> renderMessage: aString [
 
 	(CpHtmlElement elementWithId: #messages)
@@ -210,7 +208,7 @@ CpDemoCodeContentView >> renderMessage: aString [
 				yourself) ]
 ]
 
-{ #category : 'rendering' }
+{ #category : #rendering }
 CpDemoCodeContentView >> renderOtherCode: aString [
 
 	aString
@@ -221,7 +219,7 @@ CpDemoCodeContentView >> renderOtherCode: aString [
 		ifNil: [ self removeChildrenAtSlotNamed: #other ]
 ]
 
-{ #category : 'event handling' }
+{ #category : #'event handling' }
 CpDemoCodeContentView >> serverAnnounce: anAnnouncement [
 
 	"Trick to remove the actions from the view.
@@ -231,13 +229,13 @@ CpDemoCodeContentView >> serverAnnounce: anAnnouncement [
 	super serverAnnounce: anAnnouncement
 ]
 
-{ #category : 'actions' }
+{ #category : #actions }
 CpDemoCodeContentView >> showOther [
 
 	self addClass: #'show-other'
 ]
 
-{ #category : 'actions' }
+{ #category : #actions }
 CpDemoCodeContentView >> toggleOther [
 
 	self toggleClass: #'show-other'

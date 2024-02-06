@@ -4,23 +4,21 @@ I support a SlideContentModel and use a BulletView.
 
 "
 Class {
-	#name : 'CpBulletPresenter',
-	#superclass : 'CpPresenter',
+	#name : #CpBulletPresenter,
+	#superclass : #CpPresenter,
 	#instVars : [
 		'contentPresenter'
 	],
-	#category : 'CodeParadise-WebApplication-Presentation-Presenter',
-	#package : 'CodeParadise-WebApplication-Presentation',
-	#tag : 'Presenter'
+	#category : 'CodeParadise-WebApplication-Presentation-Presenter'
 }
 
-{ #category : 'model' }
+{ #category : #model }
 CpBulletPresenter >> contentModel [
 
 	^ self model
 ]
 
-{ #category : 'view' }
+{ #category : #view }
 CpBulletPresenter >> renderView [
 
 	"Render view of the receiver"
@@ -28,7 +26,7 @@ CpBulletPresenter >> renderView [
 	self renderChildViewForModel: self contentModel
 ]
 
-{ #category : 'user interaction' }
+{ #category : #'user interaction' }
 CpBulletPresenter >> slideSelected: aSlide [
 
 	self parent slideSelected: aSlide

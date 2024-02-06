@@ -1,18 +1,16 @@
 Class {
-	#name : 'CpDemoClassDefinitionCodeContent',
-	#superclass : 'CpDemoExecutableCodeContent',
+	#name : #CpDemoClassDefinitionCodeContent,
+	#superclass : #CpDemoExecutableCodeContent,
 	#instVars : [
 		'superclassName',
 		'className',
 		'slotNames',
 		'packageName'
 	],
-	#category : 'CodeParadise-WebApplication-Presentation-Examples',
-	#package : 'CodeParadise-WebApplication-Presentation',
-	#tag : 'Examples'
+	#category : 'CodeParadise-WebApplication-Presentation-Examples'
 }
 
-{ #category : 'testing' }
+{ #category : #testing }
 CpDemoClassDefinitionCodeContent class >> isRecentVersion [
 
 	"Answer whether the receiver is running in a recent Pharo version (or has fluid classes selected as default option)"
@@ -27,7 +25,7 @@ CpDemoClassDefinitionCodeContent class >> isRecentVersion [
 	^ false
 ]
 
-{ #category : 'instance creation' }
+{ #category : #'instance creation' }
 CpDemoClassDefinitionCodeContent class >> superclassName: superclassName className: className slotNames: slotNames packageName: packageName [
 
 	| code |
@@ -60,13 +58,13 @@ CpDemoClassDefinitionCodeContent class >> superclassName: superclassName classNa
 		yourself
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 CpDemoClassDefinitionCodeContent >> className: aSymbol [
 
 	className := aSymbol
 ]
 
-{ #category : 'do-its' }
+{ #category : #'do-its' }
 CpDemoClassDefinitionCodeContent >> doIt [
 
 	super doIt.
@@ -74,7 +72,7 @@ CpDemoClassDefinitionCodeContent >> doIt [
 	self valueChanged
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 CpDemoClassDefinitionCodeContent >> otherCode [
 
 	"Answer the code of the other class defnition installed (assuming it is different then the receiver's code)
@@ -88,19 +86,19 @@ CpDemoClassDefinitionCodeContent >> otherCode [
 	^ class definitionString
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 CpDemoClassDefinitionCodeContent >> packageName: aSymbol [
 
 	packageName := aSymbol
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 CpDemoClassDefinitionCodeContent >> slotNames: aCollection [
 
 	slotNames := aCollection
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 CpDemoClassDefinitionCodeContent >> status [
 
 	"Answer whether the method is already installed, another method is installed or nil (if method does not exist yet)"
@@ -117,7 +115,7 @@ CpDemoClassDefinitionCodeContent >> status [
 		ifFalse: [ #other ]
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 CpDemoClassDefinitionCodeContent >> superclassName: aSymbol [
 
 	superclassName := aSymbol

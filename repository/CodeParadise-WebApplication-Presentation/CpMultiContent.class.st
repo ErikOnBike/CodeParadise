@@ -1,15 +1,13 @@
 Class {
-	#name : 'CpMultiContent',
-	#superclass : 'CpSlideContent',
+	#name : #CpMultiContent,
+	#superclass : #CpSlideContent,
 	#instVars : [
 		'contentCollection'
 	],
-	#category : 'CodeParadise-WebApplication-Presentation-Model',
-	#package : 'CodeParadise-WebApplication-Presentation',
-	#tag : 'Model'
+	#category : 'CodeParadise-WebApplication-Presentation-Model'
 }
 
-{ #category : 'instance creation' }
+{ #category : #'instance creation' }
 CpMultiContent class >> withAll: aContentCollection [
 
 	| instance |
@@ -20,7 +18,7 @@ CpMultiContent class >> withAll: aContentCollection [
 	^ instance
 ]
 
-{ #category : 'adding' }
+{ #category : #adding }
 CpMultiContent >> addContent: aContent [
 
 	contentCollection add: aContent.
@@ -30,13 +28,13 @@ CpMultiContent >> addContent: aContent [
 	^ aContent
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 CpMultiContent >> contentCollection [
 
 	^ contentCollection
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 CpMultiContent >> initialize [
 
 	super initialize.

@@ -1,34 +1,32 @@
 Class {
-	#name : 'CpLinkedContent',
-	#superclass : 'CpSlideContent',
+	#name : #CpLinkedContent,
+	#superclass : #CpSlideContent,
 	#instVars : [
 		'linkedSlide',
 		'content'
 	],
-	#category : 'CodeParadise-WebApplication-Presentation-Model',
-	#package : 'CodeParadise-WebApplication-Presentation',
-	#tag : 'Model'
+	#category : 'CodeParadise-WebApplication-Presentation-Model'
 }
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 CpLinkedContent >> content [
 
 	^ content
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 CpLinkedContent >> content: aSlideContent [
 
 	content := aSlideContent
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 CpLinkedContent >> linkedSlide [
 
 	^ linkedSlide
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 CpLinkedContent >> linkedSlide: aSlide [
 
 	linkedSlide := aSlide

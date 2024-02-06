@@ -4,17 +4,15 @@ I support a SlideDeckModel and use a SlideCarouselView.
 
 "
 Class {
-	#name : 'CpSlidesCarouselPresenter',
-	#superclass : 'CpPresenter',
+	#name : #CpSlidesCarouselPresenter,
+	#superclass : #CpPresenter,
 	#instVars : [
 		'currentSlideIndex'
 	],
-	#category : 'CodeParadise-WebApplication-Presentation-Presenter',
-	#package : 'CodeParadise-WebApplication-Presentation',
-	#tag : 'Presenter'
+	#category : 'CodeParadise-WebApplication-Presentation-Presenter'
 }
 
-{ #category : 'model' }
+{ #category : #model }
 CpSlidesCarouselPresenter >> currentSlide [
 
 	| slideModels |
@@ -24,19 +22,19 @@ CpSlidesCarouselPresenter >> currentSlide [
 	^ slideModels at: ((self currentSlideIndex - 1) \\ (slideModels size)) + 1
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 CpSlidesCarouselPresenter >> currentSlideIndex [
 
 	^ currentSlideIndex ifNil: [ currentSlideIndex := self slideModels indexOf: self model currentSlide ]
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 CpSlidesCarouselPresenter >> currentSlideIndex: anInteger [
 
 	currentSlideIndex := anInteger
 ]
 
-{ #category : 'user interaction' }
+{ #category : #'user interaction' }
 CpSlidesCarouselPresenter >> nextSlide [
 
 	"No need to take account wrapping, is done in #currentSlide"
@@ -44,7 +42,7 @@ CpSlidesCarouselPresenter >> nextSlide [
 	self currentSlideIndex: self currentSlideIndex + 1
 ]
 
-{ #category : 'user interaction' }
+{ #category : #'user interaction' }
 CpSlidesCarouselPresenter >> previousSlide [
 
 	"No need to take account wrapping, is done in #currentSlide"
@@ -52,13 +50,13 @@ CpSlidesCarouselPresenter >> previousSlide [
 	self currentSlideIndex: self currentSlideIndex - 1
 ]
 
-{ #category : 'view' }
+{ #category : #view }
 CpSlidesCarouselPresenter >> renderCurrentSlide [
 
 	self view renderSlidesCenteredAround: self currentSlideIndex
 ]
 
-{ #category : 'view' }
+{ #category : #view }
 CpSlidesCarouselPresenter >> renderView [
 
 	"Render view of the receiver"
@@ -69,7 +67,7 @@ CpSlidesCarouselPresenter >> renderView [
 	self renderCurrentSlide
 ]
 
-{ #category : 'model' }
+{ #category : #model }
 CpSlidesCarouselPresenter >> slideModels [
 
 	^ self model slideDeck slides

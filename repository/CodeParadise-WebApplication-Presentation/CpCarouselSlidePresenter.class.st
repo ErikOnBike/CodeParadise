@@ -4,14 +4,12 @@ I support a SlideModel and use a CarouselSlideView.
 
 "
 Class {
-	#name : 'CpCarouselSlidePresenter',
-	#superclass : 'CpPresenter',
-	#category : 'CodeParadise-WebApplication-Presentation-Presenter',
-	#package : 'CodeParadise-WebApplication-Presentation',
-	#tag : 'Presenter'
+	#name : #CpCarouselSlidePresenter,
+	#superclass : #CpPresenter,
+	#category : 'CodeParadise-WebApplication-Presentation-Presenter'
 }
 
-{ #category : 'view' }
+{ #category : #view }
 CpCarouselSlidePresenter >> renderView [
 
 	"Render view of the receiver"
@@ -20,7 +18,7 @@ CpCarouselSlidePresenter >> renderView [
 
 ]
 
-{ #category : 'model' }
+{ #category : #model }
 CpCarouselSlidePresenter >> slideModel [
 
 	^ self model

@@ -1,12 +1,10 @@
 Class {
-	#name : 'CpDemoExecutableCodeContentPresenter',
-	#superclass : 'CpDemoCodeContentPresenter',
-	#category : 'CodeParadise-WebApplication-Presentation-Examples',
-	#package : 'CodeParadise-WebApplication-Presentation',
-	#tag : 'Examples'
+	#name : #CpDemoExecutableCodeContentPresenter,
+	#superclass : #CpDemoCodeContentPresenter,
+	#category : 'CodeParadise-WebApplication-Presentation-Examples'
 }
 
-{ #category : 'user interaction' }
+{ #category : #'user interaction' }
 CpDemoExecutableCodeContentPresenter >> doIt [
 
 	self model doIt.
@@ -14,7 +12,7 @@ CpDemoExecutableCodeContentPresenter >> doIt [
 	self view renderMessage: 'Code executed'
 ]
 
-{ #category : 'view' }
+{ #category : #view }
 CpDemoExecutableCodeContentPresenter >> viewCreated [
 
 	super viewCreated.

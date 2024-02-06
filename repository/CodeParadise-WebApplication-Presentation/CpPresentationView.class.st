@@ -1,12 +1,10 @@
 Class {
-	#name : 'CpPresentationView',
-	#superclass : 'CpView',
-	#category : 'CodeParadise-WebApplication-Presentation-View',
-	#package : 'CodeParadise-WebApplication-Presentation',
-	#tag : 'View'
+	#name : #CpPresentationView,
+	#superclass : #CpView,
+	#category : 'CodeParadise-WebApplication-Presentation-View'
 }
 
-{ #category : 'web resources' }
+{ #category : #'web resources' }
 CpPresentationView class >> globalStyle [
 
 	<webResource: #css>
@@ -22,7 +20,7 @@ CpPresentationView class >> globalStyle [
 	}'
 ]
 
-{ #category : 'web resources' }
+{ #category : #'web resources' }
 CpPresentationView class >> style [
 
 	<webResource: #css>
@@ -38,7 +36,7 @@ CpPresentationView class >> style [
 		}'
 ]
 
-{ #category : 'web resources' }
+{ #category : #'web resources' }
 CpPresentationView class >> template [
 
 	<webResource: #html>
@@ -49,7 +47,7 @@ CpPresentationView class >> template [
 		</div>'
 ]
 
-{ #category : 'event handling' }
+{ #category : #'event handling' }
 CpPresentationView >> handleClickEvent: aClickEvent [
 
 	"Handle click event for presentation behavior.
@@ -67,7 +65,7 @@ CpPresentationView >> handleClickEvent: aClickEvent [
 				ifTrue: [ self serverAnnounce: CpNextSlide ] ]
 ]
 
-{ #category : 'event handling' }
+{ #category : #'event handling' }
 CpPresentationView >> handleKeyPressEvent: aKeyEvent [
 
 	"Handle key presses for relevant presentation behavior.
@@ -90,7 +88,7 @@ CpPresentationView >> handleKeyPressEvent: aKeyEvent [
 		ifTrue: [ ^ self serverAnnounce: CpRemoveSlideIndex ]
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 CpPresentationView >> initialize [
 
 	super initialize.
@@ -107,19 +105,19 @@ CpPresentationView >> initialize [
 		when: (CpKeyUpEvent key: 'r') only send: #refreshSlide to: self
 ]
 
-{ #category : 'actions' }
+{ #category : #actions }
 CpPresentationView >> refreshSlide [
 
 	self serverAnnounce: CpRefreshSlide
 ]
 
-{ #category : 'actions' }
+{ #category : #actions }
 CpPresentationView >> removeSlideIndex [
 
 	self serverAnnounce: CpRemoveSlideIndex
 ]
 
-{ #category : 'rendering' }
+{ #category : #rendering }
 CpPresentationView >> renderTitle: aString [
 
 	| headElement |
@@ -129,25 +127,25 @@ CpPresentationView >> renderTitle: aString [
 		ifNil: [ headElement appendChild: (aString inHtmlTag: #title) ]
 ]
 
-{ #category : 'actions' }
+{ #category : #actions }
 CpPresentationView >> showNextSlide [
 
 	self serverAnnounce: CpNextSlide
 ]
 
-{ #category : 'actions' }
+{ #category : #actions }
 CpPresentationView >> showPreviousSlide [
 
 	self serverAnnounce: CpPreviousSlide
 ]
 
-{ #category : 'actions' }
+{ #category : #actions }
 CpPresentationView >> toggleSlideIndex [
 
 	self serverAnnounce: CpSlideIndex
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 CpPresentationView >> width [ 
 
 	^ CpHtmlElement documentBody propertyAt: #clientWidth

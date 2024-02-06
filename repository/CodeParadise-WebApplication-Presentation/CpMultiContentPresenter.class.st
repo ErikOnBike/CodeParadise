@@ -1,18 +1,16 @@
 Class {
-	#name : 'CpMultiContentPresenter',
-	#superclass : 'CpSlideContentPresenter',
-	#category : 'CodeParadise-WebApplication-Presentation-Presenter',
-	#package : 'CodeParadise-WebApplication-Presentation',
-	#tag : 'Presenter'
+	#name : #CpMultiContentPresenter,
+	#superclass : #CpSlideContentPresenter,
+	#category : 'CodeParadise-WebApplication-Presentation-Presenter'
 }
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 CpMultiContentPresenter >> contentModels [
 
 	^ self model contentCollection
 ]
 
-{ #category : 'rendering' }
+{ #category : #rendering }
 CpMultiContentPresenter >> renderView [
 
 	"Render view of the receiver"
