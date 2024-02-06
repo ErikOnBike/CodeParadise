@@ -7,7 +7,7 @@ Class {
 		'slotNames',
 		'packageName'
 	],
-	#category : 'CodeParadise-WebApplication-Presentation-Examples'
+	#category : #'CodeParadise-WebApplication-Presentation-Examples'
 }
 
 { #category : #testing }
@@ -39,7 +39,7 @@ CpDemoClassDefinitionCodeContent class >> superclassName: superclassName classNa
 				slotNames do: [ :each | stream nextPutAll: ' #' ; nextPutAll: each ; space ] separatedBy: [ stream nextPutAll: '.' ].
 				stream
 					nextPutAll: '};' ; cr ;
-					tab ; nextPutAll: 'package: ''' ; nextPutAll: packageName ; nextPutAll: '''.' ]
+					tab ; nextPutAll: 'package: ''' ; nextPutAll: packageName ; nextPutAll: '''' ]
 			ifFalse: [
 				stream
 					nextPutAll: superclassName ; nextPutAll: ' subclass: #' ; nextPutAll: className ; cr ;
@@ -48,7 +48,7 @@ CpDemoClassDefinitionCodeContent class >> superclassName: superclassName classNa
 				stream
 					nextPut: $' ; cr ;
 					tab ; nextPutAll: 'classVariableNames: ''''' ; cr ;
-					tab ; nextPutAll: 'package: ''' ; nextPutAll: packageName ; nextPutAll: '''.' ] ].
+					tab ; nextPutAll: 'package: ''' ; nextPutAll: packageName ; nextPutAll: '''' ] ].
 
 	^ (self code: code)
 		superclassName: superclassName ;
