@@ -3,32 +3,30 @@ I am a SlideContent Presenter specialized in ImageContent.
 I support a ImageContentModel and use ImageContentView.
 "
 Class {
-	#name : 'CpImageContentPresenter',
-	#superclass : 'CpSlideContentPresenter',
-	#category : 'CodeParadise-WebApplication-Presentation-Presenter',
-	#package : 'CodeParadise-WebApplication-Presentation',
-	#tag : 'Presenter'
+	#name : #CpImageContentPresenter,
+	#superclass : #CpSlideContentPresenter,
+	#category : 'CodeParadise-WebApplication-Presentation-Presenter'
 }
 
-{ #category : 'model' }
+{ #category : #model }
 CpImageContentPresenter >> hasHeight [
 
 	^ self height notNil
 ]
 
-{ #category : 'model' }
+{ #category : #model }
 CpImageContentPresenter >> hasWidth [
 
 	^ self width notNil
 ]
 
-{ #category : 'model' }
+{ #category : #model }
 CpImageContentPresenter >> height [
 
 	^ self model height
 ]
 
-{ #category : 'view' }
+{ #category : #view }
 CpImageContentPresenter >> renderView [
 
 	(self hasWidth or: [ self hasHeight ])
@@ -36,7 +34,7 @@ CpImageContentPresenter >> renderView [
 		ifNil: [ self view renderImage: self model url ]
 ]
 
-{ #category : 'model' }
+{ #category : #model }
 CpImageContentPresenter >> width [
 
 	^ self model width

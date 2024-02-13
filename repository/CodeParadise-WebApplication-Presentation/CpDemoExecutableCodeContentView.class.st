@@ -1,18 +1,16 @@
 Class {
-	#name : 'CpDemoExecutableCodeContentView',
-	#superclass : 'CpDemoCodeContentView',
-	#category : 'CodeParadise-WebApplication-Presentation-Examples',
-	#package : 'CodeParadise-WebApplication-Presentation',
-	#tag : 'Examples'
+	#name : #CpDemoExecutableCodeContentView,
+	#superclass : #CpDemoCodeContentView,
+	#category : 'CodeParadise-WebApplication-Presentation-Examples'
 }
 
-{ #category : 'event handling' }
+{ #category : #'event handling' }
 CpDemoExecutableCodeContentView >> executeCode [
 
 	self serverAnnounce: CpDemoCodeDoIt
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 CpDemoExecutableCodeContentView >> initialize [
 
 	super initialize.

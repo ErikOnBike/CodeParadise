@@ -4,9 +4,7 @@ I am an abstract base class.
 
 "
 Class {
-	#name : 'CpSlideContent',
-	#superclass : 'CpModel',
-	#category : 'CodeParadise-WebApplication-Presentation-Model',
-	#package : 'CodeParadise-WebApplication-Presentation',
-	#tag : 'Model'
+	#name : #CpSlideContent,
+	#superclass : #CpModel,
+	#category : 'CodeParadise-WebApplication-Presentation-Model'
 }

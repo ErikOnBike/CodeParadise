@@ -1,12 +1,10 @@
 Class {
-	#name : 'CpDemoMessageView',
-	#superclass : 'CpView',
-	#category : 'CodeParadise-WebApplication-Presentation-Examples',
-	#package : 'CodeParadise-WebApplication-Presentation',
-	#tag : 'Examples'
+	#name : #CpDemoMessageView,
+	#superclass : #CpView,
+	#category : 'CodeParadise-WebApplication-Presentation-Examples'
 }
 
-{ #category : 'web resources' }
+{ #category : #'web resources' }
 CpDemoMessageView class >> style [
 
 	<webResource: #css>
@@ -33,7 +31,7 @@ CpDemoMessageView class >> style [
 		}'
 ]
 
-{ #category : 'web resources' }
+{ #category : #'web resources' }
 CpDemoMessageView class >> template [
 
 	<webResource: #html>
@@ -43,7 +41,7 @@ CpDemoMessageView class >> template [
 		</div>'
 ]
 
-{ #category : 'rendering' }
+{ #category : #rendering }
 CpDemoMessageView >> renderMessage: aString [
 
 	self replaceAllChildrenWith: aString asHtmlElement.

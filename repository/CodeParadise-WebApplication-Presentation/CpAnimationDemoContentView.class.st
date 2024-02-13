@@ -1,12 +1,10 @@
 Class {
-	#name : 'CpAnimationDemoContentView',
-	#superclass : 'CpCustomContentView',
-	#category : 'CodeParadise-WebApplication-Presentation-View',
-	#package : 'CodeParadise-WebApplication-Presentation',
-	#tag : 'View'
+	#name : #CpAnimationDemoContentView,
+	#superclass : #CpCustomContentView,
+	#category : 'CodeParadise-WebApplication-Presentation-View'
 }
 
-{ #category : 'rendering' }
+{ #category : #rendering }
 CpAnimationDemoContentView >> render [
 
 	"Render two squares which animate"
@@ -53,7 +51,7 @@ CpAnimationDemoContentView >> render [
 
 ]
 
-{ #category : 'rendering' }
+{ #category : #rendering }
 CpAnimationDemoContentView >> renderMany [
 
 	"Render a series of squares which animate"

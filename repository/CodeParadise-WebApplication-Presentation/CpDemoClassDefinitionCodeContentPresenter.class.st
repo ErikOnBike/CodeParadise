@@ -1,12 +1,10 @@
 Class {
-	#name : 'CpDemoClassDefinitionCodeContentPresenter',
-	#superclass : 'CpDemoExecutableCodeContentPresenter',
-	#category : 'CodeParadise-WebApplication-Presentation-Examples',
-	#package : 'CodeParadise-WebApplication-Presentation',
-	#tag : 'Examples'
+	#name : #CpDemoClassDefinitionCodeContentPresenter,
+	#superclass : #CpDemoExecutableCodeContentPresenter,
+	#category : 'CodeParadise-WebApplication-Presentation-Examples'
 }
 
-{ #category : 'rendering' }
+{ #category : #rendering }
 CpDemoClassDefinitionCodeContentPresenter >> renderView [
 
 	| codeStatus codeStatusString otherCode |

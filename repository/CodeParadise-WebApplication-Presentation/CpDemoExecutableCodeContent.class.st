@@ -1,12 +1,10 @@
 Class {
-	#name : 'CpDemoExecutableCodeContent',
-	#superclass : 'CpDemoCodeContent',
-	#category : 'CodeParadise-WebApplication-Presentation-Examples',
-	#package : 'CodeParadise-WebApplication-Presentation',
-	#tag : 'Examples'
+	#name : #CpDemoExecutableCodeContent,
+	#superclass : #CpDemoCodeContent,
+	#category : #'CodeParadise-WebApplication-Presentation-Examples'
 }
 
-{ #category : 'do-its' }
+{ #category : #'do-its' }
 CpDemoExecutableCodeContent >> doIt [
 
 	| result |
@@ -17,6 +15,6 @@ CpDemoExecutableCodeContent >> doIt [
 	"With recent version of Pharo the code does not evaluate to the class, but to a ClassBuilder.
 	Build and install the actual class if this happens."
 	result do: [:each |
-		each class name == #ShiftClassBuilder
+		(each class name endsWith: 'ClassBuilder')
 			ifTrue: [ each install ] ]
 ]
