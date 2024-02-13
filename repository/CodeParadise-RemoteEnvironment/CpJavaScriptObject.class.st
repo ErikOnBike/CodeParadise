@@ -249,6 +249,23 @@ CpJavaScriptObject class >> registerProxyClass: aClass forClassName: aString [
 	self primitiveFailed
 ]
 
+{ #category : #converting }
+CpJavaScriptObject class >> wrap: anObject [
+
+	"Wrap the specified (Smalltalk) Object into the receiver (a JavaScriptObject proxy class)"
+
+	^ self wrap: anObject in: self
+]
+
+{ #category : #converting }
+CpJavaScriptObject class >> wrap: anObject in: aProxyClass [
+
+	"Wrap the specified (Smalltalk) Object into a JavaScriptObject proxy"
+
+	^ self global
+		apply: #identity withArguments: { anObject } resultAs: aProxyClass
+]
+
 { #category : #accessing }
 CpJavaScriptObject >> apply: aSymbol [
 
@@ -332,8 +349,7 @@ CpJavaScriptObject >> as: aProxyClass [
 	If aProxyClass is nil, a default Smalltalk conversion is tried. If that
 	fails the default Proxy Class is used."
 
-	^ self class global
-		apply: #identity withArguments: { self } resultAs: aProxyClass
+	^ self class wrap: self in: aProxyClass
 ]
 
 { #category : #converting }
