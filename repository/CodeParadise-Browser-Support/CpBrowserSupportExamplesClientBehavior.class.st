@@ -277,6 +277,34 @@ CpBrowserSupportExamplesClientBehavior >> exampleDNU [
 ]
 
 { #category : #examples }
+CpBrowserSupportExamplesClientBehavior >> exampleJavaScriptEventTarget [
+
+	<example: 'Basic: Proxy for JavaScript EventTarget' order: 1100>
+
+	| outputElement eventTarget handler |
+
+	self clearOutput.
+	outputElement := self outputElement.
+
+	outputElement
+		appendChild: ((CpHtmlElement newWithTag: #h1)
+			textContent: 'Proxy for JavaScript EventTarget' ;
+			yourself) ;
+		appendChild: ((CpHtmlElement newWithTag: #button)
+			textContent: 'Click me to add text' ;
+			yourself) ;
+		appendChild: ((CpHtmlElement newWithTag: #button)
+			textContent: 'Click me to remove event listener (stop other button)' ;
+			when: CpClickEvent primary only do: [ eventTarget removeEventListener: #click handler: handler ] ;
+			yourself) ;
+		yourself.
+
+	eventTarget := CpJavaScriptEventTarget wrap: (outputElement firstDescendantMatching: #button).
+	handler := eventTarget addEventListener: #click handler: [ :event | outputElement appendChild: ((CpHtmlElement newWithTag: #div) textContent: event printString ; yourself) ].
+
+]
+
+{ #category : #examples }
 CpBrowserSupportExamplesClientBehavior >> exampleJavaScriptProxy [
 
 	<example: 'Basic: Proxy for JavaScript objects' order: 1000>
