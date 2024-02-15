@@ -288,6 +288,51 @@ CpBrowserSupportExamplesClientBehavior >> exampleBrowserScreen [
 ]
 
 { #category : #examples }
+CpBrowserSupportExamplesClientBehavior >> exampleBrowserSpeechSynthesis [
+
+	<example: 'Speech API (Synthesis)' order: 300>
+
+	| outputElement voicesSelection |
+
+	self clearOutput.
+	outputElement := self outputElement.
+
+	outputElement
+		appendChild: ((CpHtmlElement newWithTag: #h1)
+			textContent: 'Speech API (Synthesis)' ;
+			yourself) ;
+		appendChild: ((CpHtmlElement newWithTag: #p)
+			textContent: 'Enter a text which should be spoken (and hear and watch it being spoken). The dev console also shows a lot of event info.' ;
+			yourself) ;
+		appendChild: ((CpHtmlElement newWithTag: #input)
+			id: #text ;
+			attributeAt: #size put: '80' ;
+			propertyAt: #value put: 'Smalltalk is a great programming language for great and small projects' ;
+			styleAt: #'font-size' put: '14px' ;
+			yourself) ;
+		appendChild: ((CpHtmlElement newWithTag: #p)
+			id: #progress ;
+			textContent: '' ;
+			yourself) ;
+		appendChild: ((CpHtmlElement newWithTag: #p)
+			textContent: 'Select the voice and language to speak' ;
+			yourself) ;
+		appendChild: (CpHtmlElement newWithTag: #select) ;
+		appendChild: (CpHtmlElement newWithTag: #p) ;
+		appendChild: ((CpHtmlElement newWithTag: #button)
+			textContent: 'Speak!' ;
+			when: CpClickEvent primary only send: #speechSpeak to: self ;
+			yourself).
+
+	voicesSelection := outputElement firstDescendantMatching: #select.
+	CpBrowserSpeechSynthesis current voices do: [ :each |
+		voicesSelection appendChild: ((CpHtmlElement newWithTag: #option)
+			attributeAt: #selected put: (each default ifTrue: [ "" ] ifFalse: [ nil ]) ;
+			textContent: each name, ' - ', each lang, ' ', (each localService ifTrue: [ '(local synth)' ] ifFalse: [ '(remote synth)' ]) ;
+			yourself) ]
+]
+
+{ #category : #examples }
 CpBrowserSupportExamplesClientBehavior >> exampleDNU [
 
 	<example: 'DNU' order: 9999>
@@ -463,4 +508,84 @@ CpBrowserSupportExamplesClientBehavior >> showIndex [
 			textContent: item value first ;	"ie title"
 			when: CpClickEvent send: item key to: self ;
 			yourself) ]
+]
+
+{ #category : #'as yet unclassified' }
+CpBrowserSupportExamplesClientBehavior >> speechSpeak [
+
+	| outputElement speakButton text progress speechSynthesis utterance onStartHandler onBoundaryHandler onEndHandler onErrorHandler cleanup |
+
+	outputElement := self outputElement.
+	speakButton := outputElement firstDescendantMatching: #button.
+	text := (outputElement firstDescendantMatching: '#text') propertyAt: #value.
+	progress := outputElement firstDescendantMatching: '#progress'.
+
+	"Disable button first"
+	speakButton propertyAt: #disabled put: true.
+
+	"Setup progress information"
+	progress textContent: text.
+
+	"Create Utterance"
+	utterance := CpBrowserSpeechSynthesisUtterance text: text.
+	self speechVoiceSelected ifNotNil: [ :voice |
+		self crTrace: 'Set voice: ', voice printString.
+		utterance
+			voice: voice ;
+			lang: voice lang ].
+
+	"Add event handlers"
+	cleanup := [
+		utterance
+			removeStartHandler: onStartHandler ;
+			removeBoundaryHandler: onBoundaryHandler ;
+			removeEndHandler: onEndHandler ;
+			removeErrorHandler: onErrorHandler.
+
+		"Restore progress"
+		progress textContent: text.
+
+		"Enable button again"
+		speakButton propertyAt: #disabled put: false ].
+
+	onStartHandler := utterance onStartDo: [ :event | self crTrace: 'start speaking: ', event printString ].
+	onBoundaryHandler := utterance onBoundaryDo: [ :event |
+		| start end prefix word postfix |
+		self crTrace: 'boundary: ', event printString.
+
+		"Select the word being uttered"
+		start := event charIndex + 1.
+		end := start + event charLength - 1.	"End is inclusive"
+		prefix := start = 1
+			ifTrue: [ '' ]
+			ifFalse: [ text copyFrom: 1 to: start - 1 ].
+		word := text copyFrom: start to: end.
+		postfix := end < text size
+			ifTrue: [ text copyFrom: end + 1 to: text size ]
+			ifFalse: [ '' ].
+
+		"Update the progress, showing word being spoken highlighted"
+		progress
+			removeChildren ;
+			appendChild: prefix asHtmlElement ;
+			appendChild: (word asHtmlElement
+				styleAt: #'border-bottom' put: '4px solid blue' ;
+				yourself) ;
+			appendChild: postfix asHtmlElement ].
+	onEndHandler := utterance onEndDo: [ :event | self crTrace: 'end speaking: ', event printString. cleanup value ].
+	onErrorHandler := utterance onErrorDo: [ :event | self crTrace: 'error during speaking: ', event printString. cleanup value ].
+
+	speechSynthesis := CpBrowserSpeechSynthesis current.
+	speechSynthesis speak: utterance
+]
+
+{ #category : #'as yet unclassified' }
+CpBrowserSupportExamplesClientBehavior >> speechVoiceSelected [
+
+	| voiceIndex |
+
+	"JavaScript has 0-based indices, add 1 to make it 1-based for Smalltalk"
+	voiceIndex := ((self outputElement firstDescendantMatching: #select) propertyAt: #selectedIndex) + 1.
+
+	^ CpBrowserSpeechSynthesis current voices at: voiceIndex ifAbsent: [ nil ]
 ]
