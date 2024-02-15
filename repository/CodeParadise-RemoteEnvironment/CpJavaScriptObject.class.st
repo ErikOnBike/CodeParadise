@@ -162,6 +162,14 @@ CpJavaScriptObject class >> global [
 ]
 
 { #category : #'instance creation' }
+CpJavaScriptObject class >> new [
+
+	"New instances of the receiver should not be created 'manually'"
+
+	self error: 'Do not instantiate the receiver using #new, use one of the selectors starting with: ', #newInstance
+]
+
+{ #category : #'instance creation' }
 CpJavaScriptObject class >> newInstance [
 
 	"For better performance use #newInstanceResultAs: if the result Class is known."
