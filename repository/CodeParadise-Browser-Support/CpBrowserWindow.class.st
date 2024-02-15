@@ -4,6 +4,20 @@ Class {
 	#category : #'CodeParadise-Browser-Support-Core'
 }
 
+{ #category : #accessing }
+CpBrowserWindow class >> current [
+
+	"The Window object is the global object in the Browser"
+
+	^ CpJavaScriptObject global
+]
+
+{ #category : #'instance creation' }
+CpBrowserWindow class >> newInstanceWithArguments: anArray resultAs: aProxyClass [
+
+	self error: 'An instance should be retrieved using the selector ', #current
+]
+
 { #category : #printing }
 CpBrowserWindow >> print [
 
