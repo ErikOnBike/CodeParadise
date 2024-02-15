@@ -9,7 +9,7 @@ CpBrowserNavigator class >> current [
 
 	"Answer an instance of the receiver"
 
-	^ CpJavaScriptObject global
+	^ CpBrowserWindow current
 		apply: #navigator resultAs: self
 ]
 
