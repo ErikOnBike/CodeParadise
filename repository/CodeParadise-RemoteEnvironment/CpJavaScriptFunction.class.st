@@ -1,3 +1,10 @@
+"
+I represent a JavaScript function.
+I am used in CpJavaScriptEventTarget to represent an event handler.
+Smalltalk blocks can be wrapped in an instance of me using:
+	CpJavaScriptFunction wrap: [ ""some block"" ]
+
+"
 Class {
 	#name : #CpJavaScriptFunction,
 	#superclass : #CpJavaScriptObject,

@@ -1,3 +1,7 @@
+"
+I represent both the Browser EventTarget and the Node.js EventTarget.
+These classes are similar enough to have to same proxy implementation.
+"
 Class {
 	#name : #CpJavaScriptEventTarget,
 	#superclass : #CpJavaScriptObject,
