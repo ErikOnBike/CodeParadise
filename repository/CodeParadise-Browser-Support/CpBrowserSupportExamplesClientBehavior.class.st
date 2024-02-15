@@ -218,7 +218,7 @@ CpBrowserSupportExamplesClientBehavior >> exampleBrowserGeolocation [
 { #category : #examples }
 CpBrowserSupportExamplesClientBehavior >> exampleBrowserNavigator [
 
-	<example: 'Navigator' order: 1>
+	<example: 'Navigator' order: 50>
 
 	| outputElement languages language list |
 
@@ -247,6 +247,44 @@ CpBrowserSupportExamplesClientBehavior >> exampleBrowserNavigator [
 			textContent: 'Preferred language: ', language ;
 			yourself) ;
 		yourself
+]
+
+{ #category : #examples }
+CpBrowserSupportExamplesClientBehavior >> exampleBrowserScreen [
+
+	<example: 'Screen' order: 25>
+
+	| outputElement screen |
+
+	screen := CpBrowserScreen current.
+
+	self clearOutput.
+	outputElement := self outputElement.
+	outputElement
+		appendChild: ((CpHtmlElement newWithTag: #h1)
+			textContent: 'Screen' ;
+			yourself) ;
+		appendChild: ((CpHtmlElement newWithTag: #p)
+			textContent: 'Available height: ', screen availHeight printString ;
+			yourself) ;
+		appendChild: ((CpHtmlElement newWithTag: #p)
+			textContent: 'Available width: ', screen availWidth printString ;
+			yourself) ;
+		appendChild: ((CpHtmlElement newWithTag: #p)
+			textContent: 'Height: ', screen height printString ;
+			yourself) ;
+		appendChild: ((CpHtmlElement newWithTag: #p)
+			textContent: 'Width: ', screen width printString ;
+			yourself) ;
+		appendChild: ((CpHtmlElement newWithTag: #p)
+			textContent: 'Color depth: ', screen colorDepth printString ;
+			yourself) ;
+		appendChild: ((CpHtmlElement newWithTag: #p)
+			textContent: 'Pixel depth: ', screen pixelDepth printString ;
+			yourself) ;
+		appendChild: ((CpHtmlElement newWithTag: #p)
+			textContent: 'Orientation: ', screen orientation type ;
+			yourself)
 ]
 
 { #category : #examples }
