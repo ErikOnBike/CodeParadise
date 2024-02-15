@@ -16,7 +16,7 @@ CpBrowserGeolocation class >> current [
 { #category : #'instance creation' }
 CpBrowserGeolocation class >> newInstanceWithArguments: anArray resultAs: aProxyClass [
 
-	self error: 'A Geolocation instance should be retrieved using the selector ', #current
+	self error: 'An instance should be retrieved using the selector ', #current
 ]
 
 { #category : #'class initialization' }
