@@ -554,8 +554,8 @@ CpBrowserSupportExamplesClientBehavior >> speechSpeak [
 		self crTrace: 'boundary: ', event printString.
 
 		"Select the word being uttered"
-		start := event charIndex + 1.
-		end := start + event charLength - 1.	"End is inclusive"
+		start := (event charIndex + 1) min: text size.
+		end := (start + event charLength - 1) min: text size.	"End is inclusive"
 		prefix := start = 1
 			ifTrue: [ '' ]
 			ifFalse: [ text copyFrom: 1 to: start - 1 ].
