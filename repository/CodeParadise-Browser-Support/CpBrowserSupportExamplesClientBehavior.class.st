@@ -216,6 +216,35 @@ CpBrowserSupportExamplesClientBehavior >> exampleBrowserGeolocation [
 ]
 
 { #category : #examples }
+CpBrowserSupportExamplesClientBehavior >> exampleBrowserMediaStreams [
+
+	<example: 'Media Streams API (stream video)' order: 510>
+
+	| outputElement |
+
+	self clearOutput.
+	outputElement := self outputElement.
+
+	outputElement
+		appendChild: ((CpHtmlElement newWithTag: #h1)
+			textContent: 'Media Streams API (stream video)' ;
+			yourself) ;
+		appendChild: ((CpHtmlElement newWithTag: #p)
+			textContent: 'After clicking the button (and giving permission to use the video) your camera input should be shown below.' ;
+			yourself) ;
+		appendChild: (CpHtmlElement newWithTag: #video) ;
+		appendChild: ((CpHtmlElement newWithTag: #p)
+			id: #progress ;
+			yourself) ;
+		appendChild: ((CpHtmlElement newWithTag: #button)
+			textContent: 'Start video' ;
+			yourself).
+
+	(outputElement firstDescendantMatching: #button)
+		when: CpClickEvent primary only send: #mediaStreamShowVideo to: self
+]
+
+{ #category : #examples }
 CpBrowserSupportExamplesClientBehavior >> exampleBrowserNavigator [
 
 	<example: 'Navigator' order: 50>
@@ -438,6 +467,25 @@ CpBrowserSupportExamplesClientBehavior >> initialize [
 	super initialize.
 
 	self showIndex
+]
+
+{ #category : #examples }
+CpBrowserSupportExamplesClientBehavior >> mediaStreamShowVideo [
+
+	| outputElement video progress |
+
+	outputElement := self outputElement.
+	video := outputElement firstDescendantMatching: #video.
+	progress := outputElement firstDescendantMatching: '#progress'.
+
+	"Retrieve Video"
+	CpBrowserMediaDevices current getUserMediaVideo
+		then: [ :stream |
+			video
+				propertyAt: #srcObject put: stream ;
+				apply: #play withArguments: nil ] ;
+		catch: [ :error |
+			progress replaceAllChildrenWith: ('Failed to retrieve user media video: ', error printString) asHtmlElement ]
 ]
 
 { #category : #accessing }
