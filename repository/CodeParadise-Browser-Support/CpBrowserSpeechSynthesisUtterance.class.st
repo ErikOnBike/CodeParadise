@@ -17,7 +17,7 @@ CpBrowserSpeechSynthesisUtterance >> lang [
 
 	"Gets and sets the language of the utterance."
 
-	^ self apply: #lang
+	^ self propertyAt: #lang
 ]
 
 { #category : #accessing }
@@ -27,7 +27,7 @@ CpBrowserSpeechSynthesisUtterance >> lang: aString [
 	IETF language tag like en-US, en-GB, nl-NL
 	See https://en.wikipedia.org/wiki/IETF_language_tag"
 
-	self apply: #lang withArguments: { aString }
+	self propertyAt: #lang put: aString
 ]
 
 { #category : #'event handling' }
@@ -119,7 +119,7 @@ CpBrowserSpeechSynthesisUtterance >> pitch [
 
 	"Gets and sets the pitch at which the utterance will be spoken at."
 
-	^ self apply: #pitch
+	^ self propertyAt: #pitch
 ]
 
 { #category : #accessing }
@@ -128,7 +128,7 @@ CpBrowserSpeechSynthesisUtterance >> pitch: aFloat [
 	"Gets and sets the pitch at which the utterance will be spoken at.
 	Value between 0 and 2 (default = 1)."
 
-	self apply: #pitch withArguments: { aFloat }
+	self propertyAt: #pitch put: aFloat
 ]
 
 { #category : #accessing }
@@ -136,7 +136,7 @@ CpBrowserSpeechSynthesisUtterance >> rate [
 
 	"Gets and sets the speed at which the utterance will be spoken at."
 
-	^ self apply: #rate
+	^ self propertyAt: #rate
 ]
 
 { #category : #accessing }
@@ -145,7 +145,7 @@ CpBrowserSpeechSynthesisUtterance >> rate: aFloat [
 	"Gets and sets the speed at which the utterance will be spoken at.
 	Value between 0.1 and 10 (default = 1)."
 
-	self apply: #rate withArguments: { aFloat }
+	self propertyAt: #rate put: aFloat
 ]
 
 { #category : #'event handling' }
@@ -223,7 +223,7 @@ CpBrowserSpeechSynthesisUtterance >> text [
 
 	"Gets and sets the text that will be synthesized when the utterance is spoken."
 
-	self apply: #text
+	^ self propertyAt: #text
 ]
 
 { #category : #accessing }
@@ -231,7 +231,7 @@ CpBrowserSpeechSynthesisUtterance >> text: aString [
 
 	"Gets and sets the text that will be synthesized when the utterance is spoken."
 
-	self apply: #text withArguments: { aString }
+	self propertyAt: #text put: aString
 ]
 
 { #category : #accessing }
@@ -239,7 +239,7 @@ CpBrowserSpeechSynthesisUtterance >> voice [
 
 	"Gets and sets the voice that will be used to speak the utterance."
 
-	^ self apply: #voice resultAs: CpBrowserSpeechSynthesisVoice
+	^ self propertyAt: #voice
 ]
 
 { #category : #accessing }
@@ -247,7 +247,7 @@ CpBrowserSpeechSynthesisUtterance >> voice: aVoice [
 
 	"Gets and sets the voice that will be used to speak the utterance."
 
-	self apply: #voice withArguments: { aVoice }
+	self propertyAt: #voice put: aVoice
 ]
 
 { #category : #accessing }
@@ -255,7 +255,7 @@ CpBrowserSpeechSynthesisUtterance >> volume [
 
 	"Gets and sets the volume that the utterance will be spoken at."
 
-	self apply: #volume
+	^ self propertyAt: #volume
 ]
 
 { #category : #accessing }
@@ -264,5 +264,5 @@ CpBrowserSpeechSynthesisUtterance >> volume: aFloat [
 	"Gets and sets the volume that the utterance will be spoken at.
 	Value between 0 and 1 (default = 1)."
 
-	self apply: #volume withArguments: { aFloat }
+	self propertyAt: #volume put: aFloat
 ]

@@ -15,7 +15,7 @@ CpBrowserGeolocationPositionError >> code [
 	3	TIMEOUT	The time allowed to acquire the geolocation was reached before the information was obtained.
 	"
 
-	^ self apply: #code
+	^ self propertyAt: #code
 ]
 
 { #category : #accessing }
@@ -23,5 +23,5 @@ CpBrowserGeolocationPositionError >> message [
 
 	"Returns a human-readable string describing the details of the error. Specifications note that this is primarily intended for debugging use and not to be shown directly in a user interface."
 
-	^ self apply: #message
+	^ self propertyAt: #message
 ]

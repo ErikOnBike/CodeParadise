@@ -24,7 +24,7 @@ CpBrowserNavigator >> language [
 
 	"Returns a string representing the preferred language of the user, usually the language of the browser UI. The null value is returned when this is unknown."
 
-	^ self apply: #language
+	^ self propertyAt: #language
 ]
 
 { #category : #accessing }
@@ -32,5 +32,5 @@ CpBrowserNavigator >> languages [
 
 	"Returns an array of strings representing the languages known to the user, by order of preference."
 
-	^ self apply: #languages
+	^ self propertyAt: #languages
 ]

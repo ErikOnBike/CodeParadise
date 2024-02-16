@@ -9,7 +9,7 @@ CpBrowserGeolocationCoordinates >> accuracy [
 
 	"Returns a double representing the accuracy of the latitude and longitude properties, expressed in meters."
 
-	^ self apply: #accuracy
+	^ self propertyAt: #accuracy
 ]
 
 { #category : #accessing }
@@ -17,7 +17,7 @@ CpBrowserGeolocationCoordinates >> altitude [
 
 	"Returns a double representing the position's altitude in meters, relative to sea level. This value can be null if the implementation cannot provide the data."
 	
-	^ self apply: #altitude
+	^ self propertyAt: #altitude
 ]
 
 { #category : #accessing }
@@ -25,7 +25,7 @@ CpBrowserGeolocationCoordinates >> altitudeAccuracy [
 
 	"Returns a double representing the accuracy of the altitude expressed in meters. This value can be null."
 	
-	^ self apply: #altitudeAccuracy
+	^ self propertyAt: #altitudeAccuracy
 ]
 
 { #category : #accessing }
@@ -38,7 +38,7 @@ CpBrowserGeolocationCoordinates >> heading [
 	If speed is 0, heading is NaN.
 	If the device is unable to provide heading information, this value is null."
 
-	^ self apply: #heading
+	^ self propertyAt: #heading
 ]
 
 { #category : #accessing }
@@ -46,7 +46,7 @@ CpBrowserGeolocationCoordinates >> latitude [
 
 	"Returns a double representing the position's latitude in decimal degrees."
 
-	^ self apply: #latitude
+	^ self propertyAt: #latitude
 ]
 
 { #category : #accessing }
@@ -54,7 +54,7 @@ CpBrowserGeolocationCoordinates >> longitude [
 
 	"Returns a double representing the position's longitude in decimal degrees."
 
-	^ self apply: #longitude
+	^ self propertyAt: #longitude
 ]
 
 { #category : #accessing }
@@ -62,5 +62,5 @@ CpBrowserGeolocationCoordinates >> speed [
 
 	"Returns a double representing the velocity of the device in meters per second. This value can be null."
 
-	^ self apply: #speed
+	^ self propertyAt: #speed
 ]

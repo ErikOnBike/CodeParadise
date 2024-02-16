@@ -49,7 +49,7 @@ CpBrowserBlob >> size [
 
 	"The size, in bytes, of the data contained in the Blob object."
 
-	^ self apply: #size
+	^ self propertyAt: #size
 ]
 
 { #category : #accessing }
@@ -65,7 +65,7 @@ CpBrowserBlob >> type [
 
 	"A string indicating the MIME type of the data contained in the Blob. If the type is unknown, this string is empty."
 
-	^ self apply: #type
+	^ self propertyAt: #type
 ]
 
 { #category : #convenience }

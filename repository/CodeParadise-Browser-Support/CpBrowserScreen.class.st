@@ -24,7 +24,7 @@ CpBrowserScreen >> availHeight [
 
 	"Specifies the height of the screen, in pixels, minus permanent or semipermanent user interface features displayed by the operating system, such as the Taskbar on Windows."
 
-	^ self apply: #availHeight
+	^ self propertyAt: #availHeight
 ]
 
 { #category : #accessing }
@@ -32,7 +32,7 @@ CpBrowserScreen >> availWidth [
 
 	"Returns the amount of horizontal space in pixels available to the window."
 
-	^ self apply: #availWidth
+	^ self propertyAt: #availWidth
 ]
 
 { #category : #accessing }
@@ -40,7 +40,7 @@ CpBrowserScreen >> colorDepth [
 
 	"Returns the color depth of the screen."
 
-	^ self apply: #colorDepth
+	^ self propertyAt: #colorDepth
 ]
 
 { #category : #accessing }
@@ -48,7 +48,7 @@ CpBrowserScreen >> height [
 
 	"Returns the height of the screen in pixels."
 
-	^ self apply: #height
+	^ self propertyAt: #height
 ]
 
 { #category : #accessing }
@@ -56,7 +56,7 @@ CpBrowserScreen >> orientation [
 
 	"Returns the ScreenOrientation instance associated with this screen."
 
-	^ self apply: #orientation resultAs: CpBrowserScreenOrientation
+	^ self propertyAt: #orientation
 ]
 
 { #category : #accessing }
@@ -64,7 +64,7 @@ CpBrowserScreen >> pixelDepth [
 
 	"Gets the bit depth of the screen."
 
-	^ self apply: #pixelDepth
+	^ self propertyAt: #pixelDepth
 ]
 
 { #category : #accessing }
@@ -72,5 +72,5 @@ CpBrowserScreen >> width [
 
 	"Returns the width of the screen."
 
-	^ self apply: #width
+	^ self propertyAt: #width
 ]

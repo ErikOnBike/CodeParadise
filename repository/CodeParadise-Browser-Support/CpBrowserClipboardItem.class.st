@@ -113,7 +113,7 @@ CpBrowserClipboardItem >> presentationStyle [
 
 	"Returns one of the following: 'unspecified', 'inline' or 'attachment'".
 
-	^ self apply: #presentationStyle
+	^ self propertyAt: #presentationStyle
 ]
 
 { #category : #accessing }
@@ -121,5 +121,5 @@ CpBrowserClipboardItem >> types [
 
 	"Returns an Array of MIME types available within the ClipboardItem."
 
-	^ self apply: #types
+	^ self propertyAt: #types
 ]

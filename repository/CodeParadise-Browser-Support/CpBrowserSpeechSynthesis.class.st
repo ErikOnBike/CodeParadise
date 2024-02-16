@@ -27,6 +27,14 @@ CpBrowserSpeechSynthesis >> cancel [
 	self apply: #cancel
 ]
 
+{ #category : #accessing }
+CpBrowserSpeechSynthesis >> getVoices [
+
+	"Returns a list of SpeechSynthesisVoice objects representing all the available voices on the current device."
+
+	^ self apply: #getVoices
+]
+
 { #category : #'event handling' }
 CpBrowserSpeechSynthesis >> onVoicesChangedDo: aBlock [
 
@@ -52,7 +60,7 @@ CpBrowserSpeechSynthesis >> paused [
 
 	"A boolean value that returns true if the SpeechSynthesis object is in a paused state."
 
-	^ self apply: #paused
+	^ self propertyAt: #paused
 ]
 
 { #category : #accessing }
@@ -60,7 +68,7 @@ CpBrowserSpeechSynthesis >> pending [
 
 	"A boolean value that returns true if the utterance queue contains as-yet-unspoken utterances."
 
-	^ self apply: #pending
+	^ self propertyAt: #pending
 ]
 
 { #category : #'event handling' }
@@ -93,5 +101,5 @@ CpBrowserSpeechSynthesis >> speaking [
 
 	"A boolean value that returns true if an utterance is currently in the process of being spoken — even if SpeechSynthesis is in a paused state."
 
-	^ self apply: #speaking
+	^ self propertyAt: #speaking
 ]

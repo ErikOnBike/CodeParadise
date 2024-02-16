@@ -9,7 +9,7 @@ CpBrowserScreenOrientation >> angle [
 
 	"Returns the document's current orientation angle."
 
-	^ self apply: #angle
+	^ self propertyAt: #angle
 ]
 
 { #category : #operations }
@@ -82,7 +82,7 @@ CpBrowserScreenOrientation >> type [
 
 	"Returns the document's current orientation type, one of ""portrait-primary"", ""portrait-secondary"", ""landscape-primary"", or ""landscape-secondary""."
 
-	^ self apply: #type
+	^ self propertyAt: #type
 ]
 
 { #category : #operations }
