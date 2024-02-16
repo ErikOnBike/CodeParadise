@@ -503,3 +503,32 @@ CpJavaScriptObject >> printOn: aStream [
 
 	aStream nextPut: $)
 ]
+
+{ #category : #accessing }
+CpJavaScriptObject >> propertyAt: aSymbol [
+
+	"Get the property from the proxied JavaScript object.
+	In line with regular JavaScript this will either answer the
+	property value or nil if such a property does not exist or
+	its value is null or undefined.
+
+	This method is more forgiving than #apply: since it will just
+	answer nil if not present, instead of raising an error."
+
+	<primitive: 'primitiveJavaScriptObjectPropertyAt:' module: 'CpSystemPlugin'>
+	self primitiveFailed
+]
+
+{ #category : #accessing }
+CpJavaScriptObject >> propertyAt: aSymbol put: anObject [
+
+	"Set the property from the proxied JavaScript object with the specified value.
+	In line with regular JavaScript this will set or create a property with the
+	given value.
+
+	This method is more forgiving than #apply:witArguments: since it will just
+	add a property if not present, instead of raising an error."
+
+	<primitive: 'primitiveJavaScriptObjectPropertyAt:put:' module: 'CpSystemPlugin'>
+	self primitiveFailed
+]
