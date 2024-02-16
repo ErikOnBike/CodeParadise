@@ -95,6 +95,8 @@ CpWebComponent class >> new [
 
 	self hasAbstractTag
 		ifTrue: [ self error: self name, ' is abstract and cannot be instantiated' ].
+	CpClientEnvironment isRunning
+		ifFalse: [ self error: 'Trying to instantiate a View on the server (maybe a Presenter is expected)' ].
 
 	^ self basicNew
 		initialize ;

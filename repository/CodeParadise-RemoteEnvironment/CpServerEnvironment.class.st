@@ -203,7 +203,7 @@ CpServerEnvironment >> announce: anAnnouncement [
 	"Let the receiver announce the specified Announcement"
 
 	[ self announcer announce: anAnnouncement ] on: Error do: [ :error |
-		self handleError: 'Failed to Announce ', anAnnouncement printString, ': ', error printString ]
+		self handleError: error printString, '. Error occurred while handling the View Announcement: ', anAnnouncement printString ]
 ]
 
 { #category : #accessing }
