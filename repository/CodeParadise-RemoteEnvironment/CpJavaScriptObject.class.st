@@ -475,7 +475,21 @@ CpJavaScriptObject >> isJavaScriptObject [
 { #category : #printing }
 CpJavaScriptObject >> printOn: aStream [
 
-	"Print a representation of the receiver onto the specified Stream.
+	"Print a representation of the receiver onto the specified Stream"
+
+	aStream
+		nextPutAll: self class name ;
+		nextPut: $(.
+
+	self printPropertiesOn: aStream.
+
+	aStream nextPut: $)
+]
+
+{ #category : #printing }
+CpJavaScriptObject >> printPropertiesOn: aStream [
+
+	"Print the properties of the receiver onto the specified Stream.
 
 	Implementation:
 	Only property and/or attribute values are shown. The internal __proto__
@@ -484,10 +498,6 @@ CpJavaScriptObject >> printOn: aStream [
 	recursive call, use #asString on the field values of the object."
 
 	| isFirst |
-
-	aStream
-		nextPutAll: self class name ;
-		nextPut: $(.
 
 	isFirst := true.
 	self getSelectorNames do: [ :each |
@@ -499,9 +509,16 @@ CpJavaScriptObject >> printOn: aStream [
 				aStream
 					nextPutAll: each ;
 					nextPutAll: ': ' ;
-					nextPutAll: ([ (self apply: each) asString ] on: Error do: [ '<error>' ]) ] ].
+					nextPutAll: ([ (self apply: each) asString ] on: Error do: [ '<error>' ]) ] ]
+]
 
-	aStream nextPut: $)
+{ #category : #printing }
+CpJavaScriptObject >> propertiesString [
+
+	"Answer a String representing the receivers's properties"
+
+	^ String streamContents: [ :aStream |
+		self printPropertiesOn: aStream ]
 ]
 
 { #category : #accessing }
