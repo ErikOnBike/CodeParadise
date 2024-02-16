@@ -325,7 +325,7 @@ CpBrowserSupportExamplesClientBehavior >> exampleBrowserSpeechSynthesis [
 			yourself).
 
 	voicesSelection := outputElement firstDescendantMatching: #select.
-	CpBrowserSpeechSynthesis current voices do: [ :each |
+	CpBrowserSpeechSynthesis current getVoices do: [ :each |
 		voicesSelection appendChild: ((CpHtmlElement newWithTag: #option)
 			attributeAt: #selected put: (each default ifTrue: [ "" ] ifFalse: [ nil ]) ;
 			textContent: each name, ' - ', each lang, ' ', (each localService ifTrue: [ '(local synth)' ] ifFalse: [ '(remote synth)' ]) ;
@@ -587,5 +587,5 @@ CpBrowserSupportExamplesClientBehavior >> speechVoiceSelected [
 	"JavaScript has 0-based indices, add 1 to make it 1-based for Smalltalk"
 	voiceIndex := ((self outputElement firstDescendantMatching: #select) propertyAt: #selectedIndex) + 1.
 
-	^ CpBrowserSpeechSynthesis current voices at: voiceIndex ifAbsent: [ nil ]
+	^ CpBrowserSpeechSynthesis current getVoices at: voiceIndex ifAbsent: [ nil ]
 ]

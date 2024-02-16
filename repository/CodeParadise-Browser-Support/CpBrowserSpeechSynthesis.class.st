@@ -95,11 +95,3 @@ CpBrowserSpeechSynthesis >> speaking [
 
 	^ self apply: #speaking
 ]
-
-{ #category : #accessing }
-CpBrowserSpeechSynthesis >> voices [
-
-	"Returns a list of SpeechSynthesisVoice objects representing all the available voices on the current device."
-
-	^ self apply: #getVoices
-]
