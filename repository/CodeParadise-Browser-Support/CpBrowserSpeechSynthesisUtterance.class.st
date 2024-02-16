@@ -37,7 +37,7 @@ CpBrowserSpeechSynthesisUtterance >> onBoundaryDo: aBlock [
 
 	"Add an event listener for when a word boundary is reached and answer the
 	handler (a JavaScript Function). Use the handler 	to remove the
-	listener later when no longer needed with #removeBoundaryHandler:"
+	listener later when no longer needed."
 
 	^ self addEventListener: #boundary handler: aBlock
 ]
@@ -49,7 +49,7 @@ CpBrowserSpeechSynthesisUtterance >> onEndDo: aBlock [
 
 	"Add an event listener for when a word boundary is reached and answer the
 	handler (a JavaScript Function). Use the handler 	to remove the
-	listener later when no longer needed with #removeBoundaryHandler:"
+	listener later when no longer needed."
 
 	^ self addEventListener: #end handler: aBlock
 ]
@@ -61,7 +61,7 @@ CpBrowserSpeechSynthesisUtterance >> onErrorDo: aBlock [
 
 	"Add an event listener for when a word boundary is reached and answer the
 	handler (a JavaScript Function). Use the handler 	to remove the
-	listener later when no longer needed with #removeBoundaryHandler:"
+	listener later when no longer needed."
 
 	^ self addEventListener: #error handler: aBlock
 ]
@@ -73,7 +73,7 @@ CpBrowserSpeechSynthesisUtterance >> onMarkDo: aBlock [
 
 	"Add an event listener for when a word boundary is reached and answer the
 	handler (a JavaScript Function). Use the handler 	to remove the
-	listener later when no longer needed with #removeBoundaryHandler:"
+	listener later when no longer needed."
 
 	^ self addEventListener: #mark handler: aBlock
 ]
@@ -85,7 +85,7 @@ CpBrowserSpeechSynthesisUtterance >> onPauseDo: aBlock [
 
 	"Add an event listener for when a word boundary is reached and answer the
 	handler (a JavaScript Function). Use the handler 	to remove the
-	listener later when no longer needed with #removeBoundaryHandler:"
+	listener later when no longer needed."
 
 	^ self addEventListener: #pause handler: aBlock
 ]
@@ -97,7 +97,7 @@ CpBrowserSpeechSynthesisUtterance >> onResumeDo: aBlock [
 
 	"Add an event listener for when a word boundary is reached and answer the
 	handler (a JavaScript Function). Use the handler 	to remove the
-	listener later when no longer needed with #removeBoundaryHandler:"
+	listener later when no longer needed."
 
 	^ self addEventListener: #resume handler: aBlock
 ]
@@ -109,7 +109,7 @@ CpBrowserSpeechSynthesisUtterance >> onStartDo: aBlock [
 
 	"Add an event listener for when a word boundary is reached and answer the
 	handler (a JavaScript Function). Use the handler 	to remove the
-	listener later when no longer needed with #removeBoundaryHandler:"
+	listener later when no longer needed."
 
 	^ self addEventListener: #start handler: aBlock
 ]

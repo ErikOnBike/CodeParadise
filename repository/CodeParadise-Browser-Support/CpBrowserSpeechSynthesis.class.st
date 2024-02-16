@@ -42,7 +42,7 @@ CpBrowserSpeechSynthesis >> onVoicesChangedDo: aBlock [
 
 	"Add an event listener for when voices changed and answer the
 	handler (a JavaScript Function). Use the handler 	to remove the
-	listener later when no longer needed with #removeVoicesChangedHandler:"
+	listener later when no longer needed."
 
 	^ self addEventListener: #voiceschanged handler: aBlock
 ]
