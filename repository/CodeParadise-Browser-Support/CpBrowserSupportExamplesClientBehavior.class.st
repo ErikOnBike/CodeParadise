@@ -558,7 +558,7 @@ CpBrowserSupportExamplesClientBehavior >> showIndex [
 			yourself) ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #examples }
 CpBrowserSupportExamplesClientBehavior >> speechSpeak [
 
 	| outputElement speakButton text progress speechSynthesis utterance onStartHandler onBoundaryHandler onEndHandler onErrorHandler cleanup |
@@ -627,7 +627,7 @@ CpBrowserSupportExamplesClientBehavior >> speechSpeak [
 	speechSynthesis speak: utterance
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #examples }
 CpBrowserSupportExamplesClientBehavior >> speechVoiceSelected [
 
 	| voiceIndex |
