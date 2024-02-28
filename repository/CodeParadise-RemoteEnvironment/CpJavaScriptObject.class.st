@@ -155,7 +155,7 @@ CpJavaScriptObject class >> getClassName [
 CpJavaScriptObject class >> global [
 
 	"Answer a Proxy for the global object/global scope
-	(i.e. 'window' object in a web browser and 'global' object in NodeJS)"
+	(i.e. 'window' object in a web browser and 'global' object in Node.js)"
 
 	^ CpClientEnvironment current
 		globalApply: #identity withArguments: nil
