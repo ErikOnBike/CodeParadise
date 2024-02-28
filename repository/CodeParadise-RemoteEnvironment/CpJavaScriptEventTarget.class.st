@@ -1,5 +1,5 @@
 "
-I represent both the Browser EventTarget and the Node.js EventTarget.
+I represent both the Browser EventTarget and the Node.js EventTarget/EventEmitter.
 These classes are similar enough to have to same proxy implementation.
 "
 Class {
