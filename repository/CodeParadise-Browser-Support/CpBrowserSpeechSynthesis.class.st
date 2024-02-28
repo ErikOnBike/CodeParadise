@@ -40,9 +40,8 @@ CpBrowserSpeechSynthesis >> onVoicesChangedDo: aBlock [
 
 	"Fired when the list of SpeechSynthesisVoice objects that would be returned by the SpeechSynthesis.getVoices() method has changed."
 
-	"Add an event listener for when voices changed and answer the
-	handler (a JavaScript Function). Use the handler 	to remove the
-	listener later when no longer needed."
+	"Add an event listener and answer the handler (a JavaScript Function).
+	Use the handler to remove the listener later when no longer needed."
 
 	^ self addEventListener: #voiceschanged handler: aBlock
 ]

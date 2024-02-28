@@ -61,9 +61,8 @@ CpBrowserScreenOrientation >> onChangeDo: aBlock [
 
 	"Fired whenever the screen changes orientation."
 
-	"Add an event listener for when receiver changes and answer the
-	handler (a JavaScript Function). Use the handler 	to remove the
-	listener later when no longer needed."
+	"Add an event listener and answer the handler (a JavaScript Function).
+	Use the handler to remove the listener later when no longer needed."
 
 	^ self addEventListener: #change handler: aBlock
 ]

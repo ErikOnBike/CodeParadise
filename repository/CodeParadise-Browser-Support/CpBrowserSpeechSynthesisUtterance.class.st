@@ -35,9 +35,8 @@ CpBrowserSpeechSynthesisUtterance >> onBoundaryDo: aBlock [
 
 	"Fired when the spoken utterance reaches a word or sentence boundary."
 
-	"Add an event listener for when a word boundary is reached and answer the
-	handler (a JavaScript Function). Use the handler 	to remove the
-	listener later when no longer needed."
+	"Add an event listener and answer the handler (a JavaScript Function).
+	Use the handler to remove the listener later when no longer needed."
 
 	^ self addEventListener: #boundary handler: aBlock
 ]
@@ -47,9 +46,8 @@ CpBrowserSpeechSynthesisUtterance >> onEndDo: aBlock [
 
 	"Fired when the utterance has finished being spoken."
 
-	"Add an event listener for when a word boundary is reached and answer the
-	handler (a JavaScript Function). Use the handler 	to remove the
-	listener later when no longer needed."
+	"Add an event listener and answer the handler (a JavaScript Function).
+	Use the handler to remove the listener later when no longer needed."
 
 	^ self addEventListener: #end handler: aBlock
 ]
@@ -59,9 +57,8 @@ CpBrowserSpeechSynthesisUtterance >> onErrorDo: aBlock [
 
 	"Fired when an error occurs that prevents the utterance from being successfully spoken."
 
-	"Add an event listener for when a word boundary is reached and answer the
-	handler (a JavaScript Function). Use the handler 	to remove the
-	listener later when no longer needed."
+	"Add an event listener and answer the handler (a JavaScript Function).
+	Use the handler to remove the listener later when no longer needed."
 
 	^ self addEventListener: #error handler: aBlock
 ]
@@ -71,9 +68,8 @@ CpBrowserSpeechSynthesisUtterance >> onMarkDo: aBlock [
 
 	"Fired when the spoken utterance reaches a named SSML ""mark"" tag."
 
-	"Add an event listener for when a word boundary is reached and answer the
-	handler (a JavaScript Function). Use the handler 	to remove the
-	listener later when no longer needed."
+	"Add an event listener and answer the handler (a JavaScript Function).
+	Use the handler to remove the listener later when no longer needed."
 
 	^ self addEventListener: #mark handler: aBlock
 ]
@@ -83,9 +79,8 @@ CpBrowserSpeechSynthesisUtterance >> onPauseDo: aBlock [
 
 	"Fired when the utterance is paused part way through."
 
-	"Add an event listener for when a word boundary is reached and answer the
-	handler (a JavaScript Function). Use the handler 	to remove the
-	listener later when no longer needed."
+	"Add an event listener and answer the handler (a JavaScript Function).
+	Use the handler to remove the listener later when no longer needed."
 
 	^ self addEventListener: #pause handler: aBlock
 ]
@@ -95,9 +90,8 @@ CpBrowserSpeechSynthesisUtterance >> onResumeDo: aBlock [
 
 	"Fired when a paused utterance is resumed."
 
-	"Add an event listener for when a word boundary is reached and answer the
-	handler (a JavaScript Function). Use the handler 	to remove the
-	listener later when no longer needed."
+	"Add an event listener and answer the handler (a JavaScript Function).
+	Use the handler to remove the listener later when no longer needed."
 
 	^ self addEventListener: #resume handler: aBlock
 ]
@@ -107,9 +101,8 @@ CpBrowserSpeechSynthesisUtterance >> onStartDo: aBlock [
 
 	"Fired when the utterance has begun to be spoken."
 
-	"Add an event listener for when a word boundary is reached and answer the
-	handler (a JavaScript Function). Use the handler 	to remove the
-	listener later when no longer needed."
+	"Add an event listener and answer the handler (a JavaScript Function).
+	Use the handler to remove the listener later when no longer needed."
 
 	^ self addEventListener: #start handler: aBlock
 ]

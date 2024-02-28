@@ -147,9 +147,8 @@ CpBrowserMediaDevices >> onDeviceChangeDo: aBlock [
 
 	"Fired when a media input or output device is attached to or removed from the user's computer."
 
-	"Add an event listener for when device change and answer the
-	handler (a JavaScript Function). Use the handler 	to remove the
-	listener later when no longer needed."
+	"Add an event listener and answer the handler (a JavaScript Function).
+	Use the handler to remove the listener later when no longer needed."
 
 	^ self addEventListener: #devicechange handler: aBlock
 ]

@@ -91,9 +91,8 @@ CpBrowserMediaStream >> onActiveDo: aBlock [
 
 	"Fired when the MediaStream is activated."
 
-	"Add an event listener for when device change and answer the
-	handler (a JavaScript Function). Use the handler 	to remove the
-	listener later when no longer needed."
+	"Add an event listener and answer the handler (a JavaScript Function).
+	Use the handler to remove the listener later when no longer needed."
 
 	^ self addEventListener: #active handler: aBlock
 ]
@@ -103,9 +102,8 @@ CpBrowserMediaStream >> onAddTrackDo: aBlock [
 
 	"Fired when a new MediaStreamTrack object is added."
 
-	"Add an event listener for when device change and answer the
-	handler (a JavaScript Function). Use the handler 	to remove the
-	listener later when no longer needed."
+	"Add an event listener and answer the handler (a JavaScript Function).
+	Use the handler to remove the listener later when no longer needed."
 
 	^ self addEventListener: #addtrack handler: aBlock
 ]
@@ -115,9 +113,8 @@ CpBrowserMediaStream >> onInactiveDo: aBlock [
 
 	"Fired when the MediaStream is inactivated."
 
-	"Add an event listener for when device change and answer the
-	handler (a JavaScript Function). Use the handler 	to remove the
-	listener later when no longer needed."
+	"Add an event listener and answer the handler (a JavaScript Function).
+	Use the handler to remove the listener later when no longer needed."
 
 	^ self addEventListener: #inactive handler: aBlock
 ]
@@ -127,9 +124,8 @@ CpBrowserMediaStream >> onRemoveTrackDo: aBlock [
 
 	"Fired when a MediaStreamTrack object has been removed."
 
-	"Add an event listener for when device change and answer the
-	handler (a JavaScript Function). Use the handler 	to remove the
-	listener later when no longer needed."
+	"Add an event listener and answer the handler (a JavaScript Function).
+	Use the handler to remove the listener later when no longer needed."
 
 	^ self addEventListener: #removetrack handler: aBlock
 ]

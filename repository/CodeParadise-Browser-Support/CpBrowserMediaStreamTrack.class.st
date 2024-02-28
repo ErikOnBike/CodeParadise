@@ -119,9 +119,8 @@ CpBrowserMediaStreamTrack >> onEndedDo: aBlock [
 
 	"Sent when playback of the track ends (when the value readyState changes to ended)."
 
-	"Add an event listener for when device change and answer the
-	handler (a JavaScript Function). Use the handler 	to remove the
-	listener later when no longer needed."
+	"Add an event listener and answer the handler (a JavaScript Function).
+	Use the handler to remove the listener later when no longer needed."
 
 	^ self addEventListener: #ended handler: aBlock
 ]
@@ -131,9 +130,8 @@ CpBrowserMediaStreamTrack >> onMuteDo: aBlock [
 
 	"Sent to the MediaStreamTrack when the value of the muted property is changed to true, indicating that the track is unable to provide data temporarily (such as when the network is experiencing a service malfunction)."
 
-	"Add an event listener for when device change and answer the
-	handler (a JavaScript Function). Use the handler 	to remove the
-	listener later when no longer needed."
+	"Add an event listener and answer the handler (a JavaScript Function).
+	Use the handler to remove the listener later when no longer needed."
 
 	^ self addEventListener: #mute handler: aBlock
 ]
@@ -143,9 +141,8 @@ CpBrowserMediaStreamTrack >> onUnmuteDo: aBlock [
 
 	"Sent to the track when data becomes available again, ending the muted state."
 
-	"Add an event listener for when device change and answer the
-	handler (a JavaScript Function). Use the handler 	to remove the
-	listener later when no longer needed."
+	"Add an event listener and answer the handler (a JavaScript Function).
+	Use the handler to remove the listener later when no longer needed."
 
 	^ self addEventListener: #unmute handler: aBlock
 ]
