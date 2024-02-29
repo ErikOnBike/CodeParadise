@@ -103,6 +103,14 @@ CpCallbackEvaluator class >> postInstallOnce [
 	self registerCallbackEvaluatorProcess
 ]
 
+{ #category : #'class initialization' }
+CpCallbackEvaluator class >> postSnapshotOnce [
+
+	"Register the callback evaluation process once"
+
+	self registerCallbackEvaluatorProcess
+]
+
 { #category : #'processing - private' }
 CpCallbackEvaluator class >> registerCallbackEvaluatorProcess [
 

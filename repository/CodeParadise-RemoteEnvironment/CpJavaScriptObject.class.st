@@ -265,6 +265,14 @@ CpJavaScriptObject class >> postInstall [
 	self registerProxyClass
 ]
 
+{ #category : #'class initialization' }
+CpJavaScriptObject class >> postSnapshot [
+
+	"Re-register class after snapshot (has no effect if already registered)"
+
+	self registerProxyClass
+]
+
 { #category : #accessing }
 CpJavaScriptObject class >> proxyClassName [
 
