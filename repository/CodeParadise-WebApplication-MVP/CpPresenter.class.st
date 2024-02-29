@@ -37,7 +37,8 @@ Class {
 		'slotName',
 		'childPresentersBySlotName',
 		'application',
-		'needsRendering'
+		'needsRendering',
+		'subscriptions'
 	],
 	#category : #'CodeParadise-WebApplication-MVP-Core'
 }
