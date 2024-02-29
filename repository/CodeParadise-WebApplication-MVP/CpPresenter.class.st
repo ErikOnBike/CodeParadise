@@ -73,6 +73,20 @@ CpPresenter class >> defaultViewClass [
 	^ viewClass
 ]
 
+{ #category : #accessing }
+CpPresenter >> addSubscriptionTo: anObject forWhen: anAnnouncementClass sending: aSymbol [
+
+	"Add a new Announcement subscription to the specified object for the specified Announcement Class.
+	When the Announcement is announced the specified selector is send to the receiver.
+
+	This method allows additional subscriptions to be added which will be removed automatically once
+	the receiver is destroyed."
+
+	subscriptions ifNil: [ subscriptions := OrderedCollection new ].
+
+	^ subscriptions add: (anObject when: anAnnouncementClass send: aSymbol to: self)
+]
+
 { #category : #presenters }
 CpPresenter >> allPresentersDo: aBlock [
 
@@ -579,6 +593,8 @@ CpPresenter >> release [
 		model unsubscribe: self.
 		model := nil ].
 	self destroyViewProxy.
+	subscriptions ifNotNil: [ 
+		 subscriptions do: [ :each | each unsubscribe ] ].
 	parent := nil.
 	childPresentersBySlotName := nil.
 	application := nil.
@@ -618,6 +634,35 @@ CpPresenter >> removeChildPresenter: aPresenter [
 	aPresenter parent: nil.
 
 	^ aPresenter
+]
+
+{ #category : #accessing }
+CpPresenter >> removeSubscription: aSubscription [
+
+	"Remove an existing AnnouncementSubscription from the receiver's collection of subscriptions.
+
+	Implementation:
+	First unsubscribe then remove from subscriptions. Additional check is present whether subscriptions
+	are actually present. This should not fail, but for safety, the check is added."
+
+	aSubscription unsubscribe.
+
+	subscriptions ifNotNil: [
+		subscriptions remove: aSubscription ifAbsent: [ "ignore" ] ].
+
+	^ aSubscription
+]
+
+{ #category : #accessing }
+CpPresenter >> removeSubscriptionTo: anObject for: anAnnouncementClass [
+
+	"Remove an existing Announcement subscription from the specified object for the specified Announcement Class"
+
+	subscriptions ifNil: [ ^ self ].
+
+	subscriptions
+		detect: [ :each | each subscriber == anObject and: [ each annotationUserClass == anAnnouncementClass ] ]
+		ifFound: [ :subscription | self removeSubscription: subscription ]
 ]
 
 { #category : #view }
