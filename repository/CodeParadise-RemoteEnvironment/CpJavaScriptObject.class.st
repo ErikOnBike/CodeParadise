@@ -142,13 +142,19 @@ CpJavaScriptObject class >> getClassName [
 	"Answer the name of the JavaScript class.
 
 	Implementation:
-	Already taking Browser and NodeJS support into account to
-	prevent having to implement this on many layers."
+	Already taking Browser and Node.js support into account to
+	prevent having to implement this on many layers/in many classes.
+	Classes in Node.js modules are assumed to have the module class
+	name as prefix (be aware: 'module name' is the module class name
+	whereas 'moduleName' is a JavaScript module name/identifier)."
 
-	^ ((self nameWithoutPrefix
-		withoutPrefix: 'JavaScript')
-		withoutPrefix: 'Browser')
-		withoutPrefix: 'NodeJS'
+	^ self module
+		ifNotNil: [ :module | self name withoutPrefix: module name ]
+		ifNil: [
+			((self nameWithoutPrefix
+				withoutPrefix: 'JavaScript')
+				withoutPrefix: 'Browser')
+				withoutPrefix: 'NodeJS' ]
 ]
 
 { #category : #accessing }
@@ -159,6 +165,24 @@ CpJavaScriptObject class >> global [
 
 	^ CpClientEnvironment current
 		globalApply: #identity withArguments: nil
+]
+
+{ #category : #accessing }
+CpJavaScriptObject class >> module [
+
+	"Answer the module the receiver is part of.
+	By default JavaScript objects are not part of a module (i.e. they are global)."
+
+	^ nil
+]
+
+{ #category : #accessing }
+CpJavaScriptObject class >> moduleName [
+
+	"Answer name of the module the receiver is part of (or nil for no module)"
+
+	^ self module
+		ifNotNil: [ :module | module moduleName ]
 ]
 
 { #category : #'instance creation' }
@@ -241,10 +265,25 @@ CpJavaScriptObject class >> postInstall [
 	self registerProxyClass
 ]
 
+{ #category : #accessing }
+CpJavaScriptObject class >> proxyClassName [
+
+	"Answer the (fully qualified) name of the JavaScript class the receiver is proxying.
+
+	Implementation:
+	The 'fully qualified' class name consists of: [<module-name>.]<class-name>"
+	
+	^ self moduleName
+		ifNotNil: [ :moduleName | moduleName, '.', self getClassName ]
+		ifNil: [ self getClassName ]
+]
+
 { #category : #'class initialization' }
 CpJavaScriptObject class >> registerProxyClass [
 
-	self registerProxyClass: self forClassName: self getClassName
+	"Register the receiver as Proxy class for JavaScript objects"
+
+	self registerProxyClass: self forClassName: self proxyClassName
 ]
 
 { #category : #'class initialization' }
