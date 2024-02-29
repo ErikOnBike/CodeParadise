@@ -531,8 +531,8 @@ CpJavaScriptObject >> printPropertiesOn: aStream [
 	"Print the properties of the receiver onto the specified Stream.
 
 	Implementation:
-	Only property and/or attribute values are shown. The internal __proto__
-	property is not shown.
+	Only property and/or attribute values are shown. Internal properties (i.e.
+	starting with an underscore) are not shown.
 	To prevent cycles in Dictionary-like graphs from becoming an infinite
 	recursive call, use #asString on the field values of the object."
 
@@ -540,7 +540,7 @@ CpJavaScriptObject >> printPropertiesOn: aStream [
 
 	isFirst := true.
 	self getSelectorNames do: [ :each |
-		((self getSelectorType: each) ~= #function and: [ each ~= #'__proto__' ])
+		((self getSelectorType: each) ~= #function and: [ each first ~= $_ ])
 			ifTrue: [
 				isFirst
 					ifTrue: [ isFirst := false ]
