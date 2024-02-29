@@ -128,6 +128,8 @@ CpWebComponent class >> tagName [
 
 	"Answer a tag name based on the receiver's (ie class) name which will be used
 	as tag for the receiver's instances inside the DOM.
+	
+	DO NOT OVERRIDE this method in subclasses.
 
 	Implementation: the CamelCase naming will be replaced by dash-separated words
 	and if needed prepended by 'x-', since custom tags need at least one dash.
