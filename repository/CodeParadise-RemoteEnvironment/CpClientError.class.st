@@ -27,11 +27,11 @@ CpClientError >> description: aString [
 	description := aString
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #printing }
 CpClientError >> printOn: aStream [
 
 	aStream
 		nextPutAll: self class name ;
 		nextPutAll: ': ' ;
-		nextPutAll: self description printString
+		print: self description
 ]

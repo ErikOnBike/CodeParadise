@@ -40,11 +40,11 @@ CpClientMessageSendFailed >> messageSend: aMessageSend [
 	messageSend := aMessageSend
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #printing }
 CpClientMessageSendFailed >> printOn: aStream [
 
 	super printOn: aStream.
 	aStream
 		nextPutAll: ', ' ;
-		nextPutAll: self messageSend printString
+		print: self messageSend
 ]
