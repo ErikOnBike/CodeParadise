@@ -10,13 +10,13 @@ interactive webapplication.
 
 "
 Class {
-	#name : #CpClientEnvironmentSnapshot,
+	#name : #CpBrowserSnapshot,
 	#superclass : #Object,
 	#category : #'CodeParadise-WebApplication-Snapshot-Core'
 }
 
 { #category : #accessing }
-CpClientEnvironmentSnapshot class >> collectWebComponentsFrom: anElement into: aDictionary [
+CpBrowserSnapshot class >> collectWebComponentsFrom: anElement into: aDictionary [
 
 	"Collect the receiver and all children which are WebComponents into the specified Dictionary.
 	Use the component's ID as key and the component itself as value."
@@ -30,7 +30,7 @@ CpClientEnvironmentSnapshot class >> collectWebComponentsFrom: anElement into: a
 ]
 
 { #category : #'web resources' }
-CpClientEnvironmentSnapshot class >> downloadImageScript [
+CpBrowserSnapshot class >> downloadImageScript [
 
 	"Answer a JavaScript download image script.
 	Assume the snapshot primitive is called just before executing this script.
@@ -51,7 +51,7 @@ Squeak.filePut = function(name, buffer) {
 ]
 
 { #category : #private }
-CpClientEnvironmentSnapshot class >> loadDOMPlugin [
+CpBrowserSnapshot class >> loadDOMPlugin [
 
 	"Load the DOM plugin by executing a trivial primitive from the plugin"
 
@@ -60,7 +60,7 @@ CpClientEnvironmentSnapshot class >> loadDOMPlugin [
 ]
 
 { #category : #'class initialization' }
-CpClientEnvironmentSnapshot class >> postInstall [
+CpBrowserSnapshot class >> postInstall [
 
 	super postInstall.
 
@@ -76,7 +76,7 @@ CpClientEnvironmentSnapshot class >> postInstall [
 ]
 
 { #category : #'class initialization' }
-CpClientEnvironmentSnapshot class >> postSnapshotOnce [
+CpBrowserSnapshot class >> postSnapshotOnce [
 
 	"Add script to allow reattaching Smalltalk CpDomElements to browser DOM elements"
 
@@ -84,7 +84,7 @@ CpClientEnvironmentSnapshot class >> postSnapshotOnce [
 ]
 
 { #category : #'web resources' }
-CpClientEnvironmentSnapshot class >> privateAttachToIdScript [
+CpBrowserSnapshot class >> privateAttachToIdScript [
 
 	"Answer a JavaScript primitive for attaching a Smalltalk CpDomElement to a browser DOM element.
 
@@ -105,7 +105,7 @@ Squeak.externalModules.CpDOMPlugin["primitiveDomElementPrivateAttachToId:"] = fu
 ]
 
 { #category : #private }
-CpClientEnvironmentSnapshot class >> saveSnapshot: aKeyEvent [
+CpBrowserSnapshot class >> saveSnapshot: aKeyEvent [
 
 	"Save a snapshot of the image"
 
@@ -119,7 +119,7 @@ CpClientEnvironmentSnapshot class >> saveSnapshot: aKeyEvent [
 ]
 
 { #category : #actions }
-CpClientEnvironmentSnapshot class >> snapshotImage [
+CpBrowserSnapshot class >> snapshotImage [
 
 	"Snapshot the image for later restarting it with the current content.
 
@@ -127,7 +127,7 @@ CpClientEnvironmentSnapshot class >> snapshotImage [
 	Currently it is assumed the receiver is running inside an MVP-based
 	webapplication and no 'manual' DOM manipulation has been performed.
 	In the future support might be added for other environments as well
-	(like NodeJS based environments or WebWorker threads which don't have
+	(like Node.js based environments or WebWorker threads which don't have
 	access to the DOM). Also non MVP webapplications might be supported.
 
 	Currently the image is 'sealed' meaning it does not try to reconnect
@@ -176,6 +176,9 @@ CpClientEnvironmentSnapshot class >> snapshotImage [
 
 			^ self ].
 	self crTrace: 'Restoring saved image'.
+
+	"Recreate Symbol table"
+	Symbol perform: #initSymbolTable.
 
 	"Load necessary DOM plugin"
 	self loadDOMPlugin.
