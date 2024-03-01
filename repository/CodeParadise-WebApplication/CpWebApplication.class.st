@@ -40,6 +40,13 @@ CpWebApplication class >> initialize [
 	IdentifierGenerator := CpWebIdentifierGenerator new
 ]
 
+{ #category : #testing }
+CpWebApplication class >> isAbstractTag [
+
+	"The method is present to indicate the receiver is abstract.
+	This method will NOT be evaluated to decide if the receiver is abstract."
+]
+
 { #category : #'development support' }
 CpWebApplication class >> openInBrowser [
 

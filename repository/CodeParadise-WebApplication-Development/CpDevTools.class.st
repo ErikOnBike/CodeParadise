@@ -30,9 +30,23 @@ CpDevTools class >> actionReset [
 
 { #category : #accessing }
 CpDevTools class >> allApplications [
-	"Answer all the defined CP web applications"
+
+	"Answer all the defined applications (both browser and Node.js based).
+
+	Implementation:
+	Only applications which do not have the 'isAbstract' tag set will be answered."
 	
-	^ CpWebApplication allSubclasses select: [ :c | c class includesSelector: #app ]
+	^ CpServerApplication allSubclasses
+		reject: [ :each | each hasAbstractTag ]
+]
+
+{ #category : #accessing }
+CpDevTools class >> allWebApplications [
+
+	"Answer all the defined web applications (i.e. only browser based applications)"
+	
+	^ self allApplications
+		select: [ :each | each inheritsFrom: CpWebApplication ]
 ]
 
 { #category : #accessing }
@@ -71,7 +85,7 @@ CpDevTools class >> open [
 	<script>
 	
 	| choices |
-	choices := self allApplications collect: [ :a | a app ].
+	choices := self allWebApplications collect: [ :a | a app ].
 	
 	(UIManager default
 		chooseFrom: choices

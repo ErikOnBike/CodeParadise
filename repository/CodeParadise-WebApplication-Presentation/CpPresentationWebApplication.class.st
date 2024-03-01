@@ -4,8 +4,15 @@ Class {
 	#instVars : [
 		'presentation'
 	],
-	#category : 'CodeParadise-WebApplication-Presentation-Application'
+	#category : #'CodeParadise-WebApplication-Presentation-Application'
 }
+
+{ #category : #testing }
+CpPresentationWebApplication class >> isAbstractTag [
+
+	"The method is present to indicate the receiver is abstract.
+	This method will NOT be evaluated to decide if the receiver is abstract."
+]
 
 { #category : #accessing }
 CpPresentationWebApplication >> applicationModel [

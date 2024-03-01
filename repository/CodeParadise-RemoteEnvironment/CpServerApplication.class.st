@@ -67,6 +67,21 @@ CpServerApplication class >> clientLoaded: anAnnouncement [
 		yourself
 ]
 
+{ #category : #testing }
+CpServerApplication class >> hasAbstractTag [
+
+	"Answer whether the receiver has the 'isAbstract' tag set"
+
+	^ self classSide includesSelector: #isAbstractTag
+]
+
+{ #category : #testing }
+CpServerApplication class >> isAbstractTag [
+
+	"The method is present to indicate the receiver is abstract.
+	This method will NOT be evaluated to decide if the receiver is abstract."
+]
+
 { #category : #'instance creation' }
 CpServerApplication class >> newInEnvironment: aServerEnvironment [
 
