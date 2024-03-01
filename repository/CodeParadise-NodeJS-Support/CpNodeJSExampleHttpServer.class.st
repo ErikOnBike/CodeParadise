@@ -108,18 +108,26 @@ CpNodeJSExampleHttpServer >> handleRequest: anIncomingMessage response: aServerR
 			ifTrue: [ showUsage := true ]
 			ifFalse: [
 				self evaluateCommands: commandsStream.
-				aServerResponse writeChunk: calculator value, String lf ]
+				aServerResponse
+					writeChunk: calculator value, String lf ;
+					statusCode: 200 ]
 	] on: Error do: [ :anError |
-		aServerResponse writeChunk: 'Failure: ', anError printString, String lf, String lf.
+		aServerResponse
+			writeChunk: 'Failure: ', anError printString, String lf, String lf ;
+			statusCode: 500.
 		showUsage := true
 	].
 
 	showUsage ifTrue: [
 		aServerResponse
 			writeChunk: 'I am a calculating HTTP Server.', String lf ;
-			writeChunk: 'Try as URL "/add:42" to add a number. You can also use "/subtract:7", "/multiply:3" or "/divide:2.5".', String lf ;
+			writeChunk: 'Try sending me as URL "/add:42" to add a number. You can also use "/subtract:7", "/multiply:3" or "/divide:2.5".', String lf ;
 			writeChunk: 'Or combine calculations "/add:3/subtract:7/multiply:3.1/subtract:2.78".', String lf ;
-			writeChunk: 'You can repeatedly perform calculations. To see the current value use "/value" or "/undo" to remove the last calculation.', String lf ;
+			writeChunk: 'You can repeatedly perform calculations. To see the current value use "/value".', String lf ;
+			writeChunk: 'To remove the last calculation use "/undo", to remove all calculations use "/reset".', String lf ;
+			writeChunk: 'You can snapshot the image using "/snapshot". From that point, the image is "sealed" and no', String lf ;
+			writeChunk: 'updates can be made to the image using the CodeParadise server. The image can be snapshotted', String lf ;
+			writeChunk: 'again later to store the current calculation once more. Every snapshot will overwrite the image.', String lf ;
 			writeChunk: '(I do not support LargeIntegers on input, but do support such outcomes)', String lf ;
 			writeChunk: 'Have fun!', String lf ].
 
