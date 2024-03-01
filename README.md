@@ -8,6 +8,7 @@ The framework enables remote Smalltalk code execution in a JavaScript environmen
 
 A few online videos:
 * to-do list tutorial walk through [video](https://youtu.be/Y-i6C_yVHxA) - 47:47 minutes
+* creating a Node.js application [video](https://youtu.be/2FxPBCq75qY) - 10:22 minutes
 * Zettelkasten example application [video](https://youtu.be/omKrz9stuOQ) - 1:37 minutes
 * short demo of debugger [video](https://youtu.be/hCwlrWRhrZc) - 1:07 minutes
 * UK Smalltalk UG May 2022 [demo](https://vimeo.com/719355883) - CodeParadise used in Expressive Systems by [Object Guild](https://objectguild.com)
