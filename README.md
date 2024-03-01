@@ -1,8 +1,10 @@
 # CodeParadise
 
-CodeParadise is the name of a framework and future platform. CodeParadise as framework allows developing web applications in Smalltalk using WebComponents. WebComponents are written using HTML/CSS and Smalltalk. A web application has a server side and a client side environment which interact using websockets. Applications can be built using a [Model View Presenter](docs/MVP.md) design.
+CodeParadise is the name of a framework and future platform. CodeParadise as framework allows developing web applications and Node.js applications in Smalltalk.
+* Web applications are typically developed using WebComponents. WebComponents are written using HTML/CSS and Smalltalk. A web application has a server side and a client side environment which interact using websockets. Applications can be built using a [Model View Presenter](docs/MVP.md) design.
+* Node.js applications can typically use node:fs and node:http modules to create server and/or standaline applications. All code is written in Smalltalk by wrapping the Node.js modules.
 
-The framework enables remote Smalltalk code execution in a Javascript environment. This means you can run Smalltalk inside the web browser and not be concerned with any Javascript. A regular (but tiny) Smalltalk image runs on [SqueakJS VM](https://squeak.js.org) and replaces the use of Javascript. This tiny image runs the same bytecode as a regular Pharo/Squeak/Cuis image, so no transpilation taking place. With some pre-installed Classes which wrap the browser DOM functionality, all DOM manipulation is done through Smalltalk code. Did I mention, no more use of Javascript ;-). For more detail read the [implementation docs](docs/Implementation.md).
+The framework enables remote Smalltalk code execution in a JavaScript environment. This means you can run Smalltalk inside the web browser or inside a Node.js application and not be concerned with any JavaScript. A regular (but tiny) Smalltalk image runs on [SqueakJS VM](https://squeak.js.org) and replaces the use of JavaScript. This tiny image runs the same bytecode as a regular Pharo/Squeak/Cuis image, so no transpilation taking place. JavaScript callbacks and Promises are supported by using Smalltalk Blocks and 'proxied' objects. For web applications a VM plugin is present with Classes which wrap the browser DOM functionality. All DOM manipulation is done through Smalltalk code. Did I mention, no more use of JavaScript ;-). For more detail read the [implementation docs](docs/Implementation.md).
 
 A few online videos:
 * to-do list tutorial walk through [video](https://youtu.be/Y-i6C_yVHxA) - 47:47 minutes
@@ -23,7 +25,7 @@ Currently CodeParadise can only be used in a Pharo environment (P8 until P12 are
 Getting started requires a few simple steps:
 * Load CodeParadise
 * Start HTTP and WebSocket server
-* Start your browsers!
+* Start your browsers (or Node.js)!
 
 ### Load CodeParadise
 
@@ -37,9 +39,11 @@ Metacello new
 
 Depending on your image version it should also load the [ClientEnvironment](https://github.com/ErikOnBike/CP-ClientEnvironment). If you run on a Pharo 8 or 9 environment, it should load the "pharo8" branch and otherwise just the "master" branch.
 
+If you plan on developing Node.js applications please clone or copy the [CP-Node](https://github.com/ErikOnBike/CP-Node) repo. It only contains 2 'required' files `cp-node.js` and `client-environment.image` which you might copy as well.
+
 ### Start HTTP and WebSocket Server
 
-Thanks to [Tim](https://github.com/macta) there is a menu 'Paradise' now in Pharo's menubar which allows starting the environment. First select 'Reset' from the 'Paradise' menu and then open one of the existing applications through 'Open'. Some more explanation follows below for [manually starting and stopping servers](#manually) and applications.
+Thanks to [Tim](https://github.com/macta) there is a menu 'Paradise' now in Pharo's menubar which allows starting the environment. First select 'Reset' from the 'Paradise' menu and then open one of the existing web applications through 'Open'. Some more explanation follows below for [manually starting and stopping servers](#manually) and applications.
 
 ### Start your browsers
 
@@ -57,6 +61,14 @@ The example applications can be reached using the following URLs:
 A bigger example application is under development. It is a [Zettelkasten](https://en.wikipedia.org/wiki/Zettelkasten) application.
 * Source code: [repo](https://github.com/ErikOnBike/CodeParadise-Zettelkasten) (you will have to load it manually into CodeParadise)
 * Short demonstration: [video](https://youtu.be/omKrz9stuOQ)
+
+### Start your Node.js application
+
+To start a Node.js application, execute the following from a [CP-Node](https://github.com/ErikOnBike/CP-Node) directory:
+```bash
+APP="http-server-example" SERVER_URL="ws://localhost:8080/io" node cp-node.js client-environment.image
+```
+(replace the APP environment variable with the identifier of your preferred application)
 
 ---
 
@@ -128,7 +140,7 @@ Once you have a client running and change code, the client environment might not
 
 ## Possible usage
 
-The remote code execution capabilities of CodeParadise can be used to create WebApplications, remote worker instances, mobile applications, etc.
+The remote code execution capabilities of CodeParadise can be used to create WebApplications, Node.js applications, remote worker instances, mobile applications, etc.
 
 To create WebApplications MVP (Model View Presenter) is implemented in the Presentation Example. It is based on [WebComponents](https://developer.mozilla.org/en-US/docs/Web/Web_Components) and more specifically it uses the HTML templates technology. The idea is to create a full set of components/widgets to create full featured web applications. All under the control of a Smalltalk application.
 
