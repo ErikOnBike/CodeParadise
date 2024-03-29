@@ -623,18 +623,3 @@ CpClientEnvironment >> variableNames [
 	<primitive: 'primitiveEnvironmentVariableNames' module: 'CpSystemPlugin'>
 	self primitiveFailed
 ]
-
-{ #category : #accessing }
-CpClientEnvironment >> variables [
-
-	"Answer a dictionary with the names and values of available environment variables."
-
-	| variables |
-
-	variables := Dictionary new.
-
-	self variableNames do: [ :each | 
-		variables at: each put: (self variableAt: each) ].
-
-	^ variables
-]

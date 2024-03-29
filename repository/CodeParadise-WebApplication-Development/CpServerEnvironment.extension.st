@@ -7,5 +7,13 @@ CpServerEnvironment >> handleError: aString [
 
 	super handleError: aString.
 
+	loaded
+		ifTrue: [
+			self ifDevelopment: [
+				self sendMessageDirectly: (MessageSend
+					receiver: nil
+					selector: #alert:
+					arguments: { 'An error occurred (see Pharo image): ', aString }) ] ].
+
 	self halt
 ]

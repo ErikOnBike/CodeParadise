@@ -475,7 +475,15 @@ CpServerEnvironment >> sendMessage: aMessageSend [
 	encoderMutex critical: [
 		encoder
 			ifNotNil: [ encoder encode: aMessageSend ]
-			ifNil: [ self sendEncodedMessage: aMessageSend cpEncoded ] ]
+			ifNil: [ self sendMessageDirectly: aMessageSend ] ]
+]
+
+{ #category : #'input/output' }
+CpServerEnvironment >> sendMessageDirectly: aMessageSend [
+
+	"Send the specified MessageSend to the server (without waiting)"
+
+	self sendEncodedMessage: aMessageSend cpEncoded
 ]
 
 { #category : #support }
@@ -544,9 +552,19 @@ CpServerEnvironment >> updateCommunicatorWith: aMessageChannel [
 CpServerEnvironment >> variableAt: nameString [
 
 	"Answer the value (a String) of the environment variable with the specified name
-	or nil if a variable with the specified name does not exist"
+	or nil if a variable with the specified name does not exist.
+	Case sensitivity is not defined, for compatibility best use all uppercase names."
 
-	^ Smalltalk os environment at: nameString ifAbsent: [  nil ]
+	^ OSEnvironment current
+		at: #nameString ifAbsent: [ nil ]
+]
+
+{ #category : #accessing }
+CpServerEnvironment >> variableNames [
+
+	"Answer an array with the names of available environment variables."
+
+	^ OSEnvironment current keys
 ]
 
 { #category : #announcing }
