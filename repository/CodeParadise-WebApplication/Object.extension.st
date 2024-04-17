@@ -11,7 +11,8 @@ Object >> cpLog: anObject withLevel: anInteger [
 		show: '","message":"';
 		show: anObject;
 		show: '","process":"CP"}';
-		cr
+		cr;
+		flush
 ]
 
 { #category : #'*CodeParadise-WebApplication' }
