@@ -2,16 +2,16 @@ Extension { #name : #Object }
 
 { #category : #'*CodeParadise-WebApplication' }
 Object >> cpLog: anObject withLevel: anInteger [
-	"Log the argument with a standard error level in log json format"
+	"Log the argument with a standard error level in log json format.
+	NOTE: uses a trailing cr, as this ensures output is flushed for safer logging output"
 
 	Transcript
-		cr;
 		show: '{"level":"';
 		show: (#( 'INFO' 'WARN' 'ERROR' ) at: anInteger);
 		show: '","message":"';
 		show: anObject;
 		show: '","process":"CP"}';
-		flush
+		cr
 ]
 
 { #category : #'*CodeParadise-WebApplication' }
