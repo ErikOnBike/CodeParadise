@@ -19,7 +19,7 @@ CpClientDebuggerSupport class >> clientLoaded: aClientLoaded [
 		initializeWithEnvironment: aClientLoaded environment ;
 		yourself.
 
-	self crTrace: 'Debugger installed ', instance printString.
+	self traceCr: 'Debugger installed ', instance printString.
 
 	^ instance
 ]
