@@ -266,7 +266,7 @@ CpBrowserSupportExamplesClientBehavior >> exampleBrowserMediaStreamsDevices [
 			yourself).
 
 	(outputElement firstDescendantMatching: #button)
-		when: CpClickEvent send: #mediaStreamShowDevices to: self
+		when: CpClickEvent primary only send: #mediaStreamShowDevices to: self
 ]
 
 { #category : #examples }
