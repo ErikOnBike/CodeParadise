@@ -245,6 +245,31 @@ CpBrowserSupportExamplesClientBehavior >> exampleBrowserMediaStreams [
 ]
 
 { #category : #examples }
+CpBrowserSupportExamplesClientBehavior >> exampleBrowserMediaStreamsDevices [
+
+	<example: 'Media Streams API (show devices)' order: 509>
+
+	| outputElement |
+
+	self clearOutput.
+	outputElement := self outputElement.
+
+	outputElement
+		appendChild: ((CpHtmlElement newWithTag: #h1)
+			textContent: 'Media Streams API (show devices)' ;
+			yourself) ;
+		appendChild: ((CpHtmlElement newWithTag: #p)
+			textContent: 'Results for label and id can be empty (after clicking the button below) if this is called before actually requesting access to a media device. This is to prevent finger printing of clients. If you see empty values, please try to use the "stream media" example which actually uses the video. Then returning here should show more information.' ;
+			yourself) ;
+		appendChild: ((CpHtmlElement newWithTag: #button)
+			textContent: 'Show devices' ;
+			yourself).
+
+	(outputElement firstDescendantMatching: #button)
+		when: CpClickEvent primary only send: #mediaStreamShowDevices to: self
+]
+
+{ #category : #examples }
 CpBrowserSupportExamplesClientBehavior >> exampleBrowserNavigator [
 
 	<example: 'Navigator' order: 50>
@@ -467,6 +492,26 @@ CpBrowserSupportExamplesClientBehavior >> initialize [
 	super initialize.
 
 	self showIndex
+]
+
+{ #category : #examples }
+CpBrowserSupportExamplesClientBehavior >> mediaStreamShowDevices [
+
+	| outputElement |
+
+	outputElement := self outputElement.
+
+	"Enumerate devices"
+	CpBrowserMediaDevices current enumerateDevices
+		then: [ :devices |
+			devices do: [ :each |
+				outputElement appendChild: ((CpHtmlElement newWithTag: #p)
+					textContent: 'Device label: ', each label printString, ' kind: ', each kind printString, ' id: ', each deviceId printString ;
+					yourself) ] ] ;
+		catch: [ :error |
+			outputElement appendChild: ((CpHtmlElement newWithTag: #p)
+				textContent: 'Failed to retrieve user media devices ', error printString ;
+				yourself) ]
 ]
 
 { #category : #examples }
