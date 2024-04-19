@@ -73,9 +73,9 @@ CpEvent class >> dispatchEvent: anEvent [
 		"Announce the error (for debugger or otherwise)"
 		CpExceptionAnnouncer announceException: error.
 
-		self crError: 'Error when handling event ', anEvent printString.
-		self crError: error description.
-		self crError: error signalerContext printString ]
+		self errorCr: 'Error when handling event ', anEvent printString.
+		self errorCr: error description.
+		self errorCr: error signalerContext printString ]
 ]
 
 { #category : #'processing - private' }

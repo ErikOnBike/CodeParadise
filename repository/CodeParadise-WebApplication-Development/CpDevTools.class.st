@@ -130,7 +130,7 @@ CpDevTools class >> start [
 	<script>
 	
 	| resourcePath |
-	self crTrace: 'Starting CP...'.
+	self traceCr: 'Starting CP...'.
 	
 	CpMessageChannel environmentImplementation: CpZincWebSocketChannel.
 
@@ -153,7 +153,7 @@ CpDevTools class >> stop [
 	"Stop all server instances and applications"
 	<script>
 
-	self crTrace: 'Stopping CP...'.
+	self traceCr: 'Stopping CP...'.
 	
 	ZnServer allSubInstances
 		do: [ :each | 

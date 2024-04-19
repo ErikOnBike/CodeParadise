@@ -6,7 +6,7 @@ AdditionalMethodState >> cpEncodeWith: anEncoder [
 	<clientEnvironment>
 
 	self hasNonEmptyProperties
-		ifTrue: [ self crTrace: 'WARNING: Methods with properties are currently not supported: ' , method printString ].
+		ifTrue: [ self warnCr: 'Methods with properties are currently not supported: ' , method printString ].
 
 	anEncoder encodeAdditionalMethodState: self
 ]

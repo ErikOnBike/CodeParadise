@@ -386,29 +386,29 @@ CpDomExamplesClientBehavior >> exampleEventMultipleHandlers [
 			</div>
 		' ;
 		yourself).
-	self crTrace: 'Setup event handlers'.
+	self traceCr: 'Setup event handlers'.
 	(outputElement firstDescendantMatching: '#outer')
-		when: CpClickEvent basicPrimary do: [ self crTrace: 'outer first' ; showText: 'Clicked first' in: '#outer > .text1' ] ;
-		when: CpClickEvent basicPrimary do: [ self crTrace: 'outer second' ; showText: 'Clicked second' in: '#outer > .text2' ].
+		when: CpClickEvent basicPrimary do: [ self traceCr: 'outer first' ; showText: 'Clicked first' in: '#outer > .text1' ] ;
+		when: CpClickEvent basicPrimary do: [ self traceCr: 'outer second' ; showText: 'Clicked second' in: '#outer > .text2' ].
 	(outputElement firstDescendantMatching: '#inner')
-		when: CpClickEvent basicPrimary do: [ self crTrace: 'inner first' ; showText: 'Clicked first' in: '#inner > .text1' ] ;
-		when: CpClickEvent basicPrimary do: [ self crTrace: 'inner second' ; showText: 'Clicked second' in: '#inner > .text2' ].
-	self crTrace: 'Done setup event handlers'.
+		when: CpClickEvent basicPrimary do: [ self traceCr: 'inner first' ; showText: 'Clicked first' in: '#inner > .text1' ] ;
+		when: CpClickEvent basicPrimary do: [ self traceCr: 'inner second' ; showText: 'Clicked second' in: '#inner > .text2' ].
+	self traceCr: 'Done setup event handlers'.
 
-	self crTrace: 'Setup event handlers'.
+	self traceCr: 'Setup event handlers'.
 	(outputElement firstDescendantMatching: '#outer2')
-		when: CpPointerDownEvent do: [ self crTrace: 'PointerDown single on outer2' ] ;
-		when: CpPointerUpEvent do: [ self crTrace: 'PointerUp single on outer2' ] ;
-		when: CpClickEvent primary & CpCtrlKeyDown do: [ self crTrace: 'outer2 first' ; showText: 'Clicked first' in: '#outer2 > .text1' ] ;
-		when: CpClickEvent primary & CpCtrlKeyDown do: [ self crTrace: 'outer2 second' ; showText: 'Clicked second' in: '#outer2 > .text2' ].
+		when: CpPointerDownEvent do: [ self traceCr: 'PointerDown single on outer2' ] ;
+		when: CpPointerUpEvent do: [ self traceCr: 'PointerUp single on outer2' ] ;
+		when: CpClickEvent primary & CpCtrlKeyDown do: [ self traceCr: 'outer2 first' ; showText: 'Clicked first' in: '#outer2 > .text1' ] ;
+		when: CpClickEvent primary & CpCtrlKeyDown do: [ self traceCr: 'outer2 second' ; showText: 'Clicked second' in: '#outer2 > .text2' ].
 	(outputElement firstDescendantMatching: '#inner2')
-		when: CpPointerDownEvent do: [ self crTrace: 'PointerDown first on inner2' ] ;
-		when: CpPointerDownEvent do: [ self crTrace: 'PointerDown second on inner2' ] ;
-		when: CpPointerUpEvent do: [ self crTrace: 'PointerUp first on inner2' ] ;
-		when: CpPointerUpEvent do: [ self crTrace: 'PointerUp second on inner2' ] ;
-		when: CpClickEvent primary & CpCtrlKeyDown do: [ self crTrace: 'inner2 first' ; showText: 'Clicked first' in: '#inner2 > .text1' ] ;
-		when: CpClickEvent primary & CpCtrlKeyDown do: [ self crTrace: 'inner2 second' ; showText: 'Clicked second' in: '#inner2 > .text2' ].
-	self crTrace: 'Done setup event handlers'.
+		when: CpPointerDownEvent do: [ self traceCr: 'PointerDown first on inner2' ] ;
+		when: CpPointerDownEvent do: [ self traceCr: 'PointerDown second on inner2' ] ;
+		when: CpPointerUpEvent do: [ self traceCr: 'PointerUp first on inner2' ] ;
+		when: CpPointerUpEvent do: [ self traceCr: 'PointerUp second on inner2' ] ;
+		when: CpClickEvent primary & CpCtrlKeyDown do: [ self traceCr: 'inner2 first' ; showText: 'Clicked first' in: '#inner2 > .text1' ] ;
+		when: CpClickEvent primary & CpCtrlKeyDown do: [ self traceCr: 'inner2 second' ; showText: 'Clicked second' in: '#inner2 > .text2' ].
+	self traceCr: 'Done setup event handlers'.
 
 ]
 

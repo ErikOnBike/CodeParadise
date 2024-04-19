@@ -53,7 +53,7 @@ CpObjectRegistry >> objectWithId: identifier [
 		^ objects
 			keyAtIdentityValue: identifier
 			ifAbsent: [
-				self crError: 'No object registered with identifier: ', identifier printString.
+				self errorCr: 'No object registered with identifier: ', identifier printString.
 
 				"Answer nil"
 				nil ] ]

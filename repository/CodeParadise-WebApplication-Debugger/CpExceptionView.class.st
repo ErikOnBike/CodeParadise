@@ -54,5 +54,5 @@ CpExceptionView >> render [
 
 	[
 		self replaceAllChildrenWith: exception description asHtmlElement atSlotNamed: #message
-	] on: Error do: [ :error | self crError: 'Error in the debugger exception: ', error printString ]
+	] on: Error do: [ :error | self errorCr: 'Error in the debugger exception: ', error printString ]
 ]

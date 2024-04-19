@@ -193,7 +193,7 @@ CpContextView >> render [
 		"Render all and the current variable"
 		variables do: [ :each | self renderVariable: each ].
 		self renderCurrentVariable
-	] on: Error do: [ :error | self crError: 'Error in debugger context: ', error printString ]
+	] on: Error do: [ :error | self errorCr: 'Error in debugger context: ', error printString ]
 ]
 
 { #category : #rendering }

@@ -153,14 +153,14 @@ CpNodeJSExampleHttpServer >> snapshot [
 { #category : #server }
 CpNodeJSExampleHttpServer >> startServer [
 
-	self crTrace: 'Create server and start listening on port 8181'.
-	self createServer listenOnPort: 8181 thenDo: [ self crTrace: 'I am listening!' ]
+	self traceCr: 'Create server and start listening on port 8181'.
+	self createServer listenOnPort: 8181 thenDo: [ self traceCr: 'I am listening!' ]
 ]
 
 { #category : #server }
 CpNodeJSExampleHttpServer >> stopServer [
 
-	self crTrace: 'Stop server'.
+	self traceCr: 'Stop server'.
 	server close.
 	server := nil
 ]

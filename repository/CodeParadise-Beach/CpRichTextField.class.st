@@ -90,7 +90,7 @@ CpRichTextField >> handleBeforeInputEvent: aBeforeInputEvent [
 	(#('insertText' 'insertCompositionText' 'insertFromComposition' 'insertFromPaste') includes: aBeforeInputEvent inputType)
 		ifTrue: [ ^ self handleInsert: aBeforeInputEvent data ].
 
-	self crTrace: aBeforeInputEvent printString
+	self traceCr: aBeforeInputEvent printString
 ]
 
 { #category : #'cursor navigation' }
@@ -148,19 +148,19 @@ CpRichTextField >> handleClickEvent: aClickEvent [
 { #category : #'event handling' }
 CpRichTextField >> handleCompositionEndEvent: aCompositionEndEvent [
 
-	self crTrace: aCompositionEndEvent printString
+	self traceCr: aCompositionEndEvent printString
 ]
 
 { #category : #'event handling' }
 CpRichTextField >> handleCompositionStartEvent: aCompositionStartEvent [
 
-	self crTrace: aCompositionStartEvent printString
+	self traceCr: aCompositionStartEvent printString
 ]
 
 { #category : #'event handling' }
 CpRichTextField >> handleCompositionUpdateEvent: aCompositionUpdateEvent [
 
-	self crTrace: aCompositionUpdateEvent printString
+	self traceCr: aCompositionUpdateEvent printString
 ]
 
 { #category : #'text deleting' }
@@ -214,7 +214,7 @@ CpRichTextField >> handleKey: aKeyString [
 	(self class includesSelector: handlerSelector)
 		ifTrue: [ ^ self perform: handlerSelector ].
 
-	self crTrace: 'Unhandled key ', aKeyString
+	self traceCr: 'Unhandled key ', aKeyString
 ]
 
 { #category : #'event handling' }

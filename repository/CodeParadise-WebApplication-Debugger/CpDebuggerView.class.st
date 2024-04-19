@@ -165,8 +165,8 @@ CpDebuggerView >> debug: anException [
 	period)."
 
 	exception ifNotNil: [
-		self crError: 'A new Error is signaled during debugging (will be ignored for the moment to prevent infinite debuggers on recursion)'.
-		self crError: exception printString.
+		self errorCr: 'A new Error is signaled during debugging (will be ignored for the moment to prevent infinite debuggers on recursion)'.
+		self errorCr: exception printString.
 		^ self ].
 
 	exception := anException.
@@ -242,7 +242,7 @@ CpDebuggerView >> render [
 		self renderCallStack.
 		self renderCurrentContext.
 		self show
-	] on: Error do: [ :error | self crError: 'Error in the debugger: ', error printString ]
+	] on: Error do: [ :error | self errorCr: 'Error in the debugger: ', error printString ]
 ]
 
 { #category : #rendering }

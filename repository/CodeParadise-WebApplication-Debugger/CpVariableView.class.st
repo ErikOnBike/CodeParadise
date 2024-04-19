@@ -71,7 +71,7 @@ CpVariableView >> render [
 			replaceAllChildrenWith: variable key asString asHtmlElement atSlotNamed: #key ;
 			replaceAllChildrenWith: variable value class printString asHtmlElement atSlotNamed: #class ;
 			replaceAllChildrenWith: variable value printString asHtmlElement atSlotNamed: #value
-	] on: Error do: [ :error | self crError: 'Error in debugger context variable: ', error printString ]
+	] on: Error do: [ :error | self errorCr: 'Error in debugger context variable: ', error printString ]
 ]
 
 { #category : #accessing }

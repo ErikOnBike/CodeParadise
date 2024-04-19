@@ -221,7 +221,7 @@ CpTransition class >> registerTransitionProcess [
 	Process allInstancesDo: [ :each |
 		each name = self name
 			ifTrue: [
-				self crTrace: 'Reregister transition process'.
+				self traceCr: 'Reregister transition process'.
 				self registerTransitionProcess: each.
 				^ self ] ].
 

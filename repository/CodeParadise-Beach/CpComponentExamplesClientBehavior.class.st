@@ -66,30 +66,30 @@ CpComponentExamplesClientBehavior >> exampleButtons [
 
 	group1 := outputElement appendChild: CpButtonGroup new.
 	button1a := group1 appendChild: ((CpButton label: 'Button1a')
-		when: CpPrimaryClickEvent do: [ self crTrace: 'Button1a clicked' ] ;
+		when: CpPrimaryClickEvent do: [ self traceCr: 'Button1a clicked' ] ;
 		yourself).
 	button1b := group1 appendChild: ((CpButton label: 'Button1b')
-		when: CpPrimaryClickEvent do: [ self crTrace: 'Button1b clicked' ] ;
+		when: CpPrimaryClickEvent do: [ self traceCr: 'Button1b clicked' ] ;
 		yourself).
 	group2 := group1 appendChild: CpButtonGroup new.
 	group2
 		styleAt: #display put: #block ;
 		styleAt: #'margin-left' put: '3em'.
 	button2a := group2 appendChild: ((CpButton label: 'Button2a')
-		when: CpPrimaryClickEvent do: [ self crTrace: 'Button2a clicked' ] ;
+		when: CpPrimaryClickEvent do: [ self traceCr: 'Button2a clicked' ] ;
 		yourself).
 	button2b := group2 appendChild: ((CpButton label: 'Button2b')
-		when: CpPrimaryClickEvent do: [ self crTrace: 'Button2b clicked' ] ;
+		when: CpPrimaryClickEvent do: [ self traceCr: 'Button2b clicked' ] ;
 		yourself).
 	group3 := group2 appendChild: CpButtonGroup new.
 	group3
 		styleAt: #display put: #block ;
 		styleAt: #'margin-left' put: '6em'.
 	button3a := group3 appendChild: ((CpButton label: 'Button3a')
-		when: CpPrimaryClickEvent do: [ self crTrace: 'Button3a clicked' ] ;
+		when: CpPrimaryClickEvent do: [ self traceCr: 'Button3a clicked' ] ;
 		yourself).
 	button3b := group3 appendChild: ((CpButton label: 'Button3b')
-		when: CpPrimaryClickEvent do: [ self crTrace: 'Button3b clicked' ] ;
+		when: CpPrimaryClickEvent do: [ self traceCr: 'Button3b clicked' ] ;
 		yourself).
 
 	"Add separator"
@@ -283,7 +283,7 @@ CpComponentExamplesClientBehavior >> exampleTextField [
 
 	outputElement appendChild: ((text1 := CpTextField new)
 		styleAt: #width put: '20em' ;
-		when: CpInputEvent do: [ self crTrace: 'Text 1: ', text1 text ] ;
+		when: CpInputEvent do: [ self traceCr: 'Text 1: ', text1 text ] ;
 		text: 'Hello world' ;
 		yourself).
 
@@ -292,7 +292,7 @@ CpComponentExamplesClientBehavior >> exampleTextField [
 
 	outputElement appendChild: ((text2 := CpTextField new)
 		styleAt: #width put: '20em' ;
-		when: CpInputEvent do: [ self crTrace: 'Text 2: ', text2 text ] ;
+		when: CpInputEvent do: [ self traceCr: 'Text 2: ', text2 text ] ;
 		text: '' ;
 		yourself)
 ]
@@ -300,7 +300,7 @@ CpComponentExamplesClientBehavior >> exampleTextField [
 { #category : #events }
 CpComponentExamplesClientBehavior >> handleFocusEvent: aFocusEvent [
 
-	self crTrace: aFocusEvent printString
+	self traceCr: aFocusEvent printString
 ]
 
 { #category : #initialization }

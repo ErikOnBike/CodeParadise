@@ -57,7 +57,7 @@ CpObjectDecoder >> basicReadStringWithIndexUsingTable: aCollection [
 	string := aCollection
 		at: index
 		ifAbsent: [
-			self crError: 'Error during String decoding: Accessing indexed String from invalid location ', index printString.
+			self errorCr: 'Error during String decoding: Accessing indexed String from invalid location ', index printString.
 
 			"Answer an appropriate empty String"
 			^ aCollection == stringTable

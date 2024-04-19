@@ -164,10 +164,10 @@ CpBrowserSnapshot class >> snapshotImage [
 	self collectWebComponentsFrom: CpHtmlElement documentBody into: components.
 
 	"Snapshot image"	
-	self crTrace: 'About to save image'.
+	self traceCr: 'About to save image'.
 	Smalltalk snapshotPrimitive
 		ifFalse: [
-			self crTrace: 'Saved image'.
+			self traceCr: 'Saved image'.
 
 			"Prepare image for restart"
 			CpEvent allSubclassesDo: [ :each | each postSnapshot ].
@@ -175,7 +175,7 @@ CpBrowserSnapshot class >> snapshotImage [
 			CpTransition postSnapshot.
 
 			^ self ].
-	self crTrace: 'Restoring saved image'.
+	self traceCr: 'Restoring saved image'.
 
 	"Recreate Symbol table"
 	Symbol perform: #initSymbolTable.
@@ -201,5 +201,5 @@ CpBrowserSnapshot class >> snapshotImage [
 	"Restart transition process as last step in restart"
 	CpTransition postSnapshot.
 
-	self crTrace: 'Image restored, continuing execution'
+	self traceCr: 'Image restored, continuing execution'
 ]

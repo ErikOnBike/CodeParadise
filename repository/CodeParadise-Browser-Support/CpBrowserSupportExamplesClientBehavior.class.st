@@ -266,7 +266,7 @@ CpBrowserSupportExamplesClientBehavior >> exampleBrowserMediaStreamsDevices [
 			yourself).
 
 	(outputElement firstDescendantMatching: #button)
-		when: CpClickEvent primary only send: #mediaStreamShowDevices to: self
+		when: CpClickEvent send: #mediaStreamShowDevices to: self
 ]
 
 { #category : #examples }
@@ -622,7 +622,7 @@ CpBrowserSupportExamplesClientBehavior >> speechSpeak [
 	"Create Utterance"
 	utterance := CpBrowserSpeechSynthesisUtterance text: text.
 	self speechVoiceSelected ifNotNil: [ :voice |
-		self crTrace: 'Set voice: ', voice printString.
+		self traceCr: 'Set voice: ', voice printString.
 		utterance
 			voice: voice ;
 			lang: voice lang ].
@@ -641,10 +641,10 @@ CpBrowserSupportExamplesClientBehavior >> speechSpeak [
 		"Enable button again"
 		speakButton propertyAt: #disabled put: false ].
 
-	onStartHandler := utterance onStartDo: [ :event | self crTrace: 'start speaking: ', event printString ].
+	onStartHandler := utterance onStartDo: [ :event | self traceCr: 'start speaking: ', event printString ].
 	onBoundaryHandler := utterance onBoundaryDo: [ :event |
 		| start end prefix word postfix |
-		self crTrace: 'boundary: ', event printString.
+		self traceCr: 'boundary: ', event printString.
 
 		"Select the word being uttered"
 		start := (event charIndex + 1) min: text size.
@@ -665,8 +665,8 @@ CpBrowserSupportExamplesClientBehavior >> speechSpeak [
 				styleAt: #'border-bottom' put: '4px solid blue' ;
 				yourself) ;
 			appendChild: postfix asHtmlElement ].
-	onEndHandler := utterance onEndDo: [ :event | self crTrace: 'end speaking: ', event printString. cleanup value ].
-	onErrorHandler := utterance onErrorDo: [ :event | self crTrace: 'error during speaking: ', event printString. cleanup value ].
+	onEndHandler := utterance onEndDo: [ :event | self traceCr: 'end speaking: ', event printString. cleanup value ].
+	onErrorHandler := utterance onErrorDo: [ :event | self traceCr: 'error during speaking: ', event printString. cleanup value ].
 
 	speechSynthesis := CpBrowserSpeechSynthesis current.
 	speechSynthesis speak: utterance

@@ -79,5 +79,5 @@ CpContextLineView >> render [
 		self
 			replaceAllChildrenWith: className asHtmlElement atSlotNamed: #class ;
 			replaceAllChildrenWith: selector asHtmlElement atSlotNamed: #method
-	] on: Error do: [ :error | self crError: 'Error in the debugger context line: ', error printString ]
+	] on: Error do: [ :error | self errorCr: 'Error in the debugger context line: ', error printString ]
 ]

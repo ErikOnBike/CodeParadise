@@ -54,7 +54,7 @@ CpEnvironment >> handleError: aString [
 	override this behavior. For a development environment the
 	actual error can be signaled to allow debugging for example."
 
-	self crError: aString
+	self errorCr: aString
 ]
 
 { #category : #'event handling' }

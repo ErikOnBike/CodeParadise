@@ -64,10 +64,10 @@ CpNodeJSSnapshot class >> snapshotImage [
 	CpCallbackEvaluator preSnapshot.
 
 	"Snapshot image"	
-	self crTrace: 'About to save image'.
+	self traceCr: 'About to save image'.
 	Smalltalk snapshotPrimitive
 		ifFalse: [
-			self crTrace: 'Saved image'.
+			self traceCr: 'Saved image'.
 
 			"Prepare image for restart"
 			CpCallbackEvaluator postSnapshot.
@@ -78,7 +78,7 @@ CpNodeJSSnapshot class >> snapshotImage [
 				SnapshotClasses do: [ :each | each postSnapshot ] ].
 
 			^ self ].
-	self crTrace: 'Restoring saved image'.
+	self traceCr: 'Restoring saved image'.
 
 	"Recreate Symbol table"
 	Symbol perform: #initSymbolTable.
@@ -94,5 +94,5 @@ CpNodeJSSnapshot class >> snapshotImage [
 	SnapshotClasses ifNotNil: [
 		SnapshotClasses do: [ :each | each postSnapshot ] ].
 
-	self crTrace: 'Image restored, continuing execution'
+	self traceCr: 'Image restored, continuing execution'
 ]
