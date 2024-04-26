@@ -232,7 +232,9 @@ CpBrowserSupportExamplesClientBehavior >> exampleBrowserMediaStreams [
 		appendChild: ((CpHtmlElement newWithTag: #p)
 			textContent: 'After clicking the button (and giving permission to use the video) your camera input should be shown below.' ;
 			yourself) ;
-		appendChild: (CpHtmlElement newWithTag: #video) ;
+		appendChild: ((CpHtmlElement newWithTag: #video)
+			attributeAt: #playsinline put: '' ;
+			yourself) ;
 		appendChild: ((CpHtmlElement newWithTag: #p)
 			id: #progress ;
 			yourself) ;
