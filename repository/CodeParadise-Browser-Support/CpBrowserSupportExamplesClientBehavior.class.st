@@ -502,12 +502,12 @@ CpBrowserSupportExamplesClientBehavior >> mediaStreamShowDevices [
 	outputElement := self outputElement.
 
 	"Enumerate devices"
-	CpBrowserMediaDevices current enumerateDevices
+	(CpBrowserMediaDevices current enumerateDevices
 		then: [ :devices |
 			devices do: [ :each |
 				outputElement appendChild: ((CpHtmlElement newWithTag: #p)
 					textContent: 'Device label: ', each label printString, ' kind: ', each kind printString, ' id: ', each deviceId printString ;
-					yourself) ] ] ;
+					yourself) ] ])
 		catch: [ :error |
 			outputElement appendChild: ((CpHtmlElement newWithTag: #p)
 				textContent: 'Failed to retrieve user media devices ', error printString ;
@@ -524,11 +524,11 @@ CpBrowserSupportExamplesClientBehavior >> mediaStreamShowVideo [
 	progress := outputElement firstDescendantMatching: '#progress'.
 
 	"Retrieve Video"
-	CpBrowserMediaDevices current getUserMediaVideo
+	(CpBrowserMediaDevices current getUserMediaVideo
 		then: [ :stream |
 			video
 				propertyAt: #srcObject put: stream ;
-				apply: #play withArguments: nil ] ;
+				apply: #play withArguments: nil ])
 		catch: [ :error |
 			progress replaceAllChildrenWith: ('Failed to retrieve user media video: ', error printString) asHtmlElement ]
 ]
