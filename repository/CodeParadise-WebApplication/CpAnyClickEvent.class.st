@@ -225,7 +225,7 @@ CpAnyClickEvent class >> postInstallOnce [
 	"Create temporary storage structure and a global event handler
 	for the pointer 'up' event to clean up click events (see also: #addListenerTo:)."
 
-	ClickInstances := IdentityDictionary new.
+	ClickInstances := Dictionary new.
 	ClickTargets := OrderedCollection new.
 	SupportingEventsInstalled := false
 ]
