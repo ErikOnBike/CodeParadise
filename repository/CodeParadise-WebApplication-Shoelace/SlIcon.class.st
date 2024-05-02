@@ -21,19 +21,6 @@ SlIcon class >> fullyNamed: aString [
 		yourself
 ]
 
-{ #category : #'class initialization' }
-SlIcon class >> loadComponent [
-
-	"Fix to allow icons to be loaded correctly.
-	See https://github.com/shoelace-style/shoelace/issues/569"
-
-	self flag: #TODO. "See comment above"
-
-	super loadComponent.
-
-	CpHtmlElement documentAddModuleScript: 'import { setBasePath } from "', self importBasePath, 'utilities/base-path.js";setBasePath("', self importBasePath, '");'
-]
-
 { #category : #accessing }
 SlIcon class >> named: aString [
 

@@ -1,3 +1,38 @@
+"
+I am the base class for Shoelace components.
+See https://shoelace.style
+
+Shoelace components do not load automagically (i.e. the
+auto-loader feature is not in use).
+A so called 'auto-loader' function exists in Shoelace. This
+does however not work for components used inside a Shadow DOM.
+The auto-loader works by setting a MutationObserver on the
+Light DOM (document root). This feature therefore also has
+some impact on performance. Leaving the auto-loader out
+does mean we have to specify which components are used. Use
+the #beLoaded method to reference any components you might
+use in an HTML string or WebComponent template. See example
+below.
+
+Shoelace components can be used programmatically:
+	myComponent appendChild: (SlIcon named: 'heart')
+
+Or be used as HTML string or within a WebComponent template:
+	<sl-icon name=""heart"">
+
+IF used from HTML string or template, please make sure the
+component is loaded by adding a call to #beLoaded to the
+component in the code being used. If for example you create
+a WebComponent XyzView which has an icon in the template
+(i.e. in the Shadow DOM) add the following method to your
+WebComponent:
+postInstallOnce
+
+	""Make sure SlIcon component is loaded""
+
+	SlIcon beLoaded
+
+"
 Class {
 	#name : #SlElement,
 	#superclass : #CpWebComponent,
@@ -19,7 +54,7 @@ SlElement class >> componentName [
 { #category : #accessing }
 SlElement class >> importBasePath [
 
-	^ 'https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.0.0/dist/'
+	^ 'https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.15.0/cdn/'
 ]
 
 { #category : #accessing }
@@ -58,7 +93,7 @@ SlElement class >> importComponentPath [
 { #category : #accessing }
 SlElement class >> importThemesPath [
 
-	"Answer the themes path for the framework (is not component specific)"
+	"Answer the themes path for the framework"
 
 	^ self importBasePath, 'themes/light.css'
 ]
@@ -88,9 +123,17 @@ SlElement class >> loadLibrary [
 
 	Implementation:
 	Load stylesheet here. All components will load themselves.
-	See SlElement class >> #loadComponent"
+	See SlElement class >> #loadComponent.
+	This method also sets location where assets are retrieved from."
 
-	CpHtmlElement documentAddStylesheet: self importThemesPath
+	CpHtmlElement documentAddStylesheet: self importThemesPath.
+
+	"Add a script which refers to the location for assets (like icons).
+	This script should stay present and not be removed like the
+	individual component load scripts do. Its attribute 'data-shoelace'
+	contains the base path to assets. Shoelace uses this value internally."
+	(CpHtmlElement documentAddModuleScript: 'console.log("Shoelace: Setting up base path (required to load icons correctly)");')
+		attributeAt: 'data-shoelace' put: self importBasePath
 ]
 
 { #category : #'class initialization' }
