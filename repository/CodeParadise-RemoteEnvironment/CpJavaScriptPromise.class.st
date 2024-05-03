@@ -57,6 +57,12 @@ CpJavaScriptPromise >> then: fullfilledBlock [
 ]
 
 { #category : #convenience }
+CpJavaScriptPromise >> then: fullfilledBlock catch: rejectedBlock [
+
+	^ (self then: fullfilledBlock) catch: rejectedBlock
+]
+
+{ #category : #convenience }
 CpJavaScriptPromise >> then: fullfilledBlock onRejected: rejectedBlock [
 
 	"Appends fulfillment and rejection handlers to the promise, and returns a new promise
@@ -65,4 +71,16 @@ CpJavaScriptPromise >> then: fullfilledBlock onRejected: rejectedBlock [
 	is not a function)."
 
 	^ self apply: #then withArguments: { fullfilledBlock . rejectedBlock } resultAs: CpJavaScriptPromise
+]
+
+{ #category : #convenience }
+CpJavaScriptPromise >> then: fullfilledBlock then: secondBlock catch: rejectedBlock [
+
+	^ (self then: fullfilledBlock) then: secondBlock catch: rejectedBlock
+]
+
+{ #category : #convenience }
+CpJavaScriptPromise >> then: fullfilledBlock then: secondBlock then: thirdBlock catch: rejectedBlock [
+
+	^ (self then: fullfilledBlock) then: secondBlock then: thirdBlock catch: rejectedBlock
 ]
