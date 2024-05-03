@@ -72,7 +72,11 @@ CpClientCommunicator >> reconnect [
 
 	"Reconnect the receiver to the previous URL"
 
-	self connectToUrl: self url
+	self connectToUrl: self url.
+
+	"Let the server know we reconnected"
+	CpClientEnvironment current
+		serverAnnounce: CpClientReconnected
 ]
 
 { #category : #accessing }

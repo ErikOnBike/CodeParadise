@@ -350,6 +350,7 @@ CpServerEnvironment >> initialize [
 	"Add subscription to reinstall already registered code in the client environment if restarted"
 	self
 		when: CpClientStarted send: #started: to: self ;
+		when: CpClientReconnected send: #reconnected: to self ;
 		when: CpClientStopped send: #stop to: self
 ]
 
@@ -438,6 +439,14 @@ CpServerEnvironment >> postInstallClasses [
 	self sendMessage: (MessageSend
 		receiver: nil
 		selector: #postInstallClasses)
+]
+
+{ #category : #support }
+CpServerEnvironment >> reconnected: anAnnouncement [
+
+	"The client reconnected after having lost the connection"
+
+	self announcer announce: anAnnouncement
 ]
 
 { #category : #initialization }

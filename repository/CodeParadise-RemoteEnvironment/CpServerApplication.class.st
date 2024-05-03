@@ -298,6 +298,14 @@ CpServerApplication >> methodChanged: anAnnouncement [
 	^ false
 ]
 
+{ #category : #'private - actions' }
+CpServerApplication >> reconnect: anAnnouncement [
+
+	"The client reconnected to the server, perform any required updates.
+	The client might have been gone for a short or long time, actions
+	might need to take this into account."
+]
+
 { #category : #initialization }
 CpServerApplication >> release [
 
@@ -342,6 +350,7 @@ CpServerApplication >> setUp [
 
 	self environment
 		when: CpClientReloaded send: #reload: to: self ;
+		when: CpClientReconnected send: #reconnect: to: self ;
 		when: CpClientStopped send: #stop: to: self.
 
 	"Ensure the receiver reacts to methods being changed on the server"
