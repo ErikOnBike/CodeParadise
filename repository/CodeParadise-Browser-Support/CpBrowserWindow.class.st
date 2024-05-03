@@ -18,7 +18,7 @@ CpBrowserWindow class >> newInstanceWithArguments: anArray resultAs: aProxyClass
 	self error: 'An instance should be retrieved using the selector ', #current
 ]
 
-{ #category : #printing }
+{ #category : #operations }
 CpBrowserWindow >> print [
 
 	"Opens the print dialog to print the current document."
