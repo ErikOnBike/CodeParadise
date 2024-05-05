@@ -173,3 +173,14 @@ CpBrowserMediaStream >> removeTrack: aMediaStreamTrack [
 
 	self apply: #removeTrack withArguments: { aMediaStreamTrack }
 ]
+
+{ #category : #operations }
+CpBrowserMediaStream >> stop [
+
+	"Stop the stream.
+
+	Implementation:
+	This is a convenience method to stop all tracks and the receiver."
+
+	self getTracks do: [ :each | each stop ]
+]
