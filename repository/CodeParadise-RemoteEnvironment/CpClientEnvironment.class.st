@@ -143,7 +143,7 @@ CpClientEnvironment class >> preInstalledClasses [
 			add: CpCommunicator ;
 			add: CpCommunicatorReconnectStrategy ;
 			add: CpEnvironment ;
-			add: CpJavascriptWebSocketChannel ;
+			add: CpJavaScriptWebSocketChannel ;
 			add: CpMessageChannel ;
 			add: CpObjectDecoder ;
 			add: CpObjectEncoder ;
