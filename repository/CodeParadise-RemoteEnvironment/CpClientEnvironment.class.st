@@ -559,7 +559,7 @@ CpClientEnvironment >> serverAnnounce: anAnnouncement [
 
 	self sendEncodedMessage: (CpObjectEncoder new
 		encode: id ;
-		encode: anAnnouncement ;
+		encode: anAnnouncement asAnnouncement ;
 		bytes)
 ]
 
@@ -589,7 +589,7 @@ CpClientEnvironment >> stopCommunication [
 
 	"Stop communication with server"
 
-	self serverAnnounce: CpClientStopped new.
+	self serverAnnounce: CpClientStopped.
 
 	super stopCommunication
 ]
