@@ -73,6 +73,19 @@ CpCssAnimation class >> shakeKeyframes [
 ]
 
 { #category : #'animation - keyframes' }
+CpCssAnimation class >> showTemporarilyKeyframes [
+
+	"Pay attention: do not use kebab-case naming, but camelCase naming for style elements"
+
+	^ {
+		{ #opacity -> '0'. #easing -> #'ease-out'. #offset -> 0 } asDictionary.
+		{ #opacity -> '1'. #offset -> 0.2 } asDictionary.
+		{ #opacity -> '1'. #offset -> 0.8 } asDictionary.
+		{ #opacity -> '0'. #easing -> #'ease-in'. #offset -> 1 } asDictionary.
+	}
+]
+
+{ #category : #'animation - keyframes' }
 CpCssAnimation class >> tadaKeyframes [
 
 	^ {
