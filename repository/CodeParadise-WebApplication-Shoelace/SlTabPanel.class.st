@@ -1,10 +1,12 @@
 Class {
-	#name : #SlTabPanel,
-	#superclass : #SlElement,
-	#category : #'CodeParadise-WebApplication-Shoelace-Elements'
+	#name : 'SlTabPanel',
+	#superclass : 'SlElement',
+	#category : 'CodeParadise-WebApplication-Shoelace-Elements',
+	#package : 'CodeParadise-WebApplication-Shoelace',
+	#tag : 'Elements'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SlTabPanel >> content [
 
 	"Answer the content HTML element of the receiver.
@@ -13,7 +15,7 @@ SlTabPanel >> content [
 	^ self firstChildAtSlotNamed: nil
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SlTabPanel >> content: aStringOrElement [
 
 	"Set the content to the specified Element.
@@ -22,7 +24,7 @@ SlTabPanel >> content: aStringOrElement [
 	self replaceAllChildrenWith: aStringOrElement asHtmlElement atSlotNamed: nil
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SlTabPanel >> contentText [
 
 	"Answer the content text (a String) of the receiver.
@@ -31,7 +33,7 @@ SlTabPanel >> contentText [
 	^ self textContent
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SlTabPanel >> contentText: aString [
 
 	"Set the content text to the specified String value.
@@ -40,13 +42,13 @@ SlTabPanel >> contentText: aString [
 	self textContent: aString
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SlTabPanel >> name [
 
 	^ self propertyAt: #name
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SlTabPanel >> name: aString [
 
 	self propertyAt: #name put: aString

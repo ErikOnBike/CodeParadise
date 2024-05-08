@@ -1,10 +1,12 @@
 Class {
-	#name : #SlProgressRing,
-	#superclass : #SlElement,
-	#category : #'CodeParadise-WebApplication-Shoelace-Elements'
+	#name : 'SlProgressRing',
+	#superclass : 'SlElement',
+	#category : 'CodeParadise-WebApplication-Shoelace-Elements',
+	#package : 'CodeParadise-WebApplication-Shoelace',
+	#tag : 'Elements'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SlProgressRing >> label [
 
 	"Answer the label HTML element of the receiver.
@@ -13,7 +15,7 @@ SlProgressRing >> label [
 	^ self firstChildAtSlotNamed: nil
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SlProgressRing >> label: aStringOrElement [
 
 	"Set the label to the specified Element.
@@ -22,7 +24,7 @@ SlProgressRing >> label: aStringOrElement [
 	self replaceAllChildrenWith: aStringOrElement asHtmlElement atSlotNamed: nil
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SlProgressRing >> labelText [
 
 	"Answer the label text (a String) of the receiver.
@@ -31,7 +33,7 @@ SlProgressRing >> labelText [
 	^ self textContent
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SlProgressRing >> labelText: aString [
 
 	"Set the label text to the specified String value.
@@ -40,13 +42,13 @@ SlProgressRing >> labelText: aString [
 	self textContent: aString
 ]
 
-{ #category : #evaluating }
+{ #category : 'evaluating' }
 SlProgressRing >> value [
 
 	^ self propertyAt: #value
 ]
 
-{ #category : #evaluating }
+{ #category : 'evaluating' }
 SlProgressRing >> value: anInteger [
 
 	self propertyAt: #value put: anInteger

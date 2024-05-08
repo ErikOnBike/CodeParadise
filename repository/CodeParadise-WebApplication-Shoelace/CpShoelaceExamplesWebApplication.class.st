@@ -1,10 +1,12 @@
 Class {
-	#name : #CpShoelaceExamplesWebApplication,
-	#superclass : #CpWebApplication,
-	#category : #'CodeParadise-WebApplication-Shoelace-Examples'
+	#name : 'CpShoelaceExamplesWebApplication',
+	#superclass : 'CpWebApplication',
+	#category : 'CodeParadise-WebApplication-Shoelace-Examples',
+	#package : 'CodeParadise-WebApplication-Shoelace',
+	#tag : 'Examples'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpShoelaceExamplesWebApplication class >> app [
 
 	"Answer the unique identifier (a Symbol) for the receiver"
@@ -12,13 +14,13 @@ CpShoelaceExamplesWebApplication class >> app [
 	^ #'Shoelace-Examples'
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpShoelaceExamplesWebApplication class >> clientBehaviorClass [
 
 	^ CpShoelaceExamplesClientBehavior
 ]
 
-{ #category : #installing }
+{ #category : 'installing' }
 CpShoelaceExamplesWebApplication >> installExtensionMethods [
 
 	"Install the extension methods from known Classes"

@@ -1,5 +1,7 @@
 Class {
-	#name : #SlRequestCloseEvent,
-	#superclass : #SlEvent,
-	#category : #'CodeParadise-WebApplication-Shoelace-Events'
+	#name : 'SlRequestCloseEvent',
+	#superclass : 'SlEvent',
+	#category : 'CodeParadise-WebApplication-Shoelace-Events',
+	#package : 'CodeParadise-WebApplication-Shoelace',
+	#tag : 'Events'
 }

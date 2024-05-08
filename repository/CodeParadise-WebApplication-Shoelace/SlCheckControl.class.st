@@ -1,35 +1,37 @@
 Class {
-	#name : #SlCheckControl,
-	#superclass : #SlFormControl,
-	#category : #'CodeParadise-WebApplication-Shoelace-Elements'
+	#name : 'SlCheckControl',
+	#superclass : 'SlFormControl',
+	#category : 'CodeParadise-WebApplication-Shoelace-Elements',
+	#package : 'CodeParadise-WebApplication-Shoelace',
+	#tag : 'Elements'
 }
 
-{ #category : #testing }
+{ #category : 'testing' }
 SlCheckControl class >> isAbstractTag [
 
 	"The method is present to indicate the receiver is abstract.
 	This method will NOT be evaluated to decide if the receiver is abstract."
 ]
 
-{ #category : #'accessing style' }
+{ #category : 'accessing style' }
 SlCheckControl >> beChecked [
 
 	self checked: true
 ]
 
-{ #category : #'accessing style' }
+{ #category : 'accessing style' }
 SlCheckControl >> beNotChecked [
 
 	self checked: false
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SlCheckControl >> checked: aBoolean [
 
 	self propertyAt: #checked put: aBoolean
 ]
 
-{ #category : #actions }
+{ #category : 'actions' }
 SlCheckControl >> click [
 
 	"Simulate a click on the checkbox"
@@ -37,13 +39,13 @@ SlCheckControl >> click [
 	self apply: #click withArguments: #()
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 SlCheckControl >> isChecked [
 
 	^ self propertyAt: #checked
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SlCheckControl >> label [
 
 	"Answer the label HTML element of the receiver.
@@ -52,7 +54,7 @@ SlCheckControl >> label [
 	^ self firstChildAtSlotNamed: nil
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SlCheckControl >> label: aStringOrElement [
 
 	"Set the label to the specified Element.
@@ -61,7 +63,7 @@ SlCheckControl >> label: aStringOrElement [
 	self replaceAllChildrenWith: aStringOrElement asHtmlElement atSlotNamed: nil
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SlCheckControl >> labelText [
 
 	"Answer the label text (a String) of the receiver.
@@ -70,7 +72,7 @@ SlCheckControl >> labelText [
 	^ self textContent
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SlCheckControl >> labelText: aString [
 
 	"Set the label text to the specified String value.

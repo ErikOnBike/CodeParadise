@@ -1,10 +1,12 @@
 Class {
-	#name : #SlOption,
-	#superclass : #SlElement,
-	#category : #'CodeParadise-WebApplication-Shoelace-Elements'
+	#name : 'SlOption',
+	#superclass : 'SlElement',
+	#category : 'CodeParadise-WebApplication-Shoelace-Elements',
+	#package : 'CodeParadise-WebApplication-Shoelace',
+	#tag : 'Elements'
 }
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 SlOption class >> value: aSymbol label: aStringOrElement [
 
 	^ self new
@@ -13,7 +15,7 @@ SlOption class >> value: aSymbol label: aStringOrElement [
 		yourself
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 SlOption class >> value: aSymbol labelText: aString [
 
 	^ self new
@@ -22,13 +24,13 @@ SlOption class >> value: aSymbol labelText: aString [
 		yourself
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SlOption >> beDisabled [
 
 	self disabled: true
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SlOption >> beEnabled [
 
 	"Convenience method to make receiver enabled"
@@ -36,13 +38,13 @@ SlOption >> beEnabled [
 	self disabled: false
 ]
 
-{ #category : #'accessing style' }
+{ #category : 'accessing style' }
 SlOption >> beNotDisabled [
 
 	self disabled: false
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SlOption >> beNotEnabled [
 
 	"Convenience method to clear the enabled state of the receiver"
@@ -50,7 +52,7 @@ SlOption >> beNotEnabled [
 	self disabled: true
 ]
 
-{ #category : #copying }
+{ #category : 'copying' }
 SlOption >> clone [
 
 	"Deep clone the receiver.
@@ -64,13 +66,13 @@ SlOption >> clone [
 
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SlOption >> disabled: aBoolean [
 
 	self propertyAt: #disabled put: aBoolean
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SlOption >> enabled: aBoolean [
 
 	"Convenience method to set receiver's enabled state"
@@ -78,13 +80,13 @@ SlOption >> enabled: aBoolean [
 	self disabled: aBoolean not
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SlOption >> isDisabled [
 
 	^ self propertyAt: #disabled
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SlOption >> isEnabled [
 
 	"Convenience method to test if receiver is enabled"
@@ -92,7 +94,7 @@ SlOption >> isEnabled [
 	^ self isDisabled not
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SlOption >> label [
 
 	"Answer the label HTML element of the receiver.
@@ -101,7 +103,7 @@ SlOption >> label [
 	^ self firstChildAtSlotNamed: nil
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SlOption >> label: aStringOrElement [
 
 	"Set the label to the specified Element.
@@ -110,7 +112,7 @@ SlOption >> label: aStringOrElement [
 	self replaceAllChildrenWith: aStringOrElement asHtmlElement atSlotNamed: nil
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SlOption >> labelText [
 
 	"Answer the label text (a String) of the receiver.
@@ -119,7 +121,7 @@ SlOption >> labelText [
 	^ self textContent
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SlOption >> labelText: aString [
 
 	"Set the label text to the specified String value.
@@ -128,31 +130,31 @@ SlOption >> labelText: aString [
 	self textContent: aString
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SlOption >> prefix [
 
 	^ self firstChildAtSlotNamed: #prefix
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SlOption >> prefix: anElement [
 
 	self replaceAllChildrenWith: anElement atSlotNamed: #prefix
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SlOption >> suffix [
 
 	^ self firstChildAtSlotNamed: #suffix
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SlOption >> suffix: anElement [
 
 	self replaceAllChildrenWith: anElement atSlotNamed: #suffix
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SlOption >> value [
 
 	self flag: #TODO. "Temporary fix for values with spaces in them (replace by non-breakable space)."
@@ -160,7 +162,7 @@ SlOption >> value [
 	^ (self propertyAt: #value) replaceAll: (Character value: 160) with: Character space
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SlOption >> value: aString [
 
 	self flag: #TODO. "Temporary fix for values with spaces in them (replace by non-breakable space)."

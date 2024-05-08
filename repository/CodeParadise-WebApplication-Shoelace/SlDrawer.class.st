@@ -4,48 +4,50 @@ Drawers slide in from a container to expose additional options and information.
 
 "
 Class {
-	#name : #SlDrawer,
-	#superclass : #SlAbstractPrompter,
-	#category : #'CodeParadise-WebApplication-Shoelace-Elements'
+	#name : 'SlDrawer',
+	#superclass : 'SlAbstractPrompter',
+	#category : 'CodeParadise-WebApplication-Shoelace-Elements',
+	#package : 'CodeParadise-WebApplication-Shoelace',
+	#tag : 'Elements'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SlDrawer >> beBottom [
 
 	self placement: #bottom
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SlDrawer >> beContained [
 
 	self contained: true
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SlDrawer >> beEnd [
 
 	self placement: #end
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SlDrawer >> beNotContained [
 
 	self contained: false
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SlDrawer >> beStart [
 
 	self placement: #start
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SlDrawer >> beTop [
 
 	self placement: #top
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SlDrawer >> contained: aBoolean [
 
 	"By default, the drawer slides out of its containing block (usually the viewport).
@@ -56,13 +58,13 @@ SlDrawer >> contained: aBoolean [
 
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 SlDrawer >> isContained [
 
 	^ self propertyAt: #contained
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SlDrawer >> placement [
 
 	"Answer the direction from which the drawer will open"
@@ -71,7 +73,7 @@ SlDrawer >> placement [
 
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SlDrawer >> placement: aString [
 
 	"The direction from which the drawer will open. 'top' | 'right' | 'bottom' | 'left'"

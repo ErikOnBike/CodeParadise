@@ -34,30 +34,32 @@ postInstallOnce
 
 "
 Class {
-	#name : #SlElement,
-	#superclass : #CpWebComponent,
-	#category : #'CodeParadise-WebApplication-Shoelace-Elements'
+	#name : 'SlElement',
+	#superclass : 'CpWebComponent',
+	#category : 'CodeParadise-WebApplication-Shoelace-Elements',
+	#package : 'CodeParadise-WebApplication-Shoelace',
+	#tag : 'Elements'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SlElement class >> componentLoaderName [
 
 	^ self name asKebabCase, '-loader'
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SlElement class >> componentName [
 
 	^ self nameWithoutPrefix asKebabCase
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SlElement class >> importBasePath [
 
 	^ 'https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.15.0/cdn/'
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SlElement class >> importComponentCode [
 
 	^ String streamContents: [ :stream |
@@ -71,7 +73,7 @@ SlElement class >> importComponentCode [
 			nextPutAll: 'if(script) script.remove();' ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SlElement class >> importComponentPath [
 
 	"Answer the component path for the receiver"
@@ -90,7 +92,7 @@ SlElement class >> importComponentPath [
 			nextPutAll: '.js' ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SlElement class >> importThemesPath [
 
 	"Answer the themes path for the framework"
@@ -98,14 +100,14 @@ SlElement class >> importThemesPath [
 	^ self importBasePath, 'themes/light.css'
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 SlElement class >> isAbstractTag [
 
 	"The method is present to indicate the receiver is abstract.
 	This method will NOT be evaluated to decide if the receiver is abstract."
 ]
 
-{ #category : #'class initialization' }
+{ #category : 'class initialization' }
 SlElement class >> loadComponent [
 
 	"Load component from CDN"
@@ -116,7 +118,7 @@ SlElement class >> loadComponent [
 		id: self componentLoaderName
 ]
 
-{ #category : #'class initialization' }
+{ #category : 'class initialization' }
 SlElement class >> loadLibrary [
 
 	"Load library from CDN.
@@ -136,7 +138,7 @@ SlElement class >> loadLibrary [
 		attributeAt: 'data-shoelace' put: self importBasePath
 ]
 
-{ #category : #'class initialization' }
+{ #category : 'class initialization' }
 SlElement class >> postInstall [
 
 	"Install Shoelace component into receiver"
@@ -149,7 +151,7 @@ SlElement class >> postInstall [
 	self loadComponent
 ]
 
-{ #category : #'class initialization' }
+{ #category : 'class initialization' }
 SlElement class >> postInstallOnce [
 
 	"Install Shoelace library into receiver"
@@ -157,7 +159,7 @@ SlElement class >> postInstallOnce [
 	self loadLibrary
 ]
 
-{ #category : #'text input' }
+{ #category : 'text input' }
 SlElement >> focus: optionsArray [
 
 	"Sets focus on the receiver with options.
@@ -168,7 +170,7 @@ SlElement >> focus: optionsArray [
 	self apply: #focus withArguments: optionsArray asDictionary
 ]
 
-{ #category : #performing }
+{ #category : 'performing' }
 SlElement >> performMessage: aMessage [
 
 	"Perform the specified message on the receiver"

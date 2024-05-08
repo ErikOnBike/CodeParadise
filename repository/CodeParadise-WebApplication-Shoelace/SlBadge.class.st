@@ -1,10 +1,12 @@
 Class {
-	#name : #SlBadge,
-	#superclass : #SlElement,
-	#category : #'CodeParadise-WebApplication-Shoelace-Elements'
+	#name : 'SlBadge',
+	#superclass : 'SlElement',
+	#category : 'CodeParadise-WebApplication-Shoelace-Elements',
+	#package : 'CodeParadise-WebApplication-Shoelace',
+	#tag : 'Elements'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SlBadge class >> label: aStringOrElement [
 
 	^ self new
@@ -12,79 +14,79 @@ SlBadge class >> label: aStringOrElement [
 		yourself
 ]
 
-{ #category : #'accessing variant' }
+{ #category : 'accessing variant' }
 SlBadge >> beDanger [
 
 	self variant: #danger
 ]
 
-{ #category : #'accessing variant' }
+{ #category : 'accessing variant' }
 SlBadge >> beDefault [
 
 	self variant: #default
 ]
 
-{ #category : #'accessing variant' }
+{ #category : 'accessing variant' }
 SlBadge >> beNeutral [
 
 	self variant: #neutral
 ]
 
-{ #category : #'accessing style' }
+{ #category : 'accessing style' }
 SlBadge >> beNotPill [
 
 	self pill: false
 ]
 
-{ #category : #'accessing style' }
+{ #category : 'accessing style' }
 SlBadge >> beNotPulse [
 
 	self pulse: false
 ]
 
-{ #category : #'accessing style' }
+{ #category : 'accessing style' }
 SlBadge >> bePill [
 
 	self pill: true
 ]
 
-{ #category : #'accessing variant' }
+{ #category : 'accessing variant' }
 SlBadge >> bePrimary [
 
 	self variant: #primary
 ]
 
-{ #category : #'accessing style' }
+{ #category : 'accessing style' }
 SlBadge >> bePulse [
 
 	self pulse: true
 ]
 
-{ #category : #'accessing variant' }
+{ #category : 'accessing variant' }
 SlBadge >> beSuccess [
 
 	self variant: #success
 ]
 
-{ #category : #'accessing variant' }
+{ #category : 'accessing variant' }
 SlBadge >> beWarning [
 
 	self variant: #warning
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 SlBadge >> isPill [
 
 	^ self propertyAt: #pill
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 SlBadge >> isPulse [
 
 	^ self propertyAt: #pulse
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SlBadge >> label [
 
 	"Answer the label HTML element of the receiver.
@@ -93,7 +95,7 @@ SlBadge >> label [
 	^ self firstChildAtSlotNamed: nil
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SlBadge >> label: aStringOrElement [
 
 	"Set the label to the specified Element.
@@ -102,7 +104,7 @@ SlBadge >> label: aStringOrElement [
 	self replaceAllChildrenWith: aStringOrElement asHtmlElement atSlotNamed: nil
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SlBadge >> labelText [
 
 	"Answer the label text (a String) of the receiver.
@@ -111,7 +113,7 @@ SlBadge >> labelText [
 	^ self textContent
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SlBadge >> labelText: aString [
 
 	"Set the label text to the specified String value.
@@ -120,25 +122,25 @@ SlBadge >> labelText: aString [
 	self textContent: aString
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SlBadge >> pill: aBoolean [
 
 	self propertyAt: #pill put: aBoolean
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SlBadge >> pulse: aBoolean [
 
 	self propertyAt: #pulse put: aBoolean
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SlBadge >> variant [
 
 	^ self propertyAt: #variant
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SlBadge >> variant: aString [
 
 	self propertyAt: #variant put: aString

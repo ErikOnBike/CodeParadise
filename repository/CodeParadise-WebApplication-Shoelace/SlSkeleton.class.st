@@ -1,40 +1,42 @@
 Class {
-	#name : #SlSkeleton,
-	#superclass : #SlElement,
-	#category : #'CodeParadise-WebApplication-Shoelace-Elements'
+	#name : 'SlSkeleton',
+	#superclass : 'SlElement',
+	#category : 'CodeParadise-WebApplication-Shoelace-Elements',
+	#package : 'CodeParadise-WebApplication-Shoelace',
+	#tag : 'Elements'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SlSkeleton >> effect [
 
 	^ self propertyAt: #effect
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SlSkeleton >> effect: aString [
 
 	self propertyAt: #effect put: aString
 ]
 
-{ #category : #'accessing effect' }
+{ #category : 'accessing effect' }
 SlSkeleton >> effectNone [
 
 	self effect: #none
 ]
 
-{ #category : #'accessing effect' }
+{ #category : 'accessing effect' }
 SlSkeleton >> effectPulse [
 
 	self effect: #pulse
 ]
 
-{ #category : #'accessing effect' }
+{ #category : 'accessing effect' }
 SlSkeleton >> effectSheen [
 
 	self effect: #sheen
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 SlSkeleton >> hasEffect [
 
 	^ self effect ~= #none

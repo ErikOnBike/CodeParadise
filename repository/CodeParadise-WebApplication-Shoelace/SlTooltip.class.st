@@ -1,16 +1,18 @@
 Class {
-	#name : #SlTooltip,
-	#superclass : #SlElement,
-	#category : #'CodeParadise-WebApplication-Shoelace-Elements'
+	#name : 'SlTooltip',
+	#superclass : 'SlElement',
+	#category : 'CodeParadise-WebApplication-Shoelace-Elements',
+	#package : 'CodeParadise-WebApplication-Shoelace',
+	#tag : 'Elements'
 }
 
-{ #category : #'accessing style' }
+{ #category : 'accessing style' }
 SlTooltip >> beDisabled [
 
 	self disabled: true
 ]
 
-{ #category : #'accessing style' }
+{ #category : 'accessing style' }
 SlTooltip >> beEnabled [
 
 	"Convenience method to make receiver enabled"
@@ -18,19 +20,19 @@ SlTooltip >> beEnabled [
 	self disabled: false
 ]
 
-{ #category : #'accessing style' }
+{ #category : 'accessing style' }
 SlTooltip >> beHoist [
 
 	self hoist: true
 ]
 
-{ #category : #'accessing style' }
+{ #category : 'accessing style' }
 SlTooltip >> beNotDisabled [
 
 	self disabled: false
 ]
 
-{ #category : #'accessing style' }
+{ #category : 'accessing style' }
 SlTooltip >> beNotEnabled [
 
 	"Convenience method to clear the enabled state of the receiver"
@@ -38,43 +40,43 @@ SlTooltip >> beNotEnabled [
 	self disabled: true
 ]
 
-{ #category : #'accessing style' }
+{ #category : 'accessing style' }
 SlTooltip >> beNotHoist [
 
 	self hoist: false
 ]
 
-{ #category : #'accessing style' }
+{ #category : 'accessing style' }
 SlTooltip >> beNotOpen [
 
 	self open: false
 ]
 
-{ #category : #'accessing style' }
+{ #category : 'accessing style' }
 SlTooltip >> beOpen [
 
 	self open: true
 ]
 
-{ #category : #'accessing placement' }
+{ #category : 'accessing placement' }
 SlTooltip >> bottom [
 
 	self placement: #bottom
 ]
 
-{ #category : #'accessing placement' }
+{ #category : 'accessing placement' }
 SlTooltip >> bottomEnd [
 
 	self placement: #'bottom-end'
 ]
 
-{ #category : #'accessing placement' }
+{ #category : 'accessing placement' }
 SlTooltip >> bottomStart [
 
 	self placement: #'bottom-start'
 ]
 
-{ #category : #copying }
+{ #category : 'copying' }
 SlTooltip >> clone [
 
 	"Deep clone the receiver.
@@ -91,7 +93,7 @@ SlTooltip >> clone [
 
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SlTooltip >> content [
 
 	"Answer the content HTML element of the receiver.
@@ -100,7 +102,7 @@ SlTooltip >> content [
 	^ self firstChildAtSlotNamed: #content
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SlTooltip >> content: aStringOrElement [
 
 	"Set the content to the specified Element.
@@ -109,7 +111,7 @@ SlTooltip >> content: aStringOrElement [
 	self replaceAllChildrenWith: aStringOrElement asHtmlElement atSlotNamed: #content
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SlTooltip >> contentText [
 
 	"Answer the content text (a String) of the receiver.
@@ -120,7 +122,7 @@ SlTooltip >> contentText [
 		ifNil: [ '' ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SlTooltip >> contentText: aString [
 
 	"Set the content text to the specified String value.
@@ -129,25 +131,25 @@ SlTooltip >> contentText: aString [
 	self content: aString asHtmlElement
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SlTooltip >> disabled: aBoolean [
 
 	self propertyAt: #disabled put: aBoolean
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SlTooltip >> distance [
 
 	^ self propertyAt: #distance
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SlTooltip >> distance: aNumber [
 
 	self propertyAt: #distance put: aNumber
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SlTooltip >> enabled: aBoolean [
 
 	"Convenience method to set receiver's enabled state"
@@ -155,25 +157,25 @@ SlTooltip >> enabled: aBoolean [
 	self disabled: aBoolean not
 ]
 
-{ #category : #actions }
+{ #category : 'actions' }
 SlTooltip >> hide [
 
 	self apply: #hide withArguments: #()
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SlTooltip >> hoist: aBoolean [
 
 	self propertyAt: #hoist put: aBoolean
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 SlTooltip >> isDisabled [
 
 	^ self propertyAt: #disabled
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 SlTooltip >> isEnabled [
 
 	"Convenience method to test if receiver is enabled"
@@ -181,145 +183,145 @@ SlTooltip >> isEnabled [
 	^ self isDisabled not
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 SlTooltip >> isHoist [
 
 	^ self propertyAt: #hoist
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 SlTooltip >> isOpen [
 
 	^ self propertyAt: #open
 ]
 
-{ #category : #'accessing placement' }
+{ #category : 'accessing placement' }
 SlTooltip >> left [
 
 	self placement: #left
 ]
 
-{ #category : #'accessing placement' }
+{ #category : 'accessing placement' }
 SlTooltip >> leftEnd [
 
 	self placement: #'left-end'
 ]
 
-{ #category : #'accessing placement' }
+{ #category : 'accessing placement' }
 SlTooltip >> leftStart [
 
 	self placement: #'left-start'
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SlTooltip >> open: aBoolean [
 
 	self propertyAt: #open put: aBoolean
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SlTooltip >> placement [
 
 	^ self propertyAt: #placement
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SlTooltip >> placement: aString [
 
 	self propertyAt: #placement put: aString
 ]
 
-{ #category : #'accessing placement' }
+{ #category : 'accessing placement' }
 SlTooltip >> right [
 
 	self placement: #right
 ]
 
-{ #category : #'accessing placement' }
+{ #category : 'accessing placement' }
 SlTooltip >> rightEnd [
 
 	self placement: #'right-end'
 ]
 
-{ #category : #'accessing placement' }
+{ #category : 'accessing placement' }
 SlTooltip >> rightStart [
 
 	self placement: #'right-start'
 ]
 
-{ #category : #actions }
+{ #category : 'actions' }
 SlTooltip >> show [
 
 	self apply: #show withArguments: #()
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SlTooltip >> skidding [
 
 	^ self propertyAt: #skidding
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SlTooltip >> skidding: aNumber [
 
 	self propertyAt: #skidding put: aNumber
 ]
 
-{ #category : #'accessing placement' }
+{ #category : 'accessing placement' }
 SlTooltip >> top [
 
 	self placement: #top
 ]
 
-{ #category : #'accessing placement' }
+{ #category : 'accessing placement' }
 SlTooltip >> topEnd [
 
 	self placement: #'top-end'
 ]
 
-{ #category : #'accessing placement' }
+{ #category : 'accessing placement' }
 SlTooltip >> topStart [
 
 	self placement: #'top-start'
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SlTooltip >> trigger [
 
 	^ self propertyAt: #trigger
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SlTooltip >> trigger: aString [
 
 	self propertyAt: #trigger put: aString
 ]
 
-{ #category : #'accessing trigger' }
+{ #category : 'accessing trigger' }
 SlTooltip >> triggerClick [
 
 	self trigger: #click
 ]
 
-{ #category : #'accessing trigger' }
+{ #category : 'accessing trigger' }
 SlTooltip >> triggerFocus [
 
 	self trigger: #focus
 ]
 
-{ #category : #'accessing trigger' }
+{ #category : 'accessing trigger' }
 SlTooltip >> triggerHover [
 
 	self trigger: #hover
 ]
 
-{ #category : #'accessing trigger' }
+{ #category : 'accessing trigger' }
 SlTooltip >> triggerHoverAndFocus [
 
 	self trigger: 'hover focus'
 ]
 
-{ #category : #'accessing trigger' }
+{ #category : 'accessing trigger' }
 SlTooltip >> triggerManual [
 
 	self trigger: #manual

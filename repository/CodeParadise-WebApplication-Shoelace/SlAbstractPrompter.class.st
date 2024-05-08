@@ -1,21 +1,23 @@
 Class {
-	#name : #SlAbstractPrompter,
-	#superclass : #SlElement,
+	#name : 'SlAbstractPrompter',
+	#superclass : 'SlElement',
 	#instVars : [
 		'modal',
 		'defaultFocusElement'
 	],
-	#category : #'CodeParadise-WebApplication-Shoelace-Elements'
+	#category : 'CodeParadise-WebApplication-Shoelace-Elements',
+	#package : 'CodeParadise-WebApplication-Shoelace',
+	#tag : 'Elements'
 }
 
-{ #category : #testing }
+{ #category : 'testing' }
 SlAbstractPrompter class >> isAbstractTag [
 
 	"The method is present to indicate the receiver is abstract.
 	This method will NOT be evaluated to decide if the receiver is abstract."
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SlAbstractPrompter class >> label: aStringOrElement [
 
 	^ self new
@@ -23,7 +25,7 @@ SlAbstractPrompter class >> label: aStringOrElement [
 		yourself
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SlAbstractPrompter >> beHeader [
 
 	"Convenience method"
@@ -31,19 +33,19 @@ SlAbstractPrompter >> beHeader [
 	self noHeader: false
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SlAbstractPrompter >> beModal [
 
 	self modal: true
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SlAbstractPrompter >> beNoHeader [
 
 	self noHeader: true
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SlAbstractPrompter >> beNotHeader [
 
 	"Convenience method"
@@ -51,33 +53,33 @@ SlAbstractPrompter >> beNotHeader [
 	self noHeader: true
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SlAbstractPrompter >> beNotModal [
 
 	self modal: false
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SlAbstractPrompter >> beNotNoHeader [
 
 	self noHeader: false
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SlAbstractPrompter >> beNotOpen [
 
 	self open: false
 
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SlAbstractPrompter >> beOpen [
 
 	self open: true
 
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SlAbstractPrompter >> content [
 
 	"Answer the content HTML element of the receiver.
@@ -86,7 +88,7 @@ SlAbstractPrompter >> content [
 	^ self firstChildAtSlotNamed: nil
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SlAbstractPrompter >> content: aStringOrElement [
 
 	"Set the content to the specified Element.
@@ -95,7 +97,7 @@ SlAbstractPrompter >> content: aStringOrElement [
 	self replaceAllChildrenWith: aStringOrElement asHtmlElement atSlotNamed: nil
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SlAbstractPrompter >> contentText [
 
 	"Answer the content text (a String) of the receiver.
@@ -104,7 +106,7 @@ SlAbstractPrompter >> contentText [
 	^ self textContent
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SlAbstractPrompter >> contentText: aString [
 
 	"Set the content text to the specified String value.
@@ -113,19 +115,19 @@ SlAbstractPrompter >> contentText: aString [
 	self textContent: aString
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SlAbstractPrompter >> defaultFocusElement [
 
 	^ defaultFocusElement
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SlAbstractPrompter >> defaultFocusElement: anElement [
 
 	defaultFocusElement := anElement
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SlAbstractPrompter >> footer [
 
 	"Answer the footer HTML element of the receiver.
@@ -134,7 +136,7 @@ SlAbstractPrompter >> footer [
 	^ self firstChildAtSlotNamed: #footer
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SlAbstractPrompter >> footer: aStringOrElement [
 
 	"Set the footer to the specified Element.
@@ -143,7 +145,7 @@ SlAbstractPrompter >> footer: aStringOrElement [
 	self replaceAllChildrenWith: aStringOrElement asHtmlElement atSlotNamed: #footer
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SlAbstractPrompter >> footerText [
 
 	"Answer the footer text (a String) of the receiver.
@@ -154,7 +156,7 @@ SlAbstractPrompter >> footerText [
 		ifNil: [ '' ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SlAbstractPrompter >> footerText: aString [
 
 	"Set the footer text to the specified String value.
@@ -163,19 +165,19 @@ SlAbstractPrompter >> footerText: aString [
 	self footer: aString asHtmlElement
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 SlAbstractPrompter >> hasDefaultFocusElement [
 
 	^ defaultFocusElement isNotNil
 ]
 
-{ #category : #actions }
+{ #category : 'actions' }
 SlAbstractPrompter >> hide [
 
 	self apply: #hide withArguments: #() 
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 SlAbstractPrompter >> initialize [
 
 	super initialize.
@@ -187,7 +189,7 @@ SlAbstractPrompter >> initialize [
 		when: SlInitialFocusEvent send: #onInitialFocus: to: self
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 SlAbstractPrompter >> isHeader [
 
 	"Convenience method"
@@ -195,26 +197,26 @@ SlAbstractPrompter >> isHeader [
 	^ self isNoHeader not
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 SlAbstractPrompter >> isModal [
 
 	^ modal
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 SlAbstractPrompter >> isNoHeader [
 
 	^ self propertyAt: #noHeader
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 SlAbstractPrompter >> isOpen [
 
 	^ self propertyAt: #open
 
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SlAbstractPrompter >> label [
 
 	"Answer the label HTML element of the receiver.
@@ -223,7 +225,7 @@ SlAbstractPrompter >> label [
 	^ self firstChildAtSlotNamed: #label
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SlAbstractPrompter >> label: aStringOrElement [
 
 	"Set the label to the specified Element.
@@ -232,7 +234,7 @@ SlAbstractPrompter >> label: aStringOrElement [
 	self replaceAllChildrenWith: aStringOrElement asHtmlElement atSlotNamed: #label
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SlAbstractPrompter >> labelText [
 
 	"Answer the label text (a String) of the receiver.
@@ -243,7 +245,7 @@ SlAbstractPrompter >> labelText [
 		ifNil: [ '' ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SlAbstractPrompter >> labelText: aString [
 
 	"Set the label text to the specified String value.
@@ -252,20 +254,20 @@ SlAbstractPrompter >> labelText: aString [
 	self label: aString asHtmlElement
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SlAbstractPrompter >> modal: aBoolean [
 
 	modal := aBoolean
 
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SlAbstractPrompter >> noHeader: aBoolean [
 
 	self propertyAt: #noHeader put: aBoolean
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 SlAbstractPrompter >> onInitialFocus: anInitialFocusEvent [
 
 	self hasDefaultFocusElement
@@ -276,7 +278,7 @@ SlAbstractPrompter >> onInitialFocus: anInitialFocusEvent [
 
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 SlAbstractPrompter >> onModalRequestClose: aRequestCloseEvent [
 
 	"Prevent the receiver from being closed if opened modal"
@@ -285,27 +287,27 @@ SlAbstractPrompter >> onModalRequestClose: aRequestCloseEvent [
 		ifTrue: [ aRequestCloseEvent preventDefault ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SlAbstractPrompter >> open: aBoolean [
 
 	self propertyAt: #open put: aBoolean
 
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SlAbstractPrompter >> resetDefaultFocusElement [
 
 	defaultFocusElement := nil
 ]
 
-{ #category : #actions }
+{ #category : 'actions' }
 SlAbstractPrompter >> show [
 
 	self apply: #show withArguments: #()
 
 ]
 
-{ #category : #actions }
+{ #category : 'actions' }
 SlAbstractPrompter >> showFocusing: anElement [
 
 	"Show the receiver and set focus on the specified Element"
@@ -315,7 +317,7 @@ SlAbstractPrompter >> showFocusing: anElement [
 		show
 ]
 
-{ #category : #actions }
+{ #category : 'actions' }
 SlAbstractPrompter >> showModal [
 
 	"Show the receiver in modal mode"
@@ -327,7 +329,7 @@ SlAbstractPrompter >> showModal [
 
 ]
 
-{ #category : #actions }
+{ #category : 'actions' }
 SlAbstractPrompter >> showModalFocusing: anElement [
 
 	"Show the receiver modally and set focus on the specified Element"
@@ -337,7 +339,7 @@ SlAbstractPrompter >> showModalFocusing: anElement [
 		showModal
 ]
 
-{ #category : #actions }
+{ #category : 'actions' }
 SlAbstractPrompter >> showNonModal [
 
 	"Show the receiver in non modal mode"

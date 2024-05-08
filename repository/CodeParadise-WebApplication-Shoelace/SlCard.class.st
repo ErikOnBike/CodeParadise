@@ -1,15 +1,7 @@
 Class {
-	#name : 'SlRadioGroup',
+	#name : 'SlCard',
 	#superclass : 'SlElement',
 	#category : 'CodeParadise-WebApplication-Shoelace-Elements',
 	#package : 'CodeParadise-WebApplication-Shoelace',
 	#tag : 'Elements'
 }
-
-{ #category : 'evaluating' }
-SlRadioGroup >> value [
-
-	"Selected value (a String)"
-
-	^ self propertyAt: #value
-]

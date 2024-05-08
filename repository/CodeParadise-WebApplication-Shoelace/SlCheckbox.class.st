@@ -1,10 +1,12 @@
 Class {
-	#name : #SlCheckbox,
-	#superclass : #SlCheckControl,
-	#category : #'CodeParadise-WebApplication-Shoelace-Elements'
+	#name : 'SlCheckbox',
+	#superclass : 'SlCheckControl',
+	#category : 'CodeParadise-WebApplication-Shoelace-Elements',
+	#package : 'CodeParadise-WebApplication-Shoelace',
+	#tag : 'Elements'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SlCheckbox class >> label: aStringOrElement [
 
 	^ self new
@@ -12,25 +14,25 @@ SlCheckbox class >> label: aStringOrElement [
 		yourself
 ]
 
-{ #category : #'accessing style' }
+{ #category : 'accessing style' }
 SlCheckbox >> beIndeterminate [
 
 	self indeterminate: true
 ]
 
-{ #category : #'accessing style' }
+{ #category : 'accessing style' }
 SlCheckbox >> beNotIndeterminate [
 
 	self indeterminate: false
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SlCheckbox >> indeterminate: aBoolean [
 
 	self propertyAt: #indeterminate put: aBoolean
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 SlCheckbox >> isIndeterminate [
 
 	^ self propertyAt: #indeterminate

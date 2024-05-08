@@ -1,6 +1,6 @@
-Extension { #name : #String }
+Extension { #name : 'String' }
 
-{ #category : #'*CodeParadise-WebApplication-Shoelace' }
+{ #category : '*CodeParadise-WebApplication-Shoelace' }
 String >> asShoelaceIcon [
 
 	<webApplicationShoelaceExtension>

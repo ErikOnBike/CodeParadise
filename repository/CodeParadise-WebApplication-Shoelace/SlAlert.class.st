@@ -1,64 +1,66 @@
 Class {
-	#name : #SlAlert,
-	#superclass : #SlElement,
-	#category : #'CodeParadise-WebApplication-Shoelace-Elements'
+	#name : 'SlAlert',
+	#superclass : 'SlElement',
+	#category : 'CodeParadise-WebApplication-Shoelace-Elements',
+	#package : 'CodeParadise-WebApplication-Shoelace',
+	#tag : 'Elements'
 }
 
-{ #category : #'accessing style' }
+{ #category : 'accessing style' }
 SlAlert >> beClosable [
 
 	self closable: true
 ]
 
-{ #category : #'accessing variant' }
+{ #category : 'accessing variant' }
 SlAlert >> beDanger [
 
 	self variant: #danger
 ]
 
-{ #category : #'accessing variant' }
+{ #category : 'accessing variant' }
 SlAlert >> beNeutral [
 
 	self variant: #neutral
 ]
 
-{ #category : #'accessing style' }
+{ #category : 'accessing style' }
 SlAlert >> beNotClosable [
 
 	self closable: false
 ]
 
-{ #category : #'accessing style' }
+{ #category : 'accessing style' }
 SlAlert >> beNotOpen [
 
 	self open: false
 ]
 
-{ #category : #'accessing style' }
+{ #category : 'accessing style' }
 SlAlert >> beOpen [
 
 	self open: true
 ]
 
-{ #category : #'accessing variant' }
+{ #category : 'accessing variant' }
 SlAlert >> bePrimary [
 
 	self variant: #primary
 ]
 
-{ #category : #'accessing variant' }
+{ #category : 'accessing variant' }
 SlAlert >> beSuccess [
 
 	self variant: #success
 ]
 
-{ #category : #'accessing variant' }
+{ #category : 'accessing variant' }
 SlAlert >> beWarning [
 
 	self variant: #warning
 ]
 
-{ #category : #copying }
+{ #category : 'copying' }
 SlAlert >> clone [
 
 	"Deep clone the receiver.
@@ -72,67 +74,67 @@ SlAlert >> clone [
 
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SlAlert >> closable [
 
 	^ self propertyAt: #closable
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SlAlert >> closable: aBoolean [
 
 	self propertyAt: #closable put: aBoolean
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SlAlert >> duration [
 
 	^ self propertyAt: #duration
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SlAlert >> duration: aNumber [
 
 	self propertyAt: #duration put: aNumber
 ]
 
-{ #category : #actions }
+{ #category : 'actions' }
 SlAlert >> hide [
 
 	self apply: #hide withArguments: #()
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SlAlert >> open [
 
 	^ self propertyAt: #open
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SlAlert >> open: aBoolean [
 
 	self propertyAt: #open put: aBoolean
 ]
 
-{ #category : #actions }
+{ #category : 'actions' }
 SlAlert >> show [
 
 	self apply: #show withArguments: #()
 ]
 
-{ #category : #actions }
+{ #category : 'actions' }
 SlAlert >> toast [
 
 	self apply: #toast withArguments: #()
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SlAlert >> variant [
 
 	^ self propertyAt: #variant
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SlAlert >> variant: aString [
 
 	self propertyAt: #variant put: aString

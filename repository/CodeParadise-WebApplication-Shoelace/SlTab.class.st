@@ -1,10 +1,12 @@
 Class {
-	#name : #SlTab,
-	#superclass : #SlElement,
-	#category : #'CodeParadise-WebApplication-Shoelace-Elements'
+	#name : 'SlTab',
+	#superclass : 'SlElement',
+	#category : 'CodeParadise-WebApplication-Shoelace-Elements',
+	#package : 'CodeParadise-WebApplication-Shoelace',
+	#tag : 'Elements'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SlTab class >> panel: panelString labelText: labelString [
 
 	^ self new
@@ -13,31 +15,31 @@ SlTab class >> panel: panelString labelText: labelString [
 		yourself
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SlTab >> active: aBoolean [
 
 	self propertyAt: #active put: aBoolean
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SlTab >> beActive [
 
 	self active: true
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SlTab >> beClosable [
 
 	self closable: true
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SlTab >> beDisabled [
 
 	self disabled: true
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SlTab >> beEnabled [
 
 	"Convenience method to make receiver enabled"
@@ -45,25 +47,25 @@ SlTab >> beEnabled [
 	self disabled: false
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SlTab >> beNotActive [
 
 	self active: false
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SlTab >> beNotClosable [
 
 	self closable: false
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SlTab >> beNotDisabled [
 
 	self disabled: false
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SlTab >> beNotEnabled [
 
 	"Convenience method to clear the enabled state of the receiver"
@@ -71,19 +73,19 @@ SlTab >> beNotEnabled [
 	self disabled: true
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SlTab >> closable: aBoolean [
 
 	self propertyAt: #closable put: aBoolean
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SlTab >> disabled: aBoolean [
 
 	self propertyAt: #disabled put: aBoolean
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SlTab >> enabled: aBoolean [
 
 	"Convenience method to set receiver's enabled state"
@@ -91,25 +93,25 @@ SlTab >> enabled: aBoolean [
 	self disabled: aBoolean not
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SlTab >> isActive [
 
 	^ self propertyAt: #active
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SlTab >> isClosable [
 
 	^ self propertyAt: #closable
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SlTab >> isDisabled [
 
 	^ self propertyAt: #disabled
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SlTab >> isEnabled [
 
 	"Convenience method to test if receiver is enabled"
@@ -117,7 +119,7 @@ SlTab >> isEnabled [
 	^ self isDisabled not
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SlTab >> label [
 
 	"Answer the label HTML element of the receiver.
@@ -126,7 +128,7 @@ SlTab >> label [
 	^ self firstChildAtSlotNamed: nil
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SlTab >> label: aStringOrElement [
 
 	"Set the label to the specified Element.
@@ -135,7 +137,7 @@ SlTab >> label: aStringOrElement [
 	self replaceAllChildrenWith: aStringOrElement asHtmlElement atSlotNamed: nil
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SlTab >> labelText [
 
 	"Answer the label text (a String) of the receiver.
@@ -144,7 +146,7 @@ SlTab >> labelText [
 	^ self textContent
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SlTab >> labelText: aString [
 
 	"Set the label text to the specified String value.
@@ -153,13 +155,13 @@ SlTab >> labelText: aString [
 	self textContent: aString
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SlTab >> panel [
 
 	^ self propertyAt: #panel
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SlTab >> panel: aString [
 
 	self propertyAt: #panel put: aString

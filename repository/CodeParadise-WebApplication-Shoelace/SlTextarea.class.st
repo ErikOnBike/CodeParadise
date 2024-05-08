@@ -1,52 +1,54 @@
 Class {
-	#name : #SlTextarea,
-	#superclass : #SlTextControl,
-	#category : #'CodeParadise-WebApplication-Shoelace-Elements'
+	#name : 'SlTextarea',
+	#superclass : 'SlTextControl',
+	#category : 'CodeParadise-WebApplication-Shoelace-Elements',
+	#package : 'CodeParadise-WebApplication-Shoelace',
+	#tag : 'Elements'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SlTextarea >> resize [
 
 	^ self propertyAt: #resize
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SlTextarea >> resize: aString [
 
 	self propertyAt: #resize put: aString
 ]
 
-{ #category : #'accessing style' }
+{ #category : 'accessing style' }
 SlTextarea >> resizeAuto [
 
 	self resize: #auto
 ]
 
-{ #category : #'accessing style' }
+{ #category : 'accessing style' }
 SlTextarea >> resizeNone [
 
 	self resize: #none
 ]
 
-{ #category : #'accessing style' }
+{ #category : 'accessing style' }
 SlTextarea >> resizeVertical [
 
 	self resize: #vertical
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SlTextarea >> rows [
 
 	^ self propertyAt: #rows
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SlTextarea >> rows: anInteger [
 
 	self propertyAt: #rows put: anInteger
 ]
 
-{ #category : #'accessing style' }
+{ #category : 'accessing style' }
 SlTextarea >> scrollPosition [
 
 	"Gets the textarea's scroll position.
@@ -55,7 +57,7 @@ SlTextarea >> scrollPosition [
 	^ self apply: #scrollPosition withArguments: #()
 ]
 
-{ #category : #'accessing style' }
+{ #category : 'accessing style' }
 SlTextarea >> scrollPositionTop: topNumber left: leftNumber [
 
 	"Sets the textarea's scroll position"

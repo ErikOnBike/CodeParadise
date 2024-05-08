@@ -1,10 +1,12 @@
 Class {
-	#name : #SlChangeEvent,
-	#superclass : #SlEvent,
-	#category : #'CodeParadise-WebApplication-Shoelace-Events'
+	#name : 'SlChangeEvent',
+	#superclass : 'SlEvent',
+	#category : 'CodeParadise-WebApplication-Shoelace-Events',
+	#package : 'CodeParadise-WebApplication-Shoelace',
+	#tag : 'Events'
 }
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 SlChangeEvent >> handleEventForField: aSymbol inView: aView [
 
 	"Let the specified view handle the receiver event"

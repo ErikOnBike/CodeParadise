@@ -1,10 +1,12 @@
 Class {
-	#name : #SlIcon,
-	#superclass : #SlElement,
-	#category : #'CodeParadise-WebApplication-Shoelace-Elements'
+	#name : 'SlIcon',
+	#superclass : 'SlElement',
+	#category : 'CodeParadise-WebApplication-Shoelace-Elements',
+	#package : 'CodeParadise-WebApplication-Shoelace',
+	#tag : 'Elements'
 }
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 SlIcon class >> fontAwesomeNamed: aString [
 
 	^ self new
@@ -13,7 +15,7 @@ SlIcon class >> fontAwesomeNamed: aString [
 		yourself
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SlIcon class >> fullyNamed: aString [
 
 	^ self new
@@ -21,7 +23,7 @@ SlIcon class >> fullyNamed: aString [
 		yourself
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SlIcon class >> named: aString [
 
 	^ self new
@@ -29,7 +31,7 @@ SlIcon class >> named: aString [
 		yourself
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 SlIcon class >> newFontAwesome [
 
 	^ self new
@@ -37,7 +39,7 @@ SlIcon class >> newFontAwesome [
 		yourself
 ]
 
-{ #category : #'class initialization' }
+{ #category : 'class initialization' }
 SlIcon class >> registerFontAwesome [
 
 	"Register Font Awesome as icon library to load icons from CDN"
@@ -45,7 +47,7 @@ SlIcon class >> registerFontAwesome [
 	CpHtmlElement documentAddModuleScript: self registerFontAwesomeCode
 ]
 
-{ #category : #'class initialization' }
+{ #category : 'class initialization' }
 SlIcon class >> registerFontAwesomeCode [
 
 	^ String streamContents: [ :stream |
@@ -66,13 +68,13 @@ SlIcon class >> registerFontAwesomeCode [
 
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SlIcon >> beFontAwesome [
 
 	self library: 'fa'
 ]
 
-{ #category : #copying }
+{ #category : 'copying' }
 SlIcon >> clone [
 
 	"Deep clone the receiver.
@@ -87,7 +89,7 @@ SlIcon >> clone [
 
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SlIcon >> fullName: aString [
 
 	"Set the name and optionally the library for the receiver specified on the given full name.
@@ -105,37 +107,37 @@ SlIcon >> fullName: aString [
 				name: (aString allButFirst: separatorIndex) ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SlIcon >> library [
 
 	^ self propertyAt: #library
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SlIcon >> library: aString [
 
 	self propertyAt: #library put: aString
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SlIcon >> name [
 
 	^ self propertyAt: #name
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SlIcon >> name: aString [
 
 	self propertyAt: #name put: aString
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SlIcon >> src [
 
 	^ self propertyAt: #src
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SlIcon >> src: aString [
 
 	self propertyAt: #src put: aString

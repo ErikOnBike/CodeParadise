@@ -1,16 +1,18 @@
 Class {
-	#name : #SlDropdown,
-	#superclass : #SlElement,
-	#category : #'CodeParadise-WebApplication-Shoelace-Elements'
+	#name : 'SlDropdown',
+	#superclass : 'SlElement',
+	#category : 'CodeParadise-WebApplication-Shoelace-Elements',
+	#package : 'CodeParadise-WebApplication-Shoelace',
+	#tag : 'Elements'
 }
 
-{ #category : #'accessing style' }
+{ #category : 'accessing style' }
 SlDropdown >> beDisabled [
 
 	self disabled: true
 ]
 
-{ #category : #'accessing style' }
+{ #category : 'accessing style' }
 SlDropdown >> beEnabled [
 
 	"Convenience method to make receiver enabled"
@@ -18,25 +20,25 @@ SlDropdown >> beEnabled [
 	self disabled: false
 ]
 
-{ #category : #'accessing style' }
+{ #category : 'accessing style' }
 SlDropdown >> beHoist [
 
 	self hoist: true
 ]
 
-{ #category : #'accessing style' }
+{ #category : 'accessing style' }
 SlDropdown >> beOpen [
 
 	self open: true
 ]
 
-{ #category : #'accessing style' }
+{ #category : 'accessing style' }
 SlDropdown >> beStayOpenOnSelect [
 
 	self stayOpenOnSelect: true
 ]
 
-{ #category : #copying }
+{ #category : 'copying' }
 SlDropdown >> clone [
 
 	"Deep clone the receiver.
@@ -53,31 +55,31 @@ SlDropdown >> clone [
 
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SlDropdown >> containingElement [
 
 	^ self propertyAt: #containingElement
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SlDropdown >> disabled: aBoolean [
 
 	self propertyAt: #disabled put: aBoolean
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SlDropdown >> distance [
 
 	^ self propertyAt: #distance
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SlDropdown >> distance: aNumber [
 
 	self propertyAt: #distance put: aNumber
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SlDropdown >> enabled: aBoolean [
 
 	"Convenience method to set receiver's enabled state"
@@ -85,19 +87,19 @@ SlDropdown >> enabled: aBoolean [
 	self disabled: aBoolean not
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SlDropdown >> hoist: aBoolean [
 
 	self propertyAt: #hoist put: aBoolean
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 SlDropdown >> isDisabled [
 
 	^ self propertyAt: #disabled
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 SlDropdown >> isEnabled [
 
 	"Convenience method to test if receiver is enabled"
@@ -105,127 +107,127 @@ SlDropdown >> isEnabled [
 	^ self isDisabled not
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 SlDropdown >> isHoist [
 
 	^ self propertyAt: #hoist
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 SlDropdown >> isOpen [
 
 	^ self propertyAt: #open
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 SlDropdown >> isStayOpenOnSelect [
 
 	^ self propertyAt: #stayOpenOnSelect
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SlDropdown >> open: aBoolean [
 
 	self propertyAt: #open put: aBoolean
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SlDropdown >> placement [
 
 	^ self propertyAt: #placement
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SlDropdown >> placement: aString [
 
 	self propertyAt: #placement put: aString
 ]
 
-{ #category : #'accessing placement' }
+{ #category : 'accessing placement' }
 SlDropdown >> placementBottom [
 
 	self placement: #bottom
 ]
 
-{ #category : #'accessing placement' }
+{ #category : 'accessing placement' }
 SlDropdown >> placementBottomEnd [
 
 	self placement: #'bottom-end'
 ]
 
-{ #category : #'accessing placement' }
+{ #category : 'accessing placement' }
 SlDropdown >> placementBottomStart [
 
 	self placement: #'bottom-start'
 ]
 
-{ #category : #'accessing placement' }
+{ #category : 'accessing placement' }
 SlDropdown >> placementLeft [
 
 	self placement: #'left'
 ]
 
-{ #category : #'accessing placement' }
+{ #category : 'accessing placement' }
 SlDropdown >> placementLeftEnd [
 
 	self placement: #'left-end'
 ]
 
-{ #category : #'accessing placement' }
+{ #category : 'accessing placement' }
 SlDropdown >> placementLeftStart [
 
 	self placement: #'left-start'
 ]
 
-{ #category : #'accessing placement' }
+{ #category : 'accessing placement' }
 SlDropdown >> placementRight [
 
 	self placement: #'right'
 ]
 
-{ #category : #'accessing placement' }
+{ #category : 'accessing placement' }
 SlDropdown >> placementRightEnd [
 
 	self placement: #'right-end'
 ]
 
-{ #category : #'accessing placement' }
+{ #category : 'accessing placement' }
 SlDropdown >> placementRightStart [
 
 	self placement: #'right-start'
 ]
 
-{ #category : #'accessing placement' }
+{ #category : 'accessing placement' }
 SlDropdown >> placementTop [
 
 	self placement: #top
 ]
 
-{ #category : #'accessing placement' }
+{ #category : 'accessing placement' }
 SlDropdown >> placementTopEnd [
 
 	self placement: #'top-end'
 ]
 
-{ #category : #'accessing placement' }
+{ #category : 'accessing placement' }
 SlDropdown >> placementTopStart [
 
 	self placement: #'top-start'
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SlDropdown >> skidding [
 
 	^ self propertyAt: #skidding
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SlDropdown >> skidding: aNumber [
 
 	self propertyAt: #skidding put: aNumber
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SlDropdown >> stayOpenOnSelect: aBoolean [
 
 	self propertyAt: #stayOpenOnSelect put: aBoolean

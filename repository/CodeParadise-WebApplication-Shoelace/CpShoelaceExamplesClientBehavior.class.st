@@ -1,10 +1,12 @@
 Class {
-	#name : #CpShoelaceExamplesClientBehavior,
-	#superclass : #CpWebClientBehavior,
-	#category : #'CodeParadise-WebApplication-Shoelace-Examples'
+	#name : 'CpShoelaceExamplesClientBehavior',
+	#superclass : 'CpWebClientBehavior',
+	#category : 'CodeParadise-WebApplication-Shoelace-Examples',
+	#package : 'CodeParadise-WebApplication-Shoelace',
+	#tag : 'Examples'
 }
 
-{ #category : #examples }
+{ #category : 'examples' }
 CpShoelaceExamplesClientBehavior >> exampleButton [
 
 	<example: 'Button' order: 100>
@@ -68,7 +70,7 @@ CpShoelaceExamplesClientBehavior >> exampleButton [
 
 ]
 
-{ #category : #examples }
+{ #category : 'examples' }
 CpShoelaceExamplesClientBehavior >> exampleButtonGroup [
 
 	<example: 'ButtonGroup' order: 100>
@@ -87,7 +89,7 @@ CpShoelaceExamplesClientBehavior >> exampleButtonGroup [
 
 ]
 
-{ #category : #examples }
+{ #category : 'examples' }
 CpShoelaceExamplesClientBehavior >> exampleCheckbox [
 
 	<example: 'Checkbox' order: 100>
@@ -110,7 +112,7 @@ CpShoelaceExamplesClientBehavior >> exampleCheckbox [
 			yourself)
 ]
 
-{ #category : #examples }
+{ #category : 'examples' }
 CpShoelaceExamplesClientBehavior >> exampleCode [
 
 	<example: 'Code' order: 900>
@@ -142,7 +144,7 @@ CpShoelaceExamplesClientBehavior >> exampleCode [
 	outputElement insertChild: button before: (outputElement firstDescendantMatching: #div).
 ]
 
-{ #category : #examples }
+{ #category : 'examples' }
 CpShoelaceExamplesClientBehavior >> exampleDialog [
 
 	<example: 'Dialog' order: 200>
@@ -227,7 +229,7 @@ CpShoelaceExamplesClientBehavior >> exampleDialog [
 
 ]
 
-{ #category : #examples }
+{ #category : 'examples' }
 CpShoelaceExamplesClientBehavior >> exampleDrawer [
 
 	<example: 'Drawer' order: 200>
@@ -273,7 +275,7 @@ CpShoelaceExamplesClientBehavior >> exampleDrawer [
 
 ]
 
-{ #category : #examples }
+{ #category : 'examples' }
 CpShoelaceExamplesClientBehavior >> exampleIcon [
 
 	<example: 'Icon' order: 100>
@@ -292,7 +294,7 @@ CpShoelaceExamplesClientBehavior >> exampleIcon [
 
 ]
 
-{ #category : #examples }
+{ #category : 'examples' }
 CpShoelaceExamplesClientBehavior >> exampleInput [
 
 	<example: 'Input' order: 100>
@@ -339,7 +341,7 @@ CpShoelaceExamplesClientBehavior >> exampleInput [
 
 ]
 
-{ #category : #examples }
+{ #category : 'examples' }
 CpShoelaceExamplesClientBehavior >> exampleRange [
 
 	<example: 'Range' order: 100>
@@ -374,7 +376,7 @@ CpShoelaceExamplesClientBehavior >> exampleRange [
 		yourself)
 ]
 
-{ #category : #examples }
+{ #category : 'examples' }
 CpShoelaceExamplesClientBehavior >> exampleSelect [
 
 	<example: 'Select' order: 100>
@@ -415,7 +417,7 @@ CpShoelaceExamplesClientBehavior >> exampleSelect [
 			yourself)
 ]
 
-{ #category : #examples }
+{ #category : 'examples' }
 CpShoelaceExamplesClientBehavior >> exampleSwitch [
 
 	<example: 'Switch' order: 100>
@@ -434,7 +436,7 @@ CpShoelaceExamplesClientBehavior >> exampleSwitch [
 		appendChild: (SlSwitch new beDisabled ; beChecked ; yourself)
 ]
 
-{ #category : #examples }
+{ #category : 'examples' }
 CpShoelaceExamplesClientBehavior >> exampleTabGroup [
 
 	<example: 'TabGroup' order: 100>
@@ -478,7 +480,7 @@ CpShoelaceExamplesClientBehavior >> exampleTabGroup [
 
 ]
 
-{ #category : #examples }
+{ #category : 'examples' }
 CpShoelaceExamplesClientBehavior >> exampleTextarea [
 
 	<example: 'Textarea' order: 100>
@@ -517,7 +519,7 @@ CpShoelaceExamplesClientBehavior >> exampleTextarea [
 
 ]
 
-{ #category : #examples }
+{ #category : 'examples' }
 CpShoelaceExamplesClientBehavior >> exampleTooltip [
 
 	<example: 'Tooltip' order: 100>
@@ -552,7 +554,7 @@ CpShoelaceExamplesClientBehavior >> exampleTooltip [
 		appendChild: (SlTooltip new contentText: 'You clicked for me?' ; triggerClick ; appendChild: (SlButton label: 'Tooltip via click') ; yourself)
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 CpShoelaceExamplesClientBehavior >> initialize [
 
 	super initialize.
@@ -560,13 +562,13 @@ CpShoelaceExamplesClientBehavior >> initialize [
 	self showIndex
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpShoelaceExamplesClientBehavior >> outputElement [
 
 	^ CpHtmlElement documentBody firstDescendantMatching: '#output'
 ]
 
-{ #category : #examples }
+{ #category : 'examples' }
 CpShoelaceExamplesClientBehavior >> showIndex [
 
 	"Beware: this method is NOT to be taken as exemplar for creating a UI.

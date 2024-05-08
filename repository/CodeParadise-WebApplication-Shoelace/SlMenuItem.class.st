@@ -1,10 +1,12 @@
 Class {
-	#name : #SlMenuItem,
-	#superclass : #SlElement,
-	#category : #'CodeParadise-WebApplication-Shoelace-Elements'
+	#name : 'SlMenuItem',
+	#superclass : 'SlElement',
+	#category : 'CodeParadise-WebApplication-Shoelace-Elements',
+	#package : 'CodeParadise-WebApplication-Shoelace',
+	#tag : 'Elements'
 }
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 SlMenuItem class >> value: aSymbol label: aStringOrElement [
 
 	^ self new
@@ -13,7 +15,7 @@ SlMenuItem class >> value: aSymbol label: aStringOrElement [
 		yourself
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 SlMenuItem class >> value: aSymbol labelText: aString [
 
 	^ self new
@@ -22,19 +24,19 @@ SlMenuItem class >> value: aSymbol labelText: aString [
 		yourself
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SlMenuItem >> beChecked [
 
 	self checked: true
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SlMenuItem >> beDisabled [
 
 	self disabled: true
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SlMenuItem >> beEnabled [
 
 	"Convenience method to make receiver enabled"
@@ -42,19 +44,19 @@ SlMenuItem >> beEnabled [
 	self disabled: false
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SlMenuItem >> beNotChecked [
 
 	self checked: false
 ]
 
-{ #category : #'accessing style' }
+{ #category : 'accessing style' }
 SlMenuItem >> beNotDisabled [
 
 	self disabled: false
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SlMenuItem >> beNotEnabled [
 
 	"Convenience method to clear the enabled state of the receiver"
@@ -62,13 +64,13 @@ SlMenuItem >> beNotEnabled [
 	self disabled: true
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SlMenuItem >> checked: aBoolean [
 
 	self propertyAt: #checked put: aBoolean
 ]
 
-{ #category : #copying }
+{ #category : 'copying' }
 SlMenuItem >> clone [
 
 	"Deep clone the receiver.
@@ -82,13 +84,13 @@ SlMenuItem >> clone [
 
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SlMenuItem >> disabled: aBoolean [
 
 	self propertyAt: #disabled put: aBoolean
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SlMenuItem >> enabled: aBoolean [
 
 	"Convenience method to set receiver's enabled state"
@@ -96,19 +98,19 @@ SlMenuItem >> enabled: aBoolean [
 	self disabled: aBoolean not
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SlMenuItem >> isChecked [
 
 	^ self propertyAt: #checked
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SlMenuItem >> isDisabled [
 
 	^ self propertyAt: #disabled
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SlMenuItem >> isEnabled [
 
 	"Convenience method to test if receiver is enabled"
@@ -116,7 +118,7 @@ SlMenuItem >> isEnabled [
 	^ self isDisabled not
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SlMenuItem >> label [
 
 	"Answer the label HTML element of the receiver.
@@ -125,7 +127,7 @@ SlMenuItem >> label [
 	^ self firstChildAtSlotNamed: nil
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SlMenuItem >> label: aStringOrElement [
 
 	"Set the label to the specified Element.
@@ -134,7 +136,7 @@ SlMenuItem >> label: aStringOrElement [
 	self replaceAllChildrenWith: aStringOrElement asHtmlElement atSlotNamed: nil
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SlMenuItem >> labelText [
 
 	"Answer the label text (a String) of the receiver.
@@ -143,7 +145,7 @@ SlMenuItem >> labelText [
 	^ self textContent
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SlMenuItem >> labelText: aString [
 
 	"Set the label text to the specified String value.
@@ -152,37 +154,37 @@ SlMenuItem >> labelText: aString [
 	self textContent: aString
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SlMenuItem >> prefix [
 
 	^ self firstChildAtSlotNamed: #prefix
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SlMenuItem >> prefix: anElement [
 
 	self replaceAllChildrenWith: anElement atSlotNamed: #prefix
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SlMenuItem >> suffix [
 
 	^ self firstChildAtSlotNamed: #suffix
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SlMenuItem >> suffix: anElement [
 
 	self replaceAllChildrenWith: anElement atSlotNamed: #suffix
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SlMenuItem >> value [
 
 	^ self propertyAt: #value
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SlMenuItem >> value: aString [
 
 	self propertyAt: #value put: aString asString

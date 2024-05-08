@@ -1,10 +1,12 @@
 Class {
-	#name : #SlEvent,
-	#superclass : #CpCustomEvent,
-	#category : #'CodeParadise-WebApplication-Shoelace-Events'
+	#name : 'SlEvent',
+	#superclass : 'CpCustomEvent',
+	#category : 'CodeParadise-WebApplication-Shoelace-Events',
+	#package : 'CodeParadise-WebApplication-Shoelace',
+	#tag : 'Events'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SlEvent class >> type [
 
 	"Answer the JavaScript type (a String) representing the receiver.

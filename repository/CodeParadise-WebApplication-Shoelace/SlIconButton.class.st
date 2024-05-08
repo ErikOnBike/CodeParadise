@@ -1,16 +1,18 @@
 Class {
-	#name : #SlIconButton,
-	#superclass : #SlIcon,
-	#category : #'CodeParadise-WebApplication-Shoelace-Elements'
+	#name : 'SlIconButton',
+	#superclass : 'SlIcon',
+	#category : 'CodeParadise-WebApplication-Shoelace-Elements',
+	#package : 'CodeParadise-WebApplication-Shoelace',
+	#tag : 'Elements'
 }
 
-{ #category : #'accessing style' }
+{ #category : 'accessing style' }
 SlIconButton >> beDisabled [
 
 	self disabled: true
 ]
 
-{ #category : #'accessing style' }
+{ #category : 'accessing style' }
 SlIconButton >> beEnabled [
 
 	"Convenience method to make receiver enabled"
@@ -18,13 +20,13 @@ SlIconButton >> beEnabled [
 	self disabled: false
 ]
 
-{ #category : #'accessing style' }
+{ #category : 'accessing style' }
 SlIconButton >> beNotDisabled [
 
 	self disabled: false
 ]
 
-{ #category : #'accessing style' }
+{ #category : 'accessing style' }
 SlIconButton >> beNotEnabled [
 
 	"Convenience method to clear the enabled state of the receiver"
@@ -32,25 +34,25 @@ SlIconButton >> beNotEnabled [
 	self disabled: true
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SlIconButton >> disabled: aBoolean [
 
 	self propertyAt: #disabled put: aBoolean
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SlIconButton >> download [
 
 	^ self propertyAt: #download
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SlIconButton >> download: aString [
 
 	self propertyAt: #download put: aString
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SlIconButton >> enabled: aBoolean [
 
 	"Convenience method to set receiver's enabled state"
@@ -58,13 +60,13 @@ SlIconButton >> enabled: aBoolean [
 	self disabled: aBoolean not
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 SlIconButton >> isDisabled [
 
 	^ self propertyAt: #disabled
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 SlIconButton >> isEnabled [
 
 	"Convenience method to test if receiver is enabled"
@@ -72,19 +74,19 @@ SlIconButton >> isEnabled [
 	^ self isDisabled not
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SlIconButton >> link [
 
 	^ self propertyAt: #href
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SlIconButton >> link: aString [
 
 	self propertyAt: #href put: aString
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SlIconButton >> link: linkString download: downloadString [
 
 	self
@@ -92,7 +94,7 @@ SlIconButton >> link: linkString download: downloadString [
 		download: downloadString
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SlIconButton >> link: linkString target: targetString [
 
 	self
@@ -100,37 +102,37 @@ SlIconButton >> link: linkString target: targetString [
 		target: targetString
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SlIconButton >> target [
 
 	^ self propertyAt: #target
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 SlIconButton >> target: aString [
 
 	self propertyAt: #target put: aString
 ]
 
-{ #category : #'accessing target' }
+{ #category : 'accessing target' }
 SlIconButton >> targetBlank [
 
 	self target: #'_blank'
 ]
 
-{ #category : #'accessing target' }
+{ #category : 'accessing target' }
 SlIconButton >> targetParent [
 
 	self target: #'_parent'
 ]
 
-{ #category : #'accessing target' }
+{ #category : 'accessing target' }
 SlIconButton >> targetSelf [
 
 	self target: #'_self'
 ]
 
-{ #category : #'accessing target' }
+{ #category : 'accessing target' }
 SlIconButton >> targetTop [
 
 	self target: #'_top'
