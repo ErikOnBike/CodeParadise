@@ -83,12 +83,6 @@ SlTextControl >> autocomplete: aString [
 ]
 
 { #category : 'accessing' }
-SlTextControl >> autocompleteOff [
-
-	^ self autocomplete: #off
-]
-
-{ #category : 'accessing' }
 SlTextControl >> autocompleteOn [
 
 	^ self autocomplete: #on
@@ -104,12 +98,6 @@ SlTextControl >> autocorrect [
 SlTextControl >> autocorrect: aString [
 
 	self propertyAt: #autocorrect put: aString
-]
-
-{ #category : 'accessing' }
-SlTextControl >> autocorrectOff [
-
-	^ self autocorrect: #off
 ]
 
 { #category : 'accessing' }
