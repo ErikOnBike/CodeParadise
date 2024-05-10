@@ -13,7 +13,7 @@ CpJavaScriptEvent >> cancelable [
 
 	"A boolean value indicating whether the event is cancelable."
 
-	^ self apply: #cancelable
+	^ self propertyAt: #cancelable
 ]
 
 { #category : #accessing }
@@ -21,7 +21,7 @@ CpJavaScriptEvent >> currentTarget [
 
 	"A reference to the currently registered target for the event. This is the object to which the event is currently slated to be sent. It's possible this has been changed along the way through retargeting."
 
-	^ self apply: #currentTarget
+	^ self propertyAt: #currentTarget
 ]
 
 { #category : #accessing }
@@ -29,7 +29,7 @@ CpJavaScriptEvent >> defaultPrevented [
 
 	"Indicates whether or not the call to event.preventDefault() canceled the event."
 
-	^ self apply: #defaultPrevented
+	^ self propertyAt: #defaultPrevented
 ]
 
 { #category : #accessing }
@@ -37,7 +37,7 @@ CpJavaScriptEvent >> isTrusted [
 
 	"Indicates whether or not the event was initiated by the browser (after a user click, for instance) or by a script (using an event creation method, for example)."
 
-	^ self apply: #isTrusted
+	^ self propertyAt: #isTrusted
 ]
 
 { #category : #operations }
@@ -71,7 +71,7 @@ CpJavaScriptEvent >> target [
 
 	"A reference to the object to which the event was originally dispatched."
 
-	^ self apply: #target
+	^ self propertyAt: #target
 ]
 
 { #category : #accessing }
@@ -79,7 +79,7 @@ CpJavaScriptEvent >> timeStamp [
 
 	"The time at which the event was created (in milliseconds). By specification, this value is time since epoch—but in reality, browsers' definitions vary. In addition, work is underway to change this to be a DOMHighResTimeStamp instead."
 
-	^ self apply: #timeStamp
+	^ self propertyAt: #timeStamp
 ]
 
 { #category : #accessing }
@@ -87,5 +87,5 @@ CpJavaScriptEvent >> type [
 
 	"The name identifying the type of the event."
 
-	^ self apply: #type
+	^ self propertyAt: #type
 ]
