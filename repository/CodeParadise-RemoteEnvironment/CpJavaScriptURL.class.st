@@ -28,6 +28,22 @@ CpJavaScriptURL class >> createObjectURL: anObject [
 	^ self apply: #createObjectURL withArguments: { anObject }
 ]
 
+{ #category : #'instance creation' }
+CpJavaScriptURL class >> newUrl: aString [
+
+	"Creates and returns a URL object referencing the URL specified using an absolute URL string, or a relative URL string and a base URL string."
+
+	^ self newUrl: aString base: nil
+]
+
+{ #category : #'instance creation' }
+CpJavaScriptURL class >> newUrl: urlString base: baseString [
+
+	"Creates and returns a URL object referencing the URL specified using an absolute URL string, or a relative URL string and a base URL string."
+
+	^ self newInstanceWithArguments: { urlString . baseString }
+]
+
 { #category : #operations }
 CpJavaScriptURL class >> revokeObjectURL: aString [
 
