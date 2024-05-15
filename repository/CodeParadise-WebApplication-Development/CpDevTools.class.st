@@ -1,34 +1,36 @@
 Class {
-	#name : #CpDevTools,
-	#superclass : #Object,
-	#category : #'CodeParadise-WebApplication-Development-Tools'
+	#name : 'CpDevTools',
+	#superclass : 'Object',
+	#category : 'CodeParadise-WebApplication-Development-Tools',
+	#package : 'CodeParadise-WebApplication-Development',
+	#tag : 'Tools'
 }
 
-{ #category : #actions }
+{ #category : 'actions' }
 CpDevTools class >> actionApplications [ 
 
 	^ [ CpServerApplication allSubInstances inspect ]
 ]
 
-{ #category : #actions }
+{ #category : 'actions' }
 CpDevTools class >> actionOpen [ 
 
 	^ [ self open ]
 ]
 
-{ #category : #actions }
+{ #category : 'actions' }
 CpDevTools class >> actionReload [ 
 
 	^ [ self resetSession ]
 ]
 
-{ #category : #actions }
+{ #category : 'actions' }
 CpDevTools class >> actionReset [ 
 
 	^ [ self restart ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpDevTools class >> allApplications [
 
 	"Answer all the defined applications (both browser and Node.js based).
@@ -40,7 +42,7 @@ CpDevTools class >> allApplications [
 		reject: [ :each | each hasAbstractTag ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpDevTools class >> allWebApplications [
 
 	"Answer all the defined web applications (i.e. only browser based applications)"
@@ -49,12 +51,12 @@ CpDevTools class >> allWebApplications [
 		select: [ :each | each inheritsFrom: CpWebApplication ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpDevTools class >> defaultPort [ 
 	^8080
 ]
 
-{ #category : #'message handling' }
+{ #category : 'message handling' }
 CpDevTools class >> handleClientError: aClientError for: aServerEnvironment [
 
 	| application presenter |
@@ -79,7 +81,7 @@ CpDevTools class >> handleClientError: aClientError for: aServerEnvironment [
 			{ 'An error occurred in the Client Environment' . aClientError . aServerEnvironment } inspect ]
 ]
 
-{ #category : #scripts }
+{ #category : 'scripts' }
 CpDevTools class >> open [
 	"Open a Web Browser on a selected application"
 	<script>
@@ -96,7 +98,7 @@ CpDevTools class >> open [
 			WebBrowser openOn: 'http://localhost:8080/static/app.html?', choice ]
 ]
 
-{ #category : #scripts }
+{ #category : 'scripts' }
 CpDevTools class >> resetSession [
 	"Reset the browser session for the selected application"
 	<script>
@@ -117,14 +119,14 @@ CpDevTools class >> resetSession [
 			choice release ]
 ]
 
-{ #category : #scripts }
+{ #category : 'scripts' }
 CpDevTools class >> restart [ 
 	<script>
 
 	self stop; start
 ]
 
-{ #category : #scripts }
+{ #category : 'scripts' }
 CpDevTools class >> start [
 	"Start a server and examples"
 	<script>
@@ -148,7 +150,7 @@ CpDevTools class >> start [
 		} asDictionary
 ]
 
-{ #category : #scripts }
+{ #category : 'scripts' }
 CpDevTools class >> stop [
 	"Stop all server instances and applications"
 	<script>
@@ -175,7 +177,7 @@ CpDevTools class >> stop [
 	Smalltalk garbageCollect
 ]
 
-{ #category : #menu }
+{ #category : 'menu' }
 CpDevTools class >> worldMenuCommandOn: aBuilder [
 
 	"Create the world menu for some Dev Tools.

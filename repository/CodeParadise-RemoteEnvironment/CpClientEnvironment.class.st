@@ -26,8 +26,8 @@ It is only possible to keep objects inside the announcement which can be encoded
 
 "
 Class {
-	#name : #CpClientEnvironment,
-	#superclass : #CpEnvironment,
+	#name : 'CpClientEnvironment',
+	#superclass : 'CpEnvironment',
 	#instVars : [
 		'objectRegistry',
 		'installedClasses'
@@ -36,16 +36,18 @@ Class {
 		'Current',
 		'PreInstalledClasses'
 	],
-	#category : #'CodeParadise-RemoteEnvironment-Core'
+	#category : 'CodeParadise-RemoteEnvironment-Core',
+	#package : 'CodeParadise-RemoteEnvironment',
+	#tag : 'Core'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpClientEnvironment class >> communicatorClass [
 
 	^ CpClientCommunicator
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpClientEnvironment class >> current [
 
 	"Answer the current instance of the receiver"
@@ -53,7 +55,7 @@ CpClientEnvironment class >> current [
 	^ Current ifNil: [ Current := self basicNew initialize ; yourself ]
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 CpClientEnvironment class >> hasPreInstalledClass: aClass [
 
 	"Answer whether the specified Class is pre-installed in the receiver"
@@ -61,32 +63,32 @@ CpClientEnvironment class >> hasPreInstalledClass: aClass [
 	^ self preInstalledClasses includes: aClass
 ]
 
-{ #category : #installing }
+{ #category : 'installing' }
 CpClientEnvironment class >> installReconnectStrategy: aReconnectStrategy [
 
 	self current communicator
 		reconnectStrategy: aReconnectStrategy
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 CpClientEnvironment class >> isPlatformLinux [
 
 	^ self current platform == #linux
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 CpClientEnvironment class >> isPlatformMacOS [
 
 	^ self current platform == #macos
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 CpClientEnvironment class >> isPlatformWindows [
 
 	^ self current platform == #windows
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 CpClientEnvironment class >> isRunning [
 
 	"Answer whether the ClientEnvironment is running/active"
@@ -94,7 +96,7 @@ CpClientEnvironment class >> isRunning [
 	^ Current notNil
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 CpClientEnvironment class >> new [
 
 	"Use self >> #current instead to get the singleton instance"
@@ -102,7 +104,7 @@ CpClientEnvironment class >> new [
 	self shouldNotImplement
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpClientEnvironment class >> preInstalledClasses [
 
 	"Answer the Classes which are pre-installed in the receiver (image/environment)"
@@ -203,7 +205,7 @@ CpClientEnvironment class >> preInstalledClasses [
 		yourself ]
 ]
 
-{ #category : #dependencies }
+{ #category : 'dependencies' }
 CpClientEnvironment class >> release [
 
 	"Release the receiver, resetting all Class variables"
@@ -212,13 +214,13 @@ CpClientEnvironment class >> release [
 	PreInstalledClasses := nil
 ]
 
-{ #category : #constants }
+{ #category : 'constants' }
 CpClientEnvironment class >> variableNameApp [ 
 
 	^ #APP
 ]
 
-{ #category : #'user interaction' }
+{ #category : 'user interaction' }
 CpClientEnvironment >> alert: aString [
 
 	"Alert user with specified message (please use sparsely).
@@ -231,7 +233,7 @@ CpClientEnvironment >> alert: aString [
 	^ self
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpClientEnvironment >> app [
 
 	"Answer a Symbol identifying the application that is running.
@@ -242,7 +244,7 @@ CpClientEnvironment >> app [
 		ifNil: [ self fatal: 'The environment variable ' , self class variableNameApp printString , ' is not properly set' ]
 ]
 
-{ #category : #'user interaction' }
+{ #category : 'user interaction' }
 CpClientEnvironment >> confirm: aString [
 
 	"Confirm specified message with user (please use sparsely).
@@ -256,7 +258,7 @@ CpClientEnvironment >> confirm: aString [
 
 ]
 
-{ #category : #support }
+{ #category : 'support' }
 CpClientEnvironment >> createCommunicator [
 
 	"Create a new communicator for the receiver which is connected to the server
@@ -267,7 +269,7 @@ CpClientEnvironment >> createCommunicator [
 		yourself
 ]
 
-{ #category : #performing }
+{ #category : 'performing' }
 CpClientEnvironment >> createInstanceOf: className withId: identifier [
 
 	"Create an instance of the specified Class and register it in the receiver's
@@ -287,7 +289,7 @@ CpClientEnvironment >> createInstanceOf: className withId: identifier [
 	^ instance
 ]
 
-{ #category : #support }
+{ #category : 'support' }
 CpClientEnvironment >> exit [
 
 	"Stop execution.
@@ -299,7 +301,7 @@ CpClientEnvironment >> exit [
 		release
 ]
 
-{ #category : #'error signalling' }
+{ #category : 'error signalling' }
 CpClientEnvironment >> fatal: aString [
 
 	"Signal a fatal situation has occurred.
@@ -308,7 +310,7 @@ CpClientEnvironment >> fatal: aString [
 	self alert: 'FATAL: ', aString
 ]
 
-{ #category : #performing }
+{ #category : 'performing' }
 CpClientEnvironment >> globalApply: aSymbol withArguments: anArray [
 
 	"Perform the specified symbol on the global scope (ie 'window' in the browser
@@ -322,7 +324,7 @@ CpClientEnvironment >> globalApply: aSymbol withArguments: anArray [
 	self primitiveFailed
 ]
 
-{ #category : #'input/output' }
+{ #category : 'input/output' }
 CpClientEnvironment >> handleMessageReceived: aByteArray [
 
 	"Handle (encoded) message received through the receiver's communicator.
@@ -354,7 +356,7 @@ CpClientEnvironment >> handleMessageReceived: aByteArray [
 	self postInstallClasses
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpClientEnvironment >> handleMessageSend: aMessageSend [
 
 	"Perform the MessageSend assuming the MessageSend's receiver is encoded as
@@ -392,7 +394,7 @@ CpClientEnvironment >> handleMessageSend: aMessageSend [
 			description: error description) ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpClientEnvironment >> id: identifier [
 
 	"Set the identifier of the receiver. Register this identifier (persistently) for later usage
@@ -403,7 +405,7 @@ CpClientEnvironment >> id: identifier [
 	self variableAt: #CLIENT_ID put: identifier
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 CpClientEnvironment >> initialize [
 
 	"Initialize the receiver with the previously registered/persisted identifier (if any)"
@@ -416,7 +418,7 @@ CpClientEnvironment >> initialize [
 	installedClasses := OrderedCollection new
 ]
 
-{ #category : #installing }
+{ #category : 'installing' }
 CpClientEnvironment >> installClass: aClass [
 
 	"Install (decoded) Class"
@@ -424,7 +426,7 @@ CpClientEnvironment >> installClass: aClass [
 	installedClasses add: aClass
 ]
 
-{ #category : #installing }
+{ #category : 'installing' }
 CpClientEnvironment >> installMethod: aCompiledMethod [
 
 	"Install (decoded) CompiledMethod"
@@ -433,7 +435,7 @@ CpClientEnvironment >> installMethod: aCompiledMethod [
 
 ]
 
-{ #category : #performing }
+{ #category : 'performing' }
 CpClientEnvironment >> invalidSession [
 
 	"An invalid session is encountered, ask user whether to start new session"
@@ -447,7 +449,7 @@ CpClientEnvironment >> invalidSession [
 		reload
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpClientEnvironment >> objectRegistry [
 
 	"Answer the receiver's object registry. The registry is needed for the server
@@ -456,7 +458,7 @@ CpClientEnvironment >> objectRegistry [
 	^ objectRegistry
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpClientEnvironment >> persistentVariableAt: nameString [
 
 	"Answer the value (a String) of the persisted environment variable with the specified name
@@ -468,7 +470,7 @@ CpClientEnvironment >> persistentVariableAt: nameString [
 	^ nil
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpClientEnvironment >> persistentVariableAt: nameString put: valueString [
 
 	"Set the persisted environment variable with the specified name to the specified value.
@@ -479,14 +481,14 @@ CpClientEnvironment >> persistentVariableAt: nameString put: valueString [
 	self primitiveFailed
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpClientEnvironment >> platform [
 
 	^ (self variableAt: #OS)
 		ifNotNil: [ :platform | platform asSymbol ]
 ]
 
-{ #category : #installing }
+{ #category : 'installing' }
 CpClientEnvironment >> postInstallClasses [
 
 	"Perform the post install method for all installed classes"
@@ -505,7 +507,7 @@ CpClientEnvironment >> postInstallClasses [
 	installedClasses removeAll
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 CpClientEnvironment >> release [
 
 	"Release instance variables"
@@ -515,7 +517,7 @@ CpClientEnvironment >> release [
 	super release
 ]
 
-{ #category : #performing }
+{ #category : 'performing' }
 CpClientEnvironment >> reload [
 
 	"Reload the receiver (changes might get lost, use sparsely)"
@@ -525,7 +527,7 @@ CpClientEnvironment >> reload [
 
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpClientEnvironment >> removePersistentVariableAt: nameString [
 
 	"Remove the persisted environment variable with the specified name.
@@ -536,13 +538,13 @@ CpClientEnvironment >> removePersistentVariableAt: nameString [
 	^ self
 ]
 
-{ #category : #performing }
+{ #category : 'performing' }
 CpClientEnvironment >> removeSession [
 
 	self removeVariableAt: #CLIENT_ID
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpClientEnvironment >> removeVariableAt: nameString [
 
 	"Remove the environment variable with the specified name.
@@ -552,7 +554,7 @@ CpClientEnvironment >> removeVariableAt: nameString [
 	^ self
 ]
 
-{ #category : #'input/output' }
+{ #category : 'input/output' }
 CpClientEnvironment >> serverAnnounce: anAnnouncement [
 
 	"Send the specified Announcement back to the server"
@@ -563,7 +565,7 @@ CpClientEnvironment >> serverAnnounce: anAnnouncement [
 		bytes)
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpClientEnvironment >> serverUrl [
 
 	"Answer the URL (as a String) of the server environment.
@@ -573,7 +575,7 @@ CpClientEnvironment >> serverUrl [
 		ifNil: [ self fatal: 'The environment variable #SERVER_URL is not properly set' ]
 ]
 
-{ #category : #support }
+{ #category : 'support' }
 CpClientEnvironment >> startCommunication [
 
 	"Start communication with server"
@@ -584,7 +586,7 @@ CpClientEnvironment >> startCommunication [
 	self serverAnnounce: (CpClientStarted variables: self variables)
 ]
 
-{ #category : #support }
+{ #category : 'support' }
 CpClientEnvironment >> stopCommunication [
 
 	"Stop communication with server"
@@ -594,7 +596,7 @@ CpClientEnvironment >> stopCommunication [
 	super stopCommunication
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpClientEnvironment >> variableAt: nameString [
 
 	"Answer the value (a String) of the environment variable with the specified name
@@ -605,7 +607,7 @@ CpClientEnvironment >> variableAt: nameString [
 	^ nil
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpClientEnvironment >> variableAt: nameString put: valueString [
 
 	"Set the environment variable with the specified name to the specified value.
@@ -615,7 +617,7 @@ CpClientEnvironment >> variableAt: nameString put: valueString [
 	self primitiveFailed
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpClientEnvironment >> variableNames [
 
 	"Answer an array with the names of available environment variables."

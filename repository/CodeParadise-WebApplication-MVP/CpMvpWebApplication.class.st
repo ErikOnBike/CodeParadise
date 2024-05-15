@@ -9,31 +9,33 @@ My instance keeps track of all Presenters. This allows for:
 
 "
 Class {
-	#name : #CpMvpWebApplication,
-	#superclass : #CpWebApplication,
+	#name : 'CpMvpWebApplication',
+	#superclass : 'CpWebApplication',
 	#instVars : [
 		'announcer',
 		'applicationPresenter',
 		'presentersById',
 		'lastAnnouncementTimestamp'
 	],
-	#category : #'CodeParadise-WebApplication-MVP-Core'
+	#category : 'CodeParadise-WebApplication-MVP-Core',
+	#package : 'CodeParadise-WebApplication-MVP',
+	#tag : 'Core'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpMvpWebApplication class >> clientBehaviorClass [
 
 	^ CpMvpWebClientBehavior
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 CpMvpWebApplication class >> isAbstractTag [
 
 	"The method is present to indicate the receiver is abstract.
 	This method will NOT be evaluated to decide if the receiver is abstract."
 ]
 
-{ #category : #presenter }
+{ #category : 'presenter' }
 CpMvpWebApplication >> allPresentersDo: aBlock [
 
 	"Evaluate the specified Block for all Presenters. The child Presenters
@@ -44,19 +46,19 @@ CpMvpWebApplication >> allPresentersDo: aBlock [
 	applicationPresenter allPresentersDo: aBlock
 ]
 
-{ #category : #announcing }
+{ #category : 'announcing' }
 CpMvpWebApplication >> announce: anAnnouncement [
 
 	self announcer announce: anAnnouncement
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpMvpWebApplication >> announcer [
 
 	^ announcer
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpMvpWebApplication >> applicationModel [
 
 	"Answer the Model for the receiver. It might be the receiver itself!"
@@ -64,7 +66,7 @@ CpMvpWebApplication >> applicationModel [
 	self subclassResponsibility
 ]
 
-{ #category : #presenter }
+{ #category : 'presenter' }
 CpMvpWebApplication >> applicationPresenter [
 
 	"Answer the ApplicationPresenter of the receiver"
@@ -72,7 +74,7 @@ CpMvpWebApplication >> applicationPresenter [
 	^ applicationPresenter
 ]
 
-{ #category : #presenter }
+{ #category : 'presenter' }
 CpMvpWebApplication >> applicationPresenterClass [
 
 	"Answer the Presenter class for the application model of the receiver.
@@ -87,7 +89,7 @@ CpMvpWebApplication >> applicationPresenterClass [
 	^ self applicationModel preferredPresenterClass
 ]
 
-{ #category : #view }
+{ #category : 'view' }
 CpMvpWebApplication >> clientCreateViewForPresenter: aPresenter [
 
 	"Create a new View in the ClientEnvironment for the specified Presenter"
@@ -110,7 +112,7 @@ CpMvpWebApplication >> clientCreateViewForPresenter: aPresenter [
 
 ]
 
-{ #category : #view }
+{ #category : 'view' }
 CpMvpWebApplication >> clientCreateViews [
 
 	"Create all the client Views for the Presenters of the receiver.
@@ -126,7 +128,7 @@ CpMvpWebApplication >> clientCreateViews [
 	self allPresentersDo: [ :each | each renderView ]
 ]
 
-{ #category : #presenter }
+{ #category : 'presenter' }
 CpMvpWebApplication >> generatePresenterIdentifier [
 
 	"Generate an unique identifier for a presenter of the receiver"
@@ -134,7 +136,7 @@ CpMvpWebApplication >> generatePresenterIdentifier [
 	^ (IdentifierGenerator generateSatisfying: [ :id | (presentersById includesKey: id) not ]) asSymbol
 ]
 
-{ #category : #'announcement handling' }
+{ #category : 'announcement handling' }
 CpMvpWebApplication >> handleViewAnnouncement: aViewAnnouncement [
 
 	"Let the server side view (ie ViewProxy) announce the announcement
@@ -159,7 +161,7 @@ CpMvpWebApplication >> handleViewAnnouncement: aViewAnnouncement [
 
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 CpMvpWebApplication >> initialize [
 
 	"Initialize the receiver.
@@ -174,7 +176,7 @@ CpMvpWebApplication >> initialize [
 	lastAnnouncementTimestamp := DateAndTime now
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpMvpWebApplication >> lastUsedTimestamp [
 
 	"Answer the DateAndTime the receiver is last used (from the client perspective)"
@@ -182,7 +184,7 @@ CpMvpWebApplication >> lastUsedTimestamp [
 	^ lastAnnouncementTimestamp
 ]
 
-{ #category : #actions }
+{ #category : 'actions' }
 CpMvpWebApplication >> load [
 
 	"Perform the initial loading of the receiver"
@@ -194,13 +196,13 @@ CpMvpWebApplication >> load [
 		createView
 ]
 
-{ #category : #presenter }
+{ #category : 'presenter' }
 CpMvpWebApplication >> presenterWithId: identifier ifAbsent: aBlock [
 
 	^ presentersById at: identifier ifAbsent: aBlock
 ]
 
-{ #category : #presenter }
+{ #category : 'presenter' }
 CpMvpWebApplication >> registerPresenter: aPresenter [
 
 	"Register the specified Presenter and answer the Presenter.
@@ -215,7 +217,7 @@ CpMvpWebApplication >> registerPresenter: aPresenter [
 	^ presentersById at: aPresenter id asSymbol put: aPresenter
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 CpMvpWebApplication >> release [
 
 	"Release the receivers resources"
@@ -237,7 +239,7 @@ CpMvpWebApplication >> release [
 	super release
 ]
 
-{ #category : #actions }
+{ #category : 'actions' }
 CpMvpWebApplication >> reload [
 
 	"Perform reloading of the receiver"
@@ -251,7 +253,7 @@ CpMvpWebApplication >> reload [
 	self clientCreateViews
 ]
 
-{ #category : #announcing }
+{ #category : 'announcing' }
 CpMvpWebApplication >> removeInterestIn: anAnnouncementClass for: anObject [
 
 	"Remove the interest for the specified AnnouncementClass and specified
@@ -260,13 +262,13 @@ CpMvpWebApplication >> removeInterestIn: anAnnouncementClass for: anObject [
 	self announcer removeInterestIn: anAnnouncementClass for: anObject
 ]
 
-{ #category : #presenter }
+{ #category : 'presenter' }
 CpMvpWebApplication >> removePresenter: aPresenter [
 
 	^ presentersById removeKey: aPresenter id asSymbol
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 CpMvpWebApplication >> setUp [
 
 	"Setup the receiver to handle view events from client"
@@ -277,7 +279,7 @@ CpMvpWebApplication >> setUp [
 		when: CpViewAnnouncement send: #handleViewAnnouncement: to: self
 ]
 
-{ #category : #announcing }
+{ #category : 'announcing' }
 CpMvpWebApplication >> unsubscribe: anObject [
 
 	"Unsubscribe the specified Object from Announcements of the receiver"
@@ -285,7 +287,7 @@ CpMvpWebApplication >> unsubscribe: anObject [
 	^ self announcer unsubscribe: anObject
 ]
 
-{ #category : #announcing }
+{ #category : 'announcing' }
 CpMvpWebApplication >> when: anAnnouncementClass send: aSymbol to: anObject [
 
 	"Let the sender subscribe to the specified announcement of the receiver.
@@ -294,7 +296,7 @@ CpMvpWebApplication >> when: anAnnouncementClass send: aSymbol to: anObject [
 	^ self announcer when: anAnnouncementClass send: aSymbol to: anObject
 ]
 
-{ #category : #announcing }
+{ #category : 'announcing' }
 CpMvpWebApplication >> whenChangedSend: aSymbol to: anObject [
 
 	"Let the sender subscribe to the value changed announcement of the receiver

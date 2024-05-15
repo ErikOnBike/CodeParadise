@@ -1,10 +1,12 @@
 Class {
-	#name : #CpRadioButtonGroup,
-	#superclass : #CpControlGroup,
-	#category : #'CodeParadise-Beach-Components'
+	#name : 'CpRadioButtonGroup',
+	#superclass : 'CpControlGroup',
+	#category : 'CodeParadise-Beach-Components',
+	#package : 'CodeParadise-Beach',
+	#tag : 'Components'
 }
 
-{ #category : #'web resources' }
+{ #category : 'web resources' }
 CpRadioButtonGroup class >> style [
 
 	<webResource: #css>
@@ -31,7 +33,7 @@ CpRadioButtonGroup class >> style [
 		}'
 ]
 
-{ #category : #'web resources' }
+{ #category : 'web resources' }
 CpRadioButtonGroup class >> template [
 
 	<webResource: #html>
@@ -39,7 +41,7 @@ CpRadioButtonGroup class >> template [
 	^ '<slot></slot>'
 ]
 
-{ #category : #'adding/removing' }
+{ #category : 'adding/removing' }
 CpRadioButtonGroup >> appendChild: childElement [
 
 	"Append radio button to the receiver"
@@ -54,7 +56,7 @@ CpRadioButtonGroup >> appendChild: childElement [
 	^ childElement
 ]
 
-{ #category : #'state handling' }
+{ #category : 'state handling' }
 CpRadioButtonGroup >> beReadOnly [
 
 	"Make the receiver read only.
@@ -68,7 +70,7 @@ CpRadioButtonGroup >> beReadOnly [
 			self children do: [ :each | each beReadOnlySecondary ] ]
 ]
 
-{ #category : #'state handling' }
+{ #category : 'state handling' }
 CpRadioButtonGroup >> beWritable [
 
 	"Make the receiver writable.
@@ -82,13 +84,13 @@ CpRadioButtonGroup >> beWritable [
 			self children do: [ :each | each beWritableSecondary ] ]
 ]
 
-{ #category : #'state handling' }
+{ #category : 'state handling' }
 CpRadioButtonGroup >> deselectAll [
 
 	self children do: [ :each | each deselect ]
 ]
 
-{ #category : #'state handling' }
+{ #category : 'state handling' }
 CpRadioButtonGroup >> deselectAllBut: anElement [
 
 	self children do: [ :each |
@@ -96,7 +98,7 @@ CpRadioButtonGroup >> deselectAllBut: anElement [
 			ifFalse: [ each deselect ] ]
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 CpRadioButtonGroup >> handleSelectionChanged: aSelectionChanged [
 
 	| selectedElement |
@@ -107,7 +109,7 @@ CpRadioButtonGroup >> handleSelectionChanged: aSelectionChanged [
 	self deselectAllBut: selectedElement
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 CpRadioButtonGroup >> initialize [
 
 	super initialize.
@@ -115,7 +117,7 @@ CpRadioButtonGroup >> initialize [
 	self children do: [ :each | self registerEventHandlerFor: each ]
 ]
 
-{ #category : #'adding/removing' }
+{ #category : 'adding/removing' }
 CpRadioButtonGroup >> insertChild: childElement before: siblingElement [
 
 	"Insert radio button before the specified sibling into the receiver"
@@ -130,13 +132,13 @@ CpRadioButtonGroup >> insertChild: childElement before: siblingElement [
 	^ childElement
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 CpRadioButtonGroup >> registerEventHandlerFor: anElement [
 
 	anElement when: CpSelectionChanged send: #handleSelectionChanged: to: self
 ]
 
-{ #category : #'adding/removing' }
+{ #category : 'adding/removing' }
 CpRadioButtonGroup >> removeChild: childElement [
 
 	"Remove the child element from the receiver. Answer the removed child."
@@ -149,7 +151,7 @@ CpRadioButtonGroup >> removeChild: childElement [
 	^ childElement
 ]
 
-{ #category : #'adding/removing' }
+{ #category : 'adding/removing' }
 CpRadioButtonGroup >> replaceChild: childElement with: replacementElement [
 
 	"Replace the specified existing radio button with specified replacement"
@@ -168,7 +170,7 @@ CpRadioButtonGroup >> replaceChild: childElement with: replacementElement [
 	^ replacementElement
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 CpRadioButtonGroup >> unregisterEventHandlerFor: anElement [
 
 	anElement unsubscribe: self

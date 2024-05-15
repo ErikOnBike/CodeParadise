@@ -1,10 +1,12 @@
 Class {
-	#name : #CpBrowserScreenOrientation,
-	#superclass : #CpJavaScriptEventTarget,
-	#category : #'CodeParadise-Browser-Support-Screen'
+	#name : 'CpBrowserScreenOrientation',
+	#superclass : 'CpJavaScriptEventTarget',
+	#category : 'CodeParadise-Browser-Support-Screen',
+	#package : 'CodeParadise-Browser-Support',
+	#tag : 'Screen'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpBrowserScreenOrientation >> angle [
 
 	"Returns the document's current orientation angle."
@@ -12,7 +14,7 @@ CpBrowserScreenOrientation >> angle [
 	^ self propertyAt: #angle
 ]
 
-{ #category : #operations }
+{ #category : 'operations' }
 CpBrowserScreenOrientation >> lock: aString [
 
 	"Locks the orientation of the containing document to its default orientation and returns a Promise."
@@ -56,7 +58,7 @@ CpBrowserScreenOrientation >> lock: aString [
 	^ self apply: #lock withArguments: { aString } resultAs: CpJavaScriptPromise
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 CpBrowserScreenOrientation >> onChangeDo: aBlock [
 
 	"Fired whenever the screen changes orientation."
@@ -67,7 +69,7 @@ CpBrowserScreenOrientation >> onChangeDo: aBlock [
 	^ self addEventListener: #change handler: aBlock
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 CpBrowserScreenOrientation >> removeChangeHandler: aFunction [
 
 	"Remove an earlier installed event listener
@@ -76,7 +78,7 @@ CpBrowserScreenOrientation >> removeChangeHandler: aFunction [
 	self removeEventListener: #change handler: aFunction
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpBrowserScreenOrientation >> type [
 
 	"Returns the document's current orientation type, one of ""portrait-primary"", ""portrait-secondary"", ""landscape-primary"", or ""landscape-secondary""."
@@ -84,7 +86,7 @@ CpBrowserScreenOrientation >> type [
 	^ self propertyAt: #type
 ]
 
-{ #category : #operations }
+{ #category : 'operations' }
 CpBrowserScreenOrientation >> unlock [
 
 	"Unlocks the orientation of the containing document from its default orientation."

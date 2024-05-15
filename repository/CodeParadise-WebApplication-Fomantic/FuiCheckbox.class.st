@@ -1,34 +1,36 @@
 Class {
-	#name : #FuiCheckbox,
-	#superclass : #FuiElement,
-	#category : #'CodeParadise-WebApplication-Fomantic-Elements'
+	#name : 'FuiCheckbox',
+	#superclass : 'FuiElement',
+	#category : 'CodeParadise-WebApplication-Fomantic-Elements',
+	#package : 'CodeParadise-WebApplication-Fomantic',
+	#tag : 'Elements'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FuiCheckbox class >> allStates [
 
 	^ #(#'read-only' #checked #indeterminate #disabled)
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FuiCheckbox class >> allTypes [
 
 	^ #(#slider #toggle #radio)
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FuiCheckbox class >> allVariations [
 
 	^ #(#fitted #inverted)
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FuiCheckbox class >> baseElementTagName [
 
 	^ #div
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 FuiCheckbox class >> new [
 
 	"Answer a new HTML element for the checkbox input field"
@@ -41,7 +43,7 @@ FuiCheckbox class >> new [
 		yourself
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 FuiCheckbox class >> newLabeled: aString [
 
 	"Answer a new HTML element for the checkbox input field with specified label"
@@ -60,7 +62,7 @@ FuiCheckbox class >> newLabeled: aString [
 	^ checkbox
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 FuiCheckbox class >> newNamed: aSymbol andLabeled: aString [
 
 	"Answer a new HTML element for the checkbox input field named (aSymbol) with specified label"
@@ -74,43 +76,43 @@ FuiCheckbox class >> newNamed: aSymbol andLabeled: aString [
 	^ checkbox
 ]
 
-{ #category : #'accessing - state' }
+{ #category : 'accessing - state' }
 FuiCheckbox >> beDeterminate [
 
 	^ self performOnElement: 'set determinate'
 ]
 
-{ #category : #'accessing - variation' }
+{ #category : 'accessing - variation' }
 FuiCheckbox >> beFitted [
 
 	self addVariation: #fitted
 ]
 
-{ #category : #'accessing - state' }
+{ #category : 'accessing - state' }
 FuiCheckbox >> beIndeterminate [
 
 	^ self performOnElement: 'set indeterminate'
 ]
 
-{ #category : #'accessing - variation' }
+{ #category : 'accessing - variation' }
 FuiCheckbox >> beInverted [
 
 	self addVariation: #inverted
 ]
 
-{ #category : #'accessing - variation' }
+{ #category : 'accessing - variation' }
 FuiCheckbox >> beNotFitted [
 
 	self removeVariation: #fitted
 ]
 
-{ #category : #'accessing - variation' }
+{ #category : 'accessing - variation' }
 FuiCheckbox >> beNotInverted [
 
 	self removeVariation: #inverted
 ]
 
-{ #category : #'accessing - type' }
+{ #category : 'accessing - type' }
 FuiCheckbox >> beRadio [
 
 	self setType: #radio ofTypes: self class allTypes.
@@ -118,25 +120,25 @@ FuiCheckbox >> beRadio [
 		propertyAt: #type put: #radio
 ]
 
-{ #category : #'accessing - state' }
+{ #category : 'accessing - state' }
 FuiCheckbox >> beReadOnly [
 
 	^ self addState: #'read-only'
 ]
 
-{ #category : #'accessing - state' }
+{ #category : 'accessing - state' }
 FuiCheckbox >> beReadWrite [
 
 	^ self removeState: #'read-only'
 ]
 
-{ #category : #'accessing - type' }
+{ #category : 'accessing - type' }
 FuiCheckbox >> beRegular [
 
 	^ self setType: nil ofTypes: self class allTypes
 ]
 
-{ #category : #'accessing - type' }
+{ #category : 'accessing - type' }
 FuiCheckbox >> beSlider [
 
 	self setType: #slider ofTypes: self class allTypes.
@@ -144,7 +146,7 @@ FuiCheckbox >> beSlider [
 		propertyAt: #type put: #checkbox
 ]
 
-{ #category : #'accessing - type' }
+{ #category : 'accessing - type' }
 FuiCheckbox >> beToggle [
 
 	self setType: #toggle ofTypes: self class allTypes.
@@ -152,31 +154,31 @@ FuiCheckbox >> beToggle [
 		propertyAt: #type put: #checkbox
 ]
 
-{ #category : #'accessing - state' }
+{ #category : 'accessing - state' }
 FuiCheckbox >> check [
 
 	^ self performOnElement: 'set checked'
 ]
 
-{ #category : #'accessing - state' }
+{ #category : 'accessing - state' }
 FuiCheckbox >> disable [
 
 	^ self performOnElement: 'set disabled'
 ]
 
-{ #category : #'accessing - state' }
+{ #category : 'accessing - state' }
 FuiCheckbox >> enable [
 
 	^ self performOnElement: 'set enabled'
 ]
 
-{ #category : #'accessing - state' }
+{ #category : 'accessing - state' }
 FuiCheckbox >> uncheck [
 
 	^ self performOnElement: 'set unchecked'
 ]
 
-{ #category : #events }
+{ #category : 'events' }
 FuiCheckbox >> whenChangedSend: aSelector to: anObject [
 
 	^ (self firstDescendantMatching: #input)

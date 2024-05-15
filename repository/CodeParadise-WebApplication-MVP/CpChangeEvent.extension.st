@@ -1,6 +1,6 @@
-Extension { #name : #CpChangeEvent }
+Extension { #name : 'CpChangeEvent' }
 
-{ #category : #'*CodeParadise-WebApplication-MVP' }
+{ #category : '*CodeParadise-WebApplication-MVP' }
 CpChangeEvent >> handleEventForField: aSymbol inView: aView [
 
 	"Let the specified view handle the receiver event"

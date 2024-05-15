@@ -12,12 +12,14 @@ synchronous way.
 
 "
 Class {
-	#name : #CpCallbackEvaluator,
-	#superclass : #Object,
-	#category : #'CodeParadise-RemoteEnvironment-Support'
+	#name : 'CpCallbackEvaluator',
+	#superclass : 'Object',
+	#category : 'CodeParadise-RemoteEnvironment-Support',
+	#package : 'CodeParadise-RemoteEnvironment',
+	#tag : 'Support'
 }
 
-{ #category : #'processing - private' }
+{ #category : 'processing - private' }
 CpCallbackEvaluator class >> createCallbackEvaluatorProcess [
 
 	"Create an callback evaluation process, register it and start it"
@@ -43,7 +45,7 @@ CpCallbackEvaluator class >> createCallbackEvaluatorProcess [
 	callbackEvaluatorProcess resume
 ]
 
-{ #category : #'processing - private' }
+{ #category : 'processing - private' }
 CpCallbackEvaluator class >> currentCallbackBlockAndArguments [
 
 	"Answer the current callback block and arguments (anArray) as an Array
@@ -53,7 +55,7 @@ CpCallbackEvaluator class >> currentCallbackBlockAndArguments [
 	self primitiveFailed
 ]
 
-{ #category : #'processing - private' }
+{ #category : 'processing - private' }
 CpCallbackEvaluator class >> currentCallbackResult: anObject [
 
 	"Store the result for the current callback.
@@ -63,7 +65,7 @@ CpCallbackEvaluator class >> currentCallbackResult: anObject [
 	self primitiveFailed
 ]
 
-{ #category : #'processing - private' }
+{ #category : 'processing - private' }
 CpCallbackEvaluator class >> evaluateCallback [
 
 	"Evaluate the current callback"
@@ -95,7 +97,7 @@ CpCallbackEvaluator class >> evaluateCallback [
 	self currentCallbackResult: result
 ]
 
-{ #category : #'class initialization' }
+{ #category : 'class initialization' }
 CpCallbackEvaluator class >> postInstallOnce [
 
 	"Register the callback evaluation process once"
@@ -103,7 +105,7 @@ CpCallbackEvaluator class >> postInstallOnce [
 	self registerCallbackEvaluatorProcess
 ]
 
-{ #category : #'class initialization' }
+{ #category : 'class initialization' }
 CpCallbackEvaluator class >> postSnapshotOnce [
 
 	"Register the callback evaluation process once"
@@ -111,7 +113,7 @@ CpCallbackEvaluator class >> postSnapshotOnce [
 	self registerCallbackEvaluatorProcess
 ]
 
-{ #category : #'processing - private' }
+{ #category : 'processing - private' }
 CpCallbackEvaluator class >> registerCallbackEvaluatorProcess [
 
 	"Register a new or reregister the existing callback evaluation process"
@@ -125,7 +127,7 @@ CpCallbackEvaluator class >> registerCallbackEvaluatorProcess [
 	self createCallbackEvaluatorProcess
 ]
 
-{ #category : #'processing - private' }
+{ #category : 'processing - private' }
 CpCallbackEvaluator class >> registerCallbackEvaluatorProcess: eventHandlerProcess [
 
 	"Register the process which handles callback evaluation to allow it to be activated when a callback is executed"

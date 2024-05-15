@@ -1,10 +1,12 @@
 Class {
-	#name : #CpComponentExamplesClientBehavior,
-	#superclass : #CpMvpWebClientBehavior,
-	#category : #'CodeParadise-Beach-Examples'
+	#name : 'CpComponentExamplesClientBehavior',
+	#superclass : 'CpMvpWebClientBehavior',
+	#category : 'CodeParadise-Beach-Examples',
+	#package : 'CodeParadise-Beach',
+	#tag : 'Examples'
 }
 
-{ #category : #examples }
+{ #category : 'examples' }
 CpComponentExamplesClientBehavior >> exampleButtons [
 
 	<example: 'Buttons' order: 200>
@@ -146,7 +148,7 @@ CpComponentExamplesClientBehavior >> exampleButtons [
 
 ]
 
-{ #category : #examples }
+{ #category : 'examples' }
 CpComponentExamplesClientBehavior >> exampleCheckboxes [
 
 	<example: 'Checkboxes' order: 300>
@@ -174,7 +176,7 @@ CpComponentExamplesClientBehavior >> exampleCheckboxes [
 			ifTrue: [ element disable ] ]
 ]
 
-{ #category : #examples }
+{ #category : 'examples' }
 CpComponentExamplesClientBehavior >> exampleDraggableWindows [
 
 	<example: 'Draggable windows' order: 500>
@@ -194,7 +196,7 @@ CpComponentExamplesClientBehavior >> exampleDraggableWindows [
 	CpHtmlElement documentBody appendChild: window
 ]
 
-{ #category : #examples }
+{ #category : 'examples' }
 CpComponentExamplesClientBehavior >> exampleLinks [
 
 	<example: 'Links' order: 100>
@@ -209,7 +211,7 @@ CpComponentExamplesClientBehavior >> exampleLinks [
 	outputElement appendChild: ((CpLink label: 'Disabled link') disable ; yourself)
 ]
 
-{ #category : #examples }
+{ #category : 'examples' }
 CpComponentExamplesClientBehavior >> exampleRadioButtons [
 
 	<example: 'Radio buttons' order: 310>
@@ -244,7 +246,7 @@ CpComponentExamplesClientBehavior >> exampleRadioButtons [
 
 ]
 
-{ #category : #examples }
+{ #category : 'examples' }
 CpComponentExamplesClientBehavior >> exampleRichTextField [
 
 	"Temporary remove this example, because it is no longer working"
@@ -271,7 +273,7 @@ CpComponentExamplesClientBehavior >> exampleRichTextField [
 		yourself)
 ]
 
-{ #category : #examples }
+{ #category : 'examples' }
 CpComponentExamplesClientBehavior >> exampleTextField [
 
 	<example: 'Text fields' order: 400>
@@ -297,13 +299,13 @@ CpComponentExamplesClientBehavior >> exampleTextField [
 		yourself)
 ]
 
-{ #category : #events }
+{ #category : 'events' }
 CpComponentExamplesClientBehavior >> handleFocusEvent: aFocusEvent [
 
 	self traceCr: aFocusEvent printString
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 CpComponentExamplesClientBehavior >> initialize [
 
 	super initialize.
@@ -311,13 +313,13 @@ CpComponentExamplesClientBehavior >> initialize [
 	self showIndex
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpComponentExamplesClientBehavior >> outputElement [
 
 	^ CpHtmlElement documentBody firstDescendantMatching: '#output'
 ]
 
-{ #category : #examples }
+{ #category : 'examples' }
 CpComponentExamplesClientBehavior >> showIndex [
 
 	"Beware: this method is not to be taken as exemplar for creating a UI.
@@ -407,7 +409,7 @@ CpComponentExamplesClientBehavior >> showIndex [
 		example when: CpPrimaryClickEvent send: item key to: self ]
 ]
 
-{ #category : #explanation }
+{ #category : 'explanation' }
 CpComponentExamplesClientBehavior >> textFieldExplanation [
 
 	^ 'This is a very early first beta trial prototype experiment thing

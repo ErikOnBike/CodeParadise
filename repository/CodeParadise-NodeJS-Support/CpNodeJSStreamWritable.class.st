@@ -1,10 +1,12 @@
 Class {
-	#name : #CpNodeJSStreamWritable,
-	#superclass : #CpJavaScriptEventTarget,
-	#category : #'CodeParadise-NodeJS-Support-Stream'
+	#name : 'CpNodeJSStreamWritable',
+	#superclass : 'CpJavaScriptEventTarget',
+	#category : 'CodeParadise-NodeJS-Support-Stream',
+	#package : 'CodeParadise-NodeJS-Support',
+	#tag : 'Stream'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpNodeJSStreamWritable class >> module [
 
 	"Answer the module the receiver is part of"
@@ -12,7 +14,7 @@ CpNodeJSStreamWritable class >> module [
 	^ CpNodeJSStream
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpNodeJSStreamWritable >> closed [
 
 	"Is true after 'close' has been emitted."
@@ -20,7 +22,7 @@ CpNodeJSStreamWritable >> closed [
 	^ self propertyAt: #closed
 ]
 
-{ #category : #operations }
+{ #category : 'operations' }
 CpNodeJSStreamWritable >> cork [
 
 	"The writable.cork() method forces all written data to be buffered in memory. The buffered
@@ -37,13 +39,13 @@ CpNodeJSStreamWritable >> cork [
 	self apply: #cork
 ]
 
-{ #category : #operations }
+{ #category : 'operations' }
 CpNodeJSStreamWritable >> destroy [
 
 	self destroyWithError: nil
 ]
 
-{ #category : #operations }
+{ #category : 'operations' }
 CpNodeJSStreamWritable >> destroyWithError: anError [
 
 	"Destroy the stream. Optionally emit an 'error' event, and emit a 'close' event (unless emitClose
@@ -56,7 +58,7 @@ CpNodeJSStreamWritable >> destroyWithError: anError [
 	self apply: #destroy withArguments: { anError }
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpNodeJSStreamWritable >> destroyed [
 
 	"Is true after writable.destroy() has been called."
@@ -64,7 +66,7 @@ CpNodeJSStreamWritable >> destroyed [
 	^ self propertyAt: #destroyed
 ]
 
-{ #category : #operations }
+{ #category : 'operations' }
 CpNodeJSStreamWritable >> end [
 
 	"Calling the writable.end() method signals that no more data will be written to the Writable.
@@ -76,19 +78,19 @@ CpNodeJSStreamWritable >> end [
 	self apply: #end
 ]
 
-{ #category : #operations }
+{ #category : 'operations' }
 CpNodeJSStreamWritable >> endWithChunk: anObject [
 
 	self endWithChunk: anObject encoding: nil thenDo: nil
 ]
 
-{ #category : #operations }
+{ #category : 'operations' }
 CpNodeJSStreamWritable >> endWithChunk: anObject encoding: aString [
 
 	self endWithChunk: anObject encoding: aString thenDo: nil
 ]
 
-{ #category : #operations }
+{ #category : 'operations' }
 CpNodeJSStreamWritable >> endWithChunk: anObject encoding: aString thenDo: aBlock [
 
 	"Calling the writable.end() method signals that no more data will be written to the Writable.
@@ -100,13 +102,13 @@ CpNodeJSStreamWritable >> endWithChunk: anObject encoding: aString thenDo: aBloc
 	self apply: #end withArguments: { anObject . aString . aBlock }
 ]
 
-{ #category : #operations }
+{ #category : 'operations' }
 CpNodeJSStreamWritable >> endWithChunk: anObject thenDo: aBlock [
 
 	self endWithChunk: anObject encoding: nil thenDo: aBlock
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpNodeJSStreamWritable >> errored [
 
 	"Returns error if the stream has been destroyed with an error."
@@ -114,7 +116,7 @@ CpNodeJSStreamWritable >> errored [
 	^ self propertyAt: #errored
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 CpNodeJSStreamWritable >> onCloseDo: aBlock [
 
 	"The 'close' event is emitted when the stream and any of its underlying resources (a file descriptor,
@@ -129,7 +131,7 @@ CpNodeJSStreamWritable >> onCloseDo: aBlock [
 	^ self addEventListener: #close handler: aBlock
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 CpNodeJSStreamWritable >> onDrainDo: aBlock [
 
 	"If a call to stream.write(chunk) returns false, the 'drain' event will be emitted when it is appropriate to resume writing data to the stream."
@@ -140,7 +142,7 @@ CpNodeJSStreamWritable >> onDrainDo: aBlock [
 	^ self addEventListener: #drain handler: aBlock
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 CpNodeJSStreamWritable >> onErrorDo: aBlock [
 
 	"The 'error' event is emitted if an error occurred while writing or piping data. The listener
@@ -159,7 +161,7 @@ CpNodeJSStreamWritable >> onErrorDo: aBlock [
 	^ self addEventListener: #error handler: aBlock
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 CpNodeJSStreamWritable >> onFinishDo: aBlock [
 
 	"The 'finish' event is emitted after the stream.end() method has been called, and all data has been flushed to the underlying system."
@@ -170,7 +172,7 @@ CpNodeJSStreamWritable >> onFinishDo: aBlock [
 	^ self addEventListener: #finish handler: aBlock
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 CpNodeJSStreamWritable >> onPipeDo: aBlock [
 
 	"The 'pipe' event is emitted when the stream.pipe() method is called on a readable stream, adding this writable to its set of destinations.
@@ -183,7 +185,7 @@ CpNodeJSStreamWritable >> onPipeDo: aBlock [
 	^ self addEventListener: #pipe handler: aBlock
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 CpNodeJSStreamWritable >> onUnpipeDo: aBlock [
 
 	"The 'unpipe' event is emitted when the stream.unpipe() method is called on a Readable stream, removing this Writable from its set of destinations.
@@ -198,7 +200,7 @@ CpNodeJSStreamWritable >> onUnpipeDo: aBlock [
 	^ self addEventListener: #unpipe handler: aBlock
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 CpNodeJSStreamWritable >> removeCloseHandler: aFunction [
 
 	"Remove an earlier installed event listener
@@ -207,7 +209,7 @@ CpNodeJSStreamWritable >> removeCloseHandler: aFunction [
 	self removeEventListener: #close handler: aFunction
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 CpNodeJSStreamWritable >> removeDrainHandler: aFunction [
 
 	"Remove an earlier installed event listener
@@ -216,7 +218,7 @@ CpNodeJSStreamWritable >> removeDrainHandler: aFunction [
 	self removeEventListener: #drain handler: aFunction
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 CpNodeJSStreamWritable >> removeErrorHandler: aFunction [
 
 	"Remove an earlier installed event listener
@@ -225,7 +227,7 @@ CpNodeJSStreamWritable >> removeErrorHandler: aFunction [
 	self removeEventListener: #error handler: aFunction
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 CpNodeJSStreamWritable >> removeFinishHandler: aFunction [
 
 	"Remove an earlier installed event listener
@@ -234,7 +236,7 @@ CpNodeJSStreamWritable >> removeFinishHandler: aFunction [
 	self removeEventListener: #finish handler: aFunction
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 CpNodeJSStreamWritable >> removePipeHandler: aFunction [
 
 	"Remove an earlier installed event listener
@@ -243,7 +245,7 @@ CpNodeJSStreamWritable >> removePipeHandler: aFunction [
 	self removeEventListener: #pipe handler: aFunction
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 CpNodeJSStreamWritable >> removeUnpipeHandler: aFunction [
 
 	"Remove an earlier installed event listener
@@ -252,7 +254,7 @@ CpNodeJSStreamWritable >> removeUnpipeHandler: aFunction [
 	self removeEventListener: #unpipe handler: aFunction
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpNodeJSStreamWritable >> setDefaultEncoding: aString [
 
 	"The writable.setDefaultEncoding() method sets the default encoding for a Writable stream."
@@ -260,7 +262,7 @@ CpNodeJSStreamWritable >> setDefaultEncoding: aString [
 	self apply: #setDefaultEncoding withArguments: { aString }
 ]
 
-{ #category : #operations }
+{ #category : 'operations' }
 CpNodeJSStreamWritable >> uncork [
 
 	"The writable.uncork() method flushes all data buffered since stream.cork() was called.
@@ -272,7 +274,7 @@ CpNodeJSStreamWritable >> uncork [
 	self apply: #uncork
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpNodeJSStreamWritable >> writable [
 
 	"Is true if it is safe to call writable.write(), which means the stream has not been destroyed, errored, or ended."
@@ -280,7 +282,7 @@ CpNodeJSStreamWritable >> writable [
 	^ self propertyAt: #writable
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpNodeJSStreamWritable >> writableCorked [
 
 	"Number of times writable.uncork() needs to be called in order to fully uncork the stream."
@@ -288,7 +290,7 @@ CpNodeJSStreamWritable >> writableCorked [
 	^ self propertyAt: #writableCorked
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpNodeJSStreamWritable >> writableEnded [
 
 	"Is true after writable.end() has been called. This property does not indicate whether the data has been flushed, for this use writable.writableFinished instead."
@@ -296,7 +298,7 @@ CpNodeJSStreamWritable >> writableEnded [
 	^ self propertyAt: #writableEnded
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpNodeJSStreamWritable >> writableFinised [
 
 	"Is set to true immediately before the 'finish' event is emitted."
@@ -304,7 +306,7 @@ CpNodeJSStreamWritable >> writableFinised [
 	^ self propertyAt: #writableFinished
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpNodeJSStreamWritable >> writableHighWaterMark [
 
 	"Return the value of highWaterMark passed when creating this Writable."
@@ -312,7 +314,7 @@ CpNodeJSStreamWritable >> writableHighWaterMark [
 	^ self propertyAt: #writableHighWaterMark
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpNodeJSStreamWritable >> writableLength [
 
 	"This property contains the number of bytes (or objects) in the queue ready to be written. The value provides introspection data regarding the status of the highWaterMark."
@@ -320,7 +322,7 @@ CpNodeJSStreamWritable >> writableLength [
 	^ self propertyAt: #writableLength
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpNodeJSStreamWritable >> writableNeedDrain [
 
 	"Is true if the stream's buffer has been full and stream will emit 'drain'."
@@ -328,7 +330,7 @@ CpNodeJSStreamWritable >> writableNeedDrain [
 	^ self propertyAt: #writableNeedDrain
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpNodeJSStreamWritable >> writableObjectMode [
 
 	"Getter for the property objectMode of a given Writable stream."
@@ -336,25 +338,25 @@ CpNodeJSStreamWritable >> writableObjectMode [
 	^ self propertyAt: #writableObjectMode
 ]
 
-{ #category : #operations }
+{ #category : 'operations' }
 CpNodeJSStreamWritable >> writeChunk: anObject [
 
 	self writeChunk: anObject withEncoding: nil thenDo: nil
 ]
 
-{ #category : #operations }
+{ #category : 'operations' }
 CpNodeJSStreamWritable >> writeChunk: anObject thenDo: aBlock [
 
 	self writeChunk: anObject withEncoding: nil thenDo: aBlock
 ]
 
-{ #category : #operations }
+{ #category : 'operations' }
 CpNodeJSStreamWritable >> writeChunk: anObject withEncoding: aString [
 
 	self writeChunk: anObject withEncoding: aString thenDo: nil
 ]
 
-{ #category : #operations }
+{ #category : 'operations' }
 CpNodeJSStreamWritable >> writeChunk: anObject withEncoding: aString thenDo: aBlock [
 
 	"The writable.write() method writes some data to the stream, and calls the supplied callback

@@ -1,6 +1,6 @@
-Extension { #name : #UndefinedObject }
+Extension { #name : 'UndefinedObject' }
 
-{ #category : #'*CodeParadise-RemoteEnvironment' }
+{ #category : '*CodeParadise-RemoteEnvironment' }
 UndefinedObject >> cpEncodeWith: anEncoder [
 
 	<clientEnvironment>

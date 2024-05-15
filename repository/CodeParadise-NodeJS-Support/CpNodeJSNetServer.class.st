@@ -1,10 +1,12 @@
 Class {
-	#name : #CpNodeJSNetServer,
-	#superclass : #CpJavaScriptEventTarget,
-	#category : #'CodeParadise-NodeJS-Support-Net'
+	#name : 'CpNodeJSNetServer',
+	#superclass : 'CpJavaScriptEventTarget',
+	#category : 'CodeParadise-NodeJS-Support-Net',
+	#package : 'CodeParadise-NodeJS-Support',
+	#tag : 'Net'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpNodeJSNetServer class >> module [
 
 	"Answer the module the receiver is part of"
@@ -12,7 +14,7 @@ CpNodeJSNetServer class >> module [
 	^ CpNodeJSNet
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpNodeJSNetServer >> address [
 
 	"Returns the bound address, the address family name, and port of the server as reported
@@ -25,13 +27,13 @@ CpNodeJSNetServer >> address [
 	^ self apply: #address
 ]
 
-{ #category : #operations }
+{ #category : 'operations' }
 CpNodeJSNetServer >> close [
 
 	self closeThenDo: nil
 ]
 
-{ #category : #operations }
+{ #category : 'operations' }
 CpNodeJSNetServer >> closeThenDo: aBlock [
 
 	"Stops the server from accepting new connections and keeps existing connections. This function is
@@ -42,7 +44,7 @@ CpNodeJSNetServer >> closeThenDo: aBlock [
 	self apply: #close withArguments: { aBlock }
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpNodeJSNetServer >> getConnectionsThenDo: aBlock [
 
 	"Asynchronously get the number of concurrent connections on the server. Works when sockets were sent to forks.
@@ -52,13 +54,13 @@ CpNodeJSNetServer >> getConnectionsThenDo: aBlock [
 	self apply: #getConnections withArguments: { aBlock }
 ]
 
-{ #category : #operations }
+{ #category : 'operations' }
 CpNodeJSNetServer >> listenOnPort: anInteger [
 
 	^ self listenOnPort: anInteger thenDo: nil
 ]
 
-{ #category : #operations }
+{ #category : 'operations' }
 CpNodeJSNetServer >> listenOnPort: anInteger thenDo: aBlock [
 
 	^ self
@@ -66,7 +68,7 @@ CpNodeJSNetServer >> listenOnPort: anInteger thenDo: aBlock [
 		thenDo: aBlock
 ]
 
-{ #category : #operations }
+{ #category : 'operations' }
 CpNodeJSNetServer >> listenWithOptions: aDictionary thenDo: aBlock [
 
 	"Start a server listening for connections. A net.Server can be a TCP or an IPC server depending on what it listens to.
@@ -98,7 +100,7 @@ CpNodeJSNetServer >> listenWithOptions: aDictionary thenDo: aBlock [
 	self apply: #listen withArguments: { aDictionary . aBlock }
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpNodeJSNetServer >> listening [
 
 	"Indicates whether or not the server is listening for connections."
@@ -106,7 +108,7 @@ CpNodeJSNetServer >> listening [
 	^ self propertyAt: #listening
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpNodeJSNetServer >> maxConnections [
 
 	"Set this property to reject connections when the server's connection count gets high.
@@ -116,7 +118,7 @@ CpNodeJSNetServer >> maxConnections [
 	^ self propertyAt: #maxConnections
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpNodeJSNetServer >> maxConnections: anInteger [
 
 	"Set this property to reject connections when the server's connection count gets high.
@@ -126,7 +128,7 @@ CpNodeJSNetServer >> maxConnections: anInteger [
 	self propertyAt: #maxConnections put: anInteger
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 CpNodeJSNetServer >> onCloseDo: aBlock [
 
 	"Emitted when the server closes. If connections exist, this event is not emitted until all connections are ended."
@@ -137,7 +139,7 @@ CpNodeJSNetServer >> onCloseDo: aBlock [
 	^ self addEventListener: #close handler: aBlock
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 CpNodeJSNetServer >> onConnectionDo: aBlock [
 
 	"Emitted when a new connection is made. socket is an instance of net.Socket.
@@ -150,7 +152,7 @@ CpNodeJSNetServer >> onConnectionDo: aBlock [
 	^ self addEventListener: #connection handler: aBlock
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 CpNodeJSNetServer >> onDropDo: aBlock [
 
 	"When the number of connections reaches the threshold of server.maxConnections, the server will
@@ -180,7 +182,7 @@ CpNodeJSNetServer >> onDropDo: aBlock [
 	^ self addEventListener: #drop handler: aBlock
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 CpNodeJSNetServer >> onErrorDo: aBlock [
 
 	"Emitted when an error occurs. Unlike net.Socket, the 'close' event will not be emitted directly following this event unless server.close() is manually called. See the example in discussion of server.listen().
@@ -193,7 +195,7 @@ CpNodeJSNetServer >> onErrorDo: aBlock [
 	^ self addEventListener: #error handler: aBlock
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 CpNodeJSNetServer >> onListeningDo: aBlock [
 
 	"Emitted when the server has been bound after calling server.listen()."
@@ -204,7 +206,7 @@ CpNodeJSNetServer >> onListeningDo: aBlock [
 	^ self addEventListener: #listening handler: aBlock
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 CpNodeJSNetServer >> removeConnectionHandler: aFunction [
 
 	"Remove an earlier installed event listener
@@ -213,7 +215,7 @@ CpNodeJSNetServer >> removeConnectionHandler: aFunction [
 	self removeEventListener: #connection handler: aFunction
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 CpNodeJSNetServer >> removeDropHandler: aFunction [
 
 	"Remove an earlier installed event listener
@@ -222,7 +224,7 @@ CpNodeJSNetServer >> removeDropHandler: aFunction [
 	self removeEventListener: #drop handler: aFunction
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 CpNodeJSNetServer >> removeErrorHandler: aFunction [
 
 	"Remove an earlier installed event listener
@@ -231,7 +233,7 @@ CpNodeJSNetServer >> removeErrorHandler: aFunction [
 	self removeEventListener: #error handler: aFunction
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 CpNodeJSNetServer >> removeListeningHandler: aFunction [
 
 	"Remove an earlier installed event listener

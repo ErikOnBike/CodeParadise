@@ -2,31 +2,33 @@
 I am an Object Decoder. See the comment of my companion ObjectEncoder.
 "
 Class {
-	#name : #CpObjectDecoder,
-	#superclass : #Object,
+	#name : 'CpObjectDecoder',
+	#superclass : 'Object',
 	#instVars : [
 		'readStream',
 		'stringTable',
 		'symbolTable',
 		'currentMethod'
 	],
-	#category : #'CodeParadise-RemoteEnvironment-Serialization'
+	#category : 'CodeParadise-RemoteEnvironment-Serialization',
+	#package : 'CodeParadise-RemoteEnvironment',
+	#tag : 'Serialization'
 }
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 CpObjectDecoder class >> on: aByteArray [
 
 	^ self new
 		on: aByteArray
 ]
 
-{ #category : #utilities }
+{ #category : 'utilities' }
 CpObjectDecoder class >> putInstVars: instVars in: anObject [
 
 	instVars withIndexDo: [ :instVar :index | anObject instVarAt: index put: instVar ]
 ]
 
-{ #category : #reading }
+{ #category : 'reading' }
 CpObjectDecoder >> basicReadStringUsingTable: aCollection [
 
 	"Read a String (can be a Symbol) using the specified table space (cache)"
@@ -40,7 +42,7 @@ CpObjectDecoder >> basicReadStringUsingTable: aCollection [
 	^ self basicReadStringWithLength: characterCount usingTable: aCollection
 ]
 
-{ #category : #reading }
+{ #category : 'reading' }
 CpObjectDecoder >> basicReadStringWithIndexUsingTable: aCollection [
 
 	"Read an index (into either the String or Symbol table) from the read stream.
@@ -70,7 +72,7 @@ CpObjectDecoder >> basicReadStringWithIndexUsingTable: aCollection [
 		ifFalse: [ string ]
 ]
 
-{ #category : #reading }
+{ #category : 'reading' }
 CpObjectDecoder >> basicReadStringWithLength: anInteger usingTable: aCollection [
 
 	"Read a String consisting of UTF-8 characters and store it in the specified table space (cache)"
@@ -94,7 +96,7 @@ CpObjectDecoder >> basicReadStringWithLength: anInteger usingTable: aCollection 
 	^ aCollection add: string
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpObjectDecoder >> cacheString: aString [
 
 	"Add the specified String to the receiver's cache (String table)"
@@ -103,7 +105,7 @@ CpObjectDecoder >> cacheString: aString [
 		addIfNotPresent: aString
 ]
 
-{ #category : #decoding }
+{ #category : 'decoding' }
 CpObjectDecoder >> decodeAdditionalMethodState [
 
 	"Decode AdditionalMethodState assuming only Pragmas are relevant.
@@ -127,7 +129,7 @@ CpObjectDecoder >> decodeAdditionalMethodState [
 	^ additionalMethodState
 ]
 
-{ #category : #decoding }
+{ #category : 'decoding' }
 CpObjectDecoder >> decodeAnnouncement [
 
 	"Decode an Announcement"
@@ -147,7 +149,7 @@ CpObjectDecoder >> decodeAnnouncement [
 	^ announcement
 ]
 
-{ #category : #decoding }
+{ #category : 'decoding' }
 CpObjectDecoder >> decodeArray [
 
 	"Decode Array"
@@ -155,7 +157,7 @@ CpObjectDecoder >> decodeArray [
 	^ self readArray
 ]
 
-{ #category : #decoding }
+{ #category : 'decoding' }
 CpObjectDecoder >> decodeAssociation [
 
 	"Decode Association"
@@ -163,7 +165,7 @@ CpObjectDecoder >> decodeAssociation [
 	^ Association key: self decodeNext value: self decodeNext
 ]
 
-{ #category : #decoding }
+{ #category : 'decoding' }
 CpObjectDecoder >> decodeCharacter [
 
 	"Decode a Character based on a Unicode value written using UTF-8"
@@ -171,7 +173,7 @@ CpObjectDecoder >> decodeCharacter [
 	^ Character value: self readUTF8CodePoint
 ]
 
-{ #category : #decoding }
+{ #category : 'decoding' }
 CpObjectDecoder >> decodeClass [
 
 	"Decode a Class and install it. Answer the newly installed Class or nil if this failed.
@@ -215,7 +217,7 @@ CpObjectDecoder >> decodeClass [
 
 ]
 
-{ #category : #decoding }
+{ #category : 'decoding' }
 CpObjectDecoder >> decodeClassReference [
 
 	| name class |
@@ -233,7 +235,7 @@ CpObjectDecoder >> decodeClassReference [
 	^ Association key: name value: class
 ]
 
-{ #category : #decoding }
+{ #category : 'decoding' }
 CpObjectDecoder >> decodeClassVariable [
 
 	| name |
@@ -245,7 +247,7 @@ CpObjectDecoder >> decodeClassVariable [
 		value: nil
 ]
 
-{ #category : #decoding }
+{ #category : 'decoding' }
 CpObjectDecoder >> decodeCompiledBlock [
 
 	"Decode a CompiledBlock. It will have its outerCode set,
@@ -279,7 +281,7 @@ CpObjectDecoder >> decodeCompiledBlock [
 	^ block
 ]
 
-{ #category : #decoding }
+{ #category : 'decoding' }
 CpObjectDecoder >> decodeCompiledMethod [
 
 	"Decode a CompiledMethod. Although it is not installed here, it will have its bound Class set
@@ -315,7 +317,7 @@ CpObjectDecoder >> decodeCompiledMethod [
 	^ method
 ]
 
-{ #category : #decoding }
+{ #category : 'decoding' }
 CpObjectDecoder >> decodeConstantBlockClosure [
 
 	| numArgs literal |
@@ -331,19 +333,19 @@ CpObjectDecoder >> decodeConstantBlockClosure [
 	^ ConstantBlockClosure numArgs: numArgs literal: literal
 ]
 
-{ #category : #decoding }
+{ #category : 'decoding' }
 CpObjectDecoder >> decodeDictionary [
 
 	^ self readArray asDictionary
 ]
 
-{ #category : #decoding }
+{ #category : 'decoding' }
 CpObjectDecoder >> decodeFalse [
 
 	^ false
 ]
 
-{ #category : #decoding }
+{ #category : 'decoding' }
 CpObjectDecoder >> decodeFloat [
 
 	| word1 word2 |
@@ -357,7 +359,7 @@ CpObjectDecoder >> decodeFloat [
 		yourself
 ]
 
-{ #category : #decoding }
+{ #category : 'decoding' }
 CpObjectDecoder >> decodeGlobalVariable [
 
 	| name |
@@ -369,37 +371,37 @@ CpObjectDecoder >> decodeGlobalVariable [
 		value: (Smalltalk at: name ifAbsent: [ self error: 'Unknown global ', name ])
 ]
 
-{ #category : #decoding }
+{ #category : 'decoding' }
 CpObjectDecoder >> decodeInteger0 [
 
 	^ 0
 ]
 
-{ #category : #decoding }
+{ #category : 'decoding' }
 CpObjectDecoder >> decodeInteger1Byte [
 
 	^ self readIntegerWithBytes: 1
 ]
 
-{ #category : #decoding }
+{ #category : 'decoding' }
 CpObjectDecoder >> decodeInteger2Bytes [
 
 	^ self readIntegerWithBytes: 2
 ]
 
-{ #category : #decoding }
+{ #category : 'decoding' }
 CpObjectDecoder >> decodeInteger3Bytes [
 
 	^ self readIntegerWithBytes: 3
 ]
 
-{ #category : #decoding }
+{ #category : 'decoding' }
 CpObjectDecoder >> decodeInteger4Bytes [
 
 	^ self readIntegerWithBytes: 4
 ]
 
-{ #category : #decoding }
+{ #category : 'decoding' }
 CpObjectDecoder >> decodeLargeNegativeInteger [
 
 	"Large integers are stored as special type and therefore do not need a sign bit anymore.
@@ -408,13 +410,13 @@ CpObjectDecoder >> decodeLargeNegativeInteger [
 	^ self readLargePositiveInteger negated
 ]
 
-{ #category : #decoding }
+{ #category : 'decoding' }
 CpObjectDecoder >> decodeLargePositiveInteger [
 
 	^ self readLargePositiveInteger
 ]
 
-{ #category : #decoding }
+{ #category : 'decoding' }
 CpObjectDecoder >> decodeMessage [
 
 	"Decode a Message (lookupClass is ignored"
@@ -424,7 +426,7 @@ CpObjectDecoder >> decodeMessage [
 		arguments: self decodeNext
 ]
 
-{ #category : #decoding }
+{ #category : 'decoding' }
 CpObjectDecoder >> decodeMessageSend [
 
 	"Decode a MessageSend"
@@ -435,7 +437,7 @@ CpObjectDecoder >> decodeMessageSend [
 		arguments: self decodeNext
 ]
 
-{ #category : #decoding }
+{ #category : 'decoding' }
 CpObjectDecoder >> decodeMetaclassReference [
 
 	| name class |
@@ -447,7 +449,7 @@ CpObjectDecoder >> decodeMetaclassReference [
 	^ Association key: nil value: class class
 ]
 
-{ #category : #decoding }
+{ #category : 'decoding' }
 CpObjectDecoder >> decodeNext [
 
 	| type selector |
@@ -489,13 +491,13 @@ CpObjectDecoder >> decodeNext [
 	^ self perform: selector
 ]
 
-{ #category : #decoding }
+{ #category : 'decoding' }
 CpObjectDecoder >> decodeNil [
 
 	^ nil
 ]
 
-{ #category : #decoding }
+{ #category : 'decoding' }
 CpObjectDecoder >> decodePoint [
 
 	"Decode a Point"
@@ -503,7 +505,7 @@ CpObjectDecoder >> decodePoint [
 	^ Point x: self decodeNext y: self decodeNext
 ]
 
-{ #category : #decoding }
+{ #category : 'decoding' }
 CpObjectDecoder >> decodePragma [
 
 	"Decode Pragma using its selector (fka keyword) and arguments.
@@ -521,25 +523,25 @@ CpObjectDecoder >> decodePragma [
 		yourself
 ]
 
-{ #category : #decoding }
+{ #category : 'decoding' }
 CpObjectDecoder >> decodeString [
 
 	^ self readString
 ]
 
-{ #category : #decoding }
+{ #category : 'decoding' }
 CpObjectDecoder >> decodeSymbol [
 
 	^ self readSymbol
 ]
 
-{ #category : #decoding }
+{ #category : 'decoding' }
 CpObjectDecoder >> decodeTrue [
 
 	^ true
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpObjectDecoder >> denormalizeHeader: header [
 
 	"De-normalize the header value of CompiledCode. (See comment of CpObjectEncoder >> #normalizeHeader:)
@@ -552,7 +554,7 @@ CpObjectDecoder >> denormalizeHeader: header [
 		ifFalse: [ header ]
 ]
 
-{ #category : #reading }
+{ #category : 'reading' }
 CpObjectDecoder >> doPeek: aBlock [
 
 	"Evaluate aBlock while preserving the current read stream position"
@@ -564,19 +566,19 @@ CpObjectDecoder >> doPeek: aBlock [
 
 ]
 
-{ #category : #errors }
+{ #category : 'errors' }
 CpObjectDecoder >> errorMalformedUTF8 [
 
 	self error: 'Malformed UTF-8 character'
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 CpObjectDecoder >> hasMoreData [
 
 	^ readStream atEnd not
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 CpObjectDecoder >> on: aByteArray [
 
 	readStream := ReadStream on: aByteArray.
@@ -585,7 +587,7 @@ CpObjectDecoder >> on: aByteArray [
 	symbolTable := OrderedCollection new
 ]
 
-{ #category : #reading }
+{ #category : 'reading' }
 CpObjectDecoder >> peekHasStringIndex [
 
 	"Answer whether a String index is on the read stream.
@@ -595,7 +597,7 @@ CpObjectDecoder >> peekHasStringIndex [
 	^ (readStream peek bitAnd: 16rf8) = 16rf8
 ]
 
-{ #category : #reading }
+{ #category : 'reading' }
 CpObjectDecoder >> readArray [
 
 	| array size |
@@ -607,7 +609,7 @@ CpObjectDecoder >> readArray [
 	^ array
 ]
 
-{ #category : #reading }
+{ #category : 'reading' }
 CpObjectDecoder >> readIntegerWithBytes: byteSize [
 
 	"Read an integer from the read stream consisting of byteSize bytes.
@@ -626,7 +628,7 @@ CpObjectDecoder >> readIntegerWithBytes: byteSize [
 	^ integer
 ]
 
-{ #category : #reading }
+{ #category : 'reading' }
 CpObjectDecoder >> readLargePositiveInteger [
 
 	"Read a (possibly large) integer from the read stream in little endian order.
@@ -641,7 +643,7 @@ CpObjectDecoder >> readLargePositiveInteger [
 	^ self readPositiveIntegerWithSize: byteSize
 ]
 
-{ #category : #reading }
+{ #category : 'reading' }
 CpObjectDecoder >> readLength [
 
 	"Read a length value using a byte encoding where the high (8th) bit is designated to mark the final byte.
@@ -663,7 +665,7 @@ CpObjectDecoder >> readLength [
 	^ length
 ]
 
-{ #category : #decoding }
+{ #category : 'decoding' }
 CpObjectDecoder >> readMethodDictionary [
 
 	"Create and answer a MethodDictionary from the methods read.
@@ -682,7 +684,7 @@ CpObjectDecoder >> readMethodDictionary [
 	^ methodDictionary
 ]
 
-{ #category : #reading }
+{ #category : 'reading' }
 CpObjectDecoder >> readPositiveIntegerWithSize: byteSize [
 
 	"Read integer from readStream as positive integer (ignore possible sign bit).
@@ -696,7 +698,7 @@ CpObjectDecoder >> readPositiveIntegerWithSize: byteSize [
 	^ integer
 ]
 
-{ #category : #reading }
+{ #category : 'reading' }
 CpObjectDecoder >> readString [
 
 	"Read a String (should not be a Symbol)"
@@ -704,7 +706,7 @@ CpObjectDecoder >> readString [
 	^ self basicReadStringUsingTable: (stringTable ifNil: [ stringTable := OrderedCollection new ])
 ]
 
-{ #category : #reading }
+{ #category : 'reading' }
 CpObjectDecoder >> readSymbol [
 
 	"Read a Symbol (should not be a String)"
@@ -712,7 +714,7 @@ CpObjectDecoder >> readSymbol [
 	^ self basicReadStringUsingTable: symbolTable
 ]
 
-{ #category : #reading }
+{ #category : 'reading' }
 CpObjectDecoder >> readUInt32 [
 
 	"Read uint32 using little endian (least significant byte first) order"
@@ -720,7 +722,7 @@ CpObjectDecoder >> readUInt32 [
 	^ self readPositiveIntegerWithSize: 4
 ]
 
-{ #category : #reading }
+{ #category : 'reading' }
 CpObjectDecoder >> readUTF8CodePoint [
 
 	"Read a Unicode value written using UTF-8.
@@ -758,7 +760,7 @@ CpObjectDecoder >> readUTF8CodePoint [
 	^ unicode
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpObjectDecoder >> remainingBytes [
 
 	"Answer the remaining bytes of the receiver"

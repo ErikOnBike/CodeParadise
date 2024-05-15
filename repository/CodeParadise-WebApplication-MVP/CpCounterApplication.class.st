@@ -3,30 +3,32 @@ I am a simple WebApplication based on Model-View-Presenter pattern.
 I only live in the ServerEnvironment.
 "
 Class {
-	#name : #CpCounterApplication,
-	#superclass : #CpMvpWebApplication,
+	#name : 'CpCounterApplication',
+	#superclass : 'CpMvpWebApplication',
 	#instVars : [
 		'localCounter'
 	],
 	#classVars : [
 		'GlobalCounter'
 	],
-	#category : #'CodeParadise-WebApplication-MVP-Examples'
+	#category : 'CodeParadise-WebApplication-MVP-Examples',
+	#package : 'CodeParadise-WebApplication-MVP',
+	#tag : 'Examples'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpCounterApplication class >> app [
 
 	^ #counter
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpCounterApplication class >> globalCounter [
 
 	^ GlobalCounter ifNil: [ GlobalCounter := CpCounterModel new ]
 ]
 
-{ #category : #'class initialization' }
+{ #category : 'class initialization' }
 CpCounterApplication class >> release [
 
 	GlobalCounter ifNotNil: [
@@ -36,7 +38,7 @@ CpCounterApplication class >> release [
 	super release
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpCounterApplication >> applicationModel [
 
 	"Answer the Model for the receiver, which is the receiver itself"
@@ -44,13 +46,13 @@ CpCounterApplication >> applicationModel [
 	^ self
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpCounterApplication >> globalCounter [
 
 	^ self class globalCounter
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 CpCounterApplication >> initialize [
 
 	super initialize.
@@ -58,13 +60,13 @@ CpCounterApplication >> initialize [
 	localCounter := CpCounterModel new
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpCounterApplication >> localCounter [
 
 	^ localCounter
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpCounterApplication >> preferredPresenterClass [
 
 	"Answer the preferred Presenter class for the content of the receiver.

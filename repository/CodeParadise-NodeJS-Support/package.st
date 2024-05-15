@@ -1,1 +1,1 @@
-Package { #name : #'CodeParadise-NodeJS-Support' }
+Package { #name : 'CodeParadise-NodeJS-Support' }

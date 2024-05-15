@@ -1,14 +1,16 @@
 Class {
-	#name : #CpContextLineView,
-	#superclass : #CpTemplateComponent,
+	#name : 'CpContextLineView',
+	#superclass : 'CpTemplateComponent',
 	#instVars : [
 		'context',
 		'currentVariable'
 	],
-	#category : #'CodeParadise-WebApplication-Debugger-View'
+	#category : 'CodeParadise-WebApplication-Debugger-View',
+	#package : 'CodeParadise-WebApplication-Debugger',
+	#tag : 'View'
 }
 
-{ #category : #'web resources' }
+{ #category : 'web resources' }
 CpContextLineView class >> style [
 
 	<webResource: #css>
@@ -29,7 +31,7 @@ CpContextLineView class >> style [
 	}'
 ]
 
-{ #category : #'web resources' }
+{ #category : 'web resources' }
 CpContextLineView class >> template [
 
 	<webResource: #html>
@@ -39,25 +41,25 @@ CpContextLineView class >> template [
 	</div>'
 ]
 
-{ #category : #rendering }
+{ #category : 'rendering' }
 CpContextLineView >> beSelected: aBoolean [
 
 	self classed: #selected if: aBoolean
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpContextLineView >> context [
 
 	^ context
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpContextLineView >> context: aContext [
 
 	context := aContext
 ]
 
-{ #category : #rendering }
+{ #category : 'rendering' }
 CpContextLineView >> render [
 
 	| compiledCode className selector |

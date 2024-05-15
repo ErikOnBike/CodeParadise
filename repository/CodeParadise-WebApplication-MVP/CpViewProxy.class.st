@@ -3,17 +3,19 @@ I am a Proxy for a View in a Model-View-Presenter pattern.
 I only live in a ServerEnvironment.
 "
 Class {
-	#name : #CpViewProxy,
-	#superclass : #Object,
+	#name : 'CpViewProxy',
+	#superclass : 'Object',
 	#instVars : [
 		'presenter',
 		'viewClass',
 		'announcer'
 	],
-	#category : #'CodeParadise-WebApplication-MVP-Core'
+	#category : 'CodeParadise-WebApplication-MVP-Core',
+	#package : 'CodeParadise-WebApplication-MVP',
+	#tag : 'Core'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpViewProxy class >> allInstancesForViewClass: aClass [
 
 	<serverEnvironment>
@@ -25,7 +27,7 @@ CpViewProxy class >> allInstancesForViewClass: aClass [
 		select: [ :each | each viewClass == aClass ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpViewProxy class >> allInstancesForViewClass: aClass do: aBlock [
 
 	<serverEnvironment>
@@ -38,13 +40,13 @@ CpViewProxy class >> allInstancesForViewClass: aClass do: aBlock [
 			ifTrue: [ aBlock value: each ] ]
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 CpViewProxy class >> new [
 
 	self shouldNotImplement
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 CpViewProxy class >> newForPresenter: aPresenter [
 
 	^ self basicNew
@@ -52,13 +54,13 @@ CpViewProxy class >> newForPresenter: aPresenter [
 		yourself
 ]
 
-{ #category : #announcing }
+{ #category : 'announcing' }
 CpViewProxy >> announce: anAnnouncement [
 
 	self announcer announce: anAnnouncement
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpViewProxy >> announcer [
 
 	"Answer the Announcer of the receiver"
@@ -66,7 +68,7 @@ CpViewProxy >> announcer [
 	^ announcer
 ]
 
-{ #category : #removing }
+{ #category : 'removing' }
 CpViewProxy >> destroy [
 
 	"Destroy the view.
@@ -81,7 +83,7 @@ CpViewProxy >> destroy [
 	presenter := nil
 ]
 
-{ #category : #'reflective operations' }
+{ #category : 'reflective operations' }
 CpViewProxy >> doesNotUnderstand: aMessage [
 
 	"Let the presenter send the message to the actual view"
@@ -89,13 +91,13 @@ CpViewProxy >> doesNotUnderstand: aMessage [
 	presenter ifNotNil: [ :actualPresenter | actualPresenter sendMessageToView: aMessage ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpViewProxy >> id [
 
 	^ presenter ifNotNil: [ :actualPresenter | actualPresenter id ]
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 CpViewProxy >> initialize [
 
 	super initialize.
@@ -103,7 +105,7 @@ CpViewProxy >> initialize [
 	announcer := Announcer new
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 CpViewProxy >> initializeWithPresenter: aPresenter [
 
 	self initialize.
@@ -111,7 +113,7 @@ CpViewProxy >> initializeWithPresenter: aPresenter [
 	presenter := aPresenter
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 CpViewProxy >> release [
 
 	announcer ifNotNil: [ 
@@ -123,7 +125,7 @@ CpViewProxy >> release [
 	super release
 ]
 
-{ #category : #removing }
+{ #category : 'removing' }
 CpViewProxy >> remove [ 
 
 	"Remove the receiver from its parent.
@@ -135,7 +137,7 @@ CpViewProxy >> remove [
 	self doesNotUnderstand: (Message selector: #remove)
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpViewProxy >> viewClass [
 
 	"Answer the Class of the View the receiver is proxying"
@@ -143,13 +145,13 @@ CpViewProxy >> viewClass [
 	^ viewClass
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpViewProxy >> viewClass: aViewClass [
 
 	viewClass := aViewClass
 ]
 
-{ #category : #announcing }
+{ #category : 'announcing' }
 CpViewProxy >> when: anAnnouncementClass send: aSymbol to: anObject [
 
 	"Let the sender subscribe to the specified announcement of the receiver.

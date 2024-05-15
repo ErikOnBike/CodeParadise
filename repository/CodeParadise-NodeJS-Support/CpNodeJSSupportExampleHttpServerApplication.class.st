@@ -14,18 +14,20 @@ Have fun!
 
 "
 Class {
-	#name : #CpNodeJSSupportExampleHttpServerApplication,
-	#superclass : #CpServerApplication,
-	#category : #'CodeParadise-NodeJS-Support-Examples'
+	#name : 'CpNodeJSSupportExampleHttpServerApplication',
+	#superclass : 'CpServerApplication',
+	#category : 'CodeParadise-NodeJS-Support-Examples',
+	#package : 'CodeParadise-NodeJS-Support',
+	#tag : 'Examples'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpNodeJSSupportExampleHttpServerApplication class >> app [
 
 	^ 'http-server-example'
 ]
 
-{ #category : #actions }
+{ #category : 'actions' }
 CpNodeJSSupportExampleHttpServerApplication >> load [
 
 	super load.

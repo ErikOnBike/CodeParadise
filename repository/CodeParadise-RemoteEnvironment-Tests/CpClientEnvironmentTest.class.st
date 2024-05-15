@@ -2,12 +2,13 @@
 Tests for ClientEnvironment
 "
 Class {
-	#name : #CpClientEnvironmentTest,
-	#superclass : #TestCase,
-	#category : #'CodeParadise-RemoteEnvironment-Tests'
+	#name : 'CpClientEnvironmentTest',
+	#superclass : 'TestCase',
+	#category : 'CodeParadise-RemoteEnvironment-Tests',
+	#package : 'CodeParadise-RemoteEnvironment-Tests'
 }
 
-{ #category : #tests }
+{ #category : 'tests' }
 CpClientEnvironmentTest >> testInstallClass [
 
 	| clientEnvironment someClass |
@@ -41,7 +42,7 @@ CpClientEnvironmentTest >> testInstallClass [
 
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 CpClientEnvironmentTest >> testInstallMethod [
 
 	| clientEnvironment someMethod |
@@ -72,7 +73,7 @@ CpClientEnvironmentTest >> testInstallMethod [
 
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 CpClientEnvironmentTest >> testInstallMethodWithClassVarAccess [
 
 	| clientEnvironment someMethod |
@@ -107,7 +108,7 @@ CpClientEnvironmentTest >> testInstallMethodWithClassVarAccess [
 
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 CpClientEnvironmentTest >> testInstallMethodWithInstVarAccess [
 
 	| clientEnvironment someMethod instance |

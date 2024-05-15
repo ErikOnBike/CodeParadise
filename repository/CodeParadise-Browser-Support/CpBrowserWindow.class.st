@@ -1,10 +1,12 @@
 Class {
-	#name : #CpBrowserWindow,
-	#superclass : #CpJavaScriptObject,
-	#category : #'CodeParadise-Browser-Support-Core'
+	#name : 'CpBrowserWindow',
+	#superclass : 'CpJavaScriptObject',
+	#category : 'CodeParadise-Browser-Support-Core',
+	#package : 'CodeParadise-Browser-Support',
+	#tag : 'Core'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpBrowserWindow class >> current [
 
 	"The Window object is the global object in the Browser"
@@ -12,13 +14,13 @@ CpBrowserWindow class >> current [
 	^ CpJavaScriptObject global
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 CpBrowserWindow class >> newInstanceWithArguments: anArray resultAs: aProxyClass [
 
 	self error: 'An instance should be retrieved using the selector ', #current
 ]
 
-{ #category : #operations }
+{ #category : 'operations' }
 CpBrowserWindow >> print [
 
 	"Opens the print dialog to print the current document."

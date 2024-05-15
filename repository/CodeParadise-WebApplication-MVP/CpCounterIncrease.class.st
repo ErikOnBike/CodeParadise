@@ -2,7 +2,9 @@
 I am an Announcement indicating a counter increase.
 "
 Class {
-	#name : #CpCounterIncrease,
-	#superclass : #Announcement,
-	#category : #'CodeParadise-WebApplication-MVP-Examples'
+	#name : 'CpCounterIncrease',
+	#superclass : 'Announcement',
+	#category : 'CodeParadise-WebApplication-MVP-Examples',
+	#package : 'CodeParadise-WebApplication-MVP',
+	#tag : 'Examples'
 }

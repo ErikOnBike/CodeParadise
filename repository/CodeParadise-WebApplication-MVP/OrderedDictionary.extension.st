@@ -1,6 +1,6 @@
-Extension { #name : #OrderedDictionary }
+Extension { #name : 'OrderedDictionary' }
 
-{ #category : #'*CodeParadise-WebApplication-MVP' }
+{ #category : '*CodeParadise-WebApplication-MVP' }
 OrderedDictionary >> doSafely: aBlock [
 
 	"Evaluate the specified Block for all values of the receiver in order of its keys.

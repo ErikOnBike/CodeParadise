@@ -4,12 +4,14 @@ I represent a JavaScript AarayBuffer which can be used
 byte or word arrays.
 "
 Class {
-	#name : #CpJavaScriptArrayBuffer,
-	#superclass : #CpJavaScriptObject,
-	#category : #'CodeParadise-RemoteEnvironment-Support'
+	#name : 'CpJavaScriptArrayBuffer',
+	#superclass : 'CpJavaScriptObject',
+	#category : 'CodeParadise-RemoteEnvironment-Support',
+	#package : 'CodeParadise-RemoteEnvironment',
+	#tag : 'Support'
 }
 
-{ #category : #converting }
+{ #category : 'converting' }
 CpJavaScriptArrayBuffer >> asByteArray [
 
 	"Create ByteArray instance from the JavaScript ArrayBuffer through a TypedArray (with bytes)"
@@ -18,7 +20,7 @@ CpJavaScriptArrayBuffer >> asByteArray [
 		asSmalltalkObject
 ]
 
-{ #category : #converting }
+{ #category : 'converting' }
 CpJavaScriptArrayBuffer >> asWordArray [
 
 	"Create WordArray instance from the JavaScript ArrayBuffer through a TypedArray (with words)"

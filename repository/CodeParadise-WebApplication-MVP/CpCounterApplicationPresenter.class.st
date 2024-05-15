@@ -1,10 +1,12 @@
 Class {
-	#name : #CpCounterApplicationPresenter,
-	#superclass : #CpPresenter,
-	#category : #'CodeParadise-WebApplication-MVP-Examples'
+	#name : 'CpCounterApplicationPresenter',
+	#superclass : 'CpPresenter',
+	#category : 'CodeParadise-WebApplication-MVP-Examples',
+	#package : 'CodeParadise-WebApplication-MVP',
+	#tag : 'Examples'
 }
 
-{ #category : #view }
+{ #category : 'view' }
 CpCounterApplicationPresenter >> renderView [
 
 	self

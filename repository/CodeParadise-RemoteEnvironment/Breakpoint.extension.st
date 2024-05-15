@@ -1,6 +1,6 @@
-Extension { #name : #Breakpoint }
+Extension { #name : 'Breakpoint' }
 
-{ #category : #'*CodeParadise-RemoteEnvironment' }
+{ #category : '*CodeParadise-RemoteEnvironment' }
 Breakpoint >> cpEncodeWith: anEncoder [
 
 	"Currently breakpoints are not supported in the client environment"

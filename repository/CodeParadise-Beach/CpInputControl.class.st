@@ -1,17 +1,19 @@
 Class {
-	#name : #CpInputControl,
-	#superclass : #CpControl,
-	#category : #'CodeParadise-Beach-Components'
+	#name : 'CpInputControl',
+	#superclass : 'CpControl',
+	#category : 'CodeParadise-Beach-Components',
+	#package : 'CodeParadise-Beach',
+	#tag : 'Components'
 }
 
-{ #category : #testing }
+{ #category : 'testing' }
 CpInputControl class >> isAbstractTag [
 
 	"The method is present to indicate the receiver is abstract.
 	This method will NOT be evaluated to decide if the receiver is abstract."
 ]
 
-{ #category : #'state handling' }
+{ #category : 'state handling' }
 CpInputControl >> beReadOnly [
 
 	"Make the receiver read only.
@@ -24,7 +26,7 @@ CpInputControl >> beReadOnly [
 		ifNil: [ self attributeAdd: #readonly ]
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 CpInputControl >> beReadOnlySecondary [
 
 	"Make the receiver read only because an ancestor is read only.
@@ -37,7 +39,7 @@ CpInputControl >> beReadOnlySecondary [
 		ifNil: [ self attributeAt: #readonly put: #parent ]
 ]
 
-{ #category : #'state handling' }
+{ #category : 'state handling' }
 CpInputControl >> beWritable [
 
 	"Make the receiver writable.
@@ -59,7 +61,7 @@ CpInputControl >> beWritable [
 						ifNil: [ self removeAttributeAt: #readonly ] ] ]
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 CpInputControl >> beWritableSecondary [
 
 	"Make the receiver writable because an ancestor is writable.
@@ -76,7 +78,7 @@ CpInputControl >> beWritableSecondary [
 				ifTrue: [ self removeAttributeAt: #readonly ] ]
 ]
 
-{ #category : #'testing - conditionals' }
+{ #category : 'testing - conditionals' }
 CpInputControl >> ifReadOnly: aBlock [
 
 	"Evaluate a Block if the receiver is in read only state"
@@ -84,7 +86,7 @@ CpInputControl >> ifReadOnly: aBlock [
 	self ifWritable: [ "intentionally empty" ] ifReadOnly: aBlock
 ]
 
-{ #category : #'testing - conditionals' }
+{ #category : 'testing - conditionals' }
 CpInputControl >> ifWritable: aBlock [
 
 	"Evaluate a Block if the receiver is writable"
@@ -92,7 +94,7 @@ CpInputControl >> ifWritable: aBlock [
 	self ifWritable: aBlock ifReadOnly: [ "intentionally empty" ]
 ]
 
-{ #category : #'testing - conditionals' }
+{ #category : 'testing - conditionals' }
 CpInputControl >> ifWritable: writableBlock ifReadOnly: readOnlyBlock [
 
 	"Evaluate a Block depending on the receiver's read only state"

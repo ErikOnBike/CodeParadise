@@ -1,13 +1,15 @@
 Class {
-	#name : #CpExceptionAnnouncer,
-	#superclass : #Announcer,
+	#name : 'CpExceptionAnnouncer',
+	#superclass : 'Announcer',
 	#classVars : [
 		'Current'
 	],
-	#category : #'CodeParadise-RemoteEnvironment-Core'
+	#category : 'CodeParadise-RemoteEnvironment-Core',
+	#package : 'CodeParadise-RemoteEnvironment',
+	#tag : 'Core'
 }
 
-{ #category : #announcing }
+{ #category : 'announcing' }
 CpExceptionAnnouncer class >> announce: anAnnouncement [
 
 	"In case no one is listening, simply answer nil and do not create my current instance"
@@ -18,7 +20,7 @@ CpExceptionAnnouncer class >> announce: anAnnouncement [
 		announce: anAnnouncement
 ]
 
-{ #category : #announcing }
+{ #category : 'announcing' }
 CpExceptionAnnouncer class >> announceException: anException [
 
 	"In case no one is listening, simply answer nil and do not create announcement or my current instance"
@@ -28,7 +30,7 @@ CpExceptionAnnouncer class >> announceException: anException [
 	^ self announce: (CpExceptionAnnouncement exception: anException)
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpExceptionAnnouncer class >> current [
 
 	"Answer the current instance of the receiver"
@@ -36,13 +38,13 @@ CpExceptionAnnouncer class >> current [
 	^ Current ifNil: [ Current := self basicNew initialize ; yourself ]
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 CpExceptionAnnouncer class >> hasCurrent [
 
 	^ Current isNotNil
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 CpExceptionAnnouncer class >> new [
 
 	"Use self >> #current instead to get the singleton instance"
@@ -50,14 +52,14 @@ CpExceptionAnnouncer class >> new [
 	self shouldNotImplement
 ]
 
-{ #category : #announcing }
+{ #category : 'announcing' }
 CpExceptionAnnouncer class >> when: anAnnouncement do: aBlock [
 
 	^ self current
 		when: anAnnouncement do: aBlock
 ]
 
-{ #category : #announcing }
+{ #category : 'announcing' }
 CpExceptionAnnouncer class >> when: anAnnouncement send: aSymbol to: anObject [
 
 	^ self current

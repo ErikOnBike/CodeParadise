@@ -25,8 +25,8 @@ Instantiate a Class in the ClientEnvironment and let it perform behavior (#myBeh
 See also CpServerApplication and subclasses for examples of installing behavior in a ClientEnvironment.
 "
 Class {
-	#name : #CpServerEnvironment,
-	#superclass : #CpEnvironment,
+	#name : 'CpServerEnvironment',
+	#superclass : 'CpEnvironment',
 	#instVars : [
 		'encoder',
 		'encoderMutex',
@@ -39,10 +39,12 @@ Class {
 	#classVars : [
 		'ClassSideAnnouncer'
 	],
-	#category : #'CodeParadise-RemoteEnvironment-Core'
+	#category : 'CodeParadise-RemoteEnvironment-Core',
+	#package : 'CodeParadise-RemoteEnvironment',
+	#tag : 'Core'
 }
 
-{ #category : #announcing }
+{ #category : 'announcing' }
 CpServerEnvironment class >> announce: anAnnouncement [
 
 	"Let the receiver annouce the specified Announcement"
@@ -50,7 +52,7 @@ CpServerEnvironment class >> announce: anAnnouncement [
 	self announcer announce: anAnnouncement
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpServerEnvironment class >> announcer [
 
 	"Answer the class side Announcer"
@@ -58,19 +60,19 @@ CpServerEnvironment class >> announcer [
 	^ ClassSideAnnouncer ifNil: [ ClassSideAnnouncer := Announcer new ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpServerEnvironment class >> clientClass [
 
 	^ CpClientEnvironment
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpServerEnvironment class >> communicatorClass [
 
 	^ CpServerCommunicator
 ]
 
-{ #category : #'message encoding' }
+{ #category : 'message encoding' }
 CpServerEnvironment class >> encodedMessageForPerform: aSymbol withArguments: anArray receiver: identifier [
 
 	"Answer an encoded message (a ByteArray) for performing method on the ClientEnvironment"
@@ -78,7 +80,7 @@ CpServerEnvironment class >> encodedMessageForPerform: aSymbol withArguments: an
 	^ (self messageForPerform: aSymbol withArguments: anArray receiver: identifier) cpEncoded
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpServerEnvironment class >> invalidSessionMessage [
 
 	^ self
@@ -87,7 +89,7 @@ CpServerEnvironment class >> invalidSessionMessage [
 		receiver: nil
 ]
 
-{ #category : #'message encoding' }
+{ #category : 'message encoding' }
 CpServerEnvironment class >> messageForPerform: aSymbol withArguments: anArray receiver: identifier [
 
 	"Answer a MessageSend for performing methods on the ClientEnvironment"
@@ -99,7 +101,7 @@ CpServerEnvironment class >> messageForPerform: aSymbol withArguments: anArray r
 
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 CpServerEnvironment class >> newWithId: id [
 
 	"Create new instance of the receiver with the specified identifier"
@@ -109,13 +111,13 @@ CpServerEnvironment class >> newWithId: id [
 		yourself
 ]
 
-{ #category : #announcing }
+{ #category : 'announcing' }
 CpServerEnvironment class >> removeSubscription: aSubscription [
 
 	^ self announcer removeSubscription: aSubscription
 ]
 
-{ #category : #announcing }
+{ #category : 'announcing' }
 CpServerEnvironment class >> resetAnnouncer [
 
 	<script>
@@ -127,7 +129,7 @@ CpServerEnvironment class >> resetAnnouncer [
 		ClassSideAnnouncer := nil ]
 ]
 
-{ #category : #announcing }
+{ #category : 'announcing' }
 CpServerEnvironment class >> whenClientLoadedSend: aSymbol to: anObject [
 
 	^ self announcer
@@ -136,7 +138,7 @@ CpServerEnvironment class >> whenClientLoadedSend: aSymbol to: anObject [
 		to: anObject
 ]
 
-{ #category : #'adding/removing' }
+{ #category : 'adding/removing' }
 CpServerEnvironment >> addClass: aClass [
 
 	"Add the specified Class to the client environment of the receiver and answer it.
@@ -166,7 +168,7 @@ CpServerEnvironment >> addClass: aClass [
 		^ aClass ]
 ]
 
-{ #category : #'adding/removing' }
+{ #category : 'adding/removing' }
 CpServerEnvironment >> addMethod: aCompiledMethod [
 
 	"Add the specified CompiledMethod to the client environment of the receiver and answer it.
@@ -197,7 +199,7 @@ CpServerEnvironment >> addMethod: aCompiledMethod [
 		^ aCompiledMethod ]
 ]
 
-{ #category : #announcing }
+{ #category : 'announcing' }
 CpServerEnvironment >> announce: anAnnouncement [
 
 	"Let the receiver announce the specified Announcement"
@@ -206,19 +208,19 @@ CpServerEnvironment >> announce: anAnnouncement [
 		self handleError: error printString, '. Error occurred while handling the View Announcement: ', anAnnouncement printString ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpServerEnvironment >> announcer [
 
 	^ announcer
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpServerEnvironment >> beLoaded [
 
 	loaded := true
 ]
 
-{ #category : #'remote execution' }
+{ #category : 'remote execution' }
 CpServerEnvironment >> clientAssignId [
 
 	"Assign the receiver's id to the client environment.
@@ -232,7 +234,7 @@ CpServerEnvironment >> clientAssignId [
 		arguments: { self id })
 ]
 
-{ #category : #'remote execution' }
+{ #category : 'remote execution' }
 CpServerEnvironment >> clientCreateInstanceOf: aClass withId: identifier [
 
 	"Let the ClientEnvironment create an instance of the specified class with the specified identifier.
@@ -247,7 +249,7 @@ CpServerEnvironment >> clientCreateInstanceOf: aClass withId: identifier [
 
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 CpServerEnvironment >> clientKnowsClass: aClass [
 
 	"Answer whether the specified Class is known by the receiver's client environment.
@@ -256,7 +258,7 @@ CpServerEnvironment >> clientKnowsClass: aClass [
 	^ (self hasInstalledClass: aClass) or: [ self class clientClass hasPreInstalledClass: aClass ]
 ]
 
-{ #category : #'remote execution' }
+{ #category : 'remote execution' }
 CpServerEnvironment >> clientPerform: aSymbol [
 
 	"Send message to client to perform the specified selector on the client environment.
@@ -269,7 +271,7 @@ CpServerEnvironment >> clientPerform: aSymbol [
 		selector: aSymbol)
 ]
 
-{ #category : #'input/output' }
+{ #category : 'input/output' }
 CpServerEnvironment >> flushSendMessages [
 
 	"Send any pending messages"
@@ -280,7 +282,7 @@ CpServerEnvironment >> flushSendMessages [
 	[ encoder bytes ifNotEmpty: [ :message | self sendEncodedMessage: message ] ] ensure: [ encoder := nil ]
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 CpServerEnvironment >> handleClientAnnouncement: anAnnouncement [
 
 	"Handle the specified Announcement received from the client"
@@ -298,7 +300,7 @@ CpServerEnvironment >> handleClientAnnouncement: anAnnouncement [
 		self flushSendMessages ] ensure: [ encoder := nil ] ]
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 CpServerEnvironment >> handleMessageReceived: aByteArray [
 
 	"Handle the message received from the client.
@@ -314,7 +316,7 @@ CpServerEnvironment >> handleMessageReceived: aByteArray [
 		self handleClientAnnouncement: decoder decodeNext ]
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 CpServerEnvironment >> hasAnnouncer: anAnnouncer [
 
 	^ announcer
@@ -322,7 +324,7 @@ CpServerEnvironment >> hasAnnouncer: anAnnouncer [
 		ifNil: [ false ]
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 CpServerEnvironment >> hasInstalledClass: aClass [
 
 	"Answer whether the specified Class is installed in the client environment through the receiver"
@@ -333,7 +335,7 @@ CpServerEnvironment >> hasInstalledClass: aClass [
 	^ self installedClasses includes: aClass
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 CpServerEnvironment >> initialize [
 
 	"Initialize the receiver with empty installation Collections and new Mutexes"
@@ -354,7 +356,7 @@ CpServerEnvironment >> initialize [
 		when: CpClientStopped send: #stop to: self
 ]
 
-{ #category : #installing }
+{ #category : 'installing' }
 CpServerEnvironment >> installClass: aClass [
 
 	"Install the specified Class in the client environment.
@@ -369,7 +371,7 @@ CpServerEnvironment >> installClass: aClass [
 		arguments: { aClass })
 ]
 
-{ #category : #installing }
+{ #category : 'installing' }
 CpServerEnvironment >> installMethod: aCompiledMethod [
 
 	"Install the specified CompiledMethod in the client environment.
@@ -384,7 +386,7 @@ CpServerEnvironment >> installMethod: aCompiledMethod [
 		arguments: { aCompiledMethod })
 ]
 
-{ #category : #installing }
+{ #category : 'installing' }
 CpServerEnvironment >> installRegisteredCode [
 
 	"Install the already registered CompiledMethods and Classes in the client environment.
@@ -407,25 +409,25 @@ CpServerEnvironment >> installRegisteredCode [
 		classes do: [ :each | self addClass: each ] ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpServerEnvironment >> installedClasses [
 
 	^ installedClasses
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpServerEnvironment >> installedMethods [
 
 	^ installedMethods
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 CpServerEnvironment >> isLoaded [
 
 	^ loaded
 ]
 
-{ #category : #installing }
+{ #category : 'installing' }
 CpServerEnvironment >> postInstallClasses [
 
 	"Perform the post install of the classes installed in the client environment.
@@ -441,7 +443,7 @@ CpServerEnvironment >> postInstallClasses [
 		selector: #postInstallClasses)
 ]
 
-{ #category : #support }
+{ #category : 'support' }
 CpServerEnvironment >> reconnected: anAnnouncement [
 
 	"The client reconnected after having lost the connection"
@@ -449,7 +451,7 @@ CpServerEnvironment >> reconnected: anAnnouncement [
 	self announcer announce: anAnnouncement
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 CpServerEnvironment >> release [
 
 	"Release the receiver's instance variables"
@@ -467,7 +469,7 @@ CpServerEnvironment >> release [
 	super release
 ]
 
-{ #category : #announcing }
+{ #category : 'announcing' }
 CpServerEnvironment >> removeSubscription: aSubscription [
 
 	"Remove the specified subscription from the receiver"
@@ -475,7 +477,7 @@ CpServerEnvironment >> removeSubscription: aSubscription [
 	^ self announcer removeSubscription: aSubscription
 ]
 
-{ #category : #'input/output' }
+{ #category : 'input/output' }
 CpServerEnvironment >> sendMessage: aMessageSend [
 
 	"Send the specified MessageSend to the server"
@@ -487,7 +489,7 @@ CpServerEnvironment >> sendMessage: aMessageSend [
 			ifNil: [ self sendMessageDirectly: aMessageSend ] ]
 ]
 
-{ #category : #'input/output' }
+{ #category : 'input/output' }
 CpServerEnvironment >> sendMessageDirectly: aMessageSend [
 
 	"Send the specified MessageSend to the server (without waiting)"
@@ -495,7 +497,7 @@ CpServerEnvironment >> sendMessageDirectly: aMessageSend [
 	self sendEncodedMessage: aMessageSend cpEncoded
 ]
 
-{ #category : #support }
+{ #category : 'support' }
 CpServerEnvironment >> started: anAnnouncement [
 
 	"The ClientEnvironment belonging to the receiver (re)started.
@@ -526,7 +528,7 @@ CpServerEnvironment >> started: anAnnouncement [
 	loadedAnnouncer announce: (announcementClass variables: anAnnouncement variables environment: self)
 ]
 
-{ #category : #support }
+{ #category : 'support' }
 CpServerEnvironment >> stop [
 
 	"Stop the receiver. The receiver is unusable after being stopped."
@@ -537,7 +539,7 @@ CpServerEnvironment >> stop [
 		release
 ]
 
-{ #category : #announcing }
+{ #category : 'announcing' }
 CpServerEnvironment >> unsubscribe: anObject [
 
 	"Unsubscribe the specified Object from Announcements of the receiver"
@@ -545,7 +547,7 @@ CpServerEnvironment >> unsubscribe: anObject [
 	^ self announcer unsubscribe: anObject
 ]
 
-{ #category : #updating }
+{ #category : 'updating' }
 CpServerEnvironment >> updateCommunicatorWith: aMessageChannel [
 
 	"Replace the receiver's Communicator MessageChannel with a new one
@@ -557,7 +559,7 @@ CpServerEnvironment >> updateCommunicatorWith: aMessageChannel [
 	self communicator messageChannel: aMessageChannel
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpServerEnvironment >> variableAt: nameString [
 
 	"Answer the value (a String) of the environment variable with the specified name
@@ -568,7 +570,7 @@ CpServerEnvironment >> variableAt: nameString [
 		at: #nameString ifAbsent: [ nil ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpServerEnvironment >> variableNames [
 
 	"Answer an array with the names of available environment variables."
@@ -576,7 +578,7 @@ CpServerEnvironment >> variableNames [
 	^ OSEnvironment current keys
 ]
 
-{ #category : #announcing }
+{ #category : 'announcing' }
 CpServerEnvironment >> when: anAnnouncementClass do: aValuable [
 
 	"Let the sender subscribe to the specified announcement of the receiver.
@@ -585,7 +587,7 @@ CpServerEnvironment >> when: anAnnouncementClass do: aValuable [
 	^ self announcer when: anAnnouncementClass do: aValuable
 ]
 
-{ #category : #announcing }
+{ #category : 'announcing' }
 CpServerEnvironment >> when: anAnnouncementClass send: aSymbol to: anObject [
 
 	"Let the sender subscribe to the specified announcement of the receiver.

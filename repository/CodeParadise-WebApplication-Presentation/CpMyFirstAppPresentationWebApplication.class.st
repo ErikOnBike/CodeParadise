@@ -1,16 +1,18 @@
 Class {
-	#name : #CpMyFirstAppPresentationWebApplication,
-	#superclass : #CpPresentationWebApplication,
-	#category : 'CodeParadise-WebApplication-Presentation-Examples'
+	#name : 'CpMyFirstAppPresentationWebApplication',
+	#superclass : 'CpPresentationWebApplication',
+	#category : 'CodeParadise-WebApplication-Presentation-Examples',
+	#package : 'CodeParadise-WebApplication-Presentation',
+	#tag : 'Examples'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpMyFirstAppPresentationWebApplication class >> app [
 
 	^ #'building-my-first-app'
 ]
 
-{ #category : #slides }
+{ #category : 'slides' }
 CpMyFirstAppPresentationWebApplication >> addApplicationMethodsSlide [
 
 	^ CpTitledSlide new
@@ -42,7 +44,7 @@ CpMyFirstAppPresentationWebApplication >> addApplicationMethodsSlide [
 		yourself
 ]
 
-{ #category : #slides }
+{ #category : 'slides' }
 CpMyFirstAppPresentationWebApplication >> addNewToDoItemAnnouncementMethodsSlide [
 
 	^ CpTitledSlide new
@@ -71,7 +73,7 @@ CpMyFirstAppPresentationWebApplication >> addNewToDoItemAnnouncementMethodsSlide
 		yourself
 ]
 
-{ #category : #slides }
+{ #category : 'slides' }
 CpMyFirstAppPresentationWebApplication >> addToDoItemModelMethods2Slide [
 
 	^ CpTitledSlide new
@@ -97,7 +99,7 @@ CpMyFirstAppPresentationWebApplication >> addToDoItemModelMethods2Slide [
 		yourself
 ]
 
-{ #category : #slides }
+{ #category : 'slides' }
 CpMyFirstAppPresentationWebApplication >> addToDoItemModelMethodsSlide [
 
 	^ CpTitledSlide new
@@ -127,7 +129,7 @@ CpMyFirstAppPresentationWebApplication >> addToDoItemModelMethodsSlide [
 		yourself
 ]
 
-{ #category : #slides }
+{ #category : 'slides' }
 CpMyFirstAppPresentationWebApplication >> addToDoItemPresenters2Slide [
 
 	^ CpTitledSlide new
@@ -180,7 +182,7 @@ CpMyFirstAppPresentationWebApplication >> addToDoItemPresenters2Slide [
 		yourself
 ]
 
-{ #category : #slides }
+{ #category : 'slides' }
 CpMyFirstAppPresentationWebApplication >> addToDoItemPresenters3Slide [
 
 	^ CpTitledSlide new
@@ -210,7 +212,7 @@ CpMyFirstAppPresentationWebApplication >> addToDoItemPresenters3Slide [
 		yourself
 ]
 
-{ #category : #slides }
+{ #category : 'slides' }
 CpMyFirstAppPresentationWebApplication >> addToDoItemPresenters4Slide [
 
 	^ CpTitledSlide new
@@ -232,7 +234,7 @@ CpMyFirstAppPresentationWebApplication >> addToDoItemPresenters4Slide [
 		yourself
 ]
 
-{ #category : #slides }
+{ #category : 'slides' }
 CpMyFirstAppPresentationWebApplication >> addToDoItemPresenters5Slide [
 
 	^ CpTitledSlide new
@@ -259,7 +261,7 @@ CpMyFirstAppPresentationWebApplication >> addToDoItemPresenters5Slide [
 		yourself
 ]
 
-{ #category : #slides }
+{ #category : 'slides' }
 CpMyFirstAppPresentationWebApplication >> addToDoItemPresentersSlide [
 
 	^ CpTitledSlide new
@@ -286,7 +288,7 @@ CpMyFirstAppPresentationWebApplication >> addToDoItemPresentersSlide [
 		yourself
 ]
 
-{ #category : #slides }
+{ #category : 'slides' }
 CpMyFirstAppPresentationWebApplication >> addToDoItemSlide [
 
 	^ CpTitledSlide new
@@ -311,7 +313,7 @@ GlobalMyToDoList addItem: (MyToDoItem description: ''My first item'')'.
 		yourself
 ]
 
-{ #category : #slides }
+{ #category : 'slides' }
 CpMyFirstAppPresentationWebApplication >> addToDoItemViewMethods2Slide [
 
 	^ CpTitledSlide new
@@ -340,7 +342,7 @@ CpMyFirstAppPresentationWebApplication >> addToDoItemViewMethods2Slide [
 		yourself
 ]
 
-{ #category : #slides }
+{ #category : 'slides' }
 CpMyFirstAppPresentationWebApplication >> addToDoItemViewMethodsSlide [
 
 	^ CpTitledSlide new
@@ -374,7 +376,7 @@ CpMyFirstAppPresentationWebApplication >> addToDoItemViewMethodsSlide [
 		yourself
 ]
 
-{ #category : #slides }
+{ #category : 'slides' }
 CpMyFirstAppPresentationWebApplication >> addToDoItemViewStyleSlide [
 
 	^ CpTitledSlide new
@@ -429,7 +431,7 @@ CpMyFirstAppPresentationWebApplication >> addToDoItemViewStyleSlide [
 		yourself
 ]
 
-{ #category : #slides }
+{ #category : 'slides' }
 CpMyFirstAppPresentationWebApplication >> addToDoListModelMethods2Slide [
 
 	^ CpTitledSlide new
@@ -460,7 +462,7 @@ CpMyFirstAppPresentationWebApplication >> addToDoListModelMethods2Slide [
 		yourself
 ]
 
-{ #category : #slides }
+{ #category : 'slides' }
 CpMyFirstAppPresentationWebApplication >> addToDoListModelMethodsSlide [
 
 	^ CpTitledSlide new
@@ -483,7 +485,7 @@ CpMyFirstAppPresentationWebApplication >> addToDoListModelMethodsSlide [
 		yourself
 ]
 
-{ #category : #slides }
+{ #category : 'slides' }
 CpMyFirstAppPresentationWebApplication >> addToDoListPresenterMethodsSlide [
 
 	^ CpTitledSlide new
@@ -511,7 +513,7 @@ CpMyFirstAppPresentationWebApplication >> addToDoListPresenterMethodsSlide [
 		yourself
 ]
 
-{ #category : #slides }
+{ #category : 'slides' }
 CpMyFirstAppPresentationWebApplication >> addToDoListViewBehaviourSlide [
 
 	^ CpTitledSlide new
@@ -540,7 +542,7 @@ CpMyFirstAppPresentationWebApplication >> addToDoListViewBehaviourSlide [
 		yourself
 ]
 
-{ #category : #slides }
+{ #category : 'slides' }
 CpMyFirstAppPresentationWebApplication >> addToDoListViewEventHandler2Slide [
 
 	^ CpTitledSlide new
@@ -572,7 +574,7 @@ CpMyFirstAppPresentationWebApplication >> addToDoListViewEventHandler2Slide [
 		yourself
 ]
 
-{ #category : #slides }
+{ #category : 'slides' }
 CpMyFirstAppPresentationWebApplication >> addToDoListViewEventHandlerSlide [
 
 	^ CpTitledSlide new
@@ -604,7 +606,7 @@ CpMyFirstAppPresentationWebApplication >> addToDoListViewEventHandlerSlide [
 		yourself
 ]
 
-{ #category : #slides }
+{ #category : 'slides' }
 CpMyFirstAppPresentationWebApplication >> addToDoListViewMethodsSlide [
 
 	^ CpTitledSlide new
@@ -633,7 +635,7 @@ CpMyFirstAppPresentationWebApplication >> addToDoListViewMethodsSlide [
 		yourself
 ]
 
-{ #category : #slides }
+{ #category : 'slides' }
 CpMyFirstAppPresentationWebApplication >> addToDoListViewStyle2Slide [
 
 	^ CpTitledSlide new
@@ -700,7 +702,7 @@ CpMyFirstAppPresentationWebApplication >> addToDoListViewStyle2Slide [
 		yourself
 ]
 
-{ #category : #slides }
+{ #category : 'slides' }
 CpMyFirstAppPresentationWebApplication >> addToDoListViewStyleSlide [
 
 	^ CpTitledSlide new
@@ -729,7 +731,7 @@ CpMyFirstAppPresentationWebApplication >> addToDoListViewStyleSlide [
 		yourself
 ]
 
-{ #category : #slides }
+{ #category : 'slides' }
 CpMyFirstAppPresentationWebApplication >> createApplicationSlide [
 
 	^ CpTitledSlide new
@@ -748,7 +750,7 @@ CpMyFirstAppPresentationWebApplication >> createApplicationSlide [
 		yourself
 ]
 
-{ #category : #slides }
+{ #category : 'slides' }
 CpMyFirstAppPresentationWebApplication >> createModelSlide [
 
 	^ CpTitledSlide new
@@ -765,7 +767,7 @@ CpMyFirstAppPresentationWebApplication >> createModelSlide [
 		yourself
 ]
 
-{ #category : #model }
+{ #category : 'model' }
 CpMyFirstAppPresentationWebApplication >> createPresentationModel [
 
 	"Create and answer the PresentationModel for the presentation"
@@ -826,7 +828,7 @@ CpMyFirstAppPresentationWebApplication >> createPresentationModel [
 		yourself
 ]
 
-{ #category : #slides }
+{ #category : 'slides' }
 CpMyFirstAppPresentationWebApplication >> createPresentersSlide [
 
 	^ CpTitledSlide new
@@ -844,7 +846,7 @@ CpMyFirstAppPresentationWebApplication >> createPresentersSlide [
 		yourself
 ]
 
-{ #category : #slides }
+{ #category : 'slides' }
 CpMyFirstAppPresentationWebApplication >> createViewsSlide [
 
 	^ CpTitledSlide new
@@ -867,7 +869,7 @@ CpMyFirstAppPresentationWebApplication >> createViewsSlide [
 		yourself
 ]
 
-{ #category : #slides }
+{ #category : 'slides' }
 CpMyFirstAppPresentationWebApplication >> explanationSlide [
 
 	^ CpTitledSlide new
@@ -887,7 +889,7 @@ CpMyFirstAppPresentationWebApplication >> explanationSlide [
 		yourself
 ]
 
-{ #category : #slides }
+{ #category : 'slides' }
 CpMyFirstAppPresentationWebApplication >> finalSlide [
 
 	^ CpTitledSlide new
@@ -904,7 +906,7 @@ CpMyFirstAppPresentationWebApplication >> finalSlide [
 		yourself
 ]
 
-{ #category : #slides }
+{ #category : 'slides' }
 CpMyFirstAppPresentationWebApplication >> introductionSlide [
 
 	^ CpFullPageSlide new
@@ -915,7 +917,7 @@ CpMyFirstAppPresentationWebApplication >> introductionSlide [
 		yourself
 ]
 
-{ #category : #actions }
+{ #category : 'actions' }
 CpMyFirstAppPresentationWebApplication >> openInspector [
 
 	"Open an Inspector on the receiver and answer it"
@@ -923,19 +925,19 @@ CpMyFirstAppPresentationWebApplication >> openInspector [
 	^ self inspector
 ]
 
-{ #category : #actions }
+{ #category : 'actions' }
 CpMyFirstAppPresentationWebApplication >> showNextSlide [
 
 	self presentation nextSlide
 ]
 
-{ #category : #actions }
+{ #category : 'actions' }
 CpMyFirstAppPresentationWebApplication >> showPreviousSlide [
 
 	self presentation previousSlide
 ]
 
-{ #category : #slides }
+{ #category : 'slides' }
 CpMyFirstAppPresentationWebApplication >> startApplicationSlide [
 
 	^ CpTitledSlide new
@@ -970,7 +972,7 @@ CpMyFirstAppPresentationWebApplication >> startApplicationSlide [
 		yourself
 ]
 
-{ #category : #slides }
+{ #category : 'slides' }
 CpMyFirstAppPresentationWebApplication >> updateToDoItemViewMethods2Slide [
 
 	^ CpTitledSlide new
@@ -1000,7 +1002,7 @@ CpMyFirstAppPresentationWebApplication >> updateToDoItemViewMethods2Slide [
 		yourself
 ]
 
-{ #category : #slides }
+{ #category : 'slides' }
 CpMyFirstAppPresentationWebApplication >> updateToDoItemViewMethods3Slide [
 
 	^ CpTitledSlide new
@@ -1031,7 +1033,7 @@ CpMyFirstAppPresentationWebApplication >> updateToDoItemViewMethods3Slide [
 		yourself
 ]
 
-{ #category : #slides }
+{ #category : 'slides' }
 CpMyFirstAppPresentationWebApplication >> updateToDoItemViewMethods4Slide [
 
 	^ CpTitledSlide new
@@ -1052,7 +1054,7 @@ CpMyFirstAppPresentationWebApplication >> updateToDoItemViewMethods4Slide [
 		yourself
 ]
 
-{ #category : #slides }
+{ #category : 'slides' }
 CpMyFirstAppPresentationWebApplication >> updateToDoItemViewMethodsSlide [
 
 	^ CpTitledSlide new
@@ -1075,7 +1077,7 @@ CpMyFirstAppPresentationWebApplication >> updateToDoItemViewMethodsSlide [
 		yourself
 ]
 
-{ #category : #slides }
+{ #category : 'slides' }
 CpMyFirstAppPresentationWebApplication >> updateToDoListModel2Slide [
 
 	^ CpTitledSlide new
@@ -1106,7 +1108,7 @@ CpMyFirstAppPresentationWebApplication >> updateToDoListModel2Slide [
 		yourself
 ]
 
-{ #category : #slides }
+{ #category : 'slides' }
 CpMyFirstAppPresentationWebApplication >> updateToDoListModel3Slide [
 
 	^ CpTitledSlide new
@@ -1130,7 +1132,7 @@ CpMyFirstAppPresentationWebApplication >> updateToDoListModel3Slide [
 		yourself
 ]
 
-{ #category : #slides }
+{ #category : 'slides' }
 CpMyFirstAppPresentationWebApplication >> updateToDoListModel4Slide [
 
 	^ CpTitledSlide new
@@ -1160,7 +1162,7 @@ CpMyFirstAppPresentationWebApplication >> updateToDoListModel4Slide [
 		yourself
 ]
 
-{ #category : #slides }
+{ #category : 'slides' }
 CpMyFirstAppPresentationWebApplication >> updateToDoListModel5Slide [
 
 	^ CpTitledSlide new
@@ -1189,7 +1191,7 @@ CpMyFirstAppPresentationWebApplication >> updateToDoListModel5Slide [
 		yourself
 ]
 
-{ #category : #slides }
+{ #category : 'slides' }
 CpMyFirstAppPresentationWebApplication >> updateToDoListModel6Slide [
 
 	^ CpTitledSlide new
@@ -1264,7 +1266,7 @@ CpMyFirstAppPresentationWebApplication >> updateToDoListModel6Slide [
 		yourself
 ]
 
-{ #category : #slides }
+{ #category : 'slides' }
 CpMyFirstAppPresentationWebApplication >> updateToDoListModel7Slide [
 
 	^ CpTitledSlide new
@@ -1295,7 +1297,7 @@ CpMyFirstAppPresentationWebApplication >> updateToDoListModel7Slide [
 		yourself
 ]
 
-{ #category : #slides }
+{ #category : 'slides' }
 CpMyFirstAppPresentationWebApplication >> updateToDoListModelSlide [
 
 	^ CpTitledSlide new
@@ -1320,7 +1322,7 @@ CpMyFirstAppPresentationWebApplication >> updateToDoListModelSlide [
 		yourself
 ]
 
-{ #category : #slides }
+{ #category : 'slides' }
 CpMyFirstAppPresentationWebApplication >> updateToDoListPresenterMethods2Slide [
 
 	^ CpTitledSlide new
@@ -1343,7 +1345,7 @@ CpMyFirstAppPresentationWebApplication >> updateToDoListPresenterMethods2Slide [
 		yourself
 ]
 
-{ #category : #slides }
+{ #category : 'slides' }
 CpMyFirstAppPresentationWebApplication >> updateToDoListPresenterMethods3Slide [
 
 	^ CpTitledSlide new
@@ -1375,7 +1377,7 @@ CpMyFirstAppPresentationWebApplication >> updateToDoListPresenterMethods3Slide [
 	yourself
 ]
 
-{ #category : #slides }
+{ #category : 'slides' }
 CpMyFirstAppPresentationWebApplication >> updateToDoListPresenterMethodsSlide [
 
 	^ CpTitledSlide new
@@ -1404,7 +1406,7 @@ CpMyFirstAppPresentationWebApplication >> updateToDoListPresenterMethodsSlide [
 		yourself
 ]
 
-{ #category : #slides }
+{ #category : 'slides' }
 CpMyFirstAppPresentationWebApplication >> updateToDoListPresenterMoreMethods2Slide [
 
 	^ CpTitledSlide new
@@ -1430,7 +1432,7 @@ CpMyFirstAppPresentationWebApplication >> updateToDoListPresenterMoreMethods2Sli
 		yourself
 ]
 
-{ #category : #slides }
+{ #category : 'slides' }
 CpMyFirstAppPresentationWebApplication >> updateToDoListPresenterMoreMethods3Slide [
 
 	^ CpTitledSlide new
@@ -1452,7 +1454,7 @@ CpMyFirstAppPresentationWebApplication >> updateToDoListPresenterMoreMethods3Sli
 		yourself
 ]
 
-{ #category : #slides }
+{ #category : 'slides' }
 CpMyFirstAppPresentationWebApplication >> updateToDoListPresenterMoreMethods4Slide [
 
 	^ CpTitledSlide new
@@ -1482,7 +1484,7 @@ CpMyFirstAppPresentationWebApplication >> updateToDoListPresenterMoreMethods4Sli
 		yourself
 ]
 
-{ #category : #slides }
+{ #category : 'slides' }
 CpMyFirstAppPresentationWebApplication >> updateToDoListPresenterMoreMethods5Slide [
 
 	^ CpTitledSlide new
@@ -1524,7 +1526,7 @@ CpMyFirstAppPresentationWebApplication >> updateToDoListPresenterMoreMethods5Sli
 		yourself
 ]
 
-{ #category : #slides }
+{ #category : 'slides' }
 CpMyFirstAppPresentationWebApplication >> updateToDoListPresenterMoreMethods6Slide [
 
 	^ CpTitledSlide new
@@ -1549,7 +1551,7 @@ CpMyFirstAppPresentationWebApplication >> updateToDoListPresenterMoreMethods6Sli
 		yourself
 ]
 
-{ #category : #slides }
+{ #category : 'slides' }
 CpMyFirstAppPresentationWebApplication >> updateToDoListPresenterMoreMethods7Slide [
 
 	^ CpTitledSlide new
@@ -1576,7 +1578,7 @@ CpMyFirstAppPresentationWebApplication >> updateToDoListPresenterMoreMethods7Sli
 		yourself
 ]
 
-{ #category : #slides }
+{ #category : 'slides' }
 CpMyFirstAppPresentationWebApplication >> updateToDoListPresenterMoreMethodsSlide [
 
 	^ CpTitledSlide new

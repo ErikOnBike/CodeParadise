@@ -1,10 +1,11 @@
 Class {
-	#name : #CpReadStreamExtensionTest,
-	#superclass : #TestCase,
-	#category : #'CodeParadise-WebApplication-Tests'
+	#name : 'CpReadStreamExtensionTest',
+	#superclass : 'TestCase',
+	#category : 'CodeParadise-WebApplication-Tests',
+	#package : 'CodeParadise-WebApplication-Tests'
 }
 
-{ #category : #tests }
+{ #category : 'tests' }
 CpReadStreamExtensionTest >> testLookAheadAt [
 
 	| readStream |

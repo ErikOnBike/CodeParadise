@@ -1,10 +1,12 @@
 Class {
-	#name : #CpWindowTitle,
-	#superclass : #CpView,
-	#category : #'CodeParadise-Beach-Components'
+	#name : 'CpWindowTitle',
+	#superclass : 'CpView',
+	#category : 'CodeParadise-Beach-Components',
+	#package : 'CodeParadise-Beach',
+	#tag : 'Components'
 }
 
-{ #category : #'web resources' }
+{ #category : 'web resources' }
 CpWindowTitle class >> style [
 
 	<webResource: #css>
@@ -33,7 +35,7 @@ CpWindowTitle class >> style [
 		}'
 ]
 
-{ #category : #'web resources' }
+{ #category : 'web resources' }
 CpWindowTitle class >> template [
 
 	<webResource: #html>
@@ -42,13 +44,13 @@ CpWindowTitle class >> template [
 
 ]
 
-{ #category : #rendering }
+{ #category : 'rendering' }
 CpWindowTitle >> renderIcon: anIconName [
 
 	self replaceAllChildrenWith: (CpIcon named: anIconName) atSlotNamed: #icon
 ]
 
-{ #category : #rendering }
+{ #category : 'rendering' }
 CpWindowTitle >> renderTitle: aString [
 
 	(aString notNil and: [ aString isNotEmpty ])

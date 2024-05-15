@@ -6,18 +6,20 @@ manipulation behavior.
 
 "
 Class {
-	#name : #CpBrowserCanvasElement,
-	#superclass : #CpJavaScriptEventTarget,
-	#category : #'CodeParadise-Browser-Support-Canvas'
+	#name : 'CpBrowserCanvasElement',
+	#superclass : 'CpJavaScriptEventTarget',
+	#category : 'CodeParadise-Browser-Support-Canvas',
+	#package : 'CodeParadise-Browser-Support',
+	#tag : 'Canvas'
 }
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 CpBrowserCanvasElement class >> domElement: aDomElement [
 
 	^ self wrap: aDomElement
 ]
 
-{ #category : #operations }
+{ #category : 'operations' }
 CpBrowserCanvasElement >> captureStream [
 
 	"Returns a CanvasCaptureMediaStreamTrack that is a real-time video capture of the surface of the canvas."
@@ -25,7 +27,7 @@ CpBrowserCanvasElement >> captureStream [
 	self apply: #captureStream
 ]
 
-{ #category : #operations }
+{ #category : 'operations' }
 CpBrowserCanvasElement >> getContext: aString [
 
 	"Returns a drawing context on the canvas, or null if the context ID is not supported. A drawing context lets you draw on the canvas. Calling getContext with ""2d"" returns a CanvasRenderingContext2D object, whereas calling it with ""webgl"" (or ""experimental-webgl"") returns a WebGLRenderingContext object. This context is only available on browsers that implement WebGL."
@@ -33,7 +35,7 @@ CpBrowserCanvasElement >> getContext: aString [
 	^ self apply: #getContext withArguments: { aString }
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpBrowserCanvasElement >> height [
 
 	"The height HTML attribute of the <canvas> element is a non-negative integer reflecting the number of logical pixels (or RGBA values) going down one column of the canvas. When the attribute is not specified, or if it is set to an invalid value, like a negative, the default value of 150 is used. If no [separate] CSS height is assigned to the <canvas>, then this value will also be used as the height of the canvas in the length-unit CSS Pixel."
@@ -41,7 +43,7 @@ CpBrowserCanvasElement >> height [
 	^ self propertyAt: #height
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpBrowserCanvasElement >> height: anInteger [
 
 	"The height HTML attribute of the <canvas> element is a non-negative integer reflecting the number of logical pixels (or RGBA values) going down one column of the canvas. When the attribute is not specified, or if it is set to an invalid value, like a negative, the default value of 150 is used. If no [separate] CSS height is assigned to the <canvas>, then this value will also be used as the height of the canvas in the length-unit CSS Pixel."
@@ -49,7 +51,7 @@ CpBrowserCanvasElement >> height: anInteger [
 	self propertyAt: #height put: anInteger
 ]
 
-{ #category : #operations }
+{ #category : 'operations' }
 CpBrowserCanvasElement >> toBlobThenDo: aBlock [
 
 	"Creates a Blob object representing the image contained in the canvas; this file may be cached on the disk or stored in memory at the discretion of the user agent."
@@ -57,7 +59,7 @@ CpBrowserCanvasElement >> toBlobThenDo: aBlock [
 	^ self apply: #toBlob withArguments: { CpJavaScriptFunction wrap: aBlock }
 ]
 
-{ #category : #operations }
+{ #category : 'operations' }
 CpBrowserCanvasElement >> toBlobType: aString quality: aFloat thenDo: aBlock [
 
 	"Creates a Blob object representing the image contained in the canvas; this file may be cached on the disk or stored in memory at the discretion of the user agent.
@@ -68,7 +70,7 @@ CpBrowserCanvasElement >> toBlobType: aString quality: aFloat thenDo: aBlock [
 	^ self apply: #toBlob withArguments: { CpJavaScriptFunction wrap: aBlock . aString . aFloat }
 ]
 
-{ #category : #operations }
+{ #category : 'operations' }
 CpBrowserCanvasElement >> toBlobType: aString thenDo: aBlock [
 
 	"Creates a Blob object representing the image contained in the canvas; this file may be cached on the disk or stored in memory at the discretion of the user agent.
@@ -78,7 +80,7 @@ CpBrowserCanvasElement >> toBlobType: aString thenDo: aBlock [
 	^ self apply: #toBlob withArguments: { CpJavaScriptFunction wrap: aBlock . aString }
 ]
 
-{ #category : #operations }
+{ #category : 'operations' }
 CpBrowserCanvasElement >> toDataURL [
 
 	"Returns a data-URL containing a representation of the image in the format specified by the type parameter (defaults to png). The returned image is in a resolution of 96dpi."
@@ -86,7 +88,7 @@ CpBrowserCanvasElement >> toDataURL [
 	^ self apply: #toDataURL
 ]
 
-{ #category : #operations }
+{ #category : 'operations' }
 CpBrowserCanvasElement >> toDataURLType: aString [
 
 	"Returns a data-URL containing a representation of the image in the format specified by the type parameter (defaults to png). The returned image is in a resolution of 96dpi.
@@ -96,7 +98,7 @@ CpBrowserCanvasElement >> toDataURLType: aString [
 	^ self apply: #toDataURL withArguments: { aString }
 ]
 
-{ #category : #operations }
+{ #category : 'operations' }
 CpBrowserCanvasElement >> toDataURLType: aString quality: aFloat [
 
 	"Returns a data-URL containing a representation of the image in the format specified by the type parameter (defaults to png). The returned image is in a resolution of 96dpi.
@@ -107,7 +109,7 @@ CpBrowserCanvasElement >> toDataURLType: aString quality: aFloat [
 	^ self apply: #toDataURL withArguments: { aString . aFloat }
 ]
 
-{ #category : #operations }
+{ #category : 'operations' }
 CpBrowserCanvasElement >> transferControlToOffscreen [
 
 	"Transfers control to an OffscreenCanvas object, either on the main thread or on a worker."
@@ -115,7 +117,7 @@ CpBrowserCanvasElement >> transferControlToOffscreen [
 	^ self apply: #transferControlToOffscreen
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpBrowserCanvasElement >> width [
 
 	"The width HTML attribute of the <canvas> element is a non-negative integer reflecting the number of logical pixels (or RGBA values) going across one row of the canvas. When the attribute is not specified, or if it is set to an invalid value, like a negative, the default value of 300 is used. If no [separate] CSS width is assigned to the <canvas>, then this value will also be used as the width of the canvas in the length-unit CSS Pixel.
@@ -124,7 +126,7 @@ CpBrowserCanvasElement >> width [
 	^ self propertyAt: #width
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpBrowserCanvasElement >> width: anInteger [
 
 	"The width HTML attribute of the <canvas> element is a non-negative integer reflecting the number of logical pixels (or RGBA values) going across one row of the canvas. When the attribute is not specified, or if it is set to an invalid value, like a negative, the default value of 300 is used. If no [separate] CSS width is assigned to the <canvas>, then this value will also be used as the width of the canvas in the length-unit CSS Pixel.

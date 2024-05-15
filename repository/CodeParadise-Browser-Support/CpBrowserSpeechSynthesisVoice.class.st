@@ -1,10 +1,12 @@
 Class {
-	#name : #CpBrowserSpeechSynthesisVoice,
-	#superclass : #CpJavaScriptObject,
-	#category : #'CodeParadise-Browser-Support-Speech'
+	#name : 'CpBrowserSpeechSynthesisVoice',
+	#superclass : 'CpJavaScriptObject',
+	#category : 'CodeParadise-Browser-Support-Speech',
+	#package : 'CodeParadise-Browser-Support',
+	#tag : 'Speech'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpBrowserSpeechSynthesisVoice >> default [
 
 	"A boolean value indicating whether the voice is the default voice for the current app language (true), or not (false)."
@@ -12,7 +14,7 @@ CpBrowserSpeechSynthesisVoice >> default [
 	^ self propertyAt: #default
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpBrowserSpeechSynthesisVoice >> lang [
 
 	"Returns a BCP 47 language tag indicating the language of the voice. (aka IETF language tag)"
@@ -20,7 +22,7 @@ CpBrowserSpeechSynthesisVoice >> lang [
 	^ self propertyAt: #lang
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpBrowserSpeechSynthesisVoice >> localService [
 
 	"A boolean value indicating whether the voice is supplied by a local speech synthesizer service (true), or a remote speech synthesizer service (false)."
@@ -28,7 +30,7 @@ CpBrowserSpeechSynthesisVoice >> localService [
 	^ self propertyAt: #localService
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpBrowserSpeechSynthesisVoice >> name [
 
 	"Returns a human-readable name that represents the voice."
@@ -36,7 +38,7 @@ CpBrowserSpeechSynthesisVoice >> name [
 	^ self propertyAt: #name
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpBrowserSpeechSynthesisVoice >> voiceURI [
 
 	"Returns the type of URI and location of the speech synthesis service for this voice."

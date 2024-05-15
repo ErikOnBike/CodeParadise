@@ -1,6 +1,6 @@
-Extension { #name : #AdditionalMethodState }
+Extension { #name : 'AdditionalMethodState' }
 
-{ #category : #'*CodeParadise-RemoteEnvironment' }
+{ #category : '*CodeParadise-RemoteEnvironment' }
 AdditionalMethodState >> cpEncodeWith: anEncoder [
 
 	<clientEnvironment>
@@ -11,7 +11,7 @@ AdditionalMethodState >> cpEncodeWith: anEncoder [
 	anEncoder encodeAdditionalMethodState: self
 ]
 
-{ #category : #'*CodeParadise-RemoteEnvironment' }
+{ #category : '*CodeParadise-RemoteEnvironment' }
 AdditionalMethodState >> hasNonEmptyProperties [
 
 	"Answer whether the receiver has non-empty properties.

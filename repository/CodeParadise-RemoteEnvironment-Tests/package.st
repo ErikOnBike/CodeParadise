@@ -1,1 +1,1 @@
-Package { #name : #'CodeParadise-RemoteEnvironment-Tests' }
+Package { #name : 'CodeParadise-RemoteEnvironment-Tests' }

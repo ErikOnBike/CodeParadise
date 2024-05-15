@@ -1,6 +1,6 @@
-Extension { #name : #UndefinedObject }
+Extension { #name : 'UndefinedObject' }
 
-{ #category : #'*CodeParadise-WebApplication-MVP' }
+{ #category : '*CodeParadise-WebApplication-MVP' }
 UndefinedObject class >> asParameterDictionary [
 
 	"Ignore this conversion and simply answer myself as specific

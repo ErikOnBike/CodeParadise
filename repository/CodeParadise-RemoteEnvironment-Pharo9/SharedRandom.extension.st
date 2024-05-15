@@ -1,6 +1,6 @@
-Extension { #name : #SharedRandom }
+Extension { #name : 'SharedRandom' }
 
-{ #category : #'*CodeParadise-RemoteEnvironment-Pharo9' }
+{ #category : '*CodeParadise-RemoteEnvironment-Pharo9' }
 SharedRandom >> nextInt: anInteger [
 
 	^ self nextInteger: anInteger

@@ -1,10 +1,11 @@
 Class {
-	#name : #CpSmalltalkParserTest,
-	#superclass : #TestCase,
-	#category : #'CodeParadise-Beach-Tests'
+	#name : 'CpSmalltalkParserTest',
+	#superclass : 'TestCase',
+	#category : 'CodeParadise-Beach-Tests',
+	#package : 'CodeParadise-Beach-Tests'
 }
 
-{ #category : #tests }
+{ #category : 'tests' }
 CpSmalltalkParserTest >> testDigits [
 
 	self assert: (CpParser isDigit: $0) description: '0 is digit'.
@@ -23,7 +24,7 @@ CpSmalltalkParserTest >> testDigits [
 	self assert: (CpParser isDigit: $Z withRadix: 350) description: 'Z is digit with radix 350'
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 CpSmalltalkParserTest >> testLiteralFloatingPointNumber [
 
 	| parser streamIndex |
@@ -54,7 +55,7 @@ CpSmalltalkParserTest >> testLiteralFloatingPointNumber [
 
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 CpSmalltalkParserTest >> testLiteralIntegerNumber [
 
 	| parser streamIndex |
@@ -90,7 +91,7 @@ CpSmalltalkParserTest >> testLiteralIntegerNumber [
 	self assert: (CpEditorTokenizer getValueFromNode: parser tokens first) = '987e3' description: 'Correct integer with exponent number'
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 CpSmalltalkParserTest >> testLiteralIntegerWithRadixNumber [
 
 	| parser streamIndex |
@@ -126,7 +127,7 @@ CpSmalltalkParserTest >> testLiteralIntegerWithRadixNumber [
 	self assert: (CpEditorTokenizer getValueFromNode: parser tokens first) = '8r7e3' description: 'Correct integer with radix and exponent number'
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 CpSmalltalkParserTest >> testLiteralNegativeFloatingPointNumber [
 
 	| parser streamIndex |
@@ -157,7 +158,7 @@ CpSmalltalkParserTest >> testLiteralNegativeFloatingPointNumber [
 
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 CpSmalltalkParserTest >> testLiteralNegativeIntegerNumber [
 
 	| parser streamIndex |

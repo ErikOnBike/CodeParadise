@@ -6,17 +6,19 @@ I expect to be running on a SqueakJS-VM.
 I can (probably) never support running from server to client when used inside a web browser. When used inside Node.js I will support running from server to client (in a future version).
 "
 Class {
-	#name : #CpJavaScriptWebSocketChannel,
-	#superclass : #CpMessageChannel,
+	#name : 'CpJavaScriptWebSocketChannel',
+	#superclass : 'CpMessageChannel',
 	#instVars : [
 		'state',
 		'eventSemaphore',
 		'semaphoreIndex'
 	],
-	#category : #'CodeParadise-RemoteEnvironment-Core'
+	#category : 'CodeParadise-RemoteEnvironment-Core',
+	#package : 'CodeParadise-RemoteEnvironment',
+	#tag : 'Core'
 }
 
-{ #category : #'public api' }
+{ #category : 'public api' }
 CpJavaScriptWebSocketChannel class >> forOwner: ownerObject connectedToUrl: urlString [
 
 	"Create for the specified owner, a new instance of the receiver which is connected
@@ -39,7 +41,7 @@ CpJavaScriptWebSocketChannel class >> forOwner: ownerObject connectedToUrl: urlS
 		yourself
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 CpJavaScriptWebSocketChannel class >> newForOwner: ownerObject [
 
 	"Answer a new instance of the receiver with the specified owner"
@@ -49,7 +51,7 @@ CpJavaScriptWebSocketChannel class >> newForOwner: ownerObject [
 		yourself
 ]
 
-{ #category : #'public api' }
+{ #category : 'public api' }
 CpJavaScriptWebSocketChannel class >> startServerForOwner: ownerObject onPort: anInteger path: aString [
 
 	"Create a server listening on the specified port and path.
@@ -66,7 +68,7 @@ CpJavaScriptWebSocketChannel class >> startServerForOwner: ownerObject onPort: a
 	Error signal: 'Currently the JavaScript implementation is still missing'
 ]
 
-{ #category : #'public api' }
+{ #category : 'public api' }
 CpJavaScriptWebSocketChannel >> close [
 
 	"Close the receiver, thereby making the receiver unusable.
@@ -77,7 +79,7 @@ CpJavaScriptWebSocketChannel >> close [
 
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 CpJavaScriptWebSocketChannel >> connectToUrl: urlString [
 
 	"Connect the receiver to the specified URL and answer whether this succeeded.
@@ -93,7 +95,7 @@ CpJavaScriptWebSocketChannel >> connectToUrl: urlString [
 	^ self isOpen
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 CpJavaScriptWebSocketChannel >> connectToUrl: urlString withEventSemaphore: semaIndex [
 
 	"Connect the primitive WebSocket to the specified URL and use the specified Semaphore for signaling events"
@@ -102,7 +104,7 @@ CpJavaScriptWebSocketChannel >> connectToUrl: urlString withEventSemaphore: sema
 	self primitiveFailed
 ]
 
-{ #category : #'message handling' }
+{ #category : 'message handling' }
 CpJavaScriptWebSocketChannel >> handleMessageHandlerError: anError [ 
 
 	"Announce the error (for debugger or otherwise)"
@@ -111,7 +113,7 @@ CpJavaScriptWebSocketChannel >> handleMessageHandlerError: anError [
 	super handleMessageHandlerError: anError
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 CpJavaScriptWebSocketChannel >> initialize [
 
 	"Initialize the receiver.
@@ -127,7 +129,7 @@ CpJavaScriptWebSocketChannel >> initialize [
 
 ]
 
-{ #category : #'public api' }
+{ #category : 'public api' }
 CpJavaScriptWebSocketChannel >> isOpen [
 
 	"Receiver is considered open if state is 'open'.
@@ -136,7 +138,7 @@ CpJavaScriptWebSocketChannel >> isOpen [
 	^ state = 1
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 CpJavaScriptWebSocketChannel >> readyState [
 
 	"Answer the state of the primitive WebSocket.
@@ -147,7 +149,7 @@ CpJavaScriptWebSocketChannel >> readyState [
 
 ]
 
-{ #category : #'message handling' }
+{ #category : 'message handling' }
 CpJavaScriptWebSocketChannel >> receivedMessage [
 
 	"Answer the next message received or nil if none is available.
@@ -159,7 +161,7 @@ CpJavaScriptWebSocketChannel >> receivedMessage [
 
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 CpJavaScriptWebSocketChannel >> release [
 
 	"Release instance variables of the receiver.
@@ -175,7 +177,7 @@ CpJavaScriptWebSocketChannel >> release [
 	super release
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 CpJavaScriptWebSocketChannel >> send: aByteArray [
 
 	"Send the message through the primitive WebSocket (asynchronous).
@@ -186,7 +188,7 @@ CpJavaScriptWebSocketChannel >> send: aByteArray [
 
 ]
 
-{ #category : #'public api' }
+{ #category : 'public api' }
 CpJavaScriptWebSocketChannel >> sendMessage: aByteArray [
 
 	"Send the specified message.
@@ -196,7 +198,7 @@ CpJavaScriptWebSocketChannel >> sendMessage: aByteArray [
 		ifFalse: [ Error signal: 'Failed to send message' ]
 ]
 
-{ #category : #'state handling' }
+{ #category : 'state handling' }
 CpJavaScriptWebSocketChannel >> updateState [
 
 	"Update the receiver's state.

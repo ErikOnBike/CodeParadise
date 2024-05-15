@@ -1,19 +1,21 @@
 Class {
-	#name : #CpDomElementAnnouncer,
-	#superclass : #Announcer,
+	#name : 'CpDomElementAnnouncer',
+	#superclass : 'Announcer',
 	#instVars : [
 		'element'
 	],
-	#category : #'CodeParadise-WebApplication-DOM'
+	#category : 'CodeParadise-WebApplication-DOM',
+	#package : 'CodeParadise-WebApplication',
+	#tag : 'DOM'
 }
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 CpDomElementAnnouncer class >> new [
 
 	self shouldNotImplement
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 CpDomElementAnnouncer class >> newForElement: anElement [
 
 	^ self basicNew
@@ -21,13 +23,13 @@ CpDomElementAnnouncer class >> newForElement: anElement [
 		yourself
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpDomElementAnnouncer >> element [
 
 	^ element
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 CpDomElementAnnouncer >> initializeWithElement: anElement [
 
 	self initialize.
@@ -35,7 +37,7 @@ CpDomElementAnnouncer >> initializeWithElement: anElement [
 	element := anElement
 ]
 
-{ #category : #subscription }
+{ #category : 'subscription' }
 CpDomElementAnnouncer >> removeSubscription: aSubscription [
 
 	"Remove the specified subscription from the receiver"
@@ -45,7 +47,7 @@ CpDomElementAnnouncer >> removeSubscription: aSubscription [
 	^ super removeSubscription: aSubscription
 ]
 
-{ #category : #subscription }
+{ #category : 'subscription' }
 CpDomElementAnnouncer >> unsubscribe: anObject [
 
 	"Unsubscribe all subscriptions of anObject from the receiver"
@@ -56,7 +58,7 @@ CpDomElementAnnouncer >> unsubscribe: anObject [
 	super unsubscribe: anObject
 ]
 
-{ #category : #'registration api' }
+{ #category : 'registration api' }
 CpDomElementAnnouncer >> when: anAnnouncementClass do: aBlock [
 
 	anAnnouncementClass addListenerTo: self element.
@@ -64,7 +66,7 @@ CpDomElementAnnouncer >> when: anAnnouncementClass do: aBlock [
 	^ super when: anAnnouncementClass do: aBlock
 ]
 
-{ #category : #'registration api' }
+{ #category : 'registration api' }
 CpDomElementAnnouncer >> when: anAnnouncementClass send: aSymbol to: anObject [
 
 	"Declare that when anAnnouncementClass is raised, anObject should receive the message aSelector.

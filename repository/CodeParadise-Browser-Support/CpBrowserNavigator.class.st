@@ -1,10 +1,12 @@
 Class {
-	#name : #CpBrowserNavigator,
-	#superclass : #CpJavaScriptObject,
-	#category : #'CodeParadise-Browser-Support-Navigator'
+	#name : 'CpBrowserNavigator',
+	#superclass : 'CpJavaScriptObject',
+	#category : 'CodeParadise-Browser-Support-Navigator',
+	#package : 'CodeParadise-Browser-Support',
+	#tag : 'Navigator'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpBrowserNavigator class >> current [
 
 	"Answer an instance of the receiver"
@@ -13,13 +15,13 @@ CpBrowserNavigator class >> current [
 		apply: #navigator resultAs: self
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 CpBrowserNavigator class >> newInstanceWithArguments: anArray resultAs: aProxyClass [
 
 	self error: 'An instance should be retrieved using the selector ', #current
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpBrowserNavigator >> language [
 
 	"Returns a string representing the preferred language of the user, usually the language of the browser UI. The null value is returned when this is unknown."
@@ -27,7 +29,7 @@ CpBrowserNavigator >> language [
 	^ self propertyAt: #language
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpBrowserNavigator >> languages [
 
 	"Returns an array of strings representing the languages known to the user, by order of preference."

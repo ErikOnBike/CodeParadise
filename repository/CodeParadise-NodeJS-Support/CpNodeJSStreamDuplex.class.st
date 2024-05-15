@@ -1,10 +1,12 @@
 Class {
-	#name : #CpNodeJSStreamDuplex,
-	#superclass : #CpNodeJSStreamReadable,
-	#category : #'CodeParadise-NodeJS-Support-Stream'
+	#name : 'CpNodeJSStreamDuplex',
+	#superclass : 'CpNodeJSStreamReadable',
+	#category : 'CodeParadise-NodeJS-Support-Stream',
+	#package : 'CodeParadise-NodeJS-Support',
+	#tag : 'Stream'
 }
 
-{ #category : #operations }
+{ #category : 'operations' }
 CpNodeJSStreamDuplex >> cork [
 
 	"The writable.cork() method forces all written data to be buffered in memory. The buffered
@@ -21,7 +23,7 @@ CpNodeJSStreamDuplex >> cork [
 	self apply: #cork
 ]
 
-{ #category : #operations }
+{ #category : 'operations' }
 CpNodeJSStreamDuplex >> end [
 
 	"Calling the writable.end() method signals that no more data will be written to the Writable.
@@ -33,19 +35,19 @@ CpNodeJSStreamDuplex >> end [
 	self apply: #end
 ]
 
-{ #category : #operations }
+{ #category : 'operations' }
 CpNodeJSStreamDuplex >> endWithChunk: anObject [
 
 	self endWithChunk: anObject encoding: nil thenDo: nil
 ]
 
-{ #category : #operations }
+{ #category : 'operations' }
 CpNodeJSStreamDuplex >> endWithChunk: anObject encoding: aString [
 
 	self endWithChunk: anObject encoding: aString thenDo: nil
 ]
 
-{ #category : #operations }
+{ #category : 'operations' }
 CpNodeJSStreamDuplex >> endWithChunk: anObject encoding: aString thenDo: aBlock [
 
 	"Calling the writable.end() method signals that no more data will be written to the Writable.
@@ -57,13 +59,13 @@ CpNodeJSStreamDuplex >> endWithChunk: anObject encoding: aString thenDo: aBlock 
 	self apply: #end withArguments: { anObject . aString . aBlock }
 ]
 
-{ #category : #operations }
+{ #category : 'operations' }
 CpNodeJSStreamDuplex >> endWithChunk: anObject thenDo: aBlock [
 
 	self endWithChunk: anObject encoding: nil thenDo: aBlock
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpNodeJSStreamDuplex >> errored [
 
 	"Returns error if the stream has been destroyed with an error."
@@ -71,7 +73,7 @@ CpNodeJSStreamDuplex >> errored [
 	^ self propertyAt: #errored
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 CpNodeJSStreamDuplex >> onDrainDo: aBlock [
 
 	"If a call to stream.write(chunk) returns false, the 'drain' event will be emitted when it is appropriate to resume writing data to the stream."
@@ -82,7 +84,7 @@ CpNodeJSStreamDuplex >> onDrainDo: aBlock [
 	^ self addEventListener: #drain handler: aBlock
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 CpNodeJSStreamDuplex >> onFinishDo: aBlock [
 
 	"The 'finish' event is emitted after the stream.end() method has been called, and all data has been flushed to the underlying system."
@@ -93,7 +95,7 @@ CpNodeJSStreamDuplex >> onFinishDo: aBlock [
 	^ self addEventListener: #finish handler: aBlock
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 CpNodeJSStreamDuplex >> onPipeDo: aBlock [
 
 	"The 'pipe' event is emitted when the stream.pipe() method is called on a readable stream, adding this writable to its set of destinations.
@@ -106,7 +108,7 @@ CpNodeJSStreamDuplex >> onPipeDo: aBlock [
 	^ self addEventListener: #pipe handler: aBlock
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 CpNodeJSStreamDuplex >> onUnpipeDo: aBlock [
 
 	"The 'unpipe' event is emitted when the stream.unpipe() method is called on a Readable stream, removing this Writable from its set of destinations.
@@ -121,7 +123,7 @@ CpNodeJSStreamDuplex >> onUnpipeDo: aBlock [
 	^ self addEventListener: #unpipe handler: aBlock
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 CpNodeJSStreamDuplex >> removeDrainHandler: aFunction [
 
 	"Remove an earlier installed event listener
@@ -130,7 +132,7 @@ CpNodeJSStreamDuplex >> removeDrainHandler: aFunction [
 	self removeEventListener: #drain handler: aFunction
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 CpNodeJSStreamDuplex >> removeFinishHandler: aFunction [
 
 	"Remove an earlier installed event listener
@@ -139,7 +141,7 @@ CpNodeJSStreamDuplex >> removeFinishHandler: aFunction [
 	self removeEventListener: #finish handler: aFunction
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 CpNodeJSStreamDuplex >> removePipeHandler: aFunction [
 
 	"Remove an earlier installed event listener
@@ -148,7 +150,7 @@ CpNodeJSStreamDuplex >> removePipeHandler: aFunction [
 	self removeEventListener: #pipe handler: aFunction
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 CpNodeJSStreamDuplex >> removeUnpipeHandler: aFunction [
 
 	"Remove an earlier installed event listener
@@ -157,7 +159,7 @@ CpNodeJSStreamDuplex >> removeUnpipeHandler: aFunction [
 	self removeEventListener: #unpipe handler: aFunction
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpNodeJSStreamDuplex >> setDefaultEncoding: aString [
 
 	"The writable.setDefaultEncoding() method sets the default encoding for a Writable stream."
@@ -165,7 +167,7 @@ CpNodeJSStreamDuplex >> setDefaultEncoding: aString [
 	self apply: #setDefaultEncoding withArguments: { aString }
 ]
 
-{ #category : #operations }
+{ #category : 'operations' }
 CpNodeJSStreamDuplex >> uncork [
 
 	"The writable.uncork() method flushes all data buffered since stream.cork() was called.
@@ -177,7 +179,7 @@ CpNodeJSStreamDuplex >> uncork [
 	self apply: #uncork
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpNodeJSStreamDuplex >> writable [
 
 	"Is true if it is safe to call writable.write(), which means the stream has not been destroyed, errored, or ended."
@@ -185,7 +187,7 @@ CpNodeJSStreamDuplex >> writable [
 	^ self propertyAt: #writable
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpNodeJSStreamDuplex >> writableCorked [
 
 	"Number of times writable.uncork() needs to be called in order to fully uncork the stream."
@@ -193,7 +195,7 @@ CpNodeJSStreamDuplex >> writableCorked [
 	^ self propertyAt: #writableCorked
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpNodeJSStreamDuplex >> writableEnded [
 
 	"Is true after writable.end() has been called. This property does not indicate whether the data has been flushed, for this use writable.writableFinished instead."
@@ -201,7 +203,7 @@ CpNodeJSStreamDuplex >> writableEnded [
 	^ self propertyAt: #writableEnded
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpNodeJSStreamDuplex >> writableFinised [
 
 	"Is set to true immediately before the 'finish' event is emitted."
@@ -209,7 +211,7 @@ CpNodeJSStreamDuplex >> writableFinised [
 	^ self propertyAt: #writableFinished
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpNodeJSStreamDuplex >> writableHighWaterMark [
 
 	"Return the value of highWaterMark passed when creating this Writable."
@@ -217,7 +219,7 @@ CpNodeJSStreamDuplex >> writableHighWaterMark [
 	^ self propertyAt: #writableHighWaterMark
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpNodeJSStreamDuplex >> writableLength [
 
 	"This property contains the number of bytes (or objects) in the queue ready to be written. The value provides introspection data regarding the status of the highWaterMark."
@@ -225,7 +227,7 @@ CpNodeJSStreamDuplex >> writableLength [
 	^ self propertyAt: #writableLength
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpNodeJSStreamDuplex >> writableNeedDrain [
 
 	"Is true if the stream's buffer has been full and stream will emit 'drain'."
@@ -233,7 +235,7 @@ CpNodeJSStreamDuplex >> writableNeedDrain [
 	^ self propertyAt: #writableNeedDrain
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpNodeJSStreamDuplex >> writableObjectMode [
 
 	"Getter for the property objectMode of a given Writable stream."
@@ -241,25 +243,25 @@ CpNodeJSStreamDuplex >> writableObjectMode [
 	^ self propertyAt: #writableObjectMode
 ]
 
-{ #category : #operations }
+{ #category : 'operations' }
 CpNodeJSStreamDuplex >> writeChunk: anObject [
 
 	self writeChunk: anObject withEncoding: nil thenDo: nil
 ]
 
-{ #category : #operations }
+{ #category : 'operations' }
 CpNodeJSStreamDuplex >> writeChunk: anObject thenDo: aBlock [
 
 	self writeChunk: anObject withEncoding: nil thenDo: aBlock
 ]
 
-{ #category : #operations }
+{ #category : 'operations' }
 CpNodeJSStreamDuplex >> writeChunk: anObject withEncoding: aString [
 
 	self writeChunk: anObject withEncoding: aString thenDo: nil
 ]
 
-{ #category : #operations }
+{ #category : 'operations' }
 CpNodeJSStreamDuplex >> writeChunk: anObject withEncoding: aString thenDo: aBlock [
 
 	"The writable.write() method writes some data to the stream, and calls the supplied callback

@@ -79,12 +79,14 @@ explicitly call like in CpJavaScriptPromise >> #then:onRejected:
 
 "
 Class {
-	#name : #CpJavaScriptObject,
-	#superclass : #Object,
-	#category : #'CodeParadise-RemoteEnvironment-Support'
+	#name : 'CpJavaScriptObject',
+	#superclass : 'Object',
+	#category : 'CodeParadise-RemoteEnvironment-Support',
+	#package : 'CodeParadise-RemoteEnvironment',
+	#tag : 'Support'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpJavaScriptObject class >> apply: aSymbol [
 
 	"Apply the specified selector on the proxied JavaScript object's class side.
@@ -94,7 +96,7 @@ CpJavaScriptObject class >> apply: aSymbol [
 		apply: aSymbol withArguments: nil resultAs: nil
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpJavaScriptObject class >> apply: aSymbol resultAs: aProxyClass [
 
 	"Apply the specified selector on the proxied JavaScript object's class side
@@ -105,7 +107,7 @@ CpJavaScriptObject class >> apply: aSymbol resultAs: aProxyClass [
 		apply: aSymbol withArguments: nil resultAs: aProxyClass
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpJavaScriptObject class >> apply: aSymbol withArguments: anArray [
 
 	"Apply the specified selector on the proxied JavaScript object's class side
@@ -116,7 +118,7 @@ CpJavaScriptObject class >> apply: aSymbol withArguments: anArray [
 		apply: aSymbol withArguments: anArray resultAs: nil
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpJavaScriptObject class >> apply: aSymbol withArguments: anArray resultAs: aProxyClass [
 
 	"Apply the specified selector on the proxied JavaScript object's class side
@@ -128,7 +130,7 @@ CpJavaScriptObject class >> apply: aSymbol withArguments: anArray resultAs: aPro
 		apply: aSymbol withArguments: anArray resultAs: aProxyClass
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpJavaScriptObject class >> getClass [
 
 	"Answer the class side Object for the receiver to allow calling class side methods"
@@ -136,7 +138,7 @@ CpJavaScriptObject class >> getClass [
 	^ CpJavaScriptClass forName: self getClassName
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpJavaScriptObject class >> getClassName [
 
 	"Answer the name of the JavaScript class.
@@ -157,7 +159,7 @@ CpJavaScriptObject class >> getClassName [
 				withoutPrefix: 'NodeJS' ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpJavaScriptObject class >> global [
 
 	"Answer a Proxy for the global object/global scope
@@ -167,7 +169,7 @@ CpJavaScriptObject class >> global [
 		globalApply: #identity withArguments: nil
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpJavaScriptObject class >> module [
 
 	"Answer the module the receiver is part of.
@@ -176,7 +178,7 @@ CpJavaScriptObject class >> module [
 	^ nil
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpJavaScriptObject class >> moduleName [
 
 	"Answer name of the module the receiver is part of (or nil for no module)"
@@ -185,7 +187,7 @@ CpJavaScriptObject class >> moduleName [
 		ifNotNil: [ :module | module moduleName ]
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 CpJavaScriptObject class >> new [
 
 	"New instances of the receiver should not be created 'manually'"
@@ -193,7 +195,7 @@ CpJavaScriptObject class >> new [
 	self error: 'Do not instantiate the receiver using #new, use one of the selectors starting with: ', #newInstance
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 CpJavaScriptObject class >> newInstance [
 
 	"For better performance use #newInstanceResultAs: if the result Class is known."
@@ -201,7 +203,7 @@ CpJavaScriptObject class >> newInstance [
 	^ self newInstanceWithArguments: nil resultAs: self
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 CpJavaScriptObject class >> newInstanceFor: aString [
 
 	"For better performance use #newInstanceFor:resultAs: if the result Class is known."
@@ -209,13 +211,13 @@ CpJavaScriptObject class >> newInstanceFor: aString [
 	^ self newInstanceFor: aString withArguments: nil resultAs: self
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 CpJavaScriptObject class >> newInstanceFor: aString resultAs: aProxyClass [
 
 	^ self newInstanceFor: aString withArguments: nil resultAs: aProxyClass
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 CpJavaScriptObject class >> newInstanceFor: aString withArguments: anArray [
 
 	"For better performance use #newInstanceFor:withArguments:resultAs: if the result Class is known."
@@ -223,7 +225,7 @@ CpJavaScriptObject class >> newInstanceFor: aString withArguments: anArray [
 	^ self newInstanceFor: aString withArguments: anArray resultAs: self
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 CpJavaScriptObject class >> newInstanceFor: aString withArguments: anArray resultAs: aProxyClass [
 
 	"Answer a new proxied instance of the globally defined JavaScript class name
@@ -234,13 +236,13 @@ CpJavaScriptObject class >> newInstanceFor: aString withArguments: anArray resul
 		newInstanceWithArguments: anArray resultAs: aProxyClass
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 CpJavaScriptObject class >> newInstanceResultAs: aProxyClass [
 
 	^ self newInstanceWithArguments: nil resultAs: aProxyClass
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 CpJavaScriptObject class >> newInstanceWithArguments: anArray [
 
 	"For better performance use #newInstanceWithArguments:resultAs: if the result Class is known."
@@ -248,7 +250,7 @@ CpJavaScriptObject class >> newInstanceWithArguments: anArray [
 	^ self newInstanceWithArguments: anArray resultAs: self
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 CpJavaScriptObject class >> newInstanceWithArguments: anArray resultAs: aProxyClass [
 
 	"Answer a new proxied instance of the receiver's JavaScript class
@@ -259,13 +261,13 @@ CpJavaScriptObject class >> newInstanceWithArguments: anArray resultAs: aProxyCl
 		newInstanceWithArguments: anArray resultAs: aProxyClass
 ]
 
-{ #category : #'class initialization' }
+{ #category : 'class initialization' }
 CpJavaScriptObject class >> postInstall [
 
 	self registerProxyClass
 ]
 
-{ #category : #'class initialization' }
+{ #category : 'class initialization' }
 CpJavaScriptObject class >> postSnapshot [
 
 	"Re-register class after snapshot (has no effect if already registered)"
@@ -273,7 +275,7 @@ CpJavaScriptObject class >> postSnapshot [
 	self registerProxyClass
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpJavaScriptObject class >> proxyClassName [
 
 	"Answer the (fully qualified) name of the JavaScript class the receiver is proxying.
@@ -286,7 +288,7 @@ CpJavaScriptObject class >> proxyClassName [
 		ifNil: [ self getClassName ]
 ]
 
-{ #category : #'class initialization' }
+{ #category : 'class initialization' }
 CpJavaScriptObject class >> registerProxyClass [
 
 	"Register the receiver as Proxy class for JavaScript objects"
@@ -294,7 +296,7 @@ CpJavaScriptObject class >> registerProxyClass [
 	self registerProxyClass: self forClassName: self proxyClassName
 ]
 
-{ #category : #'class initialization' }
+{ #category : 'class initialization' }
 CpJavaScriptObject class >> registerProxyClass: aClass forClassName: aString [
 
 	"Register the specified class which acts as a proxy for JavaScript objects with
@@ -304,7 +306,7 @@ CpJavaScriptObject class >> registerProxyClass: aClass forClassName: aString [
 	self primitiveFailed
 ]
 
-{ #category : #converting }
+{ #category : 'converting' }
 CpJavaScriptObject class >> wrap: anObject [
 
 	"Wrap the specified (Smalltalk) Object into the receiver (a JavaScriptObject proxy class)"
@@ -312,7 +314,7 @@ CpJavaScriptObject class >> wrap: anObject [
 	^ self wrap: anObject in: self
 ]
 
-{ #category : #converting }
+{ #category : 'converting' }
 CpJavaScriptObject class >> wrap: anObject in: aProxyClass [
 
 	"Wrap the specified (Smalltalk) Object into a JavaScriptObject proxy"
@@ -321,7 +323,7 @@ CpJavaScriptObject class >> wrap: anObject in: aProxyClass [
 		apply: #identity withArguments: { anObject } resultAs: aProxyClass
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpJavaScriptObject >> apply: aSymbol [
 
 	"Apply the specified selector on the proxied JavaScript object.
@@ -337,7 +339,7 @@ CpJavaScriptObject >> apply: aSymbol [
 	^ self apply: aSymbol withArguments: nil resultAs: nil
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpJavaScriptObject >> apply: aSymbol resultAs: aProxyClass [
 
 	"Apply the specified selector on the proxied JavaScript object and answer the result as an
@@ -350,7 +352,7 @@ CpJavaScriptObject >> apply: aSymbol resultAs: aProxyClass [
 	^ self apply: aSymbol withArguments: nil resultAs: aProxyClass
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpJavaScriptObject >> apply: aSymbol withArguments: anArray [
 
 	"Apply the specified selector on the proxied JavaScript object using the specified arguments
@@ -373,7 +375,7 @@ CpJavaScriptObject >> apply: aSymbol withArguments: anArray [
 	^ self apply: aSymbol withArguments: anArray resultAs: nil
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpJavaScriptObject >> apply: aSymbol withArguments: anArray resultAs: aProxyClass [
 
 	"Apply the specified selector on the proxied JavaScript object using the specified arguments
@@ -396,7 +398,7 @@ CpJavaScriptObject >> apply: aSymbol withArguments: anArray resultAs: aProxyClas
 	self primitiveFailed
 ]
 
-{ #category : #converting }
+{ #category : 'converting' }
 CpJavaScriptObject >> as: aProxyClass [
 
 	"Answer the receiver as the specified Proxy class (kindof like casting ;-).
@@ -407,7 +409,7 @@ CpJavaScriptObject >> as: aProxyClass [
 	^ self class wrap: self in: aProxyClass
 ]
 
-{ #category : #converting }
+{ #category : 'converting' }
 CpJavaScriptObject >> asSmalltalkObject [
 
 	"Answer the receiver as a Smalltalk object (if this is possible, nil otherwise)"
@@ -423,7 +425,7 @@ CpJavaScriptObject >> asSmalltalkObject [
 	^ instance
 ]
 
-{ #category : #converting }
+{ #category : 'converting' }
 CpJavaScriptObject >> asString [
 
 	"Answer a bare representation of the receiver
@@ -439,7 +441,7 @@ CpJavaScriptObject >> asString [
 			nextPutAll: className ]
 ]
 
-{ #category : #'reflective operations' }
+{ #category : 'reflective operations' }
 CpJavaScriptObject >> doesNotUnderstand: aMessage [
 
 	"Convenience method to allow messages to be sent to a Proxy object directly"
@@ -447,7 +449,7 @@ CpJavaScriptObject >> doesNotUnderstand: aMessage [
 	^ self apply: aMessage selector withArguments: aMessage arguments
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpJavaScriptObject >> getClass [
 
 	"Answer the class of the proxied JavaScript object"
@@ -455,13 +457,13 @@ CpJavaScriptObject >> getClass [
 	^ self apply: #constructor resultAs: CpJavaScriptClass
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpJavaScriptObject >> getClassRefFrom: aSymbol [
 
 	^ self getClassRefFrom: aSymbol resultAs: CpJavaScriptClass
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpJavaScriptObject >> getClassRefFrom: aSymbol resultAs: aClass [
 
 	"Answer the JavaScript class which is stored in either a property or
@@ -479,7 +481,7 @@ CpJavaScriptObject >> getClassRefFrom: aSymbol resultAs: aClass [
 	self primitiveFailed
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpJavaScriptObject >> getSelectorNames [
 
 	"Answer the selector names of the proxied JavaScript object (as an Array of Strings).
@@ -492,7 +494,7 @@ CpJavaScriptObject >> getSelectorNames [
 	self primitiveFailed
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpJavaScriptObject >> getSelectorType: aSymbol [
 
 	"Answer a Symbol representing the specified selector's type
@@ -513,13 +515,13 @@ CpJavaScriptObject >> getSelectorType: aSymbol [
 	self primitiveFailed
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 CpJavaScriptObject >> isJavaScriptObject [
 
 	^ true
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 CpJavaScriptObject >> printOn: aStream [
 
 	"Print a representation of the receiver onto the specified Stream"
@@ -533,7 +535,7 @@ CpJavaScriptObject >> printOn: aStream [
 	aStream nextPut: $)
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 CpJavaScriptObject >> printPropertiesOn: aStream [
 
 	"Print the properties of the receiver onto the specified Stream.
@@ -559,7 +561,7 @@ CpJavaScriptObject >> printPropertiesOn: aStream [
 					nextPutAll: ([ (self apply: each) asString ] on: Error do: [ '<error>' ]) ] ]
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 CpJavaScriptObject >> propertiesString [
 
 	"Answer a String representing the receivers's properties"
@@ -568,7 +570,7 @@ CpJavaScriptObject >> propertiesString [
 		self printPropertiesOn: aStream ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpJavaScriptObject >> propertyAt: aSymbol [
 
 	"Get the property from the proxied JavaScript object.
@@ -583,7 +585,7 @@ CpJavaScriptObject >> propertyAt: aSymbol [
 	self primitiveFailed
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpJavaScriptObject >> propertyAt: aSymbol put: anObject [
 
 	"Set the property from the proxied JavaScript object with the specified value.

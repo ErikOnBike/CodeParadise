@@ -5,16 +5,18 @@ I use a reconnection strategy to decide if the connection needs to be restored a
 
 "
 Class {
-	#name : #CpClientCommunicator,
-	#superclass : #CpCommunicator,
+	#name : 'CpClientCommunicator',
+	#superclass : 'CpCommunicator',
 	#instVars : [
 		'url',
 		'reconnectStrategy'
 	],
-	#category : #'CodeParadise-RemoteEnvironment-Core'
+	#category : 'CodeParadise-RemoteEnvironment-Core',
+	#package : 'CodeParadise-RemoteEnvironment',
+	#tag : 'Core'
 }
 
-{ #category : #support }
+{ #category : 'support' }
 CpClientCommunicator >> checkConnection [
 
 	"Check connection and restore connection if needed, according to receiver's reconnect strategy"
@@ -27,7 +29,7 @@ CpClientCommunicator >> checkConnection [
 		ifTrue: [ self reconnect ]
 ]
 
-{ #category : #'public api' }
+{ #category : 'public api' }
 CpClientCommunicator >> connectToUrl: urlString [
 
 	"Make a new connection to the specified server. Users of this method should afterwards
@@ -40,7 +42,7 @@ CpClientCommunicator >> connectToUrl: urlString [
 	self messageChannel: (CpMessageChannel forOwner: self connectedToUrl: url)
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 CpClientCommunicator >> hasReconnectStrategy [
 
 	"Answer whether the receiver has a reconnect strategy"
@@ -48,7 +50,7 @@ CpClientCommunicator >> hasReconnectStrategy [
 	^ reconnectStrategy notNil
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 CpClientCommunicator >> initialize [
 
 	super initialize.
@@ -57,7 +59,7 @@ CpClientCommunicator >> initialize [
 	self reconnectStrategy: CpCommunicatorReconnectStrategy new
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpClientCommunicator >> messageChannel: aMessageChannel [
 
 	"Set the receiver's MessageChannel. If nil the existing MessageChannel closed."
@@ -67,7 +69,7 @@ CpClientCommunicator >> messageChannel: aMessageChannel [
 	aMessageChannel ifNil: [ self checkConnection ]
 ]
 
-{ #category : #'public api' }
+{ #category : 'public api' }
 CpClientCommunicator >> reconnect [
 
 	"Reconnect the receiver to the previous URL"
@@ -79,7 +81,7 @@ CpClientCommunicator >> reconnect [
 		serverAnnounce: CpClientReconnected
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpClientCommunicator >> reconnectStrategy [
 
 	"Answer the receiver's reconnect strategy"
@@ -87,7 +89,7 @@ CpClientCommunicator >> reconnectStrategy [
 	^ reconnectStrategy
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpClientCommunicator >> reconnectStrategy: aReconnectStrategy [
 
 	"Set the receiver's reconnect strategy"
@@ -95,7 +97,7 @@ CpClientCommunicator >> reconnectStrategy: aReconnectStrategy [
 	reconnectStrategy := aReconnectStrategy
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 CpClientCommunicator >> release [
 
 	"Release the receiver's instance variables"
@@ -106,7 +108,7 @@ CpClientCommunicator >> release [
 	super release
 ]
 
-{ #category : #'public api' }
+{ #category : 'public api' }
 CpClientCommunicator >> sendMessage: aByteArray [
 
 	"Send message to the server, reconnecting if required."
@@ -121,7 +123,7 @@ CpClientCommunicator >> sendMessage: aByteArray [
 	self checkConnection
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpClientCommunicator >> url [
 
 	"Answer the URL (a String) the receiver is (or should be) connected to"

@@ -1,10 +1,12 @@
 Class {
-	#name : #CpBrowserScreen,
-	#superclass : #CpJavaScriptObject,
-	#category : #'CodeParadise-Browser-Support-Screen'
+	#name : 'CpBrowserScreen',
+	#superclass : 'CpJavaScriptObject',
+	#category : 'CodeParadise-Browser-Support-Screen',
+	#package : 'CodeParadise-Browser-Support',
+	#tag : 'Screen'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpBrowserScreen class >> current [
 
 	"Answer an instance of the receiver"
@@ -13,13 +15,13 @@ CpBrowserScreen class >> current [
 		apply: #screen resultAs: self
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 CpBrowserScreen class >> newInstanceWithArguments: anArray resultAs: aProxyClass [
 
 	self error: 'An instance should be retrieved using the selector ', #current
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpBrowserScreen >> availHeight [
 
 	"Specifies the height of the screen, in pixels, minus permanent or semipermanent user interface features displayed by the operating system, such as the Taskbar on Windows."
@@ -27,7 +29,7 @@ CpBrowserScreen >> availHeight [
 	^ self propertyAt: #availHeight
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpBrowserScreen >> availWidth [
 
 	"Returns the amount of horizontal space in pixels available to the window."
@@ -35,7 +37,7 @@ CpBrowserScreen >> availWidth [
 	^ self propertyAt: #availWidth
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpBrowserScreen >> colorDepth [
 
 	"Returns the color depth of the screen."
@@ -43,7 +45,7 @@ CpBrowserScreen >> colorDepth [
 	^ self propertyAt: #colorDepth
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpBrowserScreen >> height [
 
 	"Returns the height of the screen in pixels."
@@ -51,7 +53,7 @@ CpBrowserScreen >> height [
 	^ self propertyAt: #height
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpBrowserScreen >> orientation [
 
 	"Returns the ScreenOrientation instance associated with this screen."
@@ -59,7 +61,7 @@ CpBrowserScreen >> orientation [
 	^ self propertyAt: #orientation
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpBrowserScreen >> pixelDepth [
 
 	"Gets the bit depth of the screen."
@@ -67,7 +69,7 @@ CpBrowserScreen >> pixelDepth [
 	^ self propertyAt: #pixelDepth
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpBrowserScreen >> width [
 
 	"Returns the width of the screen."

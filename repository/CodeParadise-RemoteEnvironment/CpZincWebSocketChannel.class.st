@@ -2,16 +2,18 @@
 I am a WebSocket based MessageChannel. My implementation is based on the Zinc WebSocket. I can act as client as well as server.
 "
 Class {
-	#name : #CpZincWebSocketChannel,
-	#superclass : #CpMessageChannel,
+	#name : 'CpZincWebSocketChannel',
+	#superclass : 'CpMessageChannel',
 	#instVars : [
 		'znWebSocket',
 		'serverSemaphore'
 	],
-	#category : #'CodeParadise-RemoteEnvironment-Core'
+	#category : 'CodeParadise-RemoteEnvironment-Core',
+	#package : 'CodeParadise-RemoteEnvironment',
+	#tag : 'Core'
 }
 
-{ #category : #'public api' }
+{ #category : 'public api' }
 CpZincWebSocketChannel class >> forOwner: ownerObject connectedToUrl: urlString [
 
 	"Create for the specified owner, a new instance of the receiver which is connected
@@ -21,7 +23,7 @@ CpZincWebSocketChannel class >> forOwner: ownerObject connectedToUrl: urlString 
 		on: Error do: [ nil ]
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 CpZincWebSocketChannel class >> newForOwner: ownerObject onWebSocket: znWebSocket [
 
 	"Answer a new instance of the receiver for the specified owner and using the specified Zinc
@@ -35,7 +37,7 @@ CpZincWebSocketChannel class >> newForOwner: ownerObject onWebSocket: znWebSocke
 		yourself
 ]
 
-{ #category : #'public api' }
+{ #category : 'public api' }
 CpZincWebSocketChannel class >> startServerForOwner: ownerObject onPort: anInteger path: aString [
 
 	"Create a server listening on the specified port and path.
@@ -54,7 +56,7 @@ CpZincWebSocketChannel class >> startServerForOwner: ownerObject onPort: anInteg
 			serverWait ]
 ]
 
-{ #category : #'public api' }
+{ #category : 'public api' }
 CpZincWebSocketChannel >> close [
 
 	"Close the receiver, thereby making the receiver unusable.
@@ -73,7 +75,7 @@ CpZincWebSocketChannel >> close [
 	znWebSocket sendFrame: ZnWebSocketFrame close
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 CpZincWebSocketChannel >> initializeForOwner: ownerObject andWebSocket: aZnWebSocket [
 
 	"Initialize the receiver with the specified ZnWebSocket"
@@ -87,7 +89,7 @@ CpZincWebSocketChannel >> initializeForOwner: ownerObject andWebSocket: aZnWebSo
 		ifTrue: [ serverSemaphore := Semaphore new ]
 ]
 
-{ #category : #'public api' }
+{ #category : 'public api' }
 CpZincWebSocketChannel >> isOpen [
 
 	"The receiver is considered open if the Zinc WebSocket is connected"
@@ -95,7 +97,7 @@ CpZincWebSocketChannel >> isOpen [
 	^ znWebSocket notNil and: [ znWebSocket isConnected ]
 ]
 
-{ #category : #'message handling' }
+{ #category : 'message handling' }
 CpZincWebSocketChannel >> receivedMessage [
 
 	"Answer the next message received or nil if none is available.
@@ -114,7 +116,7 @@ CpZincWebSocketChannel >> receivedMessage [
 	^ message
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 CpZincWebSocketChannel >> release [
 
 	"Release the receiver's instance variables"
@@ -132,7 +134,7 @@ CpZincWebSocketChannel >> release [
 	super release
 ]
 
-{ #category : #'public api' }
+{ #category : 'public api' }
 CpZincWebSocketChannel >> sendMessage: aByteArray [
 
 	"Send the specified message.
@@ -144,7 +146,7 @@ CpZincWebSocketChannel >> sendMessage: aByteArray [
 	znWebSocket sendMessage: aByteArray
 ]
 
-{ #category : #support }
+{ #category : 'support' }
 CpZincWebSocketChannel >> serverWait [
 
 	"Wait for the receiver to stop serving requests.

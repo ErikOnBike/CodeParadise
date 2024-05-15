@@ -1,16 +1,18 @@
 Class {
-	#name : #CpParser,
-	#superclass : #Object,
+	#name : 'CpParser',
+	#superclass : 'Object',
 	#instVars : [
 		'text',
 		'parseStream',
 		'tokens',
 		'tokenizer'
 	],
-	#category : #'CodeParadise-Beach-Editor'
+	#category : 'CodeParadise-Beach-Editor',
+	#package : 'CodeParadise-Beach',
+	#tag : 'Editor'
 }
 
-{ #category : #testing }
+{ #category : 'testing' }
 CpParser class >> isDigit: aCharacter [
 
 	aCharacter ifNil: [ ^ false ].
@@ -18,7 +20,7 @@ CpParser class >> isDigit: aCharacter [
 	^ aCharacter isDigit
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 CpParser class >> isDigit: aCharacter withRadix: anInteger [
 
 	| digitValue |
@@ -34,37 +36,37 @@ CpParser class >> isDigit: aCharacter withRadix: anInteger [
 	^ digitValue < anInteger
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 CpParser class >> isWhitespace: aCharacter [
 
 	^ { Character space . Character tab . Character lf . Character cr } includes: aCharacter
 ]
 
-{ #category : #parsing }
+{ #category : 'parsing' }
 CpParser >> parse [
 
 	self subclassResponsibility
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 CpParser >> resetStream [
 
 	parseStream := ReadStream on: self text
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 CpParser >> resetTokens [
 
 	tokens := OrderedCollection new
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpParser >> text [
 
 	^ text
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpParser >> text: aString [
 
 	text := aString.
@@ -73,20 +75,20 @@ CpParser >> text: aString [
 		resetTokens
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpParser >> tokenizer [
 
 	^ tokenizer
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpParser >> tokenizer: aTokenizer [
 
 	tokenizer := aTokenizer.
 	self resetTokens
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpParser >> tokens [
 
 	^ tokens

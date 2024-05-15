@@ -1,10 +1,12 @@
 Class {
-	#name : #CpBrowserGeolocationPosition,
-	#superclass : #CpJavaScriptObject,
-	#category : #'CodeParadise-Browser-Support-Geolocation'
+	#name : 'CpBrowserGeolocationPosition',
+	#superclass : 'CpJavaScriptObject',
+	#category : 'CodeParadise-Browser-Support-Geolocation',
+	#package : 'CodeParadise-Browser-Support',
+	#tag : 'Geolocation'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpBrowserGeolocationPosition >> coords [
 
 	"Returns a GeolocationCoordinates object defining the current location."
@@ -12,7 +14,7 @@ CpBrowserGeolocationPosition >> coords [
 	^ self propertyAt: #coords
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpBrowserGeolocationPosition >> timestamp [
 
 	"Returns a timestamp, given as Unix time in milliseconds, representing the time at which the location was retrieved."

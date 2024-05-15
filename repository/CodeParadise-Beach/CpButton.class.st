@@ -1,10 +1,12 @@
 Class {
-	#name : #CpButton,
-	#superclass : #CpControl,
-	#category : #'CodeParadise-Beach-Components'
+	#name : 'CpButton',
+	#superclass : 'CpControl',
+	#category : 'CodeParadise-Beach-Components',
+	#package : 'CodeParadise-Beach',
+	#tag : 'Components'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpButton class >> icon: anElement [
 
 	"Answer a new instance of the receiver with the specified icon (acting as label)"
@@ -15,7 +17,7 @@ CpButton class >> icon: anElement [
 		yourself
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpButton class >> label: labelElement [
 
 	"Answer a new instance of the receiver with the specified label.
@@ -26,7 +28,7 @@ CpButton class >> label: labelElement [
 		yourself
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpButton class >> label: labelElement suffix: suffixElement [
 
 	"Answer a new instance of the receiver with the specified label and suffix.
@@ -38,7 +40,7 @@ CpButton class >> label: labelElement suffix: suffixElement [
 		yourself
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpButton class >> prefix: prefixElement label: labelElement [
 
 	"Answer a new instance of the receiver with the specified prefix and label.
@@ -50,7 +52,7 @@ CpButton class >> prefix: prefixElement label: labelElement [
 		yourself
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpButton class >> prefix: prefixElement label: labelElement suffix: suffixElement [
 
 	"Answer a new instance of the receiver with the specified prefix, label and suffix.
@@ -63,7 +65,7 @@ CpButton class >> prefix: prefixElement label: labelElement suffix: suffixElemen
 		yourself
 ]
 
-{ #category : #'web resources' }
+{ #category : 'web resources' }
 CpButton class >> style [
 
 	<webResource: #css>
@@ -136,7 +138,7 @@ CpButton class >> style [
 		}'
 ]
 
-{ #category : #'web resources' }
+{ #category : 'web resources' }
 CpButton class >> template [
 
 	<webResource: #html>
@@ -148,7 +150,7 @@ CpButton class >> template [
 		</div>'
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpButton >> label [
 
 	"Answer label of receiver"
@@ -156,7 +158,7 @@ CpButton >> label [
 	^ self firstChildAtSlotNamed: #label
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpButton >> label: anElement [
 
 	"Set the specified element as the label of the receiver"
@@ -164,7 +166,7 @@ CpButton >> label: anElement [
 	self replaceAllChildrenWith: anElement asHtmlElement atSlotNamed: #label
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpButton >> prefix [
 
 	"Answer prefix of receiver"
@@ -172,7 +174,7 @@ CpButton >> prefix [
 	^ self firstChildAtSlotNamed: #prefix
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpButton >> prefix: anElement [
 
 	"Set the specified element as the prefix of the receiver"
@@ -180,7 +182,7 @@ CpButton >> prefix: anElement [
 	self replaceAllChildrenWith: anElement asHtmlElement atSlotNamed: #prefix
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpButton >> suffix [
 
 	"Answer suffix of receiver"
@@ -188,7 +190,7 @@ CpButton >> suffix [
 	^ self firstChildAtSlotNamed: #suffix
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpButton >> suffix: anElement [
 
 	"Set the specified element as the suffix of the receiver"

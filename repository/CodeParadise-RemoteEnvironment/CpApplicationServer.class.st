@@ -5,8 +5,8 @@ Implementation:
 Whenever a new connection is made for an id-less ClientEnvironment I create a new ServerEnvironment and provide it with a new identifier. The ServerEnvironment sends this identifier back to the ClientEnvironment. I keep track of all ServerEnvironments which are instantiated. Whenever an Announcement arrives from the ClientEnvironment for a ServerEnvironment, the specific instance is retrieved from this collection based on the provided ClientEnvironment identifier. In this way RemoteEnvironments are not tightly bound to a connection. The ClientEnvironment can setup a new connection (for example when a bad Internet-connection has dropped) and will continu communicating through that new connection.
 "
 Class {
-	#name : #CpApplicationServer,
-	#superclass : #Object,
+	#name : 'CpApplicationServer',
+	#superclass : 'Object',
 	#instVars : [
 		'serverEnvironments',
 		'serverEnvironmentsMutex',
@@ -14,10 +14,12 @@ Class {
 		'server',
 		'clientErrorHandler'
 	],
-	#category : #'CodeParadise-RemoteEnvironment-Core'
+	#category : 'CodeParadise-RemoteEnvironment-Core',
+	#package : 'CodeParadise-RemoteEnvironment',
+	#tag : 'Core'
 }
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 CpApplicationServer class >> newOnPort: anInteger path: aString [
 
 	"Create a new instance of the receiver listening on the specified port and path"
@@ -27,13 +29,13 @@ CpApplicationServer class >> newOnPort: anInteger path: aString [
 		yourself
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpApplicationServer >> clientErrorHandler [
 
 	^ clientErrorHandler
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpApplicationServer >> clientErrorHandler: anObject [
 
 	"Set the ClientError handler (an Object responding to: #handleClientError:for:)"
@@ -41,7 +43,7 @@ CpApplicationServer >> clientErrorHandler: anObject [
 	clientErrorHandler := anObject
 ]
 
-{ #category : #'adding/removing' }
+{ #category : 'adding/removing' }
 CpApplicationServer >> createServerEnvironment [
 
 	"Create new ServerEnvironment with an unique id"
@@ -63,7 +65,7 @@ CpApplicationServer >> createServerEnvironment [
 		^ self serverEnvironments at: id put: serverEnvironment ]
 ]
 
-{ #category : #'message handling' }
+{ #category : 'message handling' }
 CpApplicationServer >> handleClientError: aClientError announcedBy: anAnnouncer [
 
 	"Handle the ClientError which was announced by the specified Announcer.
@@ -77,7 +79,7 @@ CpApplicationServer >> handleClientError: aClientError announcedBy: anAnnouncer 
 			ifFound: [ :each | self handleClientError: aClientError for: each ] ]
 ]
 
-{ #category : #'message handling' }
+{ #category : 'message handling' }
 CpApplicationServer >> handleClientError: aClientError for: aServerEnvironment [
 
 	"Handle the ClientError"
@@ -86,7 +88,7 @@ CpApplicationServer >> handleClientError: aClientError for: aServerEnvironment [
 		handler handleClientError: aClientError for: aServerEnvironment ]
 ]
 
-{ #category : #'message handling' }
+{ #category : 'message handling' }
 CpApplicationServer >> handleMessageReceived: aByteArray on: aMessageChannel [
 
 	"Handle the message received from the specified MessageChannel.
@@ -121,7 +123,7 @@ CpApplicationServer >> handleMessageReceived: aByteArray on: aMessageChannel [
 	serverEnvironment handleMessageReceived: message
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 CpApplicationServer >> initialize [
 
 	"Initialize the receiver"
@@ -134,7 +136,7 @@ CpApplicationServer >> initialize [
 	identifierGenerator := CpWebIdentifierGenerator new
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 CpApplicationServer >> release [
 
 	"Release the receiver's instance variables"
@@ -151,7 +153,7 @@ CpApplicationServer >> release [
 	super release
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 CpApplicationServer >> releaseServer [
 
 	"Release the receiver's server"
@@ -162,7 +164,7 @@ CpApplicationServer >> releaseServer [
 	server := nil
 ]
 
-{ #category : #'adding/removing' }
+{ #category : 'adding/removing' }
 CpApplicationServer >> removeServerEnvironment: aServerEnvironment [
 
 	"Remove the specified ServerEnvironment from the receiver"
@@ -173,13 +175,13 @@ CpApplicationServer >> removeServerEnvironment: aServerEnvironment [
 			ifAbsent: [ nil "ignore the fact that the ServerEnvironment is unknown" ] ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpApplicationServer >> server [ 
 
 	^ server
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpApplicationServer >> serverEnvironmentForId: id ifAbsent: aBlock [
 
 	"Answer the ServerEnvironment with the specified id or evaluate the specified Block if such
@@ -195,7 +197,7 @@ CpApplicationServer >> serverEnvironmentForId: id ifAbsent: aBlock [
 			ifAbsent: aBlock ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpApplicationServer >> serverEnvironments [
 
 	"Answer the receiver's ServerEnvironments"
@@ -203,7 +205,7 @@ CpApplicationServer >> serverEnvironments [
 	^ serverEnvironments
 ]
 
-{ #category : #'starting/stopping' }
+{ #category : 'starting/stopping' }
 CpApplicationServer >> startOnPort: anInteger path: aString [
 
 	"Start listening on the specified port and path"
@@ -213,7 +215,7 @@ CpApplicationServer >> startOnPort: anInteger path: aString [
 	server := CpMessageChannel startServerForOwner: self onPort: anInteger path: aString
 ]
 
-{ #category : #'starting/stopping' }
+{ #category : 'starting/stopping' }
 CpApplicationServer >> stop [
 
 	"Stop the receiver"
@@ -223,7 +225,7 @@ CpApplicationServer >> stop [
 		releaseServer
 ]
 
-{ #category : #'starting/stopping' }
+{ #category : 'starting/stopping' }
 CpApplicationServer >> stopServerEnvironments [
 
 	"Stop all the ServerEnvironments registered with the receiver"

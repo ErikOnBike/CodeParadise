@@ -2,12 +2,13 @@
 Tests for MessageChannel
 "
 Class {
-	#name : #CpMessageChannelTest,
-	#superclass : #TestCase,
-	#category : #'CodeParadise-RemoteEnvironment-Tests'
+	#name : 'CpMessageChannelTest',
+	#superclass : 'TestCase',
+	#category : 'CodeParadise-RemoteEnvironment-Tests',
+	#package : 'CodeParadise-RemoteEnvironment-Tests'
 }
 
-{ #category : #tests }
+{ #category : 'tests' }
 CpMessageChannelTest >> testLocalClientServer [
 
 	| originalMessages client clientOwner clientEvents clientMessages server serverOwner serverEvents serverMessages semaphore |

@@ -5,21 +5,23 @@ On macOS I am represented as the Cmd key being pressed down.
 
 "
 Class {
-	#name : #CpActionKeyDown,
-	#superclass : #CpModifierKeyDownCondition,
+	#name : 'CpActionKeyDown',
+	#superclass : 'CpModifierKeyDownCondition',
 	#classVars : [
 		'PlatformModifier'
 	],
-	#category : #'CodeParadise-WebApplication-Events-Custom'
+	#category : 'CodeParadise-WebApplication-Events-Custom',
+	#package : 'CodeParadise-WebApplication',
+	#tag : 'Events-Custom'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpActionKeyDown class >> modifierCharacter [
 
 	^ $X
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpActionKeyDown class >> modifiers [
 
 	"Answer the modifiers (an Integer, see CpEvent >> #modifiers) the receiver represents"
@@ -27,7 +29,7 @@ CpActionKeyDown class >> modifiers [
 	^ PlatformModifier
 ]
 
-{ #category : #'class initialization' }
+{ #category : 'class initialization' }
 CpActionKeyDown class >> postInstallOnce [
 
 	"Set the modifiers based on the current platform"

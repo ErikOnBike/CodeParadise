@@ -1,10 +1,12 @@
 Class {
-	#name : #CpRadioButton,
-	#superclass : #CpInputControl,
-	#category : #'CodeParadise-Beach-Components'
+	#name : 'CpRadioButton',
+	#superclass : 'CpInputControl',
+	#category : 'CodeParadise-Beach-Components',
+	#package : 'CodeParadise-Beach',
+	#tag : 'Components'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpRadioButton class >> label: labelElement [
 
 	"Answer a new instance of the receiver with the specified label.
@@ -15,7 +17,7 @@ CpRadioButton class >> label: labelElement [
 		yourself
 ]
 
-{ #category : #'web resources' }
+{ #category : 'web resources' }
 CpRadioButton class >> style [
 
 	<webResource: #css>
@@ -89,7 +91,7 @@ CpRadioButton class >> style [
 		}'
 ]
 
-{ #category : #'web resources' }
+{ #category : 'web resources' }
 CpRadioButton class >> template [
 
 	<webResource: #html>
@@ -100,13 +102,13 @@ CpRadioButton class >> template [
 	<slot name="label"></slot>'
 ]
 
-{ #category : #announcing }
+{ #category : 'announcing' }
 CpRadioButton >> announceChange [
 
 	self announce: (CpSelectionChanged element: self)
 ]
 
-{ #category : #'state handling' }
+{ #category : 'state handling' }
 CpRadioButton >> deselect [
 
 	"Remove the selected attribute of the receiver"
@@ -118,7 +120,7 @@ CpRadioButton >> deselect [
 		announceChange
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 CpRadioButton >> handleClickEvent: anEvent [
 
 	"Handle click on the receiver"
@@ -128,7 +130,7 @@ CpRadioButton >> handleClickEvent: anEvent [
 	self select
 ]
 
-{ #category : #'testing - conditionals' }
+{ #category : 'testing - conditionals' }
 CpRadioButton >> ifNotSelectable: aBlock [
 
 	"Evaluate the specified block if the receiver is not selectable.
@@ -138,7 +140,7 @@ CpRadioButton >> ifNotSelectable: aBlock [
 	self ifSelectable: [ "intentionally empty" ] ifNotSelectable: aBlock
 ]
 
-{ #category : #'testing - conditionals' }
+{ #category : 'testing - conditionals' }
 CpRadioButton >> ifNotSelected: aBlock [
 
 	"Evaluate the specified block if the receiver is not selected.
@@ -148,7 +150,7 @@ CpRadioButton >> ifNotSelected: aBlock [
 	self ifSelected: [ "intentionally empty" ] ifNotSelected: aBlock
 ]
 
-{ #category : #'testing - conditionals' }
+{ #category : 'testing - conditionals' }
 CpRadioButton >> ifSelectable: aBlock [
 
 	"Evaluate the specified block if the receiver is selectable.
@@ -158,7 +160,7 @@ CpRadioButton >> ifSelectable: aBlock [
 	self ifSelectable: aBlock ifNotSelectable: [ "intentionally empty" ]
 ]
 
-{ #category : #'testing - conditionals' }
+{ #category : 'testing - conditionals' }
 CpRadioButton >> ifSelectable: selectableBlock ifNotSelectable: notSelectableBlock [
 
 	"Evaluate the block matching the receiver's selectability.
@@ -173,7 +175,7 @@ CpRadioButton >> ifSelectable: selectableBlock ifNotSelectable: notSelectableBlo
 				ifNil: [ selectableBlock value ] ]
 ]
 
-{ #category : #'testing - conditionals' }
+{ #category : 'testing - conditionals' }
 CpRadioButton >> ifSelected: aBlock [
 
 	"Evaluate the specified block if the receiver is selected.
@@ -183,7 +185,7 @@ CpRadioButton >> ifSelected: aBlock [
 	self ifSelected: aBlock ifNotSelected: [ "intentionally empty" ]
 ]
 
-{ #category : #'testing - conditionals' }
+{ #category : 'testing - conditionals' }
 CpRadioButton >> ifSelected: selectedBlock ifNotSelected: deselectedBlock [
 
 	"Evaluate the block which represents the receiver's state.
@@ -197,7 +199,7 @@ CpRadioButton >> ifSelected: selectedBlock ifNotSelected: deselectedBlock [
 		ifNil: [ deselectedBlock value ]
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 CpRadioButton >> initialize [
 
 	super initialize.
@@ -205,7 +207,7 @@ CpRadioButton >> initialize [
 	self when: CpPrimaryClickEvent send: #handleClickEvent: to: self
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpRadioButton >> label [
 
 	"Answer label of receiver"
@@ -213,7 +215,7 @@ CpRadioButton >> label [
 	^ self firstChildAtSlotNamed: #label
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpRadioButton >> label: anElement [
 
 	"Set the specified element as the label of the receiver"
@@ -221,7 +223,7 @@ CpRadioButton >> label: anElement [
 	self replaceAllChildrenWith: anElement asHtmlElement atSlotNamed: #label
 ]
 
-{ #category : #'state handling' }
+{ #category : 'state handling' }
 CpRadioButton >> select [
 
 	"Add the selected attribute to the receiver"

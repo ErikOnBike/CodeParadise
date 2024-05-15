@@ -25,15 +25,17 @@ See some examples in the class comment for CpBasicEvent.
 
 "
 Class {
-	#name : #CpActionRequested,
-	#superclass : #CpBasicEvent,
+	#name : 'CpActionRequested',
+	#superclass : 'CpBasicEvent',
 	#instVars : [
 		'parameters'
 	],
-	#category : #'CodeParadise-WebApplication-MVP-Support'
+	#category : 'CodeParadise-WebApplication-MVP-Support',
+	#package : 'CodeParadise-WebApplication-MVP',
+	#tag : 'Support'
 }
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 CpActionRequested class >> id: aSymbol [
 
 	"Answer an instance of the receiver with no specific parameters.
@@ -49,7 +51,7 @@ CpActionRequested class >> id: aSymbol [
 	^ self id: aSymbol parameters: UndefinedObject
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 CpActionRequested class >> id: aSymbol parameter: anObject [
 
 	"Answer a new instance of the receiver with the specified field and parameter.
@@ -58,7 +60,7 @@ CpActionRequested class >> id: aSymbol parameter: anObject [
 	^ self id: aSymbol parameters: anObject asParameterDictionary
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 CpActionRequested class >> id: aSymbol parameterKeys: anArray [
 
 	"Answer a new instance of the receiver with the specified field and value-less parameters.
@@ -71,7 +73,7 @@ CpActionRequested class >> id: aSymbol parameterKeys: anArray [
 	^ self id: aSymbol parameters: (self parametersFromKeys: anArray)
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 CpActionRequested class >> id: aSymbol parameters: anArrayOrDictionary [
 
 	^ self basicNew
@@ -79,7 +81,7 @@ CpActionRequested class >> id: aSymbol parameters: anArrayOrDictionary [
 		yourself
 ]
 
-{ #category : #support }
+{ #category : 'support' }
 CpActionRequested class >> parametersFromKeys: anArray [
 
 	"Answer a parameters dictionary containing the specified keys,
@@ -94,13 +96,13 @@ CpActionRequested class >> parametersFromKeys: anArray [
 	^ parameters
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpActionRequested >> firstParameter [
 
 	^ self parameterAt: 1
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 CpActionRequested >> handlesAnnouncement: anAnnouncement [
 
 	"Answer whether the receiver handles the specified announcement.
@@ -113,7 +115,7 @@ CpActionRequested >> handlesAnnouncement: anAnnouncement [
 		and: [ self matchesParametersIn: anAnnouncement ]
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 CpActionRequested >> hasParameterWithValueAt: aSymbol [
 
 	"Answer whether the receiver has an actual value for the specified parameter.
@@ -125,7 +127,7 @@ CpActionRequested >> hasParameterWithValueAt: aSymbol [
 		ifNil: [ false ]
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 CpActionRequested >> hasParameters [
 
 	"Answer whether the receiver has an explicit value.
@@ -134,7 +136,7 @@ CpActionRequested >> hasParameters [
 	^ parameters ~~ UndefinedObject
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 CpActionRequested >> initializeWithId: aSymbol parameters: aDictionary [
 
 	self initializeWithId: aSymbol.
@@ -142,7 +144,7 @@ CpActionRequested >> initializeWithId: aSymbol parameters: aDictionary [
 	parameters := aDictionary
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 CpActionRequested >> matchesParametersIn: anAnnouncement [
 
 	"Answer whether the receiver's parameters match those in the specified
@@ -175,13 +177,13 @@ CpActionRequested >> matchesParametersIn: anAnnouncement [
 	^ true
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpActionRequested >> parameterAt: aSymbol [
 
 	^ parameters ifNotNil: [ parameters at: aSymbol ifAbsent: [ nil ] ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpActionRequested >> parameterKeys [
 
 	^ parameters
@@ -189,7 +191,7 @@ CpActionRequested >> parameterKeys [
 		ifNil: [ #() ]
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 CpActionRequested >> printOn: aStream [
 
 	super printOn: aStream.
@@ -198,13 +200,13 @@ CpActionRequested >> printOn: aStream [
 		print: parameters
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpActionRequested >> secondParameter [
 
 	^ self parameterAt: 2
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpActionRequested >> thirdParameter [
 
 	^ self parameterAt: 3

@@ -1,10 +1,12 @@
 Class {
-	#name : #CpNodeJSHttpIncomingMessage,
-	#superclass : #CpNodeJSStreamReadable,
-	#category : #'CodeParadise-NodeJS-Support-Http'
+	#name : 'CpNodeJSHttpIncomingMessage',
+	#superclass : 'CpNodeJSStreamReadable',
+	#category : 'CodeParadise-NodeJS-Support-Http',
+	#package : 'CodeParadise-NodeJS-Support',
+	#tag : 'Http'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpNodeJSHttpIncomingMessage class >> module [
 
 	"Answer the module the receiver is part of"
@@ -12,7 +14,7 @@ CpNodeJSHttpIncomingMessage class >> module [
 	^ CpNodeJSHttp
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpNodeJSHttpIncomingMessage >> complete [
 
 	"The message.complete property will be true if a complete HTTP message has been received and successfully parsed."
@@ -20,7 +22,7 @@ CpNodeJSHttpIncomingMessage >> complete [
 	^ self propertyAt: #complete
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpNodeJSHttpIncomingMessage >> headers [
 
 	"The request/response headers object.
@@ -41,7 +43,7 @@ CpNodeJSHttpIncomingMessage >> headers [
 	^ self propertyAt: #headers
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpNodeJSHttpIncomingMessage >> headersDistinct [
 
 	"Similar to message.headers, but there is no join logic and the values are always arrays of strings, even for headers received just once."
@@ -49,7 +51,7 @@ CpNodeJSHttpIncomingMessage >> headersDistinct [
 	^ self propertyAt: #headersDistinct
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpNodeJSHttpIncomingMessage >> httpVersion [
 
 	"In case of server request, the HTTP version sent by the client. In the case of client response, the HTTP version of the connected-to server. Probably either '1.1' or '1.0'.
@@ -59,7 +61,7 @@ CpNodeJSHttpIncomingMessage >> httpVersion [
 	^ self propertyAt: #httpVersion
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpNodeJSHttpIncomingMessage >> method [
 
 	"Only valid for request obtained from http.Server.
@@ -69,7 +71,7 @@ CpNodeJSHttpIncomingMessage >> method [
 	^ self propertyAt: #method
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpNodeJSHttpIncomingMessage >> rawHeaders [
 
 	"The raw request/response headers list exactly as they were received.
@@ -81,7 +83,7 @@ CpNodeJSHttpIncomingMessage >> rawHeaders [
 	^ self propertyAt: #rawHeaders
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpNodeJSHttpIncomingMessage >> rawTrailers [
 
 	"The raw request/response trailer keys and values exactly as they were received. Only populated at the 'end' event."
@@ -89,13 +91,13 @@ CpNodeJSHttpIncomingMessage >> rawTrailers [
 	^ self propertyAt: #rawTrailers
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpNodeJSHttpIncomingMessage >> setTimeout: anInteger [
 
 	self setTimeout: anInteger thenDo: nil
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpNodeJSHttpIncomingMessage >> setTimeout: anInteger thenDo: aBlock [
 
 	"Calls message.socket.setTimeout(msecs, callback)."
@@ -103,7 +105,7 @@ CpNodeJSHttpIncomingMessage >> setTimeout: anInteger thenDo: aBlock [
 	self apply: #setTimeout withArguments: { anInteger . aBlock }
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpNodeJSHttpIncomingMessage >> socket [
 
 	"The net.Socket object associated with the connection.
@@ -115,7 +117,7 @@ CpNodeJSHttpIncomingMessage >> socket [
 	^ self propertyAt: #socket
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpNodeJSHttpIncomingMessage >> statusCode [
 
 	"Only valid for response obtained from http.ClientRequest.
@@ -125,7 +127,7 @@ CpNodeJSHttpIncomingMessage >> statusCode [
 	^ self propertyAt: #statusCode
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpNodeJSHttpIncomingMessage >> statusMessage [
 
 	"Only valid for response obtained from http.ClientRequest.
@@ -135,7 +137,7 @@ CpNodeJSHttpIncomingMessage >> statusMessage [
 	^ self propertyAt: #statusMessage
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpNodeJSHttpIncomingMessage >> trailers [
 
 	"The request/response trailers object. Only populated at the 'end' event."
@@ -143,7 +145,7 @@ CpNodeJSHttpIncomingMessage >> trailers [
 	^ self propertyAt: #trailers
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpNodeJSHttpIncomingMessage >> trailersDistinct [
 
 	"Similar to message.trailers, but there is no join logic and the values are always arrays of strings, even for headers received just once. Only populated at the 'end' event."
@@ -151,7 +153,7 @@ CpNodeJSHttpIncomingMessage >> trailersDistinct [
 	^ self propertyAt: #trailersDistinct
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpNodeJSHttpIncomingMessage >> url [
 
 	"Only valid for request obtained from http.Server.

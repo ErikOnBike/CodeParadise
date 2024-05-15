@@ -1,6 +1,6 @@
-Extension { #name : #Symbol }
+Extension { #name : 'Symbol' }
 
-{ #category : #'*CodeParadise-RemoteEnvironment' }
+{ #category : '*CodeParadise-RemoteEnvironment' }
 Symbol >> cpEncodeWith: anEncoder [
 
 	<clientEnvironment>

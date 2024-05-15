@@ -1,52 +1,54 @@
 Class {
-	#name : #FuiInput,
-	#superclass : #FuiElement,
-	#category : #'CodeParadise-WebApplication-Fomantic-Elements'
+	#name : 'FuiInput',
+	#superclass : 'FuiElement',
+	#category : 'CodeParadise-WebApplication-Fomantic-Elements',
+	#package : 'CodeParadise-WebApplication-Fomantic',
+	#tag : 'Elements'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FuiInput class >> allActionVariations [
 
 	^ #(#action #'left action')
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FuiInput class >> allIconVariations [
 
 	^ #(#icon #'left icon')
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FuiInput class >> allLabelVariations [
 
 	^ #(#labeled #'right labeled')
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FuiInput class >> allSizeVariations [
 
 	^ #(#mini #small #large #big #huge #massive)
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FuiInput class >> allStates [
 
 	^ #(#focus #loading #disabled #error)
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FuiInput class >> allVariations [
 
 	^ #(#icon #'left icon' #labeled #'right labeled' #action #'left action' #transparent #inverted #fluid #mini #small #large #big #huge #massive)
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FuiInput class >> baseElementTagName [
 
 	^ #div
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 FuiInput class >> new [
 
 	"Answer a new HTML element for the text input field"
@@ -58,7 +60,7 @@ FuiInput class >> new [
 		yourself
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 FuiInput class >> newNamed: aSymbol [
 
 	"Answer a new HTML element for the text input field named (aSymbol)"
@@ -72,7 +74,7 @@ FuiInput class >> newNamed: aSymbol [
 	^ textInput
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 FuiInput class >> newTextarea [
 
 	"Answer a new HTML element for the textarea input field"
@@ -82,7 +84,7 @@ FuiInput class >> newTextarea [
 		yourself
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 FuiInput class >> newTextareaNamed: aSymbol [
 
 	"Answer a new HTML element for the textarea input field named (aSymbol)"
@@ -96,67 +98,67 @@ FuiInput class >> newTextareaNamed: aSymbol [
 	^ textareaInput
 ]
 
-{ #category : #'accessing - variation' }
+{ #category : 'accessing - variation' }
 FuiInput >> beFluid [
 
 	self addVariation: #fluid
 ]
 
-{ #category : #'accessing - state' }
+{ #category : 'accessing - state' }
 FuiInput >> beInError [
 
 	self addState: #error
 ]
 
-{ #category : #'accessing - state' }
+{ #category : 'accessing - state' }
 FuiInput >> beInFocus [
 
 	self addState: #focus
 ]
 
-{ #category : #'accessing - variation' }
+{ #category : 'accessing - variation' }
 FuiInput >> beInverted [
 
 	self addVariation: #inverted
 ]
 
-{ #category : #'accessing - state' }
+{ #category : 'accessing - state' }
 FuiInput >> beLoaded [
 
 	self removeState: #loading
 ]
 
-{ #category : #'accessing - state' }
+{ #category : 'accessing - state' }
 FuiInput >> beLoading [
 
 	self addState: #loading
 ]
 
-{ #category : #'accessing - variation' }
+{ #category : 'accessing - variation' }
 FuiInput >> beNotFluid [
 
 	self removeVariation: #fluid
 ]
 
-{ #category : #'accessing - state' }
+{ #category : 'accessing - state' }
 FuiInput >> beNotInError [
 
 	self removeState: #error
 ]
 
-{ #category : #'accessing - state' }
+{ #category : 'accessing - state' }
 FuiInput >> beNotInFocus [
 
 	self removeState: #focus
 ]
 
-{ #category : #'accessing - variation' }
+{ #category : 'accessing - variation' }
 FuiInput >> beNotInverted [
 
 	self removeVariation: #inverted
 ]
 
-{ #category : #'accessing - variation' }
+{ #category : 'accessing - variation' }
 FuiInput >> beNotTextarea [
 
 	| textareaElement |
@@ -171,13 +173,13 @@ FuiInput >> beNotTextarea [
 		yourself)
 ]
 
-{ #category : #'accessing - variation' }
+{ #category : 'accessing - variation' }
 FuiInput >> beNotTransparent [
 
 	self removeVariation: #transparent
 ]
 
-{ #category : #'accessing - variation' }
+{ #category : 'accessing - variation' }
 FuiInput >> beReadOnly [ 
 
 	| element |
@@ -194,43 +196,43 @@ FuiInput >> beReadOnly [
 		attributeAt: #disabled put: ''
 ]
 
-{ #category : #'accessing - variation' }
+{ #category : 'accessing - variation' }
 FuiInput >> beSizeBig [
 
 	self setVariation: #big ofVariations: self class allSizeVariations
 ]
 
-{ #category : #'accessing - variation' }
+{ #category : 'accessing - variation' }
 FuiInput >> beSizeHuge [
 
 	self setVariation: #huge ofVariations: self class allSizeVariations
 ]
 
-{ #category : #'accessing - variation' }
+{ #category : 'accessing - variation' }
 FuiInput >> beSizeLarge [
 
 	self setVariation: #large ofVariations: self class allSizeVariations
 ]
 
-{ #category : #'accessing - variation' }
+{ #category : 'accessing - variation' }
 FuiInput >> beSizeMassive [
 
 	self setVariation: #massive ofVariations: self class allSizeVariations
 ]
 
-{ #category : #'accessing - variation' }
+{ #category : 'accessing - variation' }
 FuiInput >> beSizeMini [
 
 	self setVariation: #mini ofVariations: self class allSizeVariations
 ]
 
-{ #category : #'accessing - variation' }
+{ #category : 'accessing - variation' }
 FuiInput >> beSizeSmall [
 
 	self setVariation: #small ofVariations: self class allSizeVariations
 ]
 
-{ #category : #'accessing - variation' }
+{ #category : 'accessing - variation' }
 FuiInput >> beTextarea [
 
 	| inputElement |
@@ -244,13 +246,13 @@ FuiInput >> beTextarea [
 		yourself)
 ]
 
-{ #category : #'accessing - variation' }
+{ #category : 'accessing - variation' }
 FuiInput >> beTransparent [
 
 	self addVariation: #transparent
 ]
 
-{ #category : #'accessing - variation' }
+{ #category : 'accessing - variation' }
 FuiInput >> beWritable [
 
 	| element |
@@ -267,31 +269,31 @@ FuiInput >> beWritable [
 	element removeAttributeAt: #disabled
 ]
 
-{ #category : #'accessing - state' }
+{ #category : 'accessing - state' }
 FuiInput >> disable [
 
 	self addState: #disabled
 ]
 
-{ #category : #'accessing - state' }
+{ #category : 'accessing - state' }
 FuiInput >> enable [
 
 	self removeState: #disabled
 ]
 
-{ #category : #'text input' }
+{ #category : 'text input' }
 FuiInput >> focus [
 
 	(self firstDescendantMatching: #input) focus
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 FuiInput >> hasFocus [
 
 	^ (self firstDescendantMatching: #input) = CpHtmlElement activeElement
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 FuiInput >> isReadOnly [
 
 	| element |
@@ -307,13 +309,13 @@ FuiInput >> isReadOnly [
 	^ element hasAttributeAt: #disabled
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 FuiInput >> isWritable [
 
 	^ self isReadOnly not
 ]
 
-{ #category : #'accessing - variation' }
+{ #category : 'accessing - variation' }
 FuiInput >> leftAction: newButtonElement [
 
 	| buttonElement |
@@ -337,7 +339,7 @@ FuiInput >> leftAction: newButtonElement [
 		ifNil: [ self removeLeftAction ]
 ]
 
-{ #category : #'accessing - variation' }
+{ #category : 'accessing - variation' }
 FuiInput >> leftIcon: aSymbol [
 
 	| iconElement |
@@ -361,7 +363,7 @@ FuiInput >> leftIcon: aSymbol [
 		ifNil: [ self removeLeftIcon ]
 ]
 
-{ #category : #'accessing - variation' }
+{ #category : 'accessing - variation' }
 FuiInput >> leftLabel: newLabelElement [
 
 	| labelElement |
@@ -385,25 +387,25 @@ FuiInput >> leftLabel: newLabelElement [
 		ifNil: [ self removeLeftLabel ]
 ]
 
-{ #category : #'accessing - variation' }
+{ #category : 'accessing - variation' }
 FuiInput >> removeButtons [
 
 	(self allDescendantsMatching: ':scope > .button') do: [ :each | each remove ]
 ]
 
-{ #category : #'accessing - variation' }
+{ #category : 'accessing - variation' }
 FuiInput >> removeIcons [
 
 	(self allDescendantsMatching: ':scope > .icon') do: [ :each | each remove ]
 ]
 
-{ #category : #'accessing - variation' }
+{ #category : 'accessing - variation' }
 FuiInput >> removeLabels [
 
 	(self allDescendantsMatching: ':scope > .label') do: [ :each | each remove ]
 ]
 
-{ #category : #'accessing - variation' }
+{ #category : 'accessing - variation' }
 FuiInput >> removeLeftAction [
 
 	| buttonElement |
@@ -415,7 +417,7 @@ FuiInput >> removeLeftAction [
 		ifTrue: [ buttonElement remove ]
 ]
 
-{ #category : #'accessing - variation' }
+{ #category : 'accessing - variation' }
 FuiInput >> removeLeftIcon [
 
 	| iconElement |
@@ -427,7 +429,7 @@ FuiInput >> removeLeftIcon [
 		ifTrue: [ iconElement remove ]
 ]
 
-{ #category : #'accessing - variation' }
+{ #category : 'accessing - variation' }
 FuiInput >> removeLeftLabel [
 
 	| labelElement |
@@ -439,28 +441,28 @@ FuiInput >> removeLeftLabel [
 		ifTrue: [ labelElement remove ]
 ]
 
-{ #category : #'accessing - variation' }
+{ #category : 'accessing - variation' }
 FuiInput >> removeRightAction [
 
 	(self firstDescendantMatching: ':scope > input ~ .button')
 		ifNotNil: [ :buttonElement | buttonElement remove ]
 ]
 
-{ #category : #'accessing - variation' }
+{ #category : 'accessing - variation' }
 FuiInput >> removeRightIcon [
 
 	(self firstDescendantMatching: ':scope > input ~ .icon')
 		ifNotNil: [ :iconElement | iconElement remove ]
 ]
 
-{ #category : #'accessing - variation' }
+{ #category : 'accessing - variation' }
 FuiInput >> removeRightLabel [
 
 	(self firstDescendantMatching: ':scope > input ~ .label')
 		ifNotNil: [ :labelElement | labelElement remove ]
 ]
 
-{ #category : #'accessing - variation' }
+{ #category : 'accessing - variation' }
 FuiInput >> rightAction: newButtonElement [
 
 	| buttonElement |
@@ -480,7 +482,7 @@ FuiInput >> rightAction: newButtonElement [
 		ifNil: [ self removeRightAction ]
 ]
 
-{ #category : #'accessing - variation' }
+{ #category : 'accessing - variation' }
 FuiInput >> rightIcon: aSymbol [
 
 	| iconElement |
@@ -500,7 +502,7 @@ FuiInput >> rightIcon: aSymbol [
 		ifNil: [ self removeRightIcon ]
 ]
 
-{ #category : #'accessing - variation' }
+{ #category : 'accessing - variation' }
 FuiInput >> rightLabel: newRightLabel [
 
 	| labelElement |
@@ -520,21 +522,21 @@ FuiInput >> rightLabel: newRightLabel [
 		ifNil: [ self removeRightLabel ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FuiInput >> value [
 
 	^ (self firstDescendantMatching: #input)
 		propertyAt: #value
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FuiInput >> value: aString [
 
 	(self firstDescendantMatching: #input)
 		propertyAt: #value put: aString
 ]
 
-{ #category : #events }
+{ #category : 'events' }
 FuiInput >> whenChangedSend: aSelector to: anObject [
 
 	^ (self firstDescendantMatching: #input)

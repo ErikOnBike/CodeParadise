@@ -6,18 +6,20 @@ manipulation behavior.
 
 "
 Class {
-	#name : #CpBrowserMediaElement,
-	#superclass : #CpJavaScriptEventTarget,
-	#category : #'CodeParadise-Browser-Support-MediaStreams'
+	#name : 'CpBrowserMediaElement',
+	#superclass : 'CpJavaScriptEventTarget',
+	#category : 'CodeParadise-Browser-Support-MediaStreams',
+	#package : 'CodeParadise-Browser-Support',
+	#tag : 'MediaStreams'
 }
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 CpBrowserMediaElement class >> domElement: aDomElement [
 
 	^ self wrap: aDomElement
 ]
 
-{ #category : #operations }
+{ #category : 'operations' }
 CpBrowserMediaElement >> plause [
 
 	"Pauses the media playback."
@@ -25,7 +27,7 @@ CpBrowserMediaElement >> plause [
 	self apply: #pause
 ]
 
-{ #category : #operations }
+{ #category : 'operations' }
 CpBrowserMediaElement >> play [
 
 	"Begins playback of the media."
@@ -33,7 +35,7 @@ CpBrowserMediaElement >> play [
 	self apply: #play
 ]
 
-{ #category : #operations }
+{ #category : 'operations' }
 CpBrowserMediaElement >> srcObject [
 
 	"A MediaStream representing the media to play or that has played in the current HTMLMediaElement, or null if not assigned."
@@ -41,7 +43,7 @@ CpBrowserMediaElement >> srcObject [
 	^ self propertyAt: #srcObject
 ]
 
-{ #category : #operations }
+{ #category : 'operations' }
 CpBrowserMediaElement >> srcObject: aMediaStream [
 
 	"A MediaStream representing the media to play or that has played in the current HTMLMediaElement, or null if not assigned."

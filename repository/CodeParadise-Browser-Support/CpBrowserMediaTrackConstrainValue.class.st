@@ -9,12 +9,14 @@ See https://developer.mozilla.org/en-US/docs/Web/API/MediaTrackConstraints
 
 "
 Class {
-	#name : #CpBrowserMediaTrackConstrainValue,
-	#superclass : #CpJavaScriptObject,
-	#category : #'CodeParadise-Browser-Support-MediaStreams'
+	#name : 'CpBrowserMediaTrackConstrainValue',
+	#superclass : 'CpJavaScriptObject',
+	#category : 'CodeParadise-Browser-Support-MediaStreams',
+	#package : 'CodeParadise-Browser-Support',
+	#tag : 'MediaStreams'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpBrowserMediaTrackConstrainValue class >> getClassName [
 
 	"Browsers implement me as a regular object/dictionary, therefore override the class I represent"
@@ -22,7 +24,7 @@ CpBrowserMediaTrackConstrainValue class >> getClassName [
 	^ 'Object'
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpBrowserMediaTrackConstrainValue >> exact [
 
 	"Depending on whether a ConstrainBoolean or ConstrainDOMString is used:
@@ -33,7 +35,7 @@ CpBrowserMediaTrackConstrainValue >> exact [
 	^ self propertyAt: #exact
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpBrowserMediaTrackConstrainValue >> exact: anObject [
 
 	"Depending on whether a ConstrainBoolean or ConstrainDOMString is used:
@@ -44,7 +46,7 @@ CpBrowserMediaTrackConstrainValue >> exact: anObject [
 	self propertyAt: #exact put: anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpBrowserMediaTrackConstrainValue >> ideal [
 
 	"Depending on whether a ConstrainBoolean or ConstrainDOMString is used:
@@ -55,7 +57,7 @@ CpBrowserMediaTrackConstrainValue >> ideal [
 	^ self propertyAt: #ideal
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpBrowserMediaTrackConstrainValue >> ideal: anObject [
 
 	"Depending on whether a ConstrainBoolean or ConstrainDOMString is used:

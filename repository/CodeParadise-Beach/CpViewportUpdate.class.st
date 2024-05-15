@@ -1,13 +1,15 @@
 Class {
-	#name : #CpViewportUpdate,
-	#superclass : #Announcement,
+	#name : 'CpViewportUpdate',
+	#superclass : 'Announcement',
 	#instVars : [
 		'position'
 	],
-	#category : #'CodeParadise-Beach-Components'
+	#category : 'CodeParadise-Beach-Components',
+	#package : 'CodeParadise-Beach',
+	#tag : 'Components'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpViewportUpdate class >> position: aPoint [
 
 	^ self new
@@ -15,13 +17,13 @@ CpViewportUpdate class >> position: aPoint [
 		yourself
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpViewportUpdate >> position [
 
 	^ position
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpViewportUpdate >> position: aPoint [
 
 	position := aPoint

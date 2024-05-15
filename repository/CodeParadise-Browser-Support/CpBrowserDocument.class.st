@@ -1,10 +1,12 @@
 Class {
-	#name : #CpBrowserDocument,
-	#superclass : #CpJavaScriptObject,
-	#category : #'CodeParadise-Browser-Support-Core'
+	#name : 'CpBrowserDocument',
+	#superclass : 'CpJavaScriptObject',
+	#category : 'CodeParadise-Browser-Support-Core',
+	#package : 'CodeParadise-Browser-Support',
+	#tag : 'Core'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpBrowserDocument class >> current [
 
 	"Answer the current document.
@@ -16,19 +18,19 @@ CpBrowserDocument class >> current [
 	^ self wrap: (CpJavaScriptObject global propertyAt: #document)
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 CpBrowserDocument class >> newInstanceWithArguments: anArray resultAs: aProxyClass [
 
 	self error: 'An instance should be retrieved using the selector ', #current
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 CpBrowserDocument >> isVisible [
 
 	^ self visibilityState = #visible
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpBrowserDocument >> visibilityState [
 
 	"Returns a string denoting the visibility state of the document. Possible values are visible, hidden, prerender, and unloaded."

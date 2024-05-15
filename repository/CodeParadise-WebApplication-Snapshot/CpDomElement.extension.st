@@ -1,6 +1,6 @@
-Extension { #name : #CpDomElement }
+Extension { #name : 'CpDomElement' }
 
-{ #category : #'*CodeParadise-WebApplication-Snapshot' }
+{ #category : '*CodeParadise-WebApplication-Snapshot' }
 CpDomElement >> privateAttachToId: idString [
 
 	"Attach the receiver to an existing DOM element.

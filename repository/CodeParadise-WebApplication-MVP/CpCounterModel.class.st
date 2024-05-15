@@ -2,15 +2,17 @@
 I am a Counter. I have a value which can be increased and decreased.
 "
 Class {
-	#name : #CpCounterModel,
-	#superclass : #CpModel,
+	#name : 'CpCounterModel',
+	#superclass : 'CpModel',
 	#instVars : [
 		'value'
 	],
-	#category : #'CodeParadise-WebApplication-MVP-Examples'
+	#category : 'CodeParadise-WebApplication-MVP-Examples',
+	#package : 'CodeParadise-WebApplication-MVP',
+	#tag : 'Examples'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpCounterModel >> decrease [
 
 	value := value - 1.
@@ -18,7 +20,7 @@ CpCounterModel >> decrease [
 	self valueChanged
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpCounterModel >> increase [
 
 	value := value + 1.
@@ -26,7 +28,7 @@ CpCounterModel >> increase [
 	self valueChanged
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 CpCounterModel >> initialize [
 
 	super initialize.
@@ -34,7 +36,7 @@ CpCounterModel >> initialize [
 	value := 0
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpCounterModel >> value [
 
 	^ value

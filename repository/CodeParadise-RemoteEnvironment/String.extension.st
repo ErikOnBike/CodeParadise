@@ -1,6 +1,6 @@
-Extension { #name : #String }
+Extension { #name : 'String' }
 
-{ #category : #'*CodeParadise-RemoteEnvironment' }
+{ #category : '*CodeParadise-RemoteEnvironment' }
 String >> asHtmlTag [ 
 
 	<webApplicationExtension>
@@ -8,13 +8,13 @@ String >> asHtmlTag [
 	^ (Smalltalk classNamed: #CpHtmlElement) newWithTag: self
 ]
 
-{ #category : #'*CodeParadise-RemoteEnvironment' }
+{ #category : '*CodeParadise-RemoteEnvironment' }
 String >> asNumberOrNil [
 
 	^ [ self asNumber ] on: Error do: [ nil ]
 ]
 
-{ #category : #'*CodeParadise-RemoteEnvironment' }
+{ #category : '*CodeParadise-RemoteEnvironment' }
 String >> cpEncodeWith: anEncoder [
 
 	<clientEnvironment>
@@ -22,7 +22,7 @@ String >> cpEncodeWith: anEncoder [
 	anEncoder encodeString: self
 ]
 
-{ #category : #'*CodeParadise-RemoteEnvironment' }
+{ #category : '*CodeParadise-RemoteEnvironment' }
 String class >> fromUTF8EncodedByteArray: aByteArray [
 
 	"Answer a String containing the information from the specified ByteArray
@@ -38,7 +38,7 @@ String class >> fromUTF8EncodedByteArray: aByteArray [
 			aStream nextPut: (Character value: objectDecoder readUTF8CodePoint) ] ]
 ]
 
-{ #category : #'*CodeParadise-RemoteEnvironment' }
+{ #category : '*CodeParadise-RemoteEnvironment' }
 String class >> fromWordArray: aWordArray [
 
 	"Answer an instance of the receiver consisting of Characters having

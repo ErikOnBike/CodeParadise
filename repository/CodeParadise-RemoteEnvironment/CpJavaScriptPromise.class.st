@@ -3,12 +3,14 @@ I represent the JavaScript Promise class.
 
 "
 Class {
-	#name : #CpJavaScriptPromise,
-	#superclass : #CpJavaScriptObject,
-	#category : #'CodeParadise-RemoteEnvironment-Support'
+	#name : 'CpJavaScriptPromise',
+	#superclass : 'CpJavaScriptObject',
+	#category : 'CodeParadise-RemoteEnvironment-Support',
+	#package : 'CodeParadise-RemoteEnvironment',
+	#tag : 'Support'
 }
 
-{ #category : #convenience }
+{ #category : 'convenience' }
 CpJavaScriptPromise class >> on: executorBlock [
 
 	"Answer a new instance of the receiver with the specified executor Block.
@@ -30,7 +32,7 @@ CpJavaScriptPromise class >> on: executorBlock [
 			value: [ :reason | rejectFunc apply: #applyPassThrough withArguments: { nil . { reason } } ] ] }
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpJavaScriptPromise >> catch: rejectedBlock [
 
 	"Appends a rejection handler callback to the promise, and returns a new promise
@@ -40,7 +42,7 @@ CpJavaScriptPromise >> catch: rejectedBlock [
 	^ self apply: #catch withArguments: { rejectedBlock } resultAs: CpJavaScriptPromise
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpJavaScriptPromise >> finally: aBlock [
 
 	"Appends a handler to the promise, and returns a new promise that is resolved when
@@ -50,19 +52,19 @@ CpJavaScriptPromise >> finally: aBlock [
 	^ self apply: #finally withArguments: { aBlock } resultAs: CpJavaScriptPromise
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpJavaScriptPromise >> then: fullfilledBlock [
 
 	^ self then: fullfilledBlock onRejected: nil
 ]
 
-{ #category : #convenience }
+{ #category : 'convenience' }
 CpJavaScriptPromise >> then: fullfilledBlock catch: rejectedBlock [
 
 	^ (self then: fullfilledBlock) catch: rejectedBlock
 ]
 
-{ #category : #convenience }
+{ #category : 'convenience' }
 CpJavaScriptPromise >> then: fullfilledBlock onRejected: rejectedBlock [
 
 	"Appends fulfillment and rejection handlers to the promise, and returns a new promise
@@ -73,13 +75,13 @@ CpJavaScriptPromise >> then: fullfilledBlock onRejected: rejectedBlock [
 	^ self apply: #then withArguments: { fullfilledBlock . rejectedBlock } resultAs: CpJavaScriptPromise
 ]
 
-{ #category : #convenience }
+{ #category : 'convenience' }
 CpJavaScriptPromise >> then: fullfilledBlock then: secondBlock catch: rejectedBlock [
 
 	^ (self then: fullfilledBlock) then: secondBlock catch: rejectedBlock
 ]
 
-{ #category : #convenience }
+{ #category : 'convenience' }
 CpJavaScriptPromise >> then: fullfilledBlock then: secondBlock then: thirdBlock catch: rejectedBlock [
 
 	^ (self then: fullfilledBlock) then: secondBlock then: thirdBlock catch: rejectedBlock

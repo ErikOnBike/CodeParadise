@@ -3,15 +3,17 @@ I am Announcement for the failure of a message send in the ClientEnvironment.
 I know the MessageSend which failed as well as an additional error message (which helps to identify the actual receiver of the message).
 "
 Class {
-	#name : #CpClientMessageSendFailed,
-	#superclass : #CpClientError,
+	#name : 'CpClientMessageSendFailed',
+	#superclass : 'CpClientError',
 	#instVars : [
 		'messageSend'
 	],
-	#category : #'CodeParadise-RemoteEnvironment-Core-Announcements'
+	#category : 'CodeParadise-RemoteEnvironment-Core-Announcements',
+	#package : 'CodeParadise-RemoteEnvironment',
+	#tag : 'Core-Announcements'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpClientMessageSendFailed class >> messageSend: aMessageSend [
 
 	^ self new
@@ -19,7 +21,7 @@ CpClientMessageSendFailed class >> messageSend: aMessageSend [
 		yourself
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpClientMessageSendFailed class >> messageSend: aMessageSend description: aString [
 
 	^ self new
@@ -28,19 +30,19 @@ CpClientMessageSendFailed class >> messageSend: aMessageSend description: aStrin
 		yourself
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpClientMessageSendFailed >> messageSend [
 
 	^ messageSend
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpClientMessageSendFailed >> messageSend: aMessageSend [
 
 	messageSend := aMessageSend
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 CpClientMessageSendFailed >> printOn: aStream [
 
 	super printOn: aStream.

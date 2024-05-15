@@ -1,10 +1,12 @@
 Class {
-	#name : #CpBrowserSupportExamplesWebApplication,
-	#superclass : #CpWebApplication,
-	#category : #'CodeParadise-Browser-Support-Examples'
+	#name : 'CpBrowserSupportExamplesWebApplication',
+	#superclass : 'CpWebApplication',
+	#category : 'CodeParadise-Browser-Support-Examples',
+	#package : 'CodeParadise-Browser-Support',
+	#tag : 'Examples'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpBrowserSupportExamplesWebApplication class >> app [
 
 	"Answer the unique identifier (a Symbol) for the receiver"
@@ -12,7 +14,7 @@ CpBrowserSupportExamplesWebApplication class >> app [
 	^ #'Browser-Support-Examples'
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpBrowserSupportExamplesWebApplication class >> clientBehaviorClass [
 
 	^ CpBrowserSupportExamplesClientBehavior

@@ -1,10 +1,12 @@
 Class {
-	#name : #CpBrowserGeolocationCoordinates,
-	#superclass : #CpJavaScriptObject,
-	#category : #'CodeParadise-Browser-Support-Geolocation'
+	#name : 'CpBrowserGeolocationCoordinates',
+	#superclass : 'CpJavaScriptObject',
+	#category : 'CodeParadise-Browser-Support-Geolocation',
+	#package : 'CodeParadise-Browser-Support',
+	#tag : 'Geolocation'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpBrowserGeolocationCoordinates >> accuracy [
 
 	"Returns a double representing the accuracy of the latitude and longitude properties, expressed in meters."
@@ -12,7 +14,7 @@ CpBrowserGeolocationCoordinates >> accuracy [
 	^ self propertyAt: #accuracy
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpBrowserGeolocationCoordinates >> altitude [
 
 	"Returns a double representing the position's altitude in meters, relative to sea level. This value can be null if the implementation cannot provide the data."
@@ -20,7 +22,7 @@ CpBrowserGeolocationCoordinates >> altitude [
 	^ self propertyAt: #altitude
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpBrowserGeolocationCoordinates >> altitudeAccuracy [
 
 	"Returns a double representing the accuracy of the altitude expressed in meters. This value can be null."
@@ -28,7 +30,7 @@ CpBrowserGeolocationCoordinates >> altitudeAccuracy [
 	^ self propertyAt: #altitudeAccuracy
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpBrowserGeolocationCoordinates >> heading [
 
 	"Returns a double representing the direction towards which the device is facing. This value,
@@ -41,7 +43,7 @@ CpBrowserGeolocationCoordinates >> heading [
 	^ self propertyAt: #heading
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpBrowserGeolocationCoordinates >> latitude [
 
 	"Returns a double representing the position's latitude in decimal degrees."
@@ -49,7 +51,7 @@ CpBrowserGeolocationCoordinates >> latitude [
 	^ self propertyAt: #latitude
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpBrowserGeolocationCoordinates >> longitude [
 
 	"Returns a double representing the position's longitude in decimal degrees."
@@ -57,7 +59,7 @@ CpBrowserGeolocationCoordinates >> longitude [
 	^ self propertyAt: #longitude
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpBrowserGeolocationCoordinates >> speed [
 
 	"Returns a double representing the velocity of the device in meters per second. This value can be null."

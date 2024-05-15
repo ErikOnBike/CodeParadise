@@ -1,10 +1,12 @@
 Class {
-	#name : #CpBrowserMediaTrackConstraints,
-	#superclass : #CpJavaScriptObject,
-	#category : #'CodeParadise-Browser-Support-MediaStreams'
+	#name : 'CpBrowserMediaTrackConstraints',
+	#superclass : 'CpJavaScriptObject',
+	#category : 'CodeParadise-Browser-Support-MediaStreams',
+	#package : 'CodeParadise-Browser-Support',
+	#tag : 'MediaStreams'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpBrowserMediaTrackConstraints class >> getClassName [
 
 	"Browsers implement me as a regular object/dictionary, therefore override the class I represent"
@@ -12,7 +14,7 @@ CpBrowserMediaTrackConstraints class >> getClassName [
 	^ 'Object'
 ]
 
-{ #category : #'accessing - video tracks' }
+{ #category : 'accessing - video tracks' }
 CpBrowserMediaTrackConstraints >> aspectRatio [
 
 	"A ConstrainDouble specifying the video aspect ratio or range of aspect ratios which are acceptable and/or required."
@@ -20,7 +22,7 @@ CpBrowserMediaTrackConstraints >> aspectRatio [
 	^ self propertyAt: #aspectRatio
 ]
 
-{ #category : #'accessing - video tracks' }
+{ #category : 'accessing - video tracks' }
 CpBrowserMediaTrackConstraints >> aspectRatio: aConstrainRange [
 
 	"A ConstrainDouble specifying the video aspect ratio or range of aspect ratios which are acceptable and/or required."
@@ -28,7 +30,7 @@ CpBrowserMediaTrackConstraints >> aspectRatio: aConstrainRange [
 	self propertyAt: #aspectRatio put: aConstrainRange
 ]
 
-{ #category : #'accessing - audio tracks' }
+{ #category : 'accessing - audio tracks' }
 CpBrowserMediaTrackConstraints >> autoGainControl [
 
 	"A ConstrainBoolean object which specifies whether automatic gain control is preferred and/or required."
@@ -36,7 +38,7 @@ CpBrowserMediaTrackConstraints >> autoGainControl [
 	^ self propertyAt: #autoGainControl
 ]
 
-{ #category : #'accessing - audio tracks' }
+{ #category : 'accessing - audio tracks' }
 CpBrowserMediaTrackConstraints >> autoGainControl: aConstrainValue [
 
 	"A ConstrainBoolean object which specifies whether automatic gain control is preferred and/or required."
@@ -44,7 +46,7 @@ CpBrowserMediaTrackConstraints >> autoGainControl: aConstrainValue [
 	self propertyAt: #autoGainControl put: aConstrainValue
 ]
 
-{ #category : #'accessing - image tracks' }
+{ #category : 'accessing - image tracks' }
 CpBrowserMediaTrackConstraints >> brightness [
 
 	"A ConstrainDouble (a double-precision integer) specifying a desired brightness setting."
@@ -52,7 +54,7 @@ CpBrowserMediaTrackConstraints >> brightness [
 	^ self propertyAt: #brightness
 ]
 
-{ #category : #'accessing - image tracks' }
+{ #category : 'accessing - image tracks' }
 CpBrowserMediaTrackConstraints >> brightness: aConstrainRange [
 
 	"A ConstrainDouble (a double-precision integer) specifying a desired brightness setting."
@@ -60,7 +62,7 @@ CpBrowserMediaTrackConstraints >> brightness: aConstrainRange [
 	self propertyAt: #brightness put: aConstrainRange
 ]
 
-{ #category : #'accessing - audio tracks' }
+{ #category : 'accessing - audio tracks' }
 CpBrowserMediaTrackConstraints >> channelCount [
 
 	"A ConstrainULong specifying the channel count or range of channel counts which are acceptable and/or required."
@@ -68,7 +70,7 @@ CpBrowserMediaTrackConstraints >> channelCount [
 	^ self propertyAt: #channelCount
 ]
 
-{ #category : #'accessing - audio tracks' }
+{ #category : 'accessing - audio tracks' }
 CpBrowserMediaTrackConstraints >> channelCount: aConstrainRange [
 
 	"A ConstrainULong specifying the channel count or range of channel counts which are acceptable and/or required."
@@ -76,7 +78,7 @@ CpBrowserMediaTrackConstraints >> channelCount: aConstrainRange [
 	self propertyAt: #channelCount put: aConstrainRange
 ]
 
-{ #category : #'accessing - image tracks' }
+{ #category : 'accessing - image tracks' }
 CpBrowserMediaTrackConstraints >> colorTemperature [
 
 	"A ConstrainDouble (a double-precision integer) specifying a desired color temperature in degrees kelvin."
@@ -84,7 +86,7 @@ CpBrowserMediaTrackConstraints >> colorTemperature [
 	^ self propertyAt: #colorTemperature
 ]
 
-{ #category : #'accessing - image tracks' }
+{ #category : 'accessing - image tracks' }
 CpBrowserMediaTrackConstraints >> colorTemperature: aConstrainRange [
 
 	"A ConstrainDouble (a double-precision integer) specifying a desired color temperature in degrees kelvin."
@@ -92,7 +94,7 @@ CpBrowserMediaTrackConstraints >> colorTemperature: aConstrainRange [
 	self propertyAt: #colorTemperature put: aConstrainRange
 ]
 
-{ #category : #'accessing - image tracks' }
+{ #category : 'accessing - image tracks' }
 CpBrowserMediaTrackConstraints >> contrast [
 
 	"A ConstrainDouble (a double-precision integer) specifying the degree of difference between light and dark."
@@ -100,7 +102,7 @@ CpBrowserMediaTrackConstraints >> contrast [
 	^ self propertyAt: #contrast
 ]
 
-{ #category : #'accessing - image tracks' }
+{ #category : 'accessing - image tracks' }
 CpBrowserMediaTrackConstraints >> contrast: aConstrainRange [
 
 	"A ConstrainDouble (a double-precision integer) specifying the degree of difference between light and dark."
@@ -108,7 +110,7 @@ CpBrowserMediaTrackConstraints >> contrast: aConstrainRange [
 	self propertyAt: #contrast put: aConstrainRange
 ]
 
-{ #category : #'accessing - all media tracks' }
+{ #category : 'accessing - all media tracks' }
 CpBrowserMediaTrackConstraints >> deviceId [
 
 	"A ConstrainDOMString object specifying a device ID or an array of device IDs which are acceptable and/or required."
@@ -116,7 +118,7 @@ CpBrowserMediaTrackConstraints >> deviceId [
 	^ self propertyAt: #deviceId
 ]
 
-{ #category : #'accessing - all media tracks' }
+{ #category : 'accessing - all media tracks' }
 CpBrowserMediaTrackConstraints >> deviceId: aConstrainValue [
 
 	"A ConstrainDOMString object specifying a device ID or an array of device IDs which are acceptable and/or required."
@@ -124,7 +126,7 @@ CpBrowserMediaTrackConstraints >> deviceId: aConstrainValue [
 	self propertyAt: #deviceId put: aConstrainValue
 ]
 
-{ #category : #'accessing - shared screen tracks' }
+{ #category : 'accessing - shared screen tracks' }
 CpBrowserMediaTrackConstraints >> displaySurface [
 
 	"A ConstrainDOMString which specifies the types of display surface that may be selected by the user. This may be a single one of the following strings, or a list of them to allow multiple source surfaces:
@@ -139,7 +141,7 @@ CpBrowserMediaTrackConstraints >> displaySurface [
 	^ self propertyAt: #displaySurface
 ]
 
-{ #category : #'accessing - shared screen tracks' }
+{ #category : 'accessing - shared screen tracks' }
 CpBrowserMediaTrackConstraints >> displaySurface: aConstrainValue [
 
 	"A ConstrainDOMString which specifies the types of display surface that may be selected by the user. This may be a single one of the following strings, or a list of them to allow multiple source surfaces:
@@ -154,7 +156,7 @@ CpBrowserMediaTrackConstraints >> displaySurface: aConstrainValue [
 	self propertyAt: #displaySurface put: aConstrainValue
 ]
 
-{ #category : #'accessing - audio tracks' }
+{ #category : 'accessing - audio tracks' }
 CpBrowserMediaTrackConstraints >> echoCancellation [
 
 	"A ConstrainBoolean object specifying whether or not echo cancellation is preferred and/or required."
@@ -162,7 +164,7 @@ CpBrowserMediaTrackConstraints >> echoCancellation [
 	^ self propertyAt: #echoCancellation
 ]
 
-{ #category : #'accessing - audio tracks' }
+{ #category : 'accessing - audio tracks' }
 CpBrowserMediaTrackConstraints >> echoCancellation: aConstrainValue [
 
 	"A ConstrainBoolean object specifying whether or not echo cancellation is preferred and/or required."
@@ -170,7 +172,7 @@ CpBrowserMediaTrackConstraints >> echoCancellation: aConstrainValue [
 	self propertyAt: #echoCancellation put: aConstrainValue
 ]
 
-{ #category : #'accessing - image tracks' }
+{ #category : 'accessing - image tracks' }
 CpBrowserMediaTrackConstraints >> exposureCompensation [
 
 	"A ConstrainDouble (a double-precision integer) specifying f-stop adjustment by up to ±3."
@@ -178,7 +180,7 @@ CpBrowserMediaTrackConstraints >> exposureCompensation [
 	^ self propertyAt: #exposureCompensation
 ]
 
-{ #category : #'accessing - image tracks' }
+{ #category : 'accessing - image tracks' }
 CpBrowserMediaTrackConstraints >> exposureCompensation: aConstrainRange [
 
 	"A ConstrainDouble (a double-precision integer) specifying f-stop adjustment by up to ±3."
@@ -186,7 +188,7 @@ CpBrowserMediaTrackConstraints >> exposureCompensation: aConstrainRange [
 	self propertyAt: #exposureCompensation put: aConstrainRange
 ]
 
-{ #category : #'accessing - image tracks' }
+{ #category : 'accessing - image tracks' }
 CpBrowserMediaTrackConstraints >> exposureMode [
 
 	"A String specifying one of 'none', 'manual', 'single-shot', or 'continuous'."
@@ -194,7 +196,7 @@ CpBrowserMediaTrackConstraints >> exposureMode [
 	^ self propertyAt: #exposureMode
 ]
 
-{ #category : #'accessing - image tracks' }
+{ #category : 'accessing - image tracks' }
 CpBrowserMediaTrackConstraints >> exposureMode: aString [
 
 	"A String specifying one of 'none', 'manual', 'single-shot', or 'continuous'."
@@ -202,7 +204,7 @@ CpBrowserMediaTrackConstraints >> exposureMode: aString [
 	self propertyAt: #exposureMode put: aString
 ]
 
-{ #category : #'accessing - video tracks' }
+{ #category : 'accessing - video tracks' }
 CpBrowserMediaTrackConstraints >> facingMode [
 
 	"A ConstrainDOMString object specifying a facing or an array of facings which are acceptable and/or required."
@@ -210,7 +212,7 @@ CpBrowserMediaTrackConstraints >> facingMode [
 	^ self propertyAt: #facingMode
 ]
 
-{ #category : #'accessing - video tracks' }
+{ #category : 'accessing - video tracks' }
 CpBrowserMediaTrackConstraints >> facingMode: aConstrainValue [
 
 	"A ConstrainDOMString object specifying a facing or an array of facings which are acceptable and/or required."
@@ -218,7 +220,7 @@ CpBrowserMediaTrackConstraints >> facingMode: aConstrainValue [
 	self propertyAt: #facingMode put: aConstrainValue
 ]
 
-{ #category : #'accessing - image tracks' }
+{ #category : 'accessing - image tracks' }
 CpBrowserMediaTrackConstraints >> focusDistance [
 
 	"A ConstrainDouble (a double-precision integer) specifying distance to a focused object."
@@ -226,7 +228,7 @@ CpBrowserMediaTrackConstraints >> focusDistance [
 	^ self propertyAt: #focusDistance
 ]
 
-{ #category : #'accessing - image tracks' }
+{ #category : 'accessing - image tracks' }
 CpBrowserMediaTrackConstraints >> focusDistance: aConstrainRange [
 
 	"A ConstrainDouble (a double-precision integer) specifying distance to a focused object."
@@ -234,7 +236,7 @@ CpBrowserMediaTrackConstraints >> focusDistance: aConstrainRange [
 	self propertyAt: #focusDistance put: aConstrainRange
 ]
 
-{ #category : #'accessing - image tracks' }
+{ #category : 'accessing - image tracks' }
 CpBrowserMediaTrackConstraints >> focusMode [
 
 	"A String specifying one of 'none', 'manual', 'single-shot', or 'continuous'."
@@ -242,7 +244,7 @@ CpBrowserMediaTrackConstraints >> focusMode [
 	^ self propertyAt: #focusMode
 ]
 
-{ #category : #'accessing - image tracks' }
+{ #category : 'accessing - image tracks' }
 CpBrowserMediaTrackConstraints >> focusMode: aString [
 
 	"A String specifying one of 'none', 'manual', 'single-shot', or 'continuous'."
@@ -250,7 +252,7 @@ CpBrowserMediaTrackConstraints >> focusMode: aString [
 	self propertyAt: #focusMode put: aString
 ]
 
-{ #category : #'accessing - video tracks' }
+{ #category : 'accessing - video tracks' }
 CpBrowserMediaTrackConstraints >> frameRate [
 
 	"A ConstrainDouble specifying the frame rate or range of frame rates which are acceptable and/or required."
@@ -258,7 +260,7 @@ CpBrowserMediaTrackConstraints >> frameRate [
 	^ self propertyAt: #frameRate
 ]
 
-{ #category : #'accessing - video tracks' }
+{ #category : 'accessing - video tracks' }
 CpBrowserMediaTrackConstraints >> frameRate: aConstrainRange [
 
 	"A ConstrainDouble specifying the frame rate or range of frame rates which are acceptable and/or required."
@@ -266,7 +268,7 @@ CpBrowserMediaTrackConstraints >> frameRate: aConstrainRange [
 	self propertyAt: #frameRate put: aConstrainRange
 ]
 
-{ #category : #'accessing - all media tracks' }
+{ #category : 'accessing - all media tracks' }
 CpBrowserMediaTrackConstraints >> groupId [
 
 	"A ConstrainDOMString object specifying a group ID or an array of group IDs which are acceptable and/or required."
@@ -274,7 +276,7 @@ CpBrowserMediaTrackConstraints >> groupId [
 	^ self propertyAt: #groupId
 ]
 
-{ #category : #'accessing - all media tracks' }
+{ #category : 'accessing - all media tracks' }
 CpBrowserMediaTrackConstraints >> groupId: aConstrainValue [
 
 	"A ConstrainDOMString object specifying a group ID or an array of group IDs which are acceptable and/or required."
@@ -282,7 +284,7 @@ CpBrowserMediaTrackConstraints >> groupId: aConstrainValue [
 	self propertyAt: #groupId put: aConstrainValue
 ]
 
-{ #category : #'accessing - video tracks' }
+{ #category : 'accessing - video tracks' }
 CpBrowserMediaTrackConstraints >> height [
 
 	"A ConstrainULong specifying the video height or range of heights which are acceptable and/or required."
@@ -290,7 +292,7 @@ CpBrowserMediaTrackConstraints >> height [
 	^ self propertyAt: #height
 ]
 
-{ #category : #'accessing - video tracks' }
+{ #category : 'accessing - video tracks' }
 CpBrowserMediaTrackConstraints >> height: aConstrainRange [
 
 	"A ConstrainULong specifying the video height or range of heights which are acceptable and/or required."
@@ -298,7 +300,7 @@ CpBrowserMediaTrackConstraints >> height: aConstrainRange [
 	self propertyAt: #height put: aConstrainRange
 ]
 
-{ #category : #'accessing - image tracks' }
+{ #category : 'accessing - image tracks' }
 CpBrowserMediaTrackConstraints >> iso [
 
 	"A ConstrainDouble (a double-precision integer) specifying a desired iso setting."
@@ -306,7 +308,7 @@ CpBrowserMediaTrackConstraints >> iso [
 	^ self propertyAt: #iso
 ]
 
-{ #category : #'accessing - image tracks' }
+{ #category : 'accessing - image tracks' }
 CpBrowserMediaTrackConstraints >> iso: aConstrainRange [
 
 	"A ConstrainDouble (a double-precision integer) specifying a desired iso setting."
@@ -314,7 +316,7 @@ CpBrowserMediaTrackConstraints >> iso: aConstrainRange [
 	self propertyAt: #iso put: aConstrainRange
 ]
 
-{ #category : #'accessing - audio tracks' }
+{ #category : 'accessing - audio tracks' }
 CpBrowserMediaTrackConstraints >> latency [
 
 	"A ConstrainDouble specifying the latency or range of latencies which are acceptable and/or required."
@@ -322,7 +324,7 @@ CpBrowserMediaTrackConstraints >> latency [
 	^ self propertyAt: #latency
 ]
 
-{ #category : #'accessing - audio tracks' }
+{ #category : 'accessing - audio tracks' }
 CpBrowserMediaTrackConstraints >> latency: aConstrainRange [
 
 	"A ConstrainDouble specifying the latency or range of latencies which are acceptable and/or required."
@@ -330,7 +332,7 @@ CpBrowserMediaTrackConstraints >> latency: aConstrainRange [
 	self propertyAt: #latency put: aConstrainRange
 ]
 
-{ #category : #'accessing - shared screen tracks' }
+{ #category : 'accessing - shared screen tracks' }
 CpBrowserMediaTrackConstraints >> logicalSurface [
 
 	"A ConstrainBoolean value which may contain a single Boolean value or a set of them, indicating whether or not to allow the user to choose source surfaces which do not directly correspond to display areas. These may include backing buffers for windows to allow capture of window contents that are hidden by other windows in front of them, or buffers containing larger documents that need to be scrolled through to see the entire contents in their windows."
@@ -338,7 +340,7 @@ CpBrowserMediaTrackConstraints >> logicalSurface [
 	^ self propertyAt: #logicalSurface
 ]
 
-{ #category : #'accessing - shared screen tracks' }
+{ #category : 'accessing - shared screen tracks' }
 CpBrowserMediaTrackConstraints >> logicalSurface: aConstrainValue [
 
 	"A ConstrainBoolean value which may contain a single Boolean value or a set of them, indicating whether or not to allow the user to choose source surfaces which do not directly correspond to display areas. These may include backing buffers for windows to allow capture of window contents that are hidden by other windows in front of them, or buffers containing larger documents that need to be scrolled through to see the entire contents in their windows."
@@ -346,7 +348,7 @@ CpBrowserMediaTrackConstraints >> logicalSurface: aConstrainValue [
 	self propertyAt: #logicalSurface put: aConstrainValue
 ]
 
-{ #category : #'accessing - audio tracks' }
+{ #category : 'accessing - audio tracks' }
 CpBrowserMediaTrackConstraints >> noiseSuppression [
 
 	"A ConstrainBoolean which specifies whether noise suppression is preferred and/or required."
@@ -354,7 +356,7 @@ CpBrowserMediaTrackConstraints >> noiseSuppression [
 	^ self propertyAt: #noiseSuppression
 ]
 
-{ #category : #'accessing - audio tracks' }
+{ #category : 'accessing - audio tracks' }
 CpBrowserMediaTrackConstraints >> noiseSuppression: aConstrainValue [
 
 	"A ConstrainBoolean which specifies whether noise suppression is preferred and/or required."
@@ -362,7 +364,7 @@ CpBrowserMediaTrackConstraints >> noiseSuppression: aConstrainValue [
 	self propertyAt: #noiseSuppression put: aConstrainValue
 ]
 
-{ #category : #'accessing - image tracks' }
+{ #category : 'accessing - image tracks' }
 CpBrowserMediaTrackConstraints >> pointsOfInterest [
 
 	"The pixel coordinates on the sensor of one or more points of interest. This is either an object in the form { x:value, y:value } or an array of such objects, where value is a double-precision integer."
@@ -370,7 +372,7 @@ CpBrowserMediaTrackConstraints >> pointsOfInterest [
 	^ self propertyAt: #pointsOfInterest
 ]
 
-{ #category : #'accessing - image tracks' }
+{ #category : 'accessing - image tracks' }
 CpBrowserMediaTrackConstraints >> pointsOfInterest: anObject [
 
 	"The pixel coordinates on the sensor of one or more points of interest. This is either an object in the form { x:value, y:value } or an array of such objects, where value is a double-precision integer."
@@ -378,7 +380,7 @@ CpBrowserMediaTrackConstraints >> pointsOfInterest: anObject [
 	self propertyAt: #pointsOfInterest put: anObject
 ]
 
-{ #category : #'accessing - video tracks' }
+{ #category : 'accessing - video tracks' }
 CpBrowserMediaTrackConstraints >> resizeMode [
 
 	"A ConstrainDOMString object specifying a mode or an array of modes the UA can use to derive the resolution of a video track. Allowed values are none and crop-and-scale. none means that the user agent uses the resolution provided by the camera, its driver or the OS. crop-and-scale means that the user agent can use cropping and downscaling on the camera output in order to satisfy other constraints that affect the resolution."
@@ -386,7 +388,7 @@ CpBrowserMediaTrackConstraints >> resizeMode [
 	^ self propertyAt: #resizeMode
 ]
 
-{ #category : #'accessing - video tracks' }
+{ #category : 'accessing - video tracks' }
 CpBrowserMediaTrackConstraints >> resizeMode: aConstrainValue [
 
 	"A ConstrainDOMString object specifying a mode or an array of modes the UA can use to derive the resolution of a video track. Allowed values are none and crop-and-scale. none means that the user agent uses the resolution provided by the camera, its driver or the OS. crop-and-scale means that the user agent can use cropping and downscaling on the camera output in order to satisfy other constraints that affect the resolution."
@@ -394,7 +396,7 @@ CpBrowserMediaTrackConstraints >> resizeMode: aConstrainValue [
 	self propertyAt: #resizeMode put: aConstrainValue
 ]
 
-{ #category : #'accessing - audio tracks' }
+{ #category : 'accessing - audio tracks' }
 CpBrowserMediaTrackConstraints >> sampleRate [
 
 	"A ConstrainULong specifying the sample rate or range of sample rates which are acceptable and/or required."
@@ -402,7 +404,7 @@ CpBrowserMediaTrackConstraints >> sampleRate [
 	^ self propertyAt: #sampleRate
 ]
 
-{ #category : #'accessing - audio tracks' }
+{ #category : 'accessing - audio tracks' }
 CpBrowserMediaTrackConstraints >> sampleRate: aConstrainRange [
 
 	"A ConstrainULong specifying the sample rate or range of sample rates which are acceptable and/or required."
@@ -410,7 +412,7 @@ CpBrowserMediaTrackConstraints >> sampleRate: aConstrainRange [
 	self propertyAt: #sampleRate put: aConstrainRange
 ]
 
-{ #category : #'accessing - audio tracks' }
+{ #category : 'accessing - audio tracks' }
 CpBrowserMediaTrackConstraints >> sampleSize [
 
 	"A ConstrainULong specifying the sample size or range of sample sizes which are acceptable and/or required."
@@ -418,7 +420,7 @@ CpBrowserMediaTrackConstraints >> sampleSize [
 	^ self propertyAt: #sampleSize
 ]
 
-{ #category : #'accessing - audio tracks' }
+{ #category : 'accessing - audio tracks' }
 CpBrowserMediaTrackConstraints >> sampleSize: aConstrainRange [
 
 	"A ConstrainULong specifying the sample size or range of sample sizes which are acceptable and/or required."
@@ -426,7 +428,7 @@ CpBrowserMediaTrackConstraints >> sampleSize: aConstrainRange [
 	self propertyAt: #sampleSize put: aConstrainRange
 ]
 
-{ #category : #'accessing - image tracks' }
+{ #category : 'accessing - image tracks' }
 CpBrowserMediaTrackConstraints >> saturation [
 
 	"A ConstrainDouble (a double-precision integer) specifying the degree of color intensity."
@@ -434,7 +436,7 @@ CpBrowserMediaTrackConstraints >> saturation [
 	^ self propertyAt: #saturation
 ]
 
-{ #category : #'accessing - image tracks' }
+{ #category : 'accessing - image tracks' }
 CpBrowserMediaTrackConstraints >> saturation: aConstrainRange [
 
 	"A ConstrainDouble (a double-precision integer) specifying the degree of color intensity."
@@ -442,7 +444,7 @@ CpBrowserMediaTrackConstraints >> saturation: aConstrainRange [
 	self propertyAt: #saturation put: aConstrainRange
 ]
 
-{ #category : #'accessing - image tracks' }
+{ #category : 'accessing - image tracks' }
 CpBrowserMediaTrackConstraints >> sharpness [
 
 	"A ConstrainDouble (a double-precision integer) specifying the intensity of edges."
@@ -450,7 +452,7 @@ CpBrowserMediaTrackConstraints >> sharpness [
 	^ self propertyAt: #sharpness
 ]
 
-{ #category : #'accessing - image tracks' }
+{ #category : 'accessing - image tracks' }
 CpBrowserMediaTrackConstraints >> sharpness: aConstrainRange [
 
 	"A ConstrainDouble (a double-precision integer) specifying the intensity of edges."
@@ -458,7 +460,7 @@ CpBrowserMediaTrackConstraints >> sharpness: aConstrainRange [
 	self propertyAt: #sharpness put: aConstrainRange
 ]
 
-{ #category : #'accessing - shared screen tracks' }
+{ #category : 'accessing - shared screen tracks' }
 CpBrowserMediaTrackConstraints >> surpressLocalAudioPlayback [
 
 	"A ConstrainBoolean value describing the requested or mandatory constraints placed upon the value of the suppressLocalAudioPlayback constrainable property. This property controls whether the audio playing in a tab will continue to be played out of a user's local speakers when the tab is captured.
@@ -468,7 +470,7 @@ CpBrowserMediaTrackConstraints >> surpressLocalAudioPlayback [
 	^ self propertyAt: #surpressLocalAudioPlayback
 ]
 
-{ #category : #'accessing - shared screen tracks' }
+{ #category : 'accessing - shared screen tracks' }
 CpBrowserMediaTrackConstraints >> surpressLocalAudioPlayback: aConstrainValue [
 
 	"A ConstrainBoolean value describing the requested or mandatory constraints placed upon the value of the suppressLocalAudioPlayback constrainable property. This property controls whether the audio playing in a tab will continue to be played out of a user's local speakers when the tab is captured.
@@ -478,7 +480,7 @@ CpBrowserMediaTrackConstraints >> surpressLocalAudioPlayback: aConstrainValue [
 	self propertyAt: #surpressLocalAudioPlayback put: aConstrainValue
 ]
 
-{ #category : #'accessing - image tracks' }
+{ #category : 'accessing - image tracks' }
 CpBrowserMediaTrackConstraints >> torch [
 
 	"A boolean value defining whether the fill light is continuously connected, meaning it stays on as long as the track is active."
@@ -486,7 +488,7 @@ CpBrowserMediaTrackConstraints >> torch [
 	^ self propertyAt: #torch
 ]
 
-{ #category : #'accessing - image tracks' }
+{ #category : 'accessing - image tracks' }
 CpBrowserMediaTrackConstraints >> torch: aBoolean [
 
 	"A boolean value defining whether the fill light is continuously connected, meaning it stays on as long as the track is active."
@@ -494,7 +496,7 @@ CpBrowserMediaTrackConstraints >> torch: aBoolean [
 	self propertyAt: #torch put: aBoolean
 ]
 
-{ #category : #'accessing - image tracks' }
+{ #category : 'accessing - image tracks' }
 CpBrowserMediaTrackConstraints >> whiteBalanceMode [
 
 	"A String specifying one of 'none', 'manual', 'single-shot', or 'continuous'."
@@ -502,7 +504,7 @@ CpBrowserMediaTrackConstraints >> whiteBalanceMode [
 	^ self propertyAt: #whiteBalanceMode
 ]
 
-{ #category : #'accessing - image tracks' }
+{ #category : 'accessing - image tracks' }
 CpBrowserMediaTrackConstraints >> whiteBalanceMode: aString [
 
 	"A String specifying one of 'none', 'manual', 'single-shot', or 'continuous'."
@@ -510,7 +512,7 @@ CpBrowserMediaTrackConstraints >> whiteBalanceMode: aString [
 	self propertyAt: #whiteBalanceMode put: aString
 ]
 
-{ #category : #'accessing - video tracks' }
+{ #category : 'accessing - video tracks' }
 CpBrowserMediaTrackConstraints >> width [
 
 	"A ConstrainULong specifying the video width or range of widths which are acceptable and/or required."
@@ -518,7 +520,7 @@ CpBrowserMediaTrackConstraints >> width [
 	^ self propertyAt: #width
 ]
 
-{ #category : #'accessing - video tracks' }
+{ #category : 'accessing - video tracks' }
 CpBrowserMediaTrackConstraints >> width: aConstrainRange [
 
 	"A ConstrainULong specifying the video width or range of widths which are acceptable and/or required."
@@ -526,7 +528,7 @@ CpBrowserMediaTrackConstraints >> width: aConstrainRange [
 	self propertyAt: #width put: aConstrainRange
 ]
 
-{ #category : #'accessing - image tracks' }
+{ #category : 'accessing - image tracks' }
 CpBrowserMediaTrackConstraints >> zoom [
 
 	"A ConstrainDouble (a double-precision integer) specifying the desired focal length."
@@ -534,7 +536,7 @@ CpBrowserMediaTrackConstraints >> zoom [
 	^ self propertyAt: #zoom
 ]
 
-{ #category : #'accessing - image tracks' }
+{ #category : 'accessing - image tracks' }
 CpBrowserMediaTrackConstraints >> zoom: aConstrainRange [
 
 	"A ConstrainDouble (a double-precision integer) specifying the desired focal length."

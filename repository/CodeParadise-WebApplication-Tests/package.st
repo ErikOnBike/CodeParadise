@@ -1,1 +1,1 @@
-Package { #name : #'CodeParadise-WebApplication-Tests' }
+Package { #name : 'CodeParadise-WebApplication-Tests' }

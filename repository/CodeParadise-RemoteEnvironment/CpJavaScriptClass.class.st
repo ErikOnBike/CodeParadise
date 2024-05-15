@@ -10,12 +10,14 @@ appropriately, namespace methods).
 
 "
 Class {
-	#name : #CpJavaScriptClass,
-	#superclass : #CpJavaScriptObject,
-	#category : #'CodeParadise-RemoteEnvironment-Support'
+	#name : 'CpJavaScriptClass',
+	#superclass : 'CpJavaScriptObject',
+	#category : 'CodeParadise-RemoteEnvironment-Support',
+	#package : 'CodeParadise-RemoteEnvironment',
+	#tag : 'Support'
 }
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 CpJavaScriptClass class >> forName: aString [
 
 	"Answer an instance of the receiver for the specified JavaScript class (name).
@@ -26,7 +28,7 @@ CpJavaScriptClass class >> forName: aString [
 		getClassRefFrom: aString resultAs: self
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 CpJavaScriptClass >> newInstance [
 
 	"For better performance use #newInstanceResultAs: if the result Class is known."
@@ -34,13 +36,13 @@ CpJavaScriptClass >> newInstance [
 	^ self newInstanceWithArguments: nil resultAs: nil
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 CpJavaScriptClass >> newInstanceResultAs: aProxyClass [
 
 	^ self newInstanceWithArguments: nil resultAs: aProxyClass
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 CpJavaScriptClass >> newInstanceWithArguments: anArray [
 
 	"For better performance use #newInstanceWithArguments:resultAs: if the result Class is known."
@@ -48,7 +50,7 @@ CpJavaScriptClass >> newInstanceWithArguments: anArray [
 	^ self newInstanceWithArguments: anArray resultAs: nil
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 CpJavaScriptClass >> newInstanceWithArguments: anArray resultAs: aProxyClass [
 
 	"Answer a new instance of the receiver's proxied JavaScript object (i.e. not an

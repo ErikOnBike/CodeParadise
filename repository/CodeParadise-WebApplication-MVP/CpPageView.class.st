@@ -1,10 +1,12 @@
 Class {
-	#name : #CpPageView,
-	#superclass : #CpView,
-	#category : #'CodeParadise-WebApplication-MVP-Core'
+	#name : 'CpPageView',
+	#superclass : 'CpView',
+	#category : 'CodeParadise-WebApplication-MVP-Core',
+	#package : 'CodeParadise-WebApplication-MVP',
+	#tag : 'Core'
 }
 
-{ #category : #'web resources' }
+{ #category : 'web resources' }
 CpPageView class >> style [
 
 	<webResource: #css>
@@ -16,7 +18,7 @@ CpPageView class >> style [
 	}'
 ]
 
-{ #category : #'web resources' }
+{ #category : 'web resources' }
 CpPageView class >> template [
 
 	<webResource: #html>

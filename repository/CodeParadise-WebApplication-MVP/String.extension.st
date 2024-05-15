@@ -1,6 +1,6 @@
-Extension { #name : #String }
+Extension { #name : 'String' }
 
-{ #category : #'*CodeParadise-WebApplication-MVP' }
+{ #category : '*CodeParadise-WebApplication-MVP' }
 String >> asParameterDictionary [
 
 	"Answer a parameter dictionary with single pair '1 -> self'"

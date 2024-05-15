@@ -2,12 +2,14 @@
 I am a View for a Counter Model.
 "
 Class {
-	#name : #CpCounterView,
-	#superclass : #CpView,
-	#category : #'CodeParadise-WebApplication-MVP-Examples'
+	#name : 'CpCounterView',
+	#superclass : 'CpView',
+	#category : 'CodeParadise-WebApplication-MVP-Examples',
+	#package : 'CodeParadise-WebApplication-MVP',
+	#tag : 'Examples'
 }
 
-{ #category : #'web resources' }
+{ #category : 'web resources' }
 CpCounterView class >> style [
 
 	<webResource: #css>
@@ -38,7 +40,7 @@ CpCounterView class >> style [
 	}'
 ]
 
-{ #category : #'web resources' }
+{ #category : 'web resources' }
 CpCounterView class >> template [
 
 	<webResource: #html>
@@ -50,19 +52,19 @@ CpCounterView class >> template [
 	</div>'
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 CpCounterView >> handleDecrease [
 
 	self serverAnnounce: CpCounterDecrease
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 CpCounterView >> handleIncrease [
 
 	self serverAnnounce: CpCounterIncrease
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 CpCounterView >> initializeShadowRoot [
 
 	super initializeShadowRoot.
@@ -73,7 +75,7 @@ CpCounterView >> initializeShadowRoot [
 		when: CpClickEvent basicPrimary send: #handleDecrease to: self
 ]
 
-{ #category : #rendering }
+{ #category : 'rendering' }
 CpCounterView >> renderValue: counterValue [
 
 	self textContent: counterValue printString

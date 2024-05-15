@@ -1,10 +1,12 @@
 Class {
-	#name : #CpBrowserSpeechSynthesisUtterance,
-	#superclass : #CpJavaScriptEventTarget,
-	#category : #'CodeParadise-Browser-Support-Speech'
+	#name : 'CpBrowserSpeechSynthesisUtterance',
+	#superclass : 'CpJavaScriptEventTarget',
+	#category : 'CodeParadise-Browser-Support-Speech',
+	#package : 'CodeParadise-Browser-Support',
+	#tag : 'Speech'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpBrowserSpeechSynthesisUtterance class >> text: aString [
 
 	"Returns a new SpeechSynthesisUtterance object instance."
@@ -12,7 +14,7 @@ CpBrowserSpeechSynthesisUtterance class >> text: aString [
 	^ self newInstanceWithArguments: { aString }
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpBrowserSpeechSynthesisUtterance >> lang [
 
 	"Gets and sets the language of the utterance."
@@ -20,7 +22,7 @@ CpBrowserSpeechSynthesisUtterance >> lang [
 	^ self propertyAt: #lang
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpBrowserSpeechSynthesisUtterance >> lang: aString [
 
 	"Gets and sets the language of the utterance.
@@ -30,7 +32,7 @@ CpBrowserSpeechSynthesisUtterance >> lang: aString [
 	self propertyAt: #lang put: aString
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 CpBrowserSpeechSynthesisUtterance >> onBoundaryDo: aBlock [
 
 	"Fired when the spoken utterance reaches a word or sentence boundary."
@@ -41,7 +43,7 @@ CpBrowserSpeechSynthesisUtterance >> onBoundaryDo: aBlock [
 	^ self addEventListener: #boundary handler: aBlock
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 CpBrowserSpeechSynthesisUtterance >> onEndDo: aBlock [
 
 	"Fired when the utterance has finished being spoken."
@@ -52,7 +54,7 @@ CpBrowserSpeechSynthesisUtterance >> onEndDo: aBlock [
 	^ self addEventListener: #end handler: aBlock
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 CpBrowserSpeechSynthesisUtterance >> onErrorDo: aBlock [
 
 	"Fired when an error occurs that prevents the utterance from being successfully spoken."
@@ -63,7 +65,7 @@ CpBrowserSpeechSynthesisUtterance >> onErrorDo: aBlock [
 	^ self addEventListener: #error handler: aBlock
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 CpBrowserSpeechSynthesisUtterance >> onMarkDo: aBlock [
 
 	"Fired when the spoken utterance reaches a named SSML ""mark"" tag."
@@ -74,7 +76,7 @@ CpBrowserSpeechSynthesisUtterance >> onMarkDo: aBlock [
 	^ self addEventListener: #mark handler: aBlock
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 CpBrowserSpeechSynthesisUtterance >> onPauseDo: aBlock [
 
 	"Fired when the utterance is paused part way through."
@@ -85,7 +87,7 @@ CpBrowserSpeechSynthesisUtterance >> onPauseDo: aBlock [
 	^ self addEventListener: #pause handler: aBlock
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 CpBrowserSpeechSynthesisUtterance >> onResumeDo: aBlock [
 
 	"Fired when a paused utterance is resumed."
@@ -96,7 +98,7 @@ CpBrowserSpeechSynthesisUtterance >> onResumeDo: aBlock [
 	^ self addEventListener: #resume handler: aBlock
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 CpBrowserSpeechSynthesisUtterance >> onStartDo: aBlock [
 
 	"Fired when the utterance has begun to be spoken."
@@ -107,7 +109,7 @@ CpBrowserSpeechSynthesisUtterance >> onStartDo: aBlock [
 	^ self addEventListener: #start handler: aBlock
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpBrowserSpeechSynthesisUtterance >> pitch [
 
 	"Gets and sets the pitch at which the utterance will be spoken at."
@@ -115,7 +117,7 @@ CpBrowserSpeechSynthesisUtterance >> pitch [
 	^ self propertyAt: #pitch
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpBrowserSpeechSynthesisUtterance >> pitch: aFloat [
 
 	"Gets and sets the pitch at which the utterance will be spoken at.
@@ -124,7 +126,7 @@ CpBrowserSpeechSynthesisUtterance >> pitch: aFloat [
 	self propertyAt: #pitch put: aFloat
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpBrowserSpeechSynthesisUtterance >> rate [
 
 	"Gets and sets the speed at which the utterance will be spoken at."
@@ -132,7 +134,7 @@ CpBrowserSpeechSynthesisUtterance >> rate [
 	^ self propertyAt: #rate
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpBrowserSpeechSynthesisUtterance >> rate: aFloat [
 
 	"Gets and sets the speed at which the utterance will be spoken at.
@@ -141,7 +143,7 @@ CpBrowserSpeechSynthesisUtterance >> rate: aFloat [
 	self propertyAt: #rate put: aFloat
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 CpBrowserSpeechSynthesisUtterance >> removeBoundaryHandler: aFunction [
 
 	"Remove an earlier installed event listener
@@ -151,7 +153,7 @@ CpBrowserSpeechSynthesisUtterance >> removeBoundaryHandler: aFunction [
 	^ self addEventListener: #boundary handler: aFunction
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 CpBrowserSpeechSynthesisUtterance >> removeEndHandler: aFunction [
 
 	"Remove an earlier installed event listener
@@ -161,7 +163,7 @@ CpBrowserSpeechSynthesisUtterance >> removeEndHandler: aFunction [
 	^ self addEventListener: #end handler: aFunction
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 CpBrowserSpeechSynthesisUtterance >> removeErrorHandler: aFunction [
 
 	"Remove an earlier installed event listener
@@ -171,7 +173,7 @@ CpBrowserSpeechSynthesisUtterance >> removeErrorHandler: aFunction [
 	^ self addEventListener: #error handler: aFunction
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 CpBrowserSpeechSynthesisUtterance >> removeMarkHandler: aFunction [
 
 	"Remove an earlier installed event listener
@@ -181,7 +183,7 @@ CpBrowserSpeechSynthesisUtterance >> removeMarkHandler: aFunction [
 	^ self addEventListener: #mark handler: aFunction
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 CpBrowserSpeechSynthesisUtterance >> removePauseHandler: aFunction [
 
 	"Remove an earlier installed event listener
@@ -191,7 +193,7 @@ CpBrowserSpeechSynthesisUtterance >> removePauseHandler: aFunction [
 	^ self addEventListener: #pause handler: aFunction
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 CpBrowserSpeechSynthesisUtterance >> removeResumeHandler: aFunction [
 
 	"Remove an earlier installed event listener
@@ -201,7 +203,7 @@ CpBrowserSpeechSynthesisUtterance >> removeResumeHandler: aFunction [
 	^ self addEventListener: #resume handler: aFunction
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 CpBrowserSpeechSynthesisUtterance >> removeStartHandler: aFunction [
 
 	"Remove an earlier installed event listener
@@ -211,7 +213,7 @@ CpBrowserSpeechSynthesisUtterance >> removeStartHandler: aFunction [
 	^ self addEventListener: #start handler: aFunction
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpBrowserSpeechSynthesisUtterance >> text [
 
 	"Gets and sets the text that will be synthesized when the utterance is spoken."
@@ -219,7 +221,7 @@ CpBrowserSpeechSynthesisUtterance >> text [
 	^ self propertyAt: #text
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpBrowserSpeechSynthesisUtterance >> text: aString [
 
 	"Gets and sets the text that will be synthesized when the utterance is spoken."
@@ -227,7 +229,7 @@ CpBrowserSpeechSynthesisUtterance >> text: aString [
 	self propertyAt: #text put: aString
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpBrowserSpeechSynthesisUtterance >> voice [
 
 	"Gets and sets the voice that will be used to speak the utterance."
@@ -235,7 +237,7 @@ CpBrowserSpeechSynthesisUtterance >> voice [
 	^ self propertyAt: #voice
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpBrowserSpeechSynthesisUtterance >> voice: aVoice [
 
 	"Gets and sets the voice that will be used to speak the utterance."
@@ -243,7 +245,7 @@ CpBrowserSpeechSynthesisUtterance >> voice: aVoice [
 	self propertyAt: #voice put: aVoice
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpBrowserSpeechSynthesisUtterance >> volume [
 
 	"Gets and sets the volume that the utterance will be spoken at."
@@ -251,7 +253,7 @@ CpBrowserSpeechSynthesisUtterance >> volume [
 	^ self propertyAt: #volume
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpBrowserSpeechSynthesisUtterance >> volume: aFloat [
 
 	"Gets and sets the volume that the utterance will be spoken at.

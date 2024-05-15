@@ -1,5 +1,7 @@
 Class {
-	#name : #CpClientReconnected,
-	#superclass : #CpClientReady,
-	#category : #'CodeParadise-RemoteEnvironment-Core-Announcements'
+	#name : 'CpClientReconnected',
+	#superclass : 'CpClientReady',
+	#category : 'CodeParadise-RemoteEnvironment-Core-Announcements',
+	#package : 'CodeParadise-RemoteEnvironment',
+	#tag : 'Core-Announcements'
 }

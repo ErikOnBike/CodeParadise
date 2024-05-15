@@ -1,14 +1,16 @@
 Class {
-	#name : #CpRichTextField,
-	#superclass : #CpView,
+	#name : 'CpRichTextField',
+	#superclass : 'CpView',
 	#instVars : [
 		'text',
 		'keymapper'
 	],
-	#category : #'CodeParadise-Beach-Components'
+	#category : 'CodeParadise-Beach-Components',
+	#package : 'CodeParadise-Beach',
+	#tag : 'Components'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpRichTextField class >> defaultKeyMapping [
 
 	self flag: #todo.	"Handle OS specific keymappings better"
@@ -21,7 +23,7 @@ CpRichTextField class >> defaultKeyMapping [
 		yourself
 ]
 
-{ #category : #'web resources' }
+{ #category : 'web resources' }
 CpRichTextField class >> style [
 
 	<webResource: #css>
@@ -58,7 +60,7 @@ CpRichTextField class >> style [
 		}'
 ]
 
-{ #category : #'web resources' }
+{ #category : 'web resources' }
 CpRichTextField class >> template [
 
 	<webResource: #html>
@@ -66,7 +68,7 @@ CpRichTextField class >> template [
 	^ '<div id="container" tabindex="-1"><div id="entry"><slot name="text"></slot></div></div>'
 ]
 
-{ #category : #'text deleting' }
+{ #category : 'text deleting' }
 CpRichTextField >> handleBackspace [
 
 	self children ifNotNil: [ :children |
@@ -84,7 +86,7 @@ CpRichTextField >> handleBackspace [
 		previousElement textContent: previousElement textContent allButLast ]
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 CpRichTextField >> handleBeforeInputEvent: aBeforeInputEvent [
 
 	(#('insertText' 'insertCompositionText' 'insertFromComposition' 'insertFromPaste') includes: aBeforeInputEvent inputType)
@@ -93,7 +95,7 @@ CpRichTextField >> handleBeforeInputEvent: aBeforeInputEvent [
 	self traceCr: aBeforeInputEvent printString
 ]
 
-{ #category : #'cursor navigation' }
+{ #category : 'cursor navigation' }
 CpRichTextField >> handleCharacterLeft [
 
 	self children ifNotNil: [ :children |
@@ -114,7 +116,7 @@ CpRichTextField >> handleCharacterLeft [
 		previousElement textContent: previousElement textContent allButLast ]
 ]
 
-{ #category : #'cursor navigation' }
+{ #category : 'cursor navigation' }
 CpRichTextField >> handleCharacterRight [
 
 	self children ifNotNil: [ :children |
@@ -135,7 +137,7 @@ CpRichTextField >> handleCharacterRight [
 		nextElement textContent: nextElement textContent allButFirst ]
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 CpRichTextField >> handleClickEvent: aClickEvent [
 
 	"Remove existing cursor"
@@ -145,25 +147,25 @@ CpRichTextField >> handleClickEvent: aClickEvent [
 	(self appendChild: CpCursor new atSlotNamed: #text) focus
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 CpRichTextField >> handleCompositionEndEvent: aCompositionEndEvent [
 
 	self traceCr: aCompositionEndEvent printString
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 CpRichTextField >> handleCompositionStartEvent: aCompositionStartEvent [
 
 	self traceCr: aCompositionStartEvent printString
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 CpRichTextField >> handleCompositionUpdateEvent: aCompositionUpdateEvent [
 
 	self traceCr: aCompositionUpdateEvent printString
 ]
 
-{ #category : #'text deleting' }
+{ #category : 'text deleting' }
 CpRichTextField >> handleDelete [
 
 	self children ifNotNil: [ :children |
@@ -181,7 +183,7 @@ CpRichTextField >> handleDelete [
 		nextElement textContent: nextElement textContent allButFirst ]
 ]
 
-{ #category : #'text inserting' }
+{ #category : 'text inserting' }
 CpRichTextField >> handleInsert: aKeyString [
 
 	self children ifNotNil: [ :children |
@@ -199,7 +201,7 @@ CpRichTextField >> handleInsert: aKeyString [
 		previousElement textContent: previousElement textContent, aKeyString ]
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 CpRichTextField >> handleKey: aKeyString [
 
 	"Handle the specified key. The key can contain modifiers like 'C-M-A' to denote Ctrl-Meta-A.
@@ -217,7 +219,7 @@ CpRichTextField >> handleKey: aKeyString [
 	self traceCr: 'Unhandled key ', aKeyString
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 CpRichTextField >> handleKeyPressEvent: aKeyPressEvent [
 
 	aKeyPressEvent keyWithModifiers
@@ -225,7 +227,7 @@ CpRichTextField >> handleKeyPressEvent: aKeyPressEvent [
 
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 CpRichTextField >> initialize [
 
 	super initialize.
@@ -238,13 +240,13 @@ CpRichTextField >> initialize [
 	self flag: #todo "This class needs fixing: handlers are not installed by default anymore"
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpRichTextField >> keymapper [
 
 	^ keymapper
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 CpRichTextField >> release [
 
 	keymapper ifNotNil: [
@@ -254,7 +256,7 @@ CpRichTextField >> release [
 	super release
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpRichTextField >> text: aString [
 
 	self appendChild: (aString inHtmlTag: #span) atSlotNamed: #text

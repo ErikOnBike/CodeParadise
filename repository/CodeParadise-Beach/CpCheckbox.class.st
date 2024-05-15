@@ -1,10 +1,12 @@
 Class {
-	#name : #CpCheckbox,
-	#superclass : #CpInputControl,
-	#category : #'CodeParadise-Beach-Components'
+	#name : 'CpCheckbox',
+	#superclass : 'CpInputControl',
+	#category : 'CodeParadise-Beach-Components',
+	#package : 'CodeParadise-Beach',
+	#tag : 'Components'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpCheckbox class >> label: labelElement [
 
 	"Answer a new instance of the receiver with the specified label.
@@ -15,7 +17,7 @@ CpCheckbox class >> label: labelElement [
 		yourself
 ]
 
-{ #category : #'web resources' }
+{ #category : 'web resources' }
 CpCheckbox class >> style [
 
 	<webResource: #css>
@@ -91,7 +93,7 @@ CpCheckbox class >> style [
 		}'
 ]
 
-{ #category : #'web resources' }
+{ #category : 'web resources' }
 CpCheckbox class >> template [
 
 	<webResource: #html>
@@ -102,13 +104,13 @@ CpCheckbox class >> template [
 	<slot name="label"></slot>'
 ]
 
-{ #category : #announcing }
+{ #category : 'announcing' }
 CpCheckbox >> announceChange [
 
 	self announce: (CpSelectionChanged element: self)
 ]
 
-{ #category : #'state handling' }
+{ #category : 'state handling' }
 CpCheckbox >> deselect [
 
 	"Make the receiver deselected.
@@ -123,7 +125,7 @@ CpCheckbox >> deselect [
 		announceChange
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 CpCheckbox >> handleClickEvent: anEvent [
 
 	"Handle click on the receiver"
@@ -133,7 +135,7 @@ CpCheckbox >> handleClickEvent: anEvent [
 	self toggle
 ]
 
-{ #category : #'testing - conditionals' }
+{ #category : 'testing - conditionals' }
 CpCheckbox >> ifMixed: aBlock [
 
 	"Evaluate the specified block if the receiver is mixed.
@@ -143,7 +145,7 @@ CpCheckbox >> ifMixed: aBlock [
 	self ifSelected: [ "intentionally empty" ] ifMixed: aBlock ifNotSelected: [ "intentionally empty" ]
 ]
 
-{ #category : #'testing - conditionals' }
+{ #category : 'testing - conditionals' }
 CpCheckbox >> ifNotSelectable: aBlock [
 
 	"Evaluate the specified block if the receiver is not selectable.
@@ -153,7 +155,7 @@ CpCheckbox >> ifNotSelectable: aBlock [
 	self ifSelectable: [ "intentionally empty" ] ifNotSelectable: aBlock
 ]
 
-{ #category : #'testing - conditionals' }
+{ #category : 'testing - conditionals' }
 CpCheckbox >> ifNotSelected: aBlock [
 
 	"Evaluate the specified block if the receiver is deselected.
@@ -163,7 +165,7 @@ CpCheckbox >> ifNotSelected: aBlock [
 	self ifSelected: [ "intentionally empty" ] ifMixed: [ "intentionally empty" ] ifNotSelected: aBlock
 ]
 
-{ #category : #'testing - conditionals' }
+{ #category : 'testing - conditionals' }
 CpCheckbox >> ifSelectable: aBlock [
 
 	"Evaluate the specified block if the receiver is selectable.
@@ -173,7 +175,7 @@ CpCheckbox >> ifSelectable: aBlock [
 	self ifSelectable: aBlock ifNotSelectable: [ "intentionally empty" ]
 ]
 
-{ #category : #'testing - conditionals' }
+{ #category : 'testing - conditionals' }
 CpCheckbox >> ifSelectable: selectableBlock ifNotSelectable: notSelectableBlock [
 
 	"Evaluate the block matching the receiver's selectability.
@@ -188,7 +190,7 @@ CpCheckbox >> ifSelectable: selectableBlock ifNotSelectable: notSelectableBlock 
 				ifNil: [ selectableBlock value ] ]
 ]
 
-{ #category : #'testing - conditionals' }
+{ #category : 'testing - conditionals' }
 CpCheckbox >> ifSelected: aBlock [
 
 	"Evaluate the specified block if the receiver is selected.
@@ -198,7 +200,7 @@ CpCheckbox >> ifSelected: aBlock [
 	self ifSelected: aBlock ifMixed: [ "intentionally empty" ] ifNotSelected: [ "intentionally empty" ]
 ]
 
-{ #category : #'testing - conditionals' }
+{ #category : 'testing - conditionals' }
 CpCheckbox >> ifSelected: selectedBlock ifMixed: mixedBlock ifNotSelected: deselectedBlock [
 
 	"Evaluate the block which represents the receiver's state.
@@ -215,7 +217,7 @@ CpCheckbox >> ifSelected: selectedBlock ifMixed: mixedBlock ifNotSelected: desel
 		ifNil: [ deselectedBlock value ]
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 CpCheckbox >> initialize [
 
 	super initialize.
@@ -223,7 +225,7 @@ CpCheckbox >> initialize [
 	self when: CpPrimaryClickEvent send: #handleClickEvent: to: self
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpCheckbox >> label [
 
 	"Answer label of receiver"
@@ -231,7 +233,7 @@ CpCheckbox >> label [
 	^ self firstChildAtSlotNamed: #label
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpCheckbox >> label: anElement [
 
 	"Set the specified element as the label of the receiver"
@@ -239,7 +241,7 @@ CpCheckbox >> label: anElement [
 	self replaceAllChildrenWith: anElement asHtmlElement atSlotNamed: #label
 ]
 
-{ #category : #'state handling' }
+{ #category : 'state handling' }
 CpCheckbox >> makeMixed [
 
 	"Make the receiver mixed (state 'between' selected and deselected).
@@ -254,7 +256,7 @@ CpCheckbox >> makeMixed [
 		announceChange
 ]
 
-{ #category : #'state handling' }
+{ #category : 'state handling' }
 CpCheckbox >> select [
 
 	"Make the receiver selected.
@@ -269,7 +271,7 @@ CpCheckbox >> select [
 		announceChange
 ]
 
-{ #category : #'state handling' }
+{ #category : 'state handling' }
 CpCheckbox >> toggle [
 
 	"Toggle the state of the receiver.

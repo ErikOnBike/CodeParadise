@@ -1,10 +1,12 @@
 Class {
-	#name : #CpNodeJSStreamReadable,
-	#superclass : #CpJavaScriptEventTarget,
-	#category : #'CodeParadise-NodeJS-Support-Stream'
+	#name : 'CpNodeJSStreamReadable',
+	#superclass : 'CpJavaScriptEventTarget',
+	#category : 'CodeParadise-NodeJS-Support-Stream',
+	#package : 'CodeParadise-NodeJS-Support',
+	#tag : 'Stream'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpNodeJSStreamReadable class >> module [
 
 	"Answer the module the receiver is part of"
@@ -12,7 +14,7 @@ CpNodeJSStreamReadable class >> module [
 	^ CpNodeJSStream
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpNodeJSStreamReadable >> closed [
 
 	"Is true after 'close' has been emitted."
@@ -20,13 +22,13 @@ CpNodeJSStreamReadable >> closed [
 	^ self propertyAt: #closed
 ]
 
-{ #category : #operations }
+{ #category : 'operations' }
 CpNodeJSStreamReadable >> destroy [
 
 	self destroyWithError: nil
 ]
 
-{ #category : #operations }
+{ #category : 'operations' }
 CpNodeJSStreamReadable >> destroyWithError: anError [
 
 	"Destroy the stream. Optionally emit an 'error' event, and emit a 'close' event (unless emitClose
@@ -41,7 +43,7 @@ CpNodeJSStreamReadable >> destroyWithError: anError [
 	self apply: #destroy withArguments: { anError }
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpNodeJSStreamReadable >> destroyed [
 
 	"Is true after readable.destroy() has been called."
@@ -49,7 +51,7 @@ CpNodeJSStreamReadable >> destroyed [
 	^ self propertyAt: #destroyed
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpNodeJSStreamReadable >> isPaused [
 
 	"The readable.isPaused() method returns the current operating state of the Readable. This is used
@@ -59,7 +61,7 @@ CpNodeJSStreamReadable >> isPaused [
 	^ self apply: #isPaused
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 CpNodeJSStreamReadable >> onCloseDo: aBlock [
 
 	"The 'close' event is emitted when the stream and any of its underlying resources (a file descriptor,
@@ -74,7 +76,7 @@ CpNodeJSStreamReadable >> onCloseDo: aBlock [
 	^ self addEventListener: #close handler: aBlock
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 CpNodeJSStreamReadable >> onDataDo: aBlock [
 
 	"The 'data' event is emitted whenever the stream is relinquishing ownership of a chunk of
@@ -99,7 +101,7 @@ CpNodeJSStreamReadable >> onDataDo: aBlock [
 	^ self addEventListener: #data handler: aBlock
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 CpNodeJSStreamReadable >> onEndDo: aBlock [
 
 	"The 'end' event is emitted when there is no more data to be consumed from the stream.
@@ -114,7 +116,7 @@ CpNodeJSStreamReadable >> onEndDo: aBlock [
 	^ self addEventListener: #end handler: aBlock
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 CpNodeJSStreamReadable >> onErrorDo: aBlock [
 
 	"The 'error' event may be emitted by a Readable implementation at any time. Typically, this may
@@ -129,7 +131,7 @@ CpNodeJSStreamReadable >> onErrorDo: aBlock [
 	^ self addEventListener: #error handler: aBlock
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 CpNodeJSStreamReadable >> onPauseDo: aBlock [
 
 	"The 'pause' event is emitted when stream.pause() is called and readableFlowing is not false."
@@ -140,7 +142,7 @@ CpNodeJSStreamReadable >> onPauseDo: aBlock [
 	^ self addEventListener: #pause handler: aBlock
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 CpNodeJSStreamReadable >> onReadableDo: aBlock [
 
 	"The 'readable' event is emitted when there is data available to be read from the stream or when
@@ -153,7 +155,7 @@ CpNodeJSStreamReadable >> onReadableDo: aBlock [
 	^ self addEventListener: #readable handler: aBlock
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 CpNodeJSStreamReadable >> onResumeDo: aBlock [
 
 	"The 'resume' event is emitted when stream.resume() is called and readableFlowing is not true."
@@ -164,7 +166,7 @@ CpNodeJSStreamReadable >> onResumeDo: aBlock [
 	^ self addEventListener: #resume handler: aBlock
 ]
 
-{ #category : #operations }
+{ #category : 'operations' }
 CpNodeJSStreamReadable >> pause [
 
 	"The readable.pause() method will cause a stream in flowing mode to stop emitting 'data'
@@ -174,13 +176,13 @@ CpNodeJSStreamReadable >> pause [
 	self apply: #pause
 ]
 
-{ #category : #operations }
+{ #category : 'operations' }
 CpNodeJSStreamReadable >> pipeTo: aWritableStream [
 
 	^ self pipeTo: aWritableStream withOptions: nil
 ]
 
-{ #category : #operations }
+{ #category : 'operations' }
 CpNodeJSStreamReadable >> pipeTo: aWritableStream withOptions: aDictionary [
 
 	"The readable.pipe() method attaches a Writable stream to the readable, causing it to switch
@@ -191,13 +193,13 @@ CpNodeJSStreamReadable >> pipeTo: aWritableStream withOptions: aDictionary [
 	^ self apply: #pipe withArguments: { aWritableStream . aDictionary } resultAs: CpNodeJSStreamWritable
 ]
 
-{ #category : #operations }
+{ #category : 'operations' }
 CpNodeJSStreamReadable >> push: anObject [
 
 	self push: anObject withEncoding: nil
 ]
 
-{ #category : #operations }
+{ #category : 'operations' }
 CpNodeJSStreamReadable >> push: anObject withEncoding: aString [
 
 	"When chunk is a Buffer, Uint8Array, or string, the chunk of data will be added to the internal queue
@@ -213,7 +215,7 @@ CpNodeJSStreamReadable >> push: anObject withEncoding: aString [
 	self apply: #push withArguments: { anObject . aString }
 ]
 
-{ #category : #operations }
+{ #category : 'operations' }
 CpNodeJSStreamReadable >> read [
 
 	"Read a chunk"
@@ -221,7 +223,7 @@ CpNodeJSStreamReadable >> read [
 	^ self read: nil
 ]
 
-{ #category : #operations }
+{ #category : 'operations' }
 CpNodeJSStreamReadable >> read: anInteger [
 
 	"The readable.read() method reads data out of the internal buffer and returns it. If no data is
@@ -244,7 +246,7 @@ CpNodeJSStreamReadable >> read: anInteger [
 	^ self apply: #read withArguments: { anInteger }
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpNodeJSStreamReadable >> readable [
 
 	"Is true if it is safe to call readable.read(), which means the stream has not been destroyed or emitted 'error' or 'end'."
@@ -252,7 +254,7 @@ CpNodeJSStreamReadable >> readable [
 	^ self propertyAt: #readable
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpNodeJSStreamReadable >> readableEncoding [
 
 	"Getter for the property encoding of a given Readable stream. The encoding property can be set using the readable.setEncoding() method."
@@ -260,7 +262,7 @@ CpNodeJSStreamReadable >> readableEncoding [
 	^ self propertyAt: #readableEncoding
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpNodeJSStreamReadable >> readableEnded [
 
 	"Becomes true when 'end' event is emitted."
@@ -268,7 +270,7 @@ CpNodeJSStreamReadable >> readableEnded [
 	^ self propertyAt: #readableEnded
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpNodeJSStreamReadable >> readableErrored [
 
 	"Returns error if the stream has been destroyed with an error."
@@ -276,7 +278,7 @@ CpNodeJSStreamReadable >> readableErrored [
 	^ self propertyAt: #readableErrored
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpNodeJSStreamReadable >> readableFlowing [
 
 	"This property reflects the current state of a Readable stream as described in the Three states section."
@@ -284,7 +286,7 @@ CpNodeJSStreamReadable >> readableFlowing [
 	^ self propertyAt: #readableFlowing
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpNodeJSStreamReadable >> readableHighWaterMark [
 
 	"Returns the value of highWaterMark passed when creating this Readable."
@@ -292,7 +294,7 @@ CpNodeJSStreamReadable >> readableHighWaterMark [
 	^ self propertyAt: #readableHighWaterMark
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpNodeJSStreamReadable >> readableLength [
 
 	"This property contains the number of bytes (or objects) in the queue ready to be read. The value provides introspection data regarding the status of the highWaterMark."
@@ -300,7 +302,7 @@ CpNodeJSStreamReadable >> readableLength [
 	^ self propertyAt: #readableLength
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpNodeJSStreamReadable >> readableObjectMode [
 
 	"Getter for the property objectMode of a given Readable stream."
@@ -308,7 +310,7 @@ CpNodeJSStreamReadable >> readableObjectMode [
 	^ self propertyAt: #readableObjectMode
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 CpNodeJSStreamReadable >> removeCloseHandler: aFunction [
 
 	"Remove an earlier installed event listener
@@ -317,7 +319,7 @@ CpNodeJSStreamReadable >> removeCloseHandler: aFunction [
 	self removeEventListener: #close handler: aFunction
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 CpNodeJSStreamReadable >> removeDataHandler: aFunction [
 
 	"Remove an earlier installed event listener
@@ -326,7 +328,7 @@ CpNodeJSStreamReadable >> removeDataHandler: aFunction [
 	self removeEventListener: #data handler: aFunction
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 CpNodeJSStreamReadable >> removeEndHandler: aFunction [
 
 	"Remove an earlier installed event listener
@@ -335,7 +337,7 @@ CpNodeJSStreamReadable >> removeEndHandler: aFunction [
 	self removeEventListener: #end handler: aFunction
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 CpNodeJSStreamReadable >> removeErrorHandler: aFunction [
 
 	"Remove an earlier installed event listener
@@ -344,7 +346,7 @@ CpNodeJSStreamReadable >> removeErrorHandler: aFunction [
 	self removeEventListener: #error handler: aFunction
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 CpNodeJSStreamReadable >> removePauseHandler: aFunction [
 
 	"Remove an earlier installed event listener
@@ -353,7 +355,7 @@ CpNodeJSStreamReadable >> removePauseHandler: aFunction [
 	self removeEventListener: #pause handler: aFunction
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 CpNodeJSStreamReadable >> removeReadableHandler: aFunction [
 
 	"Remove an earlier installed event listener
@@ -362,7 +364,7 @@ CpNodeJSStreamReadable >> removeReadableHandler: aFunction [
 	self removeEventListener: #readable handler: aFunction
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 CpNodeJSStreamReadable >> removeResumeHandler: aFunction [
 
 	"Remove an earlier installed event listener
@@ -371,7 +373,7 @@ CpNodeJSStreamReadable >> removeResumeHandler: aFunction [
 	self removeEventListener: #resume handler: aFunction
 ]
 
-{ #category : #operations }
+{ #category : 'operations' }
 CpNodeJSStreamReadable >> resume [
 
 	"The readable.resume() method causes an explicitly paused Readable stream to resume emitting 'data' events, switching the stream into flowing mode."
@@ -379,7 +381,7 @@ CpNodeJSStreamReadable >> resume [
 	self apply: #resume
 ]
 
-{ #category : #operations }
+{ #category : 'operations' }
 CpNodeJSStreamReadable >> setEncoding: aString [
 
 	"The readable.setEncoding() method sets the character encoding for data read from the Readable stream.
@@ -396,7 +398,7 @@ CpNodeJSStreamReadable >> setEncoding: aString [
 	self apply: #setEncoding withArguments: { aString }
 ]
 
-{ #category : #operations }
+{ #category : 'operations' }
 CpNodeJSStreamReadable >> unpipe [
 
 	"Unpipe from all destinations"
@@ -404,7 +406,7 @@ CpNodeJSStreamReadable >> unpipe [
 	self unpipeFrom: nil
 ]
 
-{ #category : #operations }
+{ #category : 'operations' }
 CpNodeJSStreamReadable >> unpipeFrom: aWriteableStream [
 
 	"The readable.unpipe() method detaches a Writable stream previously attached using the
@@ -417,13 +419,13 @@ CpNodeJSStreamReadable >> unpipeFrom: aWriteableStream [
 	self apply: #unpipe withArguments: { aWriteableStream }
 ]
 
-{ #category : #operations }
+{ #category : 'operations' }
 CpNodeJSStreamReadable >> unshift: anObject [
 
 	self unshift: anObject withEncoding: nil
 ]
 
-{ #category : #operations }
+{ #category : 'operations' }
 CpNodeJSStreamReadable >> unshift: anObject withEncoding: aString [
 
 	"Passing chunk as null signals the end of the stream (EOF) and behaves the same as readable.push(null),

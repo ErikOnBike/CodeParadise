@@ -6,12 +6,14 @@ Smalltalk blocks can be wrapped in an instance of me using:
 
 "
 Class {
-	#name : #CpJavaScriptFunction,
-	#superclass : #CpJavaScriptObject,
-	#category : #'CodeParadise-RemoteEnvironment-Support'
+	#name : 'CpJavaScriptFunction',
+	#superclass : 'CpJavaScriptObject',
+	#category : 'CodeParadise-RemoteEnvironment-Support',
+	#package : 'CodeParadise-RemoteEnvironment',
+	#tag : 'Support'
 }
 
-{ #category : #operations }
+{ #category : 'operations' }
 CpJavaScriptFunction >> call: anObject withArguments: anArray [
 
 	"Call the the receiver's proxied JavaScript object (i.e. function)

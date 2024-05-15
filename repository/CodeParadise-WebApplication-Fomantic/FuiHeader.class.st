@@ -1,16 +1,18 @@
 Class {
-	#name : #FuiHeader,
-	#superclass : #FuiElement,
-	#category : #'CodeParadise-WebApplication-Fomantic-Elements'
+	#name : 'FuiHeader',
+	#superclass : 'FuiElement',
+	#category : 'CodeParadise-WebApplication-Fomantic-Elements',
+	#package : 'CodeParadise-WebApplication-Fomantic',
+	#tag : 'Elements'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FuiHeader class >> allSizeVariations [
 
 	^ #(#tiny #small #medium #large #huge)
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FuiHeader class >> allStates [
 
 	"Answer a collection (of Symbols) representing all states of the receiver"
@@ -18,13 +20,13 @@ FuiHeader class >> allStates [
 	^ #(#disabled)
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FuiHeader class >> baseElementTagName [
 
 	^ #div
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FuiHeader class >> newLabeled: aString [
 
 	^ self new
@@ -32,43 +34,43 @@ FuiHeader class >> newLabeled: aString [
 		yourself
 ]
 
-{ #category : #protocol }
+{ #category : 'protocol' }
 FuiHeader >> beSizeHuge [
 
 	self setVariation: #huge ofVariations: self class allSizeVariations
 ]
 
-{ #category : #protocol }
+{ #category : 'protocol' }
 FuiHeader >> beSizeLarge [
 
 	self setVariation: #large ofVariations: self class allSizeVariations
 ]
 
-{ #category : #protocol }
+{ #category : 'protocol' }
 FuiHeader >> beSizeMedium [
 
 	self setVariation: #medium ofVariations: self class allSizeVariations
 ]
 
-{ #category : #protocol }
+{ #category : 'protocol' }
 FuiHeader >> beSizeSmall [
 
 	self setVariation: #small ofVariations: self class allSizeVariations
 ]
 
-{ #category : #protocol }
+{ #category : 'protocol' }
 FuiHeader >> beSizeTiny [
 
 	self setVariation: #tiny ofVariations: self class allSizeVariations
 ]
 
-{ #category : #protocol }
+{ #category : 'protocol' }
 FuiHeader >> disable [
 
 	self addState: #disabled
 ]
 
-{ #category : #protocol }
+{ #category : 'protocol' }
 FuiHeader >> enable [
 
 	self removeState: #disabled

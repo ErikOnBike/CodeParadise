@@ -1,16 +1,18 @@
 Class {
-	#name : #CpNodeJSHttp,
-	#superclass : #CpNodeJSBuiltinModule,
-	#category : #'CodeParadise-NodeJS-Support-Http'
+	#name : 'CpNodeJSHttp',
+	#superclass : 'CpNodeJSBuiltinModule',
+	#category : 'CodeParadise-NodeJS-Support-Http',
+	#package : 'CodeParadise-NodeJS-Support',
+	#tag : 'Http'
 }
 
-{ #category : #operations }
+{ #category : 'operations' }
 CpNodeJSHttp >> createServerOn: aBlock [
 
 	^ self createServerOn: aBlock withOptions: nil
 ]
 
-{ #category : #operations }
+{ #category : 'operations' }
 CpNodeJSHttp >> createServerOn: aBlock withOptions: aDictionary [
 
 	"Returns a new instance of http.Server.

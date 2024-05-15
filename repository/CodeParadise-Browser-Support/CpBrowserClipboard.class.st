@@ -2,12 +2,14 @@
 I represent the asynchronous Clipboard API
 "
 Class {
-	#name : #CpBrowserClipboard,
-	#superclass : #CpJavaScriptObject,
-	#category : #'CodeParadise-Browser-Support-Clipboard'
+	#name : 'CpBrowserClipboard',
+	#superclass : 'CpJavaScriptObject',
+	#category : 'CodeParadise-Browser-Support-Clipboard',
+	#package : 'CodeParadise-Browser-Support',
+	#tag : 'Clipboard'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpBrowserClipboard class >> current [
 
 	"Answer an instance of the receiver"
@@ -16,19 +18,19 @@ CpBrowserClipboard class >> current [
 		apply: #clipboard resultAs: self
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 CpBrowserClipboard class >> newInstanceWithArguments: anArray resultAs: aProxyClass [
 
 	self error: 'An instance should be retrieved using the selector ', #current
 ]
 
-{ #category : #'class initialization' }
+{ #category : 'class initialization' }
 CpBrowserClipboard class >> postInstallOnce [
 
 	CpBrowserClipboardItem beLoaded
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpBrowserClipboard >> read [
 
 	"Requests arbitrary data (such as images) from the clipboard, returning a Promise
@@ -37,7 +39,7 @@ CpBrowserClipboard >> read [
 	^ self apply: #read withArguments: nil resultAs: CpJavaScriptPromise
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpBrowserClipboard >> readText [
 
 	"Requests text from the system clipboard; returns a Promise which is resolved with a string containing the clipboard's text once it's available."
@@ -45,13 +47,13 @@ CpBrowserClipboard >> readText [
 	^ self apply: #readText withArguments: nil resultAs: CpJavaScriptPromise
 ]
 
-{ #category : #convenience }
+{ #category : 'convenience' }
 CpBrowserClipboard >> readTextThenDo: successBlock [
 
 	^ self readTextThenDo: successBlock onError: [ "ignore errors" ]
 ]
 
-{ #category : #convenience }
+{ #category : 'convenience' }
 CpBrowserClipboard >> readTextThenDo: successBlock onError: errorBlock [
 
 	"Read a text from the Clipboard and evaluate the specified Block with the text content.
@@ -63,13 +65,13 @@ CpBrowserClipboard >> readTextThenDo: successBlock onError: errorBlock [
 		onRejected: [ :reason | errorBlock cull: reason ]
 ]
 
-{ #category : #convenience }
+{ #category : 'convenience' }
 CpBrowserClipboard >> readThenDo: successBlock [
 
 	^ self readThenDo: successBlock onError: [ "ignore errors" ]
 ]
 
-{ #category : #convenience }
+{ #category : 'convenience' }
 CpBrowserClipboard >> readThenDo: successBlock onError: errorBlock [
 
 	"Read content from the Clipboard and evaluate the specified Block with that content.
@@ -82,7 +84,7 @@ CpBrowserClipboard >> readThenDo: successBlock onError: errorBlock [
 		onRejected: [ :reason | errorBlock value: reason ]
 ]
 
-{ #category : #writing }
+{ #category : 'writing' }
 CpBrowserClipboard >> write: anArray [
 
 	"Writes arbitrary data to the system clipboard. This asynchronous operation signals that it's finished by resolving the returned Promise.
@@ -91,13 +93,13 @@ CpBrowserClipboard >> write: anArray [
 	^ self apply: #write withArguments: { anArray } resultAs: CpJavaScriptPromise
 ]
 
-{ #category : #writing }
+{ #category : 'writing' }
 CpBrowserClipboard >> write: anArray thenDo: successBlock [
 
 	^ self write: anArray thenDo: successBlock onError: [ "ignore errors" ]
 ]
 
-{ #category : #writing }
+{ #category : 'writing' }
 CpBrowserClipboard >> write: anArray thenDo: successBlock onError: errorBlock [
 
 	"Write content to the Clipboard and evaluate the specified Block after the content has
@@ -111,7 +113,7 @@ CpBrowserClipboard >> write: anArray thenDo: successBlock onError: errorBlock [
 		onRejected: [ :reason | errorBlock cull: reason ]
 ]
 
-{ #category : #writing }
+{ #category : 'writing' }
 CpBrowserClipboard >> writeText: aString [
 
 	"Writes text to the system clipboard, returning a Promise which is resolved once the text is fully copied into the clipboard."
@@ -119,13 +121,13 @@ CpBrowserClipboard >> writeText: aString [
 	^ self apply: #writeText withArguments: { aString } resultAs: CpJavaScriptPromise
 ]
 
-{ #category : #writing }
+{ #category : 'writing' }
 CpBrowserClipboard >> writeText: aString thenDo: successBlock [
 
 	^ self writeText: aString thenDo: successBlock onError: [ "ignore errors" ]
 ]
 
-{ #category : #writing }
+{ #category : 'writing' }
 CpBrowserClipboard >> writeText: aString thenDo: successBlock onError: errorBlock [
 
 	"Write text to the Clipboard and evaluate the specified Block after the content has

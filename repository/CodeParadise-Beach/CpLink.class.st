@@ -1,10 +1,12 @@
 Class {
-	#name : #CpLink,
-	#superclass : #CpControl,
-	#category : #'CodeParadise-Beach-Components'
+	#name : 'CpLink',
+	#superclass : 'CpControl',
+	#category : 'CodeParadise-Beach-Components',
+	#package : 'CodeParadise-Beach',
+	#tag : 'Components'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpLink class >> label: labelElement [
 
 	"Answer a new instance of the receiver with the specified label.
@@ -15,7 +17,7 @@ CpLink class >> label: labelElement [
 		yourself
 ]
 
-{ #category : #'web resources' }
+{ #category : 'web resources' }
 CpLink class >> style [
 
 	<webResource: #css>
@@ -51,7 +53,7 @@ CpLink class >> style [
 		}'
 ]
 
-{ #category : #'web resources' }
+{ #category : 'web resources' }
 CpLink class >> template [
 
 	<webResource: #html>
@@ -59,7 +61,7 @@ CpLink class >> template [
 	^ '<slot name="label"></slot>'
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpLink >> label [
 
 	"Answer label of receiver"
@@ -67,7 +69,7 @@ CpLink >> label [
 	^ self firstChildAtSlotNamed: #label
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpLink >> label: anElement [
 
 	"Set the specified element as the label of the receiver"

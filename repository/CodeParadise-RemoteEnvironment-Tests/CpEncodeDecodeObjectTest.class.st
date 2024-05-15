@@ -2,12 +2,13 @@
 Tests for ObjectEncoder and ObjectDecoder
 "
 Class {
-	#name : #CpEncodeDecodeObjectTest,
-	#superclass : #TestCase,
-	#category : #'CodeParadise-RemoteEnvironment-Tests'
+	#name : 'CpEncodeDecodeObjectTest',
+	#superclass : 'TestCase',
+	#category : 'CodeParadise-RemoteEnvironment-Tests',
+	#package : 'CodeParadise-RemoteEnvironment-Tests'
 }
 
-{ #category : #comparing }
+{ #category : 'comparing' }
 CpEncodeDecodeObjectTest class >> compareMethod: aCompiledMethod to: anotherCompiledMethod [
 
 	"Compare both methods for equality.
@@ -27,7 +28,7 @@ CpEncodeDecodeObjectTest class >> compareMethod: aCompiledMethod to: anotherComp
 	^ self compareMethodLiteralsFrom: aCompiledMethod to: anotherCompiledMethod
 ]
 
-{ #category : #comparing }
+{ #category : 'comparing' }
 CpEncodeDecodeObjectTest class >> compareMethodLiteralsFrom: aCompiledMethod to: anotherCompiledMethod [
 
 	"Compare literals from both methods for equality.
@@ -53,7 +54,7 @@ CpEncodeDecodeObjectTest class >> compareMethodLiteralsFrom: aCompiledMethod to:
 	                ifFalse: [literal1 = literal2]]
 ]
 
-{ #category : #comparing }
+{ #category : 'comparing' }
 CpEncodeDecodeObjectTest class >> compareMethodPropertiesFrom: aMethodProperties to: anotherMethodProperties [
 
 	aMethodProperties selector = anotherMethodProperties selector
@@ -73,7 +74,7 @@ CpEncodeDecodeObjectTest class >> compareMethodPropertiesFrom: aMethodProperties
 	^ true
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 CpEncodeDecodeObjectTest >> testArray [
 
 	self
@@ -96,7 +97,7 @@ CpEncodeDecodeObjectTest >> testArray [
 		description: 'Decode an encoded Array'
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 CpEncodeDecodeObjectTest >> testAssociation [
 
 	self
@@ -111,7 +112,7 @@ CpEncodeDecodeObjectTest >> testAssociation [
 
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 CpEncodeDecodeObjectTest >> testCharacter [
 
 	"Test different (Unicode) characters"
@@ -167,7 +168,7 @@ CpEncodeDecodeObjectTest >> testCharacter [
 		description: 'Decode an encoded character'
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 CpEncodeDecodeObjectTest >> testCompiledMethod [
 
 	self
@@ -181,7 +182,7 @@ CpEncodeDecodeObjectTest >> testCompiledMethod [
 		description: 'Encode/decode ByteString >> #isByteString and ByteSymbol >> #isByteString (same implementation but different class)'
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 CpEncodeDecodeObjectTest >> testCompiledMethodWithAdditionalMethodState [
 
 	<somePragma: #someValue>
@@ -191,7 +192,7 @@ CpEncodeDecodeObjectTest >> testCompiledMethodWithAdditionalMethodState [
 		description: 'Encode/decode CpEncodeDecodeMessageTest >> #testCompiledMethodWithAdditionalMethodState'
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 CpEncodeDecodeObjectTest >> testFalse [
 
 	self
@@ -202,7 +203,7 @@ CpEncodeDecodeObjectTest >> testFalse [
 		description: 'Decode an encoded false'
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 CpEncodeDecodeObjectTest >> testFloat [
 
 	self
@@ -238,7 +239,7 @@ CpEncodeDecodeObjectTest >> testFloat [
 		description: 'Decode an encoded Float'
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 CpEncodeDecodeObjectTest >> testInteger [
 
 	self
@@ -273,7 +274,7 @@ CpEncodeDecodeObjectTest >> testInteger [
 
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 CpEncodeDecodeObjectTest >> testLength [
 
 	self
@@ -294,7 +295,7 @@ CpEncodeDecodeObjectTest >> testLength [
 
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 CpEncodeDecodeObjectTest >> testMessageSend [
 
 	self
@@ -315,7 +316,7 @@ CpEncodeDecodeObjectTest >> testMessageSend [
 
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 CpEncodeDecodeObjectTest >> testNegativeIntegerEncoding [
 
 	"Test different byte size negative integers"
@@ -349,7 +350,7 @@ CpEncodeDecodeObjectTest >> testNegativeIntegerEncoding [
 		description: 'Encode/decode Integer type for -16r80000001'
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 CpEncodeDecodeObjectTest >> testNil [
 
 	self
@@ -360,7 +361,7 @@ CpEncodeDecodeObjectTest >> testNil [
 		description: 'Decode an encoded nil'
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 CpEncodeDecodeObjectTest >> testPositiveIntegerEncoding [
 
 	"Test different byte size positive integers"
@@ -398,7 +399,7 @@ CpEncodeDecodeObjectTest >> testPositiveIntegerEncoding [
 
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 CpEncodeDecodeObjectTest >> testString [
 
 	self
@@ -417,7 +418,7 @@ CpEncodeDecodeObjectTest >> testString [
 		description: 'Very long string'
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 CpEncodeDecodeObjectTest >> testSymbol [
 
 	self
@@ -440,7 +441,7 @@ CpEncodeDecodeObjectTest >> testSymbol [
 		description: 'Decode an encoded Symbol'
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 CpEncodeDecodeObjectTest >> testTrue [
 
 	self

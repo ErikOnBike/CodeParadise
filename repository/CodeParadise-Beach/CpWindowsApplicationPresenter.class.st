@@ -1,16 +1,18 @@
 Class {
-	#name : #CpWindowsApplicationPresenter,
-	#superclass : #CpPresenter,
-	#category : #'CodeParadise-Beach-Presenters'
+	#name : 'CpWindowsApplicationPresenter',
+	#superclass : 'CpPresenter',
+	#category : 'CodeParadise-Beach-Presenters',
+	#package : 'CodeParadise-Beach',
+	#tag : 'Presenters'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpWindowsApplicationPresenter class >> defaultViewClass [
 
 	^ CpScreen
 ]
 
-{ #category : #presenters }
+{ #category : 'presenters' }
 CpWindowsApplicationPresenter >> presenterClassForModel: aModel atSlotNamed: aString [
 
 	"Answer the Presenter class for the specified Model in the specified slot

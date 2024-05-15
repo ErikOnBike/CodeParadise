@@ -1,21 +1,23 @@
 Class {
-	#name : #CpWindowPresenter,
-	#superclass : #CpPresenter,
+	#name : 'CpWindowPresenter',
+	#superclass : 'CpPresenter',
 	#instVars : [
 		'position',
 		'width',
 		'height'
 	],
-	#category : #'CodeParadise-Beach-Presenters'
+	#category : 'CodeParadise-Beach-Presenters',
+	#package : 'CodeParadise-Beach',
+	#tag : 'Presenters'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpWindowPresenter class >> defaultViewClass [
 
 	^ CpWindow
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 CpWindowPresenter >> closeWindow [
 
 	"Close the receiver"
@@ -23,13 +25,13 @@ CpWindowPresenter >> closeWindow [
 	self destroy
 ]
 
-{ #category : #presenters }
+{ #category : 'presenters' }
 CpWindowPresenter >> preferredTitlePresenterClass [
 
 	^ CpWindowTitlePresenter
 ]
 
-{ #category : #view }
+{ #category : 'view' }
 CpWindowPresenter >> renderView [
 
 	"Render view of the receiver"
@@ -49,7 +51,7 @@ CpWindowPresenter >> renderView [
 		atSlotNamed: #content
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 CpWindowPresenter >> updateWindow: aWindowUpdate [
 
 	"Update the Window information by storing it in the receiver's instance variables"
@@ -59,7 +61,7 @@ CpWindowPresenter >> updateWindow: aWindowUpdate [
 	height := aWindowUpdate height
 ]
 
-{ #category : #view }
+{ #category : 'view' }
 CpWindowPresenter >> viewCreated [
 
 	super viewCreated.

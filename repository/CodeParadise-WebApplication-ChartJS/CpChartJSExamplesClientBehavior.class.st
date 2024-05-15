@@ -1,10 +1,12 @@
 Class {
-	#name : #CpChartJSExamplesClientBehavior,
-	#superclass : #CpWebClientBehavior,
-	#category : #'CodeParadise-WebApplication-ChartJS-Examples'
+	#name : 'CpChartJSExamplesClientBehavior',
+	#superclass : 'CpWebClientBehavior',
+	#category : 'CodeParadise-WebApplication-ChartJS-Examples',
+	#package : 'CodeParadise-WebApplication-ChartJS',
+	#tag : 'Examples'
 }
 
-{ #category : #examples }
+{ #category : 'examples' }
 CpChartJSExamplesClientBehavior >> exampleBarChartRandom [
 
 	<example: 'Bar chart random' order: 30>
@@ -80,7 +82,7 @@ CpChartJSExamplesClientBehavior >> exampleBarChartRandom [
 	repeatBlock value
 ]
 
-{ #category : #examples }
+{ #category : 'examples' }
 CpChartJSExamplesClientBehavior >> exampleDoughnutChartRandom [
 
 	<example: 'Doughnut chart random' order: 50>
@@ -144,7 +146,7 @@ CpChartJSExamplesClientBehavior >> exampleDoughnutChartRandom [
 	repeatBlock value
 ]
 
-{ #category : #examples }
+{ #category : 'examples' }
 CpChartJSExamplesClientBehavior >> exampleLineChart [
 
 	<example: 'Line chart' order: 10>
@@ -192,7 +194,7 @@ CpChartJSExamplesClientBehavior >> exampleLineChart [
 	} asDictionary
 ]
 
-{ #category : #examples }
+{ #category : 'examples' }
 CpChartJSExamplesClientBehavior >> exampleLineChartRandom [
 
 	<example: 'Line chart random' order: 20>
@@ -256,7 +258,7 @@ CpChartJSExamplesClientBehavior >> exampleLineChartRandom [
 	repeatBlock value
 ]
 
-{ #category : #examples }
+{ #category : 'examples' }
 CpChartJSExamplesClientBehavior >> exampleMultiRandom [
 
 	<example: 'Multi chart random' order: 0>
@@ -331,7 +333,7 @@ CpChartJSExamplesClientBehavior >> exampleMultiRandom [
 	repeatBlock value
 ]
 
-{ #category : #examples }
+{ #category : 'examples' }
 CpChartJSExamplesClientBehavior >> exampleStackedBarChartRandom [
 
 	<example: 'Bar chart stacked random' order: 40>
@@ -413,7 +415,7 @@ CpChartJSExamplesClientBehavior >> exampleStackedBarChartRandom [
 	repeatBlock value
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 CpChartJSExamplesClientBehavior >> initialize [
 
 	super initialize.
@@ -423,20 +425,20 @@ CpChartJSExamplesClientBehavior >> initialize [
 	self showIndex
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpChartJSExamplesClientBehavior >> outputElement [
 
 	^ CpHtmlElement documentBody firstDescendantMatching: '#output'
 ]
 
-{ #category : #progress }
+{ #category : 'progress' }
 CpChartJSExamplesClientBehavior >> removeProgressBar [
 
 	(self outputElement firstDescendantMatching: #progress)
 		ifNotNil: [ :progressBar | progressBar destroy ]
 ]
 
-{ #category : #examples }
+{ #category : 'examples' }
 CpChartJSExamplesClientBehavior >> showIndex [
 
 	"Beware: this method is NOT to be taken as exemplar for creating a UI.
@@ -571,7 +573,7 @@ CpChartJSExamplesClientBehavior >> showIndex [
 		example when: CpPrimaryClickEvent send: item key to: self ]
 ]
 
-{ #category : #progress }
+{ #category : 'progress' }
 CpChartJSExamplesClientBehavior >> showProgressBar: aDuration [
 
 	| progressBar |

@@ -1,6 +1,6 @@
-Extension { #name : #Model }
+Extension { #name : 'Model' }
 
-{ #category : #'*CodeParadise-WebApplication-MVP' }
+{ #category : '*CodeParadise-WebApplication-MVP' }
 Model >> unsubscribe: anObject [
 
 	"Unsubscribe all subscriptions from the specified object on the receiver"

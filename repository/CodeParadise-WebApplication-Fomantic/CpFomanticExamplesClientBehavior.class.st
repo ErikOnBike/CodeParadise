@@ -1,10 +1,12 @@
 Class {
-	#name : #CpFomanticExamplesClientBehavior,
-	#superclass : #CpWebClientBehavior,
-	#category : #'CodeParadise-WebApplication-Fomantic-Examples'
+	#name : 'CpFomanticExamplesClientBehavior',
+	#superclass : 'CpWebClientBehavior',
+	#category : 'CodeParadise-WebApplication-Fomantic-Examples',
+	#package : 'CodeParadise-WebApplication-Fomantic',
+	#tag : 'Examples'
 }
 
-{ #category : #examples }
+{ #category : 'examples' }
 CpFomanticExamplesClientBehavior >> exampleButton [
 
 	<example: 'Button' order: 100>
@@ -59,7 +61,7 @@ CpFomanticExamplesClientBehavior >> exampleButton [
 			yourself) ]
 ]
 
-{ #category : #examples }
+{ #category : 'examples' }
 CpFomanticExamplesClientBehavior >> exampleCheckbox [
 
 	<example: 'Checkbox' order: 100>
@@ -124,7 +126,7 @@ CpFomanticExamplesClientBehavior >> exampleCheckbox [
 
 ]
 
-{ #category : #examples }
+{ #category : 'examples' }
 CpFomanticExamplesClientBehavior >> exampleHeader [
 
 	<example: 'Header' order: 500>
@@ -161,7 +163,7 @@ CpFomanticExamplesClientBehavior >> exampleHeader [
 		yourself)
 ]
 
-{ #category : #examples }
+{ #category : 'examples' }
 CpFomanticExamplesClientBehavior >> exampleInput [
 
 	<example: 'Input' order: 200>
@@ -214,7 +216,7 @@ CpFomanticExamplesClientBehavior >> exampleInput [
 
 ]
 
-{ #category : #examples }
+{ #category : 'examples' }
 CpFomanticExamplesClientBehavior >> exampleMenu [
 
 	<example: 'Menu' order: 300>
@@ -281,7 +283,7 @@ CpFomanticExamplesClientBehavior >> exampleMenu [
 
 ]
 
-{ #category : #examples }
+{ #category : 'examples' }
 CpFomanticExamplesClientBehavior >> examplePopup [
 
 	<example: 'Popup' order: 400>
@@ -313,7 +315,7 @@ CpFomanticExamplesClientBehavior >> examplePopup [
 
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 CpFomanticExamplesClientBehavior >> initialize [
 
 	super initialize.
@@ -321,13 +323,13 @@ CpFomanticExamplesClientBehavior >> initialize [
 	self showIndex
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpFomanticExamplesClientBehavior >> outputElement [
 
 	^ CpHtmlElement document elementWithId: #output
 ]
 
-{ #category : #examples }
+{ #category : 'examples' }
 CpFomanticExamplesClientBehavior >> showIndex [
 
 	"Beware: this method is NOT to be taken as exemplar for creating a UI.

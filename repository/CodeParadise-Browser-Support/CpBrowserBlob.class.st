@@ -2,12 +2,14 @@
 I represent the Browser's Blob class.
 "
 Class {
-	#name : #CpBrowserBlob,
-	#superclass : #CpJavaScriptObject,
-	#category : #'CodeParadise-Browser-Support-Core'
+	#name : 'CpBrowserBlob',
+	#superclass : 'CpJavaScriptObject',
+	#category : 'CodeParadise-Browser-Support-Core',
+	#package : 'CodeParadise-Browser-Support',
+	#tag : 'Core'
 }
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 CpBrowserBlob class >> newWith: anObject type: aString [
 
 	"Answer a new instance of the receiver with the specified Object
@@ -22,7 +24,7 @@ CpBrowserBlob class >> newWith: anObject type: aString [
 		{ #type -> aString } asDictionary }
 ]
 
-{ #category : #'class initialization' }
+{ #category : 'class initialization' }
 CpBrowserBlob class >> postInstallOnce [
 
 	"Make sure ArrayBuffer support is loaded"
@@ -30,7 +32,7 @@ CpBrowserBlob class >> postInstallOnce [
 	CpJavaScriptArrayBuffer beLoaded
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpBrowserBlob >> arrayBuffer [
 
 	"Returns a promise that resolves with an ArrayBuffer containing the entire contents of the Blob as binary data."
@@ -38,13 +40,13 @@ CpBrowserBlob >> arrayBuffer [
 	^ self apply: #arrayBuffer resultAs: CpJavaScriptPromise
 ]
 
-{ #category : #converting }
+{ #category : 'converting' }
 CpBrowserBlob >> asBrowserClipboardItem [
 
 	^ CpBrowserClipboardItem newWithBlob: self
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpBrowserBlob >> size [
 
 	"The size, in bytes, of the data contained in the Blob object."
@@ -52,7 +54,7 @@ CpBrowserBlob >> size [
 	^ self propertyAt: #size
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpBrowserBlob >> text [
 
 	"Returns a promise that resolves with a string containing the entire contents of the Blob interpreted as UTF-8 text."
@@ -60,7 +62,7 @@ CpBrowserBlob >> text [
 	^ self apply: #text resultAs: CpJavaScriptPromise
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpBrowserBlob >> type [
 
 	"A string indicating the MIME type of the data contained in the Blob. If the type is unknown, this string is empty."
@@ -68,7 +70,7 @@ CpBrowserBlob >> type [
 	^ self propertyAt: #type
 ]
 
-{ #category : #convenience }
+{ #category : 'convenience' }
 CpBrowserBlob >> withContentDo: aBlock [
 
 	"Evaluate the specified Block with the content (as ByteArray) of the receiver"
@@ -77,7 +79,7 @@ CpBrowserBlob >> withContentDo: aBlock [
 		aBlock value: buffer asByteArray ]
 ]
 
-{ #category : #convenience }
+{ #category : 'convenience' }
 CpBrowserBlob >> withTextDo: aBlock [
 
 	"Evaluate the specified Block with the text of the receiver"

@@ -1,6 +1,6 @@
-Extension { #name : #Object }
+Extension { #name : 'Object' }
 
-{ #category : #'*CodeParadise-RemoteEnvironment' }
+{ #category : '*CodeParadise-RemoteEnvironment' }
 Object >> cpEncoded [
 
 	"Encode the receiver as a ByteArray for transfering over network connection"
@@ -14,7 +14,7 @@ Object >> cpEncoded [
 	^ encoder bytes
 ]
 
-{ #category : #'*CodeParadise-RemoteEnvironment' }
+{ #category : '*CodeParadise-RemoteEnvironment' }
 Object >> isJavaScriptObject [
 
 	<applicationExtension>

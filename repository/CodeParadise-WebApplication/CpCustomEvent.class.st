@@ -6,18 +6,20 @@ Boolean value or a Dictionary containing these values).
 
 "
 Class {
-	#name : #CpCustomEvent,
-	#superclass : #CpEvent,
-	#category : #'CodeParadise-WebApplication-Events-Custom'
+	#name : 'CpCustomEvent',
+	#superclass : 'CpEvent',
+	#category : 'CodeParadise-WebApplication-Events-Custom',
+	#package : 'CodeParadise-WebApplication',
+	#tag : 'Events-Custom'
 }
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 CpCustomEvent class >> new [
 
 	^ self newWithDetail: nil
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 CpCustomEvent class >> newWithDetail: anObject [
 
 	^ self basicNew
@@ -25,7 +27,7 @@ CpCustomEvent class >> newWithDetail: anObject [
 		yourself
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 CpCustomEvent >> createWithDetail: anObject [
 
 	"Create the actual JS CustomEvent underlying the receiver with the specified detail.
@@ -35,7 +37,7 @@ CpCustomEvent >> createWithDetail: anObject [
 	self primitiveFailed
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpCustomEvent >> detail [
 
 	"Answer the detail of the receiver.
@@ -44,7 +46,7 @@ CpCustomEvent >> detail [
 	^ self propertyAt: #detail
 ]
 
-{ #category : #dispatching }
+{ #category : 'dispatching' }
 CpCustomEvent >> dispatchFrom: anElement [
 
 	"Dispatch the receiver from the specified element"
@@ -53,7 +55,7 @@ CpCustomEvent >> dispatchFrom: anElement [
 	self primitiveFailed
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 CpCustomEvent >> initializeWithDetail: anObject [
 
 	self initialize.
@@ -61,7 +63,7 @@ CpCustomEvent >> initializeWithDetail: anObject [
 	self createWithDetail: anObject
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 CpCustomEvent >> printOn: aStream [
 
 	aStream

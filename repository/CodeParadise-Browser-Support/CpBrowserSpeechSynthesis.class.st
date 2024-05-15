@@ -1,10 +1,12 @@
 Class {
-	#name : #CpBrowserSpeechSynthesis,
-	#superclass : #CpJavaScriptEventTarget,
-	#category : #'CodeParadise-Browser-Support-Speech'
+	#name : 'CpBrowserSpeechSynthesis',
+	#superclass : 'CpJavaScriptEventTarget',
+	#category : 'CodeParadise-Browser-Support-Speech',
+	#package : 'CodeParadise-Browser-Support',
+	#tag : 'Speech'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpBrowserSpeechSynthesis class >> current [
 
 	"Answer an instance of the receiver"
@@ -13,13 +15,13 @@ CpBrowserSpeechSynthesis class >> current [
 		apply: #speechSynthesis resultAs: self
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 CpBrowserSpeechSynthesis class >> newInstanceWithArguments: anArray resultAs: aProxyClass [
 
 	self error: 'An instance should be retrieved using the selector ', #current
 ]
 
-{ #category : #operations }
+{ #category : 'operations' }
 CpBrowserSpeechSynthesis >> cancel [
 
 	"Removes all utterances from the utterance queue."
@@ -27,7 +29,7 @@ CpBrowserSpeechSynthesis >> cancel [
 	self apply: #cancel
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpBrowserSpeechSynthesis >> getVoices [
 
 	"Returns a list of SpeechSynthesisVoice objects representing all the available voices on the current device."
@@ -35,7 +37,7 @@ CpBrowserSpeechSynthesis >> getVoices [
 	^ self apply: #getVoices
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 CpBrowserSpeechSynthesis >> onVoicesChangedDo: aBlock [
 
 	"Fired when the list of SpeechSynthesisVoice objects that would be returned by the SpeechSynthesis.getVoices() method has changed."
@@ -46,7 +48,7 @@ CpBrowserSpeechSynthesis >> onVoicesChangedDo: aBlock [
 	^ self addEventListener: #voiceschanged handler: aBlock
 ]
 
-{ #category : #operations }
+{ #category : 'operations' }
 CpBrowserSpeechSynthesis >> pause [
 
 	"Puts the SpeechSynthesis object into a paused state."
@@ -54,7 +56,7 @@ CpBrowserSpeechSynthesis >> pause [
 	self apply: #pause
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpBrowserSpeechSynthesis >> paused [
 
 	"A boolean value that returns true if the SpeechSynthesis object is in a paused state."
@@ -62,7 +64,7 @@ CpBrowserSpeechSynthesis >> paused [
 	^ self propertyAt: #paused
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpBrowserSpeechSynthesis >> pending [
 
 	"A boolean value that returns true if the utterance queue contains as-yet-unspoken utterances."
@@ -70,7 +72,7 @@ CpBrowserSpeechSynthesis >> pending [
 	^ self propertyAt: #pending
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 CpBrowserSpeechSynthesis >> removeVoicesChangedHandler: aFunction [
 
 	"Remove an earlier installed event listener
@@ -79,7 +81,7 @@ CpBrowserSpeechSynthesis >> removeVoicesChangedHandler: aFunction [
 	self removeEventListener: #voiceschanged handler: aFunction
 ]
 
-{ #category : #operations }
+{ #category : 'operations' }
 CpBrowserSpeechSynthesis >> resume [
 
 	"Puts the SpeechSynthesis object into a non-paused state: resumes it if it was already paused."
@@ -87,7 +89,7 @@ CpBrowserSpeechSynthesis >> resume [
 	self apply: #resume
 ]
 
-{ #category : #operations }
+{ #category : 'operations' }
 CpBrowserSpeechSynthesis >> speak: anUtterance [
 
 	"Adds an utterance to the utterance queue; it will be spoken when any other utterances queued before it have been spoken."
@@ -95,7 +97,7 @@ CpBrowserSpeechSynthesis >> speak: anUtterance [
 	self apply: #speak withArguments: { anUtterance }
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpBrowserSpeechSynthesis >> speaking [
 
 	"A boolean value that returns true if an utterance is currently in the process of being spoken — even if SpeechSynthesis is in a paused state."

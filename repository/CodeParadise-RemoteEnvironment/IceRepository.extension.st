@@ -1,6 +1,6 @@
-Extension { #name : #IceRepository }
+Extension { #name : 'IceRepository' }
 
-{ #category : #'*CodeParadise-RemoteEnvironment' }
+{ #category : '*CodeParadise-RemoteEnvironment' }
 IceRepository class >> directoryNamed: directoryName in: repositoryName [
 
 	self registry

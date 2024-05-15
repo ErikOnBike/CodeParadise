@@ -1,10 +1,12 @@
 Class {
-	#name : #CpDemoExecutableCodeContent,
-	#superclass : #CpDemoCodeContent,
-	#category : #'CodeParadise-WebApplication-Presentation-Examples'
+	#name : 'CpDemoExecutableCodeContent',
+	#superclass : 'CpDemoCodeContent',
+	#category : 'CodeParadise-WebApplication-Presentation-Examples',
+	#package : 'CodeParadise-WebApplication-Presentation',
+	#tag : 'Examples'
 }
 
-{ #category : #'do-its' }
+{ #category : 'do-its' }
 CpDemoExecutableCodeContent >> doIt [
 
 	| result |

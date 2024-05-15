@@ -32,18 +32,20 @@ I fork a Process which receives messages from a lower level message interface an
 I have a single owner Object responsible for handling the messages I receive, because this is more performant than having an event/notification mechanism.
 "
 Class {
-	#name : #CpMessageChannel,
-	#superclass : #Object,
+	#name : 'CpMessageChannel',
+	#superclass : 'Object',
 	#instVars : [
 		'owner'
 	],
 	#classVars : [
 		'EnvironmentImplementation'
 	],
-	#category : #'CodeParadise-RemoteEnvironment-Core'
+	#category : 'CodeParadise-RemoteEnvironment-Core',
+	#package : 'CodeParadise-RemoteEnvironment',
+	#tag : 'Core'
 }
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 CpMessageChannel class >> environmentImplementation [
 
 	"Answer the Class which performs the receiver's behavior on the current environment.
@@ -64,7 +66,7 @@ CpMessageChannel class >> environmentImplementation [
 				ifFalse: [ self ] ]
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 CpMessageChannel class >> environmentImplementation: aClass [
 
 	"Set the Class which performs the receiver's behavior on the current environment"
@@ -72,7 +74,7 @@ CpMessageChannel class >> environmentImplementation: aClass [
 	EnvironmentImplementation := aClass
 ]
 
-{ #category : #'public api' }
+{ #category : 'public api' }
 CpMessageChannel class >> forOwner: ownerObject connectedToUrl: urlString [
 
 	"Create for the specified owner, a new instance of the receiver which is connected
@@ -86,7 +88,7 @@ CpMessageChannel class >> forOwner: ownerObject connectedToUrl: urlString [
 		ifNil: [ Error signal: 'No implementation class set for MessageChannel' ]
 ]
 
-{ #category : #'public api' }
+{ #category : 'public api' }
 CpMessageChannel class >> startServerForOwner: ownerObject onPort: anInteger path: aString [
 
 	"Create a server listening on the specified port and path for the specified owner.
@@ -99,7 +101,7 @@ CpMessageChannel class >> startServerForOwner: ownerObject onPort: anInteger pat
 		ifNil: [ Error signal: 'No implementation class set for MessageChannel' ]
 ]
 
-{ #category : #'public api' }
+{ #category : 'public api' }
 CpMessageChannel >> close [
 
 	"Close the receiver, thereby making the receiver unusable"
@@ -107,7 +109,7 @@ CpMessageChannel >> close [
 	self subclassResponsibility
 ]
 
-{ #category : #'message handling' }
+{ #category : 'message handling' }
 CpMessageChannel >> createMessageHandler [
 
 	"Create a forked process which will run the receiver's message handler for messages received"
@@ -122,7 +124,7 @@ CpMessageChannel >> createMessageHandler [
 
 ]
 
-{ #category : #'message handling' }
+{ #category : 'message handling' }
 CpMessageChannel >> handleMessageHandlerError: anError [ 
 
 	"Placeholder method to allow specific error handling by subclass or extension method."
@@ -130,7 +132,7 @@ CpMessageChannel >> handleMessageHandlerError: anError [
 	self errorCr: 'Failed to handle messages: ' , anError printString
 ]
 
-{ #category : #'message handling' }
+{ #category : 'message handling' }
 CpMessageChannel >> handleMessageReceived: aByteArray [
 
 	"Let the owner handle the message received.
@@ -143,7 +145,7 @@ CpMessageChannel >> handleMessageReceived: aByteArray [
 			on: (aByteArray ifNotNil: [ self ]) ]
 ]
 
-{ #category : #'message handling' }
+{ #category : 'message handling' }
 CpMessageChannel >> handleMessages [
 
 	"Handle received messages as long as they are available"
@@ -151,7 +153,7 @@ CpMessageChannel >> handleMessages [
 	[ self handleNextMessage ] whileTrue
 ]
 
-{ #category : #'message handling' }
+{ #category : 'message handling' }
 CpMessageChannel >> handleNextMessage [
 
 	"Let the receiver's owner handle the next message received (if available) and
@@ -167,7 +169,7 @@ CpMessageChannel >> handleNextMessage [
 
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpMessageChannel >> initializeWithOwner: ownerObject [
 
 	"Initialize the receiver with the specified owner.
@@ -181,7 +183,7 @@ CpMessageChannel >> initializeWithOwner: ownerObject [
 	owner := ownerObject
 ]
 
-{ #category : #'public api' }
+{ #category : 'public api' }
 CpMessageChannel >> isOpen [
 
 	"Answer whether the receiver is open (ie can send and receive messages)"
@@ -189,7 +191,7 @@ CpMessageChannel >> isOpen [
 	self subclassResponsibility
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpMessageChannel >> owner [
 
 	"Answer the receiver's owner"
@@ -197,7 +199,7 @@ CpMessageChannel >> owner [
 	^ owner
 ]
 
-{ #category : #'message handling' }
+{ #category : 'message handling' }
 CpMessageChannel >> receivedMessage [
 
 	"Answer the next message received or nil if none is available"
@@ -205,7 +207,7 @@ CpMessageChannel >> receivedMessage [
 	self subclassResponsibility
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 CpMessageChannel >> release [
 
 	"Release the receiver's instance variables"
@@ -215,7 +217,7 @@ CpMessageChannel >> release [
 	super release
 ]
 
-{ #category : #'message handling' }
+{ #category : 'message handling' }
 CpMessageChannel >> runMessageHandler [
 
 	"Run the receiver's message handling process for handling received messages.
@@ -236,7 +238,7 @@ CpMessageChannel >> runMessageHandler [
 	self release
 ]
 
-{ #category : #'public api' }
+{ #category : 'public api' }
 CpMessageChannel >> sendMessage: aByteArray [
 
 	"Send the specified message.
@@ -245,7 +247,7 @@ CpMessageChannel >> sendMessage: aByteArray [
 	self subclassResponsibility
 ]
 
-{ #category : #updating }
+{ #category : 'updating' }
 CpMessageChannel >> updateState [
 
 	"Update the receiver's state.

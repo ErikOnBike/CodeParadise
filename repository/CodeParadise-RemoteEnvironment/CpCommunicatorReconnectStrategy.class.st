@@ -5,12 +5,14 @@ My default behavior is to always suggest a reconnect. My subclasses can implemen
 
 "
 Class {
-	#name : #CpCommunicatorReconnectStrategy,
-	#superclass : #Object,
-	#category : #'CodeParadise-RemoteEnvironment-Core'
+	#name : 'CpCommunicatorReconnectStrategy',
+	#superclass : 'Object',
+	#category : 'CodeParadise-RemoteEnvironment-Core',
+	#package : 'CodeParadise-RemoteEnvironment',
+	#tag : 'Core'
 }
 
-{ #category : #asserting }
+{ #category : 'asserting' }
 CpCommunicatorReconnectStrategy >> shouldReconnect: aCommunicator [
 
 	"There is no usable connection for the Communicator.

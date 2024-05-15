@@ -1,13 +1,15 @@
 Class {
-	#name : #CpExceptionAnnouncement,
-	#superclass : #Announcement,
+	#name : 'CpExceptionAnnouncement',
+	#superclass : 'Announcement',
 	#instVars : [
 		'exception'
 	],
-	#category : #'CodeParadise-RemoteEnvironment-Core-Announcements'
+	#category : 'CodeParadise-RemoteEnvironment-Core-Announcements',
+	#package : 'CodeParadise-RemoteEnvironment',
+	#tag : 'Core-Announcements'
 }
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 CpExceptionAnnouncement class >> exception: anException [
 
 	^ self basicNew
@@ -15,13 +17,13 @@ CpExceptionAnnouncement class >> exception: anException [
 		yourself
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 CpExceptionAnnouncement >> exception [
 
 	^ exception
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 CpExceptionAnnouncement >> initializeWithException: anException [
 
 	self initialize.

@@ -3,16 +3,18 @@ I am an abstract Environment. I form the basis for a RemoteEnvironment which all
 
 "
 Class {
-	#name : #CpEnvironment,
-	#superclass : #Object,
+	#name : 'CpEnvironment',
+	#superclass : 'Object',
 	#instVars : [
 		'id',
 		'communicator'
 	],
-	#category : #'CodeParadise-RemoteEnvironment-Core'
+	#category : 'CodeParadise-RemoteEnvironment-Core',
+	#package : 'CodeParadise-RemoteEnvironment',
+	#tag : 'Core'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpEnvironment class >> communicatorClass [
 
 	"Answer the Communicator Class for the receiver"
@@ -20,7 +22,7 @@ CpEnvironment class >> communicatorClass [
 	self subclassResponsibility
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpEnvironment >> communicator [
 
 	"Answer the receiver's communicator"
@@ -28,7 +30,7 @@ CpEnvironment >> communicator [
 	^ communicator
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpEnvironment >> communicator: aCommunicator [
 
 	"Set the receiver's Communicator"
@@ -36,7 +38,7 @@ CpEnvironment >> communicator: aCommunicator [
 	communicator := aCommunicator
 ]
 
-{ #category : #support }
+{ #category : 'support' }
 CpEnvironment >> createCommunicator [
 
 	"Create a new communicator for the receiver and answer it"
@@ -44,7 +46,7 @@ CpEnvironment >> createCommunicator [
 	^ self class communicatorClass newForOwner: self
 ]
 
-{ #category : #'error handling' }
+{ #category : 'error handling' }
 CpEnvironment >> handleError: aString [
 
 	"Handle an error with the specified description.
@@ -57,7 +59,7 @@ CpEnvironment >> handleError: aString [
 	self errorCr: aString
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 CpEnvironment >> handleMessageReceived: aByteArray [
 
 	"Handle the message received"
@@ -65,7 +67,7 @@ CpEnvironment >> handleMessageReceived: aByteArray [
 	self subclassResponsibility
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 CpEnvironment >> hasCommunicator [
 
 	"Answer whether the receiver has a Communicator setup"
@@ -73,7 +75,7 @@ CpEnvironment >> hasCommunicator [
 	^ communicator notNil
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpEnvironment >> id [
 
 	"Answer the receivers identifier (a String)"
@@ -81,7 +83,7 @@ CpEnvironment >> id [
 	^ id
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpEnvironment >> id: identifier [
 
 	"Set the identifier of the receiver"
@@ -89,7 +91,7 @@ CpEnvironment >> id: identifier [
 	id := identifier
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 CpEnvironment >> ifDevelopment: aBlock [
 
 	"Evaluate the specified Block if running in a development environment (i.e. non-production environment)"
@@ -97,7 +99,7 @@ CpEnvironment >> ifDevelopment: aBlock [
 	self ifProduction: [ "intentionally empty" ] ifDevelopment: aBlock
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 CpEnvironment >> ifProduction: aBlock [
 
 	"Evaluate the specified Block if running in a production environment"
@@ -105,7 +107,7 @@ CpEnvironment >> ifProduction: aBlock [
 	self ifProduction: aBlock ifDevelopment: [ "intentionally empty" ]
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 CpEnvironment >> ifProduction: prodBlock ifDevelopment: devBlock [
 
 	"Evaluate the appropriate Block depending on the environment status"
@@ -115,7 +117,7 @@ CpEnvironment >> ifProduction: prodBlock ifDevelopment: devBlock [
 		ifFalse: [ devBlock value ]
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 CpEnvironment >> isRunning [
 
 	"Answer whether the receiver is running"
@@ -123,7 +125,7 @@ CpEnvironment >> isRunning [
 	^ id notNil and: [ communicator notNil ]
 ]
 
-{ #category : #dependencies }
+{ #category : 'dependencies' }
 CpEnvironment >> release [
 
 	"Release the receiver's instance variables"
@@ -137,7 +139,7 @@ CpEnvironment >> release [
 	super release
 ]
 
-{ #category : #'input/output' }
+{ #category : 'input/output' }
 CpEnvironment >> sendEncodedMessage: aByteArray [
 
 	"Send encoded message to the connected party"
@@ -147,7 +149,7 @@ CpEnvironment >> sendEncodedMessage: aByteArray [
 	self communicator sendMessage: aByteArray
 ]
 
-{ #category : #'input/output' }
+{ #category : 'input/output' }
 CpEnvironment >> sendMessage: aMessageSend [
 
 	"Send the specified MessageSend to the server"
@@ -155,7 +157,7 @@ CpEnvironment >> sendMessage: aMessageSend [
 	self sendEncodedMessage: aMessageSend cpEncoded
 ]
 
-{ #category : #support }
+{ #category : 'support' }
 CpEnvironment >> startCommunication [
 
 	"Start communication with the other party"
@@ -163,7 +165,7 @@ CpEnvironment >> startCommunication [
 	self communicator: self createCommunicator
 ]
 
-{ #category : #support }
+{ #category : 'support' }
 CpEnvironment >> stopCommunication [
 
 	"Stop communication with server"
@@ -173,7 +175,7 @@ CpEnvironment >> stopCommunication [
 	self communicator close
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpEnvironment >> variableAt: nameString [
 
 	"Answer the value (a String) of the environment variable with the specified name
@@ -183,7 +185,7 @@ CpEnvironment >> variableAt: nameString [
 	self subclassResponsibility
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpEnvironment >> variableNames [
 
 	"Answer an array with the names of available environment variables."
@@ -191,7 +193,7 @@ CpEnvironment >> variableNames [
 	self subclassResponsibility
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpEnvironment >> variables [
 
 	"Answer a dictionary with the names and values of available environment variables."

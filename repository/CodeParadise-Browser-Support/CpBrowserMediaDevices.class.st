@@ -1,10 +1,12 @@
 Class {
-	#name : #CpBrowserMediaDevices,
-	#superclass : #CpJavaScriptEventTarget,
-	#category : #'CodeParadise-Browser-Support-MediaStreams'
+	#name : 'CpBrowserMediaDevices',
+	#superclass : 'CpJavaScriptEventTarget',
+	#category : 'CodeParadise-Browser-Support-MediaStreams',
+	#package : 'CodeParadise-Browser-Support',
+	#tag : 'MediaStreams'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpBrowserMediaDevices class >> current [
 
 	"Answer the singleton of the receiver.
@@ -18,13 +20,13 @@ CpBrowserMediaDevices class >> current [
 		apply: #mediaDevices resultAs: self
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 CpBrowserMediaDevices class >> newInstanceWithArguments: anArray resultAs: aProxyClass [
 
 	self error: 'An instance should be retrieved using the selector ', #current
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpBrowserMediaDevices >> enumerateDevices [
 
 	"Obtains an array of information about the media input and output devices available on the system."
@@ -32,13 +34,13 @@ CpBrowserMediaDevices >> enumerateDevices [
 	^ self apply: #enumerateDevices resultAs: CpJavaScriptPromise
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpBrowserMediaDevices >> getDisplayMedia [
 
 	^ self getDisplayMediaWithOptions: nil
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpBrowserMediaDevices >> getDisplayMediaWithOptions: aDictionary [
 
 	"Prompts the user to select a display or portion of a display (such as a window) to capture as a MediaStream for sharing or recording purposes. Returns a promise that resolves to a MediaStream.
@@ -91,7 +93,7 @@ CpBrowserMediaDevices >> getDisplayMediaWithOptions: aDictionary [
 	^ self apply: #getDisplayMedia withArguments: { aDictionary } resultAs: CpJavaScriptPromise
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpBrowserMediaDevices >> getSupportedConstraints [
 
 	"Returns an object conforming to MediaTrackSupportedConstraints indicating which constrainable properties are supported on the MediaStreamTrack interface. See Media Streams API to learn more about constraints and how to use them."
@@ -99,25 +101,25 @@ CpBrowserMediaDevices >> getSupportedConstraints [
 	^ self apply: #getSupportedConstraints resultAs: CpBrowserMediaTrackSupportedConstraints
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpBrowserMediaDevices >> getUserMediaAudio [
 
 	^ self getUserMediaWithConstraints: { #video -> false . #audio -> true } asDictionary
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpBrowserMediaDevices >> getUserMediaVideo [
 
 	^ self getUserMediaWithConstraints: { #video -> true . #audio -> false } asDictionary
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpBrowserMediaDevices >> getUserMediaVideoAndAudio [
 
 	^ self getUserMediaWithConstraints: { #video -> true . #audio -> true } asDictionary
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpBrowserMediaDevices >> getUserMediaWithConstraints: aDictionary [
 
 	"With the user's permission through a prompt, turns on a camera and/or a microphone on the system and provides a MediaStream containing a video track and/or an audio track with the input.
@@ -142,7 +144,7 @@ CpBrowserMediaDevices >> getUserMediaWithConstraints: aDictionary [
 	^ self apply: #getUserMedia withArguments: { aDictionary } resultAs: CpJavaScriptPromise
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 CpBrowserMediaDevices >> onDeviceChangeDo: aBlock [
 
 	"Fired when a media input or output device is attached to or removed from the user's computer."
@@ -153,7 +155,7 @@ CpBrowserMediaDevices >> onDeviceChangeDo: aBlock [
 	^ self addEventListener: #devicechange handler: aBlock
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 CpBrowserMediaDevices >> removeDeviceChangeHandler: aFunction [
 
 	"Remove an earlier installed event listener

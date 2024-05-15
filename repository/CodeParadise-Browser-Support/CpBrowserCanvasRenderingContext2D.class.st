@@ -1,10 +1,12 @@
 Class {
-	#name : #CpBrowserCanvasRenderingContext2D,
-	#superclass : #CpJavaScriptObject,
-	#category : #'CodeParadise-Browser-Support-Canvas'
+	#name : 'CpBrowserCanvasRenderingContext2D',
+	#superclass : 'CpJavaScriptObject',
+	#category : 'CodeParadise-Browser-Support-Canvas',
+	#package : 'CodeParadise-Browser-Support',
+	#tag : 'Canvas'
 }
 
-{ #category : #'operations - drawing images' }
+{ #category : 'operations - drawing images' }
 CpBrowserCanvasRenderingContext2D >> drawImage: anObject at: positionPoint size: sizePoint [
 
 	"Draws the specified image. This method is available in multiple formats, providing a great deal of flexibility in its use.
@@ -29,7 +31,7 @@ CpBrowserCanvasRenderingContext2D >> drawImage: anObject at: positionPoint size:
 	}
 ]
 
-{ #category : #'operations - drawing images' }
+{ #category : 'operations - drawing images' }
 CpBrowserCanvasRenderingContext2D >> drawImage: anObject from: sourcePositionPoint size: sourceSizePoint at: positionPoint size: sizePoint [
 
 	"Draws the specified image. This method is available in multiple formats, providing a great deal of flexibility in its use.

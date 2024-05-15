@@ -4,21 +4,23 @@ I announce when my value changed.
 
 "
 Class {
-	#name : #CpModel,
-	#superclass : #Object,
+	#name : 'CpModel',
+	#superclass : 'Object',
 	#instVars : [
 		'announcer'
 	],
-	#category : #'CodeParadise-WebApplication-MVP-Core'
+	#category : 'CodeParadise-WebApplication-MVP-Core',
+	#package : 'CodeParadise-WebApplication-MVP',
+	#tag : 'Core'
 }
 
-{ #category : #announcing }
+{ #category : 'announcing' }
 CpModel class >> whenChangedSend: selector to: anObject [
 
 	"Intentionally left blank"
 ]
 
-{ #category : #announcing }
+{ #category : 'announcing' }
 CpModel >> announce: anAnnouncement [
 
 	"Let the receiver announce the specified Announcement"
@@ -26,13 +28,13 @@ CpModel >> announce: anAnnouncement [
 	self announcer announce: anAnnouncement
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpModel >> announcer [
 
 	^ announcer
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpModel >> application [
 
 	"Answer the application in which the receiver is running.
@@ -44,19 +46,19 @@ CpModel >> application [
 
 ]
 
-{ #category : #presenter }
+{ #category : 'presenter' }
 CpModel >> display [
 
 	^ self displayIn: self application applicationPresenter
 ]
 
-{ #category : #presenter }
+{ #category : 'presenter' }
 CpModel >> displayIn: aPresenter [
 
 	^ aPresenter createChildPresenterForModel: self
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 CpModel >> initialize [
 
 	super initialize.
@@ -64,7 +66,7 @@ CpModel >> initialize [
 	announcer := Announcer new
 ]
 
-{ #category : #presenter }
+{ #category : 'presenter' }
 CpModel >> preferredPresenterClass [
 
 	"Answer the preferred Presenter class for the receiver (in its current state).
@@ -87,7 +89,7 @@ CpModel >> preferredPresenterClass [
 	^ presenterClass
 ]
 
-{ #category : #dependencies }
+{ #category : 'dependencies' }
 CpModel >> release [
 
 	announcer ifNotNil: [
@@ -97,7 +99,7 @@ CpModel >> release [
 	super release
 ]
 
-{ #category : #announcing }
+{ #category : 'announcing' }
 CpModel >> removeSubscription: aSubscription [
 
 	"Remove the specified subscription from the receiver"
@@ -105,7 +107,7 @@ CpModel >> removeSubscription: aSubscription [
 	^ self announcer removeSubscription: aSubscription
 ]
 
-{ #category : #announcing }
+{ #category : 'announcing' }
 CpModel >> unsubscribe: anObject [
 
 	"Unsubscribe the specified Object from Announcements of the receiver"
@@ -113,7 +115,7 @@ CpModel >> unsubscribe: anObject [
 	^ self announcer unsubscribe: anObject
 ]
 
-{ #category : #announcing }
+{ #category : 'announcing' }
 CpModel >> valueChanged [
 	
 	"Announce the fact that the receiver's value changed.
@@ -124,7 +126,7 @@ CpModel >> valueChanged [
 	self announce: (ValueChanged newValue: self)
 ]
 
-{ #category : #announcing }
+{ #category : 'announcing' }
 CpModel >> when: anAnnouncementClass do: aValuable [
 
 	"Let the sender subscribe to the specified announcement of the receiver.
@@ -133,7 +135,7 @@ CpModel >> when: anAnnouncementClass do: aValuable [
 	^ self announcer when: anAnnouncementClass do: aValuable
 ]
 
-{ #category : #announcing }
+{ #category : 'announcing' }
 CpModel >> when: anAnnouncementClass send: aSymbol to: anObject [
 
 	"Let the sender subscribe to the specified announcement of the receiver.
@@ -142,7 +144,7 @@ CpModel >> when: anAnnouncementClass send: aSymbol to: anObject [
 	^ self announcer when: anAnnouncementClass send: aSymbol to: anObject
 ]
 
-{ #category : #announcing }
+{ #category : 'announcing' }
 CpModel >> whenChangedDo: aBlock [
 
 	"Let the sender subscribe to the value changed announcement of the receiver.
@@ -153,7 +155,7 @@ CpModel >> whenChangedDo: aBlock [
 	^ self when: ValueChanged do: aBlock
 ]
 
-{ #category : #announcing }
+{ #category : 'announcing' }
 CpModel >> whenChangedSend: aSymbol to: anObject [
 
 	"Let the sender subscribe to the value changed announcement of the receiver

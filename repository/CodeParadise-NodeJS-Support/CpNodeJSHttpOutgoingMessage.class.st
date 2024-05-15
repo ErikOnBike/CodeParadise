@@ -1,10 +1,12 @@
 Class {
-	#name : #CpNodeJSHttpOutgoingMessage,
-	#superclass : #CpNodeJSStreamWritable,
-	#category : #'CodeParadise-NodeJS-Support-Http'
+	#name : 'CpNodeJSHttpOutgoingMessage',
+	#superclass : 'CpNodeJSStreamWritable',
+	#category : 'CodeParadise-NodeJS-Support-Http',
+	#package : 'CodeParadise-NodeJS-Support',
+	#tag : 'Http'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpNodeJSHttpOutgoingMessage class >> module [
 
 	"Answer the module the receiver is part of"
@@ -12,7 +14,7 @@ CpNodeJSHttpOutgoingMessage class >> module [
 	^ CpNodeJSHttp
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpNodeJSHttpOutgoingMessage >> addTrailers: aDictionary [
 
 	"Adds HTTP trailers (headers but at the end of the message) to the message.
@@ -24,7 +26,7 @@ CpNodeJSHttpOutgoingMessage >> addTrailers: aDictionary [
 	self apply: #addTrailers withArguments: { aDictionary }
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpNodeJSHttpOutgoingMessage >> appendHeaderWithName: aString value: anObject [
 
 	"Append a single header value for the header object.
@@ -40,7 +42,7 @@ CpNodeJSHttpOutgoingMessage >> appendHeaderWithName: aString value: anObject [
 	self apply: #appendHeader withArguments: { aString . anObject }
 ]
 
-{ #category : #operations }
+{ #category : 'operations' }
 CpNodeJSHttpOutgoingMessage >> flushHeaders [
 
 	"Flushes the message headers.
@@ -56,7 +58,7 @@ CpNodeJSHttpOutgoingMessage >> flushHeaders [
 	^ self apply: #flushHeaders
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpNodeJSHttpOutgoingMessage >> getHeaderNames [
 
 	"Returns an array containing the unique names of the current outgoing headers. All names are lowercase."
@@ -64,7 +66,7 @@ CpNodeJSHttpOutgoingMessage >> getHeaderNames [
 	^ self apply: #getHeaderNames
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpNodeJSHttpOutgoingMessage >> getHeaderWithName: aString [
 
 	"Gets the value of the HTTP header with the given name. If that header is not set, the returned value will be undefined."
@@ -72,7 +74,7 @@ CpNodeJSHttpOutgoingMessage >> getHeaderWithName: aString [
 	^ self apply: #getHeader withArguments: { aString }
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpNodeJSHttpOutgoingMessage >> getHeaders [
 
 	"Returns a shallow copy of the current outgoing headers. Since a shallow copy is used, array values may
@@ -87,7 +89,7 @@ CpNodeJSHttpOutgoingMessage >> getHeaders [
 	^ self apply: #getHeaders
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpNodeJSHttpOutgoingMessage >> hasHeaderWithName: aString [
 
 	"Returns true if the header identified by name is currently set in the outgoing headers. The header name is case-insensitive."
@@ -95,7 +97,7 @@ CpNodeJSHttpOutgoingMessage >> hasHeaderWithName: aString [
 	^ self apply: #hasHeader withArguments: { aString }
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpNodeJSHttpOutgoingMessage >> headersSent [
 
 	"Read-only. true if the headers were sent, otherwise false."
@@ -103,7 +105,7 @@ CpNodeJSHttpOutgoingMessage >> headersSent [
 	^ self propertyAt: #headersSent
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpNodeJSHttpOutgoingMessage >> removeHeaderWithName: aString [
 
 	"Removes a header that is queued for implicit sending."
@@ -111,7 +113,7 @@ CpNodeJSHttpOutgoingMessage >> removeHeaderWithName: aString [
 	self apply: #removeHeader withArguments: { aString }
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpNodeJSHttpOutgoingMessage >> setHeaderWithName: aString value: anObject [
 
 	"Sets a single header value. If the header already exists in the to-be-sent headers, its value will be replaced. Use an array of strings to send multiple headers with the same name.
@@ -121,7 +123,7 @@ CpNodeJSHttpOutgoingMessage >> setHeaderWithName: aString value: anObject [
 	self apply: #setHeader withArguments: { aString . anObject }
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpNodeJSHttpOutgoingMessage >> setHeaders: aDictionary [
 
 	"Sets multiple header values for implicit headers. headers must be an instance of Headers or Map, if a header already exists in the to-be-sent headers, its value will be replaced.
@@ -131,13 +133,13 @@ CpNodeJSHttpOutgoingMessage >> setHeaders: aDictionary [
 	self apply: #setHeaders withArguments: { aDictionary }
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpNodeJSHttpOutgoingMessage >> setTimeout: anInteger [
 
 	self setTimeout: anInteger thenDo: nil
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpNodeJSHttpOutgoingMessage >> setTimeout: anInteger thenDo: aBlock [
 
 	"Once a socket is associated with the message and is connected, socket.setTimeout() will be called with msecs as the first parameter."
@@ -145,7 +147,7 @@ CpNodeJSHttpOutgoingMessage >> setTimeout: anInteger thenDo: aBlock [
 	self apply: #setTimeout withArguments: { anInteger . aBlock }
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpNodeJSHttpOutgoingMessage >> socket [
 
 	"Reference to the underlying socket. Usually, users will not want to access this property.

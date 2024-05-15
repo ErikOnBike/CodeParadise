@@ -1,10 +1,12 @@
 Class {
-	#name : #CpCounterApplicationView,
-	#superclass : #CpView,
-	#category : #'CodeParadise-WebApplication-MVP-Examples'
+	#name : 'CpCounterApplicationView',
+	#superclass : 'CpView',
+	#category : 'CodeParadise-WebApplication-MVP-Examples',
+	#package : 'CodeParadise-WebApplication-MVP',
+	#tag : 'Examples'
 }
 
-{ #category : #'web resources' }
+{ #category : 'web resources' }
 CpCounterApplicationView class >> style [
 
 	<webResource: #css>
@@ -30,7 +32,7 @@ CpCounterApplicationView class >> style [
 	'
 ]
 
-{ #category : #'web resources' }
+{ #category : 'web resources' }
 CpCounterApplicationView class >> template [
 
 	<webResource: #html>

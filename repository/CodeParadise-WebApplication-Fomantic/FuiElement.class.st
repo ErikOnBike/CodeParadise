@@ -1,10 +1,12 @@
 Class {
-	#name : #FuiElement,
-	#superclass : #CpHtmlElement,
-	#category : #'CodeParadise-WebApplication-Fomantic-Elements'
+	#name : 'FuiElement',
+	#superclass : 'CpHtmlElement',
+	#category : 'CodeParadise-WebApplication-Fomantic-Elements',
+	#package : 'CodeParadise-WebApplication-Fomantic',
+	#tag : 'Elements'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FuiElement class >> allStates [
 
 	"Answer a collection (of Symbols) representing all states of the receiver"
@@ -12,7 +14,7 @@ FuiElement class >> allStates [
 	^ #()
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FuiElement class >> allTypes [
 
 	"Answer a collection (of Symbols) representing all types of the receiver"
@@ -20,7 +22,7 @@ FuiElement class >> allTypes [
 	^ #()
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FuiElement class >> allVariations [
 
 	"Answer a collection (of Symbols) representing all variations of the receiver"
@@ -28,7 +30,7 @@ FuiElement class >> allVariations [
 	^ #()
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FuiElement class >> baseElementTagName [
 
 	"Answer the HTML element tag name the receiver is based upon.
@@ -38,7 +40,7 @@ FuiElement class >> baseElementTagName [
 	self subclassResponsibility
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FuiElement class >> cssSelector [
 
 	"Answer the CSS selector (a String) which specifies the receiver should
@@ -47,7 +49,7 @@ FuiElement class >> cssSelector [
 	^ '.ui.', self elementName
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FuiElement class >> elementClass [
 
 	"Answer the minimal CSS class representing the receiver
@@ -56,7 +58,7 @@ FuiElement class >> elementClass [
 	^ 'ui ', self elementName
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FuiElement class >> elementName [
 
 	"Answer the (Fomantic) name of the receiver.
@@ -68,7 +70,7 @@ FuiElement class >> elementName [
 
 ]
 
-{ #category : #'class initialization' }
+{ #category : 'class initialization' }
 FuiElement class >> installFomanticPlugin [
 
 	"Install the Fomantic plugin which allows HTML elements to be
@@ -169,7 +171,7 @@ FuiElement class >> installFomanticPlugin [
 		});'
 ]
 
-{ #category : #'class initialization' }
+{ #category : 'class initialization' }
 FuiElement class >> loadFomantic [
 
 	"Load Fomantic library ("
@@ -180,7 +182,7 @@ FuiElement class >> loadFomantic [
 		documentAddExternalScript: 'https://cdn.jsdelivr.net/npm/fomantic-ui@2.8.7/dist/semantic.min.js'
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 FuiElement class >> new [
 
 	"Answer a new instance of the receiver.
@@ -191,7 +193,7 @@ FuiElement class >> new [
 	^ self newWithTag: self baseElementTagName
 ]
 
-{ #category : #'class initialization' }
+{ #category : 'class initialization' }
 FuiElement class >> newWithTag: aString [
 
 	"Create a new instance of the receiver using the specified tag"
@@ -201,7 +203,7 @@ FuiElement class >> newWithTag: aString [
 
 ]
 
-{ #category : #'class initialization' }
+{ #category : 'class initialization' }
 FuiElement class >> postInstall [
 
 	super postInstall.
@@ -211,7 +213,7 @@ FuiElement class >> postInstall [
 		ifFalse: [ self register ]
 ]
 
-{ #category : #'class initialization' }
+{ #category : 'class initialization' }
 FuiElement class >> register [
 
 	"Register the receiver as a Fomantic element"
@@ -221,7 +223,7 @@ FuiElement class >> register [
 
 ]
 
-{ #category : #'private - accessing' }
+{ #category : 'private - accessing' }
 FuiElement class >> storeClassFrom: aString into: classes [
 
 	"Store the specified CSS class into the Array of classes
@@ -251,7 +253,7 @@ FuiElement class >> storeClassFrom: aString into: classes [
 	^ false
 ]
 
-{ #category : #'private - accessing' }
+{ #category : 'private - accessing' }
 FuiElement >> addClass: aSymbol at: usageIndex [
 
 	"Add a HTML class name (aSymbol) to the receiver at the specified usage index.
@@ -261,7 +263,7 @@ FuiElement >> addClass: aSymbol at: usageIndex [
 	self addClass: aSymbol rejecting: #() at: usageIndex
 ]
 
-{ #category : #'private - accessing' }
+{ #category : 'private - accessing' }
 FuiElement >> addClass: aSymbol rejecting: aCollection at: usageIndex [
 
 	"Add a HTML class name (aSymbol) to the receiver at the specified usage index.
@@ -293,7 +295,7 @@ FuiElement >> addClass: aSymbol rejecting: aCollection at: usageIndex [
 	self classes: classes
 ]
 
-{ #category : #'accessing - state' }
+{ #category : 'accessing - state' }
 FuiElement >> addState: aSymbol [
 
 	"Add specified state to the receiver"
@@ -301,7 +303,7 @@ FuiElement >> addState: aSymbol [
 	self addClass: aSymbol at: 2
 ]
 
-{ #category : #'accessing - type' }
+{ #category : 'accessing - type' }
 FuiElement >> addType: aSymbol [
 
 	"Add specified type to the receiver"
@@ -309,7 +311,7 @@ FuiElement >> addType: aSymbol [
 	self addClass: aSymbol at: 1
 ]
 
-{ #category : #'accessing - variation' }
+{ #category : 'accessing - variation' }
 FuiElement >> addVariation: aSymbol [
 
 	"Add specified variation to the receiver"
@@ -317,7 +319,7 @@ FuiElement >> addVariation: aSymbol [
 	self addClass: aSymbol at: 3
 ]
 
-{ #category : #'private - accessing' }
+{ #category : 'private - accessing' }
 FuiElement >> classes [
 
 	"Answer an Array with an OrderedCollection of class names (Symbols) of the receiver as elements.
@@ -337,7 +339,7 @@ FuiElement >> classes [
 
 ]
 
-{ #category : #'private - accessing' }
+{ #category : 'private - accessing' }
 FuiElement >> classes: anArray [
 
 	"Update the HTML class attribute of the receiver using the class names
@@ -364,7 +366,7 @@ FuiElement >> classes: anArray [
 			printClasses: (anArray at: 3) on: stream ])
 ]
 
-{ #category : #'private - accessing' }
+{ #category : 'private - accessing' }
 FuiElement >> classesFrom: aString [
 
 	| classes readStream |
@@ -400,7 +402,7 @@ FuiElement >> classesFrom: aString [
 	^ classes
 ]
 
-{ #category : #'private - testing' }
+{ #category : 'private - testing' }
 FuiElement >> hasClass: aSymbol at: usageIndex [
 
 	"Answer whether a HTML class name (aSymbol) is present on the receiver
@@ -411,7 +413,7 @@ FuiElement >> hasClass: aSymbol at: usageIndex [
 		includes: aSymbol
 ]
 
-{ #category : #'testing - variation' }
+{ #category : 'testing - variation' }
 FuiElement >> hasVariation: aSymbol [
 
 	"Answer whether the receiver is in the specified variation"
@@ -419,7 +421,7 @@ FuiElement >> hasVariation: aSymbol [
 	^ self hasClass: aSymbol at: 3
 ]
 
-{ #category : #'testing - state' }
+{ #category : 'testing - state' }
 FuiElement >> isInState: aSymbol [
 
 	"Answer whether the receiver is in the specified state"
@@ -427,7 +429,7 @@ FuiElement >> isInState: aSymbol [
 	^ self hasClass: aSymbol at: 2
 ]
 
-{ #category : #'testing - type' }
+{ #category : 'testing - type' }
 FuiElement >> isType: aSymbol [
 
 	"Answer whether the receiver is in the specified type"
@@ -435,7 +437,7 @@ FuiElement >> isType: aSymbol [
 	^ self hasClass: aSymbol at: 1
 ]
 
-{ #category : #'private - behavior' }
+{ #category : 'private - behavior' }
 FuiElement >> performOnElement: behavior [
 
 	"Perform the specified behavior (a Dictionary or Symbol) on the receiver's element"
@@ -443,7 +445,7 @@ FuiElement >> performOnElement: behavior [
 	^ self performOnElement: behavior as: self class elementName
 ]
 
-{ #category : #'private - behavior' }
+{ #category : 'private - behavior' }
 FuiElement >> performOnElement: behavior as: type [
 
 	"Perform the specified behavior (a Dictionary or Symbol) on the receiver's element with the specified type (a Symbol)"
@@ -453,7 +455,7 @@ FuiElement >> performOnElement: behavior as: type [
 
 ]
 
-{ #category : #'private - accessing' }
+{ #category : 'private - accessing' }
 FuiElement >> printClasses: aCollection on: aStream [
 
 	"Print all HTML class names (Symbols) in the Collection on the specified stream"
@@ -464,7 +466,7 @@ FuiElement >> printClasses: aCollection on: aStream [
 			nextPutAll: each ]
 ]
 
-{ #category : #'private - accessing' }
+{ #category : 'private - accessing' }
 FuiElement >> removeClass: aSymbol at: usageIndex [
 
 	"Remove a HTML class name (aSymbol) from the receiver at the specified usage index.
@@ -482,7 +484,7 @@ FuiElement >> removeClass: aSymbol at: usageIndex [
 	self classes: classes
 ]
 
-{ #category : #'accessing - state' }
+{ #category : 'accessing - state' }
 FuiElement >> removeState: aSymbol [
 
 	"Remove specified state from the receiver"
@@ -490,7 +492,7 @@ FuiElement >> removeState: aSymbol [
 	self removeClass: aSymbol at: 2
 ]
 
-{ #category : #'accessing - type' }
+{ #category : 'accessing - type' }
 FuiElement >> removeType: aSymbol [
 
 	"Remove specified type from the receiver"
@@ -498,7 +500,7 @@ FuiElement >> removeType: aSymbol [
 	self removeClass: aSymbol at: 1
 ]
 
-{ #category : #'accessing - variation' }
+{ #category : 'accessing - variation' }
 FuiElement >> removeVariation: aSymbol [
 
 	"Remove specified variation from the receiver"
@@ -507,7 +509,7 @@ FuiElement >> removeVariation: aSymbol [
 
 ]
 
-{ #category : #'accessing - variation' }
+{ #category : 'accessing - variation' }
 FuiElement >> removeVariations: aCollection [
 
 	"Remove specified variations from the receiver"
@@ -515,7 +517,7 @@ FuiElement >> removeVariations: aCollection [
 	self addClass: nil rejecting: aCollection at: 3
 ]
 
-{ #category : #'accessing - state' }
+{ #category : 'accessing - state' }
 FuiElement >> setState: aSymbol ofStates: aCollection [
 
 	"Add specified state to the receiver replacing any occurence of states
@@ -525,7 +527,7 @@ FuiElement >> setState: aSymbol ofStates: aCollection [
 	self addClass: aSymbol rejecting: aCollection at: 2
 ]
 
-{ #category : #'accessing - type' }
+{ #category : 'accessing - type' }
 FuiElement >> setType: aSymbol ofTypes: aCollection [
 
 	"Add specified type to the receiver replacing any occurence of types
@@ -535,7 +537,7 @@ FuiElement >> setType: aSymbol ofTypes: aCollection [
 	self addClass: aSymbol rejecting: aCollection at: 1
 ]
 
-{ #category : #'accessing - variation' }
+{ #category : 'accessing - variation' }
 FuiElement >> setVariation: aSymbol ofVariations: aCollection [
 
 	"Add specified variation to the receiver replacing any occurence of variation
@@ -546,7 +548,7 @@ FuiElement >> setVariation: aSymbol ofVariations: aCollection [
 
 ]
 
-{ #category : #'accessing - state' }
+{ #category : 'accessing - state' }
 FuiElement >> states [
 
 	"Answer the state values of the receiver"
@@ -554,13 +556,13 @@ FuiElement >> states [
 	^ self classes at: 2
 ]
 
-{ #category : #'private - accessing' }
+{ #category : 'private - accessing' }
 FuiElement >> storeClassFrom: aString into: classes [
 
 	^ self class storeClassFrom: aString into: classes
 ]
 
-{ #category : #'accessing - type' }
+{ #category : 'accessing - type' }
 FuiElement >> types [
 
 	"Answer the type values of the receiver"
@@ -568,7 +570,7 @@ FuiElement >> types [
 	^ self classes at: 1
 ]
 
-{ #category : #'accessing - variation' }
+{ #category : 'accessing - variation' }
 FuiElement >> variations [
 
 	"Answer the variation values of the receiver"

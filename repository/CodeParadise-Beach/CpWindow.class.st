@@ -1,15 +1,17 @@
 Class {
-	#name : #CpWindow,
-	#superclass : #CpView,
+	#name : 'CpWindow',
+	#superclass : 'CpView',
 	#instVars : [
 		'position',
 		'width',
 		'height'
 	],
-	#category : #'CodeParadise-Beach-Components'
+	#category : 'CodeParadise-Beach-Components',
+	#package : 'CodeParadise-Beach',
+	#tag : 'Components'
 }
 
-{ #category : #'web resources' }
+{ #category : 'web resources' }
 CpWindow class >> style [
 
 	<webResource: #css>
@@ -151,7 +153,7 @@ CpWindow class >> style [
 		}'
 ]
 
-{ #category : #'web resources' }
+{ #category : 'web resources' }
 CpWindow class >> template [
 
 	<webResource: #html>
@@ -172,7 +174,7 @@ CpWindow class >> template [
 		</div>'
 ]
 
-{ #category : #announcing }
+{ #category : 'announcing' }
 CpWindow >> announceUpdate [
 
 	"Announce the receiver updated"
@@ -180,19 +182,19 @@ CpWindow >> announceUpdate [
 	self serverAnnounce: (CpWindowUpdate position: position width: width height: height)
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpWindow >> calculatedHeight [
 
 	^ self propertyAt: #offsetHeight
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpWindow >> calculatedWidth [
 
 	^ self propertyAt: #offsetWidth
 ]
 
-{ #category : #actions }
+{ #category : 'actions' }
 CpWindow >> close [
 
 	"Send close announcement to server"
@@ -200,13 +202,13 @@ CpWindow >> close [
 	self serverAnnounce: CpWindowClose
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpWindow >> defaultPosition [
 
 	^ 100 @ 100
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 CpWindow >> handleWindowClick: aPrimaryClickEvent [
 
 	"Set focus to the Window if it isn't already the top window"
@@ -216,7 +218,7 @@ CpWindow >> handleWindowClick: aPrimaryClickEvent [
 	self focus
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 CpWindow >> handleWindowMove: aDragEvent [
 
 	"Move the receiver according to the specified DragEvent.
@@ -237,7 +239,7 @@ CpWindow >> handleWindowMove: aDragEvent [
 	aDragEvent ifEnded: [ self announceUpdate ]
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 CpWindow >> handleWindowResizeCorner: aDragEvent [
 
 	| point resizeCorner |
@@ -264,7 +266,7 @@ CpWindow >> handleWindowResizeCorner: aDragEvent [
 	aDragEvent ifEnded: [ self announceUpdate ]
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 CpWindow >> handleWindowResizeSide: aDragEvent [
 
 	| point resizeSide |
@@ -295,13 +297,13 @@ CpWindow >> handleWindowResizeSide: aDragEvent [
 	aDragEvent ifEnded: [ self announceUpdate ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpWindow >> height [
 
 	^ height
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 CpWindow >> initialize [
 
 	| closeControl |
@@ -321,7 +323,7 @@ CpWindow >> initialize [
 
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 CpWindow >> initializeShadowRoot [
 
 	super initializeShadowRoot.
@@ -334,7 +336,7 @@ CpWindow >> initializeShadowRoot [
 		when: CpDragEvent send: #handleWindowMove: to: self
 ]
 
-{ #category : #updating }
+{ #category : 'updating' }
 CpWindow >> makeTopWindow [
 
 	"Make receiver top window by making it the last child within its parent"
@@ -344,25 +346,25 @@ CpWindow >> makeTopWindow [
 	self parent appendChild: self remove
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpWindow >> minHeight [
 
 	^ 64
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpWindow >> minWidth [
 
 	^ 128
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpWindow >> position [
 
 	^ position
 ]
 
-{ #category : #rendering }
+{ #category : 'rendering' }
 CpWindow >> render [
 
 	self
@@ -371,13 +373,13 @@ CpWindow >> render [
 		renderHeight
 ]
 
-{ #category : #rendering }
+{ #category : 'rendering' }
 CpWindow >> renderHeight [
 
 	self styleAt: #height put: (height ifNotNil: [ height asString, 'px' ])
 ]
 
-{ #category : #rendering }
+{ #category : 'rendering' }
 CpWindow >> renderHeight: anInteger [
 
 	"Set the height of the receiver to anInteger. anInteger might be nil in which case the
@@ -387,7 +389,7 @@ CpWindow >> renderHeight: anInteger [
 	self renderHeight
 ]
 
-{ #category : #rendering }
+{ #category : 'rendering' }
 CpWindow >> renderPosition [
 
 	self
@@ -396,14 +398,14 @@ CpWindow >> renderPosition [
 
 ]
 
-{ #category : #rendering }
+{ #category : 'rendering' }
 CpWindow >> renderPosition: aPoint [
 
 	position := aPoint.
 	self renderPosition
 ]
 
-{ #category : #rendering }
+{ #category : 'rendering' }
 CpWindow >> renderTitle: anElement [
 
 	self
@@ -411,13 +413,13 @@ CpWindow >> renderTitle: anElement [
 		atSlotNamed: #title
 ]
 
-{ #category : #rendering }
+{ #category : 'rendering' }
 CpWindow >> renderWidth [
 
 	self styleAt: #width put: (width ifNotNil: [ width asString, 'px' ])
 ]
 
-{ #category : #rendering }
+{ #category : 'rendering' }
 CpWindow >> renderWidth: anInteger [
 
 	"Set the width of the receiver to anInteger. anInteger might be nil in which case the
@@ -427,7 +429,7 @@ CpWindow >> renderWidth: anInteger [
 	self renderWidth
 ]
 
-{ #category : #rendering }
+{ #category : 'rendering' }
 CpWindow >> renderWidth: widthInteger height: heightInteger [
 
 	"Convenience method to set both width and height.
@@ -438,13 +440,13 @@ CpWindow >> renderWidth: widthInteger height: heightInteger [
 		renderHeight: heightInteger
 ]
 
-{ #category : #updating }
+{ #category : 'updating' }
 CpWindow >> updateBottomSide: positionBottom [
 
 	height := (positionBottom - position y) max: self minHeight
 ]
 
-{ #category : #updating }
+{ #category : 'updating' }
 CpWindow >> updateLeftSide: positionLeft [
 
 	width ifNil: [ width := self calculatedWidth ].
@@ -458,13 +460,13 @@ CpWindow >> updateLeftSide: positionLeft [
 			width := self minWidth ]
 ]
 
-{ #category : #updating }
+{ #category : 'updating' }
 CpWindow >> updateRightSide: positionRight [
 
 	width := (positionRight - position x) max: self minWidth
 ]
 
-{ #category : #updating }
+{ #category : 'updating' }
 CpWindow >> updateTopSide: positionTop [
 
 	height ifNil: [ height := self calculatedHeight ].
@@ -478,7 +480,7 @@ CpWindow >> updateTopSide: positionTop [
 			height := self minHeight ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpWindow >> width [
 
 	^ width

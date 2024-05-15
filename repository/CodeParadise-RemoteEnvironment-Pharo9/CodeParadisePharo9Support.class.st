@@ -1,10 +1,11 @@
 Class {
-	#name : #CodeParadisePharo9Support,
-	#superclass : #Object,
-	#category : #'CodeParadise-RemoteEnvironment-Pharo9'
+	#name : 'CodeParadisePharo9Support',
+	#superclass : 'Object',
+	#category : 'CodeParadise-RemoteEnvironment-Pharo9',
+	#package : 'CodeParadise-RemoteEnvironment-Pharo9'
 }
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 CodeParadisePharo9Support class >> initialize [
 
 	"Add Pharo9 (and up) specific classes"

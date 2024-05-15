@@ -1,10 +1,12 @@
 Class {
-	#name : #CpTokenizer,
-	#superclass : #Object,
-	#category : #'CodeParadise-Beach-Editor'
+	#name : 'CpTokenizer',
+	#superclass : 'Object',
+	#category : 'CodeParadise-Beach-Editor',
+	#package : 'CodeParadise-Beach',
+	#tag : 'Editor'
 }
 
-{ #category : #api }
+{ #category : 'api' }
 CpTokenizer class >> getTokenFromNode: aNode [
 
 	"Answer the token represented by the specified node (no specific class required, node should be created through #createTokenNodeFor:)"
@@ -12,7 +14,7 @@ CpTokenizer class >> getTokenFromNode: aNode [
 	self subclassResponsibility
 ]
 
-{ #category : #api }
+{ #category : 'api' }
 CpTokenizer class >> getValueFromNode: aNode [
 
 	"Answer the value of the token represented by the specified node (no specific class required, node should be
@@ -21,7 +23,7 @@ CpTokenizer class >> getValueFromNode: aNode [
 	self subclassResponsibility
 ]
 
-{ #category : #api }
+{ #category : 'api' }
 CpTokenizer >> createTokenNodeFor: aSymbol [
 
 	"Create and answer a node (no specific class required) representing the specified token (a Symbol)"
@@ -29,7 +31,7 @@ CpTokenizer >> createTokenNodeFor: aSymbol [
 	self subclassResponsibility
 ]
 
-{ #category : #api }
+{ #category : 'api' }
 CpTokenizer >> createTokenNodeFor: aSymbol with: aString [
 
 	"Create and answer a node (no specific class required) representing the specified token (a Symbol)

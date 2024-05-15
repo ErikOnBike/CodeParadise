@@ -1,13 +1,15 @@
 Class {
-	#name : #CpSmalltalkParser,
-	#superclass : #CpCodeParser,
+	#name : 'CpSmalltalkParser',
+	#superclass : 'CpCodeParser',
 	#instVars : [
 		'context'
 	],
-	#category : #'CodeParadise-Beach-Editor'
+	#category : 'CodeParadise-Beach-Editor',
+	#package : 'CodeParadise-Beach',
+	#tag : 'Editor'
 }
 
-{ #category : #'parsing - private' }
+{ #category : 'parsing - private' }
 CpSmalltalkParser >> parseDigitsWithRadix: anInteger into: aStream [
 
 	"Scan for digits of specified radix and store result on specified stream.
@@ -28,7 +30,7 @@ CpSmalltalkParser >> parseDigitsWithRadix: anInteger into: aStream [
 	^ value
 ]
 
-{ #category : #parsing }
+{ #category : 'parsing' }
 CpSmalltalkParser >> parseLiteral [
 
 	"Scan for literal token and answer if such token is found.
@@ -55,7 +57,7 @@ CpSmalltalkParser >> parseLiteral [
 	^ false
 ]
 
-{ #category : #'parsing - private' }
+{ #category : 'parsing - private' }
 CpSmalltalkParser >> parseLiteralArray [
 
 	"Scan for literal array token and answer if such token is found.
@@ -64,7 +66,7 @@ CpSmalltalkParser >> parseLiteralArray [
 	^ false
 ]
 
-{ #category : #'parsing - private' }
+{ #category : 'parsing - private' }
 CpSmalltalkParser >> parseLiteralCharacter [
 
 	"Scan for literal character token and answer if such token is found.
@@ -73,7 +75,7 @@ CpSmalltalkParser >> parseLiteralCharacter [
 	^ false
 ]
 
-{ #category : #'parsing - private' }
+{ #category : 'parsing - private' }
 CpSmalltalkParser >> parseLiteralNumber [
 
 	"Scan for literal number token and answer if such token is found.
@@ -123,7 +125,7 @@ CpSmalltalkParser >> parseLiteralNumber [
 	^ true
 ]
 
-{ #category : #'parsing - private' }
+{ #category : 'parsing - private' }
 CpSmalltalkParser >> parseLiteralString [
 
 	"Scan for literal string token and answer if such token is found.
@@ -132,7 +134,7 @@ CpSmalltalkParser >> parseLiteralString [
 	^ false
 ]
 
-{ #category : #'parsing - private' }
+{ #category : 'parsing - private' }
 CpSmalltalkParser >> parseLiteralSymbol [
 
 	"Scan for literal symbol token and answer if such token is found.

@@ -1,22 +1,24 @@
 Class {
-	#name : #CpCodeParser,
-	#superclass : #CpParser,
-	#category : #'CodeParadise-Beach-Editor'
+	#name : 'CpCodeParser',
+	#superclass : 'CpParser',
+	#category : 'CodeParadise-Beach-Editor',
+	#package : 'CodeParadise-Beach',
+	#tag : 'Editor'
 }
 
-{ #category : #support }
+{ #category : 'support' }
 CpCodeParser >> createTokenNodeFor: aSymbol [
 
 	^ self tokens add: (self tokenizer createTokenNodeFor: aSymbol)
 ]
 
-{ #category : #support }
+{ #category : 'support' }
 CpCodeParser >> createTokenNodeFor: aSymbol with: aString [
 
 	^ self tokens add: (self tokenizer createTokenNodeFor: aSymbol with: aString)
 ]
 
-{ #category : #'parsing - private' }
+{ #category : 'parsing - private' }
 CpCodeParser >> parseWhitespace [
 
 	"Scan for whitespace tokens and answer if such tokens are found.

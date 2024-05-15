@@ -42,15 +42,17 @@ from the View). The examples are based on some of my concrete subclasses.
 
 "
 Class {
-	#name : #CpBasicEvent,
-	#superclass : #Announcement,
+	#name : 'CpBasicEvent',
+	#superclass : 'Announcement',
 	#instVars : [
 		'id'
 	],
-	#category : #'CodeParadise-WebApplication-MVP-Support'
+	#category : 'CodeParadise-WebApplication-MVP-Support',
+	#package : 'CodeParadise-WebApplication-MVP',
+	#tag : 'Support'
 }
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 CpBasicEvent class >> id: aSymbol [
 
 	^ self basicNew
@@ -58,7 +60,7 @@ CpBasicEvent class >> id: aSymbol [
 		yourself
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 CpBasicEvent class >> new [
 
 	"Do not instantiate events directly"
@@ -66,7 +68,7 @@ CpBasicEvent class >> new [
 	self error: 'Please create new instances for ', self name, ' using method ', #id:
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 CpBasicEvent >> handlesAnnouncement: anAnnouncement [
 
 	"Answer whether the receiver handles the specified announcement.
@@ -82,13 +84,13 @@ CpBasicEvent >> handlesAnnouncement: anAnnouncement [
 		and: [ self id = anAnnouncement id ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpBasicEvent >> id [
 
 	^ id
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 CpBasicEvent >> initializeWithId: aSymbol [
 
 	self initialize.
@@ -96,7 +98,7 @@ CpBasicEvent >> initializeWithId: aSymbol [
 	id := aSymbol
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 CpBasicEvent >> printOn: aStream [
 
 	aStream

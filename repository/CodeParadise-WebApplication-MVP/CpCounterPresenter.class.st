@@ -2,30 +2,32 @@
 I am a Presenter for a Counter Model.
 "
 Class {
-	#name : #CpCounterPresenter,
-	#superclass : #CpPresenter,
-	#category : #'CodeParadise-WebApplication-MVP-Examples'
+	#name : 'CpCounterPresenter',
+	#superclass : 'CpPresenter',
+	#category : 'CodeParadise-WebApplication-MVP-Examples',
+	#package : 'CodeParadise-WebApplication-MVP',
+	#tag : 'Examples'
 }
 
-{ #category : #model }
+{ #category : 'model' }
 CpCounterPresenter >> modelDecrease [
 
 	self model decrease
 ]
 
-{ #category : #model }
+{ #category : 'model' }
 CpCounterPresenter >> modelIncrease [
 
 	self model increase
 ]
 
-{ #category : #view }
+{ #category : 'view' }
 CpCounterPresenter >> renderView [
 
 	self view renderValue: self model value
 ]
 
-{ #category : #view }
+{ #category : 'view' }
 CpCounterPresenter >> viewCreated [
 
 	super viewCreated.

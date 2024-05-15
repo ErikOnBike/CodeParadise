@@ -1,13 +1,15 @@
 Class {
-	#name : #CpSelectionChanged,
-	#superclass : #Announcement,
+	#name : 'CpSelectionChanged',
+	#superclass : 'Announcement',
 	#instVars : [
 		'element'
 	],
-	#category : #'CodeParadise-Beach-Components'
+	#category : 'CodeParadise-Beach-Components',
+	#package : 'CodeParadise-Beach',
+	#tag : 'Components'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpSelectionChanged class >> element: anElement [
 
 	^ self new
@@ -15,13 +17,13 @@ CpSelectionChanged class >> element: anElement [
 		yourself
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpSelectionChanged >> element [
 
 	^ element
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpSelectionChanged >> element: anElement [
 
 	element := anElement

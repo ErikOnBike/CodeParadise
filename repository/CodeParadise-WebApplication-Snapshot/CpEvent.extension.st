@@ -1,6 +1,6 @@
-Extension { #name : #CpEvent }
+Extension { #name : 'CpEvent' }
 
-{ #category : #'*CodeParadise-WebApplication-Snapshot' }
+{ #category : '*CodeParadise-WebApplication-Snapshot' }
 CpEvent class >> postSnapshot [
 
 	super postSnapshot.
@@ -8,7 +8,7 @@ CpEvent class >> postSnapshot [
 	self registerEventClass: self forType: self type
 ]
 
-{ #category : #'*CodeParadise-WebApplication-Snapshot' }
+{ #category : '*CodeParadise-WebApplication-Snapshot' }
 CpEvent class >> postSnapshotOnce [
 
 	"Restart the event process"
@@ -16,7 +16,7 @@ CpEvent class >> postSnapshotOnce [
 	self registerEventProcess
 ]
 
-{ #category : #'*CodeParadise-WebApplication-Snapshot' }
+{ #category : '*CodeParadise-WebApplication-Snapshot' }
 CpEvent class >> preSnapshotOnce [
 
 	"Stop current handling of Events"

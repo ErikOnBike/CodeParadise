@@ -1,16 +1,18 @@
 Class {
-	#name : #CpIntroductionPresentationWebApplication,
-	#superclass : #CpPresentationWebApplication,
-	#category : 'CodeParadise-WebApplication-Presentation-Examples'
+	#name : 'CpIntroductionPresentationWebApplication',
+	#superclass : 'CpPresentationWebApplication',
+	#category : 'CodeParadise-WebApplication-Presentation-Examples',
+	#package : 'CodeParadise-WebApplication-Presentation',
+	#tag : 'Examples'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpIntroductionPresentationWebApplication class >> app [
 
 	^ #presentation
 ]
 
-{ #category : #model }
+{ #category : 'model' }
 CpIntroductionPresentationWebApplication >> createPresentationModel [
 
 	"Create and answer the PresentationModel for the presentation"
@@ -31,7 +33,7 @@ CpIntroductionPresentationWebApplication >> createPresentationModel [
 		yourself
 ]
 
-{ #category : #slides }
+{ #category : 'slides' }
 CpIntroductionPresentationWebApplication >> explainApplicationSlide [
 
 	^ CpTitledSlide new
@@ -76,7 +78,7 @@ CpIntroductionPresentationWebApplication >> explainApplicationSlide [
 		yourself
 ]
 
-{ #category : #slides }
+{ #category : 'slides' }
 CpIntroductionPresentationWebApplication >> explainMvpApplicationSlide [
 
 	^ CpTitledSlide new
@@ -124,7 +126,7 @@ CpIntroductionPresentationWebApplication >> explainMvpApplicationSlide [
 		yourself
 ]
 
-{ #category : #slides }
+{ #category : 'slides' }
 CpIntroductionPresentationWebApplication >> explanationSlide [
 
 	^ CpTitledSlide new
@@ -146,7 +148,7 @@ CpIntroductionPresentationWebApplication >> explanationSlide [
 		yourself
 ]
 
-{ #category : #slides }
+{ #category : 'slides' }
 CpIntroductionPresentationWebApplication >> finalSlide [
 
 	^ CpTitledSlide new
@@ -174,7 +176,7 @@ CpIntroductionPresentationWebApplication >> finalSlide [
 		yourself
 ]
 
-{ #category : #slides }
+{ #category : 'slides' }
 CpIntroductionPresentationWebApplication >> introductionSlide [
 
 	^ CpFullPageSlide new
@@ -185,7 +187,7 @@ CpIntroductionPresentationWebApplication >> introductionSlide [
 		yourself
 ]
 
-{ #category : #actions }
+{ #category : 'actions' }
 CpIntroductionPresentationWebApplication >> load [
 
 	"Convenience implementation to show the receiver (ie Application)
@@ -199,7 +201,7 @@ CpIntroductionPresentationWebApplication >> load [
 	self inspect
 ]
 
-{ #category : #slides }
+{ #category : 'slides' }
 CpIntroductionPresentationWebApplication >> modelClassSlide [
 
 	^ CpTitledSlide new
@@ -236,7 +238,7 @@ CpIntroductionPresentationWebApplication >> modelClassSlide [
 		yourself
 ]
 
-{ #category : #slides }
+{ #category : 'slides' }
 CpIntroductionPresentationWebApplication >> mvpWebApplicationClassSlide [
 
 	^ CpTitledSlide new
@@ -272,7 +274,7 @@ CpIntroductionPresentationWebApplication >> mvpWebApplicationClassSlide [
 		yourself
 ]
 
-{ #category : #slides }
+{ #category : 'slides' }
 CpIntroductionPresentationWebApplication >> mvpWebClientBehaviorClassSlide [
 
 	^ CpTitledSlide new
@@ -323,7 +325,7 @@ CpIntroductionPresentationWebApplication >> mvpWebClientBehaviorClassSlide [
 		yourself
 ]
 
-{ #category : #actions }
+{ #category : 'actions' }
 CpIntroductionPresentationWebApplication >> openInspector [
 
 	"Open an Inspector on the receiver and answer it"
@@ -331,7 +333,7 @@ CpIntroductionPresentationWebApplication >> openInspector [
 	^ self inspector
 ]
 
-{ #category : #slides }
+{ #category : 'slides' }
 CpIntroductionPresentationWebApplication >> presenterClassSlide [
 
 	^ CpTitledSlide new
@@ -372,19 +374,19 @@ CpIntroductionPresentationWebApplication >> presenterClassSlide [
 		yourself
 ]
 
-{ #category : #actions }
+{ #category : 'actions' }
 CpIntroductionPresentationWebApplication >> showNextSlide [
 
 	self presentation nextSlide
 ]
 
-{ #category : #actions }
+{ #category : 'actions' }
 CpIntroductionPresentationWebApplication >> showPreviousSlide [
 
 	self presentation previousSlide
 ]
 
-{ #category : #slides }
+{ #category : 'slides' }
 CpIntroductionPresentationWebApplication >> slideIndexSlide [
 
 	^ CpTitledSlide new
@@ -425,7 +427,7 @@ CpIntroductionPresentationWebApplication >> slideIndexSlide [
 		yourself
 ]
 
-{ #category : #slides }
+{ #category : 'slides' }
 CpIntroductionPresentationWebApplication >> viewClassSlide [
 
 	^ CpTitledSlide new
@@ -450,7 +452,7 @@ CpIntroductionPresentationWebApplication >> viewClassSlide [
 		yourself
 ]
 
-{ #category : #slides }
+{ #category : 'slides' }
 CpIntroductionPresentationWebApplication >> webApplicationClassSlide [
 
 	^ CpTitledSlide new

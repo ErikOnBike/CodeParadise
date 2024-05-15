@@ -9,12 +9,14 @@ See https://developer.mozilla.org/en-US/docs/Web/API/MediaTrackConstraints
 
 "
 Class {
-	#name : #CpBrowserMediaTrackConstrainRange,
-	#superclass : #CpJavaScriptObject,
-	#category : #'CodeParadise-Browser-Support-MediaStreams'
+	#name : 'CpBrowserMediaTrackConstrainRange',
+	#superclass : 'CpJavaScriptObject',
+	#category : 'CodeParadise-Browser-Support-MediaStreams',
+	#package : 'CodeParadise-Browser-Support',
+	#tag : 'MediaStreams'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpBrowserMediaTrackConstrainRange class >> getClassName [
 
 	"Browsers implement me as a regular object/dictionary, therefore override the class I represent"
@@ -22,7 +24,7 @@ CpBrowserMediaTrackConstrainRange class >> getClassName [
 	^ 'Object'
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpBrowserMediaTrackConstrainRange >> exact [
 
 	"Depending on whether a ConstrainDouble or ConstrainULong is used:
@@ -33,7 +35,7 @@ CpBrowserMediaTrackConstrainRange >> exact [
 	^ self propertyAt: #exact
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpBrowserMediaTrackConstrainRange >> exact: anObject [
 
 	"Depending on whether a ConstrainDouble or ConstrainULong is used:
@@ -44,7 +46,7 @@ CpBrowserMediaTrackConstrainRange >> exact: anObject [
 	self propertyAt: #exact put: anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpBrowserMediaTrackConstrainRange >> ideal [
 
 	"Depending on whether a ConstrainDouble or ConstrainULong is used:
@@ -55,7 +57,7 @@ CpBrowserMediaTrackConstrainRange >> ideal [
 	^ self propertyAt: #ideal
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpBrowserMediaTrackConstrainRange >> ideal: anObject [
 
 	"Depending on whether a ConstrainDouble or ConstrainULong is used:
@@ -66,7 +68,7 @@ CpBrowserMediaTrackConstrainRange >> ideal: anObject [
 	self propertyAt: #ideal put: anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpBrowserMediaTrackConstrainRange >> max [
 
 	"Depending on whether a ConstrainDouble or ConstrainULong is used:
@@ -77,7 +79,7 @@ CpBrowserMediaTrackConstrainRange >> max [
 	^ self propertyAt: #max
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpBrowserMediaTrackConstrainRange >> max: anObject [
 
 	"Depending on whether a ConstrainDouble or ConstrainULong is used:
@@ -88,7 +90,7 @@ CpBrowserMediaTrackConstrainRange >> max: anObject [
 	self propertyAt: #max put: anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpBrowserMediaTrackConstrainRange >> min [
 
 	"Depending on whether a ConstrainDouble or ConstrainULong is used:
@@ -99,7 +101,7 @@ CpBrowserMediaTrackConstrainRange >> min [
 	^ self propertyAt: #min
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpBrowserMediaTrackConstrainRange >> min: anObject [
 
 	"Depending on whether a ConstrainDouble or ConstrainULong is used:

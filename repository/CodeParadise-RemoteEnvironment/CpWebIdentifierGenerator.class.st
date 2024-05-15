@@ -53,8 +53,8 @@ A total of 92 bytes are present in the collection of allowable bytes.
 
 "
 Class {
-	#name : #CpWebIdentifierGenerator,
-	#superclass : #Object,
+	#name : 'CpWebIdentifierGenerator',
+	#superclass : 'Object',
 	#instVars : [
 		'length',
 		'randomGenerator'
@@ -65,10 +65,12 @@ Class {
 	#classInstVars : [
 		'random'
 	],
-	#category : #'CodeParadise-RemoteEnvironment-Support'
+	#category : 'CodeParadise-RemoteEnvironment-Support',
+	#package : 'CodeParadise-RemoteEnvironment',
+	#tag : 'Support'
 }
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 CpWebIdentifierGenerator class >> defaultLength [
 
 	"Answer the default length of an identifier.
@@ -79,7 +81,7 @@ CpWebIdentifierGenerator class >> defaultLength [
 	^ 6
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 CpWebIdentifierGenerator class >> defaultRandomGenerator [
 
 	^ Smalltalk at: #SecureRandom
@@ -89,7 +91,7 @@ CpWebIdentifierGenerator class >> defaultRandomGenerator [
 					Smalltalk at: #Random ifAbsent: [ self error: 'No Random generator present in image.' ] ] ]
 ]
 
-{ #category : #'class initialization' }
+{ #category : 'class initialization' }
 CpWebIdentifierGenerator class >> initialize [
 
 	"Initialize receiver"
@@ -102,19 +104,19 @@ CpWebIdentifierGenerator class >> initialize [
 		93 to: 126 do: [ :each | stream nextPut: (Character value: each) ] ]
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 CpWebIdentifierGenerator class >> new [
 
 	^self new: self defaultLength on: self defaultRandomGenerator new
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 CpWebIdentifierGenerator class >> new: length [
 
 	^ self new: length on: self defaultRandomGenerator new
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 CpWebIdentifierGenerator class >> new: length on: aRandomGenerator [
 
 	^ self basicNew
@@ -124,13 +126,13 @@ CpWebIdentifierGenerator class >> new: length on: aRandomGenerator [
 		yourself
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 CpWebIdentifierGenerator class >> on: aRandomGenerator [
 
 	^ self new: self defaultLength on: aRandomGenerator
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpWebIdentifierGenerator >> generate [
 
 	"Generate an identifier usable as HTML identifier (without further decoding of double quotes)"
@@ -145,7 +147,7 @@ CpWebIdentifierGenerator >> generate [
 	^ bytes asString
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpWebIdentifierGenerator >> generateSatisfying: aBlock [
 
 	"Repeatedly generate an identifier until aBlock accepts it"
@@ -157,26 +159,26 @@ CpWebIdentifierGenerator >> generateSatisfying: aBlock [
 	^ identifier
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpWebIdentifierGenerator >> length [
 
 	^ length
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpWebIdentifierGenerator >> length: anInteger [
 
 	anInteger strictlyPositive ifFalse: [ self error: 'Only positive lengths are allowed.' ].
 	length := anInteger
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpWebIdentifierGenerator >> randomGenerator [
 
 	^ randomGenerator
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpWebIdentifierGenerator >> randomGenerator: aRandomGenerator [
 
 	randomGenerator := aRandomGenerator

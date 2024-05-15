@@ -1,16 +1,18 @@
 Class {
-	#name : #CpWindowTitlePresenter,
-	#superclass : #CpPresenter,
-	#category : #'CodeParadise-Beach-Presenters'
+	#name : 'CpWindowTitlePresenter',
+	#superclass : 'CpPresenter',
+	#category : 'CodeParadise-Beach-Presenters',
+	#package : 'CodeParadise-Beach',
+	#tag : 'Presenters'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpWindowTitlePresenter class >> defaultViewClass [
 
 	^ CpWindowTitle
 ]
 
-{ #category : #view }
+{ #category : 'view' }
 CpWindowTitlePresenter >> renderView [
 
 	self view renderTitle: self model title

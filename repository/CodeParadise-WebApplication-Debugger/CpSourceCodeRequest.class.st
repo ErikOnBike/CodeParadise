@@ -1,15 +1,17 @@
 Class {
-	#name : #CpSourceCodeRequest,
-	#superclass : #Announcement,
+	#name : 'CpSourceCodeRequest',
+	#superclass : 'Announcement',
 	#instVars : [
 		'className',
 		'selector',
 		'openBrowser'
 	],
-	#category : #'CodeParadise-WebApplication-Debugger-Announcements'
+	#category : 'CodeParadise-WebApplication-Debugger-Announcements',
+	#package : 'CodeParadise-WebApplication-Debugger',
+	#tag : 'Announcements'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpSourceCodeRequest class >> className: aString selector: aSymbol openBrowser: aBoolean [
 
 	^ self basicNew
@@ -17,13 +19,13 @@ CpSourceCodeRequest class >> className: aString selector: aSymbol openBrowser: a
 		yourself
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpSourceCodeRequest class >> context: aContext [
 
 	^ self context: aContext openBrowser: false
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpSourceCodeRequest class >> context: aContext openBrowser: aBoolean [
 
 	| method |
@@ -33,19 +35,19 @@ CpSourceCodeRequest class >> context: aContext openBrowser: aBoolean [
 	^ self className: method methodClass name selector: method selector openBrowser: aBoolean
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpSourceCodeRequest class >> openBrowserOnContext: aContext [
 
 	^ self context: aContext openBrowser: true
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpSourceCodeRequest >> className [
 
 	^ className
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 CpSourceCodeRequest >> initializeWithClassName: aString selector: aSymbol openBrowser: aBoolean [
 
 	self initialize.
@@ -55,13 +57,13 @@ CpSourceCodeRequest >> initializeWithClassName: aString selector: aSymbol openBr
 	openBrowser := aBoolean
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpSourceCodeRequest >> openBrowser [
 
 	^ openBrowser
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpSourceCodeRequest >> selector [
 
 	^ selector

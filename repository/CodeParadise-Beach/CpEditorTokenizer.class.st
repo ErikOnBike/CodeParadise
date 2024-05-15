@@ -1,10 +1,12 @@
 Class {
-	#name : #CpEditorTokenizer,
-	#superclass : #CpTokenizer,
-	#category : #'CodeParadise-Beach-Editor'
+	#name : 'CpEditorTokenizer',
+	#superclass : 'CpTokenizer',
+	#category : 'CodeParadise-Beach-Editor',
+	#package : 'CodeParadise-Beach',
+	#tag : 'Editor'
 }
 
-{ #category : #api }
+{ #category : 'api' }
 CpEditorTokenizer class >> getTokenFromNode: aNode [
 
 	"Answer the token represented by the specified node (no specific class required, node should be created
@@ -13,7 +15,7 @@ CpEditorTokenizer class >> getTokenFromNode: aNode [
 	^ aNode key
 ]
 
-{ #category : #api }
+{ #category : 'api' }
 CpEditorTokenizer class >> getValueFromNode: aNode [
 
 	"Answer the value of the token represented by the specified node (no specific class required, node should be
@@ -22,7 +24,7 @@ CpEditorTokenizer class >> getValueFromNode: aNode [
 	^ aNode value
 ]
 
-{ #category : #api }
+{ #category : 'api' }
 CpEditorTokenizer >> createTokenNodeFor: aSymbol [
 
 	"Create and answer a node (no specific class required) representing the specified token (a Symbol)"
@@ -30,7 +32,7 @@ CpEditorTokenizer >> createTokenNodeFor: aSymbol [
 	^ self createTokenNodeFor: aSymbol with: nil
 ]
 
-{ #category : #api }
+{ #category : 'api' }
 CpEditorTokenizer >> createTokenNodeFor: aSymbol with: aString [
 
 	"Create and answer a node (no specific class required) representing the specified token (a Symbol)

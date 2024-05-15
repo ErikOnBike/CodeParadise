@@ -1,10 +1,12 @@
 Class {
-	#name : #CpNodeJSHttpServer,
-	#superclass : #CpNodeJSNetServer,
-	#category : #'CodeParadise-NodeJS-Support-Http'
+	#name : 'CpNodeJSHttpServer',
+	#superclass : 'CpNodeJSNetServer',
+	#category : 'CodeParadise-NodeJS-Support-Http',
+	#package : 'CodeParadise-NodeJS-Support',
+	#tag : 'Http'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpNodeJSHttpServer class >> module [
 
 	"Answer the module the receiver is part of"
@@ -12,7 +14,7 @@ CpNodeJSHttpServer class >> module [
 	^ CpNodeJSHttp
 ]
 
-{ #category : #'class initialization' }
+{ #category : 'class initialization' }
 CpNodeJSHttpServer class >> postInstallOnce [
 
 	"Pre-load the relevant classes"
@@ -21,7 +23,7 @@ CpNodeJSHttpServer class >> postInstallOnce [
 	CpNodeJSHttpServerResponse beLoaded
 ]
 
-{ #category : #operations }
+{ #category : 'operations' }
 CpNodeJSHttpServer >> closeAllConnections [
 
 	"Closes all connections connected to this server."
@@ -29,7 +31,7 @@ CpNodeJSHttpServer >> closeAllConnections [
 	self apply: #closeAllConnections
 ]
 
-{ #category : #operations }
+{ #category : 'operations' }
 CpNodeJSHttpServer >> closeIdleConnections [
 
 	"Closes all connections connected to this server which are not sending a request or waiting for a response."
@@ -37,7 +39,7 @@ CpNodeJSHttpServer >> closeIdleConnections [
 	self apply: #closeIdleConnections
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpNodeJSHttpServer >> headersTimeout [
 
 	"Limit the amount of time the parser will wait to receive the complete HTTP headers.
@@ -51,7 +53,7 @@ CpNodeJSHttpServer >> headersTimeout [
 	^ self propertyAt: #headersTimeout
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpNodeJSHttpServer >> headersTimeout: anInteger [
 
 	"Limit the amount of time (milliseconds) the parser will wait to receive the complete HTTP headers.
@@ -65,7 +67,7 @@ CpNodeJSHttpServer >> headersTimeout: anInteger [
 	self propertyAt: #headersTimeout put: anInteger
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpNodeJSHttpServer >> keepAliveTimeout [
 
 	"The number of milliseconds of inactivity a server needs to wait for additional incoming data,
@@ -85,7 +87,7 @@ CpNodeJSHttpServer >> keepAliveTimeout [
 	^ self propertyAt: #keepAliveTimeout
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpNodeJSHttpServer >> keepAliveTimeout: anInteger [
 
 	"The number of milliseconds of inactivity a server needs to wait for additional incoming data,
@@ -105,7 +107,7 @@ CpNodeJSHttpServer >> keepAliveTimeout: anInteger [
 	self propertyAt: #keepAliveTimeout put: anInteger
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpNodeJSHttpServer >> maxHeadersCount [
 
 	"Limits maximum incoming headers count. If set to 0, no limit will be applied.
@@ -114,7 +116,7 @@ CpNodeJSHttpServer >> maxHeadersCount [
 	^ self propertyAt: #maxHeadersCount
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpNodeJSHttpServer >> maxHeadersCount: anInteger [
 
 	"Limits maximum incoming headers count. If set to 0, no limit will be applied.
@@ -123,7 +125,7 @@ CpNodeJSHttpServer >> maxHeadersCount: anInteger [
 	self propertyAt: #maxHeadersCount put: anInteger
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpNodeJSHttpServer >> maxRequestsPerSocket [
 
 	"The maximum number of requests socket can handle before closing keep alive connection.
@@ -139,7 +141,7 @@ CpNodeJSHttpServer >> maxRequestsPerSocket [
 	^ self propertyAt: #maxRequestsPerSocket
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpNodeJSHttpServer >> maxRequestsPerSocket: anInteger [
 
 	"The maximum number of requests socket can handle before closing keep alive connection.
@@ -155,7 +157,7 @@ CpNodeJSHttpServer >> maxRequestsPerSocket: anInteger [
 	self propertyAt: #maxRequestsPerSocket put: anInteger
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 CpNodeJSHttpServer >> onCheckContinueDo: aBlock [
 
 	"Emitted each time a request with an 'HTTP Expect: 100-continue' is received. If this event is not
@@ -177,7 +179,7 @@ CpNodeJSHttpServer >> onCheckContinueDo: aBlock [
 	^ self addEventListener: #checkContinue handler: aBlock
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 CpNodeJSHttpServer >> onCheckExpectationDo: aBlock [
 
 	"Emitted each time a request with an 'HTTP Expect' header is received, where the value is not
@@ -196,7 +198,7 @@ CpNodeJSHttpServer >> onCheckExpectationDo: aBlock [
 	^ self addEventListener: #checkExpectation handler: aBlock
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 CpNodeJSHttpServer >> onClientErrorDo: aBlock [
 
 	"If a client connection emits an 'error' event, it will be forwarded here. Listener of this
@@ -222,7 +224,7 @@ CpNodeJSHttpServer >> onClientErrorDo: aBlock [
 	^ self addEventListener: #clientError handler: aBlock
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 CpNodeJSHttpServer >> onConnectDo: aBlock [
 
 	"Emitted each time a client requests an HTTP CONNECT method. If this event is not listened for,
@@ -245,7 +247,7 @@ CpNodeJSHttpServer >> onConnectDo: aBlock [
 	^ self addEventListener: #connect handler: aBlock
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 CpNodeJSHttpServer >> onDropRequestDo: aBlock [
 
 	"When the number of requests on a socket reaches the threshold of server.maxRequestsPerSocket,
@@ -261,7 +263,7 @@ CpNodeJSHttpServer >> onDropRequestDo: aBlock [
 	^ self addEventListener: #dropRequest handler: aBlock
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 CpNodeJSHttpServer >> onRequestDo: aBlock [
 
 	"Emitted each time there is a request. There may be multiple requests per connection (in the case of
@@ -277,7 +279,7 @@ CpNodeJSHttpServer >> onRequestDo: aBlock [
 	^ self addEventListener: #request handler: aBlock
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 CpNodeJSHttpServer >> onUpgradeDo: aBlock [
 
 	"Emitted each time a client requests an HTTP upgrade. Listening to this event is optional and
@@ -300,7 +302,7 @@ CpNodeJSHttpServer >> onUpgradeDo: aBlock [
 	^ self addEventListener: #upgrade handler: aBlock
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 CpNodeJSHttpServer >> removeCheckContinueHandler: aFunction [
 
 	"Remove an earlier installed event listener
@@ -309,7 +311,7 @@ CpNodeJSHttpServer >> removeCheckContinueHandler: aFunction [
 	self removeEventListener: #checkContinue handler: aFunction
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 CpNodeJSHttpServer >> removeCheckExpectationHandler: aFunction [
 
 	"Remove an earlier installed event listener
@@ -318,7 +320,7 @@ CpNodeJSHttpServer >> removeCheckExpectationHandler: aFunction [
 	self removeEventListener: #checkExpectation handler: aFunction
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 CpNodeJSHttpServer >> removeClientErrorHandler: aFunction [
 
 	"Remove an earlier installed event listener
@@ -327,7 +329,7 @@ CpNodeJSHttpServer >> removeClientErrorHandler: aFunction [
 	self removeEventListener: #clientError handler: aFunction
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 CpNodeJSHttpServer >> removeConnectHandler: aFunction [
 
 	"Remove an earlier installed event listener
@@ -336,7 +338,7 @@ CpNodeJSHttpServer >> removeConnectHandler: aFunction [
 	self removeEventListener: #connect handler: aFunction
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 CpNodeJSHttpServer >> removeDropRequestHandler: aFunction [
 
 	"Remove an earlier installed event listener
@@ -345,7 +347,7 @@ CpNodeJSHttpServer >> removeDropRequestHandler: aFunction [
 	self removeEventListener: #dropRequest handler: aFunction
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 CpNodeJSHttpServer >> removeRequestHandler: aFunction [
 
 	"Remove an earlier installed event listener
@@ -354,7 +356,7 @@ CpNodeJSHttpServer >> removeRequestHandler: aFunction [
 	self removeEventListener: #request handler: aFunction
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 CpNodeJSHttpServer >> removeUpgradeHandler: aFunction [
 
 	"Remove an earlier installed event listener
@@ -363,7 +365,7 @@ CpNodeJSHttpServer >> removeUpgradeHandler: aFunction [
 	self removeEventListener: #upgrade handler: aFunction
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpNodeJSHttpServer >> requestTimeout [
 
 	"Sets the timeout value in milliseconds for receiving the entire request from the client.
@@ -376,7 +378,7 @@ CpNodeJSHttpServer >> requestTimeout [
 	^ self propertyAt: #requestTimeout
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpNodeJSHttpServer >> requestTimeout: anInteger [
 
 	"Sets the timeout value in milliseconds for receiving the entire request from the client.
@@ -389,13 +391,13 @@ CpNodeJSHttpServer >> requestTimeout: anInteger [
 	self propertyAt: #requestTimeout put: anInteger
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpNodeJSHttpServer >> setTimeout: anInteger [
 
 	self setTimeout: anInteger thenDo: nil
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpNodeJSHttpServer >> setTimeout: anInteger thenDo: aBlock [
 
 	"Sets the timeout value (milliseconds) for sockets, and emits a 'timeout' event on the Server
@@ -412,7 +414,7 @@ CpNodeJSHttpServer >> setTimeout: anInteger thenDo: aBlock [
 	self apply: #setTimeout withArguments: { anInteger . aBlock }
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpNodeJSHttpServer >> timeout [
 
 	"The number of milliseconds of inactivity before a socket is presumed to have timed out.
@@ -427,7 +429,7 @@ CpNodeJSHttpServer >> timeout [
 	^ self propertyAt: #timeout
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpNodeJSHttpServer >> timeout: anInteger [
 
 	"The number of milliseconds of inactivity before a socket is presumed to have timed out.

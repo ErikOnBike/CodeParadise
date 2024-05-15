@@ -1,1 +1,1 @@
-Package { #name : #'CodeParadise-WebApplication-Fomantic' }
+Package { #name : 'CodeParadise-WebApplication-Fomantic' }

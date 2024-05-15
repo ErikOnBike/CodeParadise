@@ -1,13 +1,15 @@
 Class {
-	#name : #CpClientError,
-	#superclass : #Announcement,
+	#name : 'CpClientError',
+	#superclass : 'Announcement',
 	#instVars : [
 		'description'
 	],
-	#category : #'CodeParadise-RemoteEnvironment-Core-Announcements'
+	#category : 'CodeParadise-RemoteEnvironment-Core-Announcements',
+	#package : 'CodeParadise-RemoteEnvironment',
+	#tag : 'Core-Announcements'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpClientError class >> description: aString [
 
 	^ self new
@@ -15,19 +17,19 @@ CpClientError class >> description: aString [
 		yourself
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpClientError >> description [
 
 	^ description
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpClientError >> description: aString [
 
 	description := aString
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 CpClientError >> printOn: aStream [
 
 	aStream

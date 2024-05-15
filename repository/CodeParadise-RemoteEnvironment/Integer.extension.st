@@ -1,6 +1,6 @@
-Extension { #name : #Integer }
+Extension { #name : 'Integer' }
 
-{ #category : #'*CodeParadise-RemoteEnvironment' }
+{ #category : '*CodeParadise-RemoteEnvironment' }
 Integer >> byteSize [
 	"Answer the size of receiver in bytes"
 
@@ -8,7 +8,7 @@ Integer >> byteSize [
 	^ self bytesCount
 ]
 
-{ #category : #'*CodeParadise-RemoteEnvironment' }
+{ #category : '*CodeParadise-RemoteEnvironment' }
 Integer >> cpEncodeWith: anEncoder [
 
 	<clientEnvironment>

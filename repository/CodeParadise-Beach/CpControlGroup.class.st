@@ -1,17 +1,19 @@
 Class {
-	#name : #CpControlGroup,
-	#superclass : #CpControl,
-	#category : #'CodeParadise-Beach-Components'
+	#name : 'CpControlGroup',
+	#superclass : 'CpControl',
+	#category : 'CodeParadise-Beach-Components',
+	#package : 'CodeParadise-Beach',
+	#tag : 'Components'
 }
 
-{ #category : #testing }
+{ #category : 'testing' }
 CpControlGroup class >> isAbstractTag [
 
 	"The method is present to indicate the receiver is abstract.
 	This method will NOT be evaluated to decide if the receiver is abstract."
 ]
 
-{ #category : #'web resources' }
+{ #category : 'web resources' }
 CpControlGroup class >> style [
 
 	<webResource: #css>
@@ -23,7 +25,7 @@ CpControlGroup class >> style [
 		}'
 ]
 
-{ #category : #'web resources' }
+{ #category : 'web resources' }
 CpControlGroup class >> template [
 
 	<webResource: #html>
@@ -31,7 +33,7 @@ CpControlGroup class >> template [
 	^ '<slot></slot>'
 ]
 
-{ #category : #'adding/removing' }
+{ #category : 'adding/removing' }
 CpControlGroup >> appendChild: childElement [
 
 	"Append group element to the receiver"
@@ -43,7 +45,7 @@ CpControlGroup >> appendChild: childElement [
 	^ super appendChild: childElement
 ]
 
-{ #category : #'adding/removing' }
+{ #category : 'adding/removing' }
 CpControlGroup >> insertChild: childElement before: siblingElement [
 
 	"Insert group member before the specified sibling into the receiver"
@@ -55,7 +57,7 @@ CpControlGroup >> insertChild: childElement before: siblingElement [
 	^ super insertChild: childElement before: siblingElement
 ]
 
-{ #category : #'adding/removing' }
+{ #category : 'adding/removing' }
 CpControlGroup >> replaceChild: childElement with: replacementElement [
 
 	"Replace the specified existing group member with specified replacement"

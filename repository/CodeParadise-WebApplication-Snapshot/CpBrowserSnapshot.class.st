@@ -10,12 +10,14 @@ interactive webapplication.
 
 "
 Class {
-	#name : #CpBrowserSnapshot,
-	#superclass : #Object,
-	#category : #'CodeParadise-WebApplication-Snapshot-Core'
+	#name : 'CpBrowserSnapshot',
+	#superclass : 'Object',
+	#category : 'CodeParadise-WebApplication-Snapshot-Core',
+	#package : 'CodeParadise-WebApplication-Snapshot',
+	#tag : 'Core'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpBrowserSnapshot class >> collectWebComponentsFrom: anElement into: aDictionary [
 
 	"Collect the receiver and all children which are WebComponents into the specified Dictionary.
@@ -29,7 +31,7 @@ CpBrowserSnapshot class >> collectWebComponentsFrom: anElement into: aDictionary
 	anElement children do: [ :each | self collectWebComponentsFrom: each into: aDictionary ]
 ]
 
-{ #category : #'web resources' }
+{ #category : 'web resources' }
 CpBrowserSnapshot class >> downloadImageScript [
 
 	"Answer a JavaScript download image script.
@@ -50,7 +52,7 @@ Squeak.filePut = function(name, buffer) {
 };'
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 CpBrowserSnapshot class >> loadDOMPlugin [
 
 	"Load the DOM plugin by executing a trivial primitive from the plugin"
@@ -59,7 +61,7 @@ CpBrowserSnapshot class >> loadDOMPlugin [
 	self primitiveFailed
 ]
 
-{ #category : #'class initialization' }
+{ #category : 'class initialization' }
 CpBrowserSnapshot class >> postInstall [
 
 	super postInstall.
@@ -75,7 +77,7 @@ CpBrowserSnapshot class >> postInstall [
 		when: (CpKeyDownEvent fromString: 'X-S-s') send: #saveSnapshot: to: self
 ]
 
-{ #category : #'class initialization' }
+{ #category : 'class initialization' }
 CpBrowserSnapshot class >> postSnapshotOnce [
 
 	"Add script to allow reattaching Smalltalk CpDomElements to browser DOM elements"
@@ -83,7 +85,7 @@ CpBrowserSnapshot class >> postSnapshotOnce [
 	CpHtmlElement documentAddScript: self privateAttachToIdScript
 ]
 
-{ #category : #'web resources' }
+{ #category : 'web resources' }
 CpBrowserSnapshot class >> privateAttachToIdScript [
 
 	"Answer a JavaScript primitive for attaching a Smalltalk CpDomElement to a browser DOM element.
@@ -104,7 +106,7 @@ Squeak.externalModules.CpDOMPlugin["primitiveDomElementPrivateAttachToId:"] = fu
 };'
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 CpBrowserSnapshot class >> saveSnapshot: aKeyEvent [
 
 	"Save a snapshot of the image"
@@ -118,7 +120,7 @@ CpBrowserSnapshot class >> saveSnapshot: aKeyEvent [
 		Processor activeProcess terminate ] asContext  priority: 2) resume
 ]
 
-{ #category : #actions }
+{ #category : 'actions' }
 CpBrowserSnapshot class >> snapshotImage [
 
 	"Snapshot the image for later restarting it with the current content.

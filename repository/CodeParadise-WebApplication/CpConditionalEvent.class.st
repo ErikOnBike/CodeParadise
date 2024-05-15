@@ -18,16 +18,18 @@ below as well.
 		when: CpClickEvent noModifiers send: #onClickWithoutModifiers: to: self.
 "
 Class {
-	#name : #CpConditionalEvent,
-	#superclass : #Object,
+	#name : 'CpConditionalEvent',
+	#superclass : 'Object',
 	#instVars : [
 		'eventClass',
 		'conditions'
 	],
-	#category : #'CodeParadise-WebApplication-Events-Custom'
+	#category : 'CodeParadise-WebApplication-Events-Custom',
+	#package : 'CodeParadise-WebApplication',
+	#tag : 'Events-Custom'
 }
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 CpConditionalEvent class >> eventClass: anEventClass [
 
 	"Answer an instance of the receiver representing an Announcement class for the specified
@@ -45,7 +47,7 @@ CpConditionalEvent class >> eventClass: anEventClass [
 		yourself
 ]
 
-{ #category : #combining }
+{ #category : 'combining' }
 CpConditionalEvent >> & aCondition [
 
 	"Add the specified condition to the receiver.
@@ -56,7 +58,7 @@ CpConditionalEvent >> & aCondition [
 	^ self
 ]
 
-{ #category : #copying }
+{ #category : 'copying' }
 CpConditionalEvent >> , anEvent [
 
 	"Combine the receiver with the specified event.
@@ -68,7 +70,7 @@ CpConditionalEvent >> , anEvent [
 	^ AnnouncementSet with: self with: anEvent
 ]
 
-{ #category : #combining }
+{ #category : 'combining' }
 CpConditionalEvent >> addCondition: aCondition [
 
 	"Add the specified condition to the receiver"
@@ -77,7 +79,7 @@ CpConditionalEvent >> addCondition: aCondition [
 		add: aCondition
 ]
 
-{ #category : #announcing }
+{ #category : 'announcing' }
 CpConditionalEvent >> addListenerTo: anElement [
 
 	"Add an event listener to the specified element.
@@ -93,7 +95,7 @@ CpConditionalEvent >> addListenerTo: anElement [
 	eventClass addListenerTo: anElement withConditions: (conditions ifNil: [ #() ])
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 CpConditionalEvent >> areConditionsMetForEvent: anEvent [
 
 	"Answer a Boolean indicating whether all conditions are met for the specified event"
@@ -104,7 +106,7 @@ CpConditionalEvent >> areConditionsMetForEvent: anEvent [
 		ifNil: [ true ]
 ]
 
-{ #category : #announcing }
+{ #category : 'announcing' }
 CpConditionalEvent >> handlesAnnouncement: anEvent [
 
 	"Answer whether the receiver handles the specified announcement.
@@ -118,7 +120,7 @@ CpConditionalEvent >> handlesAnnouncement: anEvent [
 		and: [ self areConditionsMetForEvent: anEvent ]
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 CpConditionalEvent >> initializeWithEventClass: anEventClass [
 
 	self initialize.
@@ -126,7 +128,7 @@ CpConditionalEvent >> initializeWithEventClass: anEventClass [
 	eventClass := anEventClass
 ]
 
-{ #category : #limiting }
+{ #category : 'limiting' }
 CpConditionalEvent >> only [
 
 	"Answer an instance of the receiver without any 'special' conditions"
@@ -134,7 +136,7 @@ CpConditionalEvent >> only [
 	eventClass addConditionsToDenySpecialsTo: self
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 CpConditionalEvent >> printOn: aStream [
 
 	aStream
@@ -143,7 +145,7 @@ CpConditionalEvent >> printOn: aStream [
 		print: (conditions ifNil: [ #() ])
 ]
 
-{ #category : #announcing }
+{ #category : 'announcing' }
 CpConditionalEvent >> removeListenerFrom: anElement [
 
 	"Remove an event listener from the specified element.

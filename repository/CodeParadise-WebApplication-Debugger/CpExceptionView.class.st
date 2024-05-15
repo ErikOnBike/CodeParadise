@@ -1,13 +1,15 @@
 Class {
-	#name : #CpExceptionView,
-	#superclass : #CpTemplateComponent,
+	#name : 'CpExceptionView',
+	#superclass : 'CpTemplateComponent',
 	#instVars : [
 		'exception'
 	],
-	#category : #'CodeParadise-WebApplication-Debugger-View'
+	#category : 'CodeParadise-WebApplication-Debugger-View',
+	#package : 'CodeParadise-WebApplication-Debugger',
+	#tag : 'View'
 }
 
-{ #category : #'web resources' }
+{ #category : 'web resources' }
 CpExceptionView class >> style [
 
 	<webResource: #css>
@@ -26,7 +28,7 @@ CpExceptionView class >> style [
 	}'
 ]
 
-{ #category : #'web resources' }
+{ #category : 'web resources' }
 CpExceptionView class >> template [
 
 	<webResource: #html>
@@ -37,19 +39,19 @@ CpExceptionView class >> template [
 	</div>'
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpExceptionView >> exception [
 
 	^ exception
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpExceptionView >> exception: anException [
 
 	exception := anException
 ]
 
-{ #category : #rendering }
+{ #category : 'rendering' }
 CpExceptionView >> render [
 
 	[

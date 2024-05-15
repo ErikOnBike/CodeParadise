@@ -1,6 +1,6 @@
-Extension { #name : #String }
+Extension { #name : 'String' }
 
-{ #category : #'*CodeParadise-Browser-Support' }
+{ #category : '*CodeParadise-Browser-Support' }
 String >> asBrowserClipboardItem [
 
 	<webApplicationExtension>

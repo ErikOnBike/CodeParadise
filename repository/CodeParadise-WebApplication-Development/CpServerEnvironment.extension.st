@@ -1,6 +1,6 @@
-Extension { #name : #CpServerEnvironment }
+Extension { #name : 'CpServerEnvironment' }
 
-{ #category : #'*CodeParadise-WebApplication-Development' }
+{ #category : '*CodeParadise-WebApplication-Development' }
 CpServerEnvironment >> handleError: aString [
 
 	"Handle an error with the specified description"

@@ -1,6 +1,6 @@
-Extension { #name : #CompiledMethod }
+Extension { #name : 'CompiledMethod' }
 
-{ #category : #'*CodeParadise-RemoteEnvironment' }
+{ #category : '*CodeParadise-RemoteEnvironment' }
 CompiledMethod >> bindClassVariables [
 
 	"Bind class variables to the receiver (replace literal association with class variable association).
@@ -10,7 +10,7 @@ CompiledMethod >> bindClassVariables [
 
 ]
 
-{ #category : #'*CodeParadise-RemoteEnvironment' }
+{ #category : '*CodeParadise-RemoteEnvironment' }
 CompiledMethod >> bindClassVariablesTo: aClass [
 
 	"Bind class variables to the receiver (replace literal association with the
@@ -29,7 +29,7 @@ CompiledMethod >> bindClassVariablesTo: aClass [
 
 ]
 
-{ #category : #'*CodeParadise-RemoteEnvironment' }
+{ #category : '*CodeParadise-RemoteEnvironment' }
 CompiledMethod >> cpEncodeWith: anEncoder [
 
 	<clientEnvironment>
@@ -37,7 +37,7 @@ CompiledMethod >> cpEncodeWith: anEncoder [
 	anEncoder encodeCompiledMethod: self
 ]
 
-{ #category : #'*CodeParadise-RemoteEnvironment' }
+{ #category : '*CodeParadise-RemoteEnvironment' }
 CompiledMethod >> install [
 	"Install the receiver in its Class"
 

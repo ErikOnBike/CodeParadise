@@ -1,6 +1,6 @@
-Extension { #name : #CpTransition }
+Extension { #name : 'CpTransition' }
 
-{ #category : #'*CodeParadise-WebApplication-Snapshot' }
+{ #category : '*CodeParadise-WebApplication-Snapshot' }
 CpTransition >> postSnapshotAtTickCount: anInteger [
 
 	"Move the startTick relative to specified tick count, so the transition
@@ -12,7 +12,7 @@ CpTransition >> postSnapshotAtTickCount: anInteger [
 	startTick := startTick + anInteger
 ]
 
-{ #category : #'*CodeParadise-WebApplication-Snapshot' }
+{ #category : '*CodeParadise-WebApplication-Snapshot' }
 CpTransition class >> postSnapshotOnce [
 
 	"Reset all instances with the correct tick count.
@@ -27,7 +27,7 @@ CpTransition class >> postSnapshotOnce [
 	self registerTransitionProcess
 ]
 
-{ #category : #'*CodeParadise-WebApplication-Snapshot' }
+{ #category : '*CodeParadise-WebApplication-Snapshot' }
 CpTransition >> preSnapshotAtTickCount: anInteger [
 
 	"Move the startTick relative to specified tick count, so the transition
@@ -39,7 +39,7 @@ CpTransition >> preSnapshotAtTickCount: anInteger [
 	startTick := startTick ifNotNil: [ :tick | tick - anInteger ]
 ]
 
-{ #category : #'*CodeParadise-WebApplication-Snapshot' }
+{ #category : '*CodeParadise-WebApplication-Snapshot' }
 CpTransition class >> preSnapshotOnce [
 
 	"Stop current handling of Transitions and prepare all instances to have a state which

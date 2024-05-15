@@ -1,6 +1,6 @@
-Extension { #name : #CompiledBlock }
+Extension { #name : 'CompiledBlock' }
 
-{ #category : #'*CodeParadise-RemoteEnvironment-Pharo9' }
+{ #category : '*CodeParadise-RemoteEnvironment-Pharo9' }
 CompiledBlock >> cpEncodeWith: anEncoder [
 
 	<clientEnvironment>

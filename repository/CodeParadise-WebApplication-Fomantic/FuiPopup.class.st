@@ -1,16 +1,18 @@
 Class {
-	#name : #FuiPopup,
-	#superclass : #FuiElement,
-	#category : #'CodeParadise-WebApplication-Fomantic-Elements'
+	#name : 'FuiPopup',
+	#superclass : 'FuiElement',
+	#category : 'CodeParadise-WebApplication-Fomantic-Elements',
+	#package : 'CodeParadise-WebApplication-Fomantic',
+	#tag : 'Elements'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 FuiPopup class >> baseElementTagName [
 
 	^ #div
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : 'as yet unclassified' }
 FuiPopup >> activateOnElement: anElement withOptions: aDictionary [ 
 
 	self flag: #FIXME. "Make options simpler to set, like #beInline, #beHoverable, etc.

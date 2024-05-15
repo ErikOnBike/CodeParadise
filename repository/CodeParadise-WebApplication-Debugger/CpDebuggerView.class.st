@@ -1,14 +1,16 @@
 Class {
-	#name : #CpDebuggerView,
-	#superclass : #CpTemplateComponent,
+	#name : 'CpDebuggerView',
+	#superclass : 'CpTemplateComponent',
 	#instVars : [
 		'exception',
 		'currentContext'
 	],
-	#category : #'CodeParadise-WebApplication-Debugger-View'
+	#category : 'CodeParadise-WebApplication-Debugger-View',
+	#package : 'CodeParadise-WebApplication-Debugger',
+	#tag : 'View'
 }
 
-{ #category : #private }
+{ #category : 'private' }
 CpDebuggerView class >> close [
 
 	"Close first (and only) instance of the receiver"
@@ -17,7 +19,7 @@ CpDebuggerView class >> close [
 		ifNotNil: [ :debugger | debugger destroy ]
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 CpDebuggerView class >> debug: anException [
 
 	"Use or create first instance of the receiver to debug the specified exception"
@@ -26,13 +28,13 @@ CpDebuggerView class >> debug: anException [
 		debug: anException
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 CpDebuggerView class >> exceptionAnnounced: anExceptionAnnouncement [
 
 	self debug: anExceptionAnnouncement exception
 ]
 
-{ #category : #'class initialization' }
+{ #category : 'class initialization' }
 CpDebuggerView class >> postInstallOnce [
 
 	"Register the receiver so we can send messages to it and start listening for exception announcements"
@@ -44,14 +46,14 @@ CpDebuggerView class >> postInstallOnce [
 	CpExceptionAnnouncer when: CpExceptionAnnouncement send: #exceptionAnnounced: to: self
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 CpDebuggerView class >> sourceCodeResponse: aDictionary [
 
 	self first
 		ifNotNil: [ :debugger | debugger renderSourceCode: aDictionary ]
 ]
 
-{ #category : #'web resources' }
+{ #category : 'web resources' }
 CpDebuggerView class >> style [
 
 	<webResource: #css>
@@ -126,7 +128,7 @@ CpDebuggerView class >> style [
 	}'
 ]
 
-{ #category : #'web resources' }
+{ #category : 'web resources' }
 CpDebuggerView class >> template [
 
 	<webResource: #html>
@@ -141,21 +143,21 @@ CpDebuggerView class >> template [
 	</div>'
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpDebuggerView >> callStackLineView [
 
 	^ CpContextLineView all
 		detect: [ :each | each context == currentContext ] ifNone: [ nil ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpDebuggerView >> currentContextView [
 
 	^ (self firstChildAtSlotNamed: #context)
 		ifNil: [ self appendChild: CpContextView new atSlotNamed: #context ]
 ]
 
-{ #category : #actions }
+{ #category : 'actions' }
 CpDebuggerView >> debug: anException [
 
 	"Debugging can be done on single instance only, therefore stop if debugging is already taking place.
@@ -177,20 +179,20 @@ CpDebuggerView >> debug: anException [
 	self render
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpDebuggerView >> exception [
 
 	^ exception
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpDebuggerView >> exceptionView [
 
 	^ (self firstChildAtSlotNamed: #exception)
 		ifNil: [ self appendChild: CpExceptionView new atSlotNamed: #exception ]
 ]
 
-{ #category : #halting }
+{ #category : 'halting' }
 CpDebuggerView >> halt [
 
 	"Show a debugger with a number of interesting objects
@@ -204,13 +206,13 @@ CpDebuggerView >> halt [
 	self error: 'Manually interrupted'
 ]
 
-{ #category : #actions }
+{ #category : 'actions' }
 CpDebuggerView >> hide [
 
 	self styleAt: #display put: #none
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 CpDebuggerView >> initialize [
 
 	"Make myself top view, but do not show by default"
@@ -225,7 +227,7 @@ CpDebuggerView >> initialize [
 "
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 CpDebuggerView >> initializeShadowRoot [
 
 	super initializeShadowRoot.
@@ -234,7 +236,7 @@ CpDebuggerView >> initializeShadowRoot [
 		when: CpClickEvent basicPrimary send: #close to: self class
 ]
 
-{ #category : #rendering }
+{ #category : 'rendering' }
 CpDebuggerView >> render [
 
 	[
@@ -245,7 +247,7 @@ CpDebuggerView >> render [
 	] on: Error do: [ :error | self errorCr: 'Error in the debugger: ', error printString ]
 ]
 
-{ #category : #rendering }
+{ #category : 'rendering' }
 CpDebuggerView >> renderCallStack [
 
 	| lastContext |
@@ -258,7 +260,7 @@ CpDebuggerView >> renderCallStack [
 		lastContext := lastContext sender ]
 ]
 
-{ #category : #rendering }
+{ #category : 'rendering' }
 CpDebuggerView >> renderCallStackLine: aContext [
 
 	(self appendChild: CpContextLineView new atSlotNamed: #'call-stack')
@@ -268,7 +270,7 @@ CpDebuggerView >> renderCallStackLine: aContext [
 		render
 ]
 
-{ #category : #rendering }
+{ #category : 'rendering' }
 CpDebuggerView >> renderCurrentContext [
 
 	self currentContextView
@@ -276,7 +278,7 @@ CpDebuggerView >> renderCurrentContext [
 		render
 ]
 
-{ #category : #rendering }
+{ #category : 'rendering' }
 CpDebuggerView >> renderException [
 
 	self exceptionView
@@ -284,19 +286,19 @@ CpDebuggerView >> renderException [
 		render
 ]
 
-{ #category : #rendering }
+{ #category : 'rendering' }
 CpDebuggerView >> renderSourceCode: aDictionary [
 
 	self currentContextView renderSourceCode: aDictionary
 ]
 
-{ #category : #actions }
+{ #category : 'actions' }
 CpDebuggerView >> show [
 
 	self styleAt: #display put: #block
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 CpDebuggerView >> updateCurrentContext: aClickEvent [
 
 	| contextLineView selectedContext |

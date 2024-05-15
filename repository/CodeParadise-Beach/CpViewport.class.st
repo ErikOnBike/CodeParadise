@@ -1,13 +1,15 @@
 Class {
-	#name : #CpViewport,
-	#superclass : #CpView,
+	#name : 'CpViewport',
+	#superclass : 'CpView',
 	#instVars : [
 		'position'
 	],
-	#category : #'CodeParadise-Beach-Components'
+	#category : 'CodeParadise-Beach-Components',
+	#package : 'CodeParadise-Beach',
+	#tag : 'Components'
 }
 
-{ #category : #'web resources' }
+{ #category : 'web resources' }
 CpViewport class >> style [
 
 	<webResource: #css>
@@ -22,7 +24,7 @@ CpViewport class >> style [
 		}'
 ]
 
-{ #category : #'web resources' }
+{ #category : 'web resources' }
 CpViewport class >> template [
 
 	<webResource: #html>
@@ -32,13 +34,13 @@ CpViewport class >> template [
 		</div>'
 ]
 
-{ #category : #announcing }
+{ #category : 'announcing' }
 CpViewport >> announceUpdate [
 
 	self serverAnnounce: (CpViewportUpdate position: position)
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 CpViewport >> handleDropEvent: aDropEvent [
 
 	"Handle the drop event on the receiver.
@@ -49,7 +51,7 @@ CpViewport >> handleDropEvent: aDropEvent [
 	self firstChild onDrop: aDropEvent
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 CpViewport >> handleViewportMove: aDragEvent [
 
 	"Move the receiver according to the specified DragEvent"
@@ -67,7 +69,7 @@ CpViewport >> handleViewportMove: aDragEvent [
 	aDragEvent ifEnded: [ self announceUpdate ]
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 CpViewport >> handleWheelEvent: aWheelEvent [
 
 	self renderPosition: position + aWheelEvent delta.
@@ -78,7 +80,7 @@ CpViewport >> handleWheelEvent: aWheelEvent [
 	self announceUpdate
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 CpViewport >> initialize [
 
 	super initialize.
@@ -95,27 +97,27 @@ CpViewport >> initialize [
 		when: CpDropEvent send: #handleDropEvent: to: self
 ]
 
-{ #category : #rendering }
+{ #category : 'rendering' }
 CpViewport >> render [
 
 	self renderPosition
 ]
 
-{ #category : #rendering }
+{ #category : 'rendering' }
 CpViewport >> renderPosition [
 
 	(self shadowedElementWithId: #container)
 		styleAt: #transform put: 'translate(', position x negated printString, 'px,', position y negated printString, 'px)'
 ]
 
-{ #category : #rendering }
+{ #category : 'rendering' }
 CpViewport >> renderPosition: aPoint [
 
 	position := aPoint.
 	self renderPosition
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 CpViewport >> resetPosition [
 
 	| from |
@@ -128,7 +130,7 @@ CpViewport >> resetPosition [
 		start
 ]
 
-{ #category : #transforming }
+{ #category : 'transforming' }
 CpViewport >> translateToLocalPoint: screenPoint [
 
 	"Answer the Point which represents the position of the screenPoint relative to the receiver"

@@ -1,10 +1,12 @@
 Class {
-	#name : #CpDemoApplicationCodeContentView,
-	#superclass : #CpDemoCodeContentView,
-	#category : 'CodeParadise-WebApplication-Presentation-Examples'
+	#name : 'CpDemoApplicationCodeContentView',
+	#superclass : 'CpDemoCodeContentView',
+	#category : 'CodeParadise-WebApplication-Presentation-Examples',
+	#package : 'CodeParadise-WebApplication-Presentation',
+	#tag : 'Examples'
 }
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 CpDemoApplicationCodeContentView >> initialize [
 
 	super initialize.
@@ -16,7 +18,7 @@ CpDemoApplicationCodeContentView >> initialize [
 		atSlotNamed: #actions
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 CpDemoApplicationCodeContentView >> openInspector [
 
 	self serverAnnounce: CpDemoCodeOpenInspector

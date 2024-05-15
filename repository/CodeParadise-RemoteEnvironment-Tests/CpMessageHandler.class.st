@@ -6,16 +6,17 @@ Two type of handlers can be installed:
 
 "
 Class {
-	#name : #CpMessageHandler,
-	#superclass : #Object,
+	#name : 'CpMessageHandler',
+	#superclass : 'Object',
 	#instVars : [
 		'handlers',
 		'messageChannel'
 	],
-	#category : #'CodeParadise-RemoteEnvironment-Tests'
+	#category : 'CodeParadise-RemoteEnvironment-Tests',
+	#package : 'CodeParadise-RemoteEnvironment-Tests'
 }
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 CpMessageHandler >> handleMessageReceived: aByteArray [
 
 	"Handle the message event"
@@ -26,7 +27,7 @@ CpMessageHandler >> handleMessageReceived: aByteArray [
 		ifNil: [ (self handlers at: #close ifAbsent: [ ^ self ]) value ]
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 CpMessageHandler >> handleMessageReceived: aByteArray on: aMessageChannel [
 
 	"Handle the message event"
@@ -36,13 +37,13 @@ CpMessageHandler >> handleMessageReceived: aByteArray on: aMessageChannel [
 	self handleMessageReceived: aByteArray
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpMessageHandler >> handlers [
 
 	^ handlers
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 CpMessageHandler >> initialize [
 
 	super initialize.
@@ -50,13 +51,13 @@ CpMessageHandler >> initialize [
 	handlers := Dictionary new
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpMessageHandler >> messageChannel [
 
 	^ messageChannel
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 CpMessageHandler >> onClose: zeroArgumentsBlock [
 
 	"Set the close handler"
@@ -64,7 +65,7 @@ CpMessageHandler >> onClose: zeroArgumentsBlock [
 	self handlers at: #close put: zeroArgumentsBlock
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 CpMessageHandler >> onMessage: oneArgumentBlock [
 
 	"Set the message handler.
@@ -73,7 +74,7 @@ CpMessageHandler >> onMessage: oneArgumentBlock [
 	self handlers at: #message put: oneArgumentBlock
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 CpMessageHandler >> release [
 
 	handlers := nil.

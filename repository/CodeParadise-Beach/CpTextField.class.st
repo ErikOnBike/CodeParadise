@@ -1,10 +1,12 @@
 Class {
-	#name : #CpTextField,
-	#superclass : #CpInputControl,
-	#category : #'CodeParadise-Beach-Components'
+	#name : 'CpTextField',
+	#superclass : 'CpInputControl',
+	#category : 'CodeParadise-Beach-Components',
+	#package : 'CodeParadise-Beach',
+	#tag : 'Components'
 }
 
-{ #category : #'web resources' }
+{ #category : 'web resources' }
 CpTextField class >> style [
 
 	<webResource: #css>
@@ -44,7 +46,7 @@ CpTextField class >> style [
 		}'
 ]
 
-{ #category : #'web resources' }
+{ #category : 'web resources' }
 CpTextField class >> template [
 
 	<webResource: #html>
@@ -52,7 +54,7 @@ CpTextField class >> template [
 	^ '<slot></slot>'
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 CpTextField >> initialize [
 
 	super initialize.
@@ -62,13 +64,13 @@ CpTextField >> initialize [
 		yourself)
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpTextField >> text [
 
 	^ self firstChild propertyAt: #value
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpTextField >> text: aString [
 
 	self firstChild propertyAt: #value put: aString

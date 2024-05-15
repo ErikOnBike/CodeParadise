@@ -1,15 +1,17 @@
 Class {
-	#name : #CpWindowUpdate,
-	#superclass : #Announcement,
+	#name : 'CpWindowUpdate',
+	#superclass : 'Announcement',
 	#instVars : [
 		'position',
 		'width',
 		'height'
 	],
-	#category : #'CodeParadise-Beach-Components'
+	#category : 'CodeParadise-Beach-Components',
+	#package : 'CodeParadise-Beach',
+	#tag : 'Components'
 }
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 CpWindowUpdate class >> position: aPoint width: widthInteger height: heightInteger [
 
 	"Answer an instance of the receiver with specified properties. Width and height might be nil."
@@ -19,13 +21,13 @@ CpWindowUpdate class >> position: aPoint width: widthInteger height: heightInteg
 		yourself
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpWindowUpdate >> height [
 
 	^ height
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 CpWindowUpdate >> initializeWithPosition: aPoint width: widthInteger height: heightInteger [
 
 	self initialize.
@@ -35,13 +37,13 @@ CpWindowUpdate >> initializeWithPosition: aPoint width: widthInteger height: hei
 	height := heightInteger
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpWindowUpdate >> position [
 
 	^ position
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpWindowUpdate >> width [
 
 	^ width

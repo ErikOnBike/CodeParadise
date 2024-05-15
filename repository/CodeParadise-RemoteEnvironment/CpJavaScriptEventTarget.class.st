@@ -3,12 +3,14 @@ I represent both the Browser EventTarget and the Node.js EventTarget/EventEmitte
 These classes are similar enough to have to same proxy implementation.
 "
 Class {
-	#name : #CpJavaScriptEventTarget,
-	#superclass : #CpJavaScriptObject,
-	#category : #'CodeParadise-RemoteEnvironment-Support'
+	#name : 'CpJavaScriptEventTarget',
+	#superclass : 'CpJavaScriptObject',
+	#category : 'CodeParadise-RemoteEnvironment-Support',
+	#package : 'CodeParadise-RemoteEnvironment',
+	#tag : 'Support'
 }
 
-{ #category : #operations }
+{ #category : 'operations' }
 CpJavaScriptEventTarget >> addEventListener: aSymbol handler: aBlock [
 
 	"Add the specified Block as an event handler for the specified event
@@ -27,7 +29,7 @@ CpJavaScriptEventTarget >> addEventListener: aSymbol handler: aBlock [
 	^ function
 ]
 
-{ #category : #operations }
+{ #category : 'operations' }
 CpJavaScriptEventTarget >> removeEventListener: aSymbol handler: aFunction [
 
 	"Remove the specified funcion (a wrapped Block, answered by #addEventListener:handler:)

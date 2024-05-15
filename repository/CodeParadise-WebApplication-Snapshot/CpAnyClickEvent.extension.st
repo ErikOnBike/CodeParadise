@@ -1,6 +1,6 @@
-Extension { #name : #CpAnyClickEvent }
+Extension { #name : 'CpAnyClickEvent' }
 
-{ #category : #'*CodeParadise-WebApplication-Snapshot' }
+{ #category : '*CodeParadise-WebApplication-Snapshot' }
 CpAnyClickEvent class >> preSnapshotOnce [
 
 	"Remove the class variables (will be recreated during restart)"

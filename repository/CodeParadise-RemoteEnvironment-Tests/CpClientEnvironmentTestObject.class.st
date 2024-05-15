@@ -2,8 +2,8 @@
 I am a helper Object for the CpClientEnvironmentTest
 "
 Class {
-	#name : #CpClientEnvironmentTestObject,
-	#superclass : #Object,
+	#name : 'CpClientEnvironmentTestObject',
+	#superclass : 'Object',
 	#instVars : [
 		'someInstVar',
 		'otherInstVar'
@@ -11,22 +11,23 @@ Class {
 	#classVars : [
 		'SomeClassVar'
 	],
-	#category : #'CodeParadise-RemoteEnvironment-Tests'
+	#category : 'CodeParadise-RemoteEnvironment-Tests',
+	#package : 'CodeParadise-RemoteEnvironment-Tests'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpClientEnvironmentTestObject class >> someClassVar [
 
 	^ SomeClassVar
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpClientEnvironmentTestObject >> otherInstVar [
 
 	^ otherInstVar
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpClientEnvironmentTestObject >> someInstVar [
 
 	^ someInstVar

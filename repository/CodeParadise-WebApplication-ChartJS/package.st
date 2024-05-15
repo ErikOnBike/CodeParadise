@@ -1,1 +1,1 @@
-Package { #name : #'CodeParadise-WebApplication-ChartJS' }
+Package { #name : 'CodeParadise-WebApplication-ChartJS' }

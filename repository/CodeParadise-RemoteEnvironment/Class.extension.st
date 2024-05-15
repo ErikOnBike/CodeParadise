@@ -1,6 +1,6 @@
-Extension { #name : #Class }
+Extension { #name : 'Class' }
 
-{ #category : #'*CodeParadise-RemoteEnvironment' }
+{ #category : '*CodeParadise-RemoteEnvironment' }
 Class >> beLoaded [
 
 	"Empty method, but referring to this method directly (ie [[[ CpTransition beLoaded ]]])
@@ -10,7 +10,7 @@ Class >> beLoaded [
 	<applicationExtension>
 ]
 
-{ #category : #'*CodeParadise-RemoteEnvironment' }
+{ #category : '*CodeParadise-RemoteEnvironment' }
 Class >> containsDebuggingCode [
 
 	"Answer whether the receiver contains debugging code.
@@ -31,7 +31,7 @@ Class >> containsDebuggingCode [
 	^ false
 ]
 
-{ #category : #'*CodeParadise-RemoteEnvironment' }
+{ #category : '*CodeParadise-RemoteEnvironment' }
 Class >> cpAllRequiredClassesMatching: matchBlock [
 
 	"Answer a collection of Classes the receiver is dependent on in the ClientEnvironment
@@ -93,7 +93,7 @@ Class >> cpAllRequiredClassesMatching: matchBlock [
 	^ requiredClasses
 ]
 
-{ #category : #'*CodeParadise-RemoteEnvironment' }
+{ #category : '*CodeParadise-RemoteEnvironment' }
 Class >> cpEncodeWith: anEncoder [
 
 	"This extension method should not be present in the ClientEnvironment!
@@ -103,7 +103,7 @@ Class >> cpEncodeWith: anEncoder [
 	anEncoder encodeClass: self
 ]
 
-{ #category : #'*CodeParadise-RemoteEnvironment' }
+{ #category : '*CodeParadise-RemoteEnvironment' }
 Class >> cpRequiredClassesDo: anOneArgBlock [
 
 	"Perform the specified Block on the receiver's required classes 'in order of dependency'"
@@ -113,7 +113,7 @@ Class >> cpRequiredClassesDo: anOneArgBlock [
 	self instanceSide referencedClasses do: anOneArgBlock
 ]
 
-{ #category : #'*CodeParadise-RemoteEnvironment' }
+{ #category : '*CodeParadise-RemoteEnvironment' }
 Class >> postInstall [
 
 	"Perform any necessary initialization after receiver is installed in the ClientEnvironment.
@@ -129,7 +129,7 @@ Class >> postInstall [
 
 ]
 
-{ #category : #'*CodeParadise-RemoteEnvironment' }
+{ #category : '*CodeParadise-RemoteEnvironment' }
 Class >> postInstallOnce [
 
 	"Perform any necessary initialization after receiver is installed in the ClientEnvironment.
@@ -140,7 +140,7 @@ Class >> postInstallOnce [
 
 ]
 
-{ #category : #'*CodeParadise-RemoteEnvironment' }
+{ #category : '*CodeParadise-RemoteEnvironment' }
 Class >> postSnapshot [
 
 	"Perform any necessary initialization after receiver is (re)started in the ClientEnvironment.
@@ -155,7 +155,7 @@ Class >> postSnapshot [
 		ifTrue: [ self postSnapshotOnce ]
 ]
 
-{ #category : #'*CodeParadise-RemoteEnvironment' }
+{ #category : '*CodeParadise-RemoteEnvironment' }
 Class >> postSnapshotOnce [
 
 	"Perform any necessary initialization after receiver is (re)started in the ClientEnvironment.
@@ -165,7 +165,7 @@ Class >> postSnapshotOnce [
 	<applicationExtension>
 ]
 
-{ #category : #'*CodeParadise-RemoteEnvironment' }
+{ #category : '*CodeParadise-RemoteEnvironment' }
 Class >> preSnapshot [
 
 	"Perform any necessary preparation before receiver is saved in the ClientEnvironment.
@@ -180,7 +180,7 @@ Class >> preSnapshot [
 		ifTrue: [ self preSnapshotOnce ]
 ]
 
-{ #category : #'*CodeParadise-RemoteEnvironment' }
+{ #category : '*CodeParadise-RemoteEnvironment' }
 Class >> preSnapshotOnce [
 
 	"Perform any necessary preparation before receiver is saved in the ClientEnvironment.
@@ -190,7 +190,7 @@ Class >> preSnapshotOnce [
 	<applicationExtension>
 ]
 
-{ #category : #'*CodeParadise-RemoteEnvironment' }
+{ #category : '*CodeParadise-RemoteEnvironment' }
 Class >> subclass: className instanceVariableNames: instVarNames classVariableNames: classVarNames [
 
 	"Create a new Class in the same package as the receiver"

@@ -1,13 +1,15 @@
 Class {
-	#name : #CpClientDebuggerSupport,
-	#superclass : #Object,
+	#name : 'CpClientDebuggerSupport',
+	#superclass : 'Object',
 	#instVars : [
 		'environment'
 	],
-	#category : #'CodeParadise-WebApplication-Debugger-Support'
+	#category : 'CodeParadise-WebApplication-Debugger-Support',
+	#package : 'CodeParadise-WebApplication-Debugger',
+	#tag : 'Support'
 }
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 CpClientDebuggerSupport class >> clientLoaded: aClientLoaded [
 
 	"A new client is loaded create a new instance of the receiver
@@ -24,19 +26,19 @@ CpClientDebuggerSupport class >> clientLoaded: aClientLoaded [
 	^ instance
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 CpClientDebuggerSupport class >> initialize [
 
 	CpServerEnvironment whenClientLoadedSend: #clientLoaded: to: self
 ]
 
-{ #category : #actions }
+{ #category : 'actions' }
 CpClientDebuggerSupport >> debuggerSourceCodeAlert: aString [
 
 	self debuggerSourceCodeResponse: { #error -> aString } asDictionary
 ]
 
-{ #category : #actions }
+{ #category : 'actions' }
 CpClientDebuggerSupport >> debuggerSourceCodeResponse: aDictionary [
 
 	"Send the source code response to the client"
@@ -47,7 +49,7 @@ CpClientDebuggerSupport >> debuggerSourceCodeResponse: aDictionary [
 		arguments: { aDictionary })
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 CpClientDebuggerSupport >> initializeWithEnvironment: anEnvironment [
 
 	self initialize.
@@ -59,7 +61,7 @@ CpClientDebuggerSupport >> initializeWithEnvironment: anEnvironment [
 		when: CpSourceCodeRequest send: #sourceCodeRequest: to: self
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 CpClientDebuggerSupport >> sourceCodeRequest: aSourceCodeRequest [
 
 	| methodClass method |

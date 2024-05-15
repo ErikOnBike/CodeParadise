@@ -8,12 +8,14 @@ environements and message sends to objects are implemented as 'fire and forget'.
 
 "
 Class {
-	#name : #CpView,
-	#superclass : #CpTemplateComponent,
-	#category : #'CodeParadise-WebApplication-MVP-Core'
+	#name : 'CpView',
+	#superclass : 'CpTemplateComponent',
+	#category : 'CodeParadise-WebApplication-MVP-Core',
+	#package : 'CodeParadise-WebApplication-MVP',
+	#tag : 'Core'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpView class >> allProxies [
 
 	<serverEnvironment>
@@ -23,7 +25,7 @@ CpView class >> allProxies [
 	^ CpViewProxy allInstancesForViewClass: self
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpView class >> allProxiesDo: aBlock [
 
 	<serverEnvironment>
@@ -33,7 +35,7 @@ CpView class >> allProxiesDo: aBlock [
 	CpViewProxy allInstancesForViewClass: self do: aBlock
 ]
 
-{ #category : #removing }
+{ #category : 'removing' }
 CpView >> destroy [
 
 	"Destroy the receiver.
@@ -49,7 +51,7 @@ CpView >> destroy [
 		ifAbsent: [ "Ignore. Some Views are not created via CpMvpWebClientBehavior and will therefore not be registered" ]
 ]
 
-{ #category : #performing }
+{ #category : 'performing' }
 CpView >> downloadContent: anObject type: typeString filename: filenameString [
 
 	"Convenience method to allow download of content"
@@ -57,7 +59,7 @@ CpView >> downloadContent: anObject type: typeString filename: filenameString [
 	CpDownloader content: anObject type: typeString filename: filenameString
 ]
 
-{ #category : #performing }
+{ #category : 'performing' }
 CpView >> performMessage: aMessage [
 
 	"Perform the specified message on the receiver"
@@ -65,7 +67,7 @@ CpView >> performMessage: aMessage [
 	aMessage sendTo: self
 ]
 
-{ #category : #announcing }
+{ #category : 'announcing' }
 CpView >> serverAnnounce: anAnnouncement [
 
 	"Announce the specified Announcement on the server (for a Presenter).
@@ -77,7 +79,7 @@ CpView >> serverAnnounce: anAnnouncement [
 		serverAnnounce: (CpViewAnnouncement forView: self announcing: anAnnouncement asAnnouncement)
 ]
 
-{ #category : #transforming }
+{ #category : 'transforming' }
 CpView >> translateToLocalPoint: screenPoint [
 
 	"Answer the Point which represents the position of the screenPoint relative to the receiver"

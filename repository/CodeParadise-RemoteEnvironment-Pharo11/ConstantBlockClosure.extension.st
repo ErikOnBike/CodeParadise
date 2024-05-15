@@ -1,6 +1,6 @@
-Extension { #name : #ConstantBlockClosure }
+Extension { #name : 'ConstantBlockClosure' }
 
-{ #category : #'*CodeParadise-RemoteEnvironment-Pharo11' }
+{ #category : '*CodeParadise-RemoteEnvironment-Pharo11' }
 ConstantBlockClosure >> cpEncodeWith: anEncoder [
 
 	<clientEnvironment>

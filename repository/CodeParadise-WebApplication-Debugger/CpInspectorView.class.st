@@ -1,15 +1,17 @@
 Class {
-	#name : #CpInspectorView,
-	#superclass : #CpTemplateComponent,
+	#name : 'CpInspectorView',
+	#superclass : 'CpTemplateComponent',
 	#instVars : [
 		'object',
 		'fields',
 		'objects'
 	],
-	#category : #'CodeParadise-WebApplication-Debugger-View'
+	#category : 'CodeParadise-WebApplication-Debugger-View',
+	#package : 'CodeParadise-WebApplication-Debugger',
+	#tag : 'View'
 }
 
-{ #category : #'web resources' }
+{ #category : 'web resources' }
 CpInspectorView class >> style [
 
 	<webResource: #css>
@@ -70,7 +72,7 @@ CpInspectorView class >> style [
 	}'
 ]
 
-{ #category : #'web resources' }
+{ #category : 'web resources' }
 CpInspectorView class >> template [
 
 	<webResource: #html>
@@ -81,7 +83,7 @@ CpInspectorView class >> template [
 	</div>'
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 CpInspectorView >> createFields [
 
 	"Create the collection of fields (Associations) for the receiver's object"
@@ -105,20 +107,20 @@ CpInspectorView >> createFields [
 			startIndex to: object basicSize do: [ :index | fields add: index -> (object basicAt: index) ] ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpInspectorView >> object [
 
 	^ object
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpInspectorView >> object: anObject [
 
 	object := anObject.
 	objects := OrderedCollection with: object
 ]
 
-{ #category : #rendering }
+{ #category : 'rendering' }
 CpInspectorView >> render [
 
 	self
@@ -145,7 +147,7 @@ CpInspectorView >> render [
 		ifNil: [ self appendChild: 'nil' asHtmlElement atSlotNamed: #fields ]
 ]
 
-{ #category : #rendering }
+{ #category : 'rendering' }
 CpInspectorView >> renderField: anAssociation [
 
 	(self appendChild: CpVariableView new atSlotNamed: #fields)
@@ -154,7 +156,7 @@ CpInspectorView >> renderField: anAssociation [
 		render
 ]
 
-{ #category : #rendering }
+{ #category : 'rendering' }
 CpInspectorView >> renderObject: anObject [
 
 	| button |
@@ -167,7 +169,7 @@ CpInspectorView >> renderObject: anObject [
 	self appendChild: button atSlotNamed: #objects
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 CpInspectorView >> updateObject: aClickEvent [
 
 	"A field is selected, add its value as a new object"
@@ -187,7 +189,7 @@ CpInspectorView >> updateObject: aClickEvent [
 	self render
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 CpInspectorView >> updateObjects: aClickEvent [
 
 	"A button in the buttons list has been clicked, update the receiver"

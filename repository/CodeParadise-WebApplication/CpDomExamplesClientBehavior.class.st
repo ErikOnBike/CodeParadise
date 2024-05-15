@@ -3,16 +3,18 @@ I am the client behavior for the DOM Example Server Application.
 I only live in the ClientEnvironment.
 "
 Class {
-	#name : #CpDomExamplesClientBehavior,
-	#superclass : #CpWebClientBehavior,
+	#name : 'CpDomExamplesClientBehavior',
+	#superclass : 'CpWebClientBehavior',
 	#instVars : [
 		'transition',
 		'textRegistry'
 	],
-	#category : #'CodeParadise-WebApplication-Examples'
+	#category : 'CodeParadise-WebApplication-Examples',
+	#package : 'CodeParadise-WebApplication',
+	#tag : 'Examples'
 }
 
-{ #category : #resources }
+{ #category : 'resources' }
 CpDomExamplesClientBehavior class >> gearPathForRaduis: radius teeth: teethCount asAnnulus: aBoolean [
 
 	| path innerRadius outerRadius axelRadius arcDelta arc |
@@ -90,13 +92,13 @@ CpDomExamplesClientBehavior class >> gearPathForRaduis: radius teeth: teethCount
 	^ path
 ]
 
-{ #category : #examples }
+{ #category : 'examples' }
 CpDomExamplesClientBehavior class >> someValue [
 
 	^ 3 + 4
 ]
 
-{ #category : #examples }
+{ #category : 'examples' }
 CpDomExamplesClientBehavior >> addEventListenersIn: outputElement to: listElement [
 
 	"DO NOT ADD EVENT LISTENERS HERE, it will cause infinite recursion"	
@@ -118,7 +120,7 @@ CpDomExamplesClientBehavior >> addEventListenersIn: outputElement to: listElemen
 		self addEventListenersIn: each to: listElement ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpDomExamplesClientBehavior >> clearOutput [
 
 	transition ifNotNil: [ transition stop ].
@@ -126,7 +128,7 @@ CpDomExamplesClientBehavior >> clearOutput [
 	self outputElement textContent: ''
 ]
 
-{ #category : #examples }
+{ #category : 'examples' }
 CpDomExamplesClientBehavior >> exampleAnimationMany [
 
 	<example: 'Many Animation' order: 810>
@@ -152,7 +154,7 @@ CpDomExamplesClientBehavior >> exampleAnimationMany [
 			startDelayedBy: 1000 ]
 ]
 
-{ #category : #examples }
+{ #category : 'examples' }
 CpDomExamplesClientBehavior >> exampleAnimationSimple [
 
 	<example: 'Simple Animation' order: 800>
@@ -182,7 +184,7 @@ CpDomExamplesClientBehavior >> exampleAnimationSimple [
 
 ]
 
-{ #category : #examples }
+{ #category : 'examples' }
 CpDomExamplesClientBehavior >> exampleClickEvents [
 
 	<example: 'Click Events' order: 900>
@@ -231,7 +233,7 @@ CpDomExamplesClientBehavior >> exampleClickEvents [
 			yourself) ]
 ]
 
-{ #category : #examples }
+{ #category : 'examples' }
 CpDomExamplesClientBehavior >> exampleCreateRandomBlocks [
 
 	<example: 'Create 1000 random blocks' order: 100>
@@ -261,7 +263,7 @@ CpDomExamplesClientBehavior >> exampleCreateRandomBlocks [
 		outputElement appendChild: block ]
 ]
 
-{ #category : #examples }
+{ #category : 'examples' }
 CpDomExamplesClientBehavior >> exampleCreateRandomEllipses [
 
 	<example: 'Create 1000 random ellipses' order: 100>
@@ -306,7 +308,7 @@ CpDomExamplesClientBehavior >> exampleCreateRandomEllipses [
 		outputElement appendChild: ellipse ]
 ]
 
-{ #category : #examples }
+{ #category : 'examples' }
 CpDomExamplesClientBehavior >> exampleDebugger [
 
 	<example: 'Debugger' order: 9999>
@@ -351,7 +353,7 @@ CpDomExamplesClientBehavior >> exampleDebugger [
 
 ]
 
-{ #category : #examples }
+{ #category : 'examples' }
 CpDomExamplesClientBehavior >> exampleEventMultipleHandlers [
 
 	<example: 'Event multiple handlers' order: 920>
@@ -412,7 +414,7 @@ CpDomExamplesClientBehavior >> exampleEventMultipleHandlers [
 
 ]
 
-{ #category : #examples }
+{ #category : 'examples' }
 CpDomExamplesClientBehavior >> exampleEventPropagation [
 
 	<example: 'Event propagation' order: 910>
@@ -493,7 +495,7 @@ CpDomExamplesClientBehavior >> exampleEventPropagation [
 
 ]
 
-{ #category : #examples }
+{ #category : 'examples' }
 CpDomExamplesClientBehavior >> exampleHelloWorld [
 
 	<example: 'Hello world' order: 10>
@@ -515,7 +517,7 @@ CpDomExamplesClientBehavior >> exampleHelloWorld [
 		yourself)
 ]
 
-{ #category : #examples }
+{ #category : 'examples' }
 CpDomExamplesClientBehavior >> exampleMathFormula [
 
 	<example: 'MathML formula' order: 200>
@@ -534,7 +536,7 @@ CpDomExamplesClientBehavior >> exampleMathFormula [
 	mathElement markupContent: '<mtable columnalign="left"><mtr><mtd><mrow><mrow><mrow><mrow> <mi>a</mi> <msup> <mi>x</mi> <mn>2</mn> </msup></mrow> <mo> + </mo> <mi>b</mi> <mi>x</mi> </mrow> <mo> + </mo> <mi>c</mi> </mrow> <mo>=</mo> <mn>0</mn> </mrow> </mtd> </mtr> <mtr> <mtd> <mrow> <mrow> <mspace depth="1ex" height="0.5ex" width="2.5ex"></mspace> <mi>a</mi> <msup> <mi>x</mi> <mn>2</mn> </msup></mrow> <mo> + </mo> <mi>b</mi> <mi>x</mi> <mspace depth="1ex" height="0.5ex" width="2.5ex"></mspace> </mrow> <mo>=</mo> <mo>-</mo><mi> c</mi><mspace depth="1ex" height="0.5ex" width="2.5ex"></mspace> </mtd> </mtr> <mtr> <mtd> <mrow> <mrow> <mspace depth="1ex" height="0.5ex" width="2.5ex"></mspace> <msup> <mi>x</mi> <mn>2</mn> </msup></mrow> <mo> + </mo> <mfrac> <mrow> <mi>b</mi> </mrow> <mi>a</mi> </mfrac> <mi>x</mi> </mrow> <mspace depth="1ex" height="0.5ex" width="2.5ex"></mspace> <mo>=</mo> <mfrac> <mrow> <mo>-</mo><mi>c</mi> </mrow> <mi>a</mi> </mfrac> <mspace depth="1ex" height="0.5ex" width="2ex"></mspace><mrow><mtext mathcolor="red" mathsize="10pt">Divide out leading coefficient.</mtext> </mrow> </mtd> </mtr> <mtr> <mtd> <mrow> <mrow> <mrow> <mspace depth="1ex" height="0.5ex" width="2.5ex"></mspace> <msup> <mi>x</mi> <mn>2</mn> </msup></mrow> <mo> + </mo> <mfrac> <mrow> <mi>b</mi> </mrow> <mi>a</mi> </mfrac> <mi>x</mi> <mo> + </mo> <msup> <mfenced> <mfrac> <mrow> <mi>b</mi> </mrow> <mrow> <mn>2</mn> <mi>a</mi> </mrow> </mfrac> </mfenced> <mn>2</mn> </msup> </mrow> <mo>=</mo> <mfrac> <mrow> <mo>-</mo> <mi>c</mi> <mo>(</mo> <mn>4</mn> <mi>a</mi> <mo>)</mo> </mrow> <mrow> <mi>a</mi> <mo>(</mo> <mn>4</mn> <mi>a</mi> <mo>)</mo> </mrow></mfrac> </mrow> <mo> + </mo> <mfrac> <mrow> <msup> <mi>b</mi> <mn>2</mn> </msup> </mrow> <mrow> <mn>4</mn> <msup> <mi>a</mi> <mn>2</mn> </msup> </mrow></mfrac> <mspace depth="1ex" height="0.5ex" width="2ex"></mspace><mrow><mtext mathcolor="red" mathsize="10pt">Complete the square.</mtext> </mrow> </mtd> </mtr> <mtr> <mtd> <mrow> <mrow> <mspace depth="1ex" height="0.5ex" width="2.5ex"></mspace> <mo>(</mo> <mi>x</mi> <mo> + </mo> <mfrac> <mrow> <mi>b</mi> </mrow> <mrow> <mn>2</mn> <mi>a</mi> </mrow></mfrac> <mo>)</mo> <mo>(</mo> <mi>x</mi> <mo> + </mo> <mfrac> <mrow> <mi>b</mi> </mrow> <mrow> <mn>2</mn> <mi>a</mi> </mrow></mfrac> <mo>)</mo> <mo>=</mo> <mfrac> <mrow> <msup> <mi>b</mi> <mn>2</mn> </msup> <mo> - </mo> <mn>4</mn> <mi>a</mi> <mi>c</mi> </mrow> <mrow> <mn>4</mn> <msup> <mi>a</mi> <mn>2</mn> </msup> </mrow></mfrac> </mrow> <mspace depth="1ex" height="0.5ex" width="2ex"></mspace><mrow><mtext mathcolor="red" mathsize="10pt">Discriminant revealed.</mtext> </mrow> </mrow> </mtd> </mtr> <mtr> <mtd> <mrow> <mrow> <mspace depth="1ex" height="0.5ex" width="2.5ex"></mspace> <msup> <mrow> <mo>(</mo> <mi>x</mi> <mo> + </mo> <mfrac> <mrow> <mi>b</mi> </mrow> <mrow> <mn>2</mn> <mi>a</mi> </mrow></mfrac> <mo>)</mo> </mrow> <mn>2</mn> </msup> <mo>=</mo> <mfrac> <mrow> <msup> <mi>b</mi> <mn>2</mn> </msup> <mo> - </mo> <mn>4</mn> <mi>a</mi> <mi>c</mi> </mrow> <mrow> <mn>4</mn> <msup> <mi>a</mi> <mn>2</mn> </msup> </mrow></mfrac> </mrow> <mspace depth="1ex" height="0.5ex" width="2ex"></mspace><mrow><mtext mathcolor="red" mathsize="10pt"></mtext> </mrow> </mrow> </mtd> </mtr> <mtr> <mtd> <mrow> <mrow> <mspace depth="1ex" height="0.5ex" width="2.5ex"></mspace> <mrow> <mi>x</mi> <mo> + </mo> <mfrac> <mrow> <mi>b</mi> </mrow> <mrow> <mn>2</mn> <mi>a</mi> </mrow></mfrac> </mrow> <mo>=</mo> <msqrt> <mfrac> <mrow> <msup> <mi>b</mi> <mn>2</mn> </msup> <mo> - </mo> <mn>4</mn> <mi>a</mi> <mi>c</mi> </mrow> <mrow> <mn>4</mn> <msup> <mi>a</mi> <mn>2</mn> </msup> </mrow></mfrac> </msqrt> </mrow> <mspace depth="1ex" height="0.5ex" width="2ex"></mspace><mrow><mtext mathcolor="red" mathsize="10pt"></mtext> </mrow> </mrow> </mtd> </mtr> <mtr> <mtd> <mrow> <mrow> <mspace depth="1ex" height="0.5ex" width="2.5ex"></mspace> <mrow> <mi>x</mi> </mrow> <mo>=</mo> <mfrac> <mrow> <mo>-</mo><mi>b</mi> </mrow> <mrow> <mn>2</mn> <mi>a</mi> </mrow></mfrac> <mo>±</mo><mrow><mo>{</mo><mi>C</mi><mo>}</mo></mrow> <msqrt> <mfrac> <mrow> <msup> <mi>b</mi> <mn>2</mn> </msup> <mo> - </mo> <mn>4</mn> <mi>a</mi> <mi>c</mi> </mrow> <mrow> <mn>4</mn> <msup> <mi>a</mi> <mn>2</mn> </msup> </mrow></mfrac> </msqrt> </mrow> <mspace depth="1ex" height="0.5ex" width="2ex"></mspace><mrow><mtext mathcolor="red" mathsize="10pt">There''s the vertex formula.</mtext> </mrow> </mrow> </mtd> </mtr> <mtr> <mtd> <mrow> <mrow> <mspace depth="1ex" height="0.5ex" width="2.5ex"></mspace> <mrow> <mi>x</mi> </mrow> <mo>=</mo> <mfrac> <mrow> <mo>-</mo> <mi> b</mi> <mo>±</mo><mrow><mo>{</mo><mi>C</mi><mo>}</mo></mrow> <msqrt> <msup> <mi>b</mi> <mn>2</mn> </msup> <mo> - </mo> <mn>4</mn> <mi>a</mi> <mi>c</mi> </msqrt></mrow> <mrow> <mn>2</mn> <mi>a</mi> </mrow></mfrac> </mrow> <mspace depth="1ex" height="0.5ex" width="2ex"></mspace> <mrow><mtext mathcolor="red" mathsize="10pt"></mtext> </mrow> </mrow> </mtd> </mtr> </mtable>'
 ]
 
-{ #category : #examples }
+{ #category : 'examples' }
 CpDomExamplesClientBehavior >> exampleMutationEvents [
 
 	<example: 'Mutation Events' order: 930>
@@ -606,7 +608,7 @@ CpDomExamplesClientBehavior >> exampleMutationEvents [
 
 ]
 
-{ #category : #examples }
+{ #category : 'examples' }
 CpDomExamplesClientBehavior >> exampleNestedClickEvents [
 
 	<example: 'Nested Click Events' order: 901>
@@ -688,7 +690,7 @@ CpDomExamplesClientBehavior >> exampleNestedClickEvents [
 
 ]
 
-{ #category : #examples }
+{ #category : 'examples' }
 CpDomExamplesClientBehavior >> exampleSVGGears [
 
 	<example: 'SVG Gears (animated)' order: 210>
@@ -768,7 +770,7 @@ CpDomExamplesClientBehavior >> exampleSVGGears [
 			startDelayedBy: 1000
 ]
 
-{ #category : #examples }
+{ #category : 'examples' }
 CpDomExamplesClientBehavior >> exampleSVGSimple [
 
 	<example: 'Simple SVG' order: 200>
@@ -809,7 +811,7 @@ CpDomExamplesClientBehavior >> exampleSVGSimple [
 		yourself).
 ]
 
-{ #category : #examples }
+{ #category : 'examples' }
 CpDomExamplesClientBehavior >> exampleToDo [
 
 	<example: 'ToDo List' order: 1000>
@@ -842,7 +844,7 @@ CpDomExamplesClientBehavior >> exampleToDo [
 		yourself) ]
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 CpDomExamplesClientBehavior >> initialize [
 
 	super initialize.
@@ -852,13 +854,13 @@ CpDomExamplesClientBehavior >> initialize [
 	self showIndex
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpDomExamplesClientBehavior >> outputElement [
 
 	^ CpHtmlElement documentBody firstDescendantMatching: '#output'
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 CpDomExamplesClientBehavior >> shakeLabelOnEvent: aClickEvent [
 
 	(aClickEvent target tagName = #input)
@@ -871,7 +873,7 @@ CpDomExamplesClientBehavior >> shakeLabelOnEvent: aClickEvent [
 		animate: CpCssAnimation shakeKeyframes duration: 750
 ]
 
-{ #category : #examples }
+{ #category : 'examples' }
 CpDomExamplesClientBehavior >> showIndex [
 
 	"Beware: this method is NOT to be taken as exemplar for creating a UI.
@@ -935,7 +937,7 @@ CpDomExamplesClientBehavior >> showIndex [
 			yourself) ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpDomExamplesClientBehavior >> showText: textString in: selectorString [
 
 	textRegistry at: selectorString ifPresent: [ :textTransition | textTransition finish ].
@@ -948,7 +950,7 @@ CpDomExamplesClientBehavior >> showText: textString in: selectorString [
 				startDelayedBy: 1000) ]
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 CpDomExamplesClientBehavior >> wiggleOnEvent: aClickEvent [
 
 	aClickEvent currentTarget

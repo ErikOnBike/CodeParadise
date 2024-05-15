@@ -1,10 +1,12 @@
 Class {
-	#name : #CpWorkspace,
-	#superclass : #CpView,
-	#category : #'CodeParadise-Beach-Components'
+	#name : 'CpWorkspace',
+	#superclass : 'CpView',
+	#category : 'CodeParadise-Beach-Components',
+	#package : 'CodeParadise-Beach',
+	#tag : 'Components'
 }
 
-{ #category : #'web resources' }
+{ #category : 'web resources' }
 CpWorkspace class >> style [
 
 	<webResource: #css>
@@ -19,7 +21,7 @@ CpWorkspace class >> style [
 	}'
 ]
 
-{ #category : #'web resources' }
+{ #category : 'web resources' }
 CpWorkspace class >> template [
 
 	<webResource: #html>
@@ -27,7 +29,7 @@ CpWorkspace class >> template [
 	^ '<slot></slot>'
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpWorkspace >> upperLeftPoint [
 
 	^ self translateToLocalPoint: 0 @ 0

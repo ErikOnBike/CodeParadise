@@ -1,10 +1,12 @@
 Class {
-	#name : #CpNodeJSModule,
-	#superclass : #CpJavaScriptObject,
-	#category : #'CodeParadise-NodeJS-Support-Core'
+	#name : 'CpNodeJSModule',
+	#superclass : 'CpJavaScriptObject',
+	#category : 'CodeParadise-NodeJS-Support-Core',
+	#package : 'CodeParadise-NodeJS-Support',
+	#tag : 'Core'
 }
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 CpNodeJSModule class >> forName: aString [
 
 	"Answer the Node.js module for the specified name"
@@ -13,7 +15,7 @@ CpNodeJSModule class >> forName: aString [
 		apply: #require withArguments: { aString } resultAs: self
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpNodeJSModule class >> moduleName [
 
 	"Answer the name of the Node.js module.
@@ -25,7 +27,7 @@ CpNodeJSModule class >> moduleName [
 	^ (self nameWithoutPrefix withoutPrefix: 'NodeJS') asLowercase
 ]
 
-{ #category : #'class initialization' }
+{ #category : 'class initialization' }
 CpNodeJSModule class >> postSnapshotOnce [
 
 	"After snapshot (when image is loaded from disk) perform #require again
@@ -35,13 +37,13 @@ CpNodeJSModule class >> postSnapshotOnce [
 	self require
 ]
 
-{ #category : #'class initialization' }
+{ #category : 'class initialization' }
 CpNodeJSModule class >> registerProxyClass [
 
 	"A module is not going to be recognizable as a Class, therefore do nothing (i.e. do not register it)"
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 CpNodeJSModule class >> require [
 
 	^ self forName: self moduleName

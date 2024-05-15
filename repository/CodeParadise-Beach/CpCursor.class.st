@@ -1,10 +1,12 @@
 Class {
-	#name : #CpCursor,
-	#superclass : #CpView,
-	#category : #'CodeParadise-Beach-Components'
+	#name : 'CpCursor',
+	#superclass : 'CpView',
+	#category : 'CodeParadise-Beach-Components',
+	#package : 'CodeParadise-Beach',
+	#tag : 'Components'
 }
 
-{ #category : #'web resources' }
+{ #category : 'web resources' }
 CpCursor class >> style [
 
 	<webResource: #css>
@@ -85,7 +87,7 @@ CpCursor class >> style [
 		}'
 ]
 
-{ #category : #'web resources' }
+{ #category : 'web resources' }
 CpCursor class >> template [
 
 	<webResource: #html>
@@ -93,7 +95,7 @@ CpCursor class >> template [
 	^ '<div id="container"><div id="cursor"></div></div><input type="text">'
 ]
 
-{ #category : #'text input' }
+{ #category : 'text input' }
 CpCursor >> focus [
 
 	"Delegate setting focus to the input field in the receiver's shadow DOM"

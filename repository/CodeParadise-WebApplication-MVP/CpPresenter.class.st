@@ -27,8 +27,8 @@ differently, Views can only be commanded and not interrogated.
 
 "
 Class {
-	#name : #CpPresenter,
-	#superclass : #Object,
+	#name : 'CpPresenter',
+	#superclass : 'Object',
 	#instVars : [
 		'id',
 		'model',
@@ -40,10 +40,12 @@ Class {
 		'needsRendering',
 		'subscriptions'
 	],
-	#category : #'CodeParadise-WebApplication-MVP-Core'
+	#category : 'CodeParadise-WebApplication-MVP-Core',
+	#package : 'CodeParadise-WebApplication-MVP',
+	#tag : 'Core'
 }
 
-{ #category : #evaluating }
+{ #category : 'evaluating' }
 CpPresenter class >> cull: anObject [
 
 	"Assume I'm used in #usingPresenter: construct and simply answer myself"
@@ -51,7 +53,7 @@ CpPresenter class >> cull: anObject [
 	^ self
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpPresenter class >> defaultViewClass [
 
 	"Answer the default View class for the receiver.
@@ -73,7 +75,7 @@ CpPresenter class >> defaultViewClass [
 	^ viewClass
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpPresenter >> addSubscriptionTo: anObject forWhen: anAnnouncementClass sending: aSymbol [
 
 	"Add a new Announcement subscription to the specified object for the specified Announcement Class.
@@ -87,7 +89,7 @@ CpPresenter >> addSubscriptionTo: anObject forWhen: anAnnouncementClass sending:
 	^ subscriptions add: (anObject when: anAnnouncementClass send: aSymbol to: self)
 ]
 
-{ #category : #presenters }
+{ #category : 'presenters' }
 CpPresenter >> allPresentersDo: aBlock [
 
 	"Evaluate the specified block for the receiver and then all its descendants
@@ -102,7 +104,7 @@ CpPresenter >> allPresentersDo: aBlock [
 		presenters do: [ :each | each allPresentersDo: aBlock ] ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpPresenter >> application [
 
 	"Answer the application the receiver is part of"
@@ -110,7 +112,7 @@ CpPresenter >> application [
 	^ application
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpPresenter >> application: anApplication [
 
 	"Assign the Application the receiver is part of.
@@ -121,13 +123,13 @@ CpPresenter >> application: anApplication [
 	application := anApplication
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpPresenter >> applicationPresenter [
 
 	^ self application applicationPresenter
 ]
 
-{ #category : #presenters }
+{ #category : 'presenters' }
 CpPresenter >> childPresenters [
 
 	"Answer all child presenters in the default slot"
@@ -135,7 +137,7 @@ CpPresenter >> childPresenters [
 	^ self childPresentersAtSlotNamed: nil
 ]
 
-{ #category : #presenters }
+{ #category : 'presenters' }
 CpPresenter >> childPresentersAtSlotNamed: aString [
 
 	"Answer all child presenters in the specified slot"
@@ -143,7 +145,7 @@ CpPresenter >> childPresentersAtSlotNamed: aString [
 	^ childPresentersBySlotName at: aString ifAbsent: [ #() ]
 ]
 
-{ #category : #presenters }
+{ #category : 'presenters' }
 CpPresenter >> createChildPresenter: aPresenterClass forModel: aModel [
 
 	"Create a child Presenter for the receiver on the specified model
@@ -156,7 +158,7 @@ CpPresenter >> createChildPresenter: aPresenterClass forModel: aModel [
 		atSlotNamed: nil
 ]
 
-{ #category : #presenters }
+{ #category : 'presenters' }
 CpPresenter >> createChildPresenter: aPresenterClass forModel: aModel atSlotNamed: aString [
 
 	"Create a child Presenter for the receiver on the specified model
@@ -175,7 +177,7 @@ CpPresenter >> createChildPresenter: aPresenterClass forModel: aModel atSlotName
 
 ]
 
-{ #category : #'presenters - private' }
+{ #category : 'presenters - private' }
 CpPresenter >> createChildPresenter: aPresenterClass forModel: aModel atSlotNamed: aString atIndex: anInteger [
 
 	"Create a child Presenter of the specified class for the receiver on the specified model.
@@ -216,7 +218,7 @@ CpPresenter >> createChildPresenter: aPresenterClass forModel: aModel atSlotName
 
 ]
 
-{ #category : #presenters }
+{ #category : 'presenters' }
 CpPresenter >> createChildPresenterForModel: aModel [
 
 	"Create a child Presenter for the receiver on the specified model.
@@ -228,7 +230,7 @@ CpPresenter >> createChildPresenterForModel: aModel [
 		atSlotNamed: nil
 ]
 
-{ #category : #presenters }
+{ #category : 'presenters' }
 CpPresenter >> createChildPresenterForModel: aModel atSlotNamed: aString [
 
 	"Create a child Presenter for the receiver on the specified model at the specified slot.
@@ -240,7 +242,7 @@ CpPresenter >> createChildPresenterForModel: aModel atSlotNamed: aString [
 		atSlotNamed: aString
 ]
 
-{ #category : #view }
+{ #category : 'view' }
 CpPresenter >> createView [
 
 	"Create the receiver's view (in the ClientEnvironment).
@@ -264,7 +266,7 @@ CpPresenter >> createView [
 	needsRendering := false
 ]
 
-{ #category : #view }
+{ #category : 'view' }
 CpPresenter >> defaultViewLocation [
 
 	"Answer the default location of the receiver's view (see also #viewLocation).
@@ -275,7 +277,7 @@ CpPresenter >> defaultViewLocation [
 	^ nil
 ]
 
-{ #category : #deleting }
+{ #category : 'deleting' }
 CpPresenter >> destroy [
 
 	"Destroy the receiver.
@@ -307,7 +309,7 @@ CpPresenter >> destroy [
 		release
 ]
 
-{ #category : #'presenters - private' }
+{ #category : 'presenters - private' }
 CpPresenter >> destroyChildPresenter: aPresenter [
 
 	"Remove the specified child presenter from the receiver"
@@ -316,7 +318,7 @@ CpPresenter >> destroyChildPresenter: aPresenter [
 
 ]
 
-{ #category : #'presenters - private' }
+{ #category : 'presenters - private' }
 CpPresenter >> destroyChildPresenters [
 
 	"Remove all child presenters from the receiver"
@@ -328,7 +330,7 @@ CpPresenter >> destroyChildPresenters [
 
 ]
 
-{ #category : #view }
+{ #category : 'view' }
 CpPresenter >> destroyView [
 
 	"Destroy the receiver's view.
@@ -346,7 +348,7 @@ CpPresenter >> destroyView [
 	self viewDestroyed
 ]
 
-{ #category : #'view - private' }
+{ #category : 'view - private' }
 CpPresenter >> destroyViewProxy [
 
 	viewProxy ifNotNil: [
@@ -354,7 +356,7 @@ CpPresenter >> destroyViewProxy [
 		viewProxy := nil ]
 ]
 
-{ #category : #presenters }
+{ #category : 'presenters' }
 CpPresenter >> firstChildPresenter [
 
 	"Answer the first child presenter in the default slot
@@ -363,7 +365,7 @@ CpPresenter >> firstChildPresenter [
 	^ self firstChildPresenterAtSlotNamed: nil
 ]
 
-{ #category : #presenters }
+{ #category : 'presenters' }
 CpPresenter >> firstChildPresenterAtSlotNamed: aString [
 
 	"Answer the first child presenter in the specified slot
@@ -374,7 +376,7 @@ CpPresenter >> firstChildPresenterAtSlotNamed: aString [
 		ifEmpty: [ nil ]
 ]
 
-{ #category : #'view - private' }
+{ #category : 'view - private' }
 CpPresenter >> handleViewAnnouncement: anAnnouncement [
 
 	"Let the server side View (ie ViewProxy) announce the specified Announcement"
@@ -383,13 +385,13 @@ CpPresenter >> handleViewAnnouncement: anAnnouncement [
 
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 CpPresenter >> hasId [
 
 	^ id notNil
 ]
 
-{ #category : #model }
+{ #category : 'model' }
 CpPresenter >> hasModel [
 
 	"Answer whether the receiver has a non nil model"
@@ -397,25 +399,25 @@ CpPresenter >> hasModel [
 	^ model notNil
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 CpPresenter >> hasParent [
 
 	^ parent notNil
 ]
 
-{ #category : #view }
+{ #category : 'view' }
 CpPresenter >> hasView [
 
 	^ self view notNil
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpPresenter >> id [
 
 	^ id
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpPresenter >> id: aString [
 
 	"Assign the id of the receiver which distinguishes it within its Application.
@@ -426,7 +428,7 @@ CpPresenter >> id: aString [
 	id := aString
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpPresenter >> indexInParent [
 
 	"Answer the receiver's index in the parent's collection of child presenters.
@@ -438,7 +440,7 @@ CpPresenter >> indexInParent [
 	^ self parent indexOfChildPresenter: self
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpPresenter >> indexOfChildPresenter: aPresenter [
 
 	"Answer the index of the specified presenter within the receiver's child collections"
@@ -447,7 +449,7 @@ CpPresenter >> indexOfChildPresenter: aPresenter [
 		indexOf: aPresenter
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 CpPresenter >> initialize [
 
 	super initialize.
@@ -456,7 +458,7 @@ CpPresenter >> initialize [
 	needsRendering := false
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 CpPresenter >> initializeViewProxy [
 
 	"Create a ViewProxy for the receiver"
@@ -469,7 +471,7 @@ CpPresenter >> initializeViewProxy [
 		yourself
 ]
 
-{ #category : #presenters }
+{ #category : 'presenters' }
 CpPresenter >> lastChildPresenter [
 
 	"Answer the last child presenter in the default slot
@@ -478,7 +480,7 @@ CpPresenter >> lastChildPresenter [
 	^ self lastChildPresenterAtSlotNamed: nil
 ]
 
-{ #category : #presenters }
+{ #category : 'presenters' }
 CpPresenter >> lastChildPresenterAtSlotNamed: aString [
 
 	"Answer the last child presenter in the specified slot
@@ -489,7 +491,7 @@ CpPresenter >> lastChildPresenterAtSlotNamed: aString [
 		ifEmpty: [ nil ]
 ]
 
-{ #category : #'presenters - private' }
+{ #category : 'presenters - private' }
 CpPresenter >> makeLastChildPresenter: aChildPresenter [
 
 	"Make the specified child presenter the last child presenter (within its slot)"
@@ -502,7 +504,7 @@ CpPresenter >> makeLastChildPresenter: aChildPresenter [
 		addLast: aChildPresenter
 ]
 
-{ #category : #model }
+{ #category : 'model' }
 CpPresenter >> model [
 
 	"Answer the model of the receiver (can be nil if the model is not set yet)"
@@ -510,7 +512,7 @@ CpPresenter >> model [
 	^ model
 ]
 
-{ #category : #model }
+{ #category : 'model' }
 CpPresenter >> model: anObject [
 
 	"Set the model of the receiver.
@@ -527,7 +529,7 @@ CpPresenter >> model: anObject [
 	needsRendering := true
 ]
 
-{ #category : #model }
+{ #category : 'model' }
 CpPresenter >> modelChanged: aValueChanged [
 
 	"The receiver's model has changed perform any necessary operations.
@@ -538,7 +540,7 @@ CpPresenter >> modelChanged: aValueChanged [
 
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpPresenter >> parent [
 
 	"Answer the parent Presenter of the receiver (can be nil)"
@@ -546,13 +548,13 @@ CpPresenter >> parent [
 	^ parent
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpPresenter >> parent: aPresenter [
 
 	parent := aPresenter
 ]
 
-{ #category : #presenters }
+{ #category : 'presenters' }
 CpPresenter >> presenterClassForModel: aModel atSlotNamed: aString [
 
 	"Answer the Presenter class for the specified Model in the specified slot
@@ -561,7 +563,7 @@ CpPresenter >> presenterClassForModel: aModel atSlotNamed: aString [
 	^ aModel preferredPresenterClass
 ]
 
-{ #category : #'model - private' }
+{ #category : 'model - private' }
 CpPresenter >> privateModelChanged: aValueChanged [
 
 	"The receiver's model has changed, render the view to make change visible"
@@ -573,7 +575,7 @@ CpPresenter >> privateModelChanged: aValueChanged [
 		updateView
 ]
 
-{ #category : #view }
+{ #category : 'view' }
 CpPresenter >> recreateView [
 
 	"Recreate the receiver's view"
@@ -583,7 +585,7 @@ CpPresenter >> recreateView [
 		createView
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 CpPresenter >> release [
 
 	"Release receiver.
@@ -603,27 +605,27 @@ CpPresenter >> release [
 	super release
 ]
 
-{ #category : #actions }
+{ #category : 'actions' }
 CpPresenter >> reload [
 
 	"Perform any required behavior when reloading the receiver"
 
 ]
 
-{ #category : #presenters }
+{ #category : 'presenters' }
 CpPresenter >> removeAllChildPresenters [
 
 	self removeAllChildPresentersAtSlotNamed: nil
 ]
 
-{ #category : #presenters }
+{ #category : 'presenters' }
 CpPresenter >> removeAllChildPresentersAtSlotNamed: aSymbol [
 
 	(self childPresentersAtSlotNamed: aSymbol) do: [ :each |
 		self removeChildPresenter: each ]
 ]
 
-{ #category : #'presenters - private' }
+{ #category : 'presenters - private' }
 CpPresenter >> removeChildPresenter: aPresenter [
 
 	"Remove the specified child presenter from the receiver"
@@ -636,7 +638,7 @@ CpPresenter >> removeChildPresenter: aPresenter [
 	^ aPresenter
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpPresenter >> removeSubscription: aSubscription [
 
 	"Remove an existing AnnouncementSubscription from the receiver's collection of subscriptions.
@@ -653,7 +655,7 @@ CpPresenter >> removeSubscription: aSubscription [
 	^ aSubscription
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpPresenter >> removeSubscriptionTo: anObject for: anAnnouncementClass [
 
 	"Remove an existing Announcement subscription from the specified object for the specified Announcement Class"
@@ -665,7 +667,7 @@ CpPresenter >> removeSubscriptionTo: anObject for: anAnnouncementClass [
 		ifFound: [ :subscription | self removeSubscription: subscription ]
 ]
 
-{ #category : #view }
+{ #category : 'view' }
 CpPresenter >> removeView [
 
 	"Remove the receiver's view.
@@ -683,7 +685,7 @@ CpPresenter >> removeView [
 	self viewRemoved
 ]
 
-{ #category : #rendering }
+{ #category : 'rendering' }
 CpPresenter >> renderAllChildViewsForModels: aCollection [
 
 	"Render all the child views for the Models in the specified collection.
@@ -694,7 +696,7 @@ CpPresenter >> renderAllChildViewsForModels: aCollection [
 	self renderAllChildViewsForModels: aCollection atSlotNamed: nil
 ]
 
-{ #category : #rendering }
+{ #category : 'rendering' }
 CpPresenter >> renderAllChildViewsForModels: aCollection atSlotNamed: aString [
 
 	self 
@@ -703,7 +705,7 @@ CpPresenter >> renderAllChildViewsForModels: aCollection atSlotNamed: aString [
 		atSlotNamed: aString
 ]
 
-{ #category : #rendering }
+{ #category : 'rendering' }
 CpPresenter >> renderAllChildViewsForModels: aCollection usingPresenter: aBlock [ 
 
 	self 
@@ -712,7 +714,7 @@ CpPresenter >> renderAllChildViewsForModels: aCollection usingPresenter: aBlock 
 		atSlotNamed: nil
 ]
 
-{ #category : #rendering }
+{ #category : 'rendering' }
 CpPresenter >> renderAllChildViewsForModels: aCollection usingPresenter: aBlock atSlotNamed: aString [ 
 
 	"Render all the child views for the Models in the specified collection.
@@ -766,7 +768,7 @@ CpPresenter >> renderAllChildViewsForModels: aCollection usingPresenter: aBlock 
 		whileTrue: [ childPresenters last destroy ]
 ]
 
-{ #category : #rendering }
+{ #category : 'rendering' }
 CpPresenter >> renderChildViewForModel: aModel [
 
 	"Render child view for the specified model.
@@ -780,7 +782,7 @@ CpPresenter >> renderChildViewForModel: aModel [
 
 ]
 
-{ #category : #rendering }
+{ #category : 'rendering' }
 CpPresenter >> renderChildViewForModel: aModel atSlotNamed: aString [
 
 	"Render child view for the specified model.
@@ -795,7 +797,7 @@ CpPresenter >> renderChildViewForModel: aModel atSlotNamed: aString [
 
 ]
 
-{ #category : #rendering }
+{ #category : 'rendering' }
 CpPresenter >> renderChildViewForModel: aModel usingPresenter: aBlock [ 
 
 	self
@@ -804,7 +806,7 @@ CpPresenter >> renderChildViewForModel: aModel usingPresenter: aBlock [
 		atSlotNamed: nil 
 ]
 
-{ #category : #rendering }
+{ #category : 'rendering' }
 CpPresenter >> renderChildViewForModel: aModel usingPresenter: aBlock atSlotNamed: aString [
 
 	"Render child view for the specified model.
@@ -820,14 +822,14 @@ CpPresenter >> renderChildViewForModel: aModel usingPresenter: aBlock atSlotName
 
 ]
 
-{ #category : #rendering }
+{ #category : 'rendering' }
 CpPresenter >> renderView [
 
 	"Render the view of the receiver.
 	Subclasses should add relevant behavior."
 ]
 
-{ #category : #'view - private' }
+{ #category : 'view - private' }
 CpPresenter >> sendMessageToView: aMessage [
 
 	"Send the specified message to the receiver's view.
@@ -841,7 +843,7 @@ CpPresenter >> sendMessageToView: aMessage [
 		arguments: { aMessage })
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpPresenter >> slotName [
 
 	"Answer the slot name (a String or nil) of the parent where the receiver's view
@@ -850,13 +852,13 @@ CpPresenter >> slotName [
 	^ slotName
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpPresenter >> slotName: aString [
 
 	slotName := aString
 ]
 
-{ #category : #view }
+{ #category : 'view' }
 CpPresenter >> updateView [
 
 	"Update the receiver's view"
@@ -873,7 +875,7 @@ CpPresenter >> updateView [
 	needsRendering := false
 ]
 
-{ #category : #view }
+{ #category : 'view' }
 CpPresenter >> view [
 
 	"Answer the View of the receiver (can be nil if the view is not created yet).
@@ -884,7 +886,7 @@ CpPresenter >> view [
 	^ viewProxy
 ]
 
-{ #category : #view }
+{ #category : 'view' }
 CpPresenter >> viewClass [
 
 	"Answer the Class of the View which represents my model best"
@@ -892,7 +894,7 @@ CpPresenter >> viewClass [
 	^ self class defaultViewClass
 ]
 
-{ #category : #view }
+{ #category : 'view' }
 CpPresenter >> viewCreated [
 
 	"The receiver's view is created, perform any additional setup
@@ -902,7 +904,7 @@ CpPresenter >> viewCreated [
 
 ]
 
-{ #category : #view }
+{ #category : 'view' }
 CpPresenter >> viewDestroyed [
 
 	"The receiver's view is destroyed, perform any additional tear down
@@ -910,7 +912,7 @@ CpPresenter >> viewDestroyed [
 
 ]
 
-{ #category : #view }
+{ #category : 'view' }
 CpPresenter >> viewId [
 
 	"Answer the id of the receiver's View"
@@ -921,7 +923,7 @@ CpPresenter >> viewId [
 	^ self id
 ]
 
-{ #category : #view }
+{ #category : 'view' }
 CpPresenter >> viewInitialized [
 
 	"The client side view is initialized, perform any additional setup
@@ -934,7 +936,7 @@ CpPresenter >> viewInitialized [
 
 ]
 
-{ #category : #view }
+{ #category : 'view' }
 CpPresenter >> viewLocation [
 
 	"Answer the id of the DOM element where the receiver's View should be appended.
@@ -945,7 +947,7 @@ CpPresenter >> viewLocation [
 		ifFalse: [ self defaultViewLocation ]
 ]
 
-{ #category : #view }
+{ #category : 'view' }
 CpPresenter >> viewRemoved [
 
 	"The receiver's view is removed, perform any additional tear down

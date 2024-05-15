@@ -1,19 +1,21 @@
 Class {
-	#name : #CpViewportPresenter,
-	#superclass : #CpPresenter,
+	#name : 'CpViewportPresenter',
+	#superclass : 'CpPresenter',
 	#instVars : [
 		'position'
 	],
-	#category : #'CodeParadise-Beach-Presenters'
+	#category : 'CodeParadise-Beach-Presenters',
+	#package : 'CodeParadise-Beach',
+	#tag : 'Presenters'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpViewportPresenter class >> defaultViewClass [
 
 	^ CpViewport
 ]
 
-{ #category : #rendering }
+{ #category : 'rendering' }
 CpViewportPresenter >> renderView [
 
 	"Render view of the receiver"
@@ -22,13 +24,13 @@ CpViewportPresenter >> renderView [
 	position ifNotNil: [ self view renderPosition: position ]
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 CpViewportPresenter >> resetPosition [
 
 	self view resetPosition
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 CpViewportPresenter >> updateViewport: aViewportUpdate [
 
 	"Update the Viewport information by storing it in the receiver's instance variables"
@@ -36,7 +38,7 @@ CpViewportPresenter >> updateViewport: aViewportUpdate [
 	position := aViewportUpdate position
 ]
 
-{ #category : #view }
+{ #category : 'view' }
 CpViewportPresenter >> viewCreated [
 
 	super viewCreated.

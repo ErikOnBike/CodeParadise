@@ -8,8 +8,8 @@ The fact that a ClientEnvironment is loaded is announced by the ServerEnvironmen
 
 "
 Class {
-	#name : #CpServerApplication,
-	#superclass : #Object,
+	#name : 'CpServerApplication',
+	#superclass : 'Object',
 	#instVars : [
 		'environment',
 		'clientVariables'
@@ -18,10 +18,12 @@ Class {
 		'announcementSubscription',
 		'announcer'
 	],
-	#category : #'CodeParadise-RemoteEnvironment-Core'
+	#category : 'CodeParadise-RemoteEnvironment-Core',
+	#package : 'CodeParadise-RemoteEnvironment',
+	#tag : 'Core'
 }
 
-{ #category : #announcing }
+{ #category : 'announcing' }
 CpServerApplication class >> announce: anAnnouncement [
 
 	"Announce the specified Announcement (only if there are interested listeners,
@@ -32,7 +34,7 @@ CpServerApplication class >> announce: anAnnouncement [
 	announcer announce: anAnnouncement
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpServerApplication class >> announcer [
 
 	"Answer the announcer for this specific 'type' of application.
@@ -41,7 +43,7 @@ CpServerApplication class >> announcer [
 	^ announcer ifNil: [ announcer := Announcer new ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpServerApplication class >> app [
 
 	"Answer the unique identifier (a Symbol) for the receiver.
@@ -50,7 +52,7 @@ CpServerApplication class >> app [
 	self subclassResponsibility
 ]
 
-{ #category : #support }
+{ #category : 'support' }
 CpServerApplication class >> clientLoaded: anAnnouncement [
 
 	"Create and answer a new instance of the receiver if the ClientEnvironment loaded
@@ -67,7 +69,7 @@ CpServerApplication class >> clientLoaded: anAnnouncement [
 		yourself
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 CpServerApplication class >> hasAbstractTag [
 
 	"Answer whether the receiver has the 'isAbstract' tag set"
@@ -75,14 +77,14 @@ CpServerApplication class >> hasAbstractTag [
 	^ self classSide includesSelector: #isAbstractTag
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 CpServerApplication class >> isAbstractTag [
 
 	"The method is present to indicate the receiver is abstract.
 	This method will NOT be evaluated to decide if the receiver is abstract."
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 CpServerApplication class >> newInEnvironment: aServerEnvironment [
 
 	"Create new instance of the receiver"
@@ -93,7 +95,7 @@ CpServerApplication class >> newInEnvironment: aServerEnvironment [
 		yourself
 ]
 
-{ #category : #support }
+{ #category : 'support' }
 CpServerApplication class >> register [
 
 	"Register the receiver by subscribing to the ClientLoaded Announcement of the CpServerEnvironment.
@@ -106,7 +108,7 @@ CpServerApplication class >> register [
 	announcementSubscription := CpServerEnvironment whenClientLoadedSend: #clientLoaded: to: self
 ]
 
-{ #category : #'class initialization' }
+{ #category : 'class initialization' }
 CpServerApplication class >> release [
 
 	"Release any class side resource. Subclasses can override."
@@ -114,7 +116,7 @@ CpServerApplication class >> release [
 	self unregister
 ]
 
-{ #category : #announcing }
+{ #category : 'announcing' }
 CpServerApplication class >> removeSubscription: aSubscription [
 
 	announcer ifNil: [ ^ aSubscription ].
@@ -122,7 +124,7 @@ CpServerApplication class >> removeSubscription: aSubscription [
 	^ announcer removeSubscription: aSubscription
 ]
 
-{ #category : #support }
+{ #category : 'support' }
 CpServerApplication class >> unregister [
 
 	"Unregister by unsubscribing from the CpServerEnvironment. See #register"
@@ -133,7 +135,7 @@ CpServerApplication class >> unregister [
 	announcementSubscription := nil
 ]
 
-{ #category : #announcing }
+{ #category : 'announcing' }
 CpServerApplication class >> whenLoadedSend: aSymbol to: anObject [
 
 	^ self announcer
@@ -142,7 +144,7 @@ CpServerApplication class >> whenLoadedSend: aSymbol to: anObject [
 		to: anObject
 ]
 
-{ #category : #announcing }
+{ #category : 'announcing' }
 CpServerApplication class >> whenReloadedSend: aSymbol to: anObject [
 
 	^ self announcer
@@ -151,7 +153,7 @@ CpServerApplication class >> whenReloadedSend: aSymbol to: anObject [
 		to: anObject
 ]
 
-{ #category : #announcing }
+{ #category : 'announcing' }
 CpServerApplication class >> whenStoppedSend: aSymbol to: anObject [
 
 	^ self announcer
@@ -160,49 +162,49 @@ CpServerApplication class >> whenStoppedSend: aSymbol to: anObject [
 		to: anObject
 ]
 
-{ #category : #announcing }
+{ #category : 'announcing' }
 CpServerApplication >> announceLoaded [
 
 	self classSideAnnounce: (CpApplicationLoaded application: self)
 ]
 
-{ #category : #announcing }
+{ #category : 'announcing' }
 CpServerApplication >> announceReloaded [
 
 	self classSideAnnounce: (CpApplicationReloaded application: self)
 ]
 
-{ #category : #announcing }
+{ #category : 'announcing' }
 CpServerApplication >> announceStopped [
 
 	self classSideAnnounce: (CpApplicationStopped application: self)
 ]
 
-{ #category : #announcing }
+{ #category : 'announcing' }
 CpServerApplication >> classSideAnnounce: anAnnouncement [
 
 	self class announce: anAnnouncement
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpServerApplication >> clientVariableAt: aSymbol [ 
 
 	^ clientVariables at: aSymbol ifAbsent: [ nil ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpServerApplication >> clientVariables [ 
 
 	^ clientVariables 
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpServerApplication >> clientVariables: aDictionary [ 
 
 	clientVariables := aDictionary
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpServerApplication >> environment [
 
 	"Answer the ServerEnvironment of the receiver"
@@ -210,7 +212,7 @@ CpServerApplication >> environment [
 	^ environment
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpServerApplication >> environment: aServerEnvironment [
 
 	"Set the ServerEnvironment of the receiver to the specified value"
@@ -218,7 +220,7 @@ CpServerApplication >> environment: aServerEnvironment [
 	environment := aServerEnvironment
 ]
 
-{ #category : #installing }
+{ #category : 'installing' }
 CpServerApplication >> installExtensionMethods [
 
 	"Install the extension methods from known Classes"
@@ -226,7 +228,7 @@ CpServerApplication >> installExtensionMethods [
 	self installExtensionMethodsFor: #applicationExtension
 ]
 
-{ #category : #installing }
+{ #category : 'installing' }
 CpServerApplication >> installExtensionMethodsFor: aSymbol [
 
 	"Install the extension methods for specified (pragma) Symbol.
@@ -247,7 +249,7 @@ CpServerApplication >> installExtensionMethodsFor: aSymbol [
 				self environment addMethod: eachPragma method ] ]
 ]
 
-{ #category : #actions }
+{ #category : 'actions' }
 CpServerApplication >> load [
 
 	"Perform any actions needed when the ClientEnvironment belonging to the receiver loaded (for the first time)"
@@ -262,7 +264,7 @@ CpServerApplication >> load [
 		addClass: CpJavaScriptObject
 ]
 
-{ #category : #'private - actions' }
+{ #category : 'private - actions' }
 CpServerApplication >> load: anAnnoucement [
 
 	"Perform any actions needed when the ClientEnvironment belonging to the receiver loaded (for the first time)"
@@ -272,7 +274,7 @@ CpServerApplication >> load: anAnnoucement [
 	self announceLoaded
 ]
 
-{ #category : #updating }
+{ #category : 'updating' }
 CpServerApplication >> methodChanged: anAnnouncement [
 
 	"Update any known methods in the ClientEnvironment or add new methods.
@@ -298,7 +300,7 @@ CpServerApplication >> methodChanged: anAnnouncement [
 	^ false
 ]
 
-{ #category : #'private - actions' }
+{ #category : 'private - actions' }
 CpServerApplication >> reconnect: anAnnouncement [
 
 	"The client reconnected to the server, perform any required updates.
@@ -306,7 +308,7 @@ CpServerApplication >> reconnect: anAnnouncement [
 	might need to take this into account."
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 CpServerApplication >> release [
 
 	"Release the receiver's instance variables"
@@ -320,13 +322,13 @@ CpServerApplication >> release [
 	super release
 ]
 
-{ #category : #actions }
+{ #category : 'actions' }
 CpServerApplication >> reload [
 
 	"Perform any actions needed when the ClientEnvironment belonging to the receiver reloaded"
 ]
 
-{ #category : #'private - actions' }
+{ #category : 'private - actions' }
 CpServerApplication >> reload: anAnnouncement [
 
 	"Client environment restarted. Update client variables and reload application."
@@ -338,7 +340,7 @@ CpServerApplication >> reload: anAnnouncement [
 	self announceReloaded
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 CpServerApplication >> setUp [
 
 	"Setup the receiver to handle reload and stop events from client and handle code updates
@@ -360,7 +362,7 @@ CpServerApplication >> setUp [
 		send: #methodChanged: to: self
 ]
 
-{ #category : #actions }
+{ #category : 'actions' }
 CpServerApplication >> stop [
 
 	"Perform any actions needed when the ClientEnvironment belonging to the receiver stopped.
@@ -370,7 +372,7 @@ CpServerApplication >> stop [
 	self release
 ]
 
-{ #category : #'private - actions' }
+{ #category : 'private - actions' }
 CpServerApplication >> stop: anAnnouncement [
 
 	"ClientEnvironment stopped. Stop receiver."

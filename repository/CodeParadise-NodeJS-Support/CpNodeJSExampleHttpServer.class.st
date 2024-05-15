@@ -1,6 +1,6 @@
 Class {
-	#name : #CpNodeJSExampleHttpServer,
-	#superclass : #Object,
+	#name : 'CpNodeJSExampleHttpServer',
+	#superclass : 'Object',
 	#instVars : [
 		'calculator',
 		'server'
@@ -8,22 +8,24 @@ Class {
 	#classVars : [
 		'Current'
 	],
-	#category : #'CodeParadise-NodeJS-Support-Examples'
+	#category : 'CodeParadise-NodeJS-Support-Examples',
+	#package : 'CodeParadise-NodeJS-Support',
+	#tag : 'Examples'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpNodeJSExampleHttpServer class >> current [
 
 	^ Current ifNil: [ Current := self basicNew initialize ; yourself ]
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 CpNodeJSExampleHttpServer class >> new [
 
 	self error: 'Please use ', #current
 ]
 
-{ #category : #'class initialization' }
+{ #category : 'class initialization' }
 CpNodeJSExampleHttpServer class >> postInstallOnce [
 
 	"Start current"
@@ -33,7 +35,7 @@ CpNodeJSExampleHttpServer class >> postInstallOnce [
 	self current
 ]
 
-{ #category : #'class initialization' }
+{ #category : 'class initialization' }
 CpNodeJSExampleHttpServer class >> postSnapshotOnce [
 
 	"(Re)start current"
@@ -41,7 +43,7 @@ CpNodeJSExampleHttpServer class >> postSnapshotOnce [
 	self current startServer
 ]
 
-{ #category : #'class initialization' }
+{ #category : 'class initialization' }
 CpNodeJSExampleHttpServer class >> preSnapshotOnce [
 
 	"Stop current"
@@ -49,7 +51,7 @@ CpNodeJSExampleHttpServer class >> preSnapshotOnce [
 	self current stopServer
 ]
 
-{ #category : #server }
+{ #category : 'server' }
 CpNodeJSExampleHttpServer >> createServer [
 
 	server ifNotNil: [ ^ server ].
@@ -58,7 +60,7 @@ CpNodeJSExampleHttpServer >> createServer [
 		createServerOn: [ :req :res | self handleRequest: req response: res ]
 ]
 
-{ #category : #evaluating }
+{ #category : 'evaluating' }
 CpNodeJSExampleHttpServer >> evaluate: aString [
 
 	"Evaluate the given command"
@@ -79,7 +81,7 @@ CpNodeJSExampleHttpServer >> evaluate: aString [
 			calculator perform: aString asSymbol ]
 ]
 
-{ #category : #evaluating }
+{ #category : 'evaluating' }
 CpNodeJSExampleHttpServer >> evaluateCommands: commandsStream [
 
 	"Evaluate the specified commands (which is a Stream on a URL path) on the receiver's current object"
@@ -93,7 +95,7 @@ CpNodeJSExampleHttpServer >> evaluateCommands: commandsStream [
 			self evaluate: nextCommand ] ]
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 CpNodeJSExampleHttpServer >> handleRequest: anIncomingMessage response: aServerResponse [
 
 	| showUsage |
@@ -134,7 +136,7 @@ CpNodeJSExampleHttpServer >> handleRequest: anIncomingMessage response: aServerR
 	aServerResponse end
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 CpNodeJSExampleHttpServer >> initialize [
 
 	super initialize.
@@ -144,20 +146,20 @@ CpNodeJSExampleHttpServer >> initialize [
 	self startServer
 ]
 
-{ #category : #snapshot }
+{ #category : 'snapshot' }
 CpNodeJSExampleHttpServer >> snapshot [
 
 	CpNodeJSSnapshot saveSnapshot
 ]
 
-{ #category : #server }
+{ #category : 'server' }
 CpNodeJSExampleHttpServer >> startServer [
 
 	self traceCr: 'Create server and start listening on port 8181'.
 	self createServer listenOnPort: 8181 thenDo: [ self traceCr: 'I am listening!' ]
 ]
 
-{ #category : #server }
+{ #category : 'server' }
 CpNodeJSExampleHttpServer >> stopServer [
 
 	self traceCr: 'Stop server'.

@@ -1,10 +1,12 @@
 Class {
-	#name : #CpFomanticExamplesWebApplication,
-	#superclass : #CpWebApplication,
-	#category : #'CodeParadise-WebApplication-Fomantic-Examples'
+	#name : 'CpFomanticExamplesWebApplication',
+	#superclass : 'CpWebApplication',
+	#category : 'CodeParadise-WebApplication-Fomantic-Examples',
+	#package : 'CodeParadise-WebApplication-Fomantic',
+	#tag : 'Examples'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpFomanticExamplesWebApplication class >> app [
 
 	"Answer the unique identifier (a Symbol) for the receiver"
@@ -12,13 +14,13 @@ CpFomanticExamplesWebApplication class >> app [
 	^ #'Fomantic-Examples'
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpFomanticExamplesWebApplication class >> clientBehaviorClass [
 
 	^ CpFomanticExamplesClientBehavior
 ]
 
-{ #category : #installing }
+{ #category : 'installing' }
 CpFomanticExamplesWebApplication >> installExtensionMethods [
 
 	"Install the extension methods from known Classes"

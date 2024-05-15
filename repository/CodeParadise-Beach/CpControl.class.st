@@ -1,17 +1,19 @@
 Class {
-	#name : #CpControl,
-	#superclass : #CpView,
-	#category : #'CodeParadise-Beach-Components'
+	#name : 'CpControl',
+	#superclass : 'CpView',
+	#category : 'CodeParadise-Beach-Components',
+	#package : 'CodeParadise-Beach',
+	#tag : 'Components'
 }
 
-{ #category : #testing }
+{ #category : 'testing' }
 CpControl class >> isAbstractTag [
 
 	"The method is present to indicate the receiver is abstract.
 	This method will NOT be evaluated to decide if the receiver is abstract."
 ]
 
-{ #category : #'state handling' }
+{ #category : 'state handling' }
 CpControl >> disable [
 
 	"Disable the receiver.
@@ -30,7 +32,7 @@ CpControl >> disable [
 			self children do: [ :each | each disableSecondary ] ]
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 CpControl >> disableSecondary [
 
 	"Disable the receiver because an ancestor is disabled.
@@ -44,7 +46,7 @@ CpControl >> disableSecondary [
 			self children do: [ :each | each disableSecondary ] ]
 ]
 
-{ #category : #'state handling' }
+{ #category : 'state handling' }
 CpControl >> enable [
 
 	"Enable the receiver.
@@ -68,7 +70,7 @@ CpControl >> enable [
 							self children do: [ :each | each enableSecondary ] ] ] ]
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 CpControl >> enableSecondary [
 
 	"Enable the receiver because an ancestor is enabled.
@@ -87,7 +89,7 @@ CpControl >> enableSecondary [
 					self children do: [ :each | each enableSecondary ] ] ]
 ]
 
-{ #category : #'testing - conditionals' }
+{ #category : 'testing - conditionals' }
 CpControl >> ifDisabled: aBlock [
 
 	"Evaluate a Block if the receiver is in a disabled state"
@@ -95,7 +97,7 @@ CpControl >> ifDisabled: aBlock [
 	self ifEnabled: [ "intentionally empty" ] ifDisabled: aBlock
 ]
 
-{ #category : #'testing - conditionals' }
+{ #category : 'testing - conditionals' }
 CpControl >> ifEnabled: aBlock [
 
 	"Evaluate a Block if the receiver is not in a disabled state"
@@ -103,7 +105,7 @@ CpControl >> ifEnabled: aBlock [
 	self ifEnabled: aBlock ifDisabled: [ "intentionally empty" ]
 ]
 
-{ #category : #'testing - conditionals' }
+{ #category : 'testing - conditionals' }
 CpControl >> ifEnabled: enabledBlock ifDisabled: disabledBlock [
 
 	"Evaluate a Block depending on the receiver's disabled state"

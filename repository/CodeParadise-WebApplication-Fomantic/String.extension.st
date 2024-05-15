@@ -1,6 +1,6 @@
-Extension { #name : #String }
+Extension { #name : 'String' }
 
-{ #category : #'*CodeParadise-WebApplication-Fomantic' }
+{ #category : '*CodeParadise-WebApplication-Fomantic' }
 String >> asFomanticIcon [
 
 	<webApplicationFomanticExtension>

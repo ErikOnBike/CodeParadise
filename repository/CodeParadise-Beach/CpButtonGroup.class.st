@@ -1,10 +1,12 @@
 Class {
-	#name : #CpButtonGroup,
-	#superclass : #CpControlGroup,
-	#category : #'CodeParadise-Beach-Components'
+	#name : 'CpButtonGroup',
+	#superclass : 'CpControlGroup',
+	#category : 'CodeParadise-Beach-Components',
+	#package : 'CodeParadise-Beach',
+	#tag : 'Components'
 }
 
-{ #category : #'web resources' }
+{ #category : 'web resources' }
 CpButtonGroup class >> style [
 
 	<webResource: #css>
@@ -51,7 +53,7 @@ CpButtonGroup class >> style [
 		}'
 ]
 
-{ #category : #'web resources' }
+{ #category : 'web resources' }
 CpButtonGroup class >> template [
 
 	<webResource: #html>

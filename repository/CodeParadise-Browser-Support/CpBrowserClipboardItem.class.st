@@ -1,36 +1,38 @@
 Class {
-	#name : #CpBrowserClipboardItem,
-	#superclass : #CpJavaScriptObject,
-	#category : #'CodeParadise-Browser-Support-Clipboard'
+	#name : 'CpBrowserClipboardItem',
+	#superclass : 'CpJavaScriptObject',
+	#category : 'CodeParadise-Browser-Support-Clipboard',
+	#package : 'CodeParadise-Browser-Support',
+	#tag : 'Clipboard'
 }
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 CpBrowserClipboardItem class >> newWith: anObject [
 
 	^ anObject asBrowserClipboardItem
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 CpBrowserClipboardItem class >> newWithBlob: aBlob [
 
 	^ self newInstanceWithArguments: {
 		{ aBlob type -> aBlob } asDictionary }
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 CpBrowserClipboardItem class >> newWithString: aString [
 
 	^ self newWithString: aString type: 'text/plain'
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 CpBrowserClipboardItem class >> newWithString: contentString type: typeString [
 
 	^ self newInstanceWithArguments: {
 		{ typeString -> contentString } asDictionary }
 ]
 
-{ #category : #convenience }
+{ #category : 'convenience' }
 CpBrowserClipboardItem >> getHtmlTextThenDo: successBlock [
 
 	"Retrieve the HTML text from the clipboard content and evaluate the
@@ -39,7 +41,7 @@ CpBrowserClipboardItem >> getHtmlTextThenDo: successBlock [
 	self getHtmlTextThenDo: successBlock onError: [ "ignore errors" ]
 ]
 
-{ #category : #convenience }
+{ #category : 'convenience' }
 CpBrowserClipboardItem >> getHtmlTextThenDo: successBlock onError: errorBlock [
 
 	"Retrieve the HTML text from the clipboard content and evaluate the
@@ -55,7 +57,7 @@ CpBrowserClipboardItem >> getHtmlTextThenDo: successBlock onError: errorBlock [
 			errorBlock cull: reason ]
 ]
 
-{ #category : #convenience }
+{ #category : 'convenience' }
 CpBrowserClipboardItem >> getPlainTextThenDo: successBlock [
 
 	"Retrieve the plain text from the clipboard content and evaluate the
@@ -64,7 +66,7 @@ CpBrowserClipboardItem >> getPlainTextThenDo: successBlock [
 	self getHtmlTextThenDo: successBlock onError: [ "ignore errors" ]
 ]
 
-{ #category : #convenience }
+{ #category : 'convenience' }
 CpBrowserClipboardItem >> getPlainTextThenDo: successBlock onError: errorBlock [
 
 	"Retrieve the plain text from the clipboard content and evaluate the
@@ -80,7 +82,7 @@ CpBrowserClipboardItem >> getPlainTextThenDo: successBlock onError: errorBlock [
 			errorBlock cull: reason ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpBrowserClipboardItem >> getType: aString [
 
 	"Returns a Promise that resolves with a Blob of the requested MIME type, or an error if the MIME type is not found."
@@ -88,13 +90,13 @@ CpBrowserClipboardItem >> getType: aString [
 	^ self apply: #getType withArguments: { aString } resultAs: CpJavaScriptPromise
 ]
 
-{ #category : #convenience }
+{ #category : 'convenience' }
 CpBrowserClipboardItem >> getType: aString thenDo: successBlock [
 
 	self getType: aString thenDo: successBlock onError: [ "ignore errors" ]
 ]
 
-{ #category : #convenience }
+{ #category : 'convenience' }
 CpBrowserClipboardItem >> getType: aString thenDo: successBlock onError: errorBlock [
 
 	"Retrieve the clipboard content for the specified MIME type and evaluate the
@@ -108,7 +110,7 @@ CpBrowserClipboardItem >> getType: aString thenDo: successBlock onError: errorBl
 		onRejected: [ :reason | errorBlock cull: reason ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpBrowserClipboardItem >> presentationStyle [
 
 	"Returns one of the following: 'unspecified', 'inline' or 'attachment'".
@@ -116,7 +118,7 @@ CpBrowserClipboardItem >> presentationStyle [
 	^ self propertyAt: #presentationStyle
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpBrowserClipboardItem >> types [
 
 	"Returns an Array of MIME types available within the ClipboardItem."

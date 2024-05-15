@@ -4,12 +4,14 @@ I work for a MvpWebApplication and according to a Model-View-Presenter pattern.
 I only live in a ClientEnvironment.
 "
 Class {
-	#name : #CpMvpWebClientBehavior,
-	#superclass : #CpWebClientBehavior,
-	#category : #'CodeParadise-WebApplication-MVP-Core'
+	#name : 'CpMvpWebClientBehavior',
+	#superclass : 'CpWebClientBehavior',
+	#category : 'CodeParadise-WebApplication-MVP-Core',
+	#package : 'CodeParadise-WebApplication-MVP',
+	#tag : 'Core'
 }
 
-{ #category : #creating }
+{ #category : 'creating' }
 CpMvpWebClientBehavior >> createView: viewClassName withId: identifier atParentId: parentIdentifier atSlotNamed: slotName atIndex: anInteger [
 
 	"Create a new View with the specified identifier (a String) and the specified

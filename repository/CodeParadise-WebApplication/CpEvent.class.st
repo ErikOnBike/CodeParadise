@@ -14,12 +14,14 @@ Because the Announcement model (as used in CodeParadise) and the browser event m
 
 "
 Class {
-	#name : #CpEvent,
-	#superclass : #CpBaseEvent,
-	#category : #'CodeParadise-WebApplication-Events'
+	#name : 'CpEvent',
+	#superclass : 'CpBaseEvent',
+	#category : 'CodeParadise-WebApplication-Events',
+	#package : 'CodeParadise-WebApplication',
+	#tag : 'Events'
 }
 
-{ #category : #conditionals }
+{ #category : 'conditionals' }
 CpEvent class >> addConditionsToDenySpecialsTo: aConditionalEvent [
 
 	"Add condition to specified conditional event which prevents
@@ -30,7 +32,7 @@ CpEvent class >> addConditionsToDenySpecialsTo: aConditionalEvent [
 	aConditionalEvent addCondition: CpNoModifiersDown
 ]
 
-{ #category : #'processing - private' }
+{ #category : 'processing - private' }
 CpEvent class >> addListenerTo: anElement [
 
 	"Add a browser event listener to the specified element"
@@ -39,7 +41,7 @@ CpEvent class >> addListenerTo: anElement [
 	self primitiveFailed
 ]
 
-{ #category : #'processing - private' }
+{ #category : 'processing - private' }
 CpEvent class >> createEventProcess [
 
 	"Create an event process, register it and start it"
@@ -65,7 +67,7 @@ CpEvent class >> createEventProcess [
 	eventProcess resume
 ]
 
-{ #category : #'processing - private' }
+{ #category : 'processing - private' }
 CpEvent class >> dispatchEvent: anEvent [
 
 	[ anEvent dispatch ] on: Error do: [ :error |
@@ -78,7 +80,7 @@ CpEvent class >> dispatchEvent: anEvent [
 		self errorCr: error signalerContext printString ]
 ]
 
-{ #category : #'processing - private' }
+{ #category : 'processing - private' }
 CpEvent class >> dispatchEvents [
 
 	"Handle events.
@@ -89,7 +91,7 @@ CpEvent class >> dispatchEvents [
 	self latestEvents do: [ :each | self dispatchEvent: each ]
 ]
 
-{ #category : #announcing }
+{ #category : 'announcing' }
 CpEvent class >> handlesAnnouncement: anAnnouncement [
 
 	"Answer whether the specified Announcement can be handled by the receiver.
@@ -99,7 +101,7 @@ CpEvent class >> handlesAnnouncement: anAnnouncement [
 		and: [ anAnnouncement isStopped not ]
 ]
 
-{ #category : #'processing - private' }
+{ #category : 'processing - private' }
 CpEvent class >> isListenedToOn: anElement [
 
 	"Answer whether a browser event listener is installed in the specified element"
@@ -108,7 +110,7 @@ CpEvent class >> isListenedToOn: anElement [
 	self primitiveFailed
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 CpEvent class >> isPoint: aPoint similarTo: otherPoint [
 
 	"Answer whether the two specified Points are close together and therefore seamingly similar"
@@ -120,7 +122,7 @@ CpEvent class >> isPoint: aPoint similarTo: otherPoint [
 	^ distance < self similarDistance
 ]
 
-{ #category : #'processing - private' }
+{ #category : 'processing - private' }
 CpEvent class >> latestEvents [
 
 	"Answer a collection of browser events which are pending/need handling.
@@ -133,7 +135,7 @@ CpEvent class >> latestEvents [
 	^ #()
 ]
 
-{ #category : #'class initialization' }
+{ #category : 'class initialization' }
 CpEvent class >> postInstall [
 
 	super postInstall.
@@ -141,7 +143,7 @@ CpEvent class >> postInstall [
 	self registerEventClass: self forType: self type
 ]
 
-{ #category : #'class initialization' }
+{ #category : 'class initialization' }
 CpEvent class >> postInstallOnce [
 
 	"Register the event handler process once"
@@ -149,7 +151,7 @@ CpEvent class >> postInstallOnce [
 	self registerEventProcess
 ]
 
-{ #category : #'processing - private' }
+{ #category : 'processing - private' }
 CpEvent class >> registerEventClass: anEventClass forType: aString [
 
 	"Register the specified event class in the browser
@@ -159,7 +161,7 @@ CpEvent class >> registerEventClass: anEventClass forType: aString [
 	self primitiveFailed
 ]
 
-{ #category : #'processing - private' }
+{ #category : 'processing - private' }
 CpEvent class >> registerEventProcess [
 
 	"Register a new or reregister the existing event process"
@@ -173,7 +175,7 @@ CpEvent class >> registerEventProcess [
 	self createEventProcess
 ]
 
-{ #category : #'processing - private' }
+{ #category : 'processing - private' }
 CpEvent class >> registerEventProcess: eventHandlerProcess [
 
 	"Register the process which handles events to allow it to be activated on events"
@@ -182,7 +184,7 @@ CpEvent class >> registerEventProcess: eventHandlerProcess [
 	self primitiveFailed
 ]
 
-{ #category : #'processing - private' }
+{ #category : 'processing - private' }
 CpEvent class >> removeListenerFrom: anElement [
 
 	"Remove a browser event listener from the specified element"
@@ -191,7 +193,7 @@ CpEvent class >> removeListenerFrom: anElement [
 	self primitiveFailed
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpEvent class >> similarDistance [
 
 	"Maximum distance in pixels (as a Float value) between two points to consider the similar"
@@ -199,7 +201,7 @@ CpEvent class >> similarDistance [
 	^ 8.0
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpEvent class >> type [
 
 	"Answer the JavaScript type (a String) representing the receiver"
@@ -207,7 +209,7 @@ CpEvent class >> type [
 	^ (self nameWithoutPrefix withoutSuffix: #Event) asLowercase
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpEvent >> currentTarget [
 
 	"Answer the current targetted DOM element (might be different from #target which could be a descendant)"
@@ -215,7 +217,7 @@ CpEvent >> currentTarget [
 	^ self propertyAt: #currentTarget
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 CpEvent >> isStopped [
 
 	"Answer whether the receiver is stopped by either
@@ -227,7 +229,7 @@ CpEvent >> isStopped [
 	self primitiveFailed
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpEvent >> modifiers [
 
 	"Answer an Integer specifying the different modifiers pressed.
@@ -237,7 +239,7 @@ CpEvent >> modifiers [
 	self primitiveFailed
 ]
 
-{ #category : #dispatching }
+{ #category : 'dispatching' }
 CpEvent >> preventDefault [
 
 	"Prevent the default browser behavior from being performed"
@@ -247,7 +249,7 @@ CpEvent >> preventDefault [
 
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 CpEvent >> printOn: aStream [
 
 	aStream
@@ -262,7 +264,7 @@ CpEvent >> printOn: aStream [
 		print: self currentTarget
 ]
 
-{ #category : #'accessing - private' }
+{ #category : 'accessing - private' }
 CpEvent >> propertyAt: nameString [
 
 	"Answer the value (String, Number, Boolean or nil) of the specified property of the receiver"
@@ -271,7 +273,7 @@ CpEvent >> propertyAt: nameString [
 	self primitiveFailed
 ]
 
-{ #category : #dispatching }
+{ #category : 'dispatching' }
 CpEvent >> stopImmediatePropagation [
 
 	"Stop immediate propagation (bubbling) of the receiver. Not even listeners on the
@@ -282,7 +284,7 @@ CpEvent >> stopImmediatePropagation [
 	self primitiveFailed
 ]
 
-{ #category : #dispatching }
+{ #category : 'dispatching' }
 CpEvent >> stopPropagation [
 
 	"Stop propagation (bubbling) of the receiver. Other listeners on the
@@ -293,7 +295,7 @@ CpEvent >> stopPropagation [
 	self primitiveFailed
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpEvent >> target [
 
 	"Answer the DOM element which received the event"
@@ -301,7 +303,7 @@ CpEvent >> target [
 	^ self propertyAt: #target
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpEvent >> timeStamp [
 
 	"Answer the relative timestamp (an Integer in millisecond resolution) for when the receiver was triggered"
@@ -309,7 +311,7 @@ CpEvent >> timeStamp [
 	^ self propertyAt: #timeStamp
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpEvent >> type [
 
 	"Answer the type of event (a String)"

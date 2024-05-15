@@ -1,16 +1,18 @@
 Class {
-	#name : #CpCompositionEvent,
-	#superclass : #CpUserInterfaceEvent,
-	#category : #'CodeParadise-WebApplication-Events'
+	#name : 'CpCompositionEvent',
+	#superclass : 'CpUserInterfaceEvent',
+	#category : 'CodeParadise-WebApplication-Events',
+	#package : 'CodeParadise-WebApplication',
+	#tag : 'Events'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpCompositionEvent >> data [
 
 	^ self propertyAt: #data
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 CpCompositionEvent >> printOn: aStream [
 
 	super printOn: aStream.

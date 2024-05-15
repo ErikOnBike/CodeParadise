@@ -1,13 +1,15 @@
 Class {
-	#name : #CpVariableView,
-	#superclass : #CpTemplateComponent,
+	#name : 'CpVariableView',
+	#superclass : 'CpTemplateComponent',
 	#instVars : [
 		'variable'
 	],
-	#category : #'CodeParadise-WebApplication-Debugger-View'
+	#category : 'CodeParadise-WebApplication-Debugger-View',
+	#package : 'CodeParadise-WebApplication-Debugger',
+	#tag : 'View'
 }
 
-{ #category : #'web resources' }
+{ #category : 'web resources' }
 CpVariableView class >> style [
 
 	<webResource: #css>
@@ -45,7 +47,7 @@ CpVariableView class >> style [
 	}'
 ]
 
-{ #category : #'web resources' }
+{ #category : 'web resources' }
 CpVariableView class >> template [
 
 	<webResource: #html>
@@ -57,13 +59,13 @@ CpVariableView class >> template [
 	</div>'
 ]
 
-{ #category : #rendering }
+{ #category : 'rendering' }
 CpVariableView >> beSelected: aBoolean [
 
 	self classed: #selected if: aBoolean
 ]
 
-{ #category : #rendering }
+{ #category : 'rendering' }
 CpVariableView >> render [
 
 	[
@@ -74,13 +76,13 @@ CpVariableView >> render [
 	] on: Error do: [ :error | self errorCr: 'Error in debugger context variable: ', error printString ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpVariableView >> variable [
 
 	^ variable
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpVariableView >> variable: anAssociation [
 
 	variable := anAssociation

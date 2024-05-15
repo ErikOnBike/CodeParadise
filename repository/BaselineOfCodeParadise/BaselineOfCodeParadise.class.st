@@ -1,10 +1,11 @@
 Class {
-	#name : #BaselineOfCodeParadise,
-	#superclass : #BaselineOf,
-	#category : #BaselineOfCodeParadise
+	#name : 'BaselineOfCodeParadise',
+	#superclass : 'BaselineOf',
+	#category : 'BaselineOfCodeParadise',
+	#package : 'BaselineOfCodeParadise'
 }
 
-{ #category : #baselines }
+{ #category : 'baselines' }
 BaselineOfCodeParadise >> baseline: spec [
 
 	<baseline>

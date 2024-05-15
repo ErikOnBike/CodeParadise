@@ -1,10 +1,12 @@
 Class {
-	#name : #CpChartJSExamplesWebApplication,
-	#superclass : #CpWebApplication,
-	#category : #'CodeParadise-WebApplication-ChartJS-Examples'
+	#name : 'CpChartJSExamplesWebApplication',
+	#superclass : 'CpWebApplication',
+	#category : 'CodeParadise-WebApplication-ChartJS-Examples',
+	#package : 'CodeParadise-WebApplication-ChartJS',
+	#tag : 'Examples'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpChartJSExamplesWebApplication class >> app [
 
 	"Answer the unique identifier (a Symbol) for the receiver"
@@ -12,13 +14,13 @@ CpChartJSExamplesWebApplication class >> app [
 	^ #'ChartJS-Examples'
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpChartJSExamplesWebApplication class >> clientBehaviorClass [
 
 	^ CpChartJSExamplesClientBehavior
 ]
 
-{ #category : #installing }
+{ #category : 'installing' }
 CpChartJSExamplesWebApplication >> installExtensionMethods [
 
 	"Install the extension methods from known Classes (include Shoelace extensions)"

@@ -1,14 +1,16 @@
 Class {
-	#name : #CpContextView,
-	#superclass : #CpTemplateComponent,
+	#name : 'CpContextView',
+	#superclass : 'CpTemplateComponent',
 	#instVars : [
 		'context',
 		'currentVariable'
 	],
-	#category : #'CodeParadise-WebApplication-Debugger-View'
+	#category : 'CodeParadise-WebApplication-Debugger-View',
+	#package : 'CodeParadise-WebApplication-Debugger',
+	#tag : 'View'
 }
 
-{ #category : #'web resources' }
+{ #category : 'web resources' }
 CpContextView class >> style [
 
 	<webResource: #css>
@@ -115,7 +117,7 @@ CpContextView class >> style [
 	}'
 ]
 
-{ #category : #'web resources' }
+{ #category : 'web resources' }
 CpContextView class >> template [
 
 	<webResource: #html>
@@ -130,26 +132,26 @@ CpContextView class >> template [
 	</div>'
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpContextView >> context [
 
 	^ context
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpContextView >> context: aContext [
 
 	context := aContext
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpContextView >> currentVariableView [
 
 	^ CpVariableView all
 		detect: [ :each | each variable == currentVariable ] ifNone: [ nil ]
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 CpContextView >> initializeShadowRoot [
 
 	super initializeShadowRoot.
@@ -158,14 +160,14 @@ CpContextView >> initializeShadowRoot [
 		when: CpClickEvent basicPrimary send: #openBrowser to: self
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpContextView >> inspectorView [
 
 	^ (self firstChildAtSlotNamed: #variable)
 		ifNil: [ self appendChild: CpInspectorView new atSlotNamed: #variable ]
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 CpContextView >> openBrowser [
 
 	"Open browser on source code (on server)"
@@ -173,7 +175,7 @@ CpContextView >> openBrowser [
 		serverAnnounce: (CpSourceCodeRequest openBrowserOnContext: context)
 ]
 
-{ #category : #rendering }
+{ #category : 'rendering' }
 CpContextView >> render [
 
 	| variables |
@@ -196,7 +198,7 @@ CpContextView >> render [
 	] on: Error do: [ :error | self errorCr: 'Error in debugger context: ', error printString ]
 ]
 
-{ #category : #rendering }
+{ #category : 'rendering' }
 CpContextView >> renderCurrentVariable [
 
 	self inspectorView
@@ -204,7 +206,7 @@ CpContextView >> renderCurrentVariable [
 		render
 ]
 
-{ #category : #rendering }
+{ #category : 'rendering' }
 CpContextView >> renderFakeMethod [
 
 	"Fake the method signature"
@@ -231,7 +233,7 @@ CpContextView >> renderFakeMethod [
 			atSlotNamed: #method ]
 ]
 
-{ #category : #rendering }
+{ #category : 'rendering' }
 CpContextView >> renderMethod [
 
 	self removeChildrenAtSlotNamed: #method.
@@ -244,7 +246,7 @@ CpContextView >> renderMethod [
 		serverAnnounce: (CpSourceCodeRequest context: context)
 ]
 
-{ #category : #rendering }
+{ #category : 'rendering' }
 CpContextView >> renderSourceCode: aDictionary [
 
 	"Render the given source code, ignore if it does not match the receiver's context
@@ -273,7 +275,7 @@ CpContextView >> renderSourceCode: aDictionary [
 		removeClass: #error
 ]
 
-{ #category : #rendering }
+{ #category : 'rendering' }
 CpContextView >> renderSourceCodeError: aString [
 
 	self replaceAllChildrenWith: aString asHtmlElement atSlotNamed: #method.
@@ -282,7 +284,7 @@ CpContextView >> renderSourceCodeError: aString [
 		addClass: #error
 ]
 
-{ #category : #rendering }
+{ #category : 'rendering' }
 CpContextView >> renderVariable: anAssociation [
 
 	(self appendChild: CpVariableView new atSlotNamed: #variables)
@@ -292,7 +294,7 @@ CpContextView >> renderVariable: anAssociation [
 		render
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 CpContextView >> updateCurrentVariable: aClickEvent [
 
 	| variableView selectedVariable |
@@ -309,7 +311,7 @@ CpContextView >> updateCurrentVariable: aClickEvent [
 	self currentVariableView beSelected: true
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpContextView >> variables [
 
 	"Answer a collection of variables (Associations)"

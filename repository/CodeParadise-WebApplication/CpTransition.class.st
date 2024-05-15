@@ -29,8 +29,8 @@ Transitions with duration = 0 can be used to execute a certain operation in the 
 using #startDelayedBy:.
 "
 Class {
-	#name : #CpTransition,
-	#superclass : #Object,
+	#name : 'CpTransition',
+	#superclass : 'Object',
 	#instVars : [
 		'block',
 		'duration',
@@ -41,10 +41,12 @@ Class {
 	#classVars : [
 		'Transitions'
 	],
-	#category : #'CodeParadise-WebApplication-Transitions'
+	#category : 'CodeParadise-WebApplication-Transitions',
+	#package : 'CodeParadise-WebApplication',
+	#tag : 'Transitions'
 }
 
-{ #category : #'processing - private' }
+{ #category : 'processing - private' }
 CpTransition class >> createTransitionProcess [
 
 	"Create a transition process, register it and start it"
@@ -71,7 +73,7 @@ CpTransition class >> createTransitionProcess [
 	transitionProcess resume
 ]
 
-{ #category : #easing }
+{ #category : 'easing' }
 CpTransition class >> easeInOutBack: aFloat [
 
 	"Algorithm taken from: https://easings.net"
@@ -85,7 +87,7 @@ CpTransition class >> easeInOutBack: aFloat [
 		ifFalse: [ ((2 * aFloat - 2 raisedTo: 2) * ((c + 1) * (aFloat * 2 - 2) + c) + 2) / 2 ]
 ]
 
-{ #category : #easing }
+{ #category : 'easing' }
 CpTransition class >> easeInOutCubic: aFloat [
 
 	"Algorithm taken from: https://easings.net"
@@ -95,7 +97,7 @@ CpTransition class >> easeInOutCubic: aFloat [
 		ifFalse: [ 1 - (((-2 * aFloat + 2) raisedTo: 3) / 2) ]
 ]
 
-{ #category : #easing }
+{ #category : 'easing' }
 CpTransition class >> easeInOutElastic: aFloat [
 
 	"Algorithm taken from: https://easings.net"
@@ -113,7 +115,7 @@ CpTransition class >> easeInOutElastic: aFloat [
 
 ]
 
-{ #category : #easing }
+{ #category : 'easing' }
 CpTransition class >> easeInOutSine: aFloat [
 
 	"Algorithm taken from: https://easings.net"
@@ -121,7 +123,7 @@ CpTransition class >> easeInOutSine: aFloat [
 	^ ((aFloat * Float pi) cos - 1) / -2
 ]
 
-{ #category : #easing }
+{ #category : 'easing' }
 CpTransition class >> easeOutBack: aFloat [
 
 	"Algorithm taken from: https://easings.net"
@@ -134,7 +136,7 @@ CpTransition class >> easeOutBack: aFloat [
 	^ 1 + (c3 * (aFloat - 1 raisedTo: 3)) + (c1 * (aFloat - 1 raisedTo: 2))
 ]
 
-{ #category : #easing }
+{ #category : 'easing' }
 CpTransition class >> easeOutSine: aFloat [
 
 	"Algorithm taken from: https://easings.net"
@@ -142,7 +144,7 @@ CpTransition class >> easeOutSine: aFloat [
 	^ (aFloat * Float pi / 2) sin
 ]
 
-{ #category : #'accessing - private' }
+{ #category : 'accessing - private' }
 CpTransition class >> isRegisteredTransition: aTransition [
 
 	"Answer whether the specified Transition is being handled"
@@ -150,7 +152,7 @@ CpTransition class >> isRegisteredTransition: aTransition [
 	^ Transitions includes: aTransition
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 CpTransition class >> new [
 
 	"Transitions should not be instantiated without a block.
@@ -159,7 +161,7 @@ CpTransition class >> new [
 	self shouldNotImplement
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 CpTransition class >> onBlock: aBlock [
 
 	"Answer a new instance of the receiver with specified trasition block"
@@ -170,7 +172,7 @@ CpTransition class >> onBlock: aBlock [
 		yourself
 ]
 
-{ #category : #'processing - private' }
+{ #category : 'processing - private' }
 CpTransition class >> performTransitions [
 
 	"Handle 'ticking' all transitions of the receiver"
@@ -195,7 +197,7 @@ CpTransition class >> performTransitions [
 	self unregisterFinishedTransitions: finishedTransitions
 ]
 
-{ #category : #'class initialization' }
+{ #category : 'class initialization' }
 CpTransition class >> postInstallOnce [
 
 	"Register transition process to perform transitions periodically"
@@ -205,7 +207,7 @@ CpTransition class >> postInstallOnce [
 	self registerTransitionProcess
 ]
 
-{ #category : #'accessing - private' }
+{ #category : 'accessing - private' }
 CpTransition class >> registerTransition: aTransition [
 
 	"Register the specified Transition for handling"
@@ -213,7 +215,7 @@ CpTransition class >> registerTransition: aTransition [
 	^ Transitions add: aTransition
 ]
 
-{ #category : #'processing - private' }
+{ #category : 'processing - private' }
 CpTransition class >> registerTransitionProcess [
 
 	"Register a new or reregister the existing transition process"
@@ -228,7 +230,7 @@ CpTransition class >> registerTransitionProcess [
 	self createTransitionProcess
 ]
 
-{ #category : #'processing - private' }
+{ #category : 'processing - private' }
 CpTransition class >> registerTransitionProcess: transitionProcess [
 
 	<primitive: 'primitiveTransitionRegisterProcess:' module: 'CpDOMPlugin'>
@@ -236,7 +238,7 @@ CpTransition class >> registerTransitionProcess: transitionProcess [
 
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpTransition class >> tickCount [
 
 	"Answer a milliseconds based tick count.
@@ -248,7 +250,7 @@ CpTransition class >> tickCount [
 	self primitiveFailed
 ]
 
-{ #category : #'accessing - private' }
+{ #category : 'accessing - private' }
 CpTransition class >> unregisterFinishedTransitions: finishedTransitions [
 
  	"Remove all transitions which have finished.
@@ -267,7 +269,7 @@ CpTransition class >> unregisterFinishedTransitions: finishedTransitions [
  				index := foundIndex - 1 min: currentTransitions size ] ]
 ]
 
-{ #category : #'accessing - private' }
+{ #category : 'accessing - private' }
 CpTransition class >> unregisterTransition: aTransition [
 
 	"Unregister the specified Transition and answer it
@@ -276,7 +278,7 @@ CpTransition class >> unregisterTransition: aTransition [
 	^ Transitions remove: aTransition ifAbsent: [ nil ]
 ]
 
-{ #category : #announcing }
+{ #category : 'announcing' }
 CpTransition >> announce: anAnnouncement [
 
 	"Announce the specified Announcement"
@@ -288,25 +290,25 @@ CpTransition >> announce: anAnnouncement [
 	announcer announce: anAnnouncement
 ]
 
-{ #category : #'accessing - private' }
+{ #category : 'accessing - private' }
 CpTransition >> announcer [
 
 	^ announcer ifNil: [ announcer := Announcer new ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpTransition >> block [
 
 	^ block
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpTransition >> block: aBlock [
 
 	block := aBlock
 ]
 
-{ #category : #actions }
+{ #category : 'actions' }
 CpTransition >> delayBy: anInteger [
 
 	"Delay the start of the receiver by the specified amount of milliseconds"
@@ -315,13 +317,13 @@ CpTransition >> delayBy: anInteger [
 	startTick := self class tickCount + anInteger
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpTransition >> duration [
 
 	^ duration
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpTransition >> duration: anInteger [
 
 	"Set the duration in milliseconds (must be non negative)"
@@ -329,7 +331,7 @@ CpTransition >> duration: anInteger [
 	duration := anInteger
 ]
 
-{ #category : #actions }
+{ #category : 'actions' }
 CpTransition >> finish [
 
 	"Finish the receiver (possibly premature).
@@ -343,7 +345,7 @@ CpTransition >> finish [
 		handleTick: self duration
 ]
 
-{ #category : #transitioning }
+{ #category : 'transitioning' }
 CpTransition >> handleTick: anInteger [
 
 	"Handle a tick of the receiver.
@@ -369,7 +371,7 @@ CpTransition >> handleTick: anInteger [
 			self announce: CpTransitionEnded ]
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 CpTransition >> initialize [
 
 	super initialize.
@@ -377,7 +379,7 @@ CpTransition >> initialize [
 	duration := 0
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 CpTransition >> isRunning [
 
 	"Answer whether the receiver is running (is being handled).
@@ -391,7 +393,7 @@ CpTransition >> isRunning [
 			ifNil: [ false ] ]
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 CpTransition >> isScheduled [
 
 	"Answer whether the receiver is scheduled for handling"
@@ -399,7 +401,7 @@ CpTransition >> isScheduled [
 	^ self startTick notNil
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpTransition >> progressAt: anInteger [
 
 	"Answer the progress (a value between 0.0 and 1.0, inclusive) of the receiver when
@@ -413,7 +415,7 @@ CpTransition >> progressAt: anInteger [
 	^ (anInteger / self duration) min: 1.0
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 CpTransition >> release [
 
 	announcer ifNotNil: [
@@ -424,7 +426,7 @@ CpTransition >> release [
 	super release
 ]
 
-{ #category : #announcing }
+{ #category : 'announcing' }
 CpTransition >> removeSubscription: aSubscription [
 
 	"Remove the specified subscription from the receiver"
@@ -432,7 +434,7 @@ CpTransition >> removeSubscription: aSubscription [
 	^ self announcer removeSubscription: aSubscription
 ]
 
-{ #category : #actions }
+{ #category : 'actions' }
 CpTransition >> start [
 
 	"Start the receiver directly"
@@ -440,7 +442,7 @@ CpTransition >> start [
 	^ self startDelayedBy: 0
 ]
 
-{ #category : #actions }
+{ #category : 'actions' }
 CpTransition >> startDelayedBy: anInteger [
 
 	"Start the receiver after the specified amount of milliseconds"
@@ -450,7 +452,7 @@ CpTransition >> startDelayedBy: anInteger [
 	^ self class registerTransition: self
 ]
 
-{ #category : #actions }
+{ #category : 'actions' }
 CpTransition >> startInSyncWith: anotherTransition [
 
 	"Start the receiver in parallel with the specified Transition"
@@ -458,7 +460,7 @@ CpTransition >> startInSyncWith: anotherTransition [
 	^ self startInSyncWith: anotherTransition delayedBy: 0
 ]
 
-{ #category : #actions }
+{ #category : 'actions' }
 CpTransition >> startInSyncWith: anotherTransition delayedBy: anInteger [
 
 	"Start the receiver in sync with the specified Transition with a fixed
@@ -473,13 +475,13 @@ CpTransition >> startInSyncWith: anotherTransition delayedBy: anInteger [
 	^ self class registerTransition: self
 ]
 
-{ #category : #'accessing - private' }
+{ #category : 'accessing - private' }
 CpTransition >> startTick [
 
 	^ startTick
 ]
 
-{ #category : #actions }
+{ #category : 'actions' }
 CpTransition >> stop [
 
 	"Stop the receiver without further handling.
@@ -489,7 +491,7 @@ CpTransition >> stop [
 	self class unregisterTransition: self
 ]
 
-{ #category : #announcing }
+{ #category : 'announcing' }
 CpTransition >> unsubscribe: anObject [
 
 	"Unsubscribe the specified Object from Announcements of the receiver"
@@ -497,13 +499,13 @@ CpTransition >> unsubscribe: anObject [
 	^ self announcer unsubscribe: anObject
 ]
 
-{ #category : #announcing }
+{ #category : 'announcing' }
 CpTransition >> when: anAnnouncement do: aBlock [
 
 	^ self announcer when: anAnnouncement do: aBlock
 ]
 
-{ #category : #announcing }
+{ #category : 'announcing' }
 CpTransition >> when: anAnnouncement send: aSymbol to: anObject [
 
 	^ self announcer when: anAnnouncement send: aSymbol to: anObject

@@ -2,12 +2,14 @@
 I am a View representing the Screen of the web browser I live in. 
 "
 Class {
-	#name : #CpScreen,
-	#superclass : #CpView,
-	#category : #'CodeParadise-WebApplication-MVP-Core'
+	#name : 'CpScreen',
+	#superclass : 'CpView',
+	#category : 'CodeParadise-WebApplication-MVP-Core',
+	#package : 'CodeParadise-WebApplication-MVP',
+	#tag : 'Core'
 }
 
-{ #category : #'web resources' }
+{ #category : 'web resources' }
 CpScreen class >> globalStyle [
 
 	<webResource: #css>
@@ -25,7 +27,7 @@ CpScreen class >> globalStyle [
 	}'
 ]
 
-{ #category : #'web resources' }
+{ #category : 'web resources' }
 CpScreen class >> style [
 
 	<webResource: #css>
@@ -51,7 +53,7 @@ CpScreen class >> style [
 	}'
 ]
 
-{ #category : #'web resources' }
+{ #category : 'web resources' }
 CpScreen class >> template [
 
 	<webResource: #html>
@@ -61,13 +63,13 @@ CpScreen class >> template [
 		</div>'
 ]
 
-{ #category : #sizing }
+{ #category : 'sizing' }
 CpScreen >> height [
 
 	^ self propertyAt: #clientHeight
 ]
 
-{ #category : #sizing }
+{ #category : 'sizing' }
 CpScreen >> width [
 
 	^ self propertyAt: #clientWidth

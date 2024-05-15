@@ -1,6 +1,6 @@
-Extension { #name : #Announcement }
+Extension { #name : 'Announcement' }
 
-{ #category : #'*CodeParadise-RemoteEnvironment' }
+{ #category : '*CodeParadise-RemoteEnvironment' }
 Announcement >> cpEncodeWith: anEncoder [
 
 	<clientEnvironment>

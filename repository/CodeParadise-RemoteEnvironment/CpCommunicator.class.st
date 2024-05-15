@@ -11,18 +11,20 @@ On every message received I also receive the MessageChannel on which the message
 
 "
 Class {
-	#name : #CpCommunicator,
-	#superclass : #Object,
+	#name : 'CpCommunicator',
+	#superclass : 'Object',
 	#instVars : [
 		'owner',
 		'unsentMessages',
 		'unsentMessagesMutex',
 		'messageChannel'
 	],
-	#category : #'CodeParadise-RemoteEnvironment-Core'
+	#category : 'CodeParadise-RemoteEnvironment-Core',
+	#package : 'CodeParadise-RemoteEnvironment',
+	#tag : 'Core'
 }
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 CpCommunicator class >> newForOwner: ownerObject [
 
 	"Answer a new instance of the receiver for the specified owner.
@@ -34,7 +36,7 @@ CpCommunicator class >> newForOwner: ownerObject [
 		yourself
 ]
 
-{ #category : #sending }
+{ #category : 'sending' }
 CpCommunicator >> basicSendMessage: aByteArray [
 
 	"Send message to the server and answer whether send is successful"
@@ -47,7 +49,7 @@ CpCommunicator >> basicSendMessage: aByteArray [
 	^ true
 ]
 
-{ #category : #'public api' }
+{ #category : 'public api' }
 CpCommunicator >> close [
 
 	"Disconnect from the server"
@@ -59,7 +61,7 @@ CpCommunicator >> close [
 	self releaseMessageChannel
 ]
 
-{ #category : #receiving }
+{ #category : 'receiving' }
 CpCommunicator >> handleMessageReceived: aByteArray on: aMessageChannel [
 
 	"Let the owner handle the message received"
@@ -70,7 +72,7 @@ CpCommunicator >> handleMessageReceived: aByteArray on: aMessageChannel [
 	aByteArray ifNotNil: [ self owner handleMessageReceived: aByteArray ]
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 CpCommunicator >> hasMessageChannel [
 
 	"Answer whether the receiver has a MessageChannel (irrespective of its connection state)"
@@ -78,7 +80,7 @@ CpCommunicator >> hasMessageChannel [
 	^ messageChannel notNil
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 CpCommunicator >> hasOpenMessageChannel [
 
 	"Answer whether the receiver has a MessageChannel which is open (ie can send and receive messages)"
@@ -86,13 +88,13 @@ CpCommunicator >> hasOpenMessageChannel [
 	^ messageChannel notNil and: [ messageChannel isOpen ]
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 CpCommunicator >> hasUnsentMessages [
 
 	^ self unsentMessagesCount > 0
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 CpCommunicator >> initialize [
 
 	"Initialze the receiver"
@@ -103,7 +105,7 @@ CpCommunicator >> initialize [
 	unsentMessagesMutex := Mutex new
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 CpCommunicator >> initializeWithOwner: ownerObject [
 
 	"Initialize the receiver with the specified owner.
@@ -115,7 +117,7 @@ CpCommunicator >> initializeWithOwner: ownerObject [
 	owner := ownerObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpCommunicator >> messageChannel [
 
 	"Answer the receiver's MessageChannel"
@@ -123,7 +125,7 @@ CpCommunicator >> messageChannel [
 	^ messageChannel
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpCommunicator >> messageChannel: aMessageChannel [
 
 	"Set the receiver's MessageChannel. If nil the existing MessageChannel closed.
@@ -140,7 +142,7 @@ CpCommunicator >> messageChannel: aMessageChannel [
 		ifNotNil: [ self sendUnsentMessages ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpCommunicator >> owner [
 
 	"Answer the owner of the receiver"
@@ -148,7 +150,7 @@ CpCommunicator >> owner [
 	^ owner
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 CpCommunicator >> release [
 
 	"Release the receiver's instance variables"
@@ -163,7 +165,7 @@ CpCommunicator >> release [
 	super release
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 CpCommunicator >> releaseMessageChannel [
 
 	"Release the receiver's MessageChannel.
@@ -175,7 +177,7 @@ CpCommunicator >> releaseMessageChannel [
 	messageChannel := nil
 ]
 
-{ #category : #sending }
+{ #category : 'sending' }
 CpCommunicator >> sendFirstUnsentMessage [
 
 	"Send the first unsent message. Answer whether send is successful.
@@ -195,7 +197,7 @@ CpCommunicator >> sendFirstUnsentMessage [
 		^ true ]
 ]
 
-{ #category : #'public api' }
+{ #category : 'public api' }
 CpCommunicator >> sendMessage: aByteArray [
 
 	"Send message to the server. Store message if sending failed."
@@ -212,7 +214,7 @@ CpCommunicator >> sendMessage: aByteArray [
 			unsentMessages add: aByteArray ]
 ]
 
-{ #category : #sending }
+{ #category : 'sending' }
 CpCommunicator >> sendUnsentMessages [
 
 	"Send all unsent messages in order"
@@ -221,7 +223,7 @@ CpCommunicator >> sendUnsentMessages [
 
 ]
 
-{ #category : #'public api' }
+{ #category : 'public api' }
 CpCommunicator >> unsentMessagesByteSize [
 
 	"Answer the number of bytes inside the unsent messages of the receiver"
@@ -230,7 +232,7 @@ CpCommunicator >> unsentMessagesByteSize [
 		^ unsentMessages inject: 0 into: [ :sum :each | sum + each size ] ]
 ]
 
-{ #category : #'public api' }
+{ #category : 'public api' }
 CpCommunicator >> unsentMessagesCount [
 
 	"Answer the number of unsent messages in the receiver"

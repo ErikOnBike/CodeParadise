@@ -13,15 +13,17 @@ See for some examples CpChartJSExamplesWebApplication
 
 "
 Class {
-	#name : #CjsChart,
-	#superclass : #Object,
+	#name : 'CjsChart',
+	#superclass : 'Object',
 	#instVars : [
 		'element'
 	],
-	#category : #'CodeParadise-WebApplication-ChartJS-Core'
+	#category : 'CodeParadise-WebApplication-ChartJS-Core',
+	#package : 'CodeParadise-WebApplication-ChartJS',
+	#tag : 'Core'
 }
 
-{ #category : #'class initialization' }
+{ #category : 'class initialization' }
 CjsChart class >> loadLibrary [
 
 	"Load library from CDN"
@@ -57,7 +59,7 @@ CjsChart class >> loadLibrary [
 			};'
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 CjsChart class >> on: anElement config: aDictionary [
 
 	^ self basicNew
@@ -65,13 +67,13 @@ CjsChart class >> on: anElement config: aDictionary [
 		yourself
 ]
 
-{ #category : #'class initialization' }
+{ #category : 'class initialization' }
 CjsChart class >> postInstallOnce [
 
 	self loadLibrary
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CjsChart >> data: aCollection [
 
 	"Replace the data of the datasets with the specified data (a Collection of Collection of values)"
@@ -81,7 +83,7 @@ CjsChart >> data: aCollection [
 		self propertyAt: { #data . #datasets . index - 1 . #data } put: data ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CjsChart >> datasets: aCollection [
 
 	"Replace all datasets with the specified collection of datasets (each dataset is Dictionary with #label, #data, etc)"
@@ -89,7 +91,7 @@ CjsChart >> datasets: aCollection [
 	self propertyAt: #(data datasets) put: aCollection
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 CjsChart >> initializeWithElement: anElement config: aDictionary [
 
 	self initialize.
@@ -99,7 +101,7 @@ CjsChart >> initializeWithElement: anElement config: aDictionary [
 	CpDomElement globalApply: #cjsCreateChart withArguments: { element . aDictionary }
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CjsChart >> labels: aCollection [
 
 	"Replace all labels with the specified labels (Collection of Strings)"
@@ -107,7 +109,7 @@ CjsChart >> labels: aCollection [
 	self propertyAt: #(data labels) put: aCollection
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CjsChart >> propertyAt: anArray put: anObject [
 
 	"Set the specified property (collection of property names/indices) to the specified value.
@@ -133,7 +135,7 @@ CjsChart >> propertyAt: anArray put: anObject [
 	CpDomElement globalApply: #cjsSetChartProperty withArguments: { element . anArray . anObject }
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CjsChart >> type: aString [
 
 	"Set the type of chart"
@@ -141,7 +143,7 @@ CjsChart >> type: aString [
 	self propertyAt: #(config type) put: aString
 ]
 
-{ #category : #updating }
+{ #category : 'updating' }
 CjsChart >> update [
 
 	"Update the Chart (visually)"
@@ -149,7 +151,7 @@ CjsChart >> update [
 	CpDomElement globalApply: #cjsUpdateChart withArguments: { element }
 ]
 
-{ #category : #updating }
+{ #category : 'updating' }
 CjsChart >> updateData: aCollection [
 
 	"Update all datasets by replacing their data collection with the specified collection of data (aCollection contains collections of values)"
@@ -159,14 +161,14 @@ CjsChart >> updateData: aCollection [
 	self update
 ]
 
-{ #category : #updating }
+{ #category : 'updating' }
 CjsChart >> updateData: dataCollection labels: labelCollection [
 
 	self labels: labelCollection.
 	self updateData: dataCollection
 ]
 
-{ #category : #updating }
+{ #category : 'updating' }
 CjsChart >> updateDataset: aDictionary [
 
 	"Update receiver by replacing all datasets with the specified dataset (Dictionary)"
@@ -174,14 +176,14 @@ CjsChart >> updateDataset: aDictionary [
 	self updateDatasets: { aDictionary }
 ]
 
-{ #category : #updating }
+{ #category : 'updating' }
 CjsChart >> updateDataset: aDictionary labels: aCollection [
 
 	self labels: aCollection.
 	self updateDataset: aDictionary
 ]
 
-{ #category : #updating }
+{ #category : 'updating' }
 CjsChart >> updateDatasets: aCollection [
 
 	"Update all datasets"
@@ -191,14 +193,14 @@ CjsChart >> updateDatasets: aCollection [
 	self update
 ]
 
-{ #category : #updating }
+{ #category : 'updating' }
 CjsChart >> updateDatasets: datasetCollection labels: labelCollection [
 
 	self labels: labelCollection.
 	self updateDatasets: datasetCollection
 ]
 
-{ #category : #updating }
+{ #category : 'updating' }
 CjsChart >> updateLabels: aCollection [
 
 	"Update all labels by replacing them with the specified labels (Collection of Strings)"

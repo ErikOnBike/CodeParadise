@@ -1,6 +1,6 @@
-Extension { #name : #MessageSend }
+Extension { #name : 'MessageSend' }
 
-{ #category : #'*CodeParadise-RemoteEnvironment' }
+{ #category : '*CodeParadise-RemoteEnvironment' }
 MessageSend >> cpEncodeWith: anEncoder [
 
 	<clientEnvironment>

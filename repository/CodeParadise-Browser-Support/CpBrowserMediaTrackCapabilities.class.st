@@ -1,10 +1,12 @@
 Class {
-	#name : #CpBrowserMediaTrackCapabilities,
-	#superclass : #CpJavaScriptObject,
-	#category : #'CodeParadise-Browser-Support-MediaStreams'
+	#name : 'CpBrowserMediaTrackCapabilities',
+	#superclass : 'CpJavaScriptObject',
+	#category : 'CodeParadise-Browser-Support-MediaStreams',
+	#package : 'CodeParadise-Browser-Support',
+	#tag : 'MediaStreams'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpBrowserMediaTrackCapabilities class >> getClassName [
 
 	"Browsers implement me as a regular object/dictionary, therefore override the class I represent"
@@ -12,7 +14,7 @@ CpBrowserMediaTrackCapabilities class >> getClassName [
 	^ 'Object'
 ]
 
-{ #category : #'reflective operations' }
+{ #category : 'reflective operations' }
 CpBrowserMediaTrackCapabilities >> doesNotUnderstand: aMessage [
 
 	"Convenience method to allow accessing properties directly.

@@ -6,15 +6,17 @@ See some examples in the class comment for CpBasicEvent.
 
 "
 Class {
-	#name : #CpFieldChanged,
-	#superclass : #CpBasicEvent,
+	#name : 'CpFieldChanged',
+	#superclass : 'CpBasicEvent',
 	#instVars : [
 		'value'
 	],
-	#category : #'CodeParadise-WebApplication-MVP-Support'
+	#category : 'CodeParadise-WebApplication-MVP-Support',
+	#package : 'CodeParadise-WebApplication-MVP',
+	#tag : 'Support'
 }
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 CpFieldChanged class >> id: aSymbol [
 
 	"Answer an instance of the receiver with no specific value.
@@ -30,7 +32,7 @@ CpFieldChanged class >> id: aSymbol [
 	^ self id: aSymbol value: UndefinedObject
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 CpFieldChanged class >> id: aSymbol value: anObject [
 
 	^ self basicNew
@@ -38,7 +40,7 @@ CpFieldChanged class >> id: aSymbol value: anObject [
 		yourself
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 CpFieldChanged >> handlesAnnouncement: anAnnouncement [
 
 	"Answer whether the receiver handles the specified announcement.
@@ -51,7 +53,7 @@ CpFieldChanged >> handlesAnnouncement: anAnnouncement [
 		and: [ self matchesValueIn: anAnnouncement ]
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 CpFieldChanged >> hasValue [
 
 	"Answer whether the receiver has an explicit value.
@@ -61,7 +63,7 @@ CpFieldChanged >> hasValue [
 	^ value ~~ UndefinedObject
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 CpFieldChanged >> initializeWithId: aSymbol value: anObject [
 
 	self initializeWithId: aSymbol.
@@ -69,7 +71,7 @@ CpFieldChanged >> initializeWithId: aSymbol value: anObject [
 	value := anObject
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 CpFieldChanged >> matchesValueIn: anAnnouncement [
 
 	"Answer whether the receiver's value matches the one in the specified
@@ -87,7 +89,7 @@ CpFieldChanged >> matchesValueIn: anAnnouncement [
 	^ value = anAnnouncement value
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 CpFieldChanged >> printOn: aStream [
 
 	super printOn: aStream.
@@ -96,7 +98,7 @@ CpFieldChanged >> printOn: aStream [
 		print: value
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpFieldChanged >> value [
 
 	"Answer the value of the receiver or nil if no (explicit) value is present"

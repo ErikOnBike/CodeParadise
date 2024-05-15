@@ -1,6 +1,6 @@
-Extension { #name : #Behavior }
+Extension { #name : 'Behavior' }
 
-{ #category : #'*CodeParadise-RemoteEnvironment' }
+{ #category : '*CodeParadise-RemoteEnvironment' }
 Behavior >> installMethodDictionary: aMethodDictionary [
 
 	"Install the specified method dictionary and bind any class variables

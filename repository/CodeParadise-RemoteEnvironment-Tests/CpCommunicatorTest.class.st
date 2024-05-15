@@ -2,12 +2,13 @@
 Tests for Communicator
 "
 Class {
-	#name : #CpCommunicatorTest,
-	#superclass : #TestCase,
-	#category : #'CodeParadise-RemoteEnvironment-Tests'
+	#name : 'CpCommunicatorTest',
+	#superclass : 'TestCase',
+	#category : 'CodeParadise-RemoteEnvironment-Tests',
+	#package : 'CodeParadise-RemoteEnvironment-Tests'
 }
 
-{ #category : #tests }
+{ #category : 'tests' }
 CpCommunicatorTest >> testClientSendBeforeConnection [
 
 	| originalClientMessages originalServerMessages client clientOwner clientMessages server serverOwner serverMessages semaphore |
@@ -55,7 +56,7 @@ CpCommunicatorTest >> testClientSendBeforeConnection [
 		assertCollection: originalServerMessages equals: clientMessages
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 CpCommunicatorTest >> testConnectionStrategies [
 
 	| client clientOwner server serverOwner |
@@ -90,7 +91,7 @@ CpCommunicatorTest >> testConnectionStrategies [
 	self assert: client hasOpenMessageChannel description: 'Reconnect with reconnection strategy from client close'
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 CpCommunicatorTest >> testReconnectStrategy [
 
 	| originalClientMessages client clientOwner server serverOwner serverMessages semaphore |
@@ -143,7 +144,7 @@ CpCommunicatorTest >> testReconnectStrategy [
 	self assertCollection: originalClientMessages equals: serverMessages
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 CpCommunicatorTest >> testSendReceive [
 
 	| originalClientMessages originalServerMessages client clientOwner clientMessages server serverOwner serverMessages semaphore |
@@ -190,7 +191,7 @@ CpCommunicatorTest >> testSendReceive [
 		assertCollection: originalServerMessages equals: clientMessages
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 CpCommunicatorTest >> testSendWithReconnects [
 
 	| originalClientMessages client clientOwner server serverOwner serverMessages semaphore |
@@ -245,7 +246,7 @@ CpCommunicatorTest >> testSendWithReconnects [
 	self assertCollection: originalClientMessages equals: serverMessages
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 CpCommunicatorTest >> testServerSendBeforeConnection [
 
 	| originalClientMessages originalServerMessages client clientOwner clientMessages server serverOwner serverMessages semaphore |

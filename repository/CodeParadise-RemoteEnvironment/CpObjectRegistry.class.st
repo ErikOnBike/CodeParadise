@@ -2,16 +2,18 @@
 I am an ObjectRegistry. I am a simple Dictionary-like registry responsible for mapping Objects onto identifiers and vice versa.
 "
 Class {
-	#name : #CpObjectRegistry,
-	#superclass : #Object,
+	#name : 'CpObjectRegistry',
+	#superclass : 'Object',
 	#instVars : [
 		'objects',
 		'objectsMutex'
 	],
-	#category : #'CodeParadise-RemoteEnvironment-Core'
+	#category : 'CodeParadise-RemoteEnvironment-Core',
+	#package : 'CodeParadise-RemoteEnvironment',
+	#tag : 'Core'
 }
 
-{ #category : #'public api' }
+{ #category : 'public api' }
 CpObjectRegistry >> idOfObject: anObject [
 
 	"Answer the identifier of the specified Object.
@@ -22,7 +24,7 @@ CpObjectRegistry >> idOfObject: anObject [
 		ifAbsent: [ Error signal: 'Object not registered: ', anObject printString ]
 ]
 
-{ #category : #'public api' }
+{ #category : 'public api' }
 CpObjectRegistry >> idOfObject: anObject ifAbsent: aBlock [
 
 	"Answer the identifier of the specified Object.
@@ -34,7 +36,7 @@ CpObjectRegistry >> idOfObject: anObject ifAbsent: aBlock [
 			ifAbsent: [ aBlock value ] ]
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 CpObjectRegistry >> initialize [
 
 	super initialize.
@@ -43,7 +45,7 @@ CpObjectRegistry >> initialize [
 	objectsMutex := Mutex new
 ]
 
-{ #category : #'public api' }
+{ #category : 'public api' }
 CpObjectRegistry >> objectWithId: identifier [
 
 	"Answer the Object which is registered under the specified identifier.
@@ -59,7 +61,7 @@ CpObjectRegistry >> objectWithId: identifier [
 				nil ] ]
 ]
 
-{ #category : #'public api' }
+{ #category : 'public api' }
 CpObjectRegistry >> registerObject: anObject withId: identifier [
 
 	"Register the specified Object using the identifier supplied. Answer the registered Object."
@@ -69,7 +71,7 @@ CpObjectRegistry >> registerObject: anObject withId: identifier [
 	^ anObject
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 CpObjectRegistry >> release [
 
 	"Release the receiver's instance variables"
@@ -80,7 +82,7 @@ CpObjectRegistry >> release [
 	super release
 ]
 
-{ #category : #'public api' }
+{ #category : 'public api' }
 CpObjectRegistry >> unregisterObject: anObject [
 
 	"Unregister the specified Object. Answer the unregistered Object.
@@ -91,7 +93,7 @@ CpObjectRegistry >> unregisterObject: anObject [
 		ifAbsent: [ Error signal: 'Unregistering an Object which is not registered: ', anObject printString ]
 ]
 
-{ #category : #'public api' }
+{ #category : 'public api' }
 CpObjectRegistry >> unregisterObject: anObject ifAbsent: aBlock [
 
 	"Unregister the specified Object. Answer the unregistered Object"
@@ -101,7 +103,7 @@ CpObjectRegistry >> unregisterObject: anObject ifAbsent: aBlock [
 	^ anObject
 ]
 
-{ #category : #'public api' }
+{ #category : 'public api' }
 CpObjectRegistry >> unregisterObjectWithId: identifier [
 
 	"Unregister the Object which is identified by the specified identifier. Answer the Object.

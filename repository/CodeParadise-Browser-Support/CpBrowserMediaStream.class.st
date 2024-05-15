@@ -1,10 +1,12 @@
 Class {
-	#name : #CpBrowserMediaStream,
-	#superclass : #CpJavaScriptEventTarget,
-	#category : #'CodeParadise-Browser-Support-MediaStreams'
+	#name : 'CpBrowserMediaStream',
+	#superclass : 'CpJavaScriptEventTarget',
+	#category : 'CodeParadise-Browser-Support-MediaStreams',
+	#package : 'CodeParadise-Browser-Support',
+	#tag : 'MediaStreams'
 }
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 CpBrowserMediaStream class >> newInstanceWithStream: aMediaStream [
 
 	"Create an instance of the receiver based on another MediaStream.
@@ -13,7 +15,7 @@ CpBrowserMediaStream class >> newInstanceWithStream: aMediaStream [
 	^ self newInstanceWithArguments: { aMediaStream }
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 CpBrowserMediaStream class >> newInstanceWithTracks: anArray [
 
 	"Create an instance of the receiver based on an Array of MediaStreamTrack.
@@ -22,7 +24,7 @@ CpBrowserMediaStream class >> newInstanceWithTracks: anArray [
 	^ self newInstanceWithArguments: { anArray }
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpBrowserMediaStream >> active [
 
 	"A Boolean value that returns true if the MediaStream is active, or false otherwise."
@@ -30,7 +32,7 @@ CpBrowserMediaStream >> active [
 	^ self propertyAt: #active
 ]
 
-{ #category : #operations }
+{ #category : 'operations' }
 CpBrowserMediaStream >> addTrack: aMediaStreamTrack [
 
 	"Stores a copy of the MediaStreamTrack given as argument. If the track has already been added to the MediaStream object, nothing happens."
@@ -38,7 +40,7 @@ CpBrowserMediaStream >> addTrack: aMediaStreamTrack [
 	self apply: #addTrack withArguments: { aMediaStreamTrack }
 ]
 
-{ #category : #operations }
+{ #category : 'operations' }
 CpBrowserMediaStream >> clone [
 
 	"Returns a clone of the MediaStream object. The clone will, however, have a unique value for id."
@@ -46,7 +48,7 @@ CpBrowserMediaStream >> clone [
 	^ self apply: #clone
 ]
 
-{ #category : #operations }
+{ #category : 'operations' }
 CpBrowserMediaStream >> getAudioTracks [
 
 	"Returns a list of the MediaStreamTrack objects stored in the MediaStream object that have their kind attribute set to audio. The order is not defined, and may not only vary from one browser to another, but also from one call to another."
@@ -54,7 +56,7 @@ CpBrowserMediaStream >> getAudioTracks [
 	^ self apply: #getAudioTracks
 ]
 
-{ #category : #operations }
+{ #category : 'operations' }
 CpBrowserMediaStream >> getTrackById: aString [
 
 	"Returns the track whose ID corresponds to the one given in parameters, trackid. If no parameter is given, or if no track with that ID does exist, it returns null. If several tracks have the same ID, it returns the first one."
@@ -62,7 +64,7 @@ CpBrowserMediaStream >> getTrackById: aString [
 	^ self apply: #getTrackById
 ]
 
-{ #category : #operations }
+{ #category : 'operations' }
 CpBrowserMediaStream >> getTracks [
 
 	"Returns a list of all MediaStreamTrack objects stored in the MediaStream object, regardless of the value of the kind attribute. The order is not defined, and may not only vary from one browser to another, but also from one call to another."
@@ -70,7 +72,7 @@ CpBrowserMediaStream >> getTracks [
 	^ self apply: #getTracks
 ]
 
-{ #category : #operations }
+{ #category : 'operations' }
 CpBrowserMediaStream >> getVideoTracks [
 
 	"Returns a list of the MediaStreamTrack objects stored in the MediaStream object that have their kind attribute set to video. The order is not defined, and may not only vary from one browser to another, but also from one call to another."
@@ -78,7 +80,7 @@ CpBrowserMediaStream >> getVideoTracks [
 	^ self apply: #getVideoTracks
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpBrowserMediaStream >> id [
 
 	"A string containing a 36-character universally unique identifier (UUID) for the object."
@@ -86,7 +88,7 @@ CpBrowserMediaStream >> id [
 	^ self propertyAt: #id
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 CpBrowserMediaStream >> onActiveDo: aBlock [
 
 	"Fired when the MediaStream is activated."
@@ -97,7 +99,7 @@ CpBrowserMediaStream >> onActiveDo: aBlock [
 	^ self addEventListener: #active handler: aBlock
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 CpBrowserMediaStream >> onAddTrackDo: aBlock [
 
 	"Fired when a new MediaStreamTrack object is added."
@@ -108,7 +110,7 @@ CpBrowserMediaStream >> onAddTrackDo: aBlock [
 	^ self addEventListener: #addtrack handler: aBlock
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 CpBrowserMediaStream >> onInactiveDo: aBlock [
 
 	"Fired when the MediaStream is inactivated."
@@ -119,7 +121,7 @@ CpBrowserMediaStream >> onInactiveDo: aBlock [
 	^ self addEventListener: #inactive handler: aBlock
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 CpBrowserMediaStream >> onRemoveTrackDo: aBlock [
 
 	"Fired when a MediaStreamTrack object has been removed."
@@ -130,7 +132,7 @@ CpBrowserMediaStream >> onRemoveTrackDo: aBlock [
 	^ self addEventListener: #removetrack handler: aBlock
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 CpBrowserMediaStream >> removeActiveHandler: aFunction [
 
 	"Remove an earlier installed event listener
@@ -139,7 +141,7 @@ CpBrowserMediaStream >> removeActiveHandler: aFunction [
 	self removeEventListener: #active handler: aFunction
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 CpBrowserMediaStream >> removeAddTrackHandler: aFunction [
 
 	"Remove an earlier installed event listener
@@ -148,7 +150,7 @@ CpBrowserMediaStream >> removeAddTrackHandler: aFunction [
 	self removeEventListener: #addtrack handler: aFunction
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 CpBrowserMediaStream >> removeInactiveHandler: aFunction [
 
 	"Remove an earlier installed event listener
@@ -157,7 +159,7 @@ CpBrowserMediaStream >> removeInactiveHandler: aFunction [
 	self removeEventListener: #inactive handler: aFunction
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 CpBrowserMediaStream >> removeRemoveTrackHandler: aFunction [
 
 	"Remove an earlier installed event listener
@@ -166,7 +168,7 @@ CpBrowserMediaStream >> removeRemoveTrackHandler: aFunction [
 	self removeEventListener: #removetrack handler: aFunction
 ]
 
-{ #category : #operations }
+{ #category : 'operations' }
 CpBrowserMediaStream >> removeTrack: aMediaStreamTrack [
 
 	"Removes the MediaStreamTrack given as argument. If the track is not part of the MediaStream object, nothing happens."
@@ -174,7 +176,7 @@ CpBrowserMediaStream >> removeTrack: aMediaStreamTrack [
 	self apply: #removeTrack withArguments: { aMediaStreamTrack }
 ]
 
-{ #category : #operations }
+{ #category : 'operations' }
 CpBrowserMediaStream >> stop [
 
 	"Stop the stream.

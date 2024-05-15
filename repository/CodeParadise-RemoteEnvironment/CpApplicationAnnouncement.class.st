@@ -1,13 +1,15 @@
 Class {
-	#name : #CpApplicationAnnouncement,
-	#superclass : #Announcement,
+	#name : 'CpApplicationAnnouncement',
+	#superclass : 'Announcement',
 	#instVars : [
 		'application'
 	],
-	#category : #'CodeParadise-RemoteEnvironment-Core-Announcements'
+	#category : 'CodeParadise-RemoteEnvironment-Core-Announcements',
+	#package : 'CodeParadise-RemoteEnvironment',
+	#tag : 'Core-Announcements'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpApplicationAnnouncement class >> application: anApplication [
 
 	^ self basicNew
@@ -15,13 +17,13 @@ CpApplicationAnnouncement class >> application: anApplication [
 		yourself
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpApplicationAnnouncement >> application [
 
 	^ application
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 CpApplicationAnnouncement >> initializeWithApplication: anApplication [
 
 	self initialize.

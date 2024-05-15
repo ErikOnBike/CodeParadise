@@ -1,13 +1,15 @@
 Class {
-	#name : #CpNodeJSSnapshot,
-	#superclass : #Object,
+	#name : 'CpNodeJSSnapshot',
+	#superclass : 'Object',
 	#classVars : [
 		'SnapshotClasses'
 	],
-	#category : #'CodeParadise-NodeJS-Support-Snapshot'
+	#category : 'CodeParadise-NodeJS-Support-Snapshot',
+	#package : 'CodeParadise-NodeJS-Support',
+	#tag : 'Snapshot'
 }
 
-{ #category : #private }
+{ #category : 'private' }
 CpNodeJSSnapshot class >> loadSystemPlugin [
 
 	"Load the System plugin by executing a trivial primitive from the plugin"
@@ -16,14 +18,14 @@ CpNodeJSSnapshot class >> loadSystemPlugin [
 	self primitiveFailed
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpNodeJSSnapshot class >> registerSnapshotClass: aClass [
 
 	(SnapshotClasses ifNil: [ SnapshotClasses := Set new ])
 		add: aClass
 ]
 
-{ #category : #actions }
+{ #category : 'actions' }
 CpNodeJSSnapshot class >> saveSnapshot [
 
 	"Start snapshot in separate process which terminates itself"
@@ -32,7 +34,7 @@ CpNodeJSSnapshot class >> saveSnapshot [
 		Processor activeProcess terminate ] asContext  priority: 2) resume
 ]
 
-{ #category : #actions }
+{ #category : 'actions' }
 CpNodeJSSnapshot class >> snapshotImage [
 
 	"Snapshot the image for later restarting it with the current content.

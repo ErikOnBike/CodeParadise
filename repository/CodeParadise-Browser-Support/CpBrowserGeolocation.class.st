@@ -1,10 +1,12 @@
 Class {
-	#name : #CpBrowserGeolocation,
-	#superclass : #CpJavaScriptObject,
-	#category : #'CodeParadise-Browser-Support-Geolocation'
+	#name : 'CpBrowserGeolocation',
+	#superclass : 'CpJavaScriptObject',
+	#category : 'CodeParadise-Browser-Support-Geolocation',
+	#package : 'CodeParadise-Browser-Support',
+	#tag : 'Geolocation'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpBrowserGeolocation class >> current [
 
 	"Answer an instance of the receiver"
@@ -13,13 +15,13 @@ CpBrowserGeolocation class >> current [
 		apply: #geolocation resultAs: self
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 CpBrowserGeolocation class >> newInstanceWithArguments: anArray resultAs: aProxyClass [
 
 	self error: 'An instance should be retrieved using the selector ', #current
 ]
 
-{ #category : #'class initialization' }
+{ #category : 'class initialization' }
 CpBrowserGeolocation class >> postInstallOnce [
 
 	CpBrowserGeolocationPosition beLoaded.
@@ -27,13 +29,13 @@ CpBrowserGeolocation class >> postInstallOnce [
 	CpBrowserGeolocationCoordinates beLoaded
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpBrowserGeolocation >> getCurrentPosition: successBlock onError: errorBlock [
 
 	^ self getCurrentPosition: successBlock  onError: errorBlock withOptions: nil
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpBrowserGeolocation >> getCurrentPosition: successBlock onError: errorBlock withOptions: aDictionary [
 
 	"Determines the device's current location and gives back a GeolocationPosition object with the data."

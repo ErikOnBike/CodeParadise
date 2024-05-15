@@ -10,17 +10,19 @@ Implementation:
 
 "
 Class {
-	#name : #CpObjectEncoder,
-	#superclass : #Object,
+	#name : 'CpObjectEncoder',
+	#superclass : 'Object',
 	#instVars : [
 		'writeStream',
 		'stringTable',
 		'symbolTable'
 	],
-	#category : #'CodeParadise-RemoteEnvironment-Serialization'
+	#category : 'CodeParadise-RemoteEnvironment-Serialization',
+	#package : 'CodeParadise-RemoteEnvironment',
+	#tag : 'Serialization'
 }
 
-{ #category : #utilities }
+{ #category : 'utilities' }
 CpObjectEncoder class >> instVarsOf: anObject [
 
 	| instVarSize instVars |
@@ -32,13 +34,13 @@ CpObjectEncoder class >> instVarsOf: anObject [
 	^ instVars
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpObjectEncoder class >> knownGlobals [
 
 	^ { Smalltalk . Processor }
 ]
 
-{ #category : #utilities }
+{ #category : 'utilities' }
 CpObjectEncoder class >> minimalByteSizeFor: anInteger [
 
 	"Answer the minimal number of bytes needed for 2's complement representation of anInteger"
@@ -61,7 +63,7 @@ CpObjectEncoder class >> minimalByteSizeFor: anInteger [
 		ifFalse: [ [ :mask | (anInteger bitAnd: mask) = 0 ] ])
 ]
 
-{ #category : #writing }
+{ #category : 'writing' }
 CpObjectEncoder >> basicWriteString: aString [
 
 	"Write aString (can be Symbol) using UTF-8"
@@ -70,7 +72,7 @@ CpObjectEncoder >> basicWriteString: aString [
 	aString do: [ :char | self writeUTF8CodePoint: char asUnicode ]
 ]
 
-{ #category : #writing }
+{ #category : 'writing' }
 CpObjectEncoder >> basicWriteString: aString usingTable: aCollection [
 
 	"Write aString (can be a Symbol) using the specified table (cache)"
@@ -89,7 +91,7 @@ CpObjectEncoder >> basicWriteString: aString usingTable: aCollection [
 	self basicWriteStringIndex: index - 1
 ]
 
-{ #category : #writing }
+{ #category : 'writing' }
 CpObjectEncoder >> basicWriteStringIndex: anInteger [
 
 	"Write the specified index (into either the String or Symbol table).
@@ -111,13 +113,13 @@ CpObjectEncoder >> basicWriteStringIndex: anInteger [
 		nextPut: (anInteger bitAnd: 16rff)
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpObjectEncoder >> bytes [
 
 	^ writeStream contents
 ]
 
-{ #category : #encoding }
+{ #category : 'encoding' }
 CpObjectEncoder >> encode: anObject [
 
 	"Encode the specified Object"
@@ -125,7 +127,7 @@ CpObjectEncoder >> encode: anObject [
 	anObject cpEncodeWith: self
 ]
 
-{ #category : #encoding }
+{ #category : 'encoding' }
 CpObjectEncoder >> encodeAdditionalMethodState: anAdditionalMethodState [
 
 	writeStream nextPut: 19.
@@ -134,7 +136,7 @@ CpObjectEncoder >> encodeAdditionalMethodState: anAdditionalMethodState [
 	self writeArray: anAdditionalMethodState pragmas asArray
 ]
 
-{ #category : #encoding }
+{ #category : 'encoding' }
 CpObjectEncoder >> encodeAnnouncement: anAnnouncement [
 
 	"Encode anAnnouncement using its class name and its instance variables.
@@ -156,7 +158,7 @@ CpObjectEncoder >> encodeAnnouncement: anAnnouncement [
 	self writeArray: (self class instVarsOf: anAnnouncement)
 ]
 
-{ #category : #encoding }
+{ #category : 'encoding' }
 CpObjectEncoder >> encodeArray: anArray [
 
 	"Encode the Array by writing its length and encoding the individuel Array elements"
@@ -165,7 +167,7 @@ CpObjectEncoder >> encodeArray: anArray [
 	self writeArray: anArray
 ]
 
-{ #category : #encoding }
+{ #category : 'encoding' }
 CpObjectEncoder >> encodeAssociation: anAssociation [
 
 	"Encode the specified Association, assuming this is part of a CompiledMethod"
@@ -189,7 +191,7 @@ CpObjectEncoder >> encodeAssociation: anAssociation [
 	value cpEncodeWith: self
 ]
 
-{ #category : #encoding }
+{ #category : 'encoding' }
 CpObjectEncoder >> encodeCharacter: aCharacter [
 
 	"Encode aCharacter using its Unicode value and write using UTF-8."
@@ -198,7 +200,7 @@ CpObjectEncoder >> encodeCharacter: aCharacter [
 	self writeUTF8CodePoint: aCharacter asUnicode
 ]
 
-{ #category : #encoding }
+{ #category : 'encoding' }
 CpObjectEncoder >> encodeClass: aClass [
 
 	"Encode aClass using its name, the superclass' name, instance and class variable names and instance and class methods.
@@ -222,14 +224,14 @@ CpObjectEncoder >> encodeClass: aClass [
 	self writeArray: aClass class methodDictionary asArray
 ]
 
-{ #category : #encoding }
+{ #category : 'encoding' }
 CpObjectEncoder >> encodeClassReference: aClass [
 
 	writeStream nextPut: 21.
 	self writeSymbol: aClass name
 ]
 
-{ #category : #encoding }
+{ #category : 'encoding' }
 CpObjectEncoder >> encodeClassVariable: aClassVariable [
 
 	"Encode aClassVariable"
@@ -238,7 +240,7 @@ CpObjectEncoder >> encodeClassVariable: aClassVariable [
 	self writeSymbol: aClassVariable key
 ]
 
-{ #category : #encoding }
+{ #category : 'encoding' }
 CpObjectEncoder >> encodeCompiledBlock: aCompiledBlock [
 
 	"Encode aCompiledBlock based on the block's header, bytecode and literals.
@@ -263,7 +265,7 @@ CpObjectEncoder >> encodeCompiledBlock: aCompiledBlock [
 		(aCompiledBlock literalAt: literalIndex) cpEncodeWith: self ]
 ]
 
-{ #category : #encoding }
+{ #category : 'encoding' }
 CpObjectEncoder >> encodeCompiledMethod: aCompiledMethod [
 
 	"Encode aCompiledMethod based on the method's header, bytecode and literals.
@@ -288,7 +290,7 @@ CpObjectEncoder >> encodeCompiledMethod: aCompiledMethod [
 		(aCompiledMethod literalAt: literalIndex) cpEncodeWith: self ]
 ]
 
-{ #category : #encoding }
+{ #category : 'encoding' }
 CpObjectEncoder >> encodeConstantBlockClosure: aConstantBlockClosure [
 
 	"Encode aConstantBlockClosure using its number of arguments
@@ -301,7 +303,7 @@ CpObjectEncoder >> encodeConstantBlockClosure: aConstantBlockClosure [
 	aConstantBlockClosure literal cpEncodeWith: self
 ]
 
-{ #category : #encoding }
+{ #category : 'encoding' }
 CpObjectEncoder >> encodeDictionary: aDictionary [
 
 	"Encode the Dictionary as an Array of Associations"
@@ -310,13 +312,13 @@ CpObjectEncoder >> encodeDictionary: aDictionary [
 	self writeArray: aDictionary associations
 ]
 
-{ #category : #encoding }
+{ #category : 'encoding' }
 CpObjectEncoder >> encodeFalse [
 
 	writeStream nextPut: 3
 ]
 
-{ #category : #encoding }
+{ #category : 'encoding' }
 CpObjectEncoder >> encodeFloat: aFloat [
 
 	"Encode aFloat using its 64-bit (double precision) IEEE-754 representation"
@@ -328,7 +330,7 @@ CpObjectEncoder >> encodeFloat: aFloat [
 		writeUInt32: (aFloat basicAt: 2)
 ]
 
-{ #category : #encoding }
+{ #category : 'encoding' }
 CpObjectEncoder >> encodeGlobalVariable: aGlobalVariable [
 
 	"Encode aGlobalVariable (only if it refers to a known global or class)"
@@ -344,7 +346,7 @@ CpObjectEncoder >> encodeGlobalVariable: aGlobalVariable [
 	self writeSymbol: aGlobalVariable key
 ]
 
-{ #category : #encoding }
+{ #category : 'encoding' }
 CpObjectEncoder >> encodeInteger: anInteger [
 
 	"Encode anInteger in as few bytes as possible, based on 2's complement representation.
@@ -358,21 +360,21 @@ CpObjectEncoder >> encodeInteger: anInteger [
 				ifFalse: [ self writeInteger: anInteger forBaseType: 7 ] ]
 ]
 
-{ #category : #encoding }
+{ #category : 'encoding' }
 CpObjectEncoder >> encodeLargeNegativeInteger: anInteger [
 
 	writeStream nextPut: 13.
 	self writeLargePositiveInteger: anInteger negated
 ]
 
-{ #category : #encoding }
+{ #category : 'encoding' }
 CpObjectEncoder >> encodeLargePositiveInteger: anInteger [
 
 	writeStream nextPut: 12.
 	self writeLargePositiveInteger: anInteger
 ]
 
-{ #category : #encoding }
+{ #category : 'encoding' }
 CpObjectEncoder >> encodeMessage: aMessage [
 
 	"Encode aMessage using its selector and arguments (lookupClass is ignored).
@@ -387,7 +389,7 @@ CpObjectEncoder >> encodeMessage: aMessage [
 	aMessage arguments cpEncodeWith: self
 ]
 
-{ #category : #encoding }
+{ #category : 'encoding' }
 CpObjectEncoder >> encodeMessageSend: aMessageSend [
 
 	"Encode aMessageSend using its receiver, selector and arguments.
@@ -407,20 +409,20 @@ CpObjectEncoder >> encodeMessageSend: aMessageSend [
 	aMessageSend arguments cpEncodeWith: self
 ]
 
-{ #category : #encoding }
+{ #category : 'encoding' }
 CpObjectEncoder >> encodeMetaclassReference: aClass [
 
 	writeStream nextPut: 22.
 	self writeSymbol: aClass instanceSide name
 ]
 
-{ #category : #encoding }
+{ #category : 'encoding' }
 CpObjectEncoder >> encodeNil [
 
 	writeStream nextPut: 1
 ]
 
-{ #category : #encoding }
+{ #category : 'encoding' }
 CpObjectEncoder >> encodePoint: aPoint [
 
 	"Encode aPoint using its x and y value (allowing non integers as well)"
@@ -431,7 +433,7 @@ CpObjectEncoder >> encodePoint: aPoint [
 	aPoint y cpEncodeWith: self
 ]
 
-{ #category : #encoding }
+{ #category : 'encoding' }
 CpObjectEncoder >> encodePragma: aPragma [
 
 	writeStream nextPut: 20.
@@ -440,27 +442,27 @@ CpObjectEncoder >> encodePragma: aPragma [
 	self writeArray: aPragma arguments asArray
 ]
 
-{ #category : #encoding }
+{ #category : 'encoding' }
 CpObjectEncoder >> encodeString: aString [
 
 	writeStream nextPut: 6.
 	self writeString: aString
 ]
 
-{ #category : #encoding }
+{ #category : 'encoding' }
 CpObjectEncoder >> encodeSymbol: aSymbol [
 
 	writeStream nextPut: 5.
 	self writeSymbol: aSymbol
 ]
 
-{ #category : #encoding }
+{ #category : 'encoding' }
 CpObjectEncoder >> encodeTrue [
 
 	writeStream nextPut: 2
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 CpObjectEncoder >> initialize [
 
 	super initialize.
@@ -471,7 +473,7 @@ CpObjectEncoder >> initialize [
 	symbolTable := OrderedCollection new
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpObjectEncoder >> normalizeHeader: header [
 
 	"Normalize the header value of CompiledCode. (See class comment of CompiledCode)
@@ -486,14 +488,14 @@ CpObjectEncoder >> normalizeHeader: header [
 		ifFalse: [ header ]
 ]
 
-{ #category : #writing }
+{ #category : 'writing' }
 CpObjectEncoder >> writeArray: anArray [
 
 	self writeLength: anArray size.
 	anArray do: [ :each | each cpEncodeWith: self ]
 ]
 
-{ #category : #writing }
+{ #category : 'writing' }
 CpObjectEncoder >> writeInteger: anInteger forBaseType: baseType [
 
 	"Write anInteger in as few bytes as possible using little endian (least significant byte first) order.
@@ -518,7 +520,7 @@ CpObjectEncoder >> writeInteger: anInteger forBaseType: baseType [
 		remainingValue := remainingValue bitShift: -8 ]
 ]
 
-{ #category : #writing }
+{ #category : 'writing' }
 CpObjectEncoder >> writeLargePositiveInteger: anInteger [
 
 	"Write anInteger as bytes in little endian (least significant byte first) order.
@@ -543,7 +545,7 @@ CpObjectEncoder >> writeLargePositiveInteger: anInteger [
 		remainingValue := remainingValue bitShift: -8 ]
 ]
 
-{ #category : #writing }
+{ #category : 'writing' }
 CpObjectEncoder >> writeLength: anInteger [
 
 	"Write a length value using a byte encoding where one 1 bit is designated to mark the final byte.
@@ -574,7 +576,7 @@ CpObjectEncoder >> writeLength: anInteger [
 			writeStream nextPut: (byte bitOr: (remainingValue = 0 ifTrue: [ 16r80 ] ifFalse: [ 16r00 ])) ]
 ]
 
-{ #category : #writing }
+{ #category : 'writing' }
 CpObjectEncoder >> writeString: aString [
 
 	"Write aString (should not be a Symbol)"
@@ -582,7 +584,7 @@ CpObjectEncoder >> writeString: aString [
 	self basicWriteString: aString usingTable: (stringTable ifNil: [ stringTable := OrderedCollection new ])
 ]
 
-{ #category : #writing }
+{ #category : 'writing' }
 CpObjectEncoder >> writeSymbol: aSymbol [
 
 	"Write aSymbol (should not be a String)"
@@ -590,7 +592,7 @@ CpObjectEncoder >> writeSymbol: aSymbol [
 	self basicWriteString: aSymbol usingTable: symbolTable
 ]
 
-{ #category : #writing }
+{ #category : 'writing' }
 CpObjectEncoder >> writeUInt32: uint32 [
 
 	"Write uint32 using little endian (least significant byte first) order"
@@ -602,7 +604,7 @@ CpObjectEncoder >> writeUInt32: uint32 [
 		nextPut: ((uint32 bitShift: -24) bitAnd: 16rff)
 ]
 
-{ #category : #writing }
+{ #category : 'writing' }
 CpObjectEncoder >> writeUTF8CodePoint: unicode [
 
 	"Write the character specified by the Unicode codepoint using UTF-8.

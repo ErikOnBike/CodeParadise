@@ -1,28 +1,30 @@
 Class {
-	#name : #CpNodeJSExampleCalculator,
-	#superclass : #Object,
+	#name : 'CpNodeJSExampleCalculator',
+	#superclass : 'Object',
 	#instVars : [
 		'stack'
 	],
 	#classVars : [
 		'Current'
 	],
-	#category : #'CodeParadise-NodeJS-Support-Examples'
+	#category : 'CodeParadise-NodeJS-Support-Examples',
+	#package : 'CodeParadise-NodeJS-Support',
+	#tag : 'Examples'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpNodeJSExampleCalculator class >> current [
 
 	^ Current ifNil: [ Current := self basicNew initialize; yourself ]
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 CpNodeJSExampleCalculator class >> new [
 
 	self error: 'Please use ', #current
 ]
 
-{ #category : #calculating }
+{ #category : 'calculating' }
 CpNodeJSExampleCalculator >> add: aNumber [
 
 	stack
@@ -32,7 +34,7 @@ CpNodeJSExampleCalculator >> add: aNumber [
 	^ self value
 ]
 
-{ #category : #calculating }
+{ #category : 'calculating' }
 CpNodeJSExampleCalculator >> divide: aNumber [
 
 	stack
@@ -42,7 +44,7 @@ CpNodeJSExampleCalculator >> divide: aNumber [
 	^ self value
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 CpNodeJSExampleCalculator >> initialize [
 
 	super initialize.
@@ -51,7 +53,7 @@ CpNodeJSExampleCalculator >> initialize [
 	stack add: 0
 ]
 
-{ #category : #calculating }
+{ #category : 'calculating' }
 CpNodeJSExampleCalculator >> multiply: aNumber [
 
 	stack
@@ -61,7 +63,7 @@ CpNodeJSExampleCalculator >> multiply: aNumber [
 	^ self value
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpNodeJSExampleCalculator >> reset [
 
 	"Remove all operators and values (except initial value)"
@@ -72,7 +74,7 @@ CpNodeJSExampleCalculator >> reset [
 	^ self value
 ]
 
-{ #category : #calculating }
+{ #category : 'calculating' }
 CpNodeJSExampleCalculator >> subtract: aNumber [
 
 	stack
@@ -82,7 +84,7 @@ CpNodeJSExampleCalculator >> subtract: aNumber [
 	^ self value
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpNodeJSExampleCalculator >> undo [
 
 	"Remove the last operator and value"
@@ -93,7 +95,7 @@ CpNodeJSExampleCalculator >> undo [
 	^ self value
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpNodeJSExampleCalculator >> value [
 
 	"Answer the calculation as a String"

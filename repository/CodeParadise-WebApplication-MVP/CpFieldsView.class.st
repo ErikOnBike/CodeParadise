@@ -20,15 +20,17 @@ method #debounceTimeForField:.
 
 "
 Class {
-	#name : #CpFieldsView,
-	#superclass : #CpView,
+	#name : 'CpFieldsView',
+	#superclass : 'CpView',
 	#instVars : [
 		'fieldDebouncers'
 	],
-	#category : #'CodeParadise-WebApplication-MVP-Support'
+	#category : 'CodeParadise-WebApplication-MVP-Support',
+	#package : 'CodeParadise-WebApplication-MVP',
+	#tag : 'Support'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpFieldsView class >> debounceTime [
 
 	"Answer the time (in milliseconds) to delay for input events"
@@ -36,7 +38,7 @@ CpFieldsView class >> debounceTime [
 	^ 3000
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpFieldsView class >> debounceTimeForField: aSymbol [
 
 	"Answer the time (in milliseconds) to delay for input events
@@ -46,14 +48,14 @@ CpFieldsView class >> debounceTimeForField: aSymbol [
 	^ self debounceTime
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 CpFieldsView class >> isAbstractTag [
 
 	"The method is present to indicate the receiver is abstract.
 	This method will NOT be evaluated to decide if the receiver is abstract."
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 CpFieldsView >> field: aSymbol changedTo: anObject [
 
 	"Announce the field with the specified name has changed to the specified value"
@@ -66,7 +68,7 @@ CpFieldsView >> field: aSymbol changedTo: anObject [
 	self serverAnnounce: event
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpFieldsView >> fieldChangedEventForId: aSymbol value: anObject [
 
 	"Answer a FieldChange event for the specified id and value"
@@ -74,13 +76,13 @@ CpFieldsView >> fieldChangedEventForId: aSymbol value: anObject [
 	^ CpFieldChanged id: aSymbol value: anObject
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpFieldsView >> fieldDebouncers [
 
 	^ fieldDebouncers ifNil: [ fieldDebouncers := Dictionary new ]
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 CpFieldsView >> handleChangeEvent: aChangeEvent forField: aSymbol [
 
 	"Handle a change event for the specified field.
@@ -99,7 +101,7 @@ CpFieldsView >> handleChangeEvent: aChangeEvent forField: aSymbol [
 	self field: aSymbol changedTo: (self valueFromEvent: aChangeEvent)
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 CpFieldsView >> handleEvent: anEvent forField: aSymbol [
 
 	"Handle the (Change or Input) Event for the specified field.
@@ -110,7 +112,7 @@ CpFieldsView >> handleEvent: anEvent forField: aSymbol [
 	anEvent handleEventForField: aSymbol inView: self
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 CpFieldsView >> handleInputEvent: anInputEvent forField: aSymbol [
 
 	"Handle an input event for the specified field.
@@ -139,7 +141,7 @@ CpFieldsView >> handleInputEvent: anInputEvent forField: aSymbol [
 	self fieldDebouncers at: aSymbol put: debounceTransition
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpFieldsView >> valueFromEvent: anEvent [
 
 	"Answer the value (property) of the field that changed as specified by the change event"
