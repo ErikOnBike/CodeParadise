@@ -4,21 +4,21 @@ Class {
 	#category : #'CodeParadise-NodeJS-Support-Http'
 }
 
+{ #category : #'class initialization' }
+CpNodeJSHttpServer class >> beLoaded [
+
+	"Pre-load the relevant classes"
+
+	CpNodeJSHttpIncomingMessage beLoaded.
+	CpNodeJSHttpServerResponse beLoaded
+]
+
 { #category : #accessing }
 CpNodeJSHttpServer class >> module [
 
 	"Answer the module the receiver is part of"
 
 	^ CpNodeJSHttp
-]
-
-{ #category : #'class initialization' }
-CpNodeJSHttpServer class >> postInstallOnce [
-
-	"Pre-load the relevant classes"
-
-	CpNodeJSHttpIncomingMessage beLoaded.
-	CpNodeJSHttpServerResponse beLoaded
 ]
 
 { #category : #operations }

@@ -12,6 +12,12 @@ Class {
 	#category : #'CodeParadise-WebApplication-Examples'
 }
 
+{ #category : #'class initialization' }
+CpDomExamplesClientBehavior class >> beLoaded [
+
+	CpTransition beLoaded
+]
+
 { #category : #resources }
 CpDomExamplesClientBehavior class >> gearPathForRaduis: radius teeth: teethCount asAnnulus: aBoolean [
 
@@ -846,8 +852,6 @@ CpDomExamplesClientBehavior >> exampleToDo [
 CpDomExamplesClientBehavior >> initialize [
 
 	super initialize.
-
-	CpTransition beLoaded.
 
 	self showIndex
 ]

@@ -7,6 +7,12 @@ Class {
 	#category : #'CodeParadise-Browser-Support-Clipboard'
 }
 
+{ #category : #'class initialization' }
+CpBrowserClipboard class >> beLoaded [
+
+	CpBrowserClipboardItem beLoaded
+]
+
 { #category : #accessing }
 CpBrowserClipboard class >> current [
 
@@ -20,12 +26,6 @@ CpBrowserClipboard class >> current [
 CpBrowserClipboard class >> newInstanceWithArguments: anArray resultAs: aProxyClass [
 
 	self error: 'An instance should be retrieved using the selector ', #current
-]
-
-{ #category : #'class initialization' }
-CpBrowserClipboard class >> postInstallOnce [
-
-	CpBrowserClipboardItem beLoaded
 ]
 
 { #category : #accessing }

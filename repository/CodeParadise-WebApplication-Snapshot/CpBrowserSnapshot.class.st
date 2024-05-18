@@ -15,6 +15,14 @@ Class {
 	#category : #'CodeParadise-WebApplication-Snapshot-Core'
 }
 
+{ #category : #'class initialization' }
+CpBrowserSnapshot class >> beLoaded [
+
+	"The downloader is used to download the snapshot image (see #downloadImageScript)"
+
+	CpDownloader beLoaded
+]
+
 { #category : #accessing }
 CpBrowserSnapshot class >> collectWebComponentsFrom: anElement into: aDictionary [
 
@@ -63,9 +71,6 @@ CpBrowserSnapshot class >> loadDOMPlugin [
 CpBrowserSnapshot class >> postInstall [
 
 	super postInstall.
-
-	"The downloader is used to download the snapshot image (see #downloadImageScript)"
-	CpDownloader beLoaded.
 
 	"Add script to download the snapshot"
 	CpHtmlElement documentAddScript: self downloadImageScript.

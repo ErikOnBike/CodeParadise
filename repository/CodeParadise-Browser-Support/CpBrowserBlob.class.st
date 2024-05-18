@@ -7,6 +7,14 @@ Class {
 	#category : #'CodeParadise-Browser-Support-Core'
 }
 
+{ #category : #'class initialization' }
+CpBrowserBlob class >> beLoaded [
+
+	"Make sure ArrayBuffer support is loaded"
+
+	CpJavaScriptArrayBuffer beLoaded
+]
+
 { #category : #'instance creation' }
 CpBrowserBlob class >> newWith: anObject type: aString [
 
@@ -20,14 +28,6 @@ CpBrowserBlob class >> newWith: anObject type: aString [
 	^ self newInstanceWithArguments: {
 		{  anObject }.
 		{ #type -> aString } asDictionary }
-]
-
-{ #category : #'class initialization' }
-CpBrowserBlob class >> postInstallOnce [
-
-	"Make sure ArrayBuffer support is loaded"
-
-	CpJavaScriptArrayBuffer beLoaded
 ]
 
 { #category : #accessing }

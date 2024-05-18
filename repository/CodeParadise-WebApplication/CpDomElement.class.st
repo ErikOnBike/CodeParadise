@@ -44,7 +44,7 @@ CpDomElement class >> basicNewWithTag: tagString [
 	self primitiveFailed
 ]
 
-{ #category : #'accessing - state' }
+{ #category : #'class initialization' }
 CpDomElement class >> beLoaded [
 
 	CpDomRectangle beLoaded

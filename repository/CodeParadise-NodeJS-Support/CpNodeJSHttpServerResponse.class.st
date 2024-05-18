@@ -5,7 +5,7 @@ Class {
 }
 
 { #category : #'class initialization' }
-CpNodeJSHttpServerResponse class >> postInstallOnce [
+CpNodeJSHttpServerResponse class >> beLoaded [
 
 	"Pre-load the relevant classes"
 

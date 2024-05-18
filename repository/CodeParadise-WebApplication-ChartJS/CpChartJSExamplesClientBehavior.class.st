@@ -4,6 +4,12 @@ Class {
 	#category : #'CodeParadise-WebApplication-ChartJS-Examples'
 }
 
+{ #category : #'class initialization' }
+CpChartJSExamplesClientBehavior class >> beLoaded [
+
+	CpTransition beLoaded
+]
+
 { #category : #examples }
 CpChartJSExamplesClientBehavior >> exampleBarChartRandom [
 
@@ -417,8 +423,6 @@ CpChartJSExamplesClientBehavior >> exampleStackedBarChartRandom [
 CpChartJSExamplesClientBehavior >> initialize [
 
 	super initialize.
-
-	CpTransition beLoaded.
 
 	self showIndex
 ]

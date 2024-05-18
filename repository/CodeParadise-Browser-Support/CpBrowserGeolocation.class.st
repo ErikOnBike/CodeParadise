@@ -4,6 +4,14 @@ Class {
 	#category : #'CodeParadise-Browser-Support-Geolocation'
 }
 
+{ #category : #'class initialization' }
+CpBrowserGeolocation class >> beLoaded [
+
+	CpBrowserGeolocationPosition beLoaded.
+	CpBrowserGeolocationPositionError beLoaded.
+	CpBrowserGeolocationCoordinates beLoaded
+]
+
 { #category : #accessing }
 CpBrowserGeolocation class >> current [
 
@@ -17,14 +25,6 @@ CpBrowserGeolocation class >> current [
 CpBrowserGeolocation class >> newInstanceWithArguments: anArray resultAs: aProxyClass [
 
 	self error: 'An instance should be retrieved using the selector ', #current
-]
-
-{ #category : #'class initialization' }
-CpBrowserGeolocation class >> postInstallOnce [
-
-	CpBrowserGeolocationPosition beLoaded.
-	CpBrowserGeolocationPositionError beLoaded.
-	CpBrowserGeolocationCoordinates beLoaded
 ]
 
 { #category : #accessing }
