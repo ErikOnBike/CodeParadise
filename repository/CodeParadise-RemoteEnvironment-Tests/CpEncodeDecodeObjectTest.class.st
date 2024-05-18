@@ -42,8 +42,11 @@ CpEncodeDecodeObjectTest class >> compareMethodLiteralsFrom: aCompiledMethod to:
 		literal2 := anotherCompiledMethod literalAt: index.
 		((literal1 isMethodProperties and: [ literal2 isMethodProperties ])
 			ifTrue: [ self compareMethodPropertiesFrom: literal1 to: literal2 ]
-			ifFalse: [ literal1 = literal2 ])
-				ifFalse: [ ^ false ] ].
+			ifFalse: [
+				(literal1 isVariableBinding and: [ literal2 isVariableBinding ])
+					ifTrue: [ literal1 key = literal2 key and: [ literal1 value = literal2 value ] ]
+					ifFalse: [ literal1 = literal2 ] ])
+						ifFalse: [ ^ false ] ].
 	"Class side methods have non unique (nil -> a Metaclass) as literal and cannot be compared equal"
 	literal1 := aCompiledMethod literalAt: numLits.
 	literal2 := anotherCompiledMethod literalAt: numLits.
