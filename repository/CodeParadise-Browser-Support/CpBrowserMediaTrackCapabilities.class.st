@@ -4,14 +4,6 @@ Class {
 	#category : #'CodeParadise-Browser-Support-MediaStreams'
 }
 
-{ #category : #accessing }
-CpBrowserMediaTrackCapabilities class >> getClassName [
-
-	"Browsers implement me as a regular object/dictionary, therefore override the class I represent"
-
-	^ 'Object'
-]
-
 { #category : #'reflective operations' }
 CpBrowserMediaTrackCapabilities >> doesNotUnderstand: aMessage [
 

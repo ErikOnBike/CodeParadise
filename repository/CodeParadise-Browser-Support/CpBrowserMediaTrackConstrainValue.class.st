@@ -15,14 +15,6 @@ Class {
 }
 
 { #category : #accessing }
-CpBrowserMediaTrackConstrainValue class >> getClassName [
-
-	"Browsers implement me as a regular object/dictionary, therefore override the class I represent"
-
-	^ 'Object'
-]
-
-{ #category : #accessing }
 CpBrowserMediaTrackConstrainValue >> exact [
 
 	"Depending on whether a ConstrainBoolean or ConstrainDOMString is used:

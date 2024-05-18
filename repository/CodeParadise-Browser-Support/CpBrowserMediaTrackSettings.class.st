@@ -4,14 +4,6 @@ Class {
 	#category : #'CodeParadise-Browser-Support-MediaStreams'
 }
 
-{ #category : #accessing }
-CpBrowserMediaTrackSettings class >> getClassName [
-
-	"Browsers implement me as a regular object/dictionary, therefore override the class I represent"
-
-	^ 'Object'
-]
-
 { #category : #'accessing - video tracks' }
 CpBrowserMediaTrackSettings >> aspectRatio [
 

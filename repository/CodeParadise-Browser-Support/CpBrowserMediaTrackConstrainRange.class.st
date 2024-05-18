@@ -15,14 +15,6 @@ Class {
 }
 
 { #category : #accessing }
-CpBrowserMediaTrackConstrainRange class >> getClassName [
-
-	"Browsers implement me as a regular object/dictionary, therefore override the class I represent"
-
-	^ 'Object'
-]
-
-{ #category : #accessing }
 CpBrowserMediaTrackConstrainRange >> exact [
 
 	"Depending on whether a ConstrainDouble or ConstrainULong is used:
