@@ -21,6 +21,7 @@ BaselineOfCodeParadise >> baseline: spec [
 			package: 'CodeParadise-WebApplication' with: [ spec requires: #('CodeParadise-RemoteEnvironment') ];
 			package: 'CodeParadise-Browser-Support' with: [ spec requires: #('CodeParadise-WebApplication') ];
 			package: 'CodeParadise-NodeJS-Support' with: [ spec requires: #('CodeParadise-RemoteEnvironment') ];
+			package: 'CodeParadise-NodeJS-REST' with: [ spec requires: #('CodeParadise-NodeJS-Support') ];
 
 			package: 'CodeParadise-WebApplication-MVP' with: [ spec requires: #('CodeParadise-WebApplication') ];
 
@@ -45,9 +46,10 @@ BaselineOfCodeParadise >> baseline: spec [
 
 		"Groups"
 		spec 
-			group: 'default' with: #( 'Core' 'Shoelace' 'ChartJS' 'Presentation' 'Beach' 'Snapshot' 'Tests' 'Development');
+			group: 'default' with: #( 'Core' 'NodeJS-Core' 'Shoelace' 'ChartJS' 'Presentation' 'Beach' 'Snapshot' 'Tests' 'Development' 'NodeJS-Applications');
 
-			group: 'Core' with: #( 'CodeParadise-WebApplication' 'CodeParadise-Browser-Support' 'CodeParadise-NodeJS-Support' );
+			group: 'Core' with: #( 'CodeParadise-WebApplication' 'CodeParadise-Browser-Support' );
+			group: 'NodeJS-Core' with: #( 'CodeParadise-RemoveEnvironment' 'CodeParadise-NodeJS-Support' );
 			group: 'Tests' with: #( 'CodeParadise-WebApplication-Tests' 'CodeParadise-RemoteEnvironment-Tests' 'CodeParadise-Beach-Tests' );
 
 			group: 'MVP' with: #( 'CodeParadise-WebApplication-MVP' );
@@ -63,6 +65,8 @@ BaselineOfCodeParadise >> baseline: spec [
 			group: 'Snapshot' with: #( 'CodeParadise-WebApplication-Snapshot' );
 
 			group: 'Development' with: #( 'CodeParadise-WebApplication-Development' 'CodeParadise-WebApplication-Debugger' );
+
+			group: 'NodeJS-Applications' with: #( 'CodeParadise-NodeJS-REST' );
 
 			group: 'CI' with: #( 'Tests' ) ].
 
