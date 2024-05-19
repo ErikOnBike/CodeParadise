@@ -444,6 +444,54 @@ CpBrowserSupportExamplesClientBehavior >> exampleJavaScriptEventTarget [
 ]
 
 { #category : #examples }
+CpBrowserSupportExamplesClientBehavior >> exampleJavaScriptFunction [
+
+	<example: 'Basic: Proxy for JavaScript functions' order: 1000>
+
+	| outputElement jsFunc1 jsFunc2 jsFunc3 jsFunc4 counter |
+
+	self clearOutput.
+	outputElement := self outputElement.
+
+	outputElement
+		appendChild: ((CpHtmlElement newWithTag: #h1)
+			textContent: 'JavaScript functions' ;
+			yourself) ;
+		appendChild: ((CpHtmlElement newWithTag: #p)
+			textContent: 'Smalltalk Blocks can be used in place of JavaScript functions (like callbacks or in Promises). The Smalltalk Block can call other JavaScript functions which can call Smalltalk Blocks again. Even recursively. See the dev console for some output (please check source code to see what is going on). Need to make some proper tests at some point ;-).' ;
+			yourself) ;
+		yourself.
+
+	counter := 1.
+
+	jsFunc1 := CpJavaScriptFunction wrap: [ :input |
+		self traceCr: 'in func1 with ', input printString.
+		counter := counter + 1.
+
+		"Answer counter without the increment"
+		counter - 1 ].
+
+	jsFunc2 := CpJavaScriptFunction wrap: [ :input |
+		| x |
+		
+		self traceCr: 'in func2 with ', input printString, ' calling func1'.
+		x := jsFunc1 call: nil withArguments: { 'from 2' }.
+		self traceCr: 'called 1 - result ', x printString.
+		x := jsFunc1 call: nil withArguments: { 'from 2 too' }.
+		self traceCr: 'called 1 more - result ', x printString.
+
+		"Answer fixed value"		
+		123 ].
+
+	self traceCr: 'Ran all - result ', (jsFunc2 call: nil withArguments: { 'from fixThis' }) printString.
+
+
+	"Prevent errors from giving results"
+	jsFunc4 := CpJavaScriptFunction wrap: [ self traceCr: 'In for an error?'. self error: 'OOPS' ].
+	self traceCr: 'Result on error ', (jsFunc4 call: nil withArguments: nil) printString
+]
+
+{ #category : #examples }
 CpBrowserSupportExamplesClientBehavior >> exampleJavaScriptProxy [
 
 	<example: 'Basic: Proxy for JavaScript objects' order: 1000>

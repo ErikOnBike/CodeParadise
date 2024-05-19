@@ -61,7 +61,6 @@ CpNodeJSSnapshot class >> snapshotImage [
 		each preSnapshot ].
 	CpJavaScriptObject withAllSubclassesDo: [ :each |
 		each preSnapshot ].
-	CpCallbackEvaluator preSnapshot.
 
 	"Snapshot image"	
 	self traceCr: 'About to save image'.
@@ -70,7 +69,6 @@ CpNodeJSSnapshot class >> snapshotImage [
 			self traceCr: 'Saved image'.
 
 			"Prepare image for restart"
-			CpCallbackEvaluator postSnapshot.
 			CpJavaScriptObject withAllSubclassesDo: [ :each |
 				each postSnapshot ].
 			CpNodeJSModule allSubclassesDo: [ :each | each postSnapshot ].
@@ -87,7 +85,6 @@ CpNodeJSSnapshot class >> snapshotImage [
 	self loadSystemPlugin.
 
 	"Prepare image for restart"
-	CpCallbackEvaluator postSnapshot.
 	CpJavaScriptObject withAllSubclassesDo: [ :each |
 		each postSnapshot ].
 	CpNodeJSModule allSubclassesDo: [ :each | each postSnapshot ].

@@ -55,6 +55,34 @@ CpJavaScriptClass >> newInstanceWithArguments: anArray resultAs: aProxyClass [
 	instance of the receiver itself) using the specified (optional) arguments
 	when calling the constructor.
 	If a Proxy Class is specified, it is used to instantiate the result. Otherwise
+	the default Proxy Class is used.
+
+	Implementation:
+	Convert Smalltalk Blocks to JavaScript functions if necessary.
+	See also CpJavaScriptFunction class >> #wrap:"
+
+	| arguments |
+
+	arguments := anArray ifNotNil: [
+		anArray
+			detect: [ :each | each isBlock ]
+			ifFound: [
+				anArray collect: [ :each |
+					each isBlock
+						ifTrue: [ CpJavaScriptFunction wrap: each ]
+						ifFalse: [ each ] ] ]
+			ifNone: [ anArray ] ].
+
+	^ self primNewInstanceWithArguments: arguments resultAs: aProxyClass
+]
+
+{ #category : #'apply primitives' }
+CpJavaScriptClass >> primNewInstanceWithArguments: anArray resultAs: aProxyClass [
+
+	"Answer a new instance of the receiver's proxied JavaScript object (i.e. not an
+	instance of the receiver itself) using the specified (optional) arguments
+	when calling the constructor.
+	If a Proxy Class is specified, it is used to instantiate the result. Otherwise
 	the default Proxy Class is used."
 
 	<primitive: 'primitiveJavaScriptClassNewInstanceWithArguments:resultAs:' module: 'CpSystemPlugin'>

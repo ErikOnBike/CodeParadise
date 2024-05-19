@@ -44,33 +44,6 @@ Class {
 	#category : #'CodeParadise-WebApplication-Transitions'
 }
 
-{ #category : #'processing - private' }
-CpTransition class >> createTransitionProcess [
-
-	"Create a transition process, register it and start it"
-
-	| transitionProcess |
-
-	"Create process with high priority to perform transitions fast
-	(priority should be lower than event handler see CpEvent class >> #createEventProcess)"
-	transitionProcess := Process
-		forContext: [ [
-
-			"Wait for next transition tick"
-			Processor activeProcess suspend.
-
-			"Perform the transitions (for single tick)"
-			self performTransitions ] repeat ] asContext
-		priority: Processor highIOPriority.
-
-	"Register the transition process so the VM (plugin) can activate it"
-	self registerTransitionProcess: transitionProcess.
-	transitionProcess name: self name.
-
-	"Start the process (which will actually put it to sleep waiting for the first tick)"
-	transitionProcess resume
-]
-
 { #category : #easing }
 CpTransition class >> easeInOutBack: aFloat [
 
@@ -216,16 +189,20 @@ CpTransition class >> registerTransition: aTransition [
 { #category : #'processing - private' }
 CpTransition class >> registerTransitionProcess [
 
-	"Register a new or reregister the existing transition process"
+	"Register a transition process.
 
-	Process allInstancesDo: [ :each |
-		each name = self name
-			ifTrue: [
-				self traceCr: 'Reregister transition process'.
-				self registerTransitionProcess: each.
-				^ self ] ].
+	Implementation:
+	The transition process is actually a Block which will be executed
+	in a dynamically created Process to allow better interaction with
+	the JavaScript environment (like calling synchronous JavaScript
+	functions from Smalltalk and vice versa). The Block is converted
+	to a CpJavaScriptFunction internally.
+	See also CpJavaScriptFunction class >> #wrap:"
 
-	self createTransitionProcess
+	self registerTransitionProcess: [
+		self performTransitions.
+		CpJavaScriptFunction currentSetResult: nil.
+		Processor activeProcess terminate ] asContext
 ]
 
 { #category : #'processing - private' }

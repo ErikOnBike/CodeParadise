@@ -255,11 +255,11 @@ CpServerApplication >> load [
 	"Install required extensions"
 	self installExtensionMethods.
 
-	"Install the callback evaluator which allows Smalltalk Blocks to be used as JavaScript callback functions
-	and the JavaScriptProxy which allows a transparent use of JavaScript objects inside CodeParadise"
+	"Install the JavaScriptObject proxy which allows a transparent use of JavaScript objects inside CodeParadise.
+	And install the JavaScriptFunction proxy which allows Smalltalk Blocks to be used as JavaScript functions."
 	self environment
-		addClass: CpCallbackEvaluator ;
-		addClass: CpJavaScriptObject
+		addClass: CpJavaScriptObject ;
+		addClass: CpJavaScriptFunction
 ]
 
 { #category : #'private - actions' }

@@ -40,32 +40,6 @@ CpEvent class >> addListenerTo: anElement [
 ]
 
 { #category : #'processing - private' }
-CpEvent class >> createEventProcess [
-
-	"Create an event process, register it and start it"
-
-	| eventProcess |
-
-	"Create process with highest priority to handle events as fast as possible"
-	eventProcess := Process
-		forContext: [ [
-
-			"Wait for events to become available"
-			Processor activeProcess suspend.
-
-			"Dispatch the events"
-			self dispatchEvents ] repeat ] asContext
-		priority: Processor highestPriority.
-
-	"Register the event process so the VM (plugin) can activate it"
-	self registerEventProcess: eventProcess.
-	eventProcess name: self name.
-
-	"Start the process (which will actually put it to sleep waiting for the first event)"
-	eventProcess resume
-]
-
-{ #category : #'processing - private' }
 CpEvent class >> dispatchEvent: anEvent [
 
 	[ anEvent dispatch ] on: Error do: [ :error |
@@ -162,15 +136,20 @@ CpEvent class >> registerEventClass: anEventClass forType: aString [
 { #category : #'processing - private' }
 CpEvent class >> registerEventProcess [
 
-	"Register a new or reregister the existing event process"
+	"Register an event process.
 
-	Process allInstancesDo: [ :each |
-		each name = self name
-			ifTrue: [
-				self registerEventProcess: each.
-				^ self ] ].
+	Implementation:
+	The event process is actually a Block which will be executed
+	in a dynamically created Process to allow better interaction with
+	the JavaScript environment (like calling synchronous JavaScript
+	functions from Smalltalk and vice versa). The Block is converted
+	to a CpJavaScriptFunction internally.
+	See also CpJavaScriptFunction class >> #wrap:"
 
-	self createEventProcess
+	self registerEventProcess: [
+		self dispatchEvents.
+		CpJavaScriptFunction currentSetResult: nil.
+		Processor activeProcess terminate ] asContext
 ]
 
 { #category : #'processing - private' }

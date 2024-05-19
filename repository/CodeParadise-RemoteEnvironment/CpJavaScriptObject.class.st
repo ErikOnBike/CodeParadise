@@ -382,18 +382,25 @@ CpJavaScriptObject >> apply: aSymbol withArguments: anArray resultAs: aProxyClas
 	instance if a Smalltalk to JavaScript conversion exists and otherwise the default proxy class
 	CpJavaScriptProxy is used.
 	If the JavaScript result is 'undefined' or 'null' a nil value is answered (and aProxyClass
-	is ignored)."
+	is ignored).
 
-	| type |
+	Implementation:
+	Convert Smalltalk Blocks to JavaScript functions if necessary.
+	See also CpJavaScriptFunction class >> #wrap:"
 
-	<primitive: 'primitiveJavaScriptObjectApply:withArguments:resultAs:' module: 'CpSystemPlugin'>
+	| arguments |
 
-	"Check if selector exists by using #getSelectorType: (if that fails, do not do a DNU)"
-	[ type := self getSelectorType: aSymbol ] on: Error do: [ #skipDNU ].
+	arguments := anArray ifNotNil: [
+		anArray
+			detect: [ :each | each isBlock ]
+			ifFound: [
+				anArray collect: [ :each |
+					each isBlock
+						ifTrue: [ CpJavaScriptFunction wrap: each ]
+						ifFalse: [ each ] ] ]
+			ifNone: [ anArray ] ].
 
-	type ifNil: [ ^ super doesNotUnderstand: (Message selector: aSymbol arguments: anArray) ].
-
-	self primitiveFailed
+	^ self primApply: aSymbol withArguments: arguments resultAs: aProxyClass
 ]
 
 { #category : #converting }
@@ -517,6 +524,29 @@ CpJavaScriptObject >> getSelectorType: aSymbol [
 CpJavaScriptObject >> isJavaScriptObject [
 
 	^ true
+]
+
+{ #category : #'apply primitives' }
+CpJavaScriptObject >> primApply: aSymbol withArguments: anArray resultAs: aProxyClass [
+
+	"Apply the specified selector on the proxied JavaScript object using the specified arguments
+	(nil means no arguments). And answer the result as an instance of the proxy class specified
+	or answer a default object if aProxyClass is nil. The default object will either be a Smalltalk
+	instance if a Smalltalk to JavaScript conversion exists and otherwise the default proxy class
+	CpJavaScriptProxy is used.
+	If the JavaScript result is 'undefined' or 'null' a nil value is answered (and aProxyClass
+	is ignored)."
+
+	| type |
+
+	<primitive: 'primitiveJavaScriptObjectApply:withArguments:resultAs:' module: 'CpSystemPlugin'>
+
+	"Check if selector exists by using #getSelectorType: (if that fails, do not do a DNU)"
+	[ type := self getSelectorType: aSymbol ] on: Error do: [ #skipDNU ].
+
+	type ifNil: [ ^ super doesNotUnderstand: (Message selector: aSymbol arguments: anArray) ].
+
+	self primitiveFailed
 ]
 
 { #category : #printing }

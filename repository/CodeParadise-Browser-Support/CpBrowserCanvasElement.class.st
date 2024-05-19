@@ -54,7 +54,7 @@ CpBrowserCanvasElement >> toBlobThenDo: aBlock [
 
 	"Creates a Blob object representing the image contained in the canvas; this file may be cached on the disk or stored in memory at the discretion of the user agent."
 
-	^ self apply: #toBlob withArguments: { CpJavaScriptFunction wrap: aBlock }
+	^ self apply: #toBlob withArguments: { aBlock }
 ]
 
 { #category : #operations }
@@ -65,7 +65,7 @@ CpBrowserCanvasElement >> toBlobType: aString quality: aFloat thenDo: aBlock [
 	Type should be specified as mime-type, e.g. image/jpeg.
 	Quality should be a value between 0 and 1 (inclusive) specifying the requested image quality"
 
-	^ self apply: #toBlob withArguments: { CpJavaScriptFunction wrap: aBlock . aString . aFloat }
+	^ self apply: #toBlob withArguments: { aBlock . aString . aFloat }
 ]
 
 { #category : #operations }
@@ -75,7 +75,7 @@ CpBrowserCanvasElement >> toBlobType: aString thenDo: aBlock [
 	
 	Type should be specified as mime-type, e.g. image/jpeg."
 
-	^ self apply: #toBlob withArguments: { CpJavaScriptFunction wrap: aBlock . aString }
+	^ self apply: #toBlob withArguments: { aBlock . aString }
 ]
 
 { #category : #operations }
