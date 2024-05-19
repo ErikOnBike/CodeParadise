@@ -6,20 +6,18 @@ browser, use CpCustomEvent a subclass of CpEvent.
 
 "
 Class {
-	#name : 'CpBaseEvent',
-	#superclass : 'Object',
-	#category : 'CodeParadise-WebApplication-Events',
-	#package : 'CodeParadise-WebApplication',
-	#tag : 'Events'
+	#name : #CpBaseEvent,
+	#superclass : #Object,
+	#category : #'CodeParadise-WebApplication-Events'
 }
 
-{ #category : 'conditional events' }
+{ #category : #'conditional events' }
 CpBaseEvent class >> & aCondition [
 
 	^ self asConditionalEvent & aCondition
 ]
 
-{ #category : 'announcing' }
+{ #category : #announcing }
 CpBaseEvent class >> , anEvent [
 
 	"Combine the receiver with the specified event.
@@ -31,7 +29,7 @@ CpBaseEvent class >> , anEvent [
 	^ AnnouncementSet with: self with: anEvent
 ]
 
-{ #category : 'conditional events' }
+{ #category : #'conditional events' }
 CpBaseEvent class >> addConditionsToDenySpecialsTo: aConditionalEvent [
 
 	"Add condition to specified conditional event which prevents special conditions to be allowed.
@@ -40,7 +38,7 @@ CpBaseEvent class >> addConditionsToDenySpecialsTo: aConditionalEvent [
 
 ]
 
-{ #category : 'announcing' }
+{ #category : #announcing }
 CpBaseEvent class >> addListenerTo: anElement [
 
 	"Add a browser event listener to the specified element"
@@ -48,7 +46,7 @@ CpBaseEvent class >> addListenerTo: anElement [
 	self subclassResponsibility
 ]
 
-{ #category : 'conditional events' }
+{ #category : #'conditional events' }
 CpBaseEvent class >> addListenerTo: anElement withConditions: aCollection [
 
 	"Add a browser event listener to the specified element using the specified conditions.
@@ -60,13 +58,13 @@ CpBaseEvent class >> addListenerTo: anElement withConditions: aCollection [
 	self addListenerTo: anElement
 ]
 
-{ #category : 'conditional events' }
+{ #category : #'conditional events' }
 CpBaseEvent class >> asConditionalEvent [
 
 	^ CpConditionalEvent eventClass: self
 ]
 
-{ #category : 'announcing' }
+{ #category : #announcing }
 CpBaseEvent class >> handlesAnnouncement: anAnnouncement [
 
 	"The receiver acts as a filter to determine whether subscribers who used the receiver as signaling tag (event identifier class or symbol)
@@ -76,7 +74,7 @@ CpBaseEvent class >> handlesAnnouncement: anAnnouncement [
 	^ anAnnouncement class includesBehavior: self
 ]
 
-{ #category : 'conditional events' }
+{ #category : #'conditional events' }
 CpBaseEvent class >> noModifiers [
 
 	"Answer a ConditionalEvent for the receiver disallowing any modifiers.
@@ -87,7 +85,7 @@ CpBaseEvent class >> noModifiers [
 	^ self & CpNoModifiersDown
 ]
 
-{ #category : 'conditional events' }
+{ #category : #'conditional events' }
 CpBaseEvent class >> only [
 
 	"Answer an instance of the receiver without any 'special' conditions"
@@ -101,7 +99,7 @@ CpBaseEvent class >> only [
 	^ conditionalEvent
 ]
 
-{ #category : 'announcing' }
+{ #category : #announcing }
 CpBaseEvent class >> removeListenerFrom: anElement [
 
 	"Remove a browser event listener from the specified element"
@@ -109,7 +107,7 @@ CpBaseEvent class >> removeListenerFrom: anElement [
 	self subclassResponsibility
 ]
 
-{ #category : 'conditional events' }
+{ #category : #'conditional events' }
 CpBaseEvent class >> removeListenerFrom: anElement withConditions: aCollection [
 
 	"Remove a browser event listener from the specified element using the specified conditions.
@@ -121,19 +119,19 @@ CpBaseEvent class >> removeListenerFrom: anElement withConditions: aCollection [
 	self removeListenerFrom: anElement
 ]
 
-{ #category : 'announcing' }
+{ #category : #announcing }
 CpBaseEvent >> asAnnouncement [
 
 	^ self
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 CpBaseEvent >> currentTarget [
 
 	self subclassResponsibility
 ]
 
-{ #category : 'dispatching' }
+{ #category : #dispatching }
 CpBaseEvent >> dispatch [
 
 	"Dispatch the receiver by announcing it through its element"
@@ -142,7 +140,7 @@ CpBaseEvent >> dispatch [
 		announce: self
 ]
 
-{ #category : 'testing' }
+{ #category : #testing }
 CpBaseEvent >> isActionKeyDown [
 
 	"Answer whether the action key is down.
@@ -151,43 +149,43 @@ CpBaseEvent >> isActionKeyDown [
 	^ self modifiers allMask: CpActionKeyDown modifiers
 ]
 
-{ #category : 'testing' }
+{ #category : #testing }
 CpBaseEvent >> isAltKeyDown [
 
 	^ self modifiers allMask: CpAltKeyDown modifiers
 ]
 
-{ #category : 'testing' }
+{ #category : #testing }
 CpBaseEvent >> isAnyModifierDown [
 
 	^ self modifiers ~= 0
 ]
 
-{ #category : 'testing' }
+{ #category : #testing }
 CpBaseEvent >> isCtrlKeyDown [
 
 	^ self modifiers allMask: CpCtrlKeyDown modifiers
 ]
 
-{ #category : 'testing' }
+{ #category : #testing }
 CpBaseEvent >> isMetaKeyDown [
 
 	^ self modifiers allMask: CpMetaKeyDown modifiers
 ]
 
-{ #category : 'testing' }
+{ #category : #testing }
 CpBaseEvent >> isNoModifierDown [
 
 	^ self modifiers = 0
 ]
 
-{ #category : 'testing' }
+{ #category : #testing }
 CpBaseEvent >> isShiftKeyDown [
 
 	^ self modifiers allMask: CpShiftKeyDown modifiers
 ]
 
-{ #category : 'testing' }
+{ #category : #testing }
 CpBaseEvent >> matchesModifierKeyDownCondition: aModifierKeyDownCondition [
 
 	"Answer whether the specified key down condition matches (modifiers are equal)"
@@ -195,7 +193,7 @@ CpBaseEvent >> matchesModifierKeyDownCondition: aModifierKeyDownCondition [
 	^ aModifierKeyDownCondition matches: self
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 CpBaseEvent >> modifiers [
 
 	"Answer an Integer specifying the different modifiers pressed.
@@ -211,7 +209,7 @@ CpBaseEvent >> modifiers [
 	^ 0
 ]
 
-{ #category : 'announcing' }
+{ #category : #announcing }
 CpBaseEvent >> prepareForDelivery [
 
 	"This method will be executed once before subscriptions delivery.

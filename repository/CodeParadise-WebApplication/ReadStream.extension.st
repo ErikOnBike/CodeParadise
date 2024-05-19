@@ -1,6 +1,6 @@
-Extension { #name : 'ReadStream' }
+Extension { #name : #ReadStream }
 
-{ #category : '*CodeParadise-WebApplication' }
+{ #category : #'*CodeParadise-WebApplication' }
 ReadStream >> lookAheadAt: index [
 
 	"Answer the element at the specified (delta) position or nil if outside the receiver's boundaries."

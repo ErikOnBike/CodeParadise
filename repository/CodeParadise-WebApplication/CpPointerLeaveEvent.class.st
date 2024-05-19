@@ -9,9 +9,7 @@ The PointerLeaveEvent is useful for the DragEvent behavior and therefore remains
 
 "
 Class {
-	#name : 'CpPointerLeaveEvent',
-	#superclass : 'CpPointerEvent',
-	#category : 'CodeParadise-WebApplication-Events',
-	#package : 'CodeParadise-WebApplication',
-	#tag : 'Events'
+	#name : #CpPointerLeaveEvent,
+	#superclass : #CpPointerEvent,
+	#category : #'CodeParadise-WebApplication-Events'
 }

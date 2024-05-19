@@ -5,8 +5,8 @@ To allow the browser to announce events, use the CpCustomEvent class.
 
 "
 Class {
-	#name : 'CpSyntheticEvent',
-	#superclass : 'CpBaseEvent',
+	#name : #CpSyntheticEvent,
+	#superclass : #CpBaseEvent,
 	#instVars : [
 		'currentTarget',
 		'timeStamp',
@@ -14,12 +14,10 @@ Class {
 		'stopPropagation',
 		'stopAfter'
 	],
-	#category : 'CodeParadise-WebApplication-Events-Custom',
-	#package : 'CodeParadise-WebApplication',
-	#tag : 'Events-Custom'
+	#category : #'CodeParadise-WebApplication-Events-Custom'
 }
 
-{ #category : 'announcing' }
+{ #category : #announcing }
 CpSyntheticEvent class >> addListenerTo: anElement [
 
 	"Add a listener for the receiver to the specified DOM element.
@@ -31,7 +29,7 @@ CpSyntheticEvent class >> addListenerTo: anElement [
 
 ]
 
-{ #category : 'announcing' }
+{ #category : #announcing }
 CpSyntheticEvent class >> handlesAnnouncement: anAnnouncement [
 
 	"Answer whether the specified Announcement can be handled by the receiver.
@@ -41,7 +39,7 @@ CpSyntheticEvent class >> handlesAnnouncement: anAnnouncement [
 		and: [ anAnnouncement isStopped not ]
 ]
 
-{ #category : 'announcing' }
+{ #category : #announcing }
 CpSyntheticEvent class >> removeListenerFrom: anElement [
 
 	"Remove a listener for the receiver from the specified DOM element.
@@ -53,13 +51,13 @@ CpSyntheticEvent class >> removeListenerFrom: anElement [
 
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 CpSyntheticEvent >> currentTarget [
 
 	^ currentTarget
 ]
 
-{ #category : 'dispatching' }
+{ #category : #dispatching }
 CpSyntheticEvent >> dispatch [
 
 	"Dispatch the receiver (if not stopped)"
@@ -70,7 +68,7 @@ CpSyntheticEvent >> dispatch [
 	super dispatch
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 CpSyntheticEvent >> initialize [
 
 	super initialize.
@@ -82,7 +80,7 @@ CpSyntheticEvent >> initialize [
 	stopPropagation := false
 ]
 
-{ #category : 'testing' }
+{ #category : #testing }
 CpSyntheticEvent >> isStopped [
 
 	"Answer whether the receiver is stopped (ie should not be dispatched anymore).
@@ -106,7 +104,7 @@ CpSyntheticEvent >> isStopped [
 	^ false
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 CpSyntheticEvent >> modifiers [
 
 	"Answer an Integer specifying the different modifiers pressed.
@@ -115,7 +113,7 @@ CpSyntheticEvent >> modifiers [
 	^ modifiers
 ]
 
-{ #category : 'printing' }
+{ #category : #printing }
 CpSyntheticEvent >> printOn: aStream [
 
 	aStream
@@ -130,7 +128,7 @@ CpSyntheticEvent >> printOn: aStream [
 		nextPutAll: (stopPropagation ifTrue: [ stopAfter ifNotNil: [ 'stop' ] ifNil: [ 'stopImmediate' ] ] ifFalse: [ 'normal' ])
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 CpSyntheticEvent >> release [
 
 	currentTarget := nil.
@@ -141,7 +139,7 @@ CpSyntheticEvent >> release [
 	super release
 ]
 
-{ #category : 'dispatching' }
+{ #category : #dispatching }
 CpSyntheticEvent >> resetPropagation [
 
 	"Allow propagation (bubbling) of the receiver"
@@ -150,7 +148,7 @@ CpSyntheticEvent >> resetPropagation [
 	stopAfter := nil
 ]
 
-{ #category : 'dispatching' }
+{ #category : #dispatching }
 CpSyntheticEvent >> stopImmediatePropagation [
 
 	"Stop propagation (bubbling) of the receiver. Not even listeners on the
@@ -161,7 +159,7 @@ CpSyntheticEvent >> stopImmediatePropagation [
 	stopAfter := nil
 ]
 
-{ #category : 'dispatching' }
+{ #category : #dispatching }
 CpSyntheticEvent >> stopPropagation [
 
 	"Stop propagation (bubbling) of the receiver. Other listeners on the
@@ -172,7 +170,7 @@ CpSyntheticEvent >> stopPropagation [
 	stopAfter := currentTarget
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 CpSyntheticEvent >> target [
 
 	"Answer the target of the receiver.
@@ -184,7 +182,7 @@ CpSyntheticEvent >> target [
 	^ self currentTarget
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 CpSyntheticEvent >> timeStamp [
 
 	^ timeStamp

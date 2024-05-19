@@ -3,17 +3,15 @@ I am a ServerApplication with Web-specific behavior. I work with WebComponents, 
 
 "
 Class {
-	#name : 'CpWebApplication',
-	#superclass : 'CpServerApplication',
+	#name : #CpWebApplication,
+	#superclass : #CpServerApplication,
 	#classVars : [
 		'IdentifierGenerator'
 	],
-	#category : 'CodeParadise-WebApplication-Core',
-	#package : 'CodeParadise-WebApplication',
-	#tag : 'Core'
+	#category : #'CodeParadise-WebApplication-Core'
 }
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 CpWebApplication class >> app [
 
 	"Answer the receiver unique name (used in URL to access the application as well)"
@@ -21,13 +19,13 @@ CpWebApplication class >> app [
 	^ (self nameWithoutPrefix withoutSuffix: #WebApplication) asKebabCase
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 CpWebApplication class >> clientBehaviorClass [
 
 	^ CpWebClientBehavior
 ]
 
-{ #category : 'event handling' }
+{ #category : #'event handling' }
 CpWebApplication class >> clientLoaded: anAnnouncement [
 
 	"Handle the client loaded event and remove the loader afterwards"
@@ -36,20 +34,20 @@ CpWebApplication class >> clientLoaded: anAnnouncement [
 		ifNotNil: [ :application | application removeLoader ]
 ]
 
-{ #category : 'class initialization' }
+{ #category : #'class initialization' }
 CpWebApplication class >> initialize [
 
 	IdentifierGenerator := CpWebIdentifierGenerator new
 ]
 
-{ #category : 'testing' }
+{ #category : #testing }
 CpWebApplication class >> isAbstractTag [
 
 	"The method is present to indicate the receiver is abstract.
 	This method will NOT be evaluated to decide if the receiver is abstract."
 ]
 
-{ #category : 'development support' }
+{ #category : #'development support' }
 CpWebApplication class >> openInBrowser [
 
 	<script>
@@ -57,25 +55,25 @@ CpWebApplication class >> openInBrowser [
 	WebBrowser openOn: 'http://localhost:8080/static/app.html?' , self app
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 CpWebApplication class >> webResourceCSS [
 
 	^ #css
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 CpWebApplication class >> webResourceHTML [
 
 	^ #html
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 CpWebApplication class >> webResourcePragmaName [
 
 	^ #webResource:
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 CpWebApplication >> clientBehaviorClass [
 
 	"Answer the class of the receiver's ClientBehavior"
@@ -83,7 +81,7 @@ CpWebApplication >> clientBehaviorClass [
 	^ self class clientBehaviorClass
 ]
 
-{ #category : 'actions' }
+{ #category : #actions }
 CpWebApplication >> clientEndSession [
 
 	self sendMessage: (MessageSend
@@ -91,7 +89,7 @@ CpWebApplication >> clientEndSession [
 		selector: #endSession)
 ]
 
-{ #category : 'actions' }
+{ #category : #actions }
 CpWebApplication >> end [
 
 	"End the receiver by asking the client to end the session.
@@ -104,7 +102,7 @@ CpWebApplication >> end [
 	self clientEndSession
 ]
 
-{ #category : 'actions' }
+{ #category : #actions }
 CpWebApplication >> forceEnd [
 
 	"End the receiver unconditionally first by asking the client to end the session,
@@ -130,7 +128,7 @@ CpWebApplication >> forceEnd [
 	]
 ]
 
-{ #category : 'installing' }
+{ #category : #installing }
 CpWebApplication >> installExtensionMethods [
 
 	"Install the extension methods from known Classes"
@@ -140,7 +138,7 @@ CpWebApplication >> installExtensionMethods [
 	self installExtensionMethodsFor: #webApplicationExtension
 ]
 
-{ #category : 'testing' }
+{ #category : #testing }
 CpWebApplication >> isEnded [
 
 	"Answer whether the receiver ended (has become unusable)"
@@ -148,7 +146,7 @@ CpWebApplication >> isEnded [
 	^ environment isNil
 ]
 
-{ #category : 'actions' }
+{ #category : #actions }
 CpWebApplication >> load [
 
 	"Perform the initial loading of the receiver"
@@ -166,7 +164,7 @@ CpWebApplication >> load [
 		createIn: self environment
 ]
 
-{ #category : 'updating' }
+{ #category : #updating }
 CpWebApplication >> methodChanged: anAnnouncement [
 
 	"Update the View if a resource method is updated.
@@ -210,7 +208,7 @@ CpWebApplication >> methodChanged: anAnnouncement [
 	^ true
 ]
 
-{ #category : 'actions' }
+{ #category : #actions }
 CpWebApplication >> reload [
 
 	"Perform reloading of the receiver"
@@ -222,7 +220,7 @@ CpWebApplication >> reload [
 	self clientBehaviorClass createIn: self environment
 ]
 
-{ #category : 'actions' }
+{ #category : #actions }
 CpWebApplication >> reload: anAnnouncement [
 
 	"Reload the application and afterwards remove the loader.
@@ -238,7 +236,7 @@ CpWebApplication >> reload: anAnnouncement [
 	self removeLoader
 ]
 
-{ #category : 'updating' }
+{ #category : #updating }
 CpWebApplication >> removeLoader [
 
 	"Remove the loader in the client"
@@ -248,19 +246,19 @@ CpWebApplication >> removeLoader [
 		selector: #removeLoader)
 ]
 
-{ #category : 'input/output' }
+{ #category : #'input/output' }
 CpWebApplication >> sendMessage: aMessageSend [
 
 	self environment sendMessage: aMessageSend
 ]
 
-{ #category : 'updating' }
+{ #category : #updating }
 CpWebApplication >> updateStyleViewClass: aViewClass [
 
 	self clientBehaviorClass updateStyleViewClass: aViewClass in: self environment
 ]
 
-{ #category : 'updating' }
+{ #category : #updating }
 CpWebApplication >> updateTemplateViewClass: aViewClass [
 
 	self clientBehaviorClass updateTemplateViewClass: aViewClass in: self environment

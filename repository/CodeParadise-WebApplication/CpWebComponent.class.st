@@ -12,14 +12,12 @@ Eg. through: myComponent appendChild: 'Hello world' asHtmlElement atSlotNamed: #
 
 "
 Class {
-	#name : 'CpWebComponent',
-	#superclass : 'CpHtmlElement',
-	#category : 'CodeParadise-WebApplication-DOM',
-	#package : 'CodeParadise-WebApplication',
-	#tag : 'DOM'
+	#name : #CpWebComponent,
+	#superclass : #CpHtmlElement,
+	#category : #'CodeParadise-WebApplication-DOM'
 }
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 CpWebComponent class >> all [
 
 	"Answer a collection containing all instances of the receiver in the current document"
@@ -28,14 +26,14 @@ CpWebComponent class >> all [
 		allDescendantsMatching: self asCssSelector
 ]
 
-{ #category : 'converting' }
+{ #category : #converting }
 CpWebComponent class >> asCssSelector [
 
 	^ self tagName
 
 ]
 
-{ #category : 'instance creation' }
+{ #category : #'instance creation' }
 CpWebComponent class >> basicNew [
 
 	"Answer a new (non-initialized) basic instance of the receiver"
@@ -43,7 +41,7 @@ CpWebComponent class >> basicNew [
 	^ self basicNewWithTag: self tagName
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 CpWebComponent class >> first [
 
 	"Answer the first instance of the receiver in the current document
@@ -53,20 +51,20 @@ CpWebComponent class >> first [
 		firstDescendantMatching: self asCssSelector
 ]
 
-{ #category : 'testing' }
+{ #category : #testing }
 CpWebComponent class >> hasAbstractTag [
 
 	^ self classSide includesSelector: #isAbstractTag
 ]
 
-{ #category : 'testing' }
+{ #category : #testing }
 CpWebComponent class >> isAbstractTag [
 
 	"The method is present to indicate the receiver is abstract.
 	This method will NOT be evaluated to decide if the receiver is abstract."
 ]
 
-{ #category : 'primitives' }
+{ #category : #primitives }
 CpWebComponent class >> isRegistered: aString [
 
 	"Answer whether the specified tag name (a String) is registered as a WebComponent in the browser
@@ -77,7 +75,7 @@ CpWebComponent class >> isRegistered: aString [
 
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 CpWebComponent class >> last [
 
 	"Answer the last instance of the receiver in the current document
@@ -88,7 +86,7 @@ CpWebComponent class >> last [
 		ifEmpty: [ nil ]
 ]
 
-{ #category : 'instance creation' }
+{ #category : #'instance creation' }
 CpWebComponent class >> new [
 
 	"Answer a new instance of the receiver.
@@ -105,7 +103,7 @@ CpWebComponent class >> new [
 		yourself
 ]
 
-{ #category : 'class initialization' }
+{ #category : #'class initialization' }
 CpWebComponent class >> postInstall [
 
 	"Register the receiver as a WebComponent in the web browser"
@@ -115,7 +113,7 @@ CpWebComponent class >> postInstall [
 	self register
 ]
 
-{ #category : 'primitives' }
+{ #category : #primitives }
 CpWebComponent class >> register [
 
 	"Register the receiver as a WebComponent class"
@@ -125,7 +123,7 @@ CpWebComponent class >> register [
 
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 CpWebComponent class >> tagName [
 
 	"Answer a tag name based on the receiver's (ie class) name which will be used
@@ -149,7 +147,7 @@ CpWebComponent class >> tagName [
 	^ (self name withoutSuffix: #View) asKebabCase
 ]
 
-{ #category : 'adding/removing' }
+{ #category : #'adding/removing' }
 CpWebComponent >> appendChild: childElement atSlotNamed: nameString [
 
 	"Append the specified element as child of the receiver in the specified template slot"
@@ -158,7 +156,7 @@ CpWebComponent >> appendChild: childElement atSlotNamed: nameString [
 	^ self appendChild: childElement
 ]
 
-{ #category : 'querying' }
+{ #category : #querying }
 CpWebComponent >> childrenAtSlotNamed: nameString [
 
 	"Answer an Array with the child elements (in document order) of the receiver
@@ -167,7 +165,7 @@ CpWebComponent >> childrenAtSlotNamed: nameString [
 	^ self children select: [ :each | each slot = nameString ]
 ]
 
-{ #category : 'copying' }
+{ #category : #copying }
 CpWebComponent >> clone [
 
 	"Answer a (deep) clone of the receiver.
@@ -185,7 +183,7 @@ CpWebComponent >> clone [
 	^ clone
 ]
 
-{ #category : 'querying' }
+{ #category : #querying }
 CpWebComponent >> firstChildAtSlotNamed: nameString [
 
 	"Answer the first child element (in document order) of the receiver
@@ -196,7 +194,7 @@ CpWebComponent >> firstChildAtSlotNamed: nameString [
 		ifEmpty: [ nil ]
 ]
 
-{ #category : 'adding/removing' }
+{ #category : #'adding/removing' }
 CpWebComponent >> insertChild: childElement before: siblingElement atSlotNamed: nameString [
 
 	"Insert the specified element as child of the receiver before the specified sibling
@@ -206,13 +204,13 @@ CpWebComponent >> insertChild: childElement before: siblingElement atSlotNamed: 
 	^ self insertChild: childElement before: siblingElement
 ]
 
-{ #category : 'testing' }
+{ #category : #testing }
 CpWebComponent >> isWebComponent [
 
 	^ true
 ]
 
-{ #category : 'querying' }
+{ #category : #querying }
 CpWebComponent >> lastChildAtSlotNamed: nameString [
 
 	"Answer the last child element (in document order) of the receiver
@@ -223,7 +221,7 @@ CpWebComponent >> lastChildAtSlotNamed: nameString [
 		ifEmpty: [ nil ]
 ]
 
-{ #category : 'querying' }
+{ #category : #querying }
 CpWebComponent >> partNamed: aString [
 
 	"Answer the part with the specified name"
@@ -231,7 +229,7 @@ CpWebComponent >> partNamed: aString [
 	^ self shadowedFirstDescendantMatching: '[part="', aString, '"]'
 ]
 
-{ #category : 'adding/removing' }
+{ #category : #'adding/removing' }
 CpWebComponent >> removeChildrenAtSlotNamed: nameString [
 
 	"Remove all children at the specified slot name"
@@ -241,7 +239,7 @@ CpWebComponent >> removeChildrenAtSlotNamed: nameString [
 			ifTrue: [ self removeChild: each ] ]
 ]
 
-{ #category : 'adding/removing' }
+{ #category : #'adding/removing' }
 CpWebComponent >> replaceAllChildrenWith: childElement atSlotNamed: nameString [
 
 	"Set the specified element as child of the receiver in the specified template slot.
@@ -252,7 +250,7 @@ CpWebComponent >> replaceAllChildrenWith: childElement atSlotNamed: nameString [
 		appendChild: childElement atSlotNamed: nameString
 ]
 
-{ #category : 'adding/removing' }
+{ #category : #'adding/removing' }
 CpWebComponent >> replaceChild: childElement with: replacementElement atSlotNamed: nameString [
 
 	"Replace the specified child element with the specified replacement element
@@ -266,7 +264,7 @@ CpWebComponent >> replaceChild: childElement with: replacementElement atSlotName
 	^ self replaceChild: childElement with: replacementElement
 ]
 
-{ #category : 'adding/removing' }
+{ #category : #'adding/removing' }
 CpWebComponent >> replaceChildAtIndex: anInteger with: replacementElement atSlotNamed: nameString [
 
 	"Replace the child at the specified location with the specified replacement element
@@ -281,7 +279,7 @@ CpWebComponent >> replaceChildAtIndex: anInteger with: replacementElement atSlot
 	^ self replaceChild: childElement with: replacementElement atSlotNamed: nameString
 ]
 
-{ #category : 'querying' }
+{ #category : #querying }
 CpWebComponent >> shadowRoot [
 
 	"Answer the receiver's shadowRoot element or nil if the receiver does not have a shadowRoot"
@@ -290,7 +288,7 @@ CpWebComponent >> shadowRoot [
 	self primitiveFailed
 ]
 
-{ #category : 'querying' }
+{ #category : #querying }
 CpWebComponent >> shadowedAllDescendantsMatching: cssSelectorString [
 
 	"Answer all elements inside the shadow DOM matching the specified CSS selector"
@@ -298,7 +296,7 @@ CpWebComponent >> shadowedAllDescendantsMatching: cssSelectorString [
 	^ self shadowRoot allDescendantsMatching: cssSelectorString
 ]
 
-{ #category : 'querying' }
+{ #category : #querying }
 CpWebComponent >> shadowedElementWithId: aString [
 
 	"Answer the element inside the shadow DOM having the specified id"
@@ -306,7 +304,7 @@ CpWebComponent >> shadowedElementWithId: aString [
 	^ self shadowRoot elementWithId: aString
 ]
 
-{ #category : 'querying' }
+{ #category : #querying }
 CpWebComponent >> shadowedFirstDescendantMatching: cssSelectorString [
 
 	"Answer the first element inside the shadow DOM matching the specified CSS selector"
@@ -314,7 +312,7 @@ CpWebComponent >> shadowedFirstDescendantMatching: cssSelectorString [
 	^ self shadowRoot firstDescendantMatching: cssSelectorString
 ]
 
-{ #category : 'querying' }
+{ #category : #querying }
 CpWebComponent >> shadowedWhen: anAnnouncementClass send: aSymbol to: anObject [
 
 	"Add subscription to the shadow DOM for the specified announcement"
@@ -322,7 +320,7 @@ CpWebComponent >> shadowedWhen: anAnnouncementClass send: aSymbol to: anObject [
 	^ self shadowRoot when: anAnnouncementClass send: aSymbol to: anObject
 ]
 
-{ #category : 'content' }
+{ #category : #content }
 CpWebComponent >> textContent [
 
 	"Answer the textual content of the receiver.
@@ -333,7 +331,7 @@ CpWebComponent >> textContent [
 	self primitiveFailed
 ]
 
-{ #category : 'content' }
+{ #category : #content }
 CpWebComponent >> textContent: aString [
 
 	"Set the text of the receiver to the specified value.

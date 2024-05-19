@@ -576,13 +576,22 @@ CpServerEnvironment >> variableNames [
 	^ OSEnvironment current keys
 ]
 
+{ #category : #deprecated }
+CpServerEnvironment >> when: anAnnouncementClass do: aBlock [
+
+	self warnCr: 'Use of any Announcer''s #when:do: is deprecated, please use #when:do:for:'.
+
+	^ self when: anAnnouncementClass do: aBlock for: aBlock receiver
+]
+
 { #category : #announcing }
-CpServerEnvironment >> when: anAnnouncementClass do: aValuable [
+CpServerEnvironment >> when: anAnnouncementClass do: aBlock for: anObject [
 
-	"Let the sender subscribe to the specified announcement of the receiver.
-	See Announcer>>#when:do:"
+	"Subscribe anObject to announcements of anAnnouncementClass class. 
+	 When announced, aBlock is evaluated."
 
-	^ self announcer when: anAnnouncementClass do: aValuable
+	^ self announcer
+		when: anAnnouncementClass do: aBlock for: anObject
 ]
 
 { #category : #announcing }

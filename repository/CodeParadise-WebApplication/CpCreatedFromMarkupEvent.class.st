@@ -6,9 +6,7 @@ necessary (Smalltalk) initialization to be performed even though I was not creat
 
 "
 Class {
-	#name : 'CpCreatedFromMarkupEvent',
-	#superclass : 'CpCustomEvent',
-	#category : 'CodeParadise-WebApplication-Events-Custom',
-	#package : 'CodeParadise-WebApplication',
-	#tag : 'Events-Custom'
+	#name : #CpCreatedFromMarkupEvent,
+	#superclass : #CpCustomEvent,
+	#category : #'CodeParadise-WebApplication-Events-Custom'
 }

@@ -1,6 +1,6 @@
-Extension { #name : 'BlockClosure' }
+Extension { #name : #BlockClosure }
 
-{ #category : '*CodeParadise-WebApplication' }
+{ #category : #'*CodeParadise-WebApplication' }
 BlockClosure >> asTransition [
 
 	<webApplicationExtension>

@@ -1,6 +1,6 @@
-Extension { #name : 'CpServerEnvironment' }
+Extension { #name : #CpServerEnvironment }
 
-{ #category : '*CodeParadise-WebApplication' }
+{ #category : #'*CodeParadise-WebApplication' }
 CpServerEnvironment >> fakeStop [
 
 	"Fake the receiver is requested to stop

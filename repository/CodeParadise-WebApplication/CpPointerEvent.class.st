@@ -1,12 +1,10 @@
 Class {
-	#name : 'CpPointerEvent',
-	#superclass : 'CpMouseEvent',
-	#category : 'CodeParadise-WebApplication-Events',
-	#package : 'CodeParadise-WebApplication',
-	#tag : 'Events'
+	#name : #CpPointerEvent,
+	#superclass : #CpMouseEvent,
+	#category : #'CodeParadise-WebApplication-Events'
 }
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 CpPointerEvent >> pointerId [
 
 	"Answer a Number representing the unique id of the 'active' pointer event
@@ -15,7 +13,7 @@ CpPointerEvent >> pointerId [
 	^ self propertyAt: #pointerId
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 CpPointerEvent >> pointerType [
 
 	"Answer a String presenting the type of pointer.
@@ -31,7 +29,7 @@ CpPointerEvent >> pointerType [
 	^ self propertyAt: #pointerType
 ]
 
-{ #category : 'printing' }
+{ #category : #printing }
 CpPointerEvent >> printOn: aStream [
 
 	super printOn: aStream.

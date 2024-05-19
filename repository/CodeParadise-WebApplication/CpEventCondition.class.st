@@ -1,12 +1,10 @@
 Class {
-	#name : 'CpEventCondition',
-	#superclass : 'Object',
-	#category : 'CodeParadise-WebApplication-Events-Custom',
-	#package : 'CodeParadise-WebApplication',
-	#tag : 'Events-Custom'
+	#name : #CpEventCondition,
+	#superclass : #Object,
+	#category : #'CodeParadise-WebApplication-Events-Custom'
 }
 
-{ #category : 'testing' }
+{ #category : #testing }
 CpEventCondition class >> matches: anEvent [
 
 	"Answer whether the receiver matches the specified Event.
@@ -18,13 +16,13 @@ CpEventCondition class >> matches: anEvent [
 	self error: 'Subclass should implement #matches: class side in class ', self name
 ]
 
-{ #category : 'logical operations' }
+{ #category : #'logical operations' }
 CpEventCondition class >> not [
 
 	^ CpNegatedEventCondition condition: self
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 CpEventCondition class >> value: anEvent [
 
 	"Answer a Boolean value representing whether the specified event matches the receiver.
@@ -33,7 +31,7 @@ CpEventCondition class >> value: anEvent [
 	^ self matches: anEvent
 ]
 
-{ #category : 'testing' }
+{ #category : #testing }
 CpEventCondition >> matches: anEvent [
 
 	"Answer whether the receiver matches the specified Event.
@@ -45,13 +43,13 @@ CpEventCondition >> matches: anEvent [
 	self error: 'Subclass should implement #matches: instance side in class ', self class name
 ]
 
-{ #category : 'logical operations' }
+{ #category : #'logical operations' }
 CpEventCondition >> not [
 
 	^ CpNegatedEventCondition condition: self
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 CpEventCondition >> value: anEvent [
 
 	"Answer a Boolean value representing whether the specified event matches the receiver.

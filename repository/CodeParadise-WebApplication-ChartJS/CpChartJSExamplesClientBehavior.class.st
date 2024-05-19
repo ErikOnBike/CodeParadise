@@ -174,7 +174,7 @@ CpChartJSExamplesClientBehavior >> exampleLineChart [
 			chart ifNotNil: [
 				chart
 					propertyAt: #(data datasets 0 tension) put: (changeEvent currentTarget propertyAt: #value) ;
-					update ] ] ;
+					update ] ] for: self ;
 		yourself).
 
 	outputElement appendChild: (chartElement := CpHtmlElement newWithTag: #canvas).
@@ -275,12 +275,12 @@ CpChartJSExamplesClientBehavior >> exampleMultiRandom [
 
 	outputElement appendChild: ((CpHtmlElement newWithTag: #div)
 		addClass: #buttons ;
-		appendChild: ((CpHtmlElement newWithTag: #button) textContent: 'Line' ; when: CpPrimaryClickEvent do: [ chart ifNotNil: [ chart type: #line ] ] ; yourself) ;
-		appendChild: ((CpHtmlElement newWithTag: #button) textContent: 'Bar' ; when: CpPrimaryClickEvent do: [ chart ifNotNil: [ chart type: #bar ] ] ; yourself) ;
-		appendChild: ((CpHtmlElement newWithTag: #button) textContent: 'Pie' ; when: CpPrimaryClickEvent do: [ chart ifNotNil: [ chart type: #pie ] ] ; yourself) ;
-		appendChild: ((CpHtmlElement newWithTag: #button) textContent: 'Doughnut' ; when: CpPrimaryClickEvent do: [ chart ifNotNil: [ chart type: #doughnut ] ] ; yourself) ;
-		appendChild: ((CpHtmlElement newWithTag: #button) textContent: 'Polar area' ; when: CpPrimaryClickEvent do: [ chart ifNotNil: [ chart type: #polarArea ] ] ; yourself) ;
-		appendChild: ((CpHtmlElement newWithTag: #button) textContent: 'Radar' ; when: CpPrimaryClickEvent do: [ chart ifNotNil: [ chart type: #radar ] ] ; yourself) ;
+		appendChild: ((CpHtmlElement newWithTag: #button) textContent: 'Line' ; when: CpPrimaryClickEvent do: [ chart ifNotNil: [ chart type: #line ] ] for: self ; yourself) ;
+		appendChild: ((CpHtmlElement newWithTag: #button) textContent: 'Bar' ; when: CpPrimaryClickEvent do: [ chart ifNotNil: [ chart type: #bar ] ] for: self ; yourself) ;
+		appendChild: ((CpHtmlElement newWithTag: #button) textContent: 'Pie' ; when: CpPrimaryClickEvent do: [ chart ifNotNil: [ chart type: #pie ] ] for: self ; yourself) ;
+		appendChild: ((CpHtmlElement newWithTag: #button) textContent: 'Doughnut' ; when: CpPrimaryClickEvent do: [ chart ifNotNil: [ chart type: #doughnut ] ] for: self ; yourself) ;
+		appendChild: ((CpHtmlElement newWithTag: #button) textContent: 'Polar area' ; when: CpPrimaryClickEvent do: [ chart ifNotNil: [ chart type: #polarArea ] ] for: self ; yourself) ;
+		appendChild: ((CpHtmlElement newWithTag: #button) textContent: 'Radar' ; when: CpPrimaryClickEvent do: [ chart ifNotNil: [ chart type: #radar ] ] for: self ; yourself) ;
 		yourself).
 
 	outputElement appendChild: (chartElement := CpHtmlElement newWithTag: #canvas).

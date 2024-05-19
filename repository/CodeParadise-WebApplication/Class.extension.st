@@ -1,6 +1,6 @@
-Extension { #name : 'Class' }
+Extension { #name : #Class }
 
-{ #category : '*CodeParadise-WebApplication' }
+{ #category : #'*CodeParadise-WebApplication' }
 Class >> nameWithoutPrefix [
 
 	"Answer a String representing the receiver's name without any prefixes.

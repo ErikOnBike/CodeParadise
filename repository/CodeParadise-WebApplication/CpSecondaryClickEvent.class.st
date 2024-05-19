@@ -1,12 +1,10 @@
 Class {
-	#name : 'CpSecondaryClickEvent',
-	#superclass : 'CpAnyClickEvent',
-	#category : 'CodeParadise-WebApplication-Events-Custom',
-	#package : 'CodeParadise-WebApplication',
-	#tag : 'Events-Custom'
+	#name : #CpSecondaryClickEvent,
+	#superclass : #CpAnyClickEvent,
+	#category : #'CodeParadise-WebApplication-Events-Custom'
 }
 
-{ #category : 'testing' }
+{ #category : #testing }
 CpSecondaryClickEvent class >> handlesClickEvent: aClickEvent [
 
 	"Accept only secondary click"
@@ -14,7 +12,7 @@ CpSecondaryClickEvent class >> handlesClickEvent: aClickEvent [
 	^ aClickEvent isSecondaryButtonPressed
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 CpSecondaryClickEvent class >> postInstallOnce [
 
 	"Prevent default handling of ContextMenu by default (because it interferes with secondary click)"
@@ -25,13 +23,13 @@ CpSecondaryClickEvent class >> postInstallOnce [
 		when: CpContextMenuEvent send: #preventDefault: to: documentBody
 ]
 
-{ #category : 'testing' }
+{ #category : #testing }
 CpSecondaryClickEvent >> isPrimaryButtonPressed [
 
 	^ false
 ]
 
-{ #category : 'testing' }
+{ #category : #testing }
 CpSecondaryClickEvent >> isSecondaryButtonPressed [
 
 	^ true

@@ -11,14 +11,12 @@ modifiers being down, use the following example:
 
 "
 Class {
-	#name : 'CpClickEvent',
-	#superclass : 'CpMouseEvent',
-	#category : 'CodeParadise-WebApplication-Events',
-	#package : 'CodeParadise-WebApplication',
-	#tag : 'Events'
+	#name : #CpClickEvent,
+	#superclass : #CpMouseEvent,
+	#category : #'CodeParadise-WebApplication-Events'
 }
 
-{ #category : 'conditionals' }
+{ #category : #conditionals }
 CpClickEvent class >> addConditionsToDenySpecialsTo: aConditionalEvent [
 
 	"Add condition to specified conditional event which prevents special conditions to be allowed.
@@ -28,7 +26,7 @@ CpClickEvent class >> addConditionsToDenySpecialsTo: aConditionalEvent [
 	aConditionalEvent addCondition: CpShortClick
 ]
 
-{ #category : 'announcing' }
+{ #category : #announcing }
 CpClickEvent class >> basicPrimary [
 
 	"Answer a primary click event to be used as announcement class
@@ -40,7 +38,7 @@ CpClickEvent class >> basicPrimary [
 	^ self primary only
 ]
 
-{ #category : 'announcing' }
+{ #category : #announcing }
 CpClickEvent class >> basicSecondary [
 
 	"Answer a secondary click event to be used as announcement class
@@ -52,7 +50,7 @@ CpClickEvent class >> basicSecondary [
 	^ self secondary only
 ]
 
-{ #category : 'announcing' }
+{ #category : #announcing }
 CpClickEvent class >> primary [
 
 	"Answer a primary click event to be used as announcement class.
@@ -63,7 +61,7 @@ CpClickEvent class >> primary [
 	^ self primaryClickEventClass
 ]
 
-{ #category : 'announcing' }
+{ #category : #announcing }
 CpClickEvent class >> primaryClickEventClass [
 
 	"Answer the class representing the primary click (a synthetic event)"
@@ -71,7 +69,7 @@ CpClickEvent class >> primaryClickEventClass [
 	^ CpPrimaryClickEvent
 ]
 
-{ #category : 'announcing' }
+{ #category : #announcing }
 CpClickEvent class >> secondary [
 
 	"Answer a secondary click event to be used as announcement class.
@@ -82,7 +80,7 @@ CpClickEvent class >> secondary [
 	^ self secondaryClickEventClass
 ]
 
-{ #category : 'announcing' }
+{ #category : #announcing }
 CpClickEvent class >> secondaryClickEventClass [
 
 	"Answer the class representing the secondary click (a synthetic event)"
@@ -90,7 +88,7 @@ CpClickEvent class >> secondaryClickEventClass [
 	^ CpSecondaryClickEvent
 ]
 
-{ #category : 'testing' }
+{ #category : #testing }
 CpClickEvent >> isStopped [
 
 	"Answer whether the receiver has stopped propagation.

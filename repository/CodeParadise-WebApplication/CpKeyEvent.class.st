@@ -6,14 +6,12 @@ I have a slightly different behavior than the browser variant. For the space(bar
 
 "
 Class {
-	#name : 'CpKeyEvent',
-	#superclass : 'CpUserInterfaceEvent',
-	#category : 'CodeParadise-WebApplication-Events',
-	#package : 'CodeParadise-WebApplication',
-	#tag : 'Events'
+	#name : #CpKeyEvent,
+	#superclass : #CpUserInterfaceEvent,
+	#category : #'CodeParadise-WebApplication-Events'
 }
 
-{ #category : 'navigation keys' }
+{ #category : #'navigation keys' }
 CpKeyEvent class >> arrowDown [
 
 	"Answer a ConditionalEvent for the receiver on the key defined by the selector"
@@ -21,7 +19,7 @@ CpKeyEvent class >> arrowDown [
 	^ self createConditionalEvent
 ]
 
-{ #category : 'navigation keys' }
+{ #category : #'navigation keys' }
 CpKeyEvent class >> arrowLeft [
 
 	"Answer a ConditionalEvent for the receiver on the key defined by the selector"
@@ -29,7 +27,7 @@ CpKeyEvent class >> arrowLeft [
 	^ self createConditionalEvent
 ]
 
-{ #category : 'navigation keys' }
+{ #category : #'navigation keys' }
 CpKeyEvent class >> arrowRight [
 
 	"Answer a ConditionalEvent for the receiver on the key defined by the selector"
@@ -37,7 +35,7 @@ CpKeyEvent class >> arrowRight [
 	^ self createConditionalEvent
 ]
 
-{ #category : 'navigation keys' }
+{ #category : #'navigation keys' }
 CpKeyEvent class >> arrowUp [
 
 	"Answer a ConditionalEvent for the receiver on the key defined by the selector"
@@ -45,7 +43,7 @@ CpKeyEvent class >> arrowUp [
 	^ self createConditionalEvent
 ]
 
-{ #category : 'audio keys' }
+{ #category : #'audio keys' }
 CpKeyEvent class >> audioVolumeDown [
 
 	"Answer a ConditionalEvent for the receiver on the key defined by the selector"
@@ -53,7 +51,7 @@ CpKeyEvent class >> audioVolumeDown [
 	^ self createConditionalEvent
 ]
 
-{ #category : 'audio keys' }
+{ #category : #'audio keys' }
 CpKeyEvent class >> audioVolumeMute [
 
 	"Answer a ConditionalEvent for the receiver on the key defined by the selector"
@@ -61,7 +59,7 @@ CpKeyEvent class >> audioVolumeMute [
 	^ self createConditionalEvent
 ]
 
-{ #category : 'audio keys' }
+{ #category : #'audio keys' }
 CpKeyEvent class >> audioVolumeUp [
 
 	"Answer a ConditionalEvent for the receiver on the key defined by the selector"
@@ -69,7 +67,7 @@ CpKeyEvent class >> audioVolumeUp [
 	^ self createConditionalEvent
 ]
 
-{ #category : 'editing keys' }
+{ #category : #'editing keys' }
 CpKeyEvent class >> backspace [
 
 	"Answer a ConditionalEvent for the receiver on the key defined by the selector"
@@ -77,7 +75,7 @@ CpKeyEvent class >> backspace [
 	^ self createConditionalEvent
 ]
 
-{ #category : 'editing keys' }
+{ #category : #'editing keys' }
 CpKeyEvent class >> clear [
 
 	"Answer a ConditionalEvent for the receiver on the key defined by the selector"
@@ -85,7 +83,7 @@ CpKeyEvent class >> clear [
 	^ self createConditionalEvent
 ]
 
-{ #category : 'ui keys' }
+{ #category : #'ui keys' }
 CpKeyEvent class >> contextMenu [
 
 	"Answer a ConditionalEvent for the receiver on the key defined by the selector"
@@ -93,7 +91,7 @@ CpKeyEvent class >> contextMenu [
 	^ self createConditionalEvent
 ]
 
-{ #category : 'private' }
+{ #category : #private }
 CpKeyEvent class >> createConditionalEvent [
 
 	"Answer a ConditionalEvent for the receiver on the key defined by the calling method (selector)"
@@ -101,7 +99,7 @@ CpKeyEvent class >> createConditionalEvent [
 	^ self key: thisContext sender method selector asString capitalized
 ]
 
-{ #category : 'editing keys' }
+{ #category : #'editing keys' }
 CpKeyEvent class >> delete [
 
 	"Answer a ConditionalEvent for the receiver on the key defined by the selector"
@@ -109,7 +107,7 @@ CpKeyEvent class >> delete [
 	^ self createConditionalEvent
 ]
 
-{ #category : 'navigation keys' }
+{ #category : #'navigation keys' }
 CpKeyEvent class >> end [
 
 	"Answer a ConditionalEvent for the receiver on the key defined by the selector"
@@ -117,7 +115,7 @@ CpKeyEvent class >> end [
 	^ self createConditionalEvent
 ]
 
-{ #category : 'whitespace keys' }
+{ #category : #'whitespace keys' }
 CpKeyEvent class >> enter [
 
 	"Answer a ConditionalEvent for the receiver on the key defined by the selector"
@@ -125,7 +123,7 @@ CpKeyEvent class >> enter [
 	^ self createConditionalEvent
 ]
 
-{ #category : 'ui keys' }
+{ #category : #'ui keys' }
 CpKeyEvent class >> escape [
 
 	"Answer a ConditionalEvent for the receiver on the key defined by the selector"
@@ -133,7 +131,7 @@ CpKeyEvent class >> escape [
 	^ self createConditionalEvent
 ]
 
-{ #category : 'function keys' }
+{ #category : #'function keys' }
 CpKeyEvent class >> f1 [
 
 	"Answer a ConditionalEvent for the receiver on the key defined by the selector"
@@ -141,7 +139,7 @@ CpKeyEvent class >> f1 [
 	^ self createConditionalEvent
 ]
 
-{ #category : 'function keys' }
+{ #category : #'function keys' }
 CpKeyEvent class >> f10 [
 
 	"Answer a ConditionalEvent for the receiver on the key defined by the selector"
@@ -149,7 +147,7 @@ CpKeyEvent class >> f10 [
 	^ self createConditionalEvent
 ]
 
-{ #category : 'function keys' }
+{ #category : #'function keys' }
 CpKeyEvent class >> f11 [
 
 	"Answer a ConditionalEvent for the receiver on the key defined by the selector"
@@ -157,7 +155,7 @@ CpKeyEvent class >> f11 [
 	^ self createConditionalEvent
 ]
 
-{ #category : 'function keys' }
+{ #category : #'function keys' }
 CpKeyEvent class >> f12 [
 
 	"Answer a ConditionalEvent for the receiver on the key defined by the selector"
@@ -165,7 +163,7 @@ CpKeyEvent class >> f12 [
 	^ self createConditionalEvent
 ]
 
-{ #category : 'function keys' }
+{ #category : #'function keys' }
 CpKeyEvent class >> f13 [
 
 	"Answer a ConditionalEvent for the receiver on the key defined by the selector"
@@ -173,7 +171,7 @@ CpKeyEvent class >> f13 [
 	^ self createConditionalEvent
 ]
 
-{ #category : 'function keys' }
+{ #category : #'function keys' }
 CpKeyEvent class >> f14 [
 
 	"Answer a ConditionalEvent for the receiver on the key defined by the selector"
@@ -181,7 +179,7 @@ CpKeyEvent class >> f14 [
 	^ self createConditionalEvent
 ]
 
-{ #category : 'function keys' }
+{ #category : #'function keys' }
 CpKeyEvent class >> f15 [
 
 	"Answer a ConditionalEvent for the receiver on the key defined by the selector"
@@ -189,7 +187,7 @@ CpKeyEvent class >> f15 [
 	^ self createConditionalEvent
 ]
 
-{ #category : 'function keys' }
+{ #category : #'function keys' }
 CpKeyEvent class >> f16 [
 
 	"Answer a ConditionalEvent for the receiver on the key defined by the selector"
@@ -197,7 +195,7 @@ CpKeyEvent class >> f16 [
 	^ self createConditionalEvent
 ]
 
-{ #category : 'function keys' }
+{ #category : #'function keys' }
 CpKeyEvent class >> f17 [
 
 	"Answer a ConditionalEvent for the receiver on the key defined by the selector"
@@ -205,7 +203,7 @@ CpKeyEvent class >> f17 [
 	^ self createConditionalEvent
 ]
 
-{ #category : 'function keys' }
+{ #category : #'function keys' }
 CpKeyEvent class >> f18 [
 
 	"Answer a ConditionalEvent for the receiver on the key defined by the selector"
@@ -213,7 +211,7 @@ CpKeyEvent class >> f18 [
 	^ self createConditionalEvent
 ]
 
-{ #category : 'function keys' }
+{ #category : #'function keys' }
 CpKeyEvent class >> f19 [
 
 	"Answer a ConditionalEvent for the receiver on the key defined by the selector"
@@ -221,7 +219,7 @@ CpKeyEvent class >> f19 [
 	^ self createConditionalEvent
 ]
 
-{ #category : 'function keys' }
+{ #category : #'function keys' }
 CpKeyEvent class >> f2 [
 
 	"Answer a ConditionalEvent for the receiver on the key defined by the selector"
@@ -229,7 +227,7 @@ CpKeyEvent class >> f2 [
 	^ self createConditionalEvent
 ]
 
-{ #category : 'function keys' }
+{ #category : #'function keys' }
 CpKeyEvent class >> f20 [
 
 	"Answer a ConditionalEvent for the receiver on the key defined by the selector"
@@ -237,7 +235,7 @@ CpKeyEvent class >> f20 [
 	^ self createConditionalEvent
 ]
 
-{ #category : 'function keys' }
+{ #category : #'function keys' }
 CpKeyEvent class >> f3 [
 
 	"Answer a ConditionalEvent for the receiver on the key defined by the selector"
@@ -245,7 +243,7 @@ CpKeyEvent class >> f3 [
 	^ self createConditionalEvent
 ]
 
-{ #category : 'function keys' }
+{ #category : #'function keys' }
 CpKeyEvent class >> f4 [
 
 	"Answer a ConditionalEvent for the receiver on the key defined by the selector"
@@ -253,7 +251,7 @@ CpKeyEvent class >> f4 [
 	^ self createConditionalEvent
 ]
 
-{ #category : 'function keys' }
+{ #category : #'function keys' }
 CpKeyEvent class >> f5 [
 
 	"Answer a ConditionalEvent for the receiver on the key defined by the selector"
@@ -261,7 +259,7 @@ CpKeyEvent class >> f5 [
 	^ self createConditionalEvent
 ]
 
-{ #category : 'function keys' }
+{ #category : #'function keys' }
 CpKeyEvent class >> f6 [
 
 	"Answer a ConditionalEvent for the receiver on the key defined by the selector"
@@ -269,7 +267,7 @@ CpKeyEvent class >> f6 [
 	^ self createConditionalEvent
 ]
 
-{ #category : 'function keys' }
+{ #category : #'function keys' }
 CpKeyEvent class >> f7 [
 
 	"Answer a ConditionalEvent for the receiver on the key defined by the selector"
@@ -277,7 +275,7 @@ CpKeyEvent class >> f7 [
 	^ self createConditionalEvent
 ]
 
-{ #category : 'function keys' }
+{ #category : #'function keys' }
 CpKeyEvent class >> f8 [
 
 	"Answer a ConditionalEvent for the receiver on the key defined by the selector"
@@ -285,7 +283,7 @@ CpKeyEvent class >> f8 [
 	^ self createConditionalEvent
 ]
 
-{ #category : 'function keys' }
+{ #category : #'function keys' }
 CpKeyEvent class >> f9 [
 
 	"Answer a ConditionalEvent for the receiver on the key defined by the selector"
@@ -293,7 +291,7 @@ CpKeyEvent class >> f9 [
 	^ self createConditionalEvent
 ]
 
-{ #category : 'instance creation' }
+{ #category : #'instance creation' }
 CpKeyEvent class >> fromString: aString [
 
 	"Answer an instance of the receiver (for use as an Event to listen for).
@@ -326,7 +324,7 @@ CpKeyEvent class >> fromString: aString [
 	^ (self key: keyString) & modifiers
 ]
 
-{ #category : 'ui keys' }
+{ #category : #'ui keys' }
 CpKeyEvent class >> help [
 
 	"Answer a ConditionalEvent for the receiver on the key defined by the selector"
@@ -334,7 +332,7 @@ CpKeyEvent class >> help [
 	^ self createConditionalEvent
 ]
 
-{ #category : 'navigation keys' }
+{ #category : #'navigation keys' }
 CpKeyEvent class >> home [
 
 	"Answer a ConditionalEvent for the receiver on the key defined by the selector"
@@ -342,7 +340,7 @@ CpKeyEvent class >> home [
 	^ self createConditionalEvent
 ]
 
-{ #category : 'announcing' }
+{ #category : #announcing }
 CpKeyEvent class >> key: aString [
 
 	"Answer a ConditionalEvent for the receiver on the key specified"
@@ -350,13 +348,13 @@ CpKeyEvent class >> key: aString [
 	^ self & (CpKeyEventCondition key: aString)
 ]
 
-{ #category : 'announcing' }
+{ #category : #announcing }
 CpKeyEvent class >> keyRangeFrom: lowerBoundKeyString to: upperBoundKeyString [
 
 	^ self & (CpKeyRangeEventCondition fromKey: lowerBoundKeyString to: upperBoundKeyString)
 ]
 
-{ #category : 'navigation keys' }
+{ #category : #'navigation keys' }
 CpKeyEvent class >> pageDown [
 
 	"Answer a ConditionalEvent for the receiver on the key defined by the selector"
@@ -364,7 +362,7 @@ CpKeyEvent class >> pageDown [
 	^ self createConditionalEvent
 ]
 
-{ #category : 'navigation keys' }
+{ #category : #'navigation keys' }
 CpKeyEvent class >> pageUp [
 
 	"Answer a ConditionalEvent for the receiver on the key defined by the selector"
@@ -372,7 +370,7 @@ CpKeyEvent class >> pageUp [
 	^ self createConditionalEvent
 ]
 
-{ #category : 'whitespace keys' }
+{ #category : #'whitespace keys' }
 CpKeyEvent class >> space [
 
 	"Answer a ConditionalEvent for the receiver on the key defined by the selector"
@@ -380,7 +378,7 @@ CpKeyEvent class >> space [
 	^ self createConditionalEvent
 ]
 
-{ #category : 'whitespace keys' }
+{ #category : #'whitespace keys' }
 CpKeyEvent class >> tab [
 
 	"Answer a ConditionalEvent for the receiver on the key defined by the selector"
@@ -388,7 +386,7 @@ CpKeyEvent class >> tab [
 	^ self createConditionalEvent
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 CpKeyEvent >> isComposing [
 
 	"Answer a Boolean indicating a key is being composed"
@@ -396,7 +394,7 @@ CpKeyEvent >> isComposing [
 	^ self propertyAt: #isComposing
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 CpKeyEvent >> key [
 
 	"Answer a String representing the key for the receiver.
@@ -414,7 +412,7 @@ CpKeyEvent >> key [
 		ifFalse: [ key ]
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 CpKeyEvent >> keyWithModifiers [
 
 	"Answer a String representing the receiver's key with modifiers prepended.
@@ -448,7 +446,7 @@ CpKeyEvent >> keyWithModifiers [
 		stream nextPutAll: self key ]
 ]
 
-{ #category : 'printing' }
+{ #category : #printing }
 CpKeyEvent >> printOn: aStream [
 
 	super printOn: aStream.
@@ -463,7 +461,7 @@ CpKeyEvent >> printOn: aStream [
 		print: self isComposing
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 CpKeyEvent >> repeat [
 
 	"Answer a Boolean indicating the key is being held down"

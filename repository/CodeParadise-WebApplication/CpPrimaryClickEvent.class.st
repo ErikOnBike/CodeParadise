@@ -1,15 +1,13 @@
 Class {
-	#name : 'CpPrimaryClickEvent',
-	#superclass : 'CpAnyClickEvent',
+	#name : #CpPrimaryClickEvent,
+	#superclass : #CpAnyClickEvent,
 	#classVars : [
 		'StopPropagationFrom'
 	],
-	#category : 'CodeParadise-WebApplication-Events-Custom',
-	#package : 'CodeParadise-WebApplication',
-	#tag : 'Events-Custom'
+	#category : #'CodeParadise-WebApplication-Events-Custom'
 }
 
-{ #category : 'testing' }
+{ #category : #testing }
 CpPrimaryClickEvent class >> handlesClickEvent: aClickEvent [
 
 	"Accept only primary click"
@@ -17,7 +15,7 @@ CpPrimaryClickEvent class >> handlesClickEvent: aClickEvent [
 	^ aClickEvent isPrimaryButtonPressed
 ]
 
-{ #category : 'testing' }
+{ #category : #testing }
 CpPrimaryClickEvent class >> isClickStopped: aClickEvent [
 
 	"Answer whether the specified click event is stopped
@@ -43,7 +41,7 @@ CpPrimaryClickEvent class >> isClickStopped: aClickEvent [
 	^ isStopped
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 CpPrimaryClickEvent class >> postInstallOnce [
 
 	"Make sure stop propagation does not prevent future clicks from working.
@@ -59,13 +57,13 @@ CpPrimaryClickEvent class >> postInstallOnce [
 		when: CpClickEvent send: #noop to: document
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 CpPrimaryClickEvent class >> resetStopPropagationFrom [
 
 	StopPropagationFrom := nil
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 CpPrimaryClickEvent class >> stopPropagationFrom: anElement [
 
 	"Store the DOM element from which point propagation is prevented.
@@ -74,19 +72,19 @@ CpPrimaryClickEvent class >> stopPropagationFrom: anElement [
 	StopPropagationFrom := anElement
 ]
 
-{ #category : 'testing' }
+{ #category : #testing }
 CpPrimaryClickEvent >> isPrimaryButtonPressed [
 
 	^ true
 ]
 
-{ #category : 'testing' }
+{ #category : #testing }
 CpPrimaryClickEvent >> isSecondaryButtonPressed [
 
 	^ false
 ]
 
-{ #category : 'dispatching' }
+{ #category : #dispatching }
 CpPrimaryClickEvent >> stopImmediatePropagation [
 
 	"Stop immediate propagation of the receiver.
@@ -101,7 +99,7 @@ CpPrimaryClickEvent >> stopImmediatePropagation [
 	super stopImmediatePropagation
 ]
 
-{ #category : 'dispatching' }
+{ #category : #dispatching }
 CpPrimaryClickEvent >> stopPropagation [
 
 	"Stop propagation of the receiver.

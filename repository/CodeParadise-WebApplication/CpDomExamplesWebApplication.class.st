@@ -3,14 +3,12 @@ I am a simple Server Application to show some DOM manipulation behavior.
 I only live in the ServerEnvironment.
 "
 Class {
-	#name : 'CpDomExamplesWebApplication',
-	#superclass : 'CpWebApplication',
-	#category : 'CodeParadise-WebApplication-Examples',
-	#package : 'CodeParadise-WebApplication',
-	#tag : 'Examples'
+	#name : #CpDomExamplesWebApplication,
+	#superclass : #CpWebApplication,
+	#category : #'CodeParadise-WebApplication-Examples'
 }
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 CpDomExamplesWebApplication class >> app [
 
 	"Answer the unique identifier (a Symbol) for the receiver"
@@ -18,7 +16,7 @@ CpDomExamplesWebApplication class >> app [
 	^ #'DOM-Examples'
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 CpDomExamplesWebApplication class >> clientBehaviorClass [
 
 	^ CpDomExamplesClientBehavior

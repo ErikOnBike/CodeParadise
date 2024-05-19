@@ -5,14 +5,12 @@ I will start a server for WebSocket access for Remote Environments.
 
 "
 Class {
-	#name : 'CpApplicationServerStarter',
-	#superclass : 'Object',
-	#category : 'CodeParadise-WebApplication-Support',
-	#package : 'CodeParadise-WebApplication',
-	#tag : 'Support'
+	#name : #CpApplicationServerStarter,
+	#superclass : #Object,
+	#category : #'CodeParadise-WebApplication-Support'
 }
 
-{ #category : 'starting/stopping' }
+{ #category : #'starting/stopping' }
 CpApplicationServerStarter class >> startUsingConfig: configuration [
 
 	"Start a new server instance for running WebApplications using the given configuration.

@@ -1,15 +1,13 @@
 Class {
-	#name : 'CpNegatedEventCondition',
-	#superclass : 'CpEventCondition',
+	#name : #CpNegatedEventCondition,
+	#superclass : #CpEventCondition,
 	#instVars : [
 		'condition'
 	],
-	#category : 'CodeParadise-WebApplication-Events-Custom',
-	#package : 'CodeParadise-WebApplication',
-	#tag : 'Events-Custom'
+	#category : #'CodeParadise-WebApplication-Events-Custom'
 }
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 CpNegatedEventCondition class >> condition: anEventCondition [
 
 	^ self basicNew
@@ -17,7 +15,7 @@ CpNegatedEventCondition class >> condition: anEventCondition [
 		yourself
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 CpNegatedEventCondition >> initializeWithCondition: anEventCondition [
 
 	self initialize.
@@ -25,13 +23,13 @@ CpNegatedEventCondition >> initializeWithCondition: anEventCondition [
 	condition := anEventCondition
 ]
 
-{ #category : 'testing' }
+{ #category : #testing }
 CpNegatedEventCondition >> matches: anEvent [
 
 	^ (condition value: anEvent) not
 ]
 
-{ #category : 'logical operations' }
+{ #category : #'logical operations' }
 CpNegatedEventCondition >> not [
 
 	"Answer a negated version of the receiver (i.e. the receiver's initial negated condition)"

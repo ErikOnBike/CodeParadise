@@ -1,6 +1,6 @@
-Extension { #name : 'SequenceableCollection' }
+Extension { #name : #SequenceableCollection }
 
-{ #category : '*CodeParadise-WebApplication' }
+{ #category : #'*CodeParadise-WebApplication' }
 SequenceableCollection >> findNext: aBlock after: anInteger [
 
 	"Return the index of the next element (start after the specified index) for which aBlock evaluates as true"

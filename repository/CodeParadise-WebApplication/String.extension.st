@@ -1,6 +1,6 @@
-Extension { #name : 'String' }
+Extension { #name : #String }
 
-{ #category : '*CodeParadise-WebApplication' }
+{ #category : #'*CodeParadise-WebApplication' }
 String >> asCssSelector [
 
 	<webApplicationExtension>
@@ -8,7 +8,7 @@ String >> asCssSelector [
 	^ self
 ]
 
-{ #category : '*CodeParadise-WebApplication' }
+{ #category : #'*CodeParadise-WebApplication' }
 String >> asHtmlElement [
 
 	<webApplicationExtension>
@@ -16,7 +16,7 @@ String >> asHtmlElement [
 	^ self inHtmlTag: #span
 ]
 
-{ #category : '*CodeParadise-WebApplication' }
+{ #category : #'*CodeParadise-WebApplication' }
 String >> asKebabCase [
 
 	"Answer the receiver using kebab-case.
@@ -73,7 +73,7 @@ String >> asKebabCase [
 		stream nextPut: charToWrite asLowercase ]
 ]
 
-{ #category : '*CodeParadise-WebApplication' }
+{ #category : #'*CodeParadise-WebApplication' }
 String >> asRegularFontAwesomeIcon [
 
 	<webApplicationFontAwesomeExtension>
@@ -82,7 +82,7 @@ String >> asRegularFontAwesomeIcon [
 		attributeAt: #class put: 'far fa-', self
 ]
 
-{ #category : '*CodeParadise-WebApplication' }
+{ #category : #'*CodeParadise-WebApplication' }
 String >> asSolidFontAwesomeIcon [
 
 	<webApplicationFontAwesomeExtension>
@@ -91,7 +91,7 @@ String >> asSolidFontAwesomeIcon [
 		attributeAt: #class put: 'fas fa-', self
 ]
 
-{ #category : '*CodeParadise-WebApplication' }
+{ #category : #'*CodeParadise-WebApplication' }
 String >> inHtmlTag: tagString [
 
 	<webApplicationExtension>

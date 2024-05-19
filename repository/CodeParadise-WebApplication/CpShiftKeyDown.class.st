@@ -1,18 +1,16 @@
 Class {
-	#name : 'CpShiftKeyDown',
-	#superclass : 'CpModifierKeyDownCondition',
-	#category : 'CodeParadise-WebApplication-Events-Custom',
-	#package : 'CodeParadise-WebApplication',
-	#tag : 'Events-Custom'
+	#name : #CpShiftKeyDown,
+	#superclass : #CpModifierKeyDownCondition,
+	#category : #'CodeParadise-WebApplication-Events-Custom'
 }
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 CpShiftKeyDown class >> modifierCharacter [
 
 	^ $S
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 CpShiftKeyDown class >> modifiers [
 
 	"Answer the modifiers (an Integer, see CpEvent >> #modifiers) the receiver represents"

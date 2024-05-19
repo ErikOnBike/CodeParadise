@@ -1,12 +1,10 @@
 Class {
-	#name : 'CpLongClick',
-	#superclass : 'CpAnyClickEventCondition',
-	#category : 'CodeParadise-WebApplication-Events-Custom',
-	#package : 'CodeParadise-WebApplication',
-	#tag : 'Events-Custom'
+	#name : #CpLongClick,
+	#superclass : #CpAnyClickEventCondition,
+	#category : #'CodeParadise-WebApplication-Events-Custom'
 }
 
-{ #category : 'testing' }
+{ #category : #testing }
 CpLongClick class >> matches: anEvent [
 
 	^ anEvent duration >= self minimalLongClickDuration

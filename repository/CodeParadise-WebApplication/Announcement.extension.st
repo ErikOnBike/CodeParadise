@@ -1,6 +1,6 @@
-Extension { #name : 'Announcement' }
+Extension { #name : #Announcement }
 
-{ #category : '*CodeParadise-WebApplication' }
+{ #category : #'*CodeParadise-WebApplication' }
 Announcement class >> addListenerTo: anElement [
 
 	<webApplicationExtension>
@@ -11,7 +11,7 @@ Announcement class >> addListenerTo: anElement [
 	For non-event Announcements this should be a no-op."
 ]
 
-{ #category : '*CodeParadise-WebApplication' }
+{ #category : #'*CodeParadise-WebApplication' }
 Announcement class >> removeListenerFrom: anElement [
 
 	<webApplicationExtension>

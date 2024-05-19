@@ -61,10 +61,10 @@ CpShoelaceExamplesClientBehavior >> exampleButton [
 	outputElement appendChild: (loadingState := SlCheckbox label: 'Loading').
 	outputElement appendChild: (pillState := SlCheckbox label: 'Pill').
 	outputElement appendChild: (outlineState := SlCheckbox label: 'Outline').
-	disabledState when: SlChangeEvent do: [ disabledState isChecked ifTrue: [ button beDisabled ] ifFalse: [ button beNotDisabled ] ].
-	loadingState when: SlChangeEvent do: [ loadingState isChecked ifTrue: [ button beLoading ] ifFalse: [ button beNotLoading ] ].
-	pillState when: SlChangeEvent do: [ pillState isChecked ifTrue: [ button bePill ] ifFalse: [ button beNotPill ] ].
-	outlineState when: SlChangeEvent do: [ outlineState isChecked ifTrue: [ button beOutline ] ifFalse: [ button beNotOutline ] ].
+	disabledState when: SlChangeEvent do: [ disabledState isChecked ifTrue: [ button beDisabled ] ifFalse: [ button beNotDisabled ] ] for: self.
+	loadingState when: SlChangeEvent do: [ loadingState isChecked ifTrue: [ button beLoading ] ifFalse: [ button beNotLoading ] ] for: self.
+	pillState when: SlChangeEvent do: [ pillState isChecked ifTrue: [ button bePill ] ifFalse: [ button beNotPill ] ] for: self.
+	outlineState when: SlChangeEvent do: [ outlineState isChecked ifTrue: [ button beOutline ] ifFalse: [ button beNotOutline ] ] for: self.
 
 ]
 
@@ -134,7 +134,7 @@ CpShoelaceExamplesClientBehavior >> exampleCode [
 	"Show we receive a genuine SlInput element"
 	input := outputElement firstDescendantMatching: 'sl-input'.
 	input value: 'initial value received from code'.
-	input when: SlInputEvent do: [ (outputElement firstDescendantMatching: '#result') textContent: input value ].
+	input when: SlInputEvent do: [ (outputElement firstDescendantMatching: '#result') textContent: input value ] for: self.
 
 	"Show we receive a genuine SlButton element"
 	button := CpDomElement newWithTag: 'sl-button'.
@@ -212,13 +212,13 @@ CpShoelaceExamplesClientBehavior >> exampleDialog [
 		appendChild: (modalCheckbox := SlCheckbox label: 'modal') ;
 		appendChild: (' ' inHtmlTag: #span) ;
 		appendChild: ((SlButton label: 'Mixed dialog')
-			when: CpClickEvent basicPrimary do: [ modalCheckbox isChecked ifTrue: [ mixedDialog showModal ] ifFalse: [ mixedDialog showNonModal ] ] ;
+			when: CpClickEvent basicPrimary do: [ modalCheckbox isChecked ifTrue: [ mixedDialog showModal ] ifFalse: [ mixedDialog showNonModal ] ] for: self ;
 			yourself) ;
 		appendChild: ('' inHtmlTag: #p) ;
 		appendChild: (focusCheckbox := SlCheckbox label: 'focus 3rd input field') ;
 		appendChild: (' ' inHtmlTag: #span) ;
 		appendChild: ((SlButton label: 'Focus dialog')
-			when: CpClickEvent basicPrimary do: [ focusCheckbox isChecked ifTrue: [ focusDialog showFocusing: (focusDialog firstDescendantMatching: '#third') ] ifFalse: [ focusDialog resetDefaultFocusElement ; show ] ] ;
+			when: CpClickEvent basicPrimary do: [ focusCheckbox isChecked ifTrue: [ focusDialog showFocusing: (focusDialog firstDescendantMatching: '#third') ] ifFalse: [ focusDialog resetDefaultFocusElement ; show ] ] for: self ;
 			yourself) ;
 		appendChild: regularDialog ;
 		appendChild: modalDialog ;
@@ -333,9 +333,9 @@ CpShoelaceExamplesClientBehavior >> exampleInput [
 	outputElement appendChild: (disabledState := SlCheckbox label: 'Disabled').
 	outputElement appendChild: (pillState := SlCheckbox label: 'Pill').
 	outputElement appendChild: (clearableState := SlCheckbox label: 'Clearable').
-	disabledState when: SlChangeEvent do: [ disabledState isChecked ifTrue: [ input beDisabled ] ifFalse: [ input beNotDisabled ] ].
-	pillState when: SlChangeEvent do: [ pillState isChecked ifTrue: [ input bePill ] ifFalse: [ input beNotPill ] ].
-	clearableState when: SlChangeEvent do: [ clearableState isChecked ifTrue: [ input beClearable ] ifFalse: [ input beNotClearable ] ].
+	disabledState when: SlChangeEvent do: [ disabledState isChecked ifTrue: [ input beDisabled ] ifFalse: [ input beNotDisabled ] ] for: self.
+	pillState when: SlChangeEvent do: [ pillState isChecked ifTrue: [ input bePill ] ifFalse: [ input beNotPill ] ] for: self.
+	clearableState when: SlChangeEvent do: [ clearableState isChecked ifTrue: [ input beClearable ] ifFalse: [ input beNotClearable ] ] for: self.
 
 ]
 
@@ -465,14 +465,14 @@ CpShoelaceExamplesClientBehavior >> exampleTabGroup [
 			value: #top;
 			yourself).
 
-	placementSelect when: SlChangeEvent do: [ :event | tabGroup placement: placementSelect value ].
+	placementSelect when: SlChangeEvent do: [ :event | tabGroup placement: placementSelect value ] for: self.
 
 	outputElement appendChild: ('Tab 2 States' inHtmlTag: #p).
 	outputElement appendChild: (closableState := SlCheckbox label: 'Closable').
 	outputElement appendChild: (disabledState := SlCheckbox label: 'Disabled').
 
-	closableState when: SlChangeEvent do: [ tab2 closable: tab2 isClosable not ].
-	disabledState when: SlChangeEvent do: [ tab2 disabled: tab2 isDisabled not ].
+	closableState when: SlChangeEvent do: [ tab2 closable: tab2 isClosable not ] for: self.
+	disabledState when: SlChangeEvent do: [ tab2 disabled: tab2 isDisabled not ] for: self.
 
 	
 
@@ -512,8 +512,8 @@ CpShoelaceExamplesClientBehavior >> exampleTextarea [
 	input := outputElement appendChild: (SlTextarea new label: 'Need more input').
 	outputElement appendChild: (disabledState := SlCheckbox label: 'Disabled').
 	outputElement appendChild: (resizeableState := SlCheckbox label: 'Resizeable').
-	disabledState when: SlChangeEvent do: [ disabledState isChecked ifTrue: [ input beDisabled ] ifFalse: [ input beNotDisabled ] ].
-	resizeableState when: SlChangeEvent do: [ resizeableState isChecked ifTrue: [ input resizeAuto ] ifFalse: [ input resizeNone ] ].
+	disabledState when: SlChangeEvent do: [ disabledState isChecked ifTrue: [ input beDisabled ] ifFalse: [ input beNotDisabled ] ] for: self.
+	resizeableState when: SlChangeEvent do: [ resizeableState isChecked ifTrue: [ input resizeAuto ] ifFalse: [ input resizeNone ] ] for: self.
 
 ]
 

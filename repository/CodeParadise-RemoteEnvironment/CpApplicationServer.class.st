@@ -56,7 +56,7 @@ CpApplicationServer >> createServerEnvironment [
 
 		"Add subscriptions to environment being started"
 		serverEnvironment
-			when: CpClientStopped do: [ self removeServerEnvironment: serverEnvironment ] ;
+			when: CpClientStopped do: [ self removeServerEnvironment: serverEnvironment ] for: self ;
 			when: CpClientError send: #handleClientError:announcedBy: to: self.
 
 		"Store new environment"

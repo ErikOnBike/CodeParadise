@@ -1,12 +1,10 @@
 Class {
-	#name : 'CpGestureEvent',
-	#superclass : 'CpUserInterfaceEvent',
-	#category : 'CodeParadise-WebApplication-Events',
-	#package : 'CodeParadise-WebApplication',
-	#tag : 'Events'
+	#name : #CpGestureEvent,
+	#superclass : #CpUserInterfaceEvent,
+	#category : #'CodeParadise-WebApplication-Events'
 }
 
-{ #category : 'printing' }
+{ #category : #printing }
 CpGestureEvent >> printOn: aStream [
 
 	super printOn: aStream.
@@ -17,13 +15,13 @@ CpGestureEvent >> printOn: aStream [
 		print: self scale
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 CpGestureEvent >> rotation [
 
 	^ self propertyAt: #rotation
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 CpGestureEvent >> scale [
 
 	^ self propertyAt: #scale

@@ -5,20 +5,18 @@ I add namespace support to my DOM Element interface. When a XML (ie non-HTML) El
 
 "
 Class {
-	#name : 'CpXmlElement',
-	#superclass : 'CpDomElement',
-	#category : 'CodeParadise-WebApplication-DOM',
-	#package : 'CodeParadise-WebApplication',
-	#tag : 'DOM'
+	#name : #CpXmlElement,
+	#superclass : #CpDomElement,
+	#category : #'CodeParadise-WebApplication-DOM'
 }
 
-{ #category : 'class initialization' }
+{ #category : #'class initialization' }
 CpXmlElement class >> namespace [
 
 	^ 'http://www.w3.org/XML/1998/namespace'
 ]
 
-{ #category : 'instance creation' }
+{ #category : #'instance creation' }
 CpXmlElement class >> newWithTag: tagString [
 
 	"Create a new instance of the receiver using the specified tag.
@@ -27,7 +25,7 @@ CpXmlElement class >> newWithTag: tagString [
 	^ super newWithTag: (self tag: tagString withPrefix: self prefix)
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 CpXmlElement class >> prefix [
 
 	^ #xml

@@ -50,11 +50,22 @@ CpExceptionAnnouncer class >> new [
 	self shouldNotImplement
 ]
 
+{ #category : #deprecated }
+CpExceptionAnnouncer class >> when: anAnnouncementClass do: aBlock [
+
+	self warnCr: 'Use of any Announcer''s #when:do: is deprecated, please use #when:do:for:'.
+
+	^ self when: anAnnouncementClass do: aBlock for: aBlock receiver
+]
+
 { #category : #announcing }
-CpExceptionAnnouncer class >> when: anAnnouncement do: aBlock [
+CpExceptionAnnouncer class >> when: anAnnouncement do: aBlock for: anObject [
+
+	"Subscribe anObject to announcements of anAnnouncementClass class. 
+	 When announced, aBlock is evaluated."
 
 	^ self current
-		when: anAnnouncement do: aBlock
+		when: anAnnouncement do: aBlock for: anObject
 ]
 
 { #category : #announcing }

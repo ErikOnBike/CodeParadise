@@ -1,6 +1,6 @@
-Extension { #name : 'CompiledMethod' }
+Extension { #name : #CompiledMethod }
 
-{ #category : '*CodeParadise-WebApplication' }
+{ #category : #'*CodeParadise-WebApplication' }
 CompiledMethod >> sendsOrRefersTo: aSelector [
 
 	self flag: #todo.	"This is non optimized code, see Behavior>>#thoroughWhichMethodsReferTo:"

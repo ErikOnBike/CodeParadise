@@ -25,17 +25,15 @@ Implementation:
 Almost all my methods are implemented using primitives, because I am the glue layer between the Smalltalk code and the browser DOM.
 "
 Class {
-	#name : 'CpDomElement',
-	#superclass : 'Object',
+	#name : #CpDomElement,
+	#superclass : #Object,
 	#instVars : [
 		'announcer'
 	],
-	#category : 'CodeParadise-WebApplication-DOM',
-	#package : 'CodeParadise-WebApplication',
-	#tag : 'DOM'
+	#category : #'CodeParadise-WebApplication-DOM'
 }
 
-{ #category : 'instance creation' }
+{ #category : #'instance creation' }
 CpDomElement class >> basicNewWithTag: tagString [
 
 	"Create a new instance of the receiver or one of the receiver's subclasses using the specified tag.
@@ -46,13 +44,13 @@ CpDomElement class >> basicNewWithTag: tagString [
 	self primitiveFailed
 ]
 
-{ #category : 'class initialization' }
+{ #category : #'class initialization' }
 CpDomElement class >> beLoaded [
 
 	CpDomRectangle beLoaded
 ]
 
-{ #category : 'accessing - state' }
+{ #category : #'accessing - state' }
 CpDomElement class >> cssSelectorForAnyOf: aCollection [
 
 	"Answer a CSS selector String representing the selection of any
@@ -75,7 +73,7 @@ CpDomElement class >> cssSelectorForAnyOf: aCollection [
 		stream nextPut: $) ]
 ]
 
-{ #category : 'acccessing-ui' }
+{ #category : #'acccessing-ui' }
 CpDomElement class >> document [
 
 	"Answer an instance of the receiver representing the current (browser tab) document"
@@ -84,7 +82,7 @@ CpDomElement class >> document [
 	self primitiveFailed
 ]
 
-{ #category : 'querying' }
+{ #category : #querying }
 CpDomElement class >> elementWithId: aString [
 
 	"Convenience method to answer the element with the specified id.
@@ -94,7 +92,7 @@ CpDomElement class >> elementWithId: aString [
 	^ self document elementWithId: aString
 ]
 
-{ #category : 'acccessing-ui' }
+{ #category : #'acccessing-ui' }
 CpDomElement class >> elementsFromPoint: aPoint [
 
 	"Answer an Array with instances of the receiver representing the elements at the specified point"
@@ -103,7 +101,7 @@ CpDomElement class >> elementsFromPoint: aPoint [
 	self primitiveFailed
 ]
 
-{ #category : 'performing' }
+{ #category : #performing }
 CpDomElement class >> globalApply: aSymbol withArguments: anArray [
 
 	"Perform the specified symbol on the global scope (ie 'window' in the browser
@@ -113,7 +111,7 @@ CpDomElement class >> globalApply: aSymbol withArguments: anArray [
 		globalApply: aSymbol withArguments: anArray
 ]
 
-{ #category : 'instance creation' }
+{ #category : #'instance creation' }
 CpDomElement class >> new [
 
 	"Instances of the receiver are created through #newWithTag: or when querying children of existing DOM elements
@@ -125,7 +123,7 @@ CpDomElement class >> new [
 		ifFalse: [ ^ super new ]
 ]
 
-{ #category : 'instance creation' }
+{ #category : #'instance creation' }
 CpDomElement class >> newWithTag: tagString [
 
 	"Create a new instance of the receiver or one of the receiver's subclasses using the specified tag.
@@ -137,7 +135,7 @@ CpDomElement class >> newWithTag: tagString [
 		yourself
 ]
 
-{ #category : 'class initialization' }
+{ #category : #'class initialization' }
 CpDomElement class >> postInstall [
 
 	"Register a namespace for the receiver"
@@ -148,7 +146,7 @@ CpDomElement class >> postInstall [
 		ifTrue: [ self registerNamespace: self namespace forPrefix: self prefix ]
 ]
 
-{ #category : 'support' }
+{ #category : #support }
 CpDomElement class >> registerNamespace: namespaceString forPrefix: prefixString [
 
 	"Register the specified namespace with the given prefix.
@@ -161,13 +159,13 @@ CpDomElement class >> registerNamespace: namespaceString forPrefix: prefixString
 	self primitiveFailed
 ]
 
-{ #category : 'testing' }
+{ #category : #testing }
 CpDomElement class >> requiresInstantiationWithTag [
 
 	^ true
 ]
 
-{ #category : 'support' }
+{ #category : #support }
 CpDomElement class >> tag: tagString withPrefix: prefixString [
 
 	"Answer a full tag name created by a simple tag and a prefix: <prefix>:<tag>"
@@ -183,7 +181,7 @@ CpDomElement class >> tag: tagString withPrefix: prefixString [
 	^ fullTag
 ]
 
-{ #category : 'tag/id/classes' }
+{ #category : #'tag/id/classes' }
 CpDomElement >> addClass: aString [
 
 	"Add the specified class value to the receiver.
@@ -194,7 +192,7 @@ CpDomElement >> addClass: aString [
 
 ]
 
-{ #category : 'tag/id/classes' }
+{ #category : #'tag/id/classes' }
 CpDomElement >> addClasses: aCollection [
 
 	"Add the specified classes to the receiver."
@@ -203,7 +201,7 @@ CpDomElement >> addClasses: aCollection [
 
 ]
 
-{ #category : 'querying' }
+{ #category : #querying }
 CpDomElement >> allAncestorsMatching: cssSelectorString [
 
 	"Answer all ancestors of the receiver matching the specified CSS selector.
@@ -220,7 +218,7 @@ CpDomElement >> allAncestorsMatching: cssSelectorString [
 	^ ancestors
 ]
 
-{ #category : 'querying' }
+{ #category : #querying }
 CpDomElement >> allDescendantsMatching: cssSelectorString [
 
 	"Answer all descendants of the receiver matching the specified CSS selector.
@@ -231,7 +229,7 @@ CpDomElement >> allDescendantsMatching: cssSelectorString [
 	self primitiveFailed
 ]
 
-{ #category : 'animation' }
+{ #category : #animation }
 CpDomElement >> animate: aCollection [
 
 	"Animate the receiver using the specified keyframes"
@@ -239,7 +237,7 @@ CpDomElement >> animate: aCollection [
 	self apply: #animate withArguments: { aCollection }
 ]
 
-{ #category : 'animation' }
+{ #category : #animation }
 CpDomElement >> animate: aCollection duration: anInteger [
 
 	"Animate the receiver using the specified keyframes and options"
@@ -247,7 +245,7 @@ CpDomElement >> animate: aCollection duration: anInteger [
 	self apply: #animate withArguments: { aCollection . anInteger }
 ]
 
-{ #category : 'animation' }
+{ #category : #animation }
 CpDomElement >> animate: aCollection options: aDictionary [
 
 	"Animate the receiver using the specified keyframes and options"
@@ -255,20 +253,20 @@ CpDomElement >> animate: aCollection options: aDictionary [
 	self apply: #animate withArguments: { aCollection . aDictionary }
 ]
 
-{ #category : 'announcing' }
+{ #category : #announcing }
 CpDomElement >> announce: anAnnouncement [
 
 	announcer ifNil: [ ^ self ].
 	announcer announce: anAnnouncement
 ]
 
-{ #category : 'announcing' }
+{ #category : #announcing }
 CpDomElement >> announcer [
 
 	^ announcer ifNil: [ announcer := CpDomElementAnnouncer newForElement: self ]
 ]
 
-{ #category : 'adding/removing' }
+{ #category : #'adding/removing' }
 CpDomElement >> appendChild: childElement [
 
 	"Append childElement as a child of the receiver. Answer the child element.
@@ -285,7 +283,7 @@ CpDomElement >> appendChild: childElement [
 	self primitiveFailed
 ]
 
-{ #category : 'performing' }
+{ #category : #performing }
 CpDomElement >> apply: aSymbol withArguments: anArray [
 
 	"Perform the specified symbol as JavaScript function on the receiver with the specified arguments
@@ -296,7 +294,7 @@ CpDomElement >> apply: aSymbol withArguments: anArray [
 	self primitiveFailed
 ]
 
-{ #category : 'attributes' }
+{ #category : #attributes }
 CpDomElement >> attributeAdd: nameString [
 
 	"Set the specified attribute (without value) of the receiver.
@@ -306,7 +304,7 @@ CpDomElement >> attributeAdd: nameString [
 	self attributeAt: nameString put: ''
 ]
 
-{ #category : 'attributes' }
+{ #category : #attributes }
 CpDomElement >> attributeAt: nameString [
 
 	"Answer the value (a String) of the specified attribute of the receiver
@@ -317,7 +315,7 @@ CpDomElement >> attributeAt: nameString [
 
 ]
 
-{ #category : 'attributes' }
+{ #category : #attributes }
 CpDomElement >> attributeAt: nameString put: valueString [
 
 	"Set the value of the specified attribute of the receiver.
@@ -328,7 +326,7 @@ CpDomElement >> attributeAt: nameString put: valueString [
 
 ]
 
-{ #category : 'sizing' }
+{ #category : #sizing }
 CpDomElement >> boundingClientRectangle [
 
 	"Answer a DomRectangle describing the bounds of the receiver, relative to the visible screen"
@@ -337,7 +335,7 @@ CpDomElement >> boundingClientRectangle [
 	self primitiveFailed
 ]
 
-{ #category : 'querying' }
+{ #category : #querying }
 CpDomElement >> children [
 
 	"Answer an Array with the child elements (in document order) of the receiver.
@@ -347,7 +345,7 @@ CpDomElement >> children [
 	self primitiveFailed
 ]
 
-{ #category : 'tag/id/classes' }
+{ #category : #'tag/id/classes' }
 CpDomElement >> classed: aSymbol if: aBoolean [
 
 	"Either add or remove the specified class to/from the receiver based
@@ -358,7 +356,7 @@ CpDomElement >> classed: aSymbol if: aBoolean [
 		ifFalse: [ self removeClass: aSymbol ]
 ]
 
-{ #category : 'copying' }
+{ #category : #copying }
 CpDomElement >> clone [
 
 	"Answer a (deep) clone of the receiver.
@@ -375,7 +373,7 @@ CpDomElement >> clone [
 
 ]
 
-{ #category : 'copying' }
+{ #category : #copying }
 CpDomElement >> cloneElement [
 
 	"Answer a (shallow) clone of the receiver.
@@ -386,7 +384,7 @@ CpDomElement >> cloneElement [
 	self primitiveFailed
 ]
 
-{ #category : 'performing' }
+{ #category : #performing }
 CpDomElement >> defer: aBlock [
 
 	"Evaluate the specified block with a small delay.
@@ -397,7 +395,7 @@ CpDomElement >> defer: aBlock [
 		startDelayedBy: 10
 ]
 
-{ #category : 'removing' }
+{ #category : #removing }
 CpDomElement >> destroy [
 
 	"Remove the receiver from the DOM tree and release any dependents"
@@ -411,7 +409,7 @@ CpDomElement >> destroy [
 	self release
 ]
 
-{ #category : 'querying' }
+{ #category : #querying }
 CpDomElement >> elementWithId: aString [
 
 	"Answer an instance of the receiver representing the element with the specified id.
@@ -422,7 +420,7 @@ CpDomElement >> elementWithId: aString [
 	self primitiveFailed
 ]
 
-{ #category : 'querying' }
+{ #category : #querying }
 CpDomElement >> firstAncestorMatching: cssSelectorString [
 
 	"Answer the first ancestor of the receiver matching the specified CSS selector.
@@ -440,7 +438,7 @@ CpDomElement >> firstAncestorMatching: cssSelectorString [
 	^ nil
 ]
 
-{ #category : 'querying' }
+{ #category : #querying }
 CpDomElement >> firstChild [
 
 	"Answer the first child of the receiver or nil if none is present"
@@ -450,7 +448,7 @@ CpDomElement >> firstChild [
 		ifEmpty: [ nil ]
 ]
 
-{ #category : 'querying' }
+{ #category : #querying }
 CpDomElement >> firstDescendantMatching: cssSelectorString [
 
 	"Answer the first descendant of the receiver matching the specified CSS selector.
@@ -462,7 +460,7 @@ CpDomElement >> firstDescendantMatching: cssSelectorString [
 	self primitiveFailed
 ]
 
-{ #category : 'text input' }
+{ #category : #'text input' }
 CpDomElement >> focus [
 
 	"Set the focus to the receiver (ie take focus)"
@@ -470,7 +468,7 @@ CpDomElement >> focus [
 	self apply: #focus withArguments: #()
 ]
 
-{ #category : 'attributes' }
+{ #category : #attributes }
 CpDomElement >> hasAttributeAt: nameString [
 
 	"Answer whether the receiver has a value set for the specified attribute"
@@ -478,7 +476,7 @@ CpDomElement >> hasAttributeAt: nameString [
 	^ (self attributeAt: nameString) notNil
 ]
 
-{ #category : 'properties' }
+{ #category : #properties }
 CpDomElement >> hasPropertyAt: nameString [
 
 	"Answer whether the receiver has a value set for the specified property"
@@ -486,7 +484,7 @@ CpDomElement >> hasPropertyAt: nameString [
 	^ (self propertyAt: nameString) notNil
 ]
 
-{ #category : 'styles' }
+{ #category : #styles }
 CpDomElement >> hasStyleAt: nameString [
 
 	"Answer whether the receiver has a value set for the specified style"
@@ -494,7 +492,7 @@ CpDomElement >> hasStyleAt: nameString [
 	^ (self styleAt: nameString) notNil
 ]
 
-{ #category : 'tag/id/classes' }
+{ #category : #'tag/id/classes' }
 CpDomElement >> id [
 
 	"Answer the id of the receiver or nil if none is set"
@@ -503,7 +501,7 @@ CpDomElement >> id [
 	self primitiveFailed
 ]
 
-{ #category : 'tag/id/classes' }
+{ #category : #'tag/id/classes' }
 CpDomElement >> id: aString [
 
 	"Set the id of the receiver to the specified value.
@@ -515,7 +513,7 @@ CpDomElement >> id: aString [
 	self primitiveFailed
 ]
 
-{ #category : 'adding/removing' }
+{ #category : #'adding/removing' }
 CpDomElement >> insertChild: childElement [
 
 	"Insert childElement as the first child of the receiver.
@@ -526,7 +524,7 @@ CpDomElement >> insertChild: childElement [
 		ifNil: [ self appendChild: childElement ]
 ]
 
-{ #category : 'adding/removing' }
+{ #category : #'adding/removing' }
 CpDomElement >> insertChild: childElement before: siblingElement [
 
 	"Insert childElement as a child of the receiver, directly before the existing sibling element.
@@ -541,7 +539,7 @@ CpDomElement >> insertChild: childElement before: siblingElement [
 	self primitiveFailed
 ]
 
-{ #category : 'tag/id/classes' }
+{ #category : #'tag/id/classes' }
 CpDomElement >> isClassed: aString [
 
 	"Answer whether the receiver has the specified class value"
@@ -551,7 +549,7 @@ CpDomElement >> isClassed: aString [
 
 ]
 
-{ #category : 'testing' }
+{ #category : #testing }
 CpDomElement >> isConnected [
 
 	"Answer whether the receiver is connected to the Document (directly or indirectly)"
@@ -559,7 +557,7 @@ CpDomElement >> isConnected [
 	^ self propertyAt: #isConnected
 ]
 
-{ #category : 'testing' }
+{ #category : #testing }
 CpDomElement >> isDescendantOf: aDomElement [
 
 	"Answer whether the receiver is a descendant of the specified DOM element.
@@ -572,7 +570,7 @@ CpDomElement >> isDescendantOf: aDomElement [
 	self primitiveFailed
 ]
 
-{ #category : 'announcing' }
+{ #category : #announcing }
 CpDomElement >> isListeningTo: anEventClass [
 
 	"Answer whether the receiver is listening for the specified event type"
@@ -580,13 +578,13 @@ CpDomElement >> isListeningTo: anEventClass [
 	^ anEventClass isListenedToOn: self
 ]
 
-{ #category : 'testing' }
+{ #category : #testing }
 CpDomElement >> isWebComponent [
 
 	^ false
 ]
 
-{ #category : 'querying' }
+{ #category : #querying }
 CpDomElement >> lastAncestorMatching: cssSelectorString [
 
 	"Answer the last ancestor of the receiver matching the specified CSS selector.
@@ -600,7 +598,7 @@ CpDomElement >> lastAncestorMatching: cssSelectorString [
 		ifEmpty: [ nil ]
 ]
 
-{ #category : 'querying' }
+{ #category : #querying }
 CpDomElement >> lastChild [
 
 	"Answer the last child of the receiver or nil if none is present"
@@ -610,7 +608,7 @@ CpDomElement >> lastChild [
 		ifEmpty: [ nil ]
 ]
 
-{ #category : 'querying' }
+{ #category : #querying }
 CpDomElement >> lastDescendantMatching: cssSelectorString [
 
 	"Answer the last descendant of the receiver matching the specified CSS selector.
@@ -624,7 +622,7 @@ CpDomElement >> lastDescendantMatching: cssSelectorString [
 		ifEmpty: [ nil ]
 ]
 
-{ #category : 'content' }
+{ #category : #content }
 CpDomElement >> markupContent [
 
 	"Answer a String representation of the DOM fragment of the receiver's children"
@@ -634,7 +632,7 @@ CpDomElement >> markupContent [
 
 ]
 
-{ #category : 'content' }
+{ #category : #content }
 CpDomElement >> markupContent: aString [
 
 	"Replace the receiver's children by the DOM fragment specified (using a String representation)"
@@ -644,7 +642,7 @@ CpDomElement >> markupContent: aString [
 
 ]
 
-{ #category : 'querying' }
+{ #category : #querying }
 CpDomElement >> matches: cssSelectorString [
 
 	"Answer whether the receiver matches the specified CSS selector.
@@ -654,7 +652,7 @@ CpDomElement >> matches: cssSelectorString [
 	self primitiveFailed
 ]
 
-{ #category : 'querying' }
+{ #category : #querying }
 CpDomElement >> nextSibling [
 
 	"Answer the receiver's next sibling element or nil if the receiver does not have one"
@@ -663,7 +661,7 @@ CpDomElement >> nextSibling [
 	self primitiveFailed
 ]
 
-{ #category : 'event handling' }
+{ #category : #'event handling' }
 CpDomElement >> noop [
 
 	"No operation.
@@ -675,7 +673,7 @@ CpDomElement >> noop [
 
 ]
 
-{ #category : 'querying' }
+{ #category : #querying }
 CpDomElement >> parent [
 
 	"Answer the receiver's parent element or nil if the receiver does not have a parent.
@@ -686,7 +684,7 @@ CpDomElement >> parent [
 	self primitiveFailed
 ]
 
-{ #category : 'event handling' }
+{ #category : #'event handling' }
 CpDomElement >> preventDefault: anEvent [
 
 	"Prevent default browser behavior for the specified event.
@@ -698,7 +696,7 @@ CpDomElement >> preventDefault: anEvent [
 	anEvent preventDefault
 ]
 
-{ #category : 'querying' }
+{ #category : #querying }
 CpDomElement >> previousSibling [
 
 	"Answer the receiver's previous sibling element or nil if the receiver does not have one"
@@ -707,7 +705,7 @@ CpDomElement >> previousSibling [
 	self primitiveFailed
 ]
 
-{ #category : 'printing' }
+{ #category : #printing }
 CpDomElement >> printOn: aStream [
 
 	aStream
@@ -725,7 +723,7 @@ CpDomElement >> printOn: aStream [
 		nextPutAll: '>)'
 ]
 
-{ #category : 'properties' }
+{ #category : #properties }
 CpDomElement >> propertyAt: nameString [
 
 	"Answer the value (String, Number, Boolean or nil) of the specified property of the receiver"
@@ -735,7 +733,7 @@ CpDomElement >> propertyAt: nameString [
 
 ]
 
-{ #category : 'properties' }
+{ #category : #properties }
 CpDomElement >> propertyAt: nameString put: anObject [
 
 	"Set the value (String, Number, Boolean, nil or Dictionary) of the specified property of the receiver"
@@ -744,7 +742,7 @@ CpDomElement >> propertyAt: nameString put: anObject [
 	self primitiveFailed
 ]
 
-{ #category : 'dependencies' }
+{ #category : #dependencies }
 CpDomElement >> release [
 
 	announcer ifNotNil: [
@@ -756,7 +754,7 @@ CpDomElement >> release [
 	super release
 ]
 
-{ #category : 'removing' }
+{ #category : #removing }
 CpDomElement >> remove [
 
 	"Remove the receiver from its parent"
@@ -764,7 +762,7 @@ CpDomElement >> remove [
 	self parent ifNotNil: [ :parent | parent removeChild: self ]
 ]
 
-{ #category : 'attributes' }
+{ #category : #attributes }
 CpDomElement >> removeAttributeAt: attributeName [
 
 	"Remove the specified attribute from the receiver.
@@ -775,7 +773,7 @@ CpDomElement >> removeAttributeAt: attributeName [
 
 ]
 
-{ #category : 'adding/removing' }
+{ #category : #'adding/removing' }
 CpDomElement >> removeChild: childElement [
 
 	"Remove the child element from the receiver. Answer the removed child.
@@ -785,13 +783,13 @@ CpDomElement >> removeChild: childElement [
 	self primitiveFailed
 ]
 
-{ #category : 'adding/removing' }
+{ #category : #'adding/removing' }
 CpDomElement >> removeChildren [
 
 	self children do: [ :each | self removeChild: each ]
 ]
 
-{ #category : 'tag/id/classes' }
+{ #category : #'tag/id/classes' }
 CpDomElement >> removeClass: aString [
 
 	"Remove the specified class value from the receiver.
@@ -802,7 +800,7 @@ CpDomElement >> removeClass: aString [
 
 ]
 
-{ #category : 'tag/id/classes' }
+{ #category : #'tag/id/classes' }
 CpDomElement >> removeClasses: aCollection [
 
 	"Remove the specified classes from the receiver."
@@ -811,7 +809,7 @@ CpDomElement >> removeClasses: aCollection [
 
 ]
 
-{ #category : 'text input' }
+{ #category : #'text input' }
 CpDomElement >> removeFocus [
 
 	"Set the focus to the receiver (ie take focus)"
@@ -819,7 +817,7 @@ CpDomElement >> removeFocus [
 	self apply: #blur withArguments: #()
 ]
 
-{ #category : 'announcing' }
+{ #category : #announcing }
 CpDomElement >> removeInterestIn: anAnnouncementClass [
 
 	"Remove the interest for the specified AnnouncementClass from the receiver"
@@ -827,7 +825,7 @@ CpDomElement >> removeInterestIn: anAnnouncementClass [
 	self removeInterestIn: anAnnouncementClass for: self
 ]
 
-{ #category : 'announcing' }
+{ #category : #announcing }
 CpDomElement >> removeInterestIn: anAnnouncementClass for: anObject [
 
 	"Remove the interest for the specified AnnouncementClass and specified
@@ -836,7 +834,7 @@ CpDomElement >> removeInterestIn: anAnnouncementClass for: anObject [
 	self announcer removeInterestIn: anAnnouncementClass for: anObject
 ]
 
-{ #category : 'properties' }
+{ #category : #properties }
 CpDomElement >> removePropertyAt: nameString [
 
 	"Remove the value of the specified property of the receiver (by setting it to nil)"
@@ -844,7 +842,7 @@ CpDomElement >> removePropertyAt: nameString [
 	self propertyAt: nameString put: nil
 ]
 
-{ #category : 'styles' }
+{ #category : #styles }
 CpDomElement >> removeStyleAt: nameString [
 
 	"Remove the specified style from the receiver, if one was explicitly set on the receiver.
@@ -857,7 +855,7 @@ CpDomElement >> removeStyleAt: nameString [
 
 ]
 
-{ #category : 'announcing' }
+{ #category : #announcing }
 CpDomElement >> removeSubscription: aSubscription [
 
 	"Remove the specified subscription from the receiver"
@@ -865,7 +863,7 @@ CpDomElement >> removeSubscription: aSubscription [
 	^ self announcer removeSubscription: aSubscription
 ]
 
-{ #category : 'adding/removing' }
+{ #category : #'adding/removing' }
 CpDomElement >> replaceAllChildrenWith: childElement [
 
 	"Set the specified element as child of the receiver.
@@ -876,7 +874,7 @@ CpDomElement >> replaceAllChildrenWith: childElement [
 		appendChild: childElement
 ]
 
-{ #category : 'adding/removing' }
+{ #category : #'adding/removing' }
 CpDomElement >> replaceChild: childElement with: replacementElement [
 
 	"Replace the child element of the receiver with a replacement element.
@@ -889,7 +887,7 @@ CpDomElement >> replaceChild: childElement with: replacementElement [
 	self primitiveFailed
 ]
 
-{ #category : 'adding/removing' }
+{ #category : #'adding/removing' }
 CpDomElement >> replaceChildAtIndex: anInteger with: replacementElement [
 
 	"Replace the child element of the receiver at the specified location with a replacement element.
@@ -905,7 +903,7 @@ CpDomElement >> replaceChildAtIndex: anInteger with: replacementElement [
 	self replaceChild: childElement with: replacementElement
 ]
 
-{ #category : 'event handling' }
+{ #category : #'event handling' }
 CpDomElement >> stopImmediatePropagation: anEvent [
 
 	"Stop propagation of the specified event immediately.
@@ -917,7 +915,7 @@ CpDomElement >> stopImmediatePropagation: anEvent [
 	anEvent stopImmediatePropagation
 ]
 
-{ #category : 'event handling' }
+{ #category : #'event handling' }
 CpDomElement >> stopPropagation: anEvent [
 
 	"Stop propagation of the specified event.
@@ -929,7 +927,7 @@ CpDomElement >> stopPropagation: anEvent [
 	anEvent stopPropagation
 ]
 
-{ #category : 'styles' }
+{ #category : #styles }
 CpDomElement >> style [
 
 	"Convenience method to retrieve style attribute"
@@ -937,7 +935,7 @@ CpDomElement >> style [
 	^ self attributeAt: #style
 ]
 
-{ #category : 'styles' }
+{ #category : #styles }
 CpDomElement >> style: aString [
 
 	"Convenience method to set style attribute"
@@ -945,7 +943,7 @@ CpDomElement >> style: aString [
 	self attributeAt: #style put: aString
 ]
 
-{ #category : 'styles' }
+{ #category : #styles }
 CpDomElement >> styleAt: nameString [
 
 	"Answer the value (a String) of the specified style of the receiver or nil if such a style does not exist.
@@ -960,7 +958,7 @@ CpDomElement >> styleAt: nameString [
 
 ]
 
-{ #category : 'styles' }
+{ #category : #styles }
 CpDomElement >> styleAt: nameString put: valueString [
 
 	"Set the value of the specified style of the receiver.
@@ -972,7 +970,7 @@ CpDomElement >> styleAt: nameString put: valueString [
 
 ]
 
-{ #category : 'performing' }
+{ #category : #performing }
 CpDomElement >> syncApply: aSymbol withArguments: anArray [
 
 	self crWarn: 'Method #syncApply:withArguments: is deprecated, please replace by #apply:withArguments:'.
@@ -980,7 +978,7 @@ CpDomElement >> syncApply: aSymbol withArguments: anArray [
 	^ self apply: aSymbol withArguments: anArray
 ]
 
-{ #category : 'tag/id/classes' }
+{ #category : #'tag/id/classes' }
 CpDomElement >> tagName [
 
 	"Answer the tag of the receiver"
@@ -989,7 +987,7 @@ CpDomElement >> tagName [
 	self primitiveFailed
 ]
 
-{ #category : 'content' }
+{ #category : #content }
 CpDomElement >> textContent [
 
 	"Answer the textual content of the receiver.
@@ -1000,7 +998,7 @@ CpDomElement >> textContent [
 
 ]
 
-{ #category : 'content' }
+{ #category : #content }
 CpDomElement >> textContent: aString [
 
 	"Set the text of the receiver to the specified value.
@@ -1011,7 +1009,7 @@ CpDomElement >> textContent: aString [
 
 ]
 
-{ #category : 'tag/id/classes' }
+{ #category : #'tag/id/classes' }
 CpDomElement >> toggleClass: aString [
 
 	"Toggle the specified class for the receiver"
@@ -1022,7 +1020,7 @@ CpDomElement >> toggleClass: aString [
 
 ]
 
-{ #category : 'announcing' }
+{ #category : #announcing }
 CpDomElement >> unregisterAllInterest [
 
 	"Remove interest in all (previously registered) events.
@@ -1032,7 +1030,7 @@ CpDomElement >> unregisterAllInterest [
 	self primitiveFailed
 ]
 
-{ #category : 'announcing' }
+{ #category : #announcing }
 CpDomElement >> unsubscribe: anObject [
 
 	"Unsubscribe the specified Object from Announcements of the receiver"
@@ -1040,26 +1038,35 @@ CpDomElement >> unsubscribe: anObject [
 	^ self announcer unsubscribe: anObject
 ]
 
-{ #category : 'announcing' }
+{ #category : #deprecated }
 CpDomElement >> when: anAnnouncementClass do: aBlock [
+
+	self warnCr: 'Use of any Announcer''s #when:do: is deprecated, please use #when:do:for:'.
+
+	^ self when: anAnnouncementClass do: aBlock for: aBlock receiver
+]
+
+{ #category : #announcing }
+CpDomElement >> when: anAnnouncementClass do: aBlock for: anObject [
 
 	"Let the sender subscribe to the specified announcement of the receiver.
 	All CpEvents can also be listened to using this same method.
 	CpEvents share the same protocol as Announcements.
 
-	See Announcer>>#when:do:"
+	See CpDomElementAnnouncer>>#when:do:for:"
 
-	^ self announcer when: anAnnouncementClass do: aBlock
+	^ self announcer
+		when: anAnnouncementClass do: aBlock for: anObject
 ]
 
-{ #category : 'announcing' }
+{ #category : #announcing }
 CpDomElement >> when: anAnnouncementClass send: aSymbol to: anObject [
 
 	"Let the sender subscribe to the specified announcement of the receiver.
 	All CpEvents can also be listened to using this same method.
 	CpEvents share the same protocol as Announcements.
 
-	See Announcer>>#when:send:to:"
+	See CpDomElementAnnouncer>>#when:send:to:"
 
 	^ self announcer when: anAnnouncementClass send: aSymbol to: anObject
 ]

@@ -23,20 +23,18 @@ Example:
 	]]]
 "
 Class {
-	#name : 'CpMathElement',
-	#superclass : 'CpXmlElement',
-	#category : 'CodeParadise-WebApplication-DOM',
-	#package : 'CodeParadise-WebApplication',
-	#tag : 'DOM'
+	#name : #CpMathElement,
+	#superclass : #CpXmlElement,
+	#category : #'CodeParadise-WebApplication-DOM'
 }
 
-{ #category : 'class initialization' }
+{ #category : #'class initialization' }
 CpMathElement class >> namespace [
 
 	^ 'http://www.w3.org/1998/Math/MathML'
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 CpMathElement class >> prefix [
 
 	^ #math

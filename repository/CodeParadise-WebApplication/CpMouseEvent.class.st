@@ -1,12 +1,10 @@
 Class {
-	#name : 'CpMouseEvent',
-	#superclass : 'CpUserInterfaceEvent',
-	#category : 'CodeParadise-WebApplication-Events',
-	#package : 'CodeParadise-WebApplication',
-	#tag : 'Events'
+	#name : #CpMouseEvent,
+	#superclass : #CpUserInterfaceEvent,
+	#category : #'CodeParadise-WebApplication-Events'
 }
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 CpMouseEvent >> button [
 
 	"Answer an Integer specifying the button pressed.
@@ -21,13 +19,13 @@ CpMouseEvent >> button [
 	^ self propertyAt: #button
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 CpMouseEvent >> buttonCount [
 
 	^ self buttons bitCount
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 CpMouseEvent >> buttons [
 
 	"Answer an Integer specifying the different buttons pressed.
@@ -48,115 +46,115 @@ CpMouseEvent >> buttons [
 	^ self propertyAt: #buttons
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 CpMouseEvent >> clientX [
 
 	^ self propertyAt: #clientX
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 CpMouseEvent >> clientY [
 
 	^ self propertyAt: #clientY
 ]
 
-{ #category : 'testing' }
+{ #category : #testing }
 CpMouseEvent >> isFifthButtonPressed [
 
 	^ self buttons anyMask: 16
 ]
 
-{ #category : 'testing' }
+{ #category : #testing }
 CpMouseEvent >> isFourthButtonPressed [
 
 	^ self buttons anyMask: 8
 ]
 
-{ #category : 'testing' }
+{ #category : #testing }
 CpMouseEvent >> isNoButtonPressed [
 
 	^ self buttons = 0
 ]
 
-{ #category : 'testing' }
+{ #category : #testing }
 CpMouseEvent >> isOnlyPrimaryButtonPressed [
 
 	^ self buttons = 1
 ]
 
-{ #category : 'testing' }
+{ #category : #testing }
 CpMouseEvent >> isOnlySecondaryButtonPressed [
 
 	^ self buttons = 2
 ]
 
-{ #category : 'testing' }
+{ #category : #testing }
 CpMouseEvent >> isPrimaryButtonPressed [
 
 	^ self buttons anyMask: 1
 ]
 
-{ #category : 'testing' }
+{ #category : #testing }
 CpMouseEvent >> isSecondaryButtonPressed [
 
 	^ self buttons anyMask: 2
 ]
 
-{ #category : 'testing' }
+{ #category : #testing }
 CpMouseEvent >> isThirdButtonPressed [
 
 	^ self buttons anyMask: 4
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 CpMouseEvent >> movementX [
 
 	^ self propertyAt: #movementX
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 CpMouseEvent >> movementY [
 
 	^ self propertyAt: #movementY
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 CpMouseEvent >> offset [
 
 	^ self offsetX @ self offsetY
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 CpMouseEvent >> offsetX [
 
 	^ self propertyAt: #offsetX
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 CpMouseEvent >> offsetY [
 
 	^ self propertyAt: #offsetY
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 CpMouseEvent >> pageX [
 
 	^ self propertyAt: #pageX
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 CpMouseEvent >> pageY [
 
 	^ self propertyAt: #pageY
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 CpMouseEvent >> point [
 
 	^ self pageX @ self pageY
 ]
 
-{ #category : 'printing' }
+{ #category : #printing }
 CpMouseEvent >> printOn: aStream [
 
 	super printOn: aStream.
@@ -176,7 +174,7 @@ CpMouseEvent >> printOn: aStream [
 		print: self modifiers
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 CpMouseEvent >> relatedTarget [
 
 	"Answer the related target DOM element which received the event"
@@ -184,13 +182,13 @@ CpMouseEvent >> relatedTarget [
 	^ self propertyAt: #relatedTarget
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 CpMouseEvent >> screenX [
 
 	^ self propertyAt: #screenX
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 CpMouseEvent >> screenY [
 
 	^ self propertyAt: #screenY

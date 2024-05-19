@@ -1,6 +1,6 @@
-Extension { #name : 'Integer' }
+Extension { #name : #Integer }
 
-{ #category : '*CodeParadise-WebApplication' }
+{ #category : #'*CodeParadise-WebApplication' }
 Integer >> bitCount [
 
 	"Answer the number of bits of the receiver with value 1.

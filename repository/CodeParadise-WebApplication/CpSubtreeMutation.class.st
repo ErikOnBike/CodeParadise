@@ -1,12 +1,10 @@
 Class {
-	#name : 'CpSubtreeMutation',
-	#superclass : 'CpMutationEventCondition',
-	#category : 'CodeParadise-WebApplication-Events-Custom',
-	#package : 'CodeParadise-WebApplication',
-	#tag : 'Events-Custom'
+	#name : #CpSubtreeMutation,
+	#superclass : #CpMutationEventCondition,
+	#category : #'CodeParadise-WebApplication-Events-Custom'
 }
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 CpSubtreeMutation class >> optionValueFromConditions: aCollection [
 
 	^ aCollection includes: self

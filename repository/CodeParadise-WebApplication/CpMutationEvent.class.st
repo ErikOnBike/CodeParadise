@@ -9,14 +9,12 @@ within CodeParadise.
 
 "
 Class {
-	#name : 'CpMutationEvent',
-	#superclass : 'CpCustomEvent',
-	#category : 'CodeParadise-WebApplication-Events-Custom',
-	#package : 'CodeParadise-WebApplication',
-	#tag : 'Events-Custom'
+	#name : #CpMutationEvent,
+	#superclass : #CpCustomEvent,
+	#category : #'CodeParadise-WebApplication-Events-Custom'
 }
 
-{ #category : 'announcing' }
+{ #category : #announcing }
 CpMutationEvent class >> addListenerTo: anElement [
 
 	"Only #addListenerTo:withConditions: should be used, since mutations
@@ -25,7 +23,7 @@ CpMutationEvent class >> addListenerTo: anElement [
 	self error: 'Only use ', #addListenerTo:withConditions:
 ]
 
-{ #category : 'announcing' }
+{ #category : #announcing }
 CpMutationEvent class >> addListenerTo: anElement withConditions: aCollection [
 
 	"Add a browser event listener to the specified element"
@@ -39,7 +37,7 @@ CpMutationEvent class >> addListenerTo: anElement withConditions: aCollection [
 	super addListenerTo: anElement
 ]
 
-{ #category : 'announcing' }
+{ #category : #announcing }
 CpMutationEvent class >> addMutationObserverTo: anElement withConditions: aCollection [
 
 	CpHtmlElement
@@ -47,7 +45,7 @@ CpMutationEvent class >> addMutationObserverTo: anElement withConditions: aColle
 		withArguments: { anElement . (self optionsFromConditions: aCollection) }
 ]
 
-{ #category : 'class initialization' }
+{ #category : #'class initialization' }
 CpMutationEvent class >> installCode [
 
 	"Install code for the receiver.
@@ -155,7 +153,7 @@ CpMutationEvent class >> installCode [
 		};'
 ]
 
-{ #category : 'announcing' }
+{ #category : #announcing }
 CpMutationEvent class >> optionsFromConditions: aCollection [
 
 	"Answer a Dictionary representing the JavaScript options argument
@@ -175,13 +173,13 @@ CpMutationEvent class >> optionsFromConditions: aCollection [
 	} asDictionary
 ]
 
-{ #category : 'class initialization' }
+{ #category : #'class initialization' }
 CpMutationEvent class >> postInstallOnce [
 
 	self installCode
 ]
 
-{ #category : 'announcing' }
+{ #category : #announcing }
 CpMutationEvent class >> removeListenerFrom: anElement [
 
 	"Only #removeListenerFrom:withConditions: should be used, since mutations
@@ -190,7 +188,7 @@ CpMutationEvent class >> removeListenerFrom: anElement [
 	self error: 'Only use ', #removeListenerFrom:withConditions:
 ]
 
-{ #category : 'announcing' }
+{ #category : #announcing }
 CpMutationEvent class >> removeListenerFrom: anElement withConditions: aCollection [
 
 	"Remove a browser event listener from the specified element"
@@ -204,7 +202,7 @@ CpMutationEvent class >> removeListenerFrom: anElement withConditions: aCollecti
 	super removeListenerFrom: anElement
 ]
 
-{ #category : 'announcing' }
+{ #category : #announcing }
 CpMutationEvent class >> removeMutationObserverFrom: anElement withConditions: aCollection [
 
 	CpHtmlElement
@@ -212,7 +210,7 @@ CpMutationEvent class >> removeMutationObserverFrom: anElement withConditions: a
 		withArguments: { anElement . (self optionsFromConditions: aCollection) }
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : #'as yet unclassified' }
 CpMutationEvent >> mutationRecords [
 
 	"Answer an Array of Dictionaries representing MutationRecords"

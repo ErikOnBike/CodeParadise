@@ -1,18 +1,16 @@
 Class {
-	#name : 'CpMutationEventCondition',
-	#superclass : 'CpEventCondition',
-	#category : 'CodeParadise-WebApplication-Events-Custom',
-	#package : 'CodeParadise-WebApplication',
-	#tag : 'Events-Custom'
+	#name : #CpMutationEventCondition,
+	#superclass : #CpEventCondition,
+	#category : #'CodeParadise-WebApplication-Events-Custom'
 }
 
-{ #category : 'testing' }
+{ #category : #testing }
 CpMutationEventCondition class >> isAttributeFilter [
 
 	^ false
 ]
 
-{ #category : 'testing' }
+{ #category : #testing }
 CpMutationEventCondition class >> matches: anEvent [
 
 	"Answer whether the specified event matches the receiver.
@@ -22,7 +20,7 @@ CpMutationEventCondition class >> matches: anEvent [
 	^ anEvent class == CpMutationEvent
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 CpMutationEventCondition class >> optionValueFromConditions: aCollection [
 
 	"Answer the option value for the receiver, based on the specified conditions collection"

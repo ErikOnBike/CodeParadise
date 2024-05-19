@@ -1,15 +1,13 @@
 Class {
-	#name : 'CpModifierKeyDownCondition',
-	#superclass : 'CpEventCondition',
+	#name : #CpModifierKeyDownCondition,
+	#superclass : #CpEventCondition,
 	#instVars : [
 		'modifiers'
 	],
-	#category : 'CodeParadise-WebApplication-Events-Custom',
-	#package : 'CodeParadise-WebApplication',
-	#tag : 'Events-Custom'
+	#category : #'CodeParadise-WebApplication-Events-Custom'
 }
 
-{ #category : 'logical operations' }
+{ #category : #'logical operations' }
 CpModifierKeyDownCondition class >> + aModifierKeyCondition [
 
 	"Answer an instance of the receiver specifying an additional modifier to be combined with the receiver"
@@ -17,7 +15,7 @@ CpModifierKeyDownCondition class >> + aModifierKeyCondition [
 	^ CpModifierKeyDownCondition modifiers: (self modifiers bitOr: aModifierKeyCondition modifiers)
 ]
 
-{ #category : 'instance creation' }
+{ #category : #'instance creation' }
 CpModifierKeyDownCondition class >> fromCharacter: aCharacter [
 
 	"Answer one of the receiver's subclasses which matches the specified modifier Character
@@ -32,7 +30,7 @@ CpModifierKeyDownCondition class >> fromCharacter: aCharacter [
 	^ nil
 ]
 
-{ #category : 'testing' }
+{ #category : #testing }
 CpModifierKeyDownCondition class >> matches: anEvent [
 
 	"Answer whether the receiver matches the specified event.
@@ -41,7 +39,7 @@ CpModifierKeyDownCondition class >> matches: anEvent [
 	^ self modifiers = anEvent modifiers
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 CpModifierKeyDownCondition class >> modifierCharacter [
 
 	"Answer my modifier Character, subclasses should override"
@@ -49,7 +47,7 @@ CpModifierKeyDownCondition class >> modifierCharacter [
 	^ nil
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 CpModifierKeyDownCondition class >> modifiers [
 
 	"Answer the modifiers (an Integer, see CpEvent >> #modifiers) the receiver represents.
@@ -59,7 +57,7 @@ CpModifierKeyDownCondition class >> modifiers [
 	^ 0
 ]
 
-{ #category : 'instance creation' }
+{ #category : #'instance creation' }
 CpModifierKeyDownCondition class >> modifiers: anInteger [
 
 	"Create an instance of the receiver with the specified modifiers value.
@@ -70,13 +68,13 @@ CpModifierKeyDownCondition class >> modifiers: anInteger [
 		yourself
 ]
 
-{ #category : 'instance creation' }
+{ #category : #'instance creation' }
 CpModifierKeyDownCondition class >> new [
 
 	self error: 'Instances of this class should not be created using #new. Use ', #modifiers:
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 CpModifierKeyDownCondition >> + aModifierKeyCondition [
 
 	"Update the receiver specifying an additional modifier to be combined with the receiver"
@@ -84,7 +82,7 @@ CpModifierKeyDownCondition >> + aModifierKeyCondition [
 	^ self class modifiers: (modifiers bitOr: aModifierKeyCondition modifiers)
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 CpModifierKeyDownCondition >> initialize [
 
 	"By default initialize with the class' modifiers value"
@@ -94,7 +92,7 @@ CpModifierKeyDownCondition >> initialize [
 	modifiers := self class modifiers
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 CpModifierKeyDownCondition >> initializeWithModifiers: anInteger [
 
 	"Initialize using the specified modifiers value"
@@ -104,7 +102,7 @@ CpModifierKeyDownCondition >> initializeWithModifiers: anInteger [
 	modifiers := anInteger
 ]
 
-{ #category : 'testing' }
+{ #category : #testing }
 CpModifierKeyDownCondition >> matches: anEvent [
 
 	"Answer whether the receiver matches the specified event.
@@ -113,7 +111,7 @@ CpModifierKeyDownCondition >> matches: anEvent [
 	^ self modifiers = anEvent modifiers
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 CpModifierKeyDownCondition >> modifiers [
 
 	^ modifiers

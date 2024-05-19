@@ -1,12 +1,10 @@
 Class {
-	#name : 'CpPointerDownEvent',
-	#superclass : 'CpPointerEvent',
-	#category : 'CodeParadise-WebApplication-Events',
-	#package : 'CodeParadise-WebApplication',
-	#tag : 'Events'
+	#name : #CpPointerDownEvent,
+	#superclass : #CpPointerEvent,
+	#category : #'CodeParadise-WebApplication-Events'
 }
 
-{ #category : 'converting' }
+{ #category : #converting }
 CpPointerDownEvent >> asClickEvent [
 
 	"Answer an instance of CpAnyClickEvent (or one of its subclasses) representing

@@ -11,14 +11,12 @@ See https://devdocs.io/dom/web_animations_api/keyframe_formats#attributes
 
 "
 Class {
-	#name : 'CpCssAnimation',
-	#superclass : 'Object',
-	#category : 'CodeParadise-WebApplication-DOM',
-	#package : 'CodeParadise-WebApplication',
-	#tag : 'DOM'
+	#name : #CpCssAnimation,
+	#superclass : #Object,
+	#category : #'CodeParadise-WebApplication-DOM'
 }
 
-{ #category : 'animation - keyframes' }
+{ #category : #'animation - keyframes' }
 CpCssAnimation class >> glowKeyframes [
 
 	^ {
@@ -28,7 +26,7 @@ CpCssAnimation class >> glowKeyframes [
 	}
 ]
 
-{ #category : 'animation - keyframes' }
+{ #category : #'animation - keyframes' }
 CpCssAnimation class >> highlightKeyframes [
 
 	"Pay attention: do not use kebab-case naming, but camelCase naming for style elements"
@@ -40,13 +38,13 @@ CpCssAnimation class >> highlightKeyframes [
 	}
 ]
 
-{ #category : 'instance creation' }
+{ #category : #'instance creation' }
 CpCssAnimation class >> new [
 
 	self shouldNotImplement
 ]
 
-{ #category : 'animation - keyframes' }
+{ #category : #'animation - keyframes' }
 CpCssAnimation class >> pulseKeyframes [
 
 	^ {
@@ -56,7 +54,7 @@ CpCssAnimation class >> pulseKeyframes [
 	}
 ]
 
-{ #category : 'animation - keyframes' }
+{ #category : #'animation - keyframes' }
 CpCssAnimation class >> shakeKeyframes [
 
 	^ {
@@ -74,7 +72,7 @@ CpCssAnimation class >> shakeKeyframes [
 	}
 ]
 
-{ #category : 'animation - keyframes' }
+{ #category : #'animation - keyframes' }
 CpCssAnimation class >> showTemporarilyKeyframes [
 
 	"Pay attention: do not use kebab-case naming, but camelCase naming for style elements"
@@ -87,7 +85,7 @@ CpCssAnimation class >> showTemporarilyKeyframes [
 	}
 ]
 
-{ #category : 'animation - keyframes' }
+{ #category : #'animation - keyframes' }
 CpCssAnimation class >> tadaKeyframes [
 
 	^ {

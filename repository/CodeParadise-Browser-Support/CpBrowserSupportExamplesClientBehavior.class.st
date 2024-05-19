@@ -434,7 +434,7 @@ CpBrowserSupportExamplesClientBehavior >> exampleJavaScriptEventTarget [
 			yourself) ;
 		appendChild: ((CpHtmlElement newWithTag: #button)
 			textContent: 'Click me to remove event listener (stop other button)' ;
-			when: CpClickEvent primary only do: [ eventTarget removeEventListener: #click handler: handler ] ;
+			when: CpClickEvent primary only do: [ eventTarget removeEventListener: #click handler: handler ] for: self ;
 			yourself) ;
 		yourself.
 
@@ -510,7 +510,7 @@ CpBrowserSupportExamplesClientBehavior >> exampleJavaScriptProxy [
 			yourself) ;
 		appendChild: ((CpHtmlElement newWithTag: #button)
 			textContent: 'Add text (after 2s)' ;
-			when: CpClickEvent primary only do: [ CpJavaScriptObject global setTimeout: [ outputElement appendChild: 'Hello!' asHtmlElement ] duration: 2000 ] ;
+			when: CpClickEvent primary only do: [ CpJavaScriptObject global setTimeout: [ outputElement appendChild: 'Hello!' asHtmlElement ] duration: 2000 ] for: self ;
 			yourself) ;
 		yourself
 ]

@@ -1,15 +1,13 @@
 Class {
-	#name : 'CpKeyEventCondition',
-	#superclass : 'CpEventCondition',
+	#name : #CpKeyEventCondition,
+	#superclass : #CpEventCondition,
 	#instVars : [
 		'key'
 	],
-	#category : 'CodeParadise-WebApplication-Events-Custom',
-	#package : 'CodeParadise-WebApplication',
-	#tag : 'Events-Custom'
+	#category : #'CodeParadise-WebApplication-Events-Custom'
 }
 
-{ #category : 'instance creation' }
+{ #category : #'instance creation' }
 CpKeyEventCondition class >> key: aString [
 
 	"Answer an instance of the receiver with the specified key (a String).
@@ -24,13 +22,13 @@ CpKeyEventCondition class >> key: aString [
 		yourself
 ]
 
-{ #category : 'instance creation' }
+{ #category : #'instance creation' }
 CpKeyEventCondition class >> new [
 
 	self error: 'Instances of this class should not be created using #new. Use ', #key:
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 CpKeyEventCondition >> initializeWithKey: aString [
 
 	"Initialize using the specified key value"
@@ -40,13 +38,13 @@ CpKeyEventCondition >> initializeWithKey: aString [
 	key := aString
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 CpKeyEventCondition >> key [
 
 	^ key
 ]
 
-{ #category : 'testing' }
+{ #category : #testing }
 CpKeyEventCondition >> matches: anEvent [
 
 	"Answer whether the receiver matches the specified event.

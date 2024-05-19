@@ -5,9 +5,7 @@ depend on the device I'm running on). For example when the browser window
 looses focus because of switching to another window (while holding key down).
 "
 Class {
-	#name : 'CpKeyUpEvent',
-	#superclass : 'CpKeyEvent',
-	#category : 'CodeParadise-WebApplication-Events',
-	#package : 'CodeParadise-WebApplication',
-	#tag : 'Events'
+	#name : #CpKeyUpEvent,
+	#superclass : #CpKeyEvent,
+	#category : #'CodeParadise-WebApplication-Events'
 }

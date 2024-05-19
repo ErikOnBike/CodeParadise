@@ -3,24 +3,22 @@ I am the client behavior for the DOM Example Server Application.
 I only live in the ClientEnvironment.
 "
 Class {
-	#name : 'CpDomExamplesClientBehavior',
-	#superclass : 'CpWebClientBehavior',
+	#name : #CpDomExamplesClientBehavior,
+	#superclass : #CpWebClientBehavior,
 	#instVars : [
 		'transition',
 		'textRegistry'
 	],
-	#category : 'CodeParadise-WebApplication-Examples',
-	#package : 'CodeParadise-WebApplication',
-	#tag : 'Examples'
+	#category : #'CodeParadise-WebApplication-Examples'
 }
 
-{ #category : 'class initialization' }
+{ #category : #'class initialization' }
 CpDomExamplesClientBehavior class >> beLoaded [
 
 	CpTransition beLoaded
 ]
 
-{ #category : 'resources' }
+{ #category : #resources }
 CpDomExamplesClientBehavior class >> gearPathForRaduis: radius teeth: teethCount asAnnulus: aBoolean [
 
 	| path innerRadius outerRadius axelRadius arcDelta arc |
@@ -98,13 +96,13 @@ CpDomExamplesClientBehavior class >> gearPathForRaduis: radius teeth: teethCount
 	^ path
 ]
 
-{ #category : 'examples' }
+{ #category : #examples }
 CpDomExamplesClientBehavior class >> someValue [
 
 	^ 3 + 4
 ]
 
-{ #category : 'examples' }
+{ #category : #examples }
 CpDomExamplesClientBehavior >> addEventListenersIn: outputElement to: listElement [
 
 	"DO NOT ADD EVENT LISTENERS HERE, it will cause infinite recursion"	
@@ -126,7 +124,7 @@ CpDomExamplesClientBehavior >> addEventListenersIn: outputElement to: listElemen
 		self addEventListenersIn: each to: listElement ]
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 CpDomExamplesClientBehavior >> clearOutput [
 
 	transition ifNotNil: [ transition stop ].
@@ -134,7 +132,7 @@ CpDomExamplesClientBehavior >> clearOutput [
 	self outputElement textContent: ''
 ]
 
-{ #category : 'examples' }
+{ #category : #examples }
 CpDomExamplesClientBehavior >> exampleAnimationMany [
 
 	<example: 'Many Animation' order: 810>
@@ -160,7 +158,7 @@ CpDomExamplesClientBehavior >> exampleAnimationMany [
 			startDelayedBy: 1000 ]
 ]
 
-{ #category : 'examples' }
+{ #category : #examples }
 CpDomExamplesClientBehavior >> exampleAnimationSimple [
 
 	<example: 'Simple Animation' order: 800>
@@ -190,7 +188,7 @@ CpDomExamplesClientBehavior >> exampleAnimationSimple [
 
 ]
 
-{ #category : 'examples' }
+{ #category : #examples }
 CpDomExamplesClientBehavior >> exampleClickEvents [
 
 	<example: 'Click Events' order: 900>
@@ -239,7 +237,7 @@ CpDomExamplesClientBehavior >> exampleClickEvents [
 			yourself) ]
 ]
 
-{ #category : 'examples' }
+{ #category : #examples }
 CpDomExamplesClientBehavior >> exampleCreateRandomBlocks [
 
 	<example: 'Create 1000 random blocks' order: 100>
@@ -269,7 +267,7 @@ CpDomExamplesClientBehavior >> exampleCreateRandomBlocks [
 		outputElement appendChild: block ]
 ]
 
-{ #category : 'examples' }
+{ #category : #examples }
 CpDomExamplesClientBehavior >> exampleCreateRandomEllipses [
 
 	<example: 'Create 1000 random ellipses' order: 100>
@@ -314,7 +312,7 @@ CpDomExamplesClientBehavior >> exampleCreateRandomEllipses [
 		outputElement appendChild: ellipse ]
 ]
 
-{ #category : 'examples' }
+{ #category : #examples }
 CpDomExamplesClientBehavior >> exampleDebugger [
 
 	<example: 'Debugger' order: 9999>
@@ -344,7 +342,7 @@ CpDomExamplesClientBehavior >> exampleDebugger [
 		attributeAt: #disabled put: (debuggerViewClass ifNotNil: [ nil ] ifNil: [ '' ]) ;
 		yourself)) ifNotNil: [ :button |
 			debuggerViewClass ifNotNil: [
-				button when: CpClickEvent basicPrimary do: [ self perform: #unknownMethodSelector ] ] ].
+				button when: CpClickEvent basicPrimary do: [ self perform: #unknownMethodSelector ] for: self ] ].
 
 	outputElement appendChild: ((CpHtmlElement newWithTag: #p)
 		textContent: 'Use button below to create a halt.' ;
@@ -355,11 +353,11 @@ CpDomExamplesClientBehavior >> exampleDebugger [
 		attributeAt: #disabled put: (debuggerViewClass ifNotNil: [ nil ] ifNil: [ '' ]) ;
 		yourself)) ifNotNil: [ :button |
 			debuggerViewClass ifNotNil: [
-				button when: CpClickEvent basicPrimary do: [ self halt ] ] ].
+				button when: CpClickEvent basicPrimary do: [ self halt ] for: self ] ].
 
 ]
 
-{ #category : 'examples' }
+{ #category : #examples }
 CpDomExamplesClientBehavior >> exampleEventMultipleHandlers [
 
 	<example: 'Event multiple handlers' order: 920>
@@ -396,31 +394,31 @@ CpDomExamplesClientBehavior >> exampleEventMultipleHandlers [
 		yourself).
 	self traceCr: 'Setup event handlers'.
 	(outputElement firstDescendantMatching: '#outer')
-		when: CpClickEvent basicPrimary do: [ self traceCr: 'outer first' ; showText: 'Clicked first' in: '#outer > .text1' ] ;
-		when: CpClickEvent basicPrimary do: [ self traceCr: 'outer second' ; showText: 'Clicked second' in: '#outer > .text2' ].
+		when: CpClickEvent basicPrimary do: [ self traceCr: 'outer first' ; showText: 'Clicked first' in: '#outer > .text1' ] for: self ;
+		when: CpClickEvent basicPrimary do: [ self traceCr: 'outer second' ; showText: 'Clicked second' in: '#outer > .text2' ] for: self.
 	(outputElement firstDescendantMatching: '#inner')
-		when: CpClickEvent basicPrimary do: [ self traceCr: 'inner first' ; showText: 'Clicked first' in: '#inner > .text1' ] ;
-		when: CpClickEvent basicPrimary do: [ self traceCr: 'inner second' ; showText: 'Clicked second' in: '#inner > .text2' ].
+		when: CpClickEvent basicPrimary do: [ self traceCr: 'inner first' ; showText: 'Clicked first' in: '#inner > .text1' ] for: self ;
+		when: CpClickEvent basicPrimary do: [ self traceCr: 'inner second' ; showText: 'Clicked second' in: '#inner > .text2' ] for: self.
 	self traceCr: 'Done setup event handlers'.
 
 	self traceCr: 'Setup event handlers'.
 	(outputElement firstDescendantMatching: '#outer2')
-		when: CpPointerDownEvent do: [ self traceCr: 'PointerDown single on outer2' ] ;
-		when: CpPointerUpEvent do: [ self traceCr: 'PointerUp single on outer2' ] ;
-		when: CpClickEvent primary & CpCtrlKeyDown do: [ self traceCr: 'outer2 first' ; showText: 'Clicked first' in: '#outer2 > .text1' ] ;
-		when: CpClickEvent primary & CpCtrlKeyDown do: [ self traceCr: 'outer2 second' ; showText: 'Clicked second' in: '#outer2 > .text2' ].
+		when: CpPointerDownEvent do: [ self traceCr: 'PointerDown single on outer2' ] for: self ;
+		when: CpPointerUpEvent do: [ self traceCr: 'PointerUp single on outer2' ] for: self ;
+		when: CpClickEvent primary & CpCtrlKeyDown do: [ self traceCr: 'outer2 first' ; showText: 'Clicked first' in: '#outer2 > .text1' ] for: self ;
+		when: CpClickEvent primary & CpCtrlKeyDown do: [ self traceCr: 'outer2 second' ; showText: 'Clicked second' in: '#outer2 > .text2' ] for: self.
 	(outputElement firstDescendantMatching: '#inner2')
-		when: CpPointerDownEvent do: [ self traceCr: 'PointerDown first on inner2' ] ;
-		when: CpPointerDownEvent do: [ self traceCr: 'PointerDown second on inner2' ] ;
-		when: CpPointerUpEvent do: [ self traceCr: 'PointerUp first on inner2' ] ;
-		when: CpPointerUpEvent do: [ self traceCr: 'PointerUp second on inner2' ] ;
-		when: CpClickEvent primary & CpCtrlKeyDown do: [ self traceCr: 'inner2 first' ; showText: 'Clicked first' in: '#inner2 > .text1' ] ;
-		when: CpClickEvent primary & CpCtrlKeyDown do: [ self traceCr: 'inner2 second' ; showText: 'Clicked second' in: '#inner2 > .text2' ].
+		when: CpPointerDownEvent do: [ self traceCr: 'PointerDown first on inner2' ] for: self ;
+		when: CpPointerDownEvent do: [ self traceCr: 'PointerDown second on inner2' ] for: self ;
+		when: CpPointerUpEvent do: [ self traceCr: 'PointerUp first on inner2' ] for: self ;
+		when: CpPointerUpEvent do: [ self traceCr: 'PointerUp second on inner2' ] for: self ;
+		when: CpClickEvent primary & CpCtrlKeyDown do: [ self traceCr: 'inner2 first' ; showText: 'Clicked first' in: '#inner2 > .text1' ] for: self ;
+		when: CpClickEvent primary & CpCtrlKeyDown do: [ self traceCr: 'inner2 second' ; showText: 'Clicked second' in: '#inner2 > .text2' ] for: self.
 	self traceCr: 'Done setup event handlers'.
 
 ]
 
-{ #category : 'examples' }
+{ #category : #examples }
 CpDomExamplesClientBehavior >> exampleEventPropagation [
 
 	<example: 'Event propagation' order: 910>
@@ -471,37 +469,37 @@ CpDomExamplesClientBehavior >> exampleEventPropagation [
 					<span style="display: inline-block" class="text"></span>
 			</div>
 		' ;
-		when: CpPointerDownEvent do: [ :event | event preventDefault  "Prevent selections" ] ;
+		when: CpPointerDownEvent do: [ :event | event preventDefault  "Prevent selections" ] for: self ;
 		yourself).
 
 	(outputElement firstDescendantMatching: '#outer')
-		when: CpPrimaryClickEvent do: [ self showText: 'Clicked' in: '#outer > .text' ].
+		when: CpPrimaryClickEvent do: [ self showText: 'Clicked' in: '#outer > .text' ] for: self.
 	(outputElement firstDescendantMatching: '#inner')
-		when: CpPrimaryClickEvent do: [ self showText: 'Clicked' in: '#inner > .text' ].
+		when: CpPrimaryClickEvent do: [ self showText: 'Clicked' in: '#inner > .text' ] for: self.
 
 	(outputElement firstDescendantMatching: '#outer2')
-		when: CpPrimaryClickEvent & CpShiftKeyDown do: [ self showText: 'Clicked' in: '#outer2 > .text' ].
+		when: CpPrimaryClickEvent & CpShiftKeyDown do: [ self showText: 'Clicked' in: '#outer2 > .text' ] for: self.
 	(outputElement firstDescendantMatching: '#inner2')
-		when: CpPrimaryClickEvent & CpShiftKeyDown do: [ :event | event stopPropagation. self showText: 'Clicked (1st handler)' in: '#inner2 > .text1' ] ;
+		when: CpPrimaryClickEvent & CpShiftKeyDown do: [ :event | event stopPropagation. self showText: 'Clicked (1st handler)' in: '#inner2 > .text1' ] for: self ;
 		when: CpClickEvent send: #preventDefault: to: outputElement ;
-		when: CpPrimaryClickEvent & CpShiftKeyDown do: [ self showText: 'Clicked (2nd handler)' in: '#inner2 > .text2' ].
+		when: CpPrimaryClickEvent & CpShiftKeyDown do: [ self showText: 'Clicked (2nd handler)' in: '#inner2 > .text2' ] for: self.
 
 	(outputElement firstDescendantMatching: '#outer3')
-		when: CpPrimaryClickEvent & CpCtrlKeyDown do: [ self showText: 'Clicked' in: '#outer3 > .text' ].
+		when: CpPrimaryClickEvent & CpCtrlKeyDown do: [ self showText: 'Clicked' in: '#outer3 > .text' ] for: self.
 	(outputElement firstDescendantMatching: '#inner3')
-		when: CpPrimaryClickEvent & CpCtrlKeyDown do: [ :event | event stopImmediatePropagation. self showText: 'Clicked (1st handler)' in: '#inner3 > .text1' ] ;
-		when: CpPrimaryClickEvent & CpCtrlKeyDown do: [ :event | self showText: 'Clicked (2nd handler)' in: '#inner3 > .text2' ].
+		when: CpPrimaryClickEvent & CpCtrlKeyDown do: [ :event | event stopImmediatePropagation. self showText: 'Clicked (1st handler)' in: '#inner3 > .text1' ] for: self ;
+		when: CpPrimaryClickEvent & CpCtrlKeyDown do: [ :event | self showText: 'Clicked (2nd handler)' in: '#inner3 > .text2' ] for: self.
 
 	(outputElement firstDescendantMatching: '#outer4')
-		when: CpClickEvent do: [ self showText: 'Clicked (native)' in: '#outer4 > .text' ].
+		when: CpClickEvent do: [ self showText: 'Clicked (native)' in: '#outer4 > .text' ] for: self.
 	(outputElement firstDescendantMatching: '#inner4')
-		when: CpPrimaryClickEvent & CpShiftKeyDown do: [ :event | event stopPropagation. self showText: 'SHIFT Clicked (stopped)' in: '#inner4 > .text1' ] ;
-		when: CpPrimaryClickEvent & CpAltKeyDown do: [ :event | event stopImmediatePropagation. self showText: 'ALT Clicked (stopped immediately)' in: '#inner4 > .text1' ] ;
-		when: CpClickEvent do: [ :event | self showText: 'Clicked (native)' in: '#inner4 > .text2' ].
+		when: CpPrimaryClickEvent & CpShiftKeyDown do: [ :event | event stopPropagation. self showText: 'SHIFT Clicked (stopped)' in: '#inner4 > .text1' ] for: self ;
+		when: CpPrimaryClickEvent & CpAltKeyDown do: [ :event | event stopImmediatePropagation. self showText: 'ALT Clicked (stopped immediately)' in: '#inner4 > .text1' ] for: self ;
+		when: CpClickEvent do: [ :event | self showText: 'Clicked (native)' in: '#inner4 > .text2' ] for: self.
 
 ]
 
-{ #category : 'examples' }
+{ #category : #examples }
 CpDomExamplesClientBehavior >> exampleHelloWorld [
 
 	<example: 'Hello world' order: 10>
@@ -523,7 +521,7 @@ CpDomExamplesClientBehavior >> exampleHelloWorld [
 		yourself)
 ]
 
-{ #category : 'examples' }
+{ #category : #examples }
 CpDomExamplesClientBehavior >> exampleMathFormula [
 
 	<example: 'MathML formula' order: 200>
@@ -542,7 +540,7 @@ CpDomExamplesClientBehavior >> exampleMathFormula [
 	mathElement markupContent: '<mtable columnalign="left"><mtr><mtd><mrow><mrow><mrow><mrow> <mi>a</mi> <msup> <mi>x</mi> <mn>2</mn> </msup></mrow> <mo> + </mo> <mi>b</mi> <mi>x</mi> </mrow> <mo> + </mo> <mi>c</mi> </mrow> <mo>=</mo> <mn>0</mn> </mrow> </mtd> </mtr> <mtr> <mtd> <mrow> <mrow> <mspace depth="1ex" height="0.5ex" width="2.5ex"></mspace> <mi>a</mi> <msup> <mi>x</mi> <mn>2</mn> </msup></mrow> <mo> + </mo> <mi>b</mi> <mi>x</mi> <mspace depth="1ex" height="0.5ex" width="2.5ex"></mspace> </mrow> <mo>=</mo> <mo>-</mo><mi> c</mi><mspace depth="1ex" height="0.5ex" width="2.5ex"></mspace> </mtd> </mtr> <mtr> <mtd> <mrow> <mrow> <mspace depth="1ex" height="0.5ex" width="2.5ex"></mspace> <msup> <mi>x</mi> <mn>2</mn> </msup></mrow> <mo> + </mo> <mfrac> <mrow> <mi>b</mi> </mrow> <mi>a</mi> </mfrac> <mi>x</mi> </mrow> <mspace depth="1ex" height="0.5ex" width="2.5ex"></mspace> <mo>=</mo> <mfrac> <mrow> <mo>-</mo><mi>c</mi> </mrow> <mi>a</mi> </mfrac> <mspace depth="1ex" height="0.5ex" width="2ex"></mspace><mrow><mtext mathcolor="red" mathsize="10pt">Divide out leading coefficient.</mtext> </mrow> </mtd> </mtr> <mtr> <mtd> <mrow> <mrow> <mrow> <mspace depth="1ex" height="0.5ex" width="2.5ex"></mspace> <msup> <mi>x</mi> <mn>2</mn> </msup></mrow> <mo> + </mo> <mfrac> <mrow> <mi>b</mi> </mrow> <mi>a</mi> </mfrac> <mi>x</mi> <mo> + </mo> <msup> <mfenced> <mfrac> <mrow> <mi>b</mi> </mrow> <mrow> <mn>2</mn> <mi>a</mi> </mrow> </mfrac> </mfenced> <mn>2</mn> </msup> </mrow> <mo>=</mo> <mfrac> <mrow> <mo>-</mo> <mi>c</mi> <mo>(</mo> <mn>4</mn> <mi>a</mi> <mo>)</mo> </mrow> <mrow> <mi>a</mi> <mo>(</mo> <mn>4</mn> <mi>a</mi> <mo>)</mo> </mrow></mfrac> </mrow> <mo> + </mo> <mfrac> <mrow> <msup> <mi>b</mi> <mn>2</mn> </msup> </mrow> <mrow> <mn>4</mn> <msup> <mi>a</mi> <mn>2</mn> </msup> </mrow></mfrac> <mspace depth="1ex" height="0.5ex" width="2ex"></mspace><mrow><mtext mathcolor="red" mathsize="10pt">Complete the square.</mtext> </mrow> </mtd> </mtr> <mtr> <mtd> <mrow> <mrow> <mspace depth="1ex" height="0.5ex" width="2.5ex"></mspace> <mo>(</mo> <mi>x</mi> <mo> + </mo> <mfrac> <mrow> <mi>b</mi> </mrow> <mrow> <mn>2</mn> <mi>a</mi> </mrow></mfrac> <mo>)</mo> <mo>(</mo> <mi>x</mi> <mo> + </mo> <mfrac> <mrow> <mi>b</mi> </mrow> <mrow> <mn>2</mn> <mi>a</mi> </mrow></mfrac> <mo>)</mo> <mo>=</mo> <mfrac> <mrow> <msup> <mi>b</mi> <mn>2</mn> </msup> <mo> - </mo> <mn>4</mn> <mi>a</mi> <mi>c</mi> </mrow> <mrow> <mn>4</mn> <msup> <mi>a</mi> <mn>2</mn> </msup> </mrow></mfrac> </mrow> <mspace depth="1ex" height="0.5ex" width="2ex"></mspace><mrow><mtext mathcolor="red" mathsize="10pt">Discriminant revealed.</mtext> </mrow> </mrow> </mtd> </mtr> <mtr> <mtd> <mrow> <mrow> <mspace depth="1ex" height="0.5ex" width="2.5ex"></mspace> <msup> <mrow> <mo>(</mo> <mi>x</mi> <mo> + </mo> <mfrac> <mrow> <mi>b</mi> </mrow> <mrow> <mn>2</mn> <mi>a</mi> </mrow></mfrac> <mo>)</mo> </mrow> <mn>2</mn> </msup> <mo>=</mo> <mfrac> <mrow> <msup> <mi>b</mi> <mn>2</mn> </msup> <mo> - </mo> <mn>4</mn> <mi>a</mi> <mi>c</mi> </mrow> <mrow> <mn>4</mn> <msup> <mi>a</mi> <mn>2</mn> </msup> </mrow></mfrac> </mrow> <mspace depth="1ex" height="0.5ex" width="2ex"></mspace><mrow><mtext mathcolor="red" mathsize="10pt"></mtext> </mrow> </mrow> </mtd> </mtr> <mtr> <mtd> <mrow> <mrow> <mspace depth="1ex" height="0.5ex" width="2.5ex"></mspace> <mrow> <mi>x</mi> <mo> + </mo> <mfrac> <mrow> <mi>b</mi> </mrow> <mrow> <mn>2</mn> <mi>a</mi> </mrow></mfrac> </mrow> <mo>=</mo> <msqrt> <mfrac> <mrow> <msup> <mi>b</mi> <mn>2</mn> </msup> <mo> - </mo> <mn>4</mn> <mi>a</mi> <mi>c</mi> </mrow> <mrow> <mn>4</mn> <msup> <mi>a</mi> <mn>2</mn> </msup> </mrow></mfrac> </msqrt> </mrow> <mspace depth="1ex" height="0.5ex" width="2ex"></mspace><mrow><mtext mathcolor="red" mathsize="10pt"></mtext> </mrow> </mrow> </mtd> </mtr> <mtr> <mtd> <mrow> <mrow> <mspace depth="1ex" height="0.5ex" width="2.5ex"></mspace> <mrow> <mi>x</mi> </mrow> <mo>=</mo> <mfrac> <mrow> <mo>-</mo><mi>b</mi> </mrow> <mrow> <mn>2</mn> <mi>a</mi> </mrow></mfrac> <mo>±</mo><mrow><mo>{</mo><mi>C</mi><mo>}</mo></mrow> <msqrt> <mfrac> <mrow> <msup> <mi>b</mi> <mn>2</mn> </msup> <mo> - </mo> <mn>4</mn> <mi>a</mi> <mi>c</mi> </mrow> <mrow> <mn>4</mn> <msup> <mi>a</mi> <mn>2</mn> </msup> </mrow></mfrac> </msqrt> </mrow> <mspace depth="1ex" height="0.5ex" width="2ex"></mspace><mrow><mtext mathcolor="red" mathsize="10pt">There''s the vertex formula.</mtext> </mrow> </mrow> </mtd> </mtr> <mtr> <mtd> <mrow> <mrow> <mspace depth="1ex" height="0.5ex" width="2.5ex"></mspace> <mrow> <mi>x</mi> </mrow> <mo>=</mo> <mfrac> <mrow> <mo>-</mo> <mi> b</mi> <mo>±</mo><mrow><mo>{</mo><mi>C</mi><mo>}</mo></mrow> <msqrt> <msup> <mi>b</mi> <mn>2</mn> </msup> <mo> - </mo> <mn>4</mn> <mi>a</mi> <mi>c</mi> </msqrt></mrow> <mrow> <mn>2</mn> <mi>a</mi> </mrow></mfrac> </mrow> <mspace depth="1ex" height="0.5ex" width="2ex"></mspace> <mrow><mtext mathcolor="red" mathsize="10pt"></mtext> </mrow> </mrow> </mtd> </mtr> </mtable>'
 ]
 
-{ #category : 'examples' }
+{ #category : #examples }
 CpDomExamplesClientBehavior >> exampleMutationEvents [
 
 	<example: 'Mutation Events' order: 930>
@@ -582,26 +580,26 @@ CpDomExamplesClientBehavior >> exampleMutationEvents [
 	log := CpHtmlElement elementWithId: #log.
 	addLogBlock := [ :text | log insertChild: (text inHtmlTag: #div) ].
 	(CpHtmlElement elementWithId: #addOuter)
-		when: CpClickEvent basicPrimary do: [ addLogBlock value: 'Add outer'. (CpHtmlElement elementWithId: #outer) appendChild: 'Hello ' asHtmlElement ].
+		when: CpClickEvent basicPrimary do: [ addLogBlock value: 'Add outer'. (CpHtmlElement elementWithId: #outer) appendChild: 'Hello ' asHtmlElement ] for: self.
 	(CpHtmlElement elementWithId: #addInner)
-		when: CpClickEvent basicPrimary do: [ addLogBlock value: 'Add inner'. (CpHtmlElement elementWithId: #inner) appendChild: 'World ' asHtmlElement ].
+		when: CpClickEvent basicPrimary do: [ addLogBlock value: 'Add inner'. (CpHtmlElement elementWithId: #inner) appendChild: 'World ' asHtmlElement ] for: self.
 	(CpHtmlElement elementWithId: #updateOuterAttr)
-		when: CpClickEvent basicPrimary do: [ addLogBlock value: 'Update outer'. (CpHtmlElement elementWithId: #outer) toggleClass: #test ].
+		when: CpClickEvent basicPrimary do: [ addLogBlock value: 'Update outer'. (CpHtmlElement elementWithId: #outer) toggleClass: #test ] for: self.
 	(CpHtmlElement elementWithId: #updateInnerAttr)
-		when: CpClickEvent basicPrimary do: [ addLogBlock value: 'Update inner'. (CpHtmlElement elementWithId: #inner) toggleClass: #test ].
+		when: CpClickEvent basicPrimary do: [ addLogBlock value: 'Update inner'. (CpHtmlElement elementWithId: #inner) toggleClass: #test ] for: self.
 	(CpHtmlElement elementWithId: #updateWithinInnerAttr)
-		when: CpClickEvent basicPrimary do: [ addLogBlock value: 'Update within inner'. ((CpHtmlElement elementWithId: #inner) firstDescendantMatching: #span) ifNotNil: [ :c | c toggleClass: #test ] ].
+		when: CpClickEvent basicPrimary do: [ addLogBlock value: 'Update within inner'. ((CpHtmlElement elementWithId: #inner) firstDescendantMatching: #span) ifNotNil: [ :c | c toggleClass: #test ] ] for: self.
 	(CpHtmlElement elementWithId: #removeOuter)
-		when: CpClickEvent basicPrimary do: [ addLogBlock value: 'Remove outer'. ((CpHtmlElement elementWithId: #outer) firstDescendantMatching: #span) ifNotNil: [ :c | c remove ] ].
+		when: CpClickEvent basicPrimary do: [ addLogBlock value: 'Remove outer'. ((CpHtmlElement elementWithId: #outer) firstDescendantMatching: #span) ifNotNil: [ :c | c remove ] ] for: self.
 	(CpHtmlElement elementWithId: #removeInner)
-		when: CpClickEvent basicPrimary do: [ addLogBlock value: 'Remove inner'. ((CpHtmlElement elementWithId: #inner) firstDescendantMatching: #span) ifNotNil: [ :c | c remove ] ].
+		when: CpClickEvent basicPrimary do: [ addLogBlock value: 'Remove inner'. ((CpHtmlElement elementWithId: #inner) firstDescendantMatching: #span) ifNotNil: [ :c | c remove ] ] for: self.
 
 	subscription := (CpHtmlElement elementWithId: #outer)
-		when: CpMutationEvent & CpSubtreeMutation & CpAttributesMutation & CpChildListMutation & CpAttributeOldValueMutation do: [ :event | addLogBlock value: 'Outer mutation: ', event printString ].
+		when: CpMutationEvent & CpSubtreeMutation & CpAttributesMutation & CpChildListMutation & CpAttributeOldValueMutation do: [ :event | addLogBlock value: 'Outer mutation: ', event printString ] for: self.
 	
 	(CpHtmlElement elementWithId: #inner)
-		when: CpMutationEvent & CpAttributesMutation & CpAttributeOldValueMutation do: [ :event | addLogBlock value: 'Inner (attr only) mutation: ', event printString ] ;
-		when: CpMutationEvent & (CpAttributeFilterMutation attributes: #('data-test')) do: [ :event | addLogBlock value: 'You found the data-test! ', event printString ].
+		when: CpMutationEvent & CpAttributesMutation & CpAttributeOldValueMutation do: [ :event | addLogBlock value: 'Inner (attr only) mutation: ', event printString ] for: self ;
+		when: CpMutationEvent & (CpAttributeFilterMutation attributes: #('data-test')) do: [ :event | addLogBlock value: 'You found the data-test! ', event printString ] for: self.
 
 	(CpHtmlElement elementWithId: #removeObserver)
 		when: CpClickEvent basicPrimary do: [
@@ -610,11 +608,11 @@ CpDomExamplesClientBehavior >> exampleMutationEvents [
 					addLogBlock value: 'Remove observer for outer'.
 					(CpHtmlElement elementWithId: #outer) removeSubscription: subscription.
 					subscription := nil ]
-				ifNil: [ addLogBlock value: 'Observer already removed' ] ].
+				ifNil: [ addLogBlock value: 'Observer already removed' ] ] for: self.
 
 ]
 
-{ #category : 'examples' }
+{ #category : #examples }
 CpDomExamplesClientBehavior >> exampleNestedClickEvents [
 
 	<example: 'Nested Click Events' order: 901>
@@ -696,7 +694,7 @@ CpDomExamplesClientBehavior >> exampleNestedClickEvents [
 
 ]
 
-{ #category : 'examples' }
+{ #category : #examples }
 CpDomExamplesClientBehavior >> exampleSVGGears [
 
 	<example: 'SVG Gears (animated)' order: 210>
@@ -710,11 +708,11 @@ CpDomExamplesClientBehavior >> exampleSVGGears [
 	speed := 5.
 	outputElement appendChild: ((CpHtmlElement newWithTag: #button)
 		textContent: '-' ;
-		when: CpClickEvent basicPrimary do: [ speed := speed + 1 ] ;
+		when: CpClickEvent basicPrimary do: [ speed := speed + 1 ] for: self ;
 		yourself).
 	outputElement appendChild: ((CpHtmlElement newWithTag: #button)
 		textContent: '+' ;
-		when: CpClickEvent basicPrimary do: [ speed := (speed - 1) max: 2 ] ;
+		when: CpClickEvent basicPrimary do: [ speed := (speed - 1) max: 2 ] for: self ;
 		yourself).
 	outputElement appendChild: (CpHtmlElement newWithTag: #p). "Separator"
 
@@ -776,7 +774,7 @@ CpDomExamplesClientBehavior >> exampleSVGGears [
 			startDelayedBy: 1000
 ]
 
-{ #category : 'examples' }
+{ #category : #examples }
 CpDomExamplesClientBehavior >> exampleSVGSimple [
 
 	<example: 'Simple SVG' order: 200>
@@ -817,7 +815,7 @@ CpDomExamplesClientBehavior >> exampleSVGSimple [
 		yourself).
 ]
 
-{ #category : 'examples' }
+{ #category : #examples }
 CpDomExamplesClientBehavior >> exampleToDo [
 
 	<example: 'ToDo List' order: 1000>
@@ -850,7 +848,7 @@ CpDomExamplesClientBehavior >> exampleToDo [
 		yourself) ]
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 CpDomExamplesClientBehavior >> initialize [
 
 	super initialize.
@@ -858,13 +856,13 @@ CpDomExamplesClientBehavior >> initialize [
 	self showIndex
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 CpDomExamplesClientBehavior >> outputElement [
 
 	^ CpHtmlElement documentBody firstDescendantMatching: '#output'
 ]
 
-{ #category : 'event handling' }
+{ #category : #'event handling' }
 CpDomExamplesClientBehavior >> shakeLabelOnEvent: aClickEvent [
 
 	(aClickEvent target tagName = #input)
@@ -877,7 +875,7 @@ CpDomExamplesClientBehavior >> shakeLabelOnEvent: aClickEvent [
 		animate: CpCssAnimation shakeKeyframes duration: 750
 ]
 
-{ #category : 'examples' }
+{ #category : #examples }
 CpDomExamplesClientBehavior >> showIndex [
 
 	"Beware: this method is NOT to be taken as exemplar for creating a UI.
@@ -941,7 +939,7 @@ CpDomExamplesClientBehavior >> showIndex [
 			yourself) ]
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 CpDomExamplesClientBehavior >> showText: textString in: selectorString [
 
 	textRegistry at: selectorString ifPresent: [ :textTransition | textTransition finish ].
@@ -954,7 +952,7 @@ CpDomExamplesClientBehavior >> showText: textString in: selectorString [
 				startDelayedBy: 1000) ]
 ]
 
-{ #category : 'event handling' }
+{ #category : #'event handling' }
 CpDomExamplesClientBehavior >> wiggleOnEvent: aClickEvent [
 
 	aClickEvent currentTarget

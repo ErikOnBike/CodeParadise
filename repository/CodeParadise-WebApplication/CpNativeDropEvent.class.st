@@ -8,14 +8,12 @@ to target drop zones.
 
 "
 Class {
-	#name : 'CpNativeDropEvent',
-	#superclass : 'CpMouseEvent',
-	#category : 'CodeParadise-WebApplication-Events',
-	#package : 'CodeParadise-WebApplication',
-	#tag : 'Events'
+	#name : #CpNativeDropEvent,
+	#superclass : #CpMouseEvent,
+	#category : #'CodeParadise-WebApplication-Events'
 }
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 CpNativeDropEvent class >> type [
 
 	^ 'drop'

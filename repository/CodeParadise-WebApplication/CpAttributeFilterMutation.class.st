@@ -1,15 +1,13 @@
 Class {
-	#name : 'CpAttributeFilterMutation',
-	#superclass : 'CpMutationEventCondition',
+	#name : #CpAttributeFilterMutation,
+	#superclass : #CpMutationEventCondition,
 	#instVars : [
 		'attributes'
 	],
-	#category : 'CodeParadise-WebApplication-Events-Custom',
-	#package : 'CodeParadise-WebApplication',
-	#tag : 'Events-Custom'
+	#category : #'CodeParadise-WebApplication-Events-Custom'
 }
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 CpAttributeFilterMutation class >> attributes: aCollection [
 
 	aCollection
@@ -20,7 +18,7 @@ CpAttributeFilterMutation class >> attributes: aCollection [
 		yourself
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 CpAttributeFilterMutation class >> optionValueFromConditions: aCollection [
 
 	"Answer an Array containing all the attributes being observed as option value"
@@ -37,13 +35,13 @@ CpAttributeFilterMutation class >> optionValueFromConditions: aCollection [
 		ifEmpty: [ nil ]
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 CpAttributeFilterMutation >> attributes [
 
 	^ attributes asArray
 ]
 
-{ #category : 'initialization' }
+{ #category : #initialization }
 CpAttributeFilterMutation >> initializeWithAttributes: aCollection [
 
 	self initialize.
@@ -51,13 +49,13 @@ CpAttributeFilterMutation >> initializeWithAttributes: aCollection [
 	attributes := aCollection
 ]
 
-{ #category : 'testing' }
+{ #category : #testing }
 CpAttributeFilterMutation >> isAttributeFilter [
 
 	^ true
 ]
 
-{ #category : 'testing' }
+{ #category : #testing }
 CpAttributeFilterMutation >> matches: anEvent [
 
 	^ (self class matches: anEvent)

@@ -1,12 +1,10 @@
 Class {
-	#name : 'CpWheelEvent',
-	#superclass : 'CpMouseEvent',
-	#category : 'CodeParadise-WebApplication-Events',
-	#package : 'CodeParadise-WebApplication',
-	#tag : 'Events'
+	#name : #CpWheelEvent,
+	#superclass : #CpMouseEvent,
+	#category : #'CodeParadise-WebApplication-Events'
 }
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 CpWheelEvent >> delta [
 
 	"Answer a Point representing the delta the wheel has scrolled"
@@ -14,7 +12,7 @@ CpWheelEvent >> delta [
 	^ self deltaX @ self deltaY
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 CpWheelEvent >> deltaMode [
 
 	"Answer a Number representing the delta unit.
@@ -28,7 +26,7 @@ CpWheelEvent >> deltaMode [
 	^ self propertyAt: #deltaMode
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 CpWheelEvent >> deltaX [
 
 	"Answer a Number representing the horizontal scroll amount (in units, see #deltaMode)"
@@ -36,7 +34,7 @@ CpWheelEvent >> deltaX [
 	^ self propertyAt: #deltaX
 ]
 
-{ #category : 'accessing' }
+{ #category : #accessing }
 CpWheelEvent >> deltaY [
 
 	"Answer a Number representing the vertical scroll amount (in units, see #deltaMode)"
@@ -44,7 +42,7 @@ CpWheelEvent >> deltaY [
 	^ self propertyAt: #deltaY
 ]
 
-{ #category : 'printing' }
+{ #category : #printing }
 CpWheelEvent >> printOn: aStream [
 
 	super printOn: aStream.
