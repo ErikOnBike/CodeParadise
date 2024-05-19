@@ -49,7 +49,7 @@ BaselineOfCodeParadise >> baseline: spec [
 			group: 'default' with: #( 'Core' 'NodeJS-Core' 'Shoelace' 'ChartJS' 'Presentation' 'Beach' 'Snapshot' 'Tests' 'Development' 'NodeJS-Applications');
 
 			group: 'Core' with: #( 'CodeParadise-WebApplication' 'CodeParadise-Browser-Support' );
-			group: 'NodeJS-Core' with: #( 'CodeParadise-RemoveEnvironment' 'CodeParadise-NodeJS-Support' );
+			group: 'NodeJS-Core' with: #( 'CodeParadise-RemoteEnvironment' 'CodeParadise-NodeJS-Support' );
 			group: 'Tests' with: #( 'CodeParadise-WebApplication-Tests' 'CodeParadise-RemoteEnvironment-Tests' 'CodeParadise-Beach-Tests' );
 
 			group: 'MVP' with: #( 'CodeParadise-WebApplication-MVP' );
