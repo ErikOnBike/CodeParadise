@@ -151,15 +151,23 @@ CpModel >> when: anAnnouncementClass send: aSymbol to: anObject [
 	^ self announcer when: anAnnouncementClass send: aSymbol to: anObject
 ]
 
-{ #category : #announcing }
+{ #category : #deprecated }
 CpModel >> whenChangedDo: aBlock [
+
+	self warnCr: 'Use of any Announcer''s #whenChanged:do: is deprecated, please use #whenChangedDo:for:'.
+
+	^ self whenChangedDo: aBlock for: aBlock receiver
+]
+
+{ #category : #announcing }
+CpModel >> whenChangedDo: aBlock for: anObject [
 
 	"Let the sender subscribe to the value changed announcement of the receiver.
 
 	Implementation:
 	This method is for compatibility with Model and NewValueHolder"
 
-	^ self when: ValueChanged do: aBlock
+	^ self when: ValueChanged do: aBlock for: anObject
 ]
 
 { #category : #announcing }
