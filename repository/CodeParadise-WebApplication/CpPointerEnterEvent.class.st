@@ -9,7 +9,9 @@ The PointerEnterEvent is useful for the DragEvent behavior and therefore remains
 
 "
 Class {
-	#name : #CpPointerEnterEvent,
-	#superclass : #CpPointerEvent,
-	#category : #'CodeParadise-WebApplication-Events'
+	#name : 'CpPointerEnterEvent',
+	#superclass : 'CpPointerEvent',
+	#category : 'CodeParadise-WebApplication-Events',
+	#package : 'CodeParadise-WebApplication',
+	#tag : 'Events'
 }

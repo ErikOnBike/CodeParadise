@@ -3,12 +3,14 @@ I am an Input Event. I offer an interface to higher level text entry events.
 To distinguish individual key strokes please also have a look at KeyEvent.
 "
 Class {
-	#name : #CpInputEvent,
-	#superclass : #CpUserInterfaceEvent,
-	#category : #'CodeParadise-WebApplication-Events'
+	#name : 'CpInputEvent',
+	#superclass : 'CpUserInterfaceEvent',
+	#category : 'CodeParadise-WebApplication-Events',
+	#package : 'CodeParadise-WebApplication',
+	#tag : 'Events'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpInputEvent >> data [
 
 	"Answer a String representing the inserted characters"
@@ -16,7 +18,7 @@ CpInputEvent >> data [
 	^ self propertyAt: #data
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpInputEvent >> inputType [
 
 	"Answer a String representing the type of input.
@@ -35,7 +37,7 @@ CpInputEvent >> inputType [
 	^ self propertyAt: #inputType
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 CpInputEvent >> isComposing [
 
 	"Answer a Boolean indicating a key is being composed"
@@ -43,7 +45,7 @@ CpInputEvent >> isComposing [
 	^ self propertyAt: #isComposing
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 CpInputEvent >> printOn: aStream [
 
 	super printOn: aStream.

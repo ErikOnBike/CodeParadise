@@ -1,14 +1,16 @@
 Class {
-	#name : #CpKeyRangeEventCondition,
-	#superclass : #CpEventCondition,
+	#name : 'CpKeyRangeEventCondition',
+	#superclass : 'CpEventCondition',
 	#instVars : [
 		'lowerBoundKey',
 		'upperBoundKey'
 	],
-	#category : #'CodeParadise-WebApplication-Events-Custom'
+	#category : 'CodeParadise-WebApplication-Events-Custom',
+	#package : 'CodeParadise-WebApplication',
+	#tag : 'Events-Custom'
 }
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 CpKeyRangeEventCondition class >> fromKey: lowerBoundKeyString to: upperBoundKeyString [
 
 	"Answer an instance of the receiver with the specified range.
@@ -24,7 +26,7 @@ CpKeyRangeEventCondition class >> fromKey: lowerBoundKeyString to: upperBoundKey
 		yourself
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 CpKeyRangeEventCondition >> initializeWithLowerBoundKey: lowerBoundKeyString upperBoundKey: upperBoundKeyString [
 
 	self initialize.
@@ -33,13 +35,13 @@ CpKeyRangeEventCondition >> initializeWithLowerBoundKey: lowerBoundKeyString upp
 	upperBoundKey := upperBoundKeyString
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpKeyRangeEventCondition >> lowerBoundKey [
 
 	^ lowerBoundKey
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 CpKeyRangeEventCondition >> matches: anEvent [
 
 	"Answer whether the receiver matches the specified event.
@@ -49,7 +51,7 @@ CpKeyRangeEventCondition >> matches: anEvent [
 		and: [ self upperBoundKey >= anEvent key ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpKeyRangeEventCondition >> upperBoundKey [
 
 	^ upperBoundKey

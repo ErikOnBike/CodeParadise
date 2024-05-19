@@ -1,13 +1,15 @@
 Class {
-	#name : #CpDropEvent,
-	#superclass : #CpSyntheticEvent,
+	#name : 'CpDropEvent',
+	#superclass : 'CpSyntheticEvent',
 	#instVars : [
 		'dragEvent'
 	],
-	#category : #'CodeParadise-WebApplication-Events-Custom'
+	#category : 'CodeParadise-WebApplication-Events-Custom',
+	#package : 'CodeParadise-WebApplication',
+	#tag : 'Events-Custom'
 }
 
-{ #category : #announcing }
+{ #category : 'announcing' }
 CpDropEvent class >> addListenerTo: anElement [
 
 	"Add a listener for the receiver to the specified DOM element.
@@ -22,7 +24,7 @@ CpDropEvent class >> addListenerTo: anElement [
 	anElement when: CpNativeDropEvent send: #noop to: self
 ]
 
-{ #category : #'event handling' }
+{ #category : 'event handling' }
 CpDropEvent class >> dispatchInstanceForDragEvent: aDragEvent [
 
 	"Dispatch an instance of the receiver based on the specified DragEvent"
@@ -31,7 +33,7 @@ CpDropEvent class >> dispatchInstanceForDragEvent: aDragEvent [
 		dispatch
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 CpDropEvent class >> newFromDragEvent: aDragEvent [
 
 	"Create a new instance of the receiver from the specified DragEvent and PointerEvent"
@@ -41,7 +43,7 @@ CpDropEvent class >> newFromDragEvent: aDragEvent [
 		yourself
 ]
 
-{ #category : #announcing }
+{ #category : 'announcing' }
 CpDropEvent class >> removeListenerFrom: anElement [
 
 	"Remove event listener from the specified DOM element.
@@ -53,31 +55,31 @@ CpDropEvent class >> removeListenerFrom: anElement [
 	CpNativeDropEvent removeListenerFrom: anElement
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpDropEvent >> dragElement [
 
 	^ dragEvent currentTarget
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpDropEvent >> dragEndPoint [
 
 	^ dragEvent endPoint
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpDropEvent >> dragStartPoint [
 
 	^ dragEvent startPoint
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpDropEvent >> dragTracePoints [
 
 	^ dragEvent tracePoints
 ]
 
-{ #category : #'processing - private' }
+{ #category : 'processing - private' }
 CpDropEvent >> dropTargetUnderPointer: aPoint [
 
 	| dropTargetsUnderPointer |
@@ -89,7 +91,7 @@ CpDropEvent >> dropTargetUnderPointer: aPoint [
 		ifNone: [ nil ]
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 CpDropEvent >> initializeWithDragEvent: aDragEvent [
 
 	self initialize.
@@ -100,13 +102,13 @@ CpDropEvent >> initializeWithDragEvent: aDragEvent [
 	dragEvent := aDragEvent
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 CpDropEvent >> isCanceled [
 
 	^ dragEvent isCanceled
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpDropEvent >> point [
 
 	"Answer the receiver's point (which is the drag's end point)"
@@ -114,7 +116,7 @@ CpDropEvent >> point [
 	^ self dragEndPoint
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 CpDropEvent >> printOn: aStream [
 
 	super printOn: aStream.

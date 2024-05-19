@@ -1,14 +1,16 @@
 Class {
-	#name : #CpDownloader,
-	#superclass : #Object,
+	#name : 'CpDownloader',
+	#superclass : 'Object',
 	#instVars : [
 		'content',
 		'type'
 	],
-	#category : #'CodeParadise-WebApplication-DOM'
+	#category : 'CodeParadise-WebApplication-DOM',
+	#package : 'CodeParadise-WebApplication',
+	#tag : 'DOM'
 }
 
-{ #category : #performing }
+{ #category : 'performing' }
 CpDownloader class >> content: anObject type: typeString filename: filenameString [
 
 	"Download the specified content (of the specified MIME type) using the given filename"
@@ -16,7 +18,7 @@ CpDownloader class >> content: anObject type: typeString filename: filenameStrin
 	CpDomElement globalApply: #cpDownload withArguments: { anObject . typeString . filenameString }
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpDownloader class >> downloadContentScript [
 
 	"Answer a JavaScript download script.
@@ -46,7 +48,7 @@ CpDownloader class >> downloadContentScript [
 };'
 ]
 
-{ #category : #'class initialization' }
+{ #category : 'class initialization' }
 CpDownloader class >> postInstall [
 
 	super postInstall.

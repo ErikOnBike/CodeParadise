@@ -8,12 +8,14 @@ My subclasses can, contrary to my superclasses, be instantiated directly because
 
 "
 Class {
-	#name : #CpTemplateComponent,
-	#superclass : #CpWebComponent,
-	#category : #'CodeParadise-WebApplication-DOM'
+	#name : 'CpTemplateComponent',
+	#superclass : 'CpWebComponent',
+	#category : 'CodeParadise-WebApplication-DOM',
+	#package : 'CodeParadise-WebApplication',
+	#tag : 'DOM'
 }
 
-{ #category : #'web resources' }
+{ #category : 'web resources' }
 CpTemplateComponent class >> globalStyle [
 
 	"Answer the style (a CSS description) to support the receiver's instances from the light DOM
@@ -24,7 +26,7 @@ CpTemplateComponent class >> globalStyle [
 	^ ''
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 CpTemplateComponent class >> initializeMarkupCreatedInstance: aCreatedFromMarkupEvent [
 
 	"Initialize the element (detail in the specified event) which was created through markup content
@@ -33,7 +35,7 @@ CpTemplateComponent class >> initializeMarkupCreatedInstance: aCreatedFromMarkup
 	aCreatedFromMarkupEvent detail initialize
 ]
 
-{ #category : #updating }
+{ #category : 'updating' }
 CpTemplateComponent class >> installGlobalStyle [
 
 	"Install the global (light DOM) style for the instances of the receiver"
@@ -41,7 +43,7 @@ CpTemplateComponent class >> installGlobalStyle [
 	self updateGlobalStyle
 ]
 
-{ #category : #updating }
+{ #category : 'updating' }
 CpTemplateComponent class >> installStyle: styleString [
 
 	"Install the specified style in the receiver, rerendering all instances"
@@ -50,7 +52,7 @@ CpTemplateComponent class >> installStyle: styleString [
 	self primitiveFailed
 ]
 
-{ #category : #updating }
+{ #category : 'updating' }
 CpTemplateComponent class >> installStyle: styleString andTemplate: templateString [
 
 	"Convenience method to install both style and template with single rerendering of all instances"
@@ -59,7 +61,7 @@ CpTemplateComponent class >> installStyle: styleString andTemplate: templateStri
 	self primitiveFailed
 ]
 
-{ #category : #updating }
+{ #category : 'updating' }
 CpTemplateComponent class >> installTemplate: templateString [
 
 	"Install the specified template in the receiver, rerendering all instances"
@@ -68,14 +70,14 @@ CpTemplateComponent class >> installTemplate: templateString [
 	self primitiveFailed
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 CpTemplateComponent class >> isAbstractTag [
 
 	"The method is present to indicate the receiver is abstract.
 	This method will NOT be evaluated to decide if the receiver is abstract."
 ]
 
-{ #category : #'class initialization' }
+{ #category : 'class initialization' }
 CpTemplateComponent class >> postInstall [
 
 	"Install the style and template of the receiver"
@@ -87,7 +89,7 @@ CpTemplateComponent class >> postInstall [
 		installGlobalStyle
 ]
 
-{ #category : #'class initialization' }
+{ #category : 'class initialization' }
 CpTemplateComponent class >> postInstallOnce [
 
 	"Install event handler to make sure all (sub)instances of the receiver get initialized correctly.
@@ -100,7 +102,7 @@ CpTemplateComponent class >> postInstallOnce [
 		when: CpCreatedFromMarkupEvent send: #initializeMarkupCreatedInstance: to: self
 ]
 
-{ #category : #primitives }
+{ #category : 'primitives' }
 CpTemplateComponent class >> register [
 
 	"Register the receiver as a WebComponent class (with own style and template)"
@@ -110,7 +112,7 @@ CpTemplateComponent class >> register [
 	self registerStyleAndTemplate
 ]
 
-{ #category : #primitives }
+{ #category : 'primitives' }
 CpTemplateComponent class >> registerStyleAndTemplate [
 
 	"Register the receiver's style and template"
@@ -120,7 +122,7 @@ CpTemplateComponent class >> registerStyleAndTemplate [
 
 ]
 
-{ #category : #updating }
+{ #category : 'updating' }
 CpTemplateComponent class >> renderAllInstances [
 
 	"(Re)render all instances of the receiver"
@@ -129,7 +131,7 @@ CpTemplateComponent class >> renderAllInstances [
 	self primitiveFailed
 ]
 
-{ #category : #'web resources' }
+{ #category : 'web resources' }
 CpTemplateComponent class >> style [
 
 	"Answer the style (a CSS description) of the receiver's instances
@@ -141,7 +143,7 @@ CpTemplateComponent class >> style [
 	^ ''
 ]
 
-{ #category : #'web resources' }
+{ #category : 'web resources' }
 CpTemplateComponent class >> template [
 
 	"Answer the template (a HTML description) of the receiver's instances"
@@ -151,13 +153,13 @@ CpTemplateComponent class >> template [
 	^ ''
 ]
 
-{ #category : #updating }
+{ #category : 'updating' }
 CpTemplateComponent class >> updateAllInstances [
 
 	self allInstancesDo: [ :each | each initializeShadowRoot ]
 ]
 
-{ #category : #updating }
+{ #category : 'updating' }
 CpTemplateComponent class >> updateGlobalStyle [
 
 	"Install or update the global (light DOM) style for the instances of the receiver.
@@ -184,7 +186,7 @@ CpTemplateComponent class >> updateGlobalStyle [
 						id: cssIdentifier ] ]
 ]
 
-{ #category : #updating }
+{ #category : 'updating' }
 CpTemplateComponent class >> updateStyle [
 
 	self installStyle: self style.
@@ -192,7 +194,7 @@ CpTemplateComponent class >> updateStyle [
 	self updateAllInstances
 ]
 
-{ #category : #updating }
+{ #category : 'updating' }
 CpTemplateComponent class >> updateTemplate [
 
 	self installTemplate: self template.
@@ -200,7 +202,7 @@ CpTemplateComponent class >> updateTemplate [
 	self updateAllInstances
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 CpTemplateComponent >> ensureShadowRoot [
 
 	"Ensure the ShadowRoot is present.
@@ -210,7 +212,7 @@ CpTemplateComponent >> ensureShadowRoot [
 	self primitiveFailed
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 CpTemplateComponent >> initialize [
 
 	super initialize.
@@ -220,7 +222,7 @@ CpTemplateComponent >> initialize [
 		initializeShadowRoot
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 CpTemplateComponent >> initializeShadowRoot [ 
 
 	"Override in subclass when desired"

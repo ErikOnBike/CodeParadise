@@ -1,6 +1,6 @@
-Extension { #name : #Announcer }
+Extension { #name : 'Announcer' }
 
-{ #category : #'*CodeParadise-WebApplication' }
+{ #category : '*CodeParadise-WebApplication' }
 Announcer >> removeInterestIn: anAnnouncementClass for: anObject [
 
 	"Remove interest in the specified AnnouncementClass for the specified subscriber"

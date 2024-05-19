@@ -7,7 +7,9 @@ KeyUp events are dispatched for these events.
 
 "
 Class {
-	#name : #CpKeyPressEvent,
-	#superclass : #CpKeyEvent,
-	#category : #'CodeParadise-WebApplication-Events'
+	#name : 'CpKeyPressEvent',
+	#superclass : 'CpKeyEvent',
+	#category : 'CodeParadise-WebApplication-Events',
+	#package : 'CodeParadise-WebApplication',
+	#tag : 'Events'
 }

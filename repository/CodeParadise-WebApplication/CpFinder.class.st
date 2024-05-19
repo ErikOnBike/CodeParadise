@@ -1,64 +1,66 @@
 Class {
-	#name : #CpFinder,
-	#superclass : #Object,
+	#name : 'CpFinder',
+	#superclass : 'Object',
 	#instVars : [
 		'globals'
 	],
 	#classVars : [
 		'Current'
 	],
-	#category : #'CodeParadise-WebApplication-Support'
+	#category : 'CodeParadise-WebApplication-Support',
+	#package : 'CodeParadise-WebApplication',
+	#tag : 'Support'
 }
 
-{ #category : #api }
+{ #category : 'api' }
 CpFinder class >> allClassesWhereNameBeginsWith: aString [
 
 	^ self current allClassesWhereNameBeginsWith: aString
 ]
 
-{ #category : #api }
+{ #category : 'api' }
 CpFinder class >> allClassesWhereNameEndsWith: aString [
 
 	^ self current allClassesWhereNameEndsWith: aString
 ]
 
-{ #category : #api }
+{ #category : 'api' }
 CpFinder class >> allClassesWhereNameIncludes: aString [
 
 	^ self current allClassesWhereNameIncludes: aString
 ]
 
-{ #category : #api }
+{ #category : 'api' }
 CpFinder class >> allImplementorsOf: aSymbol [
 
 	^ self current allImplementorsOf: aSymbol
 ]
 
-{ #category : #api }
+{ #category : 'api' }
 CpFinder class >> allMethodsSending: aSymbol [
 
 	^ self current allMethodsSending: aSymbol
 ]
 
-{ #category : #api }
+{ #category : 'api' }
 CpFinder class >> allMethodsWhereSelectorBeginsWith: aString [
 
 	^ self current allMethodsWhereSelectorBeginsWith: aString
 ]
 
-{ #category : #api }
+{ #category : 'api' }
 CpFinder class >> allMethodsWhereSelectorEndsWith: aString [
 
 	^ self current allMethodsWhereSelectorEndsWith: aString
 ]
 
-{ #category : #api }
+{ #category : 'api' }
 CpFinder class >> allMethodsWhereSelectorIncludes: aString [
 
 	^ self current allMethodsWhereSelectorIncludes: aString
 ]
 
-{ #category : #api }
+{ #category : 'api' }
 CpFinder class >> allSendersOf: aSymbol [
 
 	"Convenience method"
@@ -66,13 +68,13 @@ CpFinder class >> allSendersOf: aSymbol [
 	^ self current allMethodsSending: aSymbol
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpFinder class >> current [
 
 	^ Current ifNil: [ Current := self basicNew initialize ; yourself  ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpFinder class >> new [
 
 	"Use self >> #current instead to get the singleton instance"
@@ -80,13 +82,13 @@ CpFinder class >> new [
 	^ self error: 'The Finder should not be instantiated through #new, use #current instead'
 ]
 
-{ #category : #enumerating }
+{ #category : 'enumerating' }
 CpFinder >> allClassesDo: aBlock [
 
 	self globals allClassesDo: aBlock
 ]
 
-{ #category : #api }
+{ #category : 'api' }
 CpFinder >> allClassesSelect: aBlock [
 
 	| classes |
@@ -99,31 +101,31 @@ CpFinder >> allClassesSelect: aBlock [
 	^ classes asSortedCollection: [ :a :b | a name <= b name ]
 ]
 
-{ #category : #api }
+{ #category : 'api' }
 CpFinder >> allClassesWhereNameBeginsWith: aString [
 
 	^ self allClassesSelect: [ :each | each name beginsWith: aString ]
 ]
 
-{ #category : #api }
+{ #category : 'api' }
 CpFinder >> allClassesWhereNameEndsWith: aString [
 
 	^ self allClassesSelect: [ :each | each name endsWith: aString ]
 ]
 
-{ #category : #api }
+{ #category : 'api' }
 CpFinder >> allClassesWhereNameIncludes: aString [
 
 	^ self allClassesSelect: [ :each | each name includesSubstring: aString ]
 ]
 
-{ #category : #api }
+{ #category : 'api' }
 CpFinder >> allImplementorsOf: aSymbol [
 
 	^ self allMethodsSelect: [ :each | each selector = aSymbol ]
 ]
 
-{ #category : #enumerating }
+{ #category : 'enumerating' }
 CpFinder >> allMethodsDo: aBlock [
 
 	"Perform specified Block on all methods in the image.
@@ -137,7 +139,7 @@ CpFinder >> allMethodsDo: aBlock [
 		each class methodsDo: aBlock ]
 ]
 
-{ #category : #api }
+{ #category : 'api' }
 CpFinder >> allMethodsSelect: aBlock [
 
 	| methods |
@@ -150,31 +152,31 @@ CpFinder >> allMethodsSelect: aBlock [
 	^ methods asSortedCollection: [ :a :b | a selector <= b selector ]
 ]
 
-{ #category : #api }
+{ #category : 'api' }
 CpFinder >> allMethodsSending: aSymbol [
 
 	^ self allMethodsSelect: [ :each | each sendsOrRefersTo: aSymbol ]
 ]
 
-{ #category : #api }
+{ #category : 'api' }
 CpFinder >> allMethodsWhereSelectorBeginsWith: aString [
 
 	^ self allMethodsSelect: [ :each | each selector beginsWith: aString ]
 ]
 
-{ #category : #api }
+{ #category : 'api' }
 CpFinder >> allMethodsWhereSelectorEndsWith: aString [
 
 	^ self allMethodsSelect: [ :each | each selector endsWith: aString ]
 ]
 
-{ #category : #api }
+{ #category : 'api' }
 CpFinder >> allMethodsWhereSelectorIncludes: aString [
 
 	^ self allMethodsSelect: [ :each | each selector includesSubstring: aString ]
 ]
 
-{ #category : #api }
+{ #category : 'api' }
 CpFinder >> allSendersOf: aSymbol [
 
 	"Convenience method"
@@ -182,13 +184,13 @@ CpFinder >> allSendersOf: aSymbol [
 	^ self allMethodsSending: aSymbol
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpFinder >> globals [
 
 	^ globals
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 CpFinder >> initialize [
 
 	super initialize.

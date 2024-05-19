@@ -46,18 +46,20 @@ Load a stylesheet:
 	]]]
 "
 Class {
-	#name : #CpHtmlElement,
-	#superclass : #CpDomElement,
-	#category : #'CodeParadise-WebApplication-DOM'
+	#name : 'CpHtmlElement',
+	#superclass : 'CpDomElement',
+	#category : 'CodeParadise-WebApplication-DOM',
+	#package : 'CodeParadise-WebApplication',
+	#tag : 'DOM'
 }
 
-{ #category : #'acccessing-ui' }
+{ #category : 'acccessing-ui' }
 CpHtmlElement class >> activeElement [
 
 	^ self document propertyAt: #activeElement
 ]
 
-{ #category : #adding }
+{ #category : 'adding' }
 CpHtmlElement class >> documentAddExternalScript: urlString [
 
 	"Add the specified JavaScript resource to the receiver"
@@ -65,7 +67,7 @@ CpHtmlElement class >> documentAddExternalScript: urlString [
 	^ self documentAddExternalScript: urlString type: nil
 ]
 
-{ #category : #adding }
+{ #category : 'adding' }
 CpHtmlElement class >> documentAddExternalScript: urlString type: typeString [
 
 	"Add the specified JavaScript resource to the receiver"
@@ -76,19 +78,19 @@ CpHtmlElement class >> documentAddExternalScript: urlString type: typeString [
 		yourself)
 ]
 
-{ #category : #adding }
+{ #category : 'adding' }
 CpHtmlElement class >> documentAddModuleScript: aString [
 
 	^ self documentAddScript: aString type: 'module' id: nil
 ]
 
-{ #category : #adding }
+{ #category : 'adding' }
 CpHtmlElement class >> documentAddScript: aString [
 
 	^ self documentAddScript: aString type: nil id: nil
 ]
 
-{ #category : #adding }
+{ #category : 'adding' }
 CpHtmlElement class >> documentAddScript: contentString type: typeString id: idString [
 
 	"Add the specified JavaScript content to the receiver"
@@ -100,7 +102,7 @@ CpHtmlElement class >> documentAddScript: contentString type: typeString id: idS
 		yourself)
 ]
 
-{ #category : #adding }
+{ #category : 'adding' }
 CpHtmlElement class >> documentAddStyle: aString [
 
 	"Add the specified CSS content to the receiver"
@@ -110,7 +112,7 @@ CpHtmlElement class >> documentAddStyle: aString [
 		yourself)
 ]
 
-{ #category : #adding }
+{ #category : 'adding' }
 CpHtmlElement class >> documentAddStylesheet: aString [
 
 	"Add the specified (external) stylesheet to the receiver"
@@ -122,7 +124,7 @@ CpHtmlElement class >> documentAddStylesheet: aString [
 		yourself)
 ]
 
-{ #category : #'acccessing-ui' }
+{ #category : 'acccessing-ui' }
 CpHtmlElement class >> documentBody [
 
 	"Answer an instance of the receiver representing the <body> element of
@@ -132,7 +134,7 @@ CpHtmlElement class >> documentBody [
 	self primitiveFailed
 ]
 
-{ #category : #'acccessing-ui' }
+{ #category : 'acccessing-ui' }
 CpHtmlElement class >> documentHead [
 
 	"Answer an instance of the receiver representing the <head> element of
@@ -142,19 +144,19 @@ CpHtmlElement class >> documentHead [
 	self primitiveFailed
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpHtmlElement class >> namespace [
 
 	^ 'http://www.w3.org/1999/xhtml'
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpHtmlElement class >> prefix [
 
 	^ #xhtml
 ]
 
-{ #category : #converting }
+{ #category : 'converting' }
 CpHtmlElement >> asHtmlElement [
 
 	"Answer the receiver as DOM element"
@@ -162,7 +164,7 @@ CpHtmlElement >> asHtmlElement [
 	^ self
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpHtmlElement >> isSlotted [
 
 	"Answer whether the receiver lives in a slot within the receiver's parent.
@@ -172,7 +174,7 @@ CpHtmlElement >> isSlotted [
 	^ self hasAttributeAt: #slot
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpHtmlElement >> slot [
 
 	"Answer the slot within the receiver's parent in which the receiver lives
@@ -181,7 +183,7 @@ CpHtmlElement >> slot [
 	^ self attributeAt: #slot
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpHtmlElement >> slot: aString [
 
 	"Assign receiver to the specified slot (within the receiver's parent)"

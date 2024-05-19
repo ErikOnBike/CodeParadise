@@ -7,12 +7,14 @@ dropping).
 
 "
 Class {
-	#name : #CpNativeDragEvent,
-	#superclass : #CpMouseEvent,
-	#category : #'CodeParadise-WebApplication-Events'
+	#name : 'CpNativeDragEvent',
+	#superclass : 'CpMouseEvent',
+	#category : 'CodeParadise-WebApplication-Events',
+	#package : 'CodeParadise-WebApplication',
+	#tag : 'Events'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpNativeDragEvent class >> type [
 
 	^ 'drag'

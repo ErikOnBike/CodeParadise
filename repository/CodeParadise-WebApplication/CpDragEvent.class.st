@@ -27,8 +27,8 @@ receive this state change announcement.
 
 "
 Class {
-	#name : #CpDragEvent,
-	#superclass : #CpSyntheticEvent,
+	#name : 'CpDragEvent',
+	#superclass : 'CpSyntheticEvent',
 	#instVars : [
 		'offset',
 		'tracePoints',
@@ -39,10 +39,12 @@ Class {
 		'DragInstances',
 		'SupportingEventsInstalled'
 	],
-	#category : #'CodeParadise-WebApplication-Events-Custom'
+	#category : 'CodeParadise-WebApplication-Events-Custom',
+	#package : 'CodeParadise-WebApplication',
+	#tag : 'Events-Custom'
 }
 
-{ #category : #announcing }
+{ #category : 'announcing' }
 CpDragEvent class >> addListenerTo: anElement [
 
 	"Add a listener for the receiver to the specified DOM element.
@@ -57,7 +59,7 @@ CpDragEvent class >> addListenerTo: anElement [
 	anElement when: CpPointerDownEvent send: #dragStart: to: self
 ]
 
-{ #category : #'event handling - private' }
+{ #category : 'event handling - private' }
 CpDragEvent class >> dragCancel: aPointerEvent [
 
 	| dragEvent |
@@ -78,7 +80,7 @@ CpDragEvent class >> dragCancel: aPointerEvent [
 	dragEvent dispatch
 ]
 
-{ #category : #'event handling - private' }
+{ #category : 'event handling - private' }
 CpDragEvent class >> dragContinued: aPointerEnterEvent [
 
 	"Validate there is still a drag (ie primary pointer is still down)"
@@ -87,7 +89,7 @@ CpDragEvent class >> dragContinued: aPointerEnterEvent [
 		ifFalse: [ self dragCancel: aPointerEnterEvent ]
 ]
 
-{ #category : #'event handling - private' }
+{ #category : 'event handling - private' }
 CpDragEvent class >> dragEnd: aPointerUpEvent [
 
 	| dragEvent |
@@ -116,7 +118,7 @@ CpDragEvent class >> dragEnd: aPointerUpEvent [
 	dragEvent dispatch
 ]
 
-{ #category : #'event handling - private' }
+{ #category : 'event handling - private' }
 CpDragEvent class >> dragInterrupted: aPointerLeaveEvent [
 
 	"The pointer left the browser window and dragging is therefore interrupted.
@@ -127,7 +129,7 @@ CpDragEvent class >> dragInterrupted: aPointerLeaveEvent [
 	down will continu the dragging.  See also #dragContinued:"
 ]
 
-{ #category : #'event handling - private' }
+{ #category : 'event handling - private' }
 CpDragEvent class >> dragMove: aPointerMoveEvent [
 
 	| dragEvent |
@@ -149,7 +151,7 @@ CpDragEvent class >> dragMove: aPointerMoveEvent [
 	dragEvent dispatch
 ]
 
-{ #category : #'event handling - private' }
+{ #category : 'event handling - private' }
 CpDragEvent class >> dragStart: aPointerDownEvent [
 
 	"Start a drag event if only the primary button is pressed.
@@ -168,7 +170,7 @@ CpDragEvent class >> dragStart: aPointerDownEvent [
 	self installSupportingEvents
 ]
 
-{ #category : #'event handling - private' }
+{ #category : 'event handling - private' }
 CpDragEvent class >> installSupportingEvents [
 
 	"Install (if needed) helper events when dragging started
@@ -195,7 +197,7 @@ CpDragEvent class >> installSupportingEvents [
 	] ensure: [ SupportingEventsInstalled := true ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpDragEvent class >> minimalMovement [
 
 	"Answer the minimal movement (in pixels as Float) to consider a drag is being started"
@@ -203,7 +205,7 @@ CpDragEvent class >> minimalMovement [
 	^ 12.0
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 CpDragEvent class >> newFromPointerEvent: aPointerEvent [
 
 	^ self basicNew
@@ -211,7 +213,7 @@ CpDragEvent class >> newFromPointerEvent: aPointerEvent [
 		yourself
 ]
 
-{ #category : #'class initialization' }
+{ #category : 'class initialization' }
 CpDragEvent class >> postInstallOnce [
 
 	DragInstances := IdentityDictionary new.
@@ -220,7 +222,7 @@ CpDragEvent class >> postInstallOnce [
 	self preventNativeDragEvents
 ]
 
-{ #category : #'event handling - private' }
+{ #category : 'event handling - private' }
 CpDragEvent class >> preventNativeDragEvents [
 
 	"The native drag support of Some browsers (like Firefox) need to be prevented"
@@ -228,7 +230,7 @@ CpDragEvent class >> preventNativeDragEvents [
 	CpHtmlElement documentAddScript: 'document.body.addEventListener("dragstart", function(event) { event.preventDefault(); });'
 ]
 
-{ #category : #announcing }
+{ #category : 'announcing' }
 CpDragEvent class >> removeListenerFrom: anElement [
 
 	"Remove event listener from the specified DOM element.
@@ -240,7 +242,7 @@ CpDragEvent class >> removeListenerFrom: anElement [
 	CpPointerDownEvent removeListenerFrom: anElement
 ]
 
-{ #category : #'event handling - private' }
+{ #category : 'event handling - private' }
 CpDragEvent class >> removeSupportingEvents [
 
 	"Remove (if needed) helper events for dragging (see #installSupportingEvents)"
@@ -257,7 +259,7 @@ CpDragEvent class >> removeSupportingEvents [
 		SupportingEventsInstalled := false ]
 ]
 
-{ #category : #updating }
+{ #category : 'updating' }
 CpDragEvent class >> updateAll [
 
 	"Update all instances by dispatching the most recent event"
@@ -265,13 +267,13 @@ CpDragEvent class >> updateAll [
 	DragInstances valuesDo: [ :each | each dispatch ]
 ]
 
-{ #category : #actions }
+{ #category : 'actions' }
 CpDragEvent >> cancel [
 
 	canceled := true
 ]
 
-{ #category : #actions }
+{ #category : 'actions' }
 CpDragEvent >> drop [
 
 	"Create a drop event and dispatch it, if the receiver is ended and not canceled.
@@ -282,7 +284,7 @@ CpDragEvent >> drop [
 	self forceDrop
 ]
 
-{ #category : #actions }
+{ #category : 'actions' }
 CpDragEvent >> end [
 
 	"Mark the receiver is ended (make the last added trace point the end point).
@@ -295,13 +297,13 @@ CpDragEvent >> end [
 	endPoint := tracePoints removeLast
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpDragEvent >> endPoint [
 
 	^ endPoint
 ]
 
-{ #category : #actions }
+{ #category : 'actions' }
 CpDragEvent >> forceDrop [
 
 	"Dispatch drop event.
@@ -313,7 +315,7 @@ CpDragEvent >> forceDrop [
 	CpDropEvent dispatchInstanceForDragEvent: self
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 CpDragEvent >> hasMoved [
 
 	"Answer whether the receiver started moving.
@@ -324,7 +326,7 @@ CpDragEvent >> hasMoved [
 	^ tracePoints size > 1
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 CpDragEvent >> ifCanceled: aBlock [
 
 	^ canceled
@@ -332,7 +334,7 @@ CpDragEvent >> ifCanceled: aBlock [
 		ifFalse: [ self ]
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 CpDragEvent >> ifEnded: aBlock [
 
 	^ endPoint
@@ -340,7 +342,7 @@ CpDragEvent >> ifEnded: aBlock [
 		ifNil: [ self ]
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 CpDragEvent >> ifStarted: aBlock [
 
 	"Evaluate the specified Block if the receiver is just started and made its first move"
@@ -350,7 +352,7 @@ CpDragEvent >> ifStarted: aBlock [
 		ifFalse: [ self ]
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 CpDragEvent >> initialize [
 
 	super initialize.
@@ -358,7 +360,7 @@ CpDragEvent >> initialize [
 	canceled := false
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 CpDragEvent >> initializeWithPointerEvent: aPointerEvent [
 
 	self initialize.
@@ -370,19 +372,19 @@ CpDragEvent >> initializeWithPointerEvent: aPointerEvent [
 	tracePoints := OrderedCollection with: aPointerEvent point
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 CpDragEvent >> isCanceled [
 
 	^ canceled
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 CpDragEvent >> isEnded [
 
 	^ endPoint notNil
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 CpDragEvent >> isStarted [
 
 	"Answer whether the receiver is just started and made its first move.
@@ -393,7 +395,7 @@ CpDragEvent >> isStarted [
 	^ tracePoints size = 2
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpDragEvent >> lastDelta [
 
 	| lastPoint penultimatePoint |
@@ -407,19 +409,19 @@ CpDragEvent >> lastDelta [
 	^ lastPoint - penultimatePoint
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpDragEvent >> offsetX [
 
 	^ offset x
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpDragEvent >> offsetY [
 
 	^ offset y
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpDragEvent >> point [
 
 	"Answer the current point"
@@ -427,7 +429,7 @@ CpDragEvent >> point [
 	^ endPoint ifNil: [ tracePoints last ]
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 CpDragEvent >> printOn: aStream [
 
 	super printOn: aStream.
@@ -444,13 +446,13 @@ CpDragEvent >> printOn: aStream [
 		print: self isCanceled
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpDragEvent >> startPoint [
 
 	^ tracePoints first
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpDragEvent >> tracePoints [
 
 	"Answer a collection of Points representing the trace the drag made.
@@ -459,7 +461,7 @@ CpDragEvent >> tracePoints [
 	^ tracePoints
 ]
 
-{ #category : #'processing - private' }
+{ #category : 'processing - private' }
 CpDragEvent >> updateWithPointerEvent: aPointerEvent [
 
 	timeStamp := aPointerEvent timeStamp.

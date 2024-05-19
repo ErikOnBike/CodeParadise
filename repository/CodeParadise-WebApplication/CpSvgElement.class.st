@@ -17,18 +17,20 @@ Example:
 	]]]
 "
 Class {
-	#name : #CpSvgElement,
-	#superclass : #CpXmlElement,
-	#category : #'CodeParadise-WebApplication-DOM'
+	#name : 'CpSvgElement',
+	#superclass : 'CpXmlElement',
+	#category : 'CodeParadise-WebApplication-DOM',
+	#package : 'CodeParadise-WebApplication',
+	#tag : 'DOM'
 }
 
-{ #category : #'class initialization' }
+{ #category : 'class initialization' }
 CpSvgElement class >> namespace [
 
 	^ 'http://www.w3.org/2000/svg'
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpSvgElement class >> prefix [
 
 	^ #svg

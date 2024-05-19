@@ -7,30 +7,32 @@ I am mainly used to supply a result for the CpDomElement >> #boundingClientRecta
 
 "
 Class {
-	#name : #CpDomRectangle,
-	#superclass : #Object,
+	#name : 'CpDomRectangle',
+	#superclass : 'Object',
 	#instVars : [
 		'top',
 		'left',
 		'bottom',
 		'right'
 	],
-	#category : #'CodeParadise-WebApplication-DOM'
+	#category : 'CodeParadise-WebApplication-DOM',
+	#package : 'CodeParadise-WebApplication',
+	#tag : 'DOM'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpDomRectangle >> bottom [
 
 	^ bottom
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpDomRectangle >> bottom: anInteger [
 
 	bottom := anInteger
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpDomRectangle >> centerPoint [
 
 	"Answer a Point in the center (horizontally and vertically) of the receiver"
@@ -38,14 +40,14 @@ CpDomRectangle >> centerPoint [
 	^ ((left + right) / 2) @ ((top + bottom) / 2)
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 CpDomRectangle >> containsPoint: aPoint [
 
 	^ (aPoint x between: left and: right) and: [
 		aPoint y between: top and: bottom ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpDomRectangle >> eastPoint [
 
 	"Answer a Point in the east of the receiver"
@@ -53,13 +55,13 @@ CpDomRectangle >> eastPoint [
 	^ right @ ((top + bottom) / 2)
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpDomRectangle >> height [
 
 	^ bottom - top
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 CpDomRectangle >> initialize [
 
 	super initialize.
@@ -67,19 +69,19 @@ CpDomRectangle >> initialize [
 	top := left := bottom := right := 0
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpDomRectangle >> left [
 
 	^ left
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpDomRectangle >> left: anInteger [
 
 	left := anInteger
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpDomRectangle >> northPoint [
 
 	"Answer a Point in the north of the receiver"
@@ -87,7 +89,7 @@ CpDomRectangle >> northPoint [
 	^ ((left + right) / 2) @ top
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 CpDomRectangle >> printOn: aStream [
 
 	aStream
@@ -103,19 +105,19 @@ CpDomRectangle >> printOn: aStream [
 		nextPut: $)
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpDomRectangle >> right [
 
 	^ right
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpDomRectangle >> right: anInteger [
 
 	right := anInteger
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpDomRectangle >> southPoint [
 
 	"Answer a Point in the south of the receiver"
@@ -123,19 +125,19 @@ CpDomRectangle >> southPoint [
 	^ ((left + right) / 2) @ bottom
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpDomRectangle >> top [
 
 	^ top
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpDomRectangle >> top: anInteger [
 
 	top := anInteger
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpDomRectangle >> westPoint [
 
 	"Answer a Point in the west of the receiver"
@@ -143,7 +145,7 @@ CpDomRectangle >> westPoint [
 	^ left @ ((top + bottom) / 2)
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpDomRectangle >> width [
 
 	^ right - left

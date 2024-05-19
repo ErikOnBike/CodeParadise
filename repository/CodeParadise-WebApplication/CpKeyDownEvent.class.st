@@ -5,7 +5,9 @@ the device I'm running on.
 
 "
 Class {
-	#name : #CpKeyDownEvent,
-	#superclass : #CpKeyEvent,
-	#category : #'CodeParadise-WebApplication-Events'
+	#name : 'CpKeyDownEvent',
+	#superclass : 'CpKeyEvent',
+	#category : 'CodeParadise-WebApplication-Events',
+	#package : 'CodeParadise-WebApplication',
+	#tag : 'Events'
 }

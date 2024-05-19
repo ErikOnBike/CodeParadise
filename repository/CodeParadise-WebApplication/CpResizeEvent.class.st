@@ -1,10 +1,12 @@
 Class {
-	#name : #CpResizeEvent,
-	#superclass : #CpCustomEvent,
-	#category : #'CodeParadise-WebApplication-Events-Custom'
+	#name : 'CpResizeEvent',
+	#superclass : 'CpCustomEvent',
+	#category : 'CodeParadise-WebApplication-Events-Custom',
+	#package : 'CodeParadise-WebApplication',
+	#tag : 'Events-Custom'
 }
 
-{ #category : #announcing }
+{ #category : 'announcing' }
 CpResizeEvent class >> addListenerTo: anElement [
 
 	"Add a browser event listener to the specified element"
@@ -15,13 +17,13 @@ CpResizeEvent class >> addListenerTo: anElement [
 	super addListenerTo: anElement
 ]
 
-{ #category : #announcing }
+{ #category : 'announcing' }
 CpResizeEvent class >> addResizeObserverTo: anElement [
 
 	CpHtmlElement globalApply: #addResizeObserverTo: withArguments: { anElement }
 ]
 
-{ #category : #'class initialization' }
+{ #category : 'class initialization' }
 CpResizeEvent class >> installCode [
 
 	"Install code for the receiver.
@@ -49,13 +51,13 @@ CpResizeEvent class >> installCode [
 		};'
 ]
 
-{ #category : #'class initialization' }
+{ #category : 'class initialization' }
 CpResizeEvent class >> postInstallOnce [
 
 	self installCode
 ]
 
-{ #category : #announcing }
+{ #category : 'announcing' }
 CpResizeEvent class >> removeListenerFrom: anElement [
 
 	"Remove a browser event listener from the specified element"
@@ -66,7 +68,7 @@ CpResizeEvent class >> removeListenerFrom: anElement [
 	super removeListenerFrom: anElement
 ]
 
-{ #category : #announcing }
+{ #category : 'announcing' }
 CpResizeEvent class >> removeResizeObserverFrom: anElement [
 
 	CpHtmlElement globalApply: #removeResizeObserverFrom: withArguments: { anElement }

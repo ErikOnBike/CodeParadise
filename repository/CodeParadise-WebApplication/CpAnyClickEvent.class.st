@@ -39,8 +39,8 @@ match (different position or different modifiers pressed) the created click even
 be disgarded.
 "
 Class {
-	#name : #CpAnyClickEvent,
-	#superclass : #CpSyntheticEvent,
+	#name : 'CpAnyClickEvent',
+	#superclass : 'CpSyntheticEvent',
 	#instVars : [
 		'pointerDownEvent',
 		'pointerUpEvent'
@@ -50,10 +50,12 @@ Class {
 		'ClickTargets',
 		'SupportingEventsInstalled'
 	],
-	#category : #'CodeParadise-WebApplication-Events-Custom'
+	#category : 'CodeParadise-WebApplication-Events-Custom',
+	#package : 'CodeParadise-WebApplication',
+	#tag : 'Events-Custom'
 }
 
-{ #category : #announcing }
+{ #category : 'announcing' }
 CpAnyClickEvent class >> addListenerTo: anElement [
 
 	"Add an event listener to the specified DOM element.
@@ -67,7 +69,7 @@ CpAnyClickEvent class >> addListenerTo: anElement [
 	anElement when: CpPointerDownEvent send: #clickStart: to: self
 ]
 
-{ #category : #'event handling - private' }
+{ #category : 'event handling - private' }
 CpAnyClickEvent class >> cleanUpAfterEvent: aPointerOrAnyClickEvent [
 
 	"Clean up any remaining event handlers after receiving the pointer event"
@@ -81,7 +83,7 @@ CpAnyClickEvent class >> cleanUpAfterEvent: aPointerOrAnyClickEvent [
 	self removeSupportingEvents
 ]
 
-{ #category : #'event handling - private' }
+{ #category : 'event handling - private' }
 CpAnyClickEvent class >> clickDone: aPointerUpEvent [
 
 	"All click events have been handled, remove any pending handlers"
@@ -89,7 +91,7 @@ CpAnyClickEvent class >> clickDone: aPointerUpEvent [
 	self cleanUpAfterEvent: aPointerUpEvent
 ]
 
-{ #category : #'event handling - private' }
+{ #category : 'event handling - private' }
 CpAnyClickEvent class >> clickEnd: aPointerUpEvent [
 
 	"Finalize the click event.
@@ -131,7 +133,7 @@ CpAnyClickEvent class >> clickEnd: aPointerUpEvent [
 	clickEvent dispatch
 ]
 
-{ #category : #'event handling - private' }
+{ #category : 'event handling - private' }
 CpAnyClickEvent class >> clickInterrupted: aPointerLeaveEvent [
 
 	"The pointer left the browser window and clicking is therefore interrupted"
@@ -139,7 +141,7 @@ CpAnyClickEvent class >> clickInterrupted: aPointerLeaveEvent [
 	self cleanUpAfterEvent: aPointerLeaveEvent
 ]
 
-{ #category : #'event handling - private' }
+{ #category : 'event handling - private' }
 CpAnyClickEvent class >> clickStart: aPointerDownEvent [
 
 	"The start of an AnyClickEvent is triggered by a pointer down event.
@@ -170,7 +172,7 @@ CpAnyClickEvent class >> clickStart: aPointerDownEvent [
 	self installSupportingEvents
 ]
 
-{ #category : #'event handling - private' }
+{ #category : 'event handling - private' }
 CpAnyClickEvent class >> handlesClickEvent: aPointerEvent [
 
 	"Accept any kind of click.
@@ -181,7 +183,7 @@ CpAnyClickEvent class >> handlesClickEvent: aPointerEvent [
 	^ true
 ]
 
-{ #category : #'event handling - private' }
+{ #category : 'event handling - private' }
 CpAnyClickEvent class >> installSupportingEvents [
 
 	"Install (if needed) helper events when clicking started
@@ -206,7 +208,7 @@ CpAnyClickEvent class >> installSupportingEvents [
 	] ensure: [ SupportingEventsInstalled := true ]
 ]
 
-{ #category : #'instance creation' }
+{ #category : 'instance creation' }
 CpAnyClickEvent class >> newFromPointerEvent: aPointerDownEvent [
 
 	"Answer a new instance of the receiver using a PointerDownEvent
@@ -219,7 +221,7 @@ CpAnyClickEvent class >> newFromPointerEvent: aPointerDownEvent [
 		yourself
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 CpAnyClickEvent class >> postInstallOnce [
 
 	"Create temporary storage structure and a global event handler
@@ -230,7 +232,7 @@ CpAnyClickEvent class >> postInstallOnce [
 	SupportingEventsInstalled := false
 ]
 
-{ #category : #announcing }
+{ #category : 'announcing' }
 CpAnyClickEvent class >> removeListenerFrom: anElement [
 
 	"Remove event listener from the specified DOM element.
@@ -242,7 +244,7 @@ CpAnyClickEvent class >> removeListenerFrom: anElement [
 	CpPointerDownEvent removeListenerFrom: anElement
 ]
 
-{ #category : #'event handling - private' }
+{ #category : 'event handling - private' }
 CpAnyClickEvent class >> removeSupportingEvents [
 
 	"Remove (if needed) helper events for clicking (see #installSupportingEvents)"
@@ -257,25 +259,25 @@ CpAnyClickEvent class >> removeSupportingEvents [
 		SupportingEventsInstalled := false ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpAnyClickEvent >> button [
 
 	^ pointerUpEvent button
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpAnyClickEvent >> clientX [
 
 	^ pointerUpEvent clientX
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpAnyClickEvent >> clientY [
 
 	^ pointerUpEvent clientY
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpAnyClickEvent >> duration [
 
 	"Answer the duration (as Integer in milliseconds) of the click
@@ -285,7 +287,7 @@ CpAnyClickEvent >> duration [
 	^ pointerUpEvent timeStamp - pointerDownEvent timeStamp
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 CpAnyClickEvent >> hasOriginatedFrom: aPointerDownEvent [
 
 	"Answer whether the receiver is created using the specified PointerDown event"
@@ -293,7 +295,7 @@ CpAnyClickEvent >> hasOriginatedFrom: aPointerDownEvent [
 	^ pointerDownEvent == aPointerDownEvent
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 CpAnyClickEvent >> initializeWithPointerDownEvent: aPointerDownEvent [
 
 	"Initialize the receiver with the click start event (i.e. PointerDownEvent).
@@ -313,7 +315,7 @@ CpAnyClickEvent >> initializeWithPointerDownEvent: aPointerDownEvent [
 	pointerDownEvent := aPointerDownEvent
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 CpAnyClickEvent >> isLongClick [
 
 	"Answer whether the receiver represents a long press.
@@ -325,19 +327,19 @@ CpAnyClickEvent >> isLongClick [
 	^ CpLongClick matches: self
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 CpAnyClickEvent >> isPrimaryButtonPressed [
 
 	^ self button = 0
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 CpAnyClickEvent >> isSecondaryButtonPressed [
 
 	^ self button = 2
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 CpAnyClickEvent >> isShortClick [
 
 	"Answer whether the receiver represents a short press.
@@ -349,61 +351,61 @@ CpAnyClickEvent >> isShortClick [
 	^ CpShortClick matches: self
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpAnyClickEvent >> movementX [
 
 	^ pointerUpEvent screenX - pointerDownEvent screenX
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpAnyClickEvent >> movementY [
 
 	^ pointerUpEvent screenY - pointerDownEvent screenY
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpAnyClickEvent >> offset [
 
 	^ pointerUpEvent offset
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpAnyClickEvent >> offsetX [
 
 	^ pointerUpEvent offsetX
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpAnyClickEvent >> offsetY [
 
 	^ pointerUpEvent offsetY
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpAnyClickEvent >> pageX [
 
 	^ pointerUpEvent pageX
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpAnyClickEvent >> pageY [
 
 	^ pointerUpEvent pageY
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpAnyClickEvent >> point [
 
 	^ pointerUpEvent point
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpAnyClickEvent >> pointerId [
 
 	^ pointerUpEvent pointerId
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 CpAnyClickEvent >> printOn: aStream [
 
 	super printOn: aStream.
@@ -430,7 +432,7 @@ CpAnyClickEvent >> printOn: aStream [
 				print: pointerDownEvent ]
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 CpAnyClickEvent >> release [
 
 	pointerDownEvent := nil.
@@ -439,25 +441,25 @@ CpAnyClickEvent >> release [
 	super release
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpAnyClickEvent >> screenX [
 
 	^ pointerUpEvent screenX
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpAnyClickEvent >> screenY [
 
 	^ pointerUpEvent screenY
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CpAnyClickEvent >> target [
 
 	^ pointerUpEvent target
 ]
 
-{ #category : #'processing - private' }
+{ #category : 'processing - private' }
 CpAnyClickEvent >> updateWithPointerUpEvent: aPointerUpEvent [
 
 	"Update the receiver for dispatching, by registering the PointerUpEvent.
