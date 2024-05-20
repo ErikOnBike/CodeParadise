@@ -157,24 +157,37 @@ CpTransition class >> performTransitions [
 
 	"Handle 'ticking' all transitions of the receiver"
 
-	| currentTick finishedTransitions |
+	| currentTransitions currentTick finishedTransitions |
 
-	Transitions ifEmpty: [ ^ self ].
+ 	"For avoiding 'Transitions' class variable captured as nil in select: block. (Bug in SqueakJS?)"
+ 	currentTransitions := Transitions.
+	currentTransitions ifEmpty: [ ^ self ].
 
-	currentTick := self tickCount.
+	"For performance use a single error handler (instead of one per transition)"
+	[
+		currentTick := self tickCount.
 
-	"Handle all transitions keeping track which have finished"
-	finishedTransitions := Transitions select: [ :each |
-		each startTick
-			ifNotNil: [ :startTick |
-				startTick <= currentTick
-					ifTrue: [
-						each handleTick: currentTick - startTick.
-						each startTick isNil "remove transition if finished" ]
-					ifFalse: [ false "keep transition because it runs in the future" ] ]
-			ifNil: [ true "remove transition because it has no start time" ] ].
+		"Handle all transitions keeping track which have finished"
+		finishedTransitions := currentTransitions select: [ :each |
+			each startTick
+				ifNotNil: [ :startTick |
+					startTick <= currentTick
+						ifTrue: [
+							each handleTick: currentTick - startTick.
+							each startTick isNil "remove transition if finished" ]
+						ifFalse: [ false "keep transition because it runs in the future" ] ]
+				ifNil: [ true "remove transition because it has no start time" ] ].
 
-	self unregisterFinishedTransitions: finishedTransitions
+		self unregisterFinishedTransitions: finishedTransitions
+	] on: Error do: [ :error |
+
+		"Announce the error (for debugger or otherwise)"
+		CpExceptionAnnouncer announceException: error.
+
+		self errorCr: 'Error when handling transitions'.
+		self errorCr: error description.
+		self errorCr: error signalerContext printString 
+	]
 ]
 
 { #category : #'class initialization' }
