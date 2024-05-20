@@ -78,5 +78,8 @@ CpNodeJSRestCollection class >> tryToHandleRequest: aRestRequest response: aServ
 { #category : #private }
 CpNodeJSRestCollection class >> writeResponse: anObject to: aServerResponse [
 
-	"TODO"
+	aServerResponse
+		writeChunk: anObject printString ;
+		statusCode: CpNodeJSRestHttpServer statusOK ;
+		end
 ]
