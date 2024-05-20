@@ -17,6 +17,20 @@ CpNodeJSRestRequest class >> fromIncomingMessage: anIncomingMessage [
 ]
 
 { #category : #accessing }
+CpNodeJSRestRequest >> body [
+
+	"Answer the body of the request.
+
+	Implementation:
+	Since the incomingMessage is a subclass of readable stream, it represents
+	the body itself. Be aware it requires an event mechanism to retrieve the
+	content.
+	See also CpNodeJSStreamReadable"
+
+	^ incomingMessage
+]
+
+{ #category : #accessing }
 CpNodeJSRestRequest >> headerAt: aSymbol [
 
 	"Answer the value of the specified header

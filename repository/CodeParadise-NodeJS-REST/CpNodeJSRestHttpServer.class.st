@@ -68,10 +68,10 @@ CpNodeJSRestHttpServer >> handleRequest: anIncomingMessage response: aServerResp
 
 	| request |
 
-	self traceCr: 'Received message: ', anIncomingMessage printString.
-
-	request := CpNodeJSRestRequest fromIncomingMessage: anIncomingMessage.
-	CpNodeJSRestCollection handleRequest: request response: aServerResponse.
+	[
+		request := CpNodeJSRestRequest fromIncomingMessage: anIncomingMessage.
+		CpNodeJSRestCollection handleRequest: request response: aServerResponse.
+	] on: Error do: [ :error | self errorCr: error printString ].
 
 	aServerResponse
 		writeChunk: 'Hello world', String lf ;
