@@ -1,5 +1,5 @@
 Class {
-	#name : #CpNodeJSRestParameterHeader,
+	#name : #CpNodeJSRestHeaderParameter,
 	#superclass : #CpNodeJSRestParameter,
 	#instVars : [
 		'key'
@@ -8,7 +8,7 @@ Class {
 }
 
 { #category : #'instance creation' }
-CpNodeJSRestParameterHeader class >> withKey: aSymbol [
+CpNodeJSRestHeaderParameter class >> withKey: aSymbol [
 
 	^ self basicNew
 		initializeWithKey: aSymbol ;
@@ -16,7 +16,7 @@ CpNodeJSRestParameterHeader class >> withKey: aSymbol [
 ]
 
 { #category : #initialization }
-CpNodeJSRestParameterHeader >> initializeWithKey: aSymbol [
+CpNodeJSRestHeaderParameter >> initializeWithKey: aSymbol [
 
 	self initialize.
 
@@ -24,13 +24,13 @@ CpNodeJSRestParameterHeader >> initializeWithKey: aSymbol [
 ]
 
 { #category : #initialization }
-CpNodeJSRestParameterHeader >> key [
+CpNodeJSRestHeaderParameter >> key [
 
 	^ key
 ]
 
 { #category : #accessing }
-CpNodeJSRestParameterHeader >> valueFromRequest: aRestRequest forEndpoint: aRestEndpoint [
+CpNodeJSRestHeaderParameter >> valueFromRequest: aRestRequest forEndpoint: aRestEndpoint [
 
-	^ aRestRequest headerAt: key
+	^ CpNodeJSRestParameterValue value: (aRestRequest headerAt: key)
 ]
