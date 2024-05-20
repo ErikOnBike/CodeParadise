@@ -1,6 +1,9 @@
 Class {
 	#name : #CpNodeJSRestPathPattern,
 	#superclass : #CpNodeJSRestPath,
+	#instVars : [
+		'paramMapping'
+	],
 	#category : #'CodeParadise-NodeJS-REST-Core'
 }
 
@@ -44,6 +47,16 @@ CpNodeJSRestPathPattern >> parameterNames [
 	"Answer the parameter names"
 
 	^ paramMapping keys
+]
+
+{ #category : #printing }
+CpNodeJSRestPathPattern >> printOn: aStream [
+
+	super printOn: aStream.
+
+	aStream
+		nextPutAll: ', params: ' ;
+		print: paramMapping
 ]
 
 { #category : #private }

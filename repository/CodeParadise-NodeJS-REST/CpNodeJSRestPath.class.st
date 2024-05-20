@@ -2,8 +2,7 @@ Class {
 	#name : #CpNodeJSRestPath,
 	#superclass : #Object,
 	#instVars : [
-		'pathSegments',
-		'paramMapping'
+		'pathSegments'
 	],
 	#category : #'CodeParadise-NodeJS-REST-Core'
 }
@@ -27,6 +26,12 @@ CpNodeJSRestPath >> initializeFromString: aString [
 ]
 
 { #category : #testing }
+CpNodeJSRestPath >> isEmpty [
+
+	^ pathSegments isEmpty
+]
+
+{ #category : #testing }
 CpNodeJSRestPath >> matchesPath: aPath [
 
 	"Answer whether the receiver matches the specified path segments"
@@ -36,9 +41,18 @@ CpNodeJSRestPath >> matchesPath: aPath [
 
 	1 to: pathSegments size do: [ :index |
 		(self segmentAt: index matches: (aPath segmentAt: index))
-			ifTrue: [ ^ false ] ].
+			ifFalse: [ ^ false ] ].
 
 	^ true
+]
+
+{ #category : #printing }
+CpNodeJSRestPath >> printOn: aStream [
+
+	aStream
+		nextPutAll: self class name ;
+		nextPutAll: ', segments: ' ;
+		print: pathSegments
 ]
 
 { #category : #accessing }
