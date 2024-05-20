@@ -37,9 +37,9 @@ CpNodeJSRestEndpoint >> handleRequest: aRestRequest response: aServerResponse [
 		parameters at: index put: (parameter valueFromRequest: aRestRequest forEndpoint: self) ].
 
 	"Perform the operation (which is a class method)"
-	operation methodClass
+	operation methodClass instanceSide
 		performEndpointOperation: operation selector
-		withArguments: parameters
+		withParameters: parameters
 		response: aServerResponse.
 
 	^ true
