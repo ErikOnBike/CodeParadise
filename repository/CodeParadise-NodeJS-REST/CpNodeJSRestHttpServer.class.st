@@ -105,16 +105,38 @@ CpNodeJSRestHttpServer >> createServer [
 { #category : #'event handling' }
 CpNodeJSRestHttpServer >> handleRequest: anIncomingMessage response: aServerResponse [
 
-	| request |
+	| request handled error |
 
+	handled := false.
 	[
 		request := CpNodeJSRestRequest fromIncomingMessage: anIncomingMessage.
-		CpNodeJSRestCollection handleRequest: request response: aServerResponse.
-	] on: Error do: [ :error | self errorCr: error printString ].
+		handled := CpNodeJSRestCollection handleRequest: request response: aServerResponse.
+	] on: Error do: [ :err | error := err ].
 
+	"Check if we're done"
+	aServerResponse writableEnded
+		ifTrue: [ ^ self ].
+
+	"Did an error occur?"
+	error ifNotNil: [
+		aServerResponse
+			writeChunk: 'Internal Error: ', (self class responseStringFromError: error), String lf ;
+			statusCode: CpNodeJSRestError responseCode ;
+			end.
+		^ self ].
+
+	"Could we handle the request?"
+	handled ifFalse: [
+		aServerResponse
+			writeChunk: 'Resource not found', String lf ;
+			statusCode: CpNodeJSRestNotFoundError responseCode ;
+			end.
+		^ self ].
+
+	"If all else failed (handled, no response and no error?!)"
 	aServerResponse
-		writeChunk: 'Hello world', String lf ;
-		statusCode: 200 ;
+		writeChunk: 'Internal Error: Could not handle request, all else failed', String lf ;
+		statusCode: CpNodeJSRestError responseCode ;
 		end
 ]
 

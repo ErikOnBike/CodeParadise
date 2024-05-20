@@ -73,7 +73,7 @@ CpNodeJSRestEndpoint >> initializeWithCompiledMethod: aCompiledMethod [
 			requiredParams
 				at: pragma arguments first
 				ifPresent: [ self error: 'REST endpoint param ', pragma arguments first printString, ' defined multiple times' ]
-				ifAbsentPut: [ CpNodeJSRestParameter fromLocation: pragma arguments second at: pragma arguments third ] ]
+				ifAbsentPut: [ CpNodeJSRestParameter fromLocation: pragma arguments second at: pragma arguments third ] ] ;
 		yourself.
 
 	"Handle all pragmas to fill my instance variables"
