@@ -15,6 +15,16 @@ Object >> cpEncoded [
 ]
 
 { #category : #'*CodeParadise-RemoteEnvironment' }
+Object >> isErrorObject [
+
+	"Answer whether the receiver represents an Error"
+
+	<applicationExtension>
+
+	^ false
+]
+
+{ #category : #'*CodeParadise-RemoteEnvironment' }
 Object >> isJavaScriptObject [
 
 	<applicationExtension>
