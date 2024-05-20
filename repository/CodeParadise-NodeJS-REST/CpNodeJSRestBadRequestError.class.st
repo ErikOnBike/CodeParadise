@@ -5,7 +5,7 @@ Class {
 }
 
 { #category : #accessing }
-CpNodeJSRestBadRequestError >> responseCode [
+CpNodeJSRestBadRequestError class >> responseCode [
 
 	^ 400
 ]

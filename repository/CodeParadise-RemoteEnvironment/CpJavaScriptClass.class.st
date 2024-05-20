@@ -26,6 +26,14 @@ CpJavaScriptClass class >> forName: aString [
 		getClassRefFrom: aString resultAs: self
 ]
 
+{ #category : #accessing }
+CpJavaScriptClass >> name [
+
+	"Answer the actual (non Smalltalk) name of the receiver"
+
+	^ self propertyAt: #name
+]
+
 { #category : #'instance creation' }
 CpJavaScriptClass >> newInstance [
 

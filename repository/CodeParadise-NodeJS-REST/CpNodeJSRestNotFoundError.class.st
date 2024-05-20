@@ -5,7 +5,7 @@ Class {
 }
 
 { #category : #accessing }
-CpNodeJSRestNotFoundError >> responseCode [
+CpNodeJSRestNotFoundError class >> responseCode [
 
 	^ 404
 ]

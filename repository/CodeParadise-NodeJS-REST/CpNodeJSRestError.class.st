@@ -5,7 +5,13 @@ Class {
 }
 
 { #category : #accessing }
-CpNodeJSRestError >> responseCode [
+CpNodeJSRestError class >> responseCode [
 
 	^ 500
+]
+
+{ #category : #accessing }
+CpNodeJSRestError >> responseCode [
+
+	^ self class responseCode
 ]

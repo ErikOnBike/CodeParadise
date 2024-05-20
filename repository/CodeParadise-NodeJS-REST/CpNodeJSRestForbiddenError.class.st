@@ -5,7 +5,7 @@ Class {
 }
 
 { #category : #accessing }
-CpNodeJSRestForbiddenError >> responseCode [
+CpNodeJSRestForbiddenError class >> responseCode [
 
 	^ 403
 ]

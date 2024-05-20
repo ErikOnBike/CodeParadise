@@ -54,6 +54,45 @@ CpNodeJSRestHttpServer class >> preSnapshotOnce [
 	self allInstancesDo: [ :each | each stopServer ]
 ]
 
+{ #category : #accessing }
+CpNodeJSRestHttpServer class >> responseStringFromError: anError [
+
+	"Answer a response string from the specified error"
+
+	| error |
+
+	error := anError.
+
+	[
+		"Go deeper into the cause until nothing left"
+		(error cause
+			ifNotNil: [ :cause |
+				cause isErrorObject
+					ifTrue: [ error := cause ]
+					ifFalse: [ nil ] ]) isNotNil
+	] whileTrue.
+
+	^ error description
+]
+
+{ #category : #accessing }
+CpNodeJSRestHttpServer class >> statusCreated [
+
+	^ 201
+]
+
+{ #category : #accessing }
+CpNodeJSRestHttpServer class >> statusNoContent [
+
+	^ 204
+]
+
+{ #category : #accessing }
+CpNodeJSRestHttpServer class >> statusOK [
+
+	^ 200
+]
+
 { #category : #server }
 CpNodeJSRestHttpServer >> createServer [
 

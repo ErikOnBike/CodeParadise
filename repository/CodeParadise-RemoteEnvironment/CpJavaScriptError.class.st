@@ -12,6 +12,18 @@ CpJavaScriptError >> cause [
 	^ self propertyAt: #cause
 ]
 
+{ #category : #accessing }
+CpJavaScriptError >> description [
+
+	"Answer a description of the receiver (similar to Exception >> #description)"
+
+	^ String streamContents: [ :stream |
+		| message |
+		stream << (self getClass name ifNil: [ 'Error' ]).
+		(message := self message) isEmptyOrNil
+			ifFalse: [ stream << ': ' << message ] ]
+]
+
 { #category : #testing }
 CpJavaScriptError >> isErrorObject [
 

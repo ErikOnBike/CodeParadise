@@ -5,7 +5,7 @@ Class {
 }
 
 { #category : #accessing }
-CpNodeJSRestUnauthorizedError >> responseCode [
+CpNodeJSRestUnauthorizedError class >> responseCode [
 
 	^ 401
 ]

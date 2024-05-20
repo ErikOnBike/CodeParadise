@@ -5,7 +5,7 @@ Class {
 }
 
 { #category : #accessing }
-CpNodeJSRestMethodNotAllowedError >> responseCode [
+CpNodeJSRestMethodNotAllowedError class >> responseCode [
 
 	^ 405
 ]

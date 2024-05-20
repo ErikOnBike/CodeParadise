@@ -5,7 +5,7 @@ Class {
 }
 
 { #category : #accessing }
-CpNodeJSRestServiceUnavailableError >> responseCode [
+CpNodeJSRestServiceUnavailableError class >> responseCode [
 
 	^ 503
 ]
