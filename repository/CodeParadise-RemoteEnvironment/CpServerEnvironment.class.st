@@ -467,6 +467,31 @@ CpServerEnvironment >> release [
 	super release
 ]
 
+{ #category : #'adding/removing' }
+CpServerEnvironment >> removeMethod: aCompiledMethod [
+
+	"Remove the specified CompiledMethod from the client environment of the receiver and answer it"
+
+	| methodElement |
+
+	installationMutex critical: [
+
+		(self hasInstalledClass: aCompiledMethod methodClass instanceSide)
+			ifFalse: [
+
+				"Only methods which are not part of installed classes need to be remembered.
+				Others will be installed based on the class definition during reload/restart.
+				Prevent this method from being remembered as needing installation."
+				methodElement := Association key: aCompiledMethod methodClass value: aCompiledMethod selector.
+				(installedMethods includes: methodElement)
+					ifTrue: [ installedMethods remove: methodElement ] ].
+
+		"Remove the method"
+		self uninstallMethod: aCompiledMethod.
+
+		^ aCompiledMethod ]
+]
+
 { #category : #announcing }
 CpServerEnvironment >> removeSubscription: aSubscription [
 
@@ -535,6 +560,20 @@ CpServerEnvironment >> stop [
 		flushSendMessages ;
 		stopCommunication ;
 		release
+]
+
+{ #category : #installing }
+CpServerEnvironment >> uninstallMethod: aCompiledMethod [
+
+	"Remove the specified CompiledMethod in the client environment.
+
+	Implementation:
+	Setting the receiver to nil indicates the ClientEnvironment as receiver."
+
+	self sendMessage: (MessageSend
+		receiver: nil
+		selector: #removeMethod:
+		arguments: { aCompiledMethod })
 ]
 
 { #category : #announcing }

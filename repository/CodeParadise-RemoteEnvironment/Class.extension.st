@@ -114,6 +114,16 @@ Class >> cpRequiredClassesDo: anOneArgBlock [
 ]
 
 { #category : #'*CodeParadise-RemoteEnvironment' }
+Class >> installMethod: aCompiledMethod [
+
+	"Install thw specified CompiledMethod in the receiver"
+
+	<clientEnvironment>
+
+	self installInstanceMethod: aCompiledMethod
+]
+
+{ #category : #'*CodeParadise-RemoteEnvironment' }
 Class >> postInstall [
 
 	"Perform any necessary initialization after receiver is installed in the ClientEnvironment.
@@ -188,6 +198,16 @@ Class >> preSnapshotOnce [
 	super class."
 
 	<applicationExtension>
+]
+
+{ #category : #'*CodeParadise-RemoteEnvironment' }
+Class >> removeMethod: aCompiledMethod [
+
+	"Remove the specified CompiledMethod from the receiver"
+
+	<clientEnvironment>
+
+	self removeInstanceMethod: aCompiledMethod
 ]
 
 { #category : #'*CodeParadise-RemoteEnvironment' }

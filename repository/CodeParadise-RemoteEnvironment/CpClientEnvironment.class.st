@@ -525,6 +525,14 @@ CpClientEnvironment >> reload [
 
 ]
 
+{ #category : #installing }
+CpClientEnvironment >> removeMethod: aCompiledMethod [
+
+	"Remove (decoded) CompiledMethod"
+
+	aCompiledMethod remove
+]
+
 { #category : #accessing }
 CpClientEnvironment >> removePersistentVariableAt: nameString [
 

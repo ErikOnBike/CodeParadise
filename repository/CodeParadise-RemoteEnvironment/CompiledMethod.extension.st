@@ -44,7 +44,15 @@ CompiledMethod >> install [
 	<clientEnvironment>
 
 	self methodClass
-		ifNotNil: [ :methodClass | 
-			methodClass addSelector: self selector withMethod: self.
-			self bindClassVariablesTo: methodClass instanceSide ]
+		ifNotNil: [ :methodClass | methodClass installMethod: self ]
+]
+
+{ #category : #'*CodeParadise-RemoteEnvironment' }
+CompiledMethod >> remove [
+	"Remove the receiver from its Class"
+
+	<clientEnvironment>
+
+	self methodClass
+		ifNotNil: [ :methodClass | methodClass removeMethod: self ]
 ]

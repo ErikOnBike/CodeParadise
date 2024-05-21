@@ -290,8 +290,15 @@ CpServerApplication >> methodChanged: anAnnouncement [
 	(self environment clientKnowsClass: methodClass)
 		ifTrue: [
 
-			"Add method in ClientEnviroment (making sure it is installed again on reload)"
-			self environment addMethod: method.
+			anAnnouncement isMethodRemoved
+				ifTrue: [
+
+					"Remove method from ClientEnviroment (making sure it is not installed again on reload)"
+					self environment removeMethod: method ]
+				ifFalse: [
+
+					"Add method in ClientEnviroment (making sure it is installed again on reload)"
+					self environment addMethod: method ].
 
 			^ true ].
 
@@ -354,9 +361,8 @@ CpServerApplication >> setUp [
 		when: CpClientStopped send: #stop: to: self.
 
 	"Ensure the receiver reacts to methods being changed on the server"
-	self flag: #todo. "Need to be able to remove methods in the ClientEnvironment as well"
 	SystemAnnouncer uniqueInstance weak
-		when: MethodAdded, MethodModified
+		when: MethodAdded, MethodModified, MethodRemoved
 		send: #methodChanged: to: self
 ]
 
