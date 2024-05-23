@@ -9,7 +9,7 @@ CpNodeJSBuffer class >> alloc: anInteger [
 
 	"Allocates a new Buffer of size bytes"
 
-	^ self apply: #alloc withArguments: { anInteger }
+	^ self apply: #alloc withArguments: { anInteger } resultAs: self
 ]
 
 { #category : #'instance creation' }
@@ -20,7 +20,7 @@ CpNodeJSBuffer class >> alloc: anInteger fill: anObject [
 	size <integer> The desired length of the new Buffer.
 	fill <string> | <Buffer> | <Uint8Array> | <integer> A value to pre-fill the new Buffer with. Default: 0"
 
-	^ self apply: #alloc withArguments: { anInteger . anObject }
+	^ self apply: #alloc withArguments: { anInteger . anObject } resultAs: self
 ]
 
 { #category : #'instance creation' }
@@ -32,7 +32,7 @@ CpNodeJSBuffer class >> alloc: anInteger fill: anObject encoding: aString [
 	fill <string> | <Buffer> | <Uint8Array> | <integer> A value to pre-fill the new Buffer with. Default: 0.
 	encoding <string> If fill is a string, this is its encoding. Default: 'utf8'."
 
-	^ self apply: #alloc withArguments: { anInteger . anObject . aString }
+	^ self apply: #alloc withArguments: { anInteger . anObject . aString } resultAs: self
 ]
 
 { #category : #accessing }
@@ -75,7 +75,7 @@ CpNodeJSBuffer class >> concat: anArray [
 
 	list <Buffer[]> | <Uint8Array[]> List of Buffer or Uint8Array instances to concatenate."
 
-	^ self apply: #concat withArguments: { anArray }
+	^ self apply: #concat withArguments: { anArray } resultAs: self
 ]
 
 { #category : #'instance creation' }
@@ -86,7 +86,7 @@ CpNodeJSBuffer class >> concat: anArray totalLength: anInteger [
 	list <Buffer[]> | <Uint8Array[]> List of Buffer or Uint8Array instances to concatenate.
 	totalLength <integer> Total length of the Buffer instances in list when concatenated."
 
-	^ self apply: #concat withArguments: { anArray . anInteger }
+	^ self apply: #concat withArguments: { anArray . anInteger } resultAs: self
 ]
 
 { #category : #'instance creation' }
@@ -94,7 +94,7 @@ CpNodeJSBuffer class >> from: anObject [
 
 	"Create a buffer from the specified object"
 
-	^ self apply: #from withArguments: { anObject }
+	^ self apply: #from withArguments: { anObject } resultAs: self
 ]
 
 { #category : #'instance creation' }
@@ -102,7 +102,7 @@ CpNodeJSBuffer class >> from: anObject encoding: aString [
 
 	"Create a buffer from the specified object"
 
-	^ self apply: #from withArguments: { anObject . aString }
+	^ self apply: #from withArguments: { anObject . aString } resultAs: self
 ]
 
 { #category : #'instance creation' }
@@ -110,7 +110,7 @@ CpNodeJSBuffer class >> from: anObject offset: anInteger [
 
 	"Create a buffer from the specified object"
 
-	^ self apply: #from withArguments: { anObject . anInteger }
+	^ self apply: #from withArguments: { anObject . anInteger } resultAs: self
 ]
 
 { #category : #'instance creation' }
@@ -118,7 +118,7 @@ CpNodeJSBuffer class >> from: anObject offset: offsetInteger length: lengthInteg
 
 	"Create a buffer from the specified object"
 
-	^ self apply: #from withArguments: { anObject . offsetInteger . lengthInteger }
+	^ self apply: #from withArguments: { anObject . offsetInteger . lengthInteger } resultAs: self
 ]
 
 { #category : #testing }
