@@ -59,20 +59,27 @@ CpNodeJSRestHttpServer class >> responseStringFromError: anError [
 
 	"Answer a response string from the specified error"
 
-	| error |
+	| error indent |
 
 	error := anError.
+	indent := ''.
 
-	[
-		"Go deeper into the cause until nothing left"
-		(error cause
-			ifNotNil: [ :cause |
-				cause isErrorObject
-					ifTrue: [ error := cause ]
-					ifFalse: [ nil ] ]) isNotNil
-	] whileTrue.
+	^ String streamContents: [ :stream |
+		[
+			"Write error description"
+			stream
+				nextPutAll: error description ;
+				nextPutAll: String lf.
 
-	^ error description
+			indent := indent, '    '.
+
+			"Go deeper into the cause until nothing left"
+			(error cause
+				ifNotNil: [ :cause |
+					cause isErrorObject
+						ifTrue: [ error := cause ]
+						ifFalse: [ nil ] ]) isNotNil
+		] whileTrue ]
 ]
 
 { #category : #accessing }
@@ -105,39 +112,22 @@ CpNodeJSRestHttpServer >> createServer [
 { #category : #'event handling' }
 CpNodeJSRestHttpServer >> handleRequest: anIncomingMessage response: aServerResponse [
 
-	| request handled error |
+	| request |
 
-	handled := false.
+	"Extract request from incoming message"
 	[
 		request := CpNodeJSRestRequest fromIncomingMessage: anIncomingMessage.
-		handled := CpNodeJSRestCollection handleRequest: request response: aServerResponse.
-	] on: Error do: [ :err | error := err ].
-
-	"Check if we're done"
-	aServerResponse writableEnded
-		ifTrue: [ ^ self ].
-
-	"Did an error occur?"
-	error ifNotNil: [
+	] on: Error do: [ :error |
 		aServerResponse
-			writeChunk: 'Internal Error: ', (self class responseStringFromError: error), String lf ;
-			statusCode: CpNodeJSRestError responseCode ;
+			writeChunk: (self class responseStringFromError: error) ;
+			writeChunk: String lf ;
+			statusCode: error restResponseCode ;
 			end.
-		^ self ].
+		^ self	
+	].
 
-	"Could we handle the request?"
-	handled ifFalse: [
-		aServerResponse
-			writeChunk: 'Resource not found', String lf ;
-			statusCode: CpNodeJSRestNotFoundError responseCode ;
-			end.
-		^ self ].
-
-	"If all else failed (handled, no response and no error?!)"
-	aServerResponse
-		writeChunk: 'Internal Error: Could not handle request, all else failed', String lf ;
-		statusCode: CpNodeJSRestError responseCode ;
-		end
+	"Handle actual request and write appropriate response"
+	CpNodeJSRestEndpointOperation handleRequest: request response: aServerResponse
 ]
 
 { #category : #initialization }
@@ -172,7 +162,7 @@ CpNodeJSRestHttpServer >> startServer [
 { #category : #server }
 CpNodeJSRestHttpServer >> stopServer [
 
-	self traceCr: 'Stop Shared Moments Accounts REST server'.
+	self traceCr: 'Stop REST server'.
 	server close.
 	server := nil
 ]

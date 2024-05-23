@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'key'
 	],
-	#category : #'CodeParadise-NodeJS-REST-Core'
+	#category : #'CodeParadise-NodeJS-REST-Request'
 }
 
 { #category : #'instance creation' }
@@ -30,7 +30,7 @@ CpNodeJSRestHeaderParameter >> key [
 ]
 
 { #category : #accessing }
-CpNodeJSRestHeaderParameter >> valueFromRequest: aRestRequest forEndpoint: aRestEndpoint [
+CpNodeJSRestHeaderParameter >> valueFromRequest: aRestRequest forEndpointOperation: aRestEndpointOperation [
 
 	^ CpNodeJSRestParameterValue value: (aRestRequest headerAt: key)
 ]

@@ -1,7 +1,7 @@
 Class {
 	#name : #CpNodeJSRestBodyParameterValue,
 	#superclass : #CpNodeJSRestParameterValue,
-	#category : #'CodeParadise-NodeJS-REST-Core'
+	#category : #'CodeParadise-NodeJS-REST-Request'
 }
 
 { #category : #testing }
@@ -24,18 +24,19 @@ CpNodeJSRestBodyParameterValue >> privateResolveThenDo: aBlock [
 	| buffer dataHandler endHandler errorHandler |
 
 	buffer := OrderedCollection new.
+
 	dataHandler := value onDataDo: [ :chunk | buffer add: chunk ].
 	endHandler := value onEndDo: [
 		value
 			removeDataHandler: dataHandler ;
-			removeEndedHandler: endHandler ;
+			removeEndHandler: endHandler ;
 			removeErrorHandler: errorHandler.
-		value := (CpNodeJSBuffer concat: buffer asArray) toString.
+		value := CpJavaScriptJSON parse: (CpNodeJSBuffer concat: buffer asArray) toString.
 		aBlock value ].
 	errorHandler := value onErrorDo: [ :error |
 		value
 			removeDataHandler: dataHandler ;
-			removeEndedHandler: endHandler ;
+			removeEndHandler: endHandler ;
 			removeErrorHandler: errorHandler.
 		value := error.
 		aBlock value ]

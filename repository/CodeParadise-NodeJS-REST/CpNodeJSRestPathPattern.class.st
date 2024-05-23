@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'paramMapping'
 	],
-	#category : #'CodeParadise-NodeJS-REST-Core'
+	#category : #'CodeParadise-NodeJS-REST-Request'
 }
 
 { #category : #testing }

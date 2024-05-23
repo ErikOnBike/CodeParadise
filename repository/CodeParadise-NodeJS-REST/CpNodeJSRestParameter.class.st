@@ -12,7 +12,7 @@ CpNodeJSRestPathParameter - parameter is one of the segments in the URL of the r
 Class {
 	#name : #CpNodeJSRestParameter,
 	#superclass : #Object,
-	#category : #'CodeParadise-NodeJS-REST-Core'
+	#category : #'CodeParadise-NodeJS-REST-Request'
 }
 
 { #category : #'instance creation' }
@@ -27,7 +27,7 @@ CpNodeJSRestParameter class >> fromLocation: aSymbol [
 { #category : #'instance creation' }
 CpNodeJSRestParameter class >> fromLocation: locationSymbol at: keySymbol [
 
-	locationSymbol == #path
+	locationSymbol == #body
 		ifTrue: [ ^ CpNodeJSRestBodyParameter new ].
 	locationSymbol == #header
 		ifTrue: [ ^ CpNodeJSRestHeaderParameter withKey: keySymbol ].
@@ -56,7 +56,7 @@ CpNodeJSRestParameter >> resolveThenDo: aBlock [
 ]
 
 { #category : #accessing }
-CpNodeJSRestParameter >> valueFromRequest: aRestRequest forEndpoint: aRestEndpoint [
+CpNodeJSRestParameter >> valueFromRequest: aRestRequest forEndpointOperation: aRestEndpointOperation [
 
 	self subclassResponsibility
 ]
