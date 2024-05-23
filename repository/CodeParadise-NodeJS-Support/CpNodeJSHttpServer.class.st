@@ -174,7 +174,7 @@ CpNodeJSHttpServer >> onCheckContinueDo: aBlock [
 	"Add an event listener and answer the handler (a JavaScript Function).
 	Use the handler to remove the listener later when no longer needed."
 
-	^ self addEventListener: #checkContinue handler: aBlock
+	^ self addListener: #checkContinue handler: aBlock
 ]
 
 { #category : #'event handling' }
@@ -193,7 +193,7 @@ CpNodeJSHttpServer >> onCheckExpectationDo: aBlock [
 	"Add an event listener and answer the handler (a JavaScript Function).
 	Use the handler to remove the listener later when no longer needed."
 
-	^ self addEventListener: #checkExpectation handler: aBlock
+	^ self addListener: #checkExpectation handler: aBlock
 ]
 
 { #category : #'event handling' }
@@ -219,7 +219,7 @@ CpNodeJSHttpServer >> onClientErrorDo: aBlock [
 	"Add an event listener and answer the handler (a JavaScript Function).
 	Use the handler to remove the listener later when no longer needed."
 
-	^ self addEventListener: #clientError handler: aBlock
+	^ self addListener: #clientError handler: aBlock
 ]
 
 { #category : #'event handling' }
@@ -242,7 +242,7 @@ CpNodeJSHttpServer >> onConnectDo: aBlock [
 	"Add an event listener and answer the handler (a JavaScript Function).
 	Use the handler to remove the listener later when no longer needed."
 
-	^ self addEventListener: #connect handler: aBlock
+	^ self addListener: #connect handler: aBlock
 ]
 
 { #category : #'event handling' }
@@ -258,7 +258,7 @@ CpNodeJSHttpServer >> onDropRequestDo: aBlock [
 	"Add an event listener and answer the handler (a JavaScript Function).
 	Use the handler to remove the listener later when no longer needed."
 
-	^ self addEventListener: #dropRequest handler: aBlock
+	^ self addListener: #dropRequest handler: aBlock
 ]
 
 { #category : #'event handling' }
@@ -274,7 +274,7 @@ CpNodeJSHttpServer >> onRequestDo: aBlock [
 	"Add an event listener and answer the handler (a JavaScript Function).
 	Use the handler to remove the listener later when no longer needed."
 
-	^ self addEventListener: #request handler: aBlock
+	^ self addListener: #request handler: aBlock
 ]
 
 { #category : #'event handling' }
@@ -297,7 +297,7 @@ CpNodeJSHttpServer >> onUpgradeDo: aBlock [
 	"Add an event listener and answer the handler (a JavaScript Function).
 	Use the handler to remove the listener later when no longer needed."
 
-	^ self addEventListener: #upgrade handler: aBlock
+	^ self addListener: #upgrade handler: aBlock
 ]
 
 { #category : #'event handling' }
@@ -306,7 +306,7 @@ CpNodeJSHttpServer >> removeCheckContinueHandler: aFunction [
 	"Remove an earlier installed event listener
 	(using the handler which was answered during installation)"
 
-	self removeEventListener: #checkContinue handler: aFunction
+	self removeListener: #checkContinue handler: aFunction
 ]
 
 { #category : #'event handling' }
@@ -315,7 +315,7 @@ CpNodeJSHttpServer >> removeCheckExpectationHandler: aFunction [
 	"Remove an earlier installed event listener
 	(using the handler which was answered during installation)"
 
-	self removeEventListener: #checkExpectation handler: aFunction
+	self removeListener: #checkExpectation handler: aFunction
 ]
 
 { #category : #'event handling' }
@@ -324,7 +324,7 @@ CpNodeJSHttpServer >> removeClientErrorHandler: aFunction [
 	"Remove an earlier installed event listener
 	(using the handler which was answered during installation)"
 
-	self removeEventListener: #clientError handler: aFunction
+	self removeListener: #clientError handler: aFunction
 ]
 
 { #category : #'event handling' }
@@ -333,7 +333,7 @@ CpNodeJSHttpServer >> removeConnectHandler: aFunction [
 	"Remove an earlier installed event listener
 	(using the handler which was answered during installation)"
 
-	self removeEventListener: #connect handler: aFunction
+	self removeListener: #connect handler: aFunction
 ]
 
 { #category : #'event handling' }
@@ -342,7 +342,7 @@ CpNodeJSHttpServer >> removeDropRequestHandler: aFunction [
 	"Remove an earlier installed event listener
 	(using the handler which was answered during installation)"
 
-	self removeEventListener: #dropRequest handler: aFunction
+	self removeListener: #dropRequest handler: aFunction
 ]
 
 { #category : #'event handling' }
@@ -351,7 +351,7 @@ CpNodeJSHttpServer >> removeRequestHandler: aFunction [
 	"Remove an earlier installed event listener
 	(using the handler which was answered during installation)"
 
-	self removeEventListener: #request handler: aFunction
+	self removeListener: #request handler: aFunction
 ]
 
 { #category : #'event handling' }
@@ -360,7 +360,7 @@ CpNodeJSHttpServer >> removeUpgradeHandler: aFunction [
 	"Remove an earlier installed event listener
 	(using the handler which was answered during installation)"
 
-	self removeEventListener: #upgrade handler: aFunction
+	self removeListener: #upgrade handler: aFunction
 ]
 
 { #category : #accessing }

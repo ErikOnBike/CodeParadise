@@ -1,6 +1,6 @@
 Class {
 	#name : #CpNodeJSNetServer,
-	#superclass : #CpJavaScriptEventTarget,
+	#superclass : #CpNodeJSEventEmitter,
 	#category : #'CodeParadise-NodeJS-Support-Net'
 }
 
@@ -134,7 +134,7 @@ CpNodeJSNetServer >> onCloseDo: aBlock [
 	"Add an event listener and answer the handler (a JavaScript Function).
 	Use the handler to remove the listener later when no longer needed."
 
-	^ self addEventListener: #close handler: aBlock
+	^ self addListener: #close handler: aBlock
 ]
 
 { #category : #'event handling' }
@@ -147,7 +147,7 @@ CpNodeJSNetServer >> onConnectionDo: aBlock [
 	"Add an event listener and answer the handler (a JavaScript Function).
 	Use the handler to remove the listener later when no longer needed."
 
-	^ self addEventListener: #connection handler: aBlock
+	^ self addListener: #connection handler: aBlock
 ]
 
 { #category : #'event handling' }
@@ -177,7 +177,7 @@ CpNodeJSNetServer >> onDropDo: aBlock [
 	"Add an event listener and answer the handler (a JavaScript Function).
 	Use the handler to remove the listener later when no longer needed."
 
-	^ self addEventListener: #drop handler: aBlock
+	^ self addListener: #drop handler: aBlock
 ]
 
 { #category : #'event handling' }
@@ -190,7 +190,7 @@ CpNodeJSNetServer >> onErrorDo: aBlock [
 	"Add an event listener and answer the handler (a JavaScript Function).
 	Use the handler to remove the listener later when no longer needed."
 
-	^ self addEventListener: #error handler: aBlock
+	^ self addListener: #error handler: aBlock
 ]
 
 { #category : #'event handling' }
@@ -201,7 +201,7 @@ CpNodeJSNetServer >> onListeningDo: aBlock [
 	"Add an event listener and answer the handler (a JavaScript Function).
 	Use the handler to remove the listener later when no longer needed."
 
-	^ self addEventListener: #listening handler: aBlock
+	^ self addListener: #listening handler: aBlock
 ]
 
 { #category : #'event handling' }
@@ -210,7 +210,7 @@ CpNodeJSNetServer >> removeConnectionHandler: aFunction [
 	"Remove an earlier installed event listener
 	(using the handler which was answered during installation)"
 
-	self removeEventListener: #connection handler: aFunction
+	self removeListener: #connection handler: aFunction
 ]
 
 { #category : #'event handling' }
@@ -219,7 +219,7 @@ CpNodeJSNetServer >> removeDropHandler: aFunction [
 	"Remove an earlier installed event listener
 	(using the handler which was answered during installation)"
 
-	self removeEventListener: #drop handler: aFunction
+	self removeListener: #drop handler: aFunction
 ]
 
 { #category : #'event handling' }
@@ -228,7 +228,7 @@ CpNodeJSNetServer >> removeErrorHandler: aFunction [
 	"Remove an earlier installed event listener
 	(using the handler which was answered during installation)"
 
-	self removeEventListener: #error handler: aFunction
+	self removeListener: #error handler: aFunction
 ]
 
 { #category : #'event handling' }
@@ -237,5 +237,5 @@ CpNodeJSNetServer >> removeListeningHandler: aFunction [
 	"Remove an earlier installed event listener
 	(using the handler which was answered during installation)"
 
-	self removeEventListener: #listening handler: aFunction
+	self removeListener: #listening handler: aFunction
 ]

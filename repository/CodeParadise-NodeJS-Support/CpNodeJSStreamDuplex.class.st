@@ -79,7 +79,7 @@ CpNodeJSStreamDuplex >> onDrainDo: aBlock [
 	"Add an event listener and answer the handler (a JavaScript Function).
 	Use the handler to remove the listener later when no longer needed."
 
-	^ self addEventListener: #drain handler: aBlock
+	^ self addListener: #drain handler: aBlock
 ]
 
 { #category : #'event handling' }
@@ -90,7 +90,7 @@ CpNodeJSStreamDuplex >> onFinishDo: aBlock [
 	"Add an event listener and answer the handler (a JavaScript Function).
 	Use the handler to remove the listener later when no longer needed."
 
-	^ self addEventListener: #finish handler: aBlock
+	^ self addListener: #finish handler: aBlock
 ]
 
 { #category : #'event handling' }
@@ -103,7 +103,7 @@ CpNodeJSStreamDuplex >> onPipeDo: aBlock [
 	"Add an event listener and answer the handler (a JavaScript Function).
 	Use the handler to remove the listener later when no longer needed."
 
-	^ self addEventListener: #pipe handler: aBlock
+	^ self addListener: #pipe handler: aBlock
 ]
 
 { #category : #'event handling' }
@@ -118,7 +118,7 @@ CpNodeJSStreamDuplex >> onUnpipeDo: aBlock [
 	"Add an event listener and answer the handler (a JavaScript Function).
 	Use the handler to remove the listener later when no longer needed."
 
-	^ self addEventListener: #unpipe handler: aBlock
+	^ self addListener: #unpipe handler: aBlock
 ]
 
 { #category : #'event handling' }
@@ -127,7 +127,7 @@ CpNodeJSStreamDuplex >> removeDrainHandler: aFunction [
 	"Remove an earlier installed event listener
 	(using the handler which was answered during installation)"
 
-	self removeEventListener: #drain handler: aFunction
+	self removeListener: #drain handler: aFunction
 ]
 
 { #category : #'event handling' }
@@ -136,7 +136,7 @@ CpNodeJSStreamDuplex >> removeFinishHandler: aFunction [
 	"Remove an earlier installed event listener
 	(using the handler which was answered during installation)"
 
-	self removeEventListener: #finish handler: aFunction
+	self removeListener: #finish handler: aFunction
 ]
 
 { #category : #'event handling' }
@@ -145,7 +145,7 @@ CpNodeJSStreamDuplex >> removePipeHandler: aFunction [
 	"Remove an earlier installed event listener
 	(using the handler which was answered during installation)"
 
-	self removeEventListener: #pipe handler: aFunction
+	self removeListener: #pipe handler: aFunction
 ]
 
 { #category : #'event handling' }
@@ -154,7 +154,7 @@ CpNodeJSStreamDuplex >> removeUnpipeHandler: aFunction [
 	"Remove an earlier installed event listener
 	(using the handler which was answered during installation)"
 
-	self removeEventListener: #unpipe handler: aFunction
+	self removeListener: #unpipe handler: aFunction
 ]
 
 { #category : #accessing }

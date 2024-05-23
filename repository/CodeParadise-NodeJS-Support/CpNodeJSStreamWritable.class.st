@@ -1,6 +1,6 @@
 Class {
 	#name : #CpNodeJSStreamWritable,
-	#superclass : #CpJavaScriptEventTarget,
+	#superclass : #CpNodeJSEventEmitter,
 	#category : #'CodeParadise-NodeJS-Support-Stream'
 }
 
@@ -126,7 +126,7 @@ CpNodeJSStreamWritable >> onCloseDo: aBlock [
 	"Add an event listener and answer the handler (a JavaScript Function).
 	Use the handler to remove the listener later when no longer needed."
 
-	^ self addEventListener: #close handler: aBlock
+	^ self addListener: #close handler: aBlock
 ]
 
 { #category : #'event handling' }
@@ -137,7 +137,7 @@ CpNodeJSStreamWritable >> onDrainDo: aBlock [
 	"Add an event listener and answer the handler (a JavaScript Function).
 	Use the handler to remove the listener later when no longer needed."
 
-	^ self addEventListener: #drain handler: aBlock
+	^ self addListener: #drain handler: aBlock
 ]
 
 { #category : #'event handling' }
@@ -156,7 +156,7 @@ CpNodeJSStreamWritable >> onErrorDo: aBlock [
 	"Add an event listener and answer the handler (a JavaScript Function).
 	Use the handler to remove the listener later when no longer needed."
 
-	^ self addEventListener: #error handler: aBlock
+	^ self addListener: #error handler: aBlock
 ]
 
 { #category : #'event handling' }
@@ -167,7 +167,7 @@ CpNodeJSStreamWritable >> onFinishDo: aBlock [
 	"Add an event listener and answer the handler (a JavaScript Function).
 	Use the handler to remove the listener later when no longer needed."
 
-	^ self addEventListener: #finish handler: aBlock
+	^ self addListener: #finish handler: aBlock
 ]
 
 { #category : #'event handling' }
@@ -180,7 +180,7 @@ CpNodeJSStreamWritable >> onPipeDo: aBlock [
 	"Add an event listener and answer the handler (a JavaScript Function).
 	Use the handler to remove the listener later when no longer needed."
 
-	^ self addEventListener: #pipe handler: aBlock
+	^ self addListener: #pipe handler: aBlock
 ]
 
 { #category : #'event handling' }
@@ -195,7 +195,7 @@ CpNodeJSStreamWritable >> onUnpipeDo: aBlock [
 	"Add an event listener and answer the handler (a JavaScript Function).
 	Use the handler to remove the listener later when no longer needed."
 
-	^ self addEventListener: #unpipe handler: aBlock
+	^ self addListener: #unpipe handler: aBlock
 ]
 
 { #category : #'event handling' }
@@ -204,7 +204,7 @@ CpNodeJSStreamWritable >> removeCloseHandler: aFunction [
 	"Remove an earlier installed event listener
 	(using the handler which was answered during installation)"
 
-	self removeEventListener: #close handler: aFunction
+	self removeListener: #close handler: aFunction
 ]
 
 { #category : #'event handling' }
@@ -213,7 +213,7 @@ CpNodeJSStreamWritable >> removeDrainHandler: aFunction [
 	"Remove an earlier installed event listener
 	(using the handler which was answered during installation)"
 
-	self removeEventListener: #drain handler: aFunction
+	self removeListener: #drain handler: aFunction
 ]
 
 { #category : #'event handling' }
@@ -222,7 +222,7 @@ CpNodeJSStreamWritable >> removeErrorHandler: aFunction [
 	"Remove an earlier installed event listener
 	(using the handler which was answered during installation)"
 
-	self removeEventListener: #error handler: aFunction
+	self removeListener: #error handler: aFunction
 ]
 
 { #category : #'event handling' }
@@ -231,7 +231,7 @@ CpNodeJSStreamWritable >> removeFinishHandler: aFunction [
 	"Remove an earlier installed event listener
 	(using the handler which was answered during installation)"
 
-	self removeEventListener: #finish handler: aFunction
+	self removeListener: #finish handler: aFunction
 ]
 
 { #category : #'event handling' }
@@ -240,7 +240,7 @@ CpNodeJSStreamWritable >> removePipeHandler: aFunction [
 	"Remove an earlier installed event listener
 	(using the handler which was answered during installation)"
 
-	self removeEventListener: #pipe handler: aFunction
+	self removeListener: #pipe handler: aFunction
 ]
 
 { #category : #'event handling' }
@@ -249,7 +249,7 @@ CpNodeJSStreamWritable >> removeUnpipeHandler: aFunction [
 	"Remove an earlier installed event listener
 	(using the handler which was answered during installation)"
 
-	self removeEventListener: #unpipe handler: aFunction
+	self removeListener: #unpipe handler: aFunction
 ]
 
 { #category : #accessing }

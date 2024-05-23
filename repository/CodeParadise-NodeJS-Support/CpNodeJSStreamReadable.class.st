@@ -1,6 +1,6 @@
 Class {
 	#name : #CpNodeJSStreamReadable,
-	#superclass : #CpJavaScriptEventTarget,
+	#superclass : #CpNodeJSEventEmitter,
 	#category : #'CodeParadise-NodeJS-Support-Stream'
 }
 
@@ -71,7 +71,7 @@ CpNodeJSStreamReadable >> onCloseDo: aBlock [
 	"Add an event listener and answer the handler (a JavaScript Function).
 	Use the handler to remove the listener later when no longer needed."
 
-	^ self addEventListener: #close handler: aBlock
+	^ self addListener: #close handler: aBlock
 ]
 
 { #category : #'event handling' }
@@ -96,7 +96,7 @@ CpNodeJSStreamReadable >> onDataDo: aBlock [
 	object mode, the chunk will be either a string or Buffer. For streams that are in object mode,
 	the chunk can be any JavaScript value other than null."
 
-	^ self addEventListener: #data handler: aBlock
+	^ self addListener: #data handler: aBlock
 ]
 
 { #category : #'event handling' }
@@ -111,7 +111,7 @@ CpNodeJSStreamReadable >> onEndDo: aBlock [
 	"Add an event listener and answer the handler (a JavaScript Function).
 	Use the handler to remove the listener later when no longer needed."
 
-	^ self addEventListener: #end handler: aBlock
+	^ self addListener: #end handler: aBlock
 ]
 
 { #category : #'event handling' }
@@ -126,7 +126,7 @@ CpNodeJSStreamReadable >> onErrorDo: aBlock [
 	"Add an event listener and answer the handler (a JavaScript Function).
 	Use the handler to remove the listener later when no longer needed."
 
-	^ self addEventListener: #error handler: aBlock
+	^ self addListener: #error handler: aBlock
 ]
 
 { #category : #'event handling' }
@@ -137,7 +137,7 @@ CpNodeJSStreamReadable >> onPauseDo: aBlock [
 	"Add an event listener and answer the handler (a JavaScript Function).
 	Use the handler to remove the listener later when no longer needed."
 
-	^ self addEventListener: #pause handler: aBlock
+	^ self addListener: #pause handler: aBlock
 ]
 
 { #category : #'event handling' }
@@ -150,7 +150,7 @@ CpNodeJSStreamReadable >> onReadableDo: aBlock [
 	"Add an event listener and answer the handler (a JavaScript Function).
 	Use the handler to remove the listener later when no longer needed."
 
-	^ self addEventListener: #readable handler: aBlock
+	^ self addListener: #readable handler: aBlock
 ]
 
 { #category : #'event handling' }
@@ -161,7 +161,7 @@ CpNodeJSStreamReadable >> onResumeDo: aBlock [
 	"Add an event listener and answer the handler (a JavaScript Function).
 	Use the handler to remove the listener later when no longer needed."
 
-	^ self addEventListener: #resume handler: aBlock
+	^ self addListener: #resume handler: aBlock
 ]
 
 { #category : #operations }
@@ -314,7 +314,7 @@ CpNodeJSStreamReadable >> removeCloseHandler: aFunction [
 	"Remove an earlier installed event listener
 	(using the handler which was answered during installation)"
 
-	self removeEventListener: #close handler: aFunction
+	self removeListener: #close handler: aFunction
 ]
 
 { #category : #'event handling' }
@@ -323,7 +323,7 @@ CpNodeJSStreamReadable >> removeDataHandler: aFunction [
 	"Remove an earlier installed event listener
 	(using the handler which was answered during installation)"
 
-	self removeEventListener: #data handler: aFunction
+	self removeListener: #data handler: aFunction
 ]
 
 { #category : #'event handling' }
@@ -332,7 +332,7 @@ CpNodeJSStreamReadable >> removeEndHandler: aFunction [
 	"Remove an earlier installed event listener
 	(using the handler which was answered during installation)"
 
-	self removeEventListener: #end handler: aFunction
+	self removeListener: #end handler: aFunction
 ]
 
 { #category : #'event handling' }
@@ -341,7 +341,7 @@ CpNodeJSStreamReadable >> removeErrorHandler: aFunction [
 	"Remove an earlier installed event listener
 	(using the handler which was answered during installation)"
 
-	self removeEventListener: #error handler: aFunction
+	self removeListener: #error handler: aFunction
 ]
 
 { #category : #'event handling' }
@@ -350,7 +350,7 @@ CpNodeJSStreamReadable >> removePauseHandler: aFunction [
 	"Remove an earlier installed event listener
 	(using the handler which was answered during installation)"
 
-	self removeEventListener: #pause handler: aFunction
+	self removeListener: #pause handler: aFunction
 ]
 
 { #category : #'event handling' }
@@ -359,7 +359,7 @@ CpNodeJSStreamReadable >> removeReadableHandler: aFunction [
 	"Remove an earlier installed event listener
 	(using the handler which was answered during installation)"
 
-	self removeEventListener: #readable handler: aFunction
+	self removeListener: #readable handler: aFunction
 ]
 
 { #category : #'event handling' }
@@ -368,7 +368,7 @@ CpNodeJSStreamReadable >> removeResumeHandler: aFunction [
 	"Remove an earlier installed event listener
 	(using the handler which was answered during installation)"
 
-	self removeEventListener: #resume handler: aFunction
+	self removeListener: #resume handler: aFunction
 ]
 
 { #category : #operations }
