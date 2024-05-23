@@ -175,6 +175,7 @@ CpClientEnvironment class >> preInstalledClasses [
 			add: Number ;
 			add: Object ;
 			add: OrderedCollection ;
+			add: OrderedDictionary ;
 			add: Point ;
 			add: Pragma ;
 			add: Process ;
