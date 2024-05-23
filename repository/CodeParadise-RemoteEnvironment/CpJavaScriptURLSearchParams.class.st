@@ -1,11 +1,11 @@
 Class {
-	#name : #CpJavaScriptURLSearchParams,
+	#name : #CpJavaScriptUrlSearchParams,
 	#superclass : #CpJavaScriptObject,
 	#category : #'CodeParadise-RemoteEnvironment-Support'
 }
 
 { #category : #operations }
-CpJavaScriptURLSearchParams >> appendKey: aString value: anObject [
+CpJavaScriptUrlSearchParams >> appendKey: aString value: anObject [
 
 	"Appends a specified key/value pair as a new search parameter."
 
@@ -13,7 +13,7 @@ CpJavaScriptURLSearchParams >> appendKey: aString value: anObject [
 ]
 
 { #category : #operations }
-CpJavaScriptURLSearchParams >> deleteKey: aString [
+CpJavaScriptUrlSearchParams >> deleteKey: aString [
 
 	"Deletes search parameters that match a name, and optional value, from the list of all search parameters."
 
@@ -21,7 +21,7 @@ CpJavaScriptURLSearchParams >> deleteKey: aString [
 ]
 
 { #category : #operations }
-CpJavaScriptURLSearchParams >> deleteKey: aString value: anObject [
+CpJavaScriptUrlSearchParams >> deleteKey: aString value: anObject [
 
 	"Deletes search parameters that match a name, and optional value, from the list of all search parameters."
 
@@ -29,7 +29,7 @@ CpJavaScriptURLSearchParams >> deleteKey: aString value: anObject [
 ]
 
 { #category : #operations }
-CpJavaScriptURLSearchParams >> forEach: aFunction [
+CpJavaScriptUrlSearchParams >> forEach: aFunction [
 
 	"Allows iteration through all values contained in this object via a callback function."
 
@@ -37,7 +37,7 @@ CpJavaScriptURLSearchParams >> forEach: aFunction [
 ]
 
 { #category : #operations }
-CpJavaScriptURLSearchParams >> get: aString [
+CpJavaScriptUrlSearchParams >> get: aString [
 
 	"Returns the first value associated with the given search parameter."
 
@@ -45,7 +45,7 @@ CpJavaScriptURLSearchParams >> get: aString [
 ]
 
 { #category : #operations }
-CpJavaScriptURLSearchParams >> getKey: aString [
+CpJavaScriptUrlSearchParams >> getKey: aString [
 
 	"Returns the first value associated with the given search parameter."
 
@@ -53,7 +53,7 @@ CpJavaScriptURLSearchParams >> getKey: aString [
 ]
 
 { #category : #operations }
-CpJavaScriptURLSearchParams >> hasKey: aString [
+CpJavaScriptUrlSearchParams >> hasKey: aString [
 
 	"Returns a boolean value indicating if a given parameter, or parameter and value pair, exists."
 
@@ -61,7 +61,7 @@ CpJavaScriptURLSearchParams >> hasKey: aString [
 ]
 
 { #category : #operations }
-CpJavaScriptURLSearchParams >> hasKey: aString value: anObject [
+CpJavaScriptUrlSearchParams >> hasKey: aString value: anObject [
 
 	"Returns a boolean value indicating if a given parameter, or parameter and value pair, exists."
 
@@ -69,7 +69,7 @@ CpJavaScriptURLSearchParams >> hasKey: aString value: anObject [
 ]
 
 { #category : #operations }
-CpJavaScriptURLSearchParams >> setKey: aString value: anObject [
+CpJavaScriptUrlSearchParams >> setKey: aString value: anObject [
 
 	"Sets the value associated with a given search parameter to the given value. If there are several values, the others are deleted."
 
@@ -77,7 +77,7 @@ CpJavaScriptURLSearchParams >> setKey: aString value: anObject [
 ]
 
 { #category : #accessing }
-CpJavaScriptURLSearchParams >> size [
+CpJavaScriptUrlSearchParams >> size [
 
 	"Indicates the total number of search parameter entries."
 
@@ -85,7 +85,7 @@ CpJavaScriptURLSearchParams >> size [
 ]
 
 { #category : #operations }
-CpJavaScriptURLSearchParams >> sort [
+CpJavaScriptUrlSearchParams >> sort [
 
 	"Sorts all key/value pairs, if any, by their keys."
 
@@ -93,7 +93,7 @@ CpJavaScriptURLSearchParams >> sort [
 ]
 
 { #category : #operations }
-CpJavaScriptURLSearchParams >> toString [
+CpJavaScriptUrlSearchParams >> toString [
 
 	"Returns a string containing a query string suitable for use in a URL."
 
