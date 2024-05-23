@@ -1,11 +1,11 @@
 Class {
-	#name : #CpJavaScriptUrl,
+	#name : #CpJavaScriptURL,
 	#superclass : #CpJavaScriptObject,
 	#category : #'CodeParadise-RemoteEnvironment-Support'
 }
 
 { #category : #operations }
-CpJavaScriptUrl class >> canParse: aString [
+CpJavaScriptURL class >> canParse: aString [
 
 	"Returns a boolean indicating whether or not a URL defined from a URL string and optional base URL string is parsable and valid."
 
@@ -13,7 +13,7 @@ CpJavaScriptUrl class >> canParse: aString [
 ]
 
 { #category : #operations }
-CpJavaScriptUrl class >> canParse: urlString base: baseString [
+CpJavaScriptURL class >> canParse: urlString base: baseString [
 
 	"Returns a boolean indicating whether or not a URL defined from a URL string and optional base URL string is parsable and valid."
 
@@ -21,7 +21,7 @@ CpJavaScriptUrl class >> canParse: urlString base: baseString [
 ]
 
 { #category : #operations }
-CpJavaScriptUrl class >> createObjectURL: anObject [
+CpJavaScriptURL class >> createObjectURL: anObject [
 
 	"Returns a string containing a unique blob URL, that is a URL with blob: as its scheme, followed by an opaque string uniquely identifying the object in the browser."
 
@@ -29,7 +29,7 @@ CpJavaScriptUrl class >> createObjectURL: anObject [
 ]
 
 { #category : #'instance creation' }
-CpJavaScriptUrl class >> newUrl: aString [
+CpJavaScriptURL class >> newUrl: aString [
 
 	"Creates and returns a URL object referencing the URL specified using an absolute URL string, or a relative URL string and a base URL string."
 
@@ -37,7 +37,7 @@ CpJavaScriptUrl class >> newUrl: aString [
 ]
 
 { #category : #'instance creation' }
-CpJavaScriptUrl class >> newUrl: urlString base: baseString [
+CpJavaScriptURL class >> newUrl: urlString base: baseString [
 
 	"Creates and returns a URL object referencing the URL specified using an absolute URL string, or a relative URL string and a base URL string."
 
@@ -45,7 +45,7 @@ CpJavaScriptUrl class >> newUrl: urlString base: baseString [
 ]
 
 { #category : #operations }
-CpJavaScriptUrl class >> revokeObjectURL: aString [
+CpJavaScriptURL class >> revokeObjectURL: aString [
 
 	"Revokes an object URL previously created using URL.createObjectURL()."
 
@@ -53,7 +53,7 @@ CpJavaScriptUrl class >> revokeObjectURL: aString [
 ]
 
 { #category : #accessing }
-CpJavaScriptUrl >> host [
+CpJavaScriptURL >> host [
 
 	"A string containing the domain (that is the hostname) followed by (if a port was specified) a ':' and the port of the URL."
 
@@ -61,7 +61,7 @@ CpJavaScriptUrl >> host [
 ]
 
 { #category : #accessing }
-CpJavaScriptUrl >> host: aString [
+CpJavaScriptURL >> host: aString [
 
 	"A string containing the domain (that is the hostname) followed by (if a port was specified) a ':' and the port of the URL."
 
@@ -69,7 +69,7 @@ CpJavaScriptUrl >> host: aString [
 ]
 
 { #category : #accessing }
-CpJavaScriptUrl >> hostname [
+CpJavaScriptURL >> hostname [
 
 	"A string containing the domain of the URL."
 
@@ -77,7 +77,7 @@ CpJavaScriptUrl >> hostname [
 ]
 
 { #category : #accessing }
-CpJavaScriptUrl >> hostname: aString [
+CpJavaScriptURL >> hostname: aString [
 
 	"A string containing the domain of the URL."
 
@@ -85,7 +85,7 @@ CpJavaScriptUrl >> hostname: aString [
 ]
 
 { #category : #accessing }
-CpJavaScriptUrl >> href [
+CpJavaScriptURL >> href [
 
 	"A stringifier that returns a string containing the whole URL."
 
@@ -93,7 +93,7 @@ CpJavaScriptUrl >> href [
 ]
 
 { #category : #accessing }
-CpJavaScriptUrl >> href: aString [
+CpJavaScriptURL >> href: aString [
 
 	"A stringifier that returns a string containing the whole URL."
 
@@ -101,7 +101,7 @@ CpJavaScriptUrl >> href: aString [
 ]
 
 { #category : #accessing }
-CpJavaScriptUrl >> origin [
+CpJavaScriptURL >> origin [
 
 	"Returns a string containing the origin of the URL, that is its scheme, its domain and its port."
 
@@ -109,7 +109,7 @@ CpJavaScriptUrl >> origin [
 ]
 
 { #category : #accessing }
-CpJavaScriptUrl >> password [
+CpJavaScriptURL >> password [
 
 	"A string containing the password specified before the domain name."
 
@@ -117,7 +117,7 @@ CpJavaScriptUrl >> password [
 ]
 
 { #category : #accessing }
-CpJavaScriptUrl >> password: aString [
+CpJavaScriptURL >> password: aString [
 
 	"A string containing the password specified before the domain name."
 
@@ -125,7 +125,7 @@ CpJavaScriptUrl >> password: aString [
 ]
 
 { #category : #accessing }
-CpJavaScriptUrl >> pathname [
+CpJavaScriptURL >> pathname [
 
 	"A string containing an initial '/' followed by the path of the URL, not including the query string or fragment."
 
@@ -133,7 +133,7 @@ CpJavaScriptUrl >> pathname [
 ]
 
 { #category : #accessing }
-CpJavaScriptUrl >> pathname: aString [
+CpJavaScriptURL >> pathname: aString [
 
 	"A string containing an initial '/' followed by the path of the URL, not including the query string or fragment."
 
@@ -141,7 +141,7 @@ CpJavaScriptUrl >> pathname: aString [
 ]
 
 { #category : #accessing }
-CpJavaScriptUrl >> port [
+CpJavaScriptURL >> port [
 
 	"A string containing the port number of the URL."
 
@@ -149,7 +149,7 @@ CpJavaScriptUrl >> port [
 ]
 
 { #category : #accessing }
-CpJavaScriptUrl >> port: aString [
+CpJavaScriptURL >> port: aString [
 
 	"A string containing the port number of the URL."
 
@@ -157,7 +157,7 @@ CpJavaScriptUrl >> port: aString [
 ]
 
 { #category : #accessing }
-CpJavaScriptUrl >> protocol [
+CpJavaScriptURL >> protocol [
 
 	"A string containing the protocol scheme of the URL, including the final ':'."
 
@@ -165,7 +165,7 @@ CpJavaScriptUrl >> protocol [
 ]
 
 { #category : #accessing }
-CpJavaScriptUrl >> protocol: aString [
+CpJavaScriptURL >> protocol: aString [
 
 	"A string containing the protocol scheme of the URL, including the final ':'."
 
@@ -173,7 +173,7 @@ CpJavaScriptUrl >> protocol: aString [
 ]
 
 { #category : #accessing }
-CpJavaScriptUrl >> search [
+CpJavaScriptURL >> search [
 
 	"A string indicating the URL's parameter string; if any parameters are provided, this string includes all of them, beginning with the leading ? character."
 
@@ -181,7 +181,7 @@ CpJavaScriptUrl >> search [
 ]
 
 { #category : #accessing }
-CpJavaScriptUrl >> search: aString [
+CpJavaScriptURL >> search: aString [
 
 	"A string indicating the URL's parameter string; if any parameters are provided, this string includes all of them, beginning with the leading ? character."
 
@@ -189,7 +189,7 @@ CpJavaScriptUrl >> search: aString [
 ]
 
 { #category : #accessing }
-CpJavaScriptUrl >> searchParams [
+CpJavaScriptURL >> searchParams [
 
 	"A URLSearchParams object which can be used to access the individual query parameters found in search."
 
@@ -197,7 +197,7 @@ CpJavaScriptUrl >> searchParams [
 ]
 
 { #category : #accessing }
-CpJavaScriptUrl >> urlHash [
+CpJavaScriptURL >> urlHash [
 
 	"A string containing a '#' followed by the fragment identifier of the URL.
 
@@ -207,7 +207,7 @@ CpJavaScriptUrl >> urlHash [
 ]
 
 { #category : #accessing }
-CpJavaScriptUrl >> urlHash: aString [
+CpJavaScriptURL >> urlHash: aString [
 
 	"A string containing a '#' followed by the fragment identifier of the URL.
 
@@ -217,7 +217,7 @@ CpJavaScriptUrl >> urlHash: aString [
 ]
 
 { #category : #accessing }
-CpJavaScriptUrl >> username [
+CpJavaScriptURL >> username [
 
 	"A string containing the username specified before the domain name."
 
@@ -225,7 +225,7 @@ CpJavaScriptUrl >> username [
 ]
 
 { #category : #accessing }
-CpJavaScriptUrl >> username: aString [
+CpJavaScriptURL >> username: aString [
 
 	"A string containing the username specified before the domain name."
 

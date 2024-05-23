@@ -1,11 +1,11 @@
 Class {
-	#name : #CpJavaScriptJson,
+	#name : #CpJavaScriptJSON,
 	#superclass : #CpJavaScriptObject,
 	#category : #'CodeParadise-RemoteEnvironment-Support'
 }
 
 { #category : #operations }
-CpJavaScriptJson class >> parse: aString [
+CpJavaScriptJSON class >> parse: aString [
 
 	"Answer a Dictionary representing the object given by the JSON string specified"
 
@@ -13,7 +13,7 @@ CpJavaScriptJson class >> parse: aString [
 ]
 
 { #category : #operations }
-CpJavaScriptJson class >> stringify: aDictionary [
+CpJavaScriptJSON class >> stringify: aDictionary [
 
 	"Answer a String representation of the specified Dictionary"
 
