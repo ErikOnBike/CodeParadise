@@ -13,15 +13,18 @@ CpClientDebuggerSupport class >> clientLoaded: aClientLoaded [
 	"A new client is loaded create a new instance of the receiver
 	(it will register as listener to the environment and therefore remain 'alive')"
 
-	| instance |
+	| applicationClass instance |
+
+	"Only install instances of the receiver in WebApplications"
+	applicationClass := CpServerApplication applicationClassWithId: aClientLoaded app.
+	(applicationClass isNil or: [ applicationClass isWebApplication not ])
+		ifTrue: [ ^ self ].
 
 	instance := self basicNew
 		initializeWithEnvironment: aClientLoaded environment ;
 		yourself.
 
-	self traceCr: 'Debugger installed ', instance printString.
-
-	^ instance
+	self traceCr: 'Debugger installed ', instance printString
 ]
 
 { #category : #initialization }

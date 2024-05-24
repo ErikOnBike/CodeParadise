@@ -22,7 +22,7 @@ Class {
 { #category : #accessing }
 CpNodeJSSupportExampleHttpServerApplication class >> app [
 
-	^ 'http-server-example'
+	^ #'http-server-example'
 ]
 
 { #category : #actions }

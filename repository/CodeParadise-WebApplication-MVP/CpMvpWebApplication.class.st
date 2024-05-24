@@ -45,6 +45,12 @@ CpMvpWebApplication class >> isAbstractTag [
 	This method will NOT be evaluated to decide if the receiver is abstract."
 ]
 
+{ #category : #testing }
+CpMvpWebApplication class >> isMvpWebApplication [
+
+	^ true
+]
+
 { #category : #presenter }
 CpMvpWebApplication >> allPresentersDo: aBlock [
 

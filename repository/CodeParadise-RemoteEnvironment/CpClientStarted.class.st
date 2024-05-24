@@ -22,7 +22,7 @@ CpClientStarted class >> variables: aDictionary [
 { #category : #accessing }
 CpClientStarted >> app [
 
-	^ self variableAt: CpClientEnvironment variableNameApp
+	^ (self variableAt: CpClientEnvironment variableNameApp) ifNotNil: [ :app | app asSymbol ]
 ]
 
 { #category : #accessing }

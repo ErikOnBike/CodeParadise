@@ -24,7 +24,7 @@ CpClientReady class >> variables: aDictionary environment: anEnvironment [
 { #category : #accessing }
 CpClientReady >> app [
 
-	^ self variableAt: CpClientEnvironment variableNameApp
+	^ (self variableAt: CpClientEnvironment variableNameApp) ifNotNil: [ :app | app asSymbol ]
 ]
 
 { #category : #accessing }

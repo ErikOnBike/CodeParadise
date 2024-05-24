@@ -70,6 +70,18 @@ CpServerApplication class >> app [
 	self subclassResponsibility
 ]
 
+{ #category : #accessing }
+CpServerApplication class >> applicationClassWithId: aSymbol [
+
+	"Answer the class with the given app identifier or answer nil if none exists"
+
+	self allSubclassesDo: [ :each |
+		each app == aSymbol
+			ifTrue: [ ^ each ] ].
+
+	^ nil
+]
+
 { #category : #support }
 CpServerApplication class >> clientLoaded: anAnnouncement [
 
@@ -100,6 +112,18 @@ CpServerApplication class >> isAbstractTag [
 
 	"The method is present to indicate the receiver is abstract.
 	This method will NOT be evaluated to decide if the receiver is abstract."
+]
+
+{ #category : #testing }
+CpServerApplication class >> isMvpWebApplication [
+
+	^ false
+]
+
+{ #category : #testing }
+CpServerApplication class >> isWebApplication [
+
+	^ false
 ]
 
 { #category : #'instance creation' }

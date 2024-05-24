@@ -28,7 +28,7 @@ CpWebApplication class >> app [
 
 	"Answer the receiver unique name (used in URL to access the application as well)"
 
-	^ (self nameWithoutPrefix withoutSuffix: #WebApplication) asKebabCase
+	^ (self nameWithoutPrefix withoutSuffix: #WebApplication) asKebabCase asSymbol
 ]
 
 { #category : #accessing }
@@ -57,6 +57,12 @@ CpWebApplication class >> isAbstractTag [
 
 	"The method is present to indicate the receiver is abstract.
 	This method will NOT be evaluated to decide if the receiver is abstract."
+]
+
+{ #category : #testing }
+CpWebApplication class >> isWebApplication [
+
+	^ true
 ]
 
 { #category : #'development support' }
