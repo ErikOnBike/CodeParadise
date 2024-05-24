@@ -50,6 +50,9 @@ CpClientEnvironment class >> current [
 
 	"Answer the current instance of the receiver"
 
+	(Smalltalk classNamed: #CpServerEnvironment)
+		ifNotNil: [ self error: 'Creating ClientEnvironment instances on the server is temporarily disabled because of deadlock issues' ].
+
 	^ Current ifNil: [ Current := self basicNew initialize ; yourself ]
 ]
 

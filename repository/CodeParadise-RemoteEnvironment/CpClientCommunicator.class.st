@@ -14,6 +14,15 @@ Class {
 	#category : #'CodeParadise-RemoteEnvironment-Core'
 }
 
+{ #category : #'instance creation' }
+CpClientCommunicator class >> newForOwner: ownerObject [
+
+	(Smalltalk classNamed: #CpServerCommunicator)
+		ifNotNil: [ self error: 'Creating ClientCommunicator instances on the server is temporarily disabled because of deadlock issues' ].
+
+	^ super newForOwner: ownerObject
+]
+
 { #category : #support }
 CpClientCommunicator >> checkConnection [
 
