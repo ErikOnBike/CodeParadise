@@ -263,7 +263,7 @@ CpObjectDecoder >> decodeCompiledBlock [
 	bytecodeSize := self readLength.
 
 	"Create empty block instance"
-	block := CompiledBlock newMethod: bytecodeSize header: header.
+	block := CompiledBlock basicNew: bytecodeSize header: header.
 
 	"Add bytecode to the block"
 	initialPC := block initialPC.
@@ -296,7 +296,7 @@ CpObjectDecoder >> decodeCompiledMethod [
 	bytecodeSize := self readLength.
 
 	"Create empty method instance"
-	method := CompiledMethod newMethod: bytecodeSize + 4 header: header.
+	method := CompiledMethod basicNew: bytecodeSize + 4 header: header.
 
 	"Keep reference to this method in instvar 'currentMethod' for use when decoding AdditionalMethodState or Pragmas"
 	currentMethod := method.
