@@ -48,6 +48,14 @@ CompiledMethod >> install [
 ]
 
 { #category : #'*CodeParadise-RemoteEnvironment' }
+CompiledMethod >> isServerSideOnly [
+
+	"Answer whether the receiver is a server side only method"
+
+	^ self hasPragmaNamed: #serverEnvironment
+]
+
+{ #category : #'*CodeParadise-RemoteEnvironment' }
 CompiledMethod >> remove [
 	"Remove the receiver from its Class"
 

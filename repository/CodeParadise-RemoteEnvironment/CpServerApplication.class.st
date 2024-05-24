@@ -21,6 +21,26 @@ Class {
 	#category : #'CodeParadise-RemoteEnvironment-Core'
 }
 
+{ #category : #accessing }
+CpServerApplication class >> allowedPackages [
+
+	"Answer a collection of Packages which are allowed to contain classes to install in the receiver.
+
+	Implementation:
+	By default only the application's package (i.e. `self package` below) and the package containing
+	the client environment (for some default classes) are allowed.
+	Please add specific packages in the subclass. This mechanism is introduced to prevent
+	installing too many classes in a client environment by accident.
+
+	A set is answered so no worries about adding packages twice.
+	
+	An easy way to reference packages is by asking well known classes for their package.
+	Like `CpHtmlElement package` to use the WebApplication package. This way there is no problem
+	is the package name changes."
+
+	^ Set with: self package with: CpClientEnvironment package
+]
+
 { #category : #announcing }
 CpServerApplication class >> announce: anAnnouncement [
 
@@ -235,7 +255,7 @@ CpServerApplication >> installExtensionMethodsFor: aSymbol [
 	First find senders of specified Symbol and then explicitly check for
 	pragma in both instance and class methods."
 
-	((CpFinder allSendersOf: aSymbol) collect: [ :each | each realClass ]) asSet
+	((CpFinder allSendersOf: aSymbol) collect: [ :each | each methodClass ]) asSet
 		do: [ :eachClass |
 
 			"Install instance methods"
@@ -245,6 +265,17 @@ CpServerApplication >> installExtensionMethodsFor: aSymbol [
 			"Install class methods"
 			(Pragma allNamed: aSymbol in: eachClass class) do: [ :eachPragma |
 				self environment addMethod: eachPragma method ] ]
+]
+
+{ #category : #installing }
+CpServerApplication >> installRequiredClass: aClass [
+
+	"Install the specified class in the receiver's environment.
+	This will also result in validating whether the required class
+	is part of an allowed package (see class method #allowedPackages)"
+
+	self environment
+		addClass: aClass forApplication: self
 ]
 
 { #category : #actions }
@@ -257,9 +288,9 @@ CpServerApplication >> load [
 
 	"Install the JavaScriptObject proxy which allows a transparent use of JavaScript objects inside CodeParadise.
 	And install the JavaScriptFunction proxy which allows Smalltalk Blocks to be used as JavaScript functions."
-	self environment
-		addClass: CpJavaScriptObject ;
-		addClass: CpJavaScriptFunction
+	self
+		installRequiredClass: CpJavaScriptObject ;
+		installRequiredClass: CpJavaScriptFunction
 ]
 
 { #category : #'private - actions' }
@@ -384,4 +415,20 @@ CpServerApplication >> stop: anAnnouncement [
 	self stop.
 
 	self announceStopped
+]
+
+{ #category : #installing }
+CpServerApplication >> validateRequiredClass: aClass [
+
+	"Validate whether the required Class is allowed within the receiver.
+
+	Implementation:
+	As a failsafe, only classes in the collection of allowed application
+	packages are allowed. This is to prevent accidental installation of
+	Classes which refer to more classes and then resulting in trying to
+	install the full Pharo IDE in a tiny image (which will fail with a
+	crash)."
+
+	(self class allowedPackages includes: aClass package)
+		ifFalse: [ self error: 'Trying to install ', aClass name, ' from ', aClass package name, ' which is not part of the allowedPackages collection of this application' ]
 ]

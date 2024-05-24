@@ -30,6 +30,18 @@ Behavior >> installMethodDictionary: aMethodDictionary [
 ]
 
 { #category : #'*CodeParadise-RemoteEnvironment' }
+Behavior >> nonServerReferencedClasses [
+
+	"Answer the set of classes that are directly referenced by my methods via global Variables
+	AND which are not part of server side only methods."
+
+	^ self methods flatCollectAsSet: [ :each |
+		each isServerSideOnly
+			ifTrue: [ #() ]
+			ifFalse: [ each referencedClasses ] ]
+]
+
+{ #category : #'*CodeParadise-RemoteEnvironment' }
 Behavior >> removeClassMethod: aCompiledMethod [
 
 	<clientEnvironment>

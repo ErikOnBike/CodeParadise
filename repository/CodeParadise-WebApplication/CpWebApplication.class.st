@@ -12,6 +12,18 @@ Class {
 }
 
 { #category : #accessing }
+CpWebApplication class >> allowedPackages [
+
+	"Answer a collection of Packages which are allowed to contain classes to install in the receiver.
+
+	Add packages with HTMLElement and CpBrowserWindow classes.
+
+	See comment in superclass."
+
+	^ super allowedPackages, { CpHtmlElement package . CpBrowserWindow package }
+]
+
+{ #category : #accessing }
 CpWebApplication class >> app [
 
 	"Answer the receiver unique name (used in URL to access the application as well)"
@@ -154,9 +166,9 @@ CpWebApplication >> load [
 	super load.
 
 	"Install the base HTMLElement class and Window proxy"
-	self environment
-		addClass: CpHtmlElement ;
-		addClass: CpBrowserWindow.
+	self
+		installRequiredClass: CpHtmlElement ;
+		installRequiredClass: CpBrowserWindow.
 
 	"Install the ClientBehavior"
 	self clientBehaviorClass

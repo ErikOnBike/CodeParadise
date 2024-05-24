@@ -139,10 +139,22 @@ CpServerEnvironment class >> whenClientLoadedSend: aSymbol to: anObject [
 { #category : #'adding/removing' }
 CpServerEnvironment >> addClass: aClass [
 
+	"Add the specified class to the receiver, assuming no application level validation is required"
+
+	^ self addClass: aClass forApplication: nil
+]
+
+{ #category : #'adding/removing' }
+CpServerEnvironment >> addClass: aClass forApplication: anApplication [
+
 	"Add the specified Class to the client environment of the receiver and answer it.
-	Implementation: since the Class can depend on other classes a collection of Classes
-	might need to be installed. This collection requires an order. For example to prevent
-	the installation of a subclass before its superclass."
+	A check is performed with the specified application if the class is allowed.
+	If no application is provided the class installation will be accepted.
+
+	Implementation:
+	Since the Class can depend on other classes a collection of Classes might need to be
+	installed. This collection requires an order. For example to prevent the installation
+	of a subclass before its superclass."
 
 	"Validate the class has no breakpoints (which will currently fail in the client)"
 	aClass containsDebuggingCode
@@ -151,7 +163,7 @@ CpServerEnvironment >> addClass: aClass [
 	installationMutex critical: [
 
 		"Select all the required classes in 'dependency order' which are not already installed"
-		(aClass cpAllRequiredClassesMatching: [ :each | (self clientKnowsClass: each) not ])
+		(aClass cpAllRequiredClassesMatching: [ :each | self requiresClass: each forApplication: anApplication ])
 			do: [ :each |
 
 				"Remember which Classes are installed (in order) for reloading"
@@ -170,11 +182,11 @@ CpServerEnvironment >> addClass: aClass [
 CpServerEnvironment >> addMethod: aCompiledMethod [
 
 	"Add the specified CompiledMethod to the client environment of the receiver and answer it.
-	If the CompiledMethod is marked <serverEnvironment> it will not be installed."
+	If the CompiledMethod is marked server side only, it will not be installed."
 
 	| methodElement |
 
-	(aCompiledMethod hasPragmaNamed: #serverEnvironment)
+	aCompiledMethod isServerSideOnly
 		ifTrue: [ ^ aCompiledMethod ].
 
 	installationMutex critical: [
@@ -498,6 +510,27 @@ CpServerEnvironment >> removeSubscription: aSubscription [
 	"Remove the specified subscription from the receiver"
 
 	^ self announcer removeSubscription: aSubscription
+]
+
+{ #category : #testing }
+CpServerEnvironment >> requiresClass: aClass forApplication: anApplication [
+
+	"Answer whether the receiver requires the specified class.
+	The specified application will validate whether the class is allowed
+	and raise an error if it is not. Simply answering false would result
+	in invalid code being installed in the client environment.
+	Therefore the error is raised."
+
+	(self clientKnowsClass: aClass)
+		ifTrue: [ ^ false ].
+
+	"If an application is specified, let it validate the class.
+	This could result in an error being signaled (to prevent flushing
+	the client environment with too many 'unknown' classes)."
+	anApplication
+		ifNotNil: [ anApplication validateRequiredClass: aClass ].
+
+	^ true
 ]
 
 { #category : #'input/output' }

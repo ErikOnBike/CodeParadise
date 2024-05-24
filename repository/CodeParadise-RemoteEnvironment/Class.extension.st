@@ -49,25 +49,25 @@ Class >> cpAllRequiredClassesMatching: matchBlock [
 		a class can become obsolete. When a debugger in the CodeParadise class loader code is triggered
 		during a class update, it might leave such a class obsolete. Installing an obsolete class is of
 		course useless."
-		self flag: #TODO.	"A better check or preventing this situation all together would be useful"
-		(class isObsolete and: [ (Smalltalk classNamed: #ESDevTools) isNotNil ])
-			ifTrue: [ self halt ].
+		class isObsolete
+			ifTrue: [ self errorCr: 'Obsolete class ', class name, ' is referenced, please manually remove references. Application(s) might have become unstable.' ]
+			ifFalse: [
 
-		"Check for matched classes which are not already in the process of being added"
-		((matchBlock value: class) and: [ (processingClasses includes: class) not ])
-			ifTrue: [
+				"Check for matched classes which are not already in the process of being added"
+				((matchBlock value: class) and: [ (processingClasses includes: class) not ])
+					ifTrue: [
 
-				"Mark class for processing to prevent infinite recursion"
-				processingClasses add: class.
+						"Mark class for processing to prevent infinite recursion"
+						processingClasses add: class.
 
-				"First add the super class"
-				addUniqueClassBlock value: class superclass.
+						"First add the super class"
+						addUniqueClassBlock value: class superclass.
 
-				"Then add the required classes"
-				class cpRequiredClassesDo: addUniqueClassBlock.
+						"Then add the required classes"
+						class cpRequiredClassesDo: addUniqueClassBlock.
 
-				"Because of circular references add the class itself only if not already present"
-				requiredClasses addIfNotPresent: class ] ].
+						"Because of circular references add the class itself only if not already present"
+						requiredClasses addIfNotPresent: class ] ] ].
 
 	"Fire of the process with the receiver"
 	addUniqueClassBlock value: self.
@@ -99,7 +99,8 @@ Class >> cpEncodeWith: anEncoder [
 	"This extension method should not be present in the ClientEnvironment!
 	Otherwise classes within Announcements will be installed on the server."
 
-	self flag: #todo. "Add logic which works for both ClientEnvironment and ServerEnvironment"
+	<serverEnvironment>
+
 	anEncoder encodeClass: self
 ]
 
@@ -108,9 +109,9 @@ Class >> cpRequiredClassesDo: anOneArgBlock [
 
 	"Perform the specified Block on the receiver's required classes 'in order of dependency'"
 
-	"Handle classes referenced in class and instance methods"
-	self classSide referencedClasses do: anOneArgBlock.
-	self instanceSide referencedClasses do: anOneArgBlock
+	"Handle classes referenced (in non server side only methods) in class and instance methods"
+	self classSide nonServerReferencedClasses do: anOneArgBlock.
+	self instanceSide nonServerReferencedClasses do: anOneArgBlock
 ]
 
 { #category : #'*CodeParadise-RemoteEnvironment' }

@@ -21,6 +21,18 @@ Class {
 }
 
 { #category : #accessing }
+CpMvpWebApplication class >> allowedPackages [
+
+	"Answer a collection of Packages which are allowed to contain classes to install in the receiver.
+
+	Add package with CpView class, representing the V in MVP.
+
+	See comment in superclass."
+
+	^ super allowedPackages, { CpView package }
+]
+
+{ #category : #accessing }
 CpMvpWebApplication class >> clientBehaviorClass [
 
 	^ CpMvpWebClientBehavior
@@ -93,7 +105,7 @@ CpMvpWebApplication >> clientCreateViewForPresenter: aPresenter [
 	"Create a new View in the ClientEnvironment for the specified Presenter"
 
 	"First install View class"
-	self environment addClass: aPresenter viewClass.
+	self installRequiredClass: aPresenter viewClass.
 
 	"Then instantiate the View.
 	Implementation: The MessageSend's receiver is replaced by its id
