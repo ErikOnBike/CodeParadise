@@ -1,5 +1,5 @@
 Class {
 	#name : #CpClientReconnected,
-	#superclass : #CpClientReady,
+	#superclass : #Announcement,
 	#category : #'CodeParadise-RemoteEnvironment-Core-Announcements'
 }
