@@ -5,32 +5,9 @@ I announce when my value changed.
 "
 Class {
 	#name : #CpModel,
-	#superclass : #Object,
-	#instVars : [
-		'announcer'
-	],
+	#superclass : #CpBaseModel,
 	#category : #'CodeParadise-WebApplication-MVP-Core'
 }
-
-{ #category : #announcing }
-CpModel class >> whenChangedSend: selector to: anObject [
-
-	"Intentionally left blank"
-]
-
-{ #category : #announcing }
-CpModel >> announce: anAnnouncement [
-
-	"Let the receiver announce the specified Announcement"
-
-	self announcer announce: anAnnouncement
-]
-
-{ #category : #accessing }
-CpModel >> announcer [
-
-	^ announcer
-]
 
 { #category : #accessing }
 CpModel >> application [
@@ -56,14 +33,6 @@ CpModel >> displayIn: aPresenter [
 	^ aPresenter createChildPresenterForModel: self
 ]
 
-{ #category : #initialization }
-CpModel >> initialize [
-
-	super initialize.
-
-	announcer := Announcer new
-]
-
 { #category : #presenter }
 CpModel >> preferredPresenterClass [
 
@@ -85,98 +54,4 @@ CpModel >> preferredPresenterClass [
 		ifNil: [ self error: 'The Presenter class ', className , ' does not exist. Either create it or implement ' , self class name , ' >> #preferredPresenterClass to answer a specific class' ].
 
 	^ presenterClass
-]
-
-{ #category : #dependencies }
-CpModel >> release [
-
-	announcer ifNotNil: [
-		announcer subscriptions reset.
-		announcer := nil ].
-
-	super release
-]
-
-{ #category : #announcing }
-CpModel >> removeSubscription: aSubscription [
-
-	"Remove the specified subscription from the receiver"
-
-	^ self announcer removeSubscription: aSubscription
-]
-
-{ #category : #announcing }
-CpModel >> unsubscribe: anObject [
-
-	"Unsubscribe the specified Object from Announcements of the receiver"
-
-	^ self announcer unsubscribe: anObject
-]
-
-{ #category : #announcing }
-CpModel >> valueChanged [
-	
-	"Announce the fact that the receiver's value changed.
-
-	Implementation:
-	This method is for compatibility with Model and NewValueHolder"
-
-	self announce: (ValueChanged newValue: self)
-]
-
-{ #category : #deprecated }
-CpModel >> when: anAnnouncementClass do: aBlock [
-
-	self warnCr: 'Use of any Announcer''s #when:do: is deprecated, please use #when:do:for:'.
-
-	^ self when: anAnnouncementClass do: aBlock for: aBlock receiver
-]
-
-{ #category : #announcing }
-CpModel >> when: anAnnouncementClass do: aBlock for: anObject [
-
-	"Subscribe anObject to announcements of anAnnouncementClass class. 
-	 When announced, aBlock is evaluated."
-
-	^ self announcer
-		when: anAnnouncementClass do: aBlock for: anObject
-]
-
-{ #category : #announcing }
-CpModel >> when: anAnnouncementClass send: aSymbol to: anObject [
-
-	"Let the sender subscribe to the specified announcement of the receiver.
-	See Announcer>>#when:send:to:"
-
-	^ self announcer when: anAnnouncementClass send: aSymbol to: anObject
-]
-
-{ #category : #deprecated }
-CpModel >> whenChangedDo: aBlock [
-
-	self warnCr: 'Use of any Announcer''s #whenChanged:do: is deprecated, please use #whenChangedDo:for:'.
-
-	^ self whenChangedDo: aBlock for: aBlock receiver
-]
-
-{ #category : #announcing }
-CpModel >> whenChangedDo: aBlock for: anObject [
-
-	"Let the sender subscribe to the value changed announcement of the receiver.
-
-	Implementation:
-	This method is for compatibility with Model and NewValueHolder"
-
-	^ self when: ValueChanged do: aBlock for: anObject
-]
-
-{ #category : #announcing }
-CpModel >> whenChangedSend: aSymbol to: anObject [
-
-	"Let the sender subscribe to the value changed announcement of the receiver
-
-	Implementation:
-	This method is for compatibility with Model and NewValueHolder"
-
-	^ self when: ValueChanged send: aSymbol to: anObject
 ]
