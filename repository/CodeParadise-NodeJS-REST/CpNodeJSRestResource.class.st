@@ -8,22 +8,11 @@ Class {
 CpNodeJSRestResource class >> installClassMethod: aCompiledMethod [
 
 	"Install the specified method.
-	If the method represents an EndpointOperation, register it.
-
-	Implementation:
-	If the method does not represent a valid EndpointOperation,
-	it is unregistered (the possibly previously registered operation
-	will be removed)."
-
-	| endpointOperation |
+	If the method represents an EndpointOperation, register it."
 
 	super installMethod: aCompiledMethod.
 
-	endpointOperation := CpNodeJSRestEndpointOperation fromCompiledMethod: aCompiledMethod.
-
-	endpointOperation isValid
-		ifTrue: [ CpNodeJSRestEndpointOperation registerOperation: endpointOperation ]
-		ifFalse: [ CpNodeJSRestEndpointOperation unregisterOperation: endpointOperation ]
+	self registerOperation: aCompiledMethod
 ]
 
 { #category : #'class initialization' }
@@ -37,20 +26,45 @@ CpNodeJSRestResource class >> postInstall [
 		self installClassMethod: method ]
 ]
 
+{ #category : #'registering endpoints' }
+CpNodeJSRestResource class >> registerOperation: aCompiledMethod [
+
+	"Register the specified CompiledMethod as an EndpointOperation (if it is valid).
+
+	Implementation:
+	If the method does not represent a valid EndpointOperation, it is unregistered
+	(the possibly previously registered operation will be removed)."
+
+	| endpointOperation |
+
+	endpointOperation := CpNodeJSRestEndpointOperation fromCompiledMethod: aCompiledMethod.
+
+	endpointOperation isValid
+		ifTrue: [ CpNodeJSRestEndpointOperation registerOperation: endpointOperation ]
+		ifFalse: [ CpNodeJSRestEndpointOperation unregisterOperation: endpointOperation ]
+]
+
 { #category : #installing }
 CpNodeJSRestResource class >> removeClassMethod: aCompiledMethod [
 
 	"Remove the specified method.
-	Unregister any EndpointOperation associated with this method.
-
-	Implementation:
-	To remove an operation an EndpointOperation is created which
-	might in fact no correctly represent an EndpointOperation, but
-	will identify as such, allowing unregistering it."
-
-	| endpointOperation |
+	Unregister any EndpointOperation associated with this method."
 
 	super removeMethod: aCompiledMethod.
+
+	self unregisterOperation: aCompiledMethod
+]
+
+{ #category : #'registering endpoints' }
+CpNodeJSRestResource class >> unregisterOperation: aCompiledMethod [
+
+	"Unregister the EndpointOperation associated with the specified CompiledMethod.
+
+	Implementation:
+	First an EndpointOperation is created from the specified CompiledMethod. This
+	endpoint might not be valid, but will identify as endpoint, allowing unregistering."
+
+	| endpointOperation |
 
 	endpointOperation := CpNodeJSRestEndpointOperation unsafeFromCompiledMethod: aCompiledMethod.
 
