@@ -396,6 +396,23 @@ CpDomElement >> cloneElement [
 	self primitiveFailed
 ]
 
+{ #category : #properties }
+CpDomElement >> customProperty: aString [
+
+	"Answer the value of the custom property (aka CSS variable) with the specified name"
+
+	^ self styleAt: '--', aString
+]
+
+{ #category : #properties }
+CpDomElement >> customProperty: nameString put: valueString [
+
+	"Set the value of the custom property (aka CSS variable) with the specified name
+	to the specified value"
+
+	self styleAt: '--', nameString put: valueString
+]
+
 { #category : #performing }
 CpDomElement >> defer: aBlock [
 
