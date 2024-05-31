@@ -145,6 +145,26 @@ CpMvpWebApplication >> clientCreateViews [
 ]
 
 { #category : #presenter }
+CpMvpWebApplication >> createApplicationPresenter [
+
+	"Create a new application Presenter.
+
+	Implementation:
+	First destroy an already present application Presenter. This will allow
+	the application to receive a new application Presenter (typically when
+	having a login mechanism you'd like to replace the application Presenter
+	if the login state changes)."
+
+	applicationPresenter ifNotNil: [
+		applicationPresenter destroy.
+		applicationPresenter := nil ].
+
+	(applicationPresenter := self registerPresenter: self applicationPresenterClass new)
+		model: self applicationModel ;
+		createView
+]
+
+{ #category : #presenter }
 CpMvpWebApplication >> generatePresenterIdentifier [
 
 	"Generate an unique identifier for a presenter of the receiver"
@@ -207,9 +227,7 @@ CpMvpWebApplication >> load [
 
 	super load.
 
-	(applicationPresenter := self registerPresenter: self applicationPresenterClass new)
-		model: self applicationModel ;
-		createView
+	self createApplicationPresenter
 ]
 
 { #category : #presenter }
