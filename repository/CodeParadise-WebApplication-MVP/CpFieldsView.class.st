@@ -54,16 +54,21 @@ CpFieldsView class >> isAbstractTag [
 ]
 
 { #category : #'event handling' }
+CpFieldsView >> attachEventHandlersFor: aSymbol to: anInputElement [
+
+	anInputElement propertyAt: self fieldPropertyName put: aSymbol.
+
+	anInputElement
+		when: anInputElement inputEventClass send: #handleFieldChanged: to: self ;
+		when: anInputElement changeEventClass send: #handleFieldChanged: to: self
+]
+
+{ #category : #'event handling' }
 CpFieldsView >> field: aSymbol changedTo: anObject [
 
 	"Announce the field with the specified name has changed to the specified value"
 
-	| event |
-
-	(event := self fieldChangedEventForId: aSymbol value: anObject)
-		ifNil: [ ^ self ].
-
-	self serverAnnounce: event
+	self serverAnnounce: (self fieldChangedEventForId: aSymbol value: anObject)
 ]
 
 { #category : #accessing }
@@ -78,6 +83,14 @@ CpFieldsView >> fieldChangedEventForId: aSymbol value: anObject [
 CpFieldsView >> fieldDebouncers [
 
 	^ fieldDebouncers ifNil: [ fieldDebouncers := Dictionary new ]
+]
+
+{ #category : #accessing }
+CpFieldsView >> fieldPropertyName [
+
+	"Answer (an internal) name for storing the field identifier"
+
+	^ #'__cp_fieldIdentifier'
 ]
 
 { #category : #'event handling' }
@@ -111,6 +124,24 @@ CpFieldsView >> handleEvent: anEvent forField: aSymbol [
 ]
 
 { #category : #'event handling' }
+CpFieldsView >> handleFieldChanged: anEvent [
+
+	"Handle the change (either Input or Change event) of the field.
+
+	Implementation:
+	The field identifier should be stored in the input element itself."
+
+	| fieldIdentifier |
+
+	fieldIdentifier := anEvent currentTarget ifNotNil: [ :target | target propertyAt: self fieldPropertyName ].
+	fieldIdentifier ifNil: [
+		self warnCr: 'Field event handler attached to field without field identifier'.
+		^ self ].
+
+	self handleEvent: anEvent forField: fieldIdentifier asSymbol
+]
+
+{ #category : #'event handling' }
 CpFieldsView >> handleInputEvent: anInputEvent forField: aSymbol [
 
 	"Handle an input event for the specified field.
@@ -137,6 +168,28 @@ CpFieldsView >> handleInputEvent: anInputEvent forField: aSymbol [
 	debounceTransition startDelayedBy: (self class debounceTimeForField: aSymbol).
 
 	self fieldDebouncers at: aSymbol put: debounceTransition
+]
+
+{ #category : #rendering }
+CpFieldsView >> render: aString toInputAtSlotNamed: slotNameString [
+
+	self render: aString toInputElement: (self firstChildAtSlotNamed: slotNameString)
+]
+
+{ #category : #rendering }
+CpFieldsView >> render: aString toInputElement: inputElement [
+
+	"If the input element has focus, do not render new value"
+	inputElement hasFocus
+		ifTrue: [ ^ self ].
+
+	inputElement value: aString
+]
+
+{ #category : #rendering }
+CpFieldsView >> render: aString toInputElementWithId: idString [
+
+	self render: aString toInputElement: (self elementWithId: idString)
 ]
 
 { #category : #accessing }

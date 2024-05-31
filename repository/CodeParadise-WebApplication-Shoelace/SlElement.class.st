@@ -157,6 +157,12 @@ SlElement class >> postInstallOnce [
 	self loadLibrary
 ]
 
+{ #category : #support }
+SlElement >> changeEventClass [
+
+	^ SlChangeEvent
+]
+
 { #category : #'text input' }
 SlElement >> focus: optionsArray [
 
@@ -166,6 +172,12 @@ SlElement >> focus: optionsArray [
 		{ #preventScroll -> true }."
 
 	self apply: #focus withArguments: optionsArray asDictionary
+]
+
+{ #category : #support }
+SlElement >> inputEventClass [
+
+	^ SlInputEvent
 ]
 
 { #category : #performing }
