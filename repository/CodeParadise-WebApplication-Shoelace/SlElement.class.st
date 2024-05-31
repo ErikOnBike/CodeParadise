@@ -54,7 +54,7 @@ SlElement class >> componentName [
 { #category : #accessing }
 SlElement class >> importBasePath [
 
-	^ 'https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.15.0/cdn/'
+	^ 'https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.15.1/cdn/'
 ]
 
 { #category : #accessing }
