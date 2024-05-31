@@ -154,7 +154,15 @@ CpTemplateComponent class >> template [
 { #category : #updating }
 CpTemplateComponent class >> updateAllInstances [
 
-	self allInstancesDo: [ :each | each initializeShadowRoot ]
+	"Update all instances.
+
+	Implementation:
+	This uses a full DOM tree (incl. Shadow DOM) traversal. Please use with care.
+	It should preferrably only be used during development and not in production."
+
+	CpHtmlElement documentBody allElementsDo: [ :each |
+		each class == self
+			ifTrue: [ each initializeShadowRoot ] ]
 ]
 
 { #category : #updating }

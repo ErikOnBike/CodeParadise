@@ -147,6 +147,19 @@ CpWebComponent class >> tagName [
 	^ (self name withoutSuffix: #View) asKebabCase
 ]
 
+{ #category : #private }
+CpWebComponent >> allElementsDo: aBlock [
+
+	"Evaluate the specified Block on the receiver and all elements attached to the receiver.
+	This means all child elements and the child elements of these child elements.
+	It also includes all elements in the Shadow DOM.
+	This can include a huge amount of Element. Use with care!"
+
+	self shadowRoot ifNotNil: [ :shadowRoot | shadowRoot allElementsDo: aBlock ].
+
+	super allElementsDo: aBlock
+]
+
 { #category : #'adding/removing' }
 CpWebComponent >> appendChild: childElement atSlotNamed: nameString [
 
