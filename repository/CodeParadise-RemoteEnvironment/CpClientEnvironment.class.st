@@ -192,6 +192,7 @@ CpClientEnvironment class >> preInstalledClasses [
 			add: Set ;
 			add: SmallInteger ;
 			add: SmalltalkImage ;
+			add: SortedCollection ;
 			add: String ;
 			add: SubscriptionRegistry ;
 			add: Symbol ;
