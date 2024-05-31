@@ -397,7 +397,7 @@ CpDomElement >> cloneElement [
 ]
 
 { #category : #properties }
-CpDomElement >> customProperty: aString [
+CpDomElement >> customPropertyAt: aString [
 
 	"Answer the value of the custom property (aka CSS variable) with the specified name"
 
@@ -405,7 +405,7 @@ CpDomElement >> customProperty: aString [
 ]
 
 { #category : #properties }
-CpDomElement >> customProperty: nameString put: valueString [
+CpDomElement >> customPropertyAt: nameString put: valueString [
 
 	"Set the value of the custom property (aka CSS variable) with the specified name
 	to the specified value"

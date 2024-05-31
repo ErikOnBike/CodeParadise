@@ -7,47 +7,47 @@ Class {
 { #category : #'accessing style' }
 SlCard >> borderColor [
 
-	^ self customProperty: #'border-color'
+	^ self customPropertyAt: #'border-color'
 ]
 
 { #category : #'accessing style' }
 SlCard >> borderColor: aString [
 
-	self customProperty: #'border-color' put: aString
+	self customPropertyAt: #'border-color' put: aString
 ]
 
 { #category : #'accessing style' }
 SlCard >> borderRadius [
 
-	^ self customProperty: #'border-radius'
+	^ self customPropertyAt: #'border-radius'
 ]
 
 { #category : #'accessing style' }
 SlCard >> borderRadius: aString [
 
-	self customProperty: #'border-radius' put: aString
+	self customPropertyAt: #'border-radius' put: aString
 ]
 
 { #category : #'accessing style' }
 SlCard >> borderWidth [
 
-	^ self customProperty: #'border-width'
+	^ self customPropertyAt: #'border-width'
 ]
 
 { #category : #'accessing style' }
 SlCard >> borderWidth: aString [
 
-	self customProperty: #'border-width' put: aString
+	self customPropertyAt: #'border-width' put: aString
 ]
 
 { #category : #'accessing style' }
 SlCard >> padding [
 
-	^ self customProperty: #padding
+	^ self customPropertyAt: #padding
 ]
 
 { #category : #'accessing style' }
 SlCard >> padding: aString [
 
-	self customProperty: #padding put: aString
+	self customPropertyAt: #padding put: aString
 ]

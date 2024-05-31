@@ -19,25 +19,25 @@ SlDivider >> beVertical [
 { #category : #'accessing style' }
 SlDivider >> color [
 
-	^ self customProperty: #color
+	^ self customPropertyAt: #color
 ]
 
 { #category : #'accessing style' }
 SlDivider >> color: aString [
 
-	self customProperty: #color put: aString
+	self customPropertyAt: #color put: aString
 ]
 
 { #category : #'accessing style' }
 SlDivider >> spacing [
 
-	^ self customProperty: #spacing
+	^ self customPropertyAt: #spacing
 ]
 
 { #category : #'accessing style' }
 SlDivider >> spacing: aString [
 
-	self customProperty: #spacing put: aString
+	self customPropertyAt: #spacing put: aString
 ]
 
 { #category : #'accessing style' }
@@ -49,11 +49,11 @@ SlDivider >> vertical: aBoolean [
 { #category : #'accessing style' }
 SlDivider >> width [
 
-	^ self customProperty: #width
+	^ self customPropertyAt: #width
 ]
 
 { #category : #'accessing style' }
 SlDivider >> width: aString [
 
-	self customProperty: #width put: aString
+	self customPropertyAt: #width put: aString
 ]
