@@ -189,6 +189,12 @@ CpActionRequested >> parameterKeys [
 		ifNil: [ #() ]
 ]
 
+{ #category : #accessing }
+CpActionRequested >> parameters [
+
+	^ parameters
+]
+
 { #category : #printing }
 CpActionRequested >> printOn: aStream [
 
