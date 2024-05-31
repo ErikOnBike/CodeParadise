@@ -263,6 +263,18 @@ CpServerApplication >> environment: aServerEnvironment [
 ]
 
 { #category : #installing }
+CpServerApplication >> installClass: aClass [
+
+	"Install the specified class in the receiver's environment.
+	It will NOT be validated whether the specified class is part of
+	an allowed package (see method #installRequiredClass:)
+	ONLY use this method if you can't use #installRequiredClass:"
+
+	self environment
+		addClass: aClass
+]
+
+{ #category : #installing }
 CpServerApplication >> installExtensionMethods [
 
 	"Install the extension methods from known Classes"
