@@ -446,6 +446,9 @@ CpClientEnvironment >> invalidSession [
 	(self confirm: 'The session is invalid. Start new session?')
 		ifFalse: [ ^ self ].
 
+	"Stop communicator to prevent trying to reconnect"
+	super stopCommunication.
+
 	"End current session and (fully) reload"
 	self
 		removeSession ;
@@ -552,7 +555,8 @@ CpClientEnvironment >> removePersistentVariableAt: nameString [
 { #category : #performing }
 CpClientEnvironment >> removeSession [
 
-	self removeVariableAt: #CLIENT_ID
+	self removeVariableAt: #CLIENT_ID.
+	id := nil
 ]
 
 { #category : #accessing }
@@ -563,6 +567,19 @@ CpClientEnvironment >> removeVariableAt: nameString [
 
 	<primitive: 'primitiveEnvironmentRemoveVariableAt:' module: 'CpSystemPlugin'>
 	^ self
+]
+
+{ #category : #support }
+CpClientEnvironment >> restartCommunication [
+
+	"Restart communication (after connection has been restored).
+	
+	Implementation:
+	Send reconnected announcement only if we have an actual session to reconnect to."
+
+	id ifNil: [ ^ self ].
+
+	self serverAnnounce: CpClientReconnected
 ]
 
 { #category : #'input/output' }
