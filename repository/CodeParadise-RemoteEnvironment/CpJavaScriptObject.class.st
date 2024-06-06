@@ -454,6 +454,14 @@ CpJavaScriptObject >> doesNotUnderstand: aMessage [
 	^ self apply: aMessage selector withArguments: aMessage arguments
 ]
 
+{ #category : #'apply primitives' }
+CpJavaScriptObject >> exceptionClass [
+
+	"Answer the JavaScript exception class which could be thrown by the receiver's methods"
+
+	^ CpJavaScriptError
+]
+
 { #category : #accessing }
 CpJavaScriptObject >> getClass [
 
@@ -541,12 +549,29 @@ CpJavaScriptObject >> primApply: aSymbol withArguments: anArray resultAs: aProxy
 
 	<primitive: 'primitiveJavaScriptObjectApply:withArguments:resultAs:' module: 'CpSystemPlugin'>
 
+	"Check if an exception was thrown"
+	(self primLastExceptionAs: self exceptionClass)
+		ifNotNil: [ :exception | ^ exception signal ].
+
 	"Check if selector exists by using #getSelectorType: (if that fails, do not do a DNU)"
 	[ type := self getSelectorType: aSymbol ] on: Error do: [ #skipDNU ].
 
 	type ifNil: [ ^ super doesNotUnderstand: (Message selector: aSymbol arguments: anArray) ].
 
 	self primitiveFailed
+]
+
+{ #category : #'apply primitives' }
+CpJavaScriptObject >> primLastExceptionAs: aProxyClass [
+
+	"Answer the last JavaScript exception thrown.
+
+	Implementation:
+	This call will remove the exception value, so it should not be called repeatedly."
+
+	<primitive: 'primitiveJavaScriptObjectLastExceptionAs:' module: 'CpSystemPlugin'>
+
+	^ nil
 ]
 
 { #category : #printing }

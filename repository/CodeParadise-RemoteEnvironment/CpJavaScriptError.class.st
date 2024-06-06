@@ -40,6 +40,14 @@ CpJavaScriptError >> message [
 	^ self propertyAt: #message
 ]
 
+{ #category : #signalling }
+CpJavaScriptError >> signal [
+
+	"Signal the receiver"
+
+	Error signal: 'Error in JavaScript' withTag: self
+]
+
 { #category : #operations }
 CpJavaScriptError >> toString [
 
