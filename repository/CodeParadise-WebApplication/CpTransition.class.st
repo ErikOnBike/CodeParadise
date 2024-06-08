@@ -138,7 +138,7 @@ CpTransition class >> new [
 	"Transitions should not be instantiated without a block.
 	See #onBlock: to create instances."
 
-	self shouldNotImplement
+	self errorNewReplacedBy: #onBlock:
 ]
 
 { #category : #'instance creation' }

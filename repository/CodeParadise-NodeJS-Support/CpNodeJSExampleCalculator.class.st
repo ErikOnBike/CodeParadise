@@ -19,7 +19,7 @@ CpNodeJSExampleCalculator class >> current [
 { #category : #'instance creation' }
 CpNodeJSExampleCalculator class >> new [
 
-	self error: 'Please use ', #current
+	self errorNewReplacedBy: #current
 ]
 
 { #category : #calculating }

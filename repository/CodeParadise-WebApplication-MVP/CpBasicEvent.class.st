@@ -63,7 +63,7 @@ CpBasicEvent class >> new [
 
 	"Do not instantiate events directly"
 
-	self error: 'Please create new instances for ', self name, ' using method ', #id:
+	self errorNewReplacedBy: #id:
 ]
 
 { #category : #testing }

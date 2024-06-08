@@ -77,7 +77,7 @@ CpFinder class >> new [
 
 	"Use self >> #current instead to get the singleton instance"
 
-	^ self error: 'The Finder should not be instantiated through #new, use #current instead'
+	^ self errorNewReplacedBy: #current
 ]
 
 { #category : #enumerating }

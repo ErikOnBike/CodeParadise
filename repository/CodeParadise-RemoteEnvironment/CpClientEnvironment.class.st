@@ -102,7 +102,7 @@ CpClientEnvironment class >> new [
 
 	"Use self >> #current instead to get the singleton instance"
 
-	self shouldNotImplement
+	self errorNewReplacedBy: #current
 ]
 
 { #category : #accessing }

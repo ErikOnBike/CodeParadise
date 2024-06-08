@@ -71,7 +71,7 @@ CpModifierKeyDownCondition class >> modifiers: anInteger [
 { #category : #'instance creation' }
 CpModifierKeyDownCondition class >> new [
 
-	self error: 'Instances of this class should not be created using #new. Use ', #modifiers:
+	self errorNewReplacedBy: #modifiers:
 ]
 
 { #category : #accessing }

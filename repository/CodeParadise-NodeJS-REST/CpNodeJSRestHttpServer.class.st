@@ -17,7 +17,7 @@ Class {
 { #category : #'instance creation' }
 CpNodeJSRestHttpServer class >> new [
 
-	self error: 'Please use ', #newOnPort:
+	self errorNewReplacedBy: #newOnPort:
 ]
 
 { #category : #'instance creation' }

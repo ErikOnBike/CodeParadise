@@ -20,7 +20,7 @@ CpNodeJSExampleHttpServer class >> current [
 { #category : #'instance creation' }
 CpNodeJSExampleHttpServer class >> new [
 
-	self error: 'Please use ', #current
+	self errorNewReplacedBy: #current
 ]
 
 { #category : #'class initialization' }

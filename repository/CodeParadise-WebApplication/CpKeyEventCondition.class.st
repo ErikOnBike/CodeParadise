@@ -25,7 +25,7 @@ CpKeyEventCondition class >> key: aString [
 { #category : #'instance creation' }
 CpKeyEventCondition class >> new [
 
-	self error: 'Instances of this class should not be created using #new. Use ', #key:
+	self errorNewReplacedBy: #key:
 ]
 
 { #category : #initialization }

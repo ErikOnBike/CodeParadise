@@ -41,7 +41,7 @@ CpViewProxy class >> allInstancesForViewClass: aClass do: aBlock [
 { #category : #'instance creation' }
 CpViewProxy class >> new [
 
-	self shouldNotImplement
+	self errorNewReplacedBy: #newForPresenter:
 ]
 
 { #category : #'instance creation' }

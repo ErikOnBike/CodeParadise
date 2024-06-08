@@ -115,6 +115,17 @@ Class >> cpRequiredClassesDo: anOneArgBlock [
 ]
 
 { #category : #'*CodeParadise-RemoteEnvironment' }
+Class >> errorNewReplacedBy: aSymbol [
+
+	"Signal the receiver should not be instantiated using #new
+	but using the specified Symbol"
+
+	<applicationExtension>
+
+	self error: 'Please create new or access current instances of ', self name, ' using method ', aSymbol printString
+]
+
+{ #category : #'*CodeParadise-RemoteEnvironment' }
 Class >> installMethod: aCompiledMethod [
 
 	"Install thw specified CompiledMethod in the receiver"

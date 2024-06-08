@@ -119,7 +119,7 @@ CpDomElement class >> new [
 	Subclasses might override this behavior and create specific instances."
 
 	self requiresInstantiationWithTag
-		ifTrue: [ self error: 'Instances of the receiver should be created using ', #newWithTag: ]
+		ifTrue: [ self errorNewReplacedBy: #newWithTag: ]
 		ifFalse: [ ^ super new ]
 ]
 

@@ -190,7 +190,7 @@ CpJavaScriptObject class >> new [
 
 	"New instances of the receiver should not be created 'manually'"
 
-	self error: 'Do not instantiate the receiver using #new, use one of the selectors starting with: ', #newInstance
+	self errorNewReplacedBy: #newInstance
 ]
 
 { #category : #'instance creation' }
