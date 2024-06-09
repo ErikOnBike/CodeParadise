@@ -239,6 +239,7 @@ CpNodeJSRestEndpointOperation >> validate [
 
 	(pathPattern isNil or: [ pathPattern isEmpty ])
 		ifNil: [ self error: 'REST endpoint definition is missing a path pattern' ].
+	CpNodeJSRestPathPattern validatePath: pathPattern asString.
 
 	"Check for presence of all required parameters"
 	requiredParams size = operation numArgs

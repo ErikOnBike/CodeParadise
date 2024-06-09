@@ -17,6 +17,16 @@ CpNodeJSRestPath class >> fromString: aString [
 		yourself
 ]
 
+{ #category : #converting }
+CpNodeJSRestPath >> asString [
+
+	| slash |
+
+	slash := '/'.
+
+	^ slash, slash join: pathSegments
+]
+
 { #category : #initialization }
 CpNodeJSRestPath >> initializeFromString: aString [
 

@@ -7,6 +7,51 @@ Class {
 	#category : #'CodeParadise-NodeJS-REST-Request'
 }
 
+{ #category : #validating }
+CpNodeJSRestPathPattern class >> validatePath: aString [
+
+	"Validate the specified path as REST endpoint"
+
+	| pathSegments |
+
+	aString isNotEmpty
+		ifFalse: [ self error: 'REST path should not be empty' ].
+
+	aString first = $/
+		ifFalse: [ self error: 'REST path should start with a (forward) slash' ].
+
+	pathSegments := aString findTokens: $/.
+	pathSegments isNotEmpty
+		ifFalse: [ self error: 'REST path should contain at least one path "segment"' ].
+
+	pathSegments do: [ :each | self validatePathSegment: each ]
+]
+
+{ #category : #validating }
+CpNodeJSRestPathPattern class >> validatePathSegment: aString [
+
+	"Validate the specified path segment for a REST endpoint.
+	Only lower case character, numbers and _ - and $ are allowed.
+	A segment my start with a colon to indicate a parameter."
+
+	| validCharacterBlock |
+
+	aString isNotEmpty
+		ifFalse: [ self error: 'REST path segments should not be empty' ].
+
+	validCharacterBlock := [ :each |
+			| unicode |
+			unicode := each asUnicode.
+			((unicode between: 97 and: 122)       "between $a asUnicode and $z asUnicode"
+			or: [ (unicode between: 48 and: 57)   "between $0 asUnicode and $9 asUnicode"
+			or: [ '_-$' includes: each ] ]) "special characters: _ - $"
+				ifFalse: [ self error: 'REST path segment contains invalid character ', each asString ] ].
+
+	aString first = $:
+		ifTrue: [ aString allButFirst do: [ :each | validCharacterBlock value: each ] ]
+		ifFalse: [ aString do: [ :each | validCharacterBlock value: each ] ]
+]
+
 { #category : #testing }
 CpNodeJSRestPathPattern >> hasParameterNamed: aString [
 
