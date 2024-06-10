@@ -67,7 +67,7 @@ CpJsonObject >> doesNotUnderstand: aMessage [
 { #category : #initialization }
 CpJsonObject >> initializeWithOrderedDictionary: anOrderedDictionary [
 
-	self initialize.
+	self initialize: anOrderedDictionary size.
 
 	"Add individual keys and values to make sure keys are converted to Strings"
 	anOrderedDictionary keysAndValuesDo: [ :key :value |
