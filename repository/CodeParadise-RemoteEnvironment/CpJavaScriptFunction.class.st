@@ -85,3 +85,14 @@ CpJavaScriptFunction >> call: anObject withArguments: anArray [
 
 	^ self apply: #apply withArguments: { self . anArray }
 ]
+
+{ #category : #operations }
+CpJavaScriptFunction >> call: anObject withArguments: anArray resultAs: aClass [
+
+	"Call the the receiver's proxied JavaScript object (i.e. function)
+	with the specified arguments.
+	Because of the similar names, the JavaScript methods 'apply()' and
+	'call' are both mapped onto this #call:withArguments:"
+
+	^ self apply: #apply withArguments: { self . anArray } resultAs: aClass
+]
