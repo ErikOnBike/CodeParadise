@@ -92,7 +92,6 @@ CpNodeJSRestRequest >> resolveBodyThenDo: aBlock ifFail: exceptionBlock [
 			removeEndHandler: endHandler ;
 			removeErrorHandler: errorHandler.
 		body := CpJavaScriptJSON parse: (CpNodeJSBuffer concat: buffer asArray) toString.
-		self traceCr: body class printString.
 		aBlock value ].
 	errorHandler := incomingMessage onErrorDo: [ :error |
 		incomingMessage

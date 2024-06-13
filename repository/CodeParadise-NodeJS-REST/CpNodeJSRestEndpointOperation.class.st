@@ -101,7 +101,7 @@ CpNodeJSRestEndpointOperation class >> path: aString putOperation: aMessageSend 
 CpNodeJSRestEndpointOperation class >> registerOperation: anEndPointOperation [
 
 	Operations ifNil: [ Operations := Dictionary new ].
-self traceCr: 'Register ', anEndPointOperation identifier.
+
 	Operations at: anEndPointOperation identifier put: anEndPointOperation.
 
 	^ anEndPointOperation
