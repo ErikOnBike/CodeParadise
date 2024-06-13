@@ -181,7 +181,7 @@ CpNodeJSSqlite3Statement >> runWithBindings: aDictionaryOrArray [
 
 	If execution of the statement fails, an Error is thrown."
 
-	^ self apply: #run withArguments: (self asBindingParameters: aDictionaryOrArray)
+	^ self apply: #run withArguments: (self asBindingParameters: aDictionaryOrArray) resultAs: CpJavaScriptJSON
 ]
 
 { #category : #accessing }
