@@ -19,6 +19,17 @@ CpNodeJSCrypto >> pbkdf2Password: passwordString salt: saltString iterations: it
 ]
 
 { #category : #actions }
+CpNodeJSCrypto >> randomBytes: anInteger [
+
+	"Generates cryptographically strong pseudorandom data. The size argument is a number indicating the number of bytes to generate.
+
+	size <number> The number of bytes to generate. The size must not be larger than 2**31 - 1.
+	Returns: <Buffer>"
+
+	^ self apply: #randomBytes withArguments: { anInteger } resultAs: CpNodeJSBuffer
+]
+
+{ #category : #actions }
 CpNodeJSCrypto >> randomUUID [
 
 	"Generates a random RFC 4122 version 4 UUID. The UUID is generated using a cryptographic pseudorandom number generator."
