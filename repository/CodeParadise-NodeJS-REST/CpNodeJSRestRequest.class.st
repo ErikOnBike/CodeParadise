@@ -6,7 +6,7 @@ Class {
 		'body',
 		'incomingMessage'
 	],
-	#category : #'CodeParadise-NodeJS-REST-Request'
+	#category : #'CodeParadise-NodeJS-REST-Core'
 }
 
 { #category : #'instance creation' }
@@ -56,9 +56,7 @@ CpNodeJSRestRequest >> jsonBody [
 
 	"Answer the body as JSON object"
 
-	body ifNil: [ ^ nil ].
-
-	^ CpJsonObject fromString: body
+	^ body
 ]
 
 { #category : #accessing }
@@ -94,6 +92,7 @@ CpNodeJSRestRequest >> resolveBodyThenDo: aBlock ifFail: exceptionBlock [
 			removeEndHandler: endHandler ;
 			removeErrorHandler: errorHandler.
 		body := CpJavaScriptJSON parse: (CpNodeJSBuffer concat: buffer asArray) toString.
+		self traceCr: body class printString.
 		aBlock value ].
 	errorHandler := incomingMessage onErrorDo: [ :error |
 		incomingMessage

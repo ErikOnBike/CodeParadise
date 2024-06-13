@@ -9,3 +9,9 @@ CpNodeJSRestBadRequestError class >> responseCode [
 
 	^ 400
 ]
+
+{ #category : #accessing }
+CpNodeJSRestBadRequestError class >> responseString [
+
+	^ 'Bad Request'
+]

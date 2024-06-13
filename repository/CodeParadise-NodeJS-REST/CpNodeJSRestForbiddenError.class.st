@@ -9,3 +9,9 @@ CpNodeJSRestForbiddenError class >> responseCode [
 
 	^ 403
 ]
+
+{ #category : #accessing }
+CpNodeJSRestForbiddenError class >> responseString [
+
+	^ 'Forbidden'
+]

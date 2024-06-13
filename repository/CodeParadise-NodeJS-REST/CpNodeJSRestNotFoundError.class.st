@@ -9,3 +9,9 @@ CpNodeJSRestNotFoundError class >> responseCode [
 
 	^ 404
 ]
+
+{ #category : #accessing }
+CpNodeJSRestNotFoundError class >> responseString [
+
+	^ 'Resource Not Found'
+]

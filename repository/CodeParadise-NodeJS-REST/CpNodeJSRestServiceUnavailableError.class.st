@@ -9,3 +9,9 @@ CpNodeJSRestServiceUnavailableError class >> responseCode [
 
 	^ 503
 ]
+
+{ #category : #accessing }
+CpNodeJSRestServiceUnavailableError class >> responseString [
+
+	^ 'Service Unavailable'
+]

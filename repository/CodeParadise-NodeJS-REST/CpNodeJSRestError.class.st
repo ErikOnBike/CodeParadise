@@ -11,6 +11,12 @@ CpNodeJSRestError class >> responseCode [
 ]
 
 { #category : #accessing }
+CpNodeJSRestError class >> responseString [
+
+	^ 'Internal Server Error'
+]
+
+{ #category : #accessing }
 CpNodeJSRestError >> responseCode [
 
 	^ self class responseCode
@@ -24,4 +30,12 @@ CpNodeJSRestError >> restResponseCode [
 	prevent a name clash with other extensions."
 
 	^ self responseCode
+]
+
+{ #category : #'as yet unclassified' }
+CpNodeJSRestError >> restResponseString [
+
+	^ messageText isEmptyOrNil
+		ifTrue: [ self class responseString ]
+		ifFalse: [ messageText ]
 ]

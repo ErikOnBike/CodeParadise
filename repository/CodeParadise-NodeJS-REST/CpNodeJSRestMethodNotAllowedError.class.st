@@ -9,3 +9,9 @@ CpNodeJSRestMethodNotAllowedError class >> responseCode [
 
 	^ 405
 ]
+
+{ #category : #accessing }
+CpNodeJSRestMethodNotAllowedError class >> responseString [
+
+	^ 'Method Not Allowed'
+]

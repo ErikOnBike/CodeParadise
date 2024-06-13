@@ -9,3 +9,9 @@ CpNodeJSRestUnauthorizedError class >> responseCode [
 
 	^ 401
 ]
+
+{ #category : #accessing }
+CpNodeJSRestUnauthorizedError class >> responseString [
+
+	^ 'Unauthorized'
+]

@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'pathSegments'
 	],
-	#category : #'CodeParadise-NodeJS-REST-Request'
+	#category : #'CodeParadise-NodeJS-REST-Core'
 }
 
 { #category : #'instance creation' }

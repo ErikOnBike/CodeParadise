@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'paramMapping'
 	],
-	#category : #'CodeParadise-NodeJS-REST-Request'
+	#category : #'CodeParadise-NodeJS-REST-Core'
 }
 
 { #category : #validating }
@@ -92,6 +92,19 @@ CpNodeJSRestPathPattern >> parameterNames [
 	"Answer the parameter names"
 
 	^ paramMapping keys
+]
+
+{ #category : #accessing }
+CpNodeJSRestPathPattern >> pathUsingParameters: aDictionary [
+
+	"Answer a path (String) representing a filled in pattern path"
+
+	^ String streamContents: [ :stream |
+		pathSegments do: [ :each |
+			stream nextPut: $/.
+			(each beginsWith: ':')
+				ifTrue: [ stream nextPutAll: (aDictionary at: each allButFirst ifAbsent: [ self error: 'Missing parameter ', each, ' in path ', self asString ]) ]
+				ifFalse: [ stream nextPutAll: each ] ] ]
 ]
 
 { #category : #printing }
