@@ -19,9 +19,12 @@ CpJavaScriptError >> description [
 
 	^ String streamContents: [ :stream |
 		| message |
-		stream << (self getClass name ifNil: [ 'Error' ]).
+		stream nextPutAll: (self getClass name ifNil: [ 'Error' ]).
 		(message := self message) isEmptyOrNil
-			ifFalse: [ stream << ': ' << message ] ]
+			ifFalse: [
+				stream
+					nextPutAll: ': ' ;
+					print: message ] ]
 ]
 
 { #category : #testing }
