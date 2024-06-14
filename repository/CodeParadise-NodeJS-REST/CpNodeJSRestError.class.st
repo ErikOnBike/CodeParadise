@@ -17,6 +17,22 @@ CpNodeJSRestError class >> responseString [
 ]
 
 { #category : #accessing }
+CpNodeJSRestError class >> restResponseCode [
+
+	"Answer the REST response code (aka HTTP status code)"
+
+	^ self responseCode
+]
+
+{ #category : #accessing }
+CpNodeJSRestError class >> restResponseString [
+
+	"Answer the REST response String (matching #responseCode)"
+
+	^ self responseString
+]
+
+{ #category : #accessing }
 CpNodeJSRestError >> responseCode [
 
 	^ self class responseCode
@@ -32,7 +48,7 @@ CpNodeJSRestError >> restResponseCode [
 	^ self responseCode
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 CpNodeJSRestError >> restResponseString [
 
 	^ messageText isEmptyOrNil
