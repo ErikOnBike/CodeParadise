@@ -157,18 +157,16 @@ CpTransition class >> performTransitions [
 
 	"Handle 'ticking' all transitions of the receiver"
 
-	| currentTransitions currentTick finishedTransitions |
+	| currentTick finishedTransitions |
 
- 	"For avoiding 'Transitions' class variable captured as nil in select: block. (Bug in SqueakJS?)"
- 	currentTransitions := Transitions.
-	currentTransitions ifEmpty: [ ^ self ].
+ 	Transitions ifEmpty: [ ^ self ].
 
 	"For performance use a single error handler (instead of one per transition)"
 	[
 		currentTick := self tickCount.
 
 		"Handle all transitions keeping track which have finished"
-		finishedTransitions := currentTransitions select: [ :each |
+		finishedTransitions := Transitions select: [ :each |
 			each startTick
 				ifNotNil: [ :startTick |
 					startTick <= currentTick
@@ -257,17 +255,15 @@ CpTransition class >> unregisterFinishedTransitions: finishedTransitions [
  	"Remove all transitions which have finished.
  	Use a reverse lookup for performance (typically iterating over few items)."
 
- 	| currentTransitions index |
+ 	| index |
 
- 	"For avoiding 'Transitions' class variable captured as nil in reverseDo: block. (Bug in SqueakJS?)"
- 	currentTransitions := Transitions.
- 	index := currentTransitions size.
+ 	index := Transitions size.
 
  	finishedTransitions reverseDo: [ :each |
- 		(currentTransitions lastIndexOf: each startingAt: index ifAbsent: [ nil ])
+ 		(Transitions lastIndexOf: each startingAt: index ifAbsent: [ nil ])
 			ifNotNil: [ :foundIndex |
- 				currentTransitions removeAt: foundIndex.
- 				index := foundIndex - 1 min: currentTransitions size ] ].
+ 				Transitions removeAt: foundIndex.
+ 				index := foundIndex - 1 min: Transitions size ] ].
 
 	self hasTransitions: Transitions isNotEmpty
 ]
