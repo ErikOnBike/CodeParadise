@@ -24,7 +24,9 @@ Exception >> cause [
 
 	<applicationExtension>
 
-	^ nil
+	^ tag isErrorObject
+		ifTrue: [ tag ]
+		ifFalse: [ nil ]
 ]
 
 { #category : #'*CodeParadise-RemoteEnvironment' }
