@@ -467,7 +467,7 @@ CpJavaScriptObject >> getClass [
 
 	"Answer the class of the proxied JavaScript object"
 
-	^ self apply: #constructor resultAs: CpJavaScriptClass
+	^ self propertyAt: #constructor resultAs: CpJavaScriptClass
 ]
 
 { #category : #accessing }
@@ -634,8 +634,7 @@ CpJavaScriptObject >> propertyAt: aSymbol [
 	This method is more forgiving than #apply: since it will just
 	answer nil if not present, instead of raising an error."
 
-	<primitive: 'primitiveJavaScriptObjectPropertyAt:' module: 'CpSystemPlugin'>
-	self primitiveFailed
+	^ self propertyAt: aSymbol resultAs: nil
 ]
 
 { #category : #accessing }
@@ -649,5 +648,23 @@ CpJavaScriptObject >> propertyAt: aSymbol put: anObject [
 	add a property if not present, instead of raising an error."
 
 	<primitive: 'primitiveJavaScriptObjectPropertyAt:put:' module: 'CpSystemPlugin'>
+	self primitiveFailed
+]
+
+{ #category : #accessing }
+CpJavaScriptObject >> propertyAt: aSymbol resultAs: aProxyClass [
+
+	"Get the property from the proxied JavaScript object.
+	In line with regular JavaScript this will either answer the
+	property value or nil if such a property does not exist or
+	its value is null or undefined.
+
+	This method is more forgiving than #apply: since it will just
+	answer nil if not present, instead of raising an error.
+	
+	If a proxy Class is specified and the result is an object
+	(i.e. not undefined or null) it will be proxied."
+
+	<primitive: 'primitiveJavaScriptObjectPropertyAt:resultAs:' module: 'CpSystemPlugin'>
 	self primitiveFailed
 ]
