@@ -165,6 +165,18 @@ CpNodeJSRestEndpointOperation >> initializeWithPath: aString method: aSymbol bod
 	operation := aMessageSend
 ]
 
+{ #category : #accessing }
+CpNodeJSRestEndpointOperation >> method [
+
+	^ method
+]
+
+{ #category : #accessing }
+CpNodeJSRestEndpointOperation >> path [
+
+	^ pathPattern asString
+]
+
 { #category : #performing }
 CpNodeJSRestEndpointOperation >> performOperationRequest: aRestRequest response: aServerResponse [
 
@@ -173,4 +185,17 @@ CpNodeJSRestEndpointOperation >> performOperationRequest: aRestRequest response:
 	[ operation valueWithArguments: { aRestRequest . aServerResponse } ] on: Error do: [ :error |
 		aServerResponse writableEnded
 			ifFalse: [ aServerResponse writeError: error] ]
+]
+
+{ #category : #printing }
+CpNodeJSRestEndpointOperation >> printOn: aStream [
+
+	aStream
+		nextPutAll: operation receiver class name ;
+		nextPutAll: ' >> ' ;
+		print: operation selector ;
+		nextPutAll: ' at path "' ;
+		nextPutAll: self path ;
+		nextPutAll: '" for method ' ;
+		nextPutAll: self method
 ]

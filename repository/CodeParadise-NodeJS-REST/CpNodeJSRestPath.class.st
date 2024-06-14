@@ -24,7 +24,7 @@ CpNodeJSRestPath >> asString [
 
 	slash := '/'.
 
-	^ slash, slash join: pathSegments
+	^ slash, (slash join: pathSegments)
 ]
 
 { #category : #initialization }
