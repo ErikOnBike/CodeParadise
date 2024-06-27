@@ -88,6 +88,27 @@ CpNodeJSRestRequest >> pathParameters [
 	^ pathParameters
 ]
 
+{ #category : #printing }
+CpNodeJSRestRequest >> printOn: aStream [
+
+	aStream
+		nextPutAll: self class name ;
+		nextPutAll:  ' HTTP' ;
+		nextPutAll: incomingMessage httpVersion ;
+		space ; 
+		nextPutAll: self method ;
+		space ;
+		nextPutAll: incomingMessage url.
+
+	incomingMessage headers keysAndValuesDo: [ :key :value |
+		aStream
+			nextPutAll: ' (' ;
+			print: key ;
+			nextPutAll: ' -> ' ;
+			print: value ;
+			nextPut: $) ]
+]
+
 { #category : #resolving }
 CpNodeJSRestRequest >> resolveBodyThenDo: aBlock ifFail: exceptionBlock [
 
