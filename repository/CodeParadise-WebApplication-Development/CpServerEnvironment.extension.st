@@ -1,11 +1,11 @@
 Extension { #name : #CpServerEnvironment }
 
 { #category : #'*CodeParadise-WebApplication-Development' }
-CpServerEnvironment >> handleError: aString [
+CpServerEnvironment >> handleError: anError [
 
-	"Handle an error with the specified description"
+	"Handle the specified Error"
 
-	super handleError: aString.
+	super handleError: anError.
 
 	loaded
 		ifTrue: [
@@ -13,7 +13,11 @@ CpServerEnvironment >> handleError: aString [
 				self sendMessageDirectly: (MessageSend
 					receiver: nil
 					selector: #alert:
-					arguments: { 'An error occurred (see Pharo image): ', aString }) ] ].
+					arguments: { 'An error occurred (see Pharo image): ', anError description }) ] ].
 
-	self halt
+	"Debug the error in the development environment.
+	DO NOT FORGET TO USE 'Proceed' IN THE DEBUGGER WHEN DONE.
+	THE ServerEnvironment USES A SINGLE THREADED MODEL FOR
+	HANDLING ANNOUNCEMENTS AND WILL OTHERWISE BECOME UNRESPONSIVE."
+	self ifDevelopment: [ self halt ]
 ]

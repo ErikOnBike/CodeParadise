@@ -215,7 +215,15 @@ CpServerEnvironment >> announce: anAnnouncement [
 	"Let the receiver announce the specified Announcement"
 
 	[ self announcer announce: anAnnouncement ] on: Error do: [ :error |
-		self handleError: error printString, '. Error occurred while handling the View Announcement: ', anAnnouncement printString ]
+
+		"Add 'location' of the error, by appending the Announcement description"
+		error messageText: (String streamContents: [ :stream |
+			stream
+				nextPutAll: error messageText ;
+				nextPutAll: ' (occurred while handling the View Announcement: ' ;
+				print: anAnnouncement ;
+				nextPut: $) ]).
+		self handleError: error ]
 ]
 
 { #category : #accessing }
