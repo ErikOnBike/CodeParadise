@@ -130,6 +130,7 @@ CpNodeJSRestEndpointOperation >> handleRequest: aRestRequest response: aServerRe
 		ifFalse: [ ^ false ].
 
 	(pathPattern isNotNil and: [ pathPattern matchesPath: aRestRequest path ])
+		ifTrue: [ aRestRequest setPathParameters: (pathPattern parametersFromPath: aRestRequest path) ]
 		ifFalse: [ ^ false ].
 
 	"Resolve the body (if required) and perform the operation"

@@ -3,6 +3,7 @@ Class {
 	#superclass : #Object,
 	#instVars : [
 		'path',
+		'pathParameters',
 		'body',
 		'incomingMessage'
 	],
@@ -71,6 +72,21 @@ CpNodeJSRestRequest >> path [
 	^ path
 ]
 
+{ #category : #accessing }
+CpNodeJSRestRequest >> pathParameterAt: aSymbol [
+
+	"Answer the path parameter with the specified name
+	or nil if such a parameter does not exist"
+
+	^ pathParameters at: aSymbol ifAbsent: [ nil ]
+]
+
+{ #category : #accessing }
+CpNodeJSRestRequest >> pathParameters [
+
+	^ pathParameters
+]
+
 { #category : #resolving }
 CpNodeJSRestRequest >> resolveBodyThenDo: aBlock ifFail: exceptionBlock [
 
@@ -91,12 +107,21 @@ CpNodeJSRestRequest >> resolveBodyThenDo: aBlock ifFail: exceptionBlock [
 			removeDataHandler: dataHandler ;
 			removeEndHandler: endHandler ;
 			removeErrorHandler: errorHandler.
-		body := CpJavaScriptJSON parse: (CpNodeJSBuffer concat: buffer asArray) toString.
-		aBlock value ].
+		[
+			body := CpJavaScriptJSON parse: (CpNodeJSBuffer concat: buffer asArray) toString.
+			aBlock value
+		] on: Error do: [ :error |
+			exceptionBlock cull: error ] ].
 	errorHandler := incomingMessage onErrorDo: [ :error |
 		incomingMessage
 			removeDataHandler: dataHandler ;
 			removeEndHandler: endHandler ;
 			removeErrorHandler: errorHandler.
 		exceptionBlock cull: error ]
+]
+
+{ #category : #private }
+CpNodeJSRestRequest >> setPathParameters: aDictionary [
+
+	pathParameters := aDictionary
 ]

@@ -69,7 +69,7 @@ CpNodeJSRestPathPattern >> initializeFromString: aString [
 		(each beginsWith: ':')
 			ifTrue: [
 				paramMapping
-					at: each allButFirst
+					at: each allButFirst asSymbol
 					ifPresent: [ self error: 'Duplicate parameter ', each allButFirst, ' in REST path pattern' ]
 					ifAbsentPut: index ] ]
 ]
@@ -92,6 +92,22 @@ CpNodeJSRestPathPattern >> parameterNames [
 	"Answer the parameter names"
 
 	^ paramMapping keys
+]
+
+{ #category : #accessing }
+CpNodeJSRestPathPattern >> parametersFromPath: aPath [
+
+	"Answer a Dictionary containing the named parameters of the receiver
+	with the respective parameter value from the specified path.
+	It is assumed the specified path matches the receiver."
+
+	| parameters |
+
+	parameters := Dictionary new.
+	paramMapping keysAndValuesDo: [ :key :index |
+		parameters at: key put: (aPath segmentAt: index) ].
+
+	^ parameters
 ]
 
 { #category : #accessing }
