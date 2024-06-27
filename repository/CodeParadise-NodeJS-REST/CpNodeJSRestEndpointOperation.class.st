@@ -20,6 +20,10 @@ CpNodeJSRestEndpointOperation class >> handleRequest: aRestRequest response: aSe
 
 	Operations ifNil: [ ^ false ].
 
+	"Log the call in development"
+	CpJavaScriptObject isDevelopmentEnvironment
+		ifTrue: [ self traceCr: aRestRequest method printString, ' ', aRestRequest path asString ].
+
 	"Try each EndPointOperation until one succeeds in handling request"
 	Operations valuesDo: [ :each |
 		(each handleRequest: aRestRequest response: aServerResponse)
