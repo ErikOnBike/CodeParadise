@@ -21,7 +21,7 @@ CpNodeJSRestRequest class >> fromIncomingMessage: anIncomingMessage [
 { #category : #accessing }
 CpNodeJSRestRequest >> body [
 
-	"Answer the body of the request.
+	"Answer the raw body (a Node.js Buffer) of the request.
 
 	Implementation:
 	This method should only be called after #resolveBodyThenDo:ifFail:
@@ -57,7 +57,8 @@ CpNodeJSRestRequest >> jsonBody [
 
 	"Answer the body as JSON object"
 
-	^ body
+	^ [ CpJavaScriptJSON parse: body toString ] on: Error do: [ :error |
+		self error: 'Failed to parse JSON: ', error printString ]
 ]
 
 { #category : #accessing }
@@ -108,7 +109,7 @@ CpNodeJSRestRequest >> resolveBodyThenDo: aBlock ifFail: exceptionBlock [
 			removeEndHandler: endHandler ;
 			removeErrorHandler: errorHandler.
 		[
-			body := CpJavaScriptJSON parse: (CpNodeJSBuffer concat: buffer asArray) toString.
+			body := CpNodeJSBuffer concat: buffer asArray.
 			aBlock value
 		] on: Error do: [ :error |
 			exceptionBlock cull: error ] ].
