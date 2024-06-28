@@ -287,6 +287,17 @@ CpMvpWebApplication >> reload [
 	self clientCreateViews
 ]
 
+{ #category : #actions }
+CpMvpWebApplication >> reload: anAnnouncement [
+
+	"Client environment restarted. Update client variables and reload application."
+
+	"Perform reload in context of the receiver"
+	CpCurrentApplicationContext
+		value: self
+		during: [ super reload: anAnnouncement ]
+]
+
 { #category : #announcing }
 CpMvpWebApplication >> removeInterestIn: anAnnouncementClass for: anObject [
 
