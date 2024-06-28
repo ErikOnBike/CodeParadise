@@ -109,12 +109,12 @@ CpNodeJSExampleHttpServer >> handleRequest: anIncomingMessage response: aServerR
 			ifFalse: [
 				self evaluateCommands: commandsStream.
 				aServerResponse
-					writeChunk: calculator value, String lf ;
-					statusCode: 200 ]
+					statusCode: 200 ;
+					writeChunk: calculator value, String lf ]
 	] on: Error do: [ :anError |
 		aServerResponse
-			writeChunk: 'Failure: ', anError printString, String lf, String lf ;
-			statusCode: 500.
+			statusCode: 500 ;
+			writeChunk: 'Failure: ', anError printString, String lf, String lf.
 		showUsage := true
 	].
 
