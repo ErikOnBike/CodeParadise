@@ -29,6 +29,23 @@ CpBrowserDocument >> isVisible [
 ]
 
 { #category : #accessing }
+CpBrowserDocument >> url [
+
+	"Convenience method to answer the receiver's URL as an Object (instead of String).
+	See also: #urlString."
+
+	^ CpJavaScriptURL newUrl: self urlString
+]
+
+{ #category : #accessing }
+CpBrowserDocument >> urlString [
+
+	"The URL read-only property of the Document interface returns the document location as a string"
+
+	^ self propertyAt: #URL
+]
+
+{ #category : #accessing }
 CpBrowserDocument >> visibilityState [
 
 	"Returns a string denoting the visibility state of the document. Possible values are visible, hidden, prerender, and unloaded."
