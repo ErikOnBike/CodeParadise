@@ -5,7 +5,8 @@ Class {
 		'method',
 		'pathPattern',
 		'operation',
-		'isBodyRequired'
+		'isBodyRequired',
+		'authorizationBlock'
 	],
 	#classVars : [
 		'Operations'
@@ -137,9 +138,15 @@ CpNodeJSRestEndpointOperation >> handleRequest: aRestRequest response: aServerRe
 	isBodyRequired
 		ifTrue: [
 			aRestRequest
-				resolveBodyThenDo: [ self performOperationRequest: aRestRequest response: aServerResponse ]
+				resolveBodyThenDo: [
+					(self isAuthorizedRequest: aRestRequest)
+						ifFalse: [ CpNodeJSRestUnauthorizedError signal ].
+					self performOperationRequest: aRestRequest response: aServerResponse ]
 				ifFail: [ :error | aServerResponse writeError: error ] ]
-		ifFalse: [ self performOperationRequest: aRestRequest response: aServerResponse ].
+		ifFalse: [
+			(self isAuthorizedRequest: aRestRequest)
+				ifFalse: [ CpNodeJSRestUnauthorizedError signal ].
+			self performOperationRequest: aRestRequest response: aServerResponse ].
 
 	^ true
 ]
@@ -168,6 +175,18 @@ CpNodeJSRestEndpointOperation >> initializeWithPath: aString method: aSymbol bod
 	method := aSymbol.
 	isBodyRequired := aBoolean.
 	operation := aMessageSend
+]
+
+{ #category : #testing }
+CpNodeJSRestEndpointOperation >> isAuthorizedRequest: aRestRequest [
+
+	"Answer whether the specified REST Request is authorized to perform the operation.
+	If no authorization Block is set, it is assumed this is a public endpoint and
+	authorization is therefore okay."
+
+	^ authorizationBlock
+		ifNotNil: [ authorizationBlock value: aRestRequest ]
+		ifNil: [ true ]
 ]
 
 { #category : #accessing }
@@ -203,4 +222,10 @@ CpNodeJSRestEndpointOperation >> printOn: aStream [
 		nextPutAll: self path ;
 		nextPutAll: '" for method ' ;
 		nextPutAll: self method
+]
+
+{ #category : #accessing }
+CpNodeJSRestEndpointOperation >> setAuthorizationBlock: aBlock [
+
+	authorizationBlock := aBlock
 ]

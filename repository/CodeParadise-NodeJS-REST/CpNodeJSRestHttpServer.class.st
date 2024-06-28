@@ -112,22 +112,23 @@ CpNodeJSRestHttpServer >> createServer [
 { #category : #'event handling' }
 CpNodeJSRestHttpServer >> handleRequest: anIncomingMessage response: aServerResponse [
 
-	| request |
-
 	"Extract request from incoming message"
 	[
+		| request |
+
+		"Extract request from incoming message"
 		request := CpNodeJSRestRequest fromIncomingMessage: anIncomingMessage.
+
+		"Handle actual request and write appropriate response"
+		CpNodeJSRestEndpointOperation handleRequest: request response: aServerResponse
 	] on: Error do: [ :error |
 		aServerResponse
+			statusCode: error restResponseCode ;
 			writeChunk: (self class responseStringFromError: error) ;
 			writeChunk: String lf ;
-			statusCode: error restResponseCode ;
 			end.
 		^ self	
-	].
-
-	"Handle actual request and write appropriate response"
-	CpNodeJSRestEndpointOperation handleRequest: request response: aServerResponse
+	]
 ]
 
 { #category : #initialization }
