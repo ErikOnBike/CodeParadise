@@ -33,7 +33,7 @@ CpJavaScriptURL class >> newUrl: aString [
 
 	"Creates and returns a URL object referencing the URL specified using an absolute URL string, or a relative URL string and a base URL string."
 
-	^ self newUrl: aString base: nil
+	^ self newInstanceWithArguments: { aString }
 ]
 
 { #category : #'instance creation' }
