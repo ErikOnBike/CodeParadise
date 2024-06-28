@@ -37,14 +37,6 @@ CpJavaScriptURLSearchParams >> forEach: aFunction [
 ]
 
 { #category : #operations }
-CpJavaScriptURLSearchParams >> get: aString [
-
-	"Returns the first value associated with the given search parameter."
-
-	^ self apply: #get withArguments: { aString }
-]
-
-{ #category : #operations }
 CpJavaScriptURLSearchParams >> getKey: aString [
 
 	"Returns the first value associated with the given search parameter."
