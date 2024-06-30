@@ -30,6 +30,19 @@ CpNodeJSCrypto >> randomBytes: anInteger [
 ]
 
 { #category : #actions }
+CpNodeJSCrypto >> randomIntBetween: minInteger and: maxInteger [
+
+	"Return a random integer n such that min <= n < max. This implementation avoids modulo bias.
+
+	min <integer> Start of random range (inclusive). Default: 0.
+	max <integer> End of random range (exclusive).
+
+	The range (max - min) must be less than 248. min and max must be safe integers."
+
+	^ self apply: #randomInt withArguments: { minInteger . maxInteger }
+]
+
+{ #category : #actions }
 CpNodeJSCrypto >> randomUUID [
 
 	"Generates a random RFC 4122 version 4 UUID. The UUID is generated using a cryptographic pseudorandom number generator."
