@@ -105,7 +105,9 @@ CpNodeJSRestRequest >> printOn: aStream [
 			nextPutAll: ' (' ;
 			print: key ;
 			nextPutAll: ' -> ' ;
-			print: value ;
+			print: ((#(#Authorization #password) includes: key)
+				ifTrue: [ '***' ]
+				ifFalse: [ value ]) ;
 			nextPut: $) ]
 ]
 
