@@ -29,6 +29,14 @@ CpBrowserDocument >> isVisible [
 ]
 
 { #category : #accessing }
+CpBrowserDocument >> location [
+
+	"Returns the URI of the current document."
+
+	^ self propertyAt: #location
+]
+
+{ #category : #accessing }
 CpBrowserDocument >> url [
 
 	"Convenience method to answer the receiver's URL as an Object (instead of String).
