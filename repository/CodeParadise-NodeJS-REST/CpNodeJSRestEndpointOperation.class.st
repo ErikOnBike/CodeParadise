@@ -134,19 +134,17 @@ CpNodeJSRestEndpointOperation >> handleRequest: aRestRequest response: aServerRe
 		ifTrue: [ aRestRequest setPathParameters: (pathPattern parametersFromPath: aRestRequest path) ]
 		ifFalse: [ ^ false ].
 
+	"Check authorization (authorization can not rely on body content atm)"
+	(self isAuthorizedRequest: aRestRequest)
+		ifFalse: [ CpNodeJSRestUnauthorizedError signal ].
+
 	"Resolve the body (if required) and perform the operation"
 	isBodyRequired
 		ifTrue: [
 			aRestRequest
-				resolveBodyThenDo: [
-					(self isAuthorizedRequest: aRestRequest)
-						ifFalse: [ CpNodeJSRestUnauthorizedError signal ].
-					self performOperationRequest: aRestRequest response: aServerResponse ]
+				resolveBodyThenDo: [ self performOperationRequest: aRestRequest response: aServerResponse ]
 				ifFail: [ :error | aServerResponse writeError: error ] ]
-		ifFalse: [
-			(self isAuthorizedRequest: aRestRequest)
-				ifFalse: [ CpNodeJSRestUnauthorizedError signal ].
-			self performOperationRequest: aRestRequest response: aServerResponse ].
+		ifFalse: [ self performOperationRequest: aRestRequest response: aServerResponse ].
 
 	^ true
 ]
@@ -182,7 +180,13 @@ CpNodeJSRestEndpointOperation >> isAuthorizedRequest: aRestRequest [
 
 	"Answer whether the specified REST Request is authorized to perform the operation.
 	If no authorization Block is set, it is assumed this is a public endpoint and
-	authorization is therefore okay."
+	authorization is therefore okay.
+	
+	Implementation:
+	Currently (see #handleRequest:response:) authorization is assumed to use information
+	in either the request header or path. Information in the request body is not available
+	when this method is performed. For now, use a custom authorization handler if authorization
+	using body content is required."
 
 	^ authorizationBlock
 		ifNotNil: [ authorizationBlock value: aRestRequest ]
