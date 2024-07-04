@@ -51,7 +51,7 @@ Squeak.flushAllFiles = function() {};
 
 // Add default download operation to the filePut method
 Squeak.filePut = function(name, buffer) {
-	if(name === "./client-environment") {
+	if(name === "./client-environment.image") {
 		console.log("Saving image");
 		window.cpDownload(buffer, "application/octet-stream", "snapshot.image");
 	}
@@ -110,6 +110,17 @@ Squeak.externalModules.CpDOMPlugin["primitiveDomElementPrivateAttachToId:"] = fu
 ]
 
 { #category : #private }
+CpBrowserSnapshot class >> saveSnapshot [
+
+	"Save a snapshot of the image"
+
+	"Start snapshot in separate process which terminates itself"
+	(Process forContext: [
+		self snapshotImage.
+		Processor activeProcess terminate ] asContext  priority: 2) resume
+]
+
+{ #category : #private }
 CpBrowserSnapshot class >> saveSnapshot: aKeyEvent [
 
 	"Save a snapshot of the image"
@@ -117,10 +128,7 @@ CpBrowserSnapshot class >> saveSnapshot: aKeyEvent [
 	"Prevent default behavior for the key being pressed"
 	aKeyEvent preventDefault.
 
-	"Start snapshot in separate process which terminates itself"
-	(Process forContext: [
-		self snapshotImage.
-		Processor activeProcess terminate ] asContext  priority: 2) resume
+	self saveSnapshot
 ]
 
 { #category : #actions }
@@ -157,9 +165,12 @@ CpBrowserSnapshot class >> snapshotImage [
 	| content components |
 
 	"Prepare image for snapshot"
-	CpTransition preSnapshot.
+	(Smalltalk classNamed: #CpTransition)
+		ifNotNil: [ :cls | cls preSnapshot ].
 	CpEvent preSnapshot.
 	CpEvent allSubclassesDo: [ :each | each preSnapshot ].
+	CpJavaScriptObject withAllSubclassesDo: [ :each |
+		each preSnapshot ].
 
 	"Save application content"
 	content := CpHtmlElement documentBody markupContent.
@@ -175,9 +186,12 @@ CpBrowserSnapshot class >> snapshotImage [
 			self traceCr: 'Saved image'.
 
 			"Prepare image for restart"
+			CpJavaScriptObject withAllSubclassesDo: [ :each |
+				each postSnapshot ].
 			CpEvent allSubclassesDo: [ :each | each postSnapshot ].
 			CpEvent postSnapshot.
-			CpTransition postSnapshot.
+			(Smalltalk classNamed: #CpTransition)
+				ifNotNil: [ :cls | cls postSnapshot ].
 
 			^ self ].
 	self traceCr: 'Restoring saved image'.
@@ -187,6 +201,10 @@ CpBrowserSnapshot class >> snapshotImage [
 
 	"Load necessary DOM plugin"
 	self loadDOMPlugin.
+
+	"Restore browser support"
+	CpJavaScriptObject withAllSubclassesDo: [ :each |
+		each postSnapshot ].
 
 	"Restore the application content"
 	CpHtmlElement documentBody markupContent: content.
@@ -204,7 +222,8 @@ CpBrowserSnapshot class >> snapshotImage [
 			initialize ].
 
 	"Restart transition process as last step in restart"
-	CpTransition postSnapshot.
+	(Smalltalk classNamed: #CpTransition)
+		ifNotNil: [ :cls | cls postSnapshot ].
 
 	self traceCr: 'Image restored, continuing execution'
 ]
