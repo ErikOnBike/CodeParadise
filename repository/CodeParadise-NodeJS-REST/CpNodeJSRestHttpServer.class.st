@@ -30,30 +30,6 @@ CpNodeJSRestHttpServer class >> newOnPort: anInteger [
 		yourself
 ]
 
-{ #category : #'class initialization' }
-CpNodeJSRestHttpServer class >> postInstallOnce [
-
-	"Register class for snapshotting"
-
-	CpNodeJSSnapshot registerSnapshotClass: self
-]
-
-{ #category : #'class initialization' }
-CpNodeJSRestHttpServer class >> postSnapshotOnce [
-
-	"(Re)start all instances"
-
-	self allInstancesDo: [ :each | each startServer ]
-]
-
-{ #category : #'class initialization' }
-CpNodeJSRestHttpServer class >> preSnapshotOnce [
-
-	"Stop all instances"
-
-	self allInstancesDo: [ :each | each stopServer ]
-]
-
 { #category : #accessing }
 CpNodeJSRestHttpServer class >> responseStringFromError: anError [
 
