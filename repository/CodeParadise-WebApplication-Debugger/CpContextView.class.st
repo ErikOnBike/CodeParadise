@@ -41,6 +41,7 @@ CpContextView class >> style [
 		display: block;
 		position: absolute;
 		bottom: 20px;
+		right: 8px;
 		padding: 8px;
 		content: "This is a local method for the tiny image, source code is from the server and might not be the same.";
 		border: rgba(0, 0, 0, .2) 1px solid;
