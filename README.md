@@ -1,36 +1,34 @@
 # CodeParadise
 
-CodeParadise is the name of a framework and future platform. CodeParadise as framework allows developing web applications and Node.js applications in Smalltalk.
-* Web applications are typically developed using WebComponents. WebComponents are written using HTML/CSS and Smalltalk. A web application has a server side and a client side environment which interact using websockets. Applications can be built using a [Model View Presenter](docs/MVP.md) design.
-* Node.js applications can typically use node:fs and node:http modules to create server and/or standaline applications. All code is written in Smalltalk by wrapping the Node.js modules.
+CodeParadise is the name of a framework and a future platform. CodeParadise as framework allows developing web applications, Node.js applications and mobile apps in Smalltalk only. CodeParadise is based on the [Pharo](https://pharo.org) Smalltalk environment.
 
-The framework enables remote Smalltalk code execution in a JavaScript environment. This means you can run Smalltalk inside the web browser or inside a Node.js application and not be concerned with any JavaScript. A regular (but tiny) Smalltalk image runs on [SqueakJS VM](https://squeak.js.org) and replaces the use of JavaScript. This tiny image runs the same bytecode as a regular Pharo/Squeak/Cuis image, so no transpilation taking place. JavaScript callbacks and Promises are supported by using Smalltalk Blocks and 'proxied' objects. For web applications a VM plugin is present with Classes which wrap the browser DOM functionality. All DOM manipulation is done through Smalltalk code. Did I mention, no more use of JavaScript ;-). For more detail read the [implementation docs](docs/Implementation.md).
+The general principle behind CodeParadise is the execution of a regular (but tiny) Smalltalk image inside a JavaScript execution environment. During development this tiny Smalltalk image communicates with a full Pharo development environment to be kept up to date and provide the typical live programming experience we love so much in Smalltalk. Since CodeParadise runs in a Smalltalk image, there is no need for transpiling Smalltalk to JavaScript. That is: Smalltalk all the way!
 
 A few online videos:
+
 * to-do list tutorial walk through [video](https://youtu.be/Y-i6C_yVHxA) - 47:47 minutes
 * creating a Node.js application [video](https://youtu.be/2FxPBCq75qY) - 10:22 minutes
 * Zettelkasten example application [video](https://youtu.be/omKrz9stuOQ) - 1:37 minutes
 * short demo of debugger [video](https://youtu.be/hCwlrWRhrZc) - 1:07 minutes
 * UK Smalltalk UG May 2022 [demo](https://vimeo.com/719355883) - CodeParadise used in Expressive Systems by [Object Guild](https://objectguild.com)
 * UK Smalltalk UG August 2020 [demo](https://vimeo.com/457353130) - CodeParadise
-* short introduction [video](https://youtu.be/qvY7R6te7go) - 12:47 minutes (outdated)
-* first two components [link and button](https://youtu.be/nxQSlf4kFs8) - 2:18 minutes (outdated)
-* animated [checkbox](https://youtu.be/-l0S03jZTtc) - 25 seconds (outdated)
 
 See [introduction](docs/Introduction.md) for a more thorough explanation of CodeParadise as the future platform.
 
 ## Getting started
 
-Currently CodeParadise can only be used in a Pharo environment (P8 until P12 are supported). In the future other platforms like Cuis might be supported as well.
+Currently CodeParadise can only be used in a Pharo environment. In the future other Smalltalk environments like Cuis might be supported as well.
 
 Getting started requires a few simple steps:
+
 * Load CodeParadise
-* Start HTTP and WebSocket server
+* Start CodeParadise
 * Start your browsers (or Node.js)!
 
 ### Load CodeParadise
 
 Loading CodeParadise can be done using:
+
 ```Smalltalk
 Metacello new
   repository: 'github://ErikOnBike/CodeParadise';
@@ -38,13 +36,11 @@ Metacello new
   load.
 ```
 
-Depending on your image version it should also load the [ClientEnvironment](https://github.com/ErikOnBike/CP-ClientEnvironment). If you run on a Pharo 8 or 9 environment, it should load the "pharo8" branch and otherwise just the "master" branch.
+If you plan on developing Node.js applications, please clone the [CP-Node](https://github.com/ErikOnBike/CP-Node) repo into a separate directory. It only contains 2 'required' files: [cp-node.js](https://raw.githubusercontent.com/ErikOnBike/CP-Node/main/cp-node.js) and [client-environment.image](https://github.com/ErikOnBike/CP-Node/raw/main/client-environment.image). You can also copy them to a preferred directory (instead of cloning the repo).
 
-If you plan on developing Node.js applications please clone or copy the [CP-Node](https://github.com/ErikOnBike/CP-Node) repo. It only contains 2 'required' files `cp-node.js` and `client-environment.image` which you might copy as well.
+### Start CodeParadise
 
-### Start HTTP and WebSocket Server
-
-Thanks to [Tim](https://github.com/macta) there is a menu 'Paradise' now in Pharo's menubar which allows starting the environment. First select 'Reset' from the 'Paradise' menu and then open one of the existing web applications through 'Open'. Some more explanation follows below for [manually starting and stopping servers](#manually) and applications.
+Thanks to [Tim](https://github.com/macta) there is a menu 'Paradise' in Pharo's menubar which allows starting the environment. First select 'Reset' from the 'Paradise' menu and then open one of the existing web applications through 'Open'. Some more explanation follows below for [manually starting and stopping servers](#manually) and applications.
 
 ### Start your browsers
 
@@ -60,6 +56,7 @@ The example applications can be reached using the following URLs:
 * Component Examples [http://localhost:8080/static/app.html?Component-Examples](http://localhost:8080/static/app.html?Component-Examples)
 
 A bigger example application is under development. It is a [Zettelkasten](https://en.wikipedia.org/wiki/Zettelkasten) application.
+
 * Source code: [repo](https://github.com/ErikOnBike/CodeParadise-Zettelkasten) (you will have to load it manually into CodeParadise)
 * Short demonstration: [video](https://youtu.be/omKrz9stuOQ)
 
@@ -69,90 +66,55 @@ To start a Node.js application, execute the following from a [CP-Node](https://g
 ```bash
 APP="http-server-example" SERVER_URL="ws://localhost:8080/io" node cp-node.js client-environment.image
 ```
-(replace the APP environment variable with the identifier of your preferred application)
+(replace the value of the APP environment variable with the identifier of your preferred application)
 
 ---
 
 ### <a name="manually">Manually starting and stopping</a>
 
-Besides the Paradise menu, you can also start and stop the ApplicationServer manually.
-The ApplicationServer provides a HTTP server (using [Zinc HTTP Components](https://github.com/svenvc/zinc)) for a number of static files. You can use any other web server for this if you prefer.
+To start CodeParadise the following code has to be executed:
 
-The ApplicationServer also provides a WebSocket server (again using [Zinc HTTP Components](https://github.com/svenvc/zinc)) for the interactive communication between ClientEnvironment and ServerEnvironment.
-
-To start a server allowing incoming HTTP and WebSockets the following code has to be executed:
 ```Smalltalk
-"Configure the usage of ZnWebSocket as MessageChannel"
-CpMessageChannel environmentImplementation: CpZincWebSocketChannel.
-
-"Register the example applications"
-CpIntroductionPresentationWebApplication register.
-CpMyFirstAppPresentationWebApplication register.
-CpShoelaceExamplesWebApplication register.
-CpChartJSExamplesWebApplication register.
-CpCounterApplication register.
-CpDomExamplesWebApplication register.
-CpComponentExamplesWebApplication register.
-
-"Start the HTTP and WeSocket servers (use the path where you stored the ClientEnvironment)"
-CpApplicationServerStarter startUsingConfig: {
-	#portNumber -> 8080 .
-	#staticFilesDirectoryName -> (IceRepository directoryNamed: 'html' in: 'CP-ClientEnvironment').
-	#clientErrorHandler -> self
-} asDictionary.
-
-"If you serve the static files using your own HTTP server, you can start the WebSocket server using:"
-"CpApplicationServer newOnPort: 8080 path: '/io'."
+CpDevTools start.
 ```
 
-The WebSocket server is listening on path `/io` by default (see example above). If you change this, please also update `app.html` (in the client environment) in which the path is hardcoded. 
+This will start a HTTP and WebSocket server. Once the environment is started you can run as many applications as you want. You can then start an application using the following:
+
+```Smalltalk
+CpPresentationWebApplication openInBrowser.
+```
 
 When you are done or want to reset the environment, the following code can be executed:
-```Smalltalk
-"Stop all server instances and applications"
-ZnServer allSubInstances do: [ :each | (each port = 8080 and: [ each isRunning]) ifTrue: [ each stop ] ].
-CpServerApplication allSubInstances do: [ :each | each stop ].
-CpApplicationServer allInstances do: [ :each | each stop ].
 
-"Unregister applications"
-CpIntroductionPresentationWebApplication unregister.
-CpMyFirstAppPresentationWebApplication unregister.
-CpShoelaceExamplesWebApplication unregister.
-CpChartJSExamplesWebApplication unregister.
-CpCounterApplication unregister.
-CpDomExamplesWebApplication unregister.
-CpComponentExamplesWebApplication unregister.
+```Smalltalk
+CpDevTools stop.
 
 "Garbage collect works better in triples ;-)"
-Smalltalk garbageCollect.
-Smalltalk garbageCollect.
-Smalltalk garbageCollect.
+3 timesRepeat: [ Smalltalk garbageCollect ].
 ```
 
 ## Tips and troubleshooting
 
 **Tip**: The server image keeps all sessions in memory at the moment (they never expire yet). So once in a while use the reset code above to clean up the sessions. Remember the sessions will also be saved in the image. So closing and reopening your image should bring you back the session and you can continu where you left off.
 
-#### Resource not found
+### Resource not found
+
 If you encounter any problems with connecting to the server, please check that no other web server is running on the port you are using/trying to use. If you have started a web server pointing to the wrong client environment, please first stop that instance. Otherwise you will keep on serving files from an empty or non-existing directory. Use the reset as described above to stop the server. You might want to check if all ZnServer instances are really stopped. Then create a new instance of the server.
 
-#### Unknown classes
+### Unknown classes
+
 Once you have a client running and change code, the client environment might not know a class you are using. Please add this class by using the #beLoaded method (see existing senders to understand its usage). You might need to manually install it in a running environment (you have to find the corresponding server environment and use #addClass: to add it). Or reload the page in your browser. In some cases this is not enough, because of the order in which classes are installed. In such case you have to close the tab/page and open a new browser tab/page. In a future version this should not be necessary anymore.
 
-## Possible usage
+## Possible usages
 
 The remote code execution capabilities of CodeParadise can be used to create WebApplications, Node.js applications, remote worker instances, mobile applications, etc.
 
-To create WebApplications MVP (Model View Presenter) is implemented in the Presentation Example. It is based on [WebComponents](https://developer.mozilla.org/en-US/docs/Web/Web_Components) and more specifically it uses the HTML templates technology. The idea is to create a full set of components/widgets to create full featured web applications. All under the control of a Smalltalk application.
+To create WebApplications an MVP (Model View Presenter) pattern is implemented for ease of development. It is based on [WebComponents](https://developer.mozilla.org/en-US/docs/Web/Web_Components) and more specifically it uses the HTML templates technology. The idea is to create a full set of components/widgets to create full featured web applications. All under the control of a Smalltalk application.
 
-For mobile applications for example, the following could be done:
-* load a ClientEnvironment with all application code (can be done dynamically and include all kinds of tests)
-* execute code to remove the ClientEnvironment's Communicator (disconnecting it from the ServerEnvironment) and test code
-* save the ClientEnvironment image (only supported for Pharo 10 and up)
-* use the saved image stand-alone in a mobile application (combine with SqueakJS VM into single package)
+Applications can also be 'sealed' allowing them to be run without the need of a Pharo server image. This allows you to create mobile apps, or stand alone Node.js server applications or Node.js CLI tools. This feature is incompatible with the MVP-based applications, since they require communicating with Models and Presenters which run on the Pharo server image.
 
 ## Compatibility
 
-The means of installing (Compiled) code in the ClientEnvironment is by sending the relevant bytecode. The current implementation assumes that both the ServerEnvironment and the ClientEnvironment share the same bytecode set. Since the ClientEnvironment is running on SqueakJS VM, only bytecode sets supported by SqueakJS VM are usable. Currently Pharo 8 up to 12 (and including) are supported. Active development is on P11 and at some point support for P8 and P9 will be dropped because of the non-standard process of creating the tiny Smalltalk image which runs in the browser. From P10 onwards this is standardized using [TinyBootstrap](https://github.com/ErikOnBike/TinyBootstrap).
+The means of installing (Compiled) code in the tiny Smalltalk image (aka ClientEnvironment) is by sending the relevant bytecode. The current implementation assumes that both the Pharo server image (aka ServerEnvironment) and the ClientEnvironment share the same bytecode set. Since the ClientEnvironment is running on SqueakJS VM, only bytecode sets supported by SqueakJS VM are usable. Currently Pharo 8 up to 12 (and including) are supported. Active development is on P11 and at some point support for P8 and P9 will be dropped because of the non-standard process of creating the tiny Smalltalk image which runs in the browser. From P10 onwards this is standardized using [TinyBootstrap](https://github.com/ErikOnBike/TinyBootstrap).
 
 There is no explicit list of supported browsers at the moment. Please use a recent browser version. If you have trouble using (the pre-Chrome based) Microsoft Edge, please consider switching to Chrome, Firefox or one of the derivatives.
