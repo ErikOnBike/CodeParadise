@@ -116,7 +116,7 @@ SlInput >> clone [
 	Implementation:
 	Set the (non reflecting properties explicitly)."
 
-	self flag: #TODO. "This list is incomplete. Question raised on GitHub wrt reflective propeties: https://github.com/shoelace-style/shoelace/discussions/741"
+	self flag: #todo. "This list is incomplete. Question raised on GitHub wrt reflective propeties: https://github.com/shoelace-style/shoelace/discussions/741"
 
 	^ super clone
 		placeholder: self placeholder ;

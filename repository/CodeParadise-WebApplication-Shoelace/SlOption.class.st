@@ -155,7 +155,7 @@ SlOption >> suffix: anElement [
 { #category : #accessing }
 SlOption >> value [
 
-	self flag: #TODO. "Temporary fix for values with spaces in them (replace by non-breakable space)."
+	self flag: #todo. "Temporary fix for values with spaces in them (replace by non-breakable space)."
 
 	^ (self propertyAt: #value) replaceAll: (Character value: 160) with: Character space
 ]
@@ -163,7 +163,7 @@ SlOption >> value [
 { #category : #accessing }
 SlOption >> value: aString [
 
-	self flag: #TODO. "Temporary fix for values with spaces in them (replace by non-breakable space)."
+	self flag: #todo. "Temporary fix for values with spaces in them (replace by non-breakable space)."
 
 	self propertyAt: #value put: (aString asString replaceAll: Character space with: (Character value: 160))
 ]
