@@ -15,6 +15,11 @@ A few online videos:
 
 See [introduction](docs/Introduction.md) for a more thorough explanation of CodeParadise as the future platform.
 
+Relevant documentation:
+
+* [MVP](./docs/MVP.md) - how to use the MVP pattern
+* [Applications](./docs/Applications.md) - explains MVP-based applications
+
 ## Getting started
 
 Currently CodeParadise can only be used in a Pharo environment. In the future other Smalltalk environments like Cuis might be supported as well.
