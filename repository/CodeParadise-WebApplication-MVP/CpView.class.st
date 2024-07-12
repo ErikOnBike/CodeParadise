@@ -50,14 +50,6 @@ CpView >> destroy [
 ]
 
 { #category : #performing }
-CpView >> downloadContent: anObject type: typeString filename: filenameString [
-
-	"Convenience method to allow download of content"
-
-	CpDownloader content: anObject type: typeString filename: filenameString
-]
-
-{ #category : #performing }
 CpView >> performMessage: aMessage [
 
 	"Perform the specified message on the receiver"
