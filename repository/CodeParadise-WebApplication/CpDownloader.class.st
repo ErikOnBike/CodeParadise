@@ -5,7 +5,7 @@ Class {
 		'content',
 		'type'
 	],
-	#category : #'CodeParadise-WebApplication-DOM'
+	#category : #'CodeParadise-WebApplication-Support'
 }
 
 { #category : #performing }

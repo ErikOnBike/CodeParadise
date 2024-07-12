@@ -20,6 +20,8 @@ BaselineOfCodeParadise >> baseline: spec [
 			package: 'CodeParadise-RemoteEnvironment' with: [ spec requires: #('CpClientEnvironment' 'ZincHTTPComponents') ];
 			package: 'CodeParadise-WebApplication' with: [ spec requires: #('CodeParadise-RemoteEnvironment') ];
 			package: 'CodeParadise-Browser-Support' with: [ spec requires: #('CodeParadise-WebApplication') ];
+			package: 'CodeParadise-WebApplication-Snapshot' with: [ spec requires: #('CodeParadise-Browser-Support') ];
+
 			package: 'CodeParadise-NodeJS-Support' with: [ spec requires: #('CodeParadise-RemoteEnvironment') ];
 			package: 'CodeParadise-NodeJS-REST' with: [ spec requires: #('CodeParadise-NodeJS-Support') ];
 
@@ -32,8 +34,6 @@ BaselineOfCodeParadise >> baseline: spec [
 
 			"2022-06: No longer maintained"
 			package: 'CodeParadise-WebApplication-Fomantic' with: [ spec requires: #('CodeParadise-WebApplication') ];
-
-			package: 'CodeParadise-WebApplication-Snapshot' with: [ spec requires: #('CodeParadise-WebApplication') ];
 
 			package: 'CodeParadise-WebApplication-Development' with: [ spec requires: #('CodeParadise-WebApplication') ];
 			package: 'CodeParadise-WebApplication-Debugger' with: [ spec requires: #('CodeParadise-WebApplication') ].
