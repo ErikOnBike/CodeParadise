@@ -57,6 +57,14 @@ CpDragEvent class >> addListenerTo: anElement [
 	anElement when: CpPointerDownEvent send: #dragStart: to: self
 ]
 
+{ #category : #'class initialization' }
+CpDragEvent class >> beLoaded [
+
+	"Load CpJavaScriptEvent which is used in #preventNativeDragEvents"
+
+	CpJavaScriptEvent beLoaded
+]
+
 { #category : #'event handling - private' }
 CpDragEvent class >> dragCancel: aPointerEvent [
 
@@ -225,7 +233,11 @@ CpDragEvent class >> preventNativeDragEvents [
 
 	"The native drag support of Some browsers (like Firefox) need to be prevented"
 
-	CpHtmlElement documentAddScript: 'document.body.addEventListener("dragstart", function(event) { event.preventDefault(); });'
+	CpHtmlElement documentBody
+		apply: #addEventListener
+		withArguments: {
+			'dragstart' .
+			CpJavaScriptFunction wrap: [ :event | event preventDefault ] }
 ]
 
 { #category : #announcing }
