@@ -53,6 +53,8 @@ CpMutationEvent class >> installCode [
 	Add methods to observe/unobserve elements and when a mutation is observed,
 	dispatch a custom mutation event."
 
+	self flag: #todo. "Replace JS script with new JS proxy support"
+
 	CpHtmlElement documentAddScript: '
 		window.__cp_cleanUpNodes = function(nodeOrNodeList) {
 			if(nodeOrNodeList === null) {

@@ -26,6 +26,8 @@ CjsChart class >> loadLibrary [
 
 	"Load library from CDN"
 
+	self flag: #todo. "Replace JS script with new JS proxy support"
+
 	CpHtmlElement
 		documentAddExternalScript: 'https://cdn.jsdelivr.net/npm/chart.js@3.9' ;
 		documentAddScript: 'window.cjsCreateChart = function(element, config) {

@@ -29,6 +29,8 @@ CpResizeEvent class >> installCode [
 	Add methods to observe/unobserve elements and when a resize is observed,
 	dispatch a custom resize event."
 
+	self flag: #todo. "Replace JS script with new JS proxy support"
+
 	CpHtmlElement documentAddScript: '
 		window.__cp_resizeObserver = new ResizeObserver(function(entries) {
 			const resizeEvent = new CustomEvent("resize");
