@@ -1,10 +1,13 @@
 # Implementation
 
-Some implementation information is described below. Need some more info, please let me know by creating an issue on GitHub.
+Some implementation information is described below. If you need some more info, please let me know by creating an issue on GitHub.
 
-CodeParadise allows you to create web applications without having to resort to Javascript. Since the browser can normally only run Javascript, Javascript is needed to bootstrap a Smalltalk VM and its plugins. The VM is based on [SqueakJS VM](https://squeak.js.org). Apart from that, no Javascript should be necessary. If needed, existing JavaScript libraries can be used with CodeParadise. These have to be wrapped in a VM plugin or use a generic approach of sending messages. This later is only possible when the JavaScript library has a simple interface to which regular Smalltalk objects can be mapped. Have some explicit needs? Please contact me.
+The CodeParadise framework enables remote Smalltalk code execution in a JavaScript environment. This means you can run Smalltalk inside the web browser or inside a Node.js application and not be concerned with any JavaScript. A regular (but tiny) Smalltalk image runs on [SqueakJS VM](https://squeak.js.org) and replaces the use of JavaScript. This tiny image runs the same bytecode as a regular Pharo/Squeak/Cuis image, so no transpilation is taking place. JavaScript callbacks and Promises are supported by using Smalltalk Blocks and 'proxied' objects. For web applications a VM plugin is present with Classes which wrap the browser DOM functionality. All DOM manipulation is done through Smalltalk code. Did I mention, no more use of JavaScript ;-).
+
+CodeParadise allows you to create web applications without having to resort to JavaScript. Since the browser can normally only run JavaScript, JavaScript is needed to bootstrap a Smalltalk VM and its plugins. The VM is based on [SqueakJS VM](https://squeak.js.org). Apart from that, no JavaScript should be necessary. If needed, existing JavaScript libraries can be used with CodeParadise. These have to be wrapped in a VM plugin or use a generic approach of sending messages. This later is only possible when the JavaScript library has a simple interface to which regular Smalltalk objects can be mapped. Have some explicit needs? Please contact me.
 
 Web applications can be built using CodeParadise in a number of flavors:
+
 * Bare metal (see `CpServerApplication`) - you will have to create any interaction with the browser yourself
 * Plain vanilla (see `CpWebApplication`) - you will receive DOM functionality to interact with
 * Full monthy (see `CpMvpWebApplication`) - you will receive Model View Presenter functionality
@@ -25,19 +28,24 @@ From the client side a ClientEnvironment is created at startup. The tiny Smallta
 
 Installing a Class inside the client (when using the MvpWebApplication flavor, most is installed automagically) will install all its methods as well. If a method refers to another Class, this Class will also be installed. This means that if your View class refers to `OpalCompiler` it will try to install the Pharo Smalltalk compiler in the client. This will fail, because the tiny Smalltalk image is only equiped with a limited set of classes and methods. Views are supposed to be thin and lean. It is not designed to have a copy of your business objects in the browser.
 
-A View in the browser can only communicate back to the server by announcing something. This is a deliberate design decision. For starters, the model stays clean this way. Secondly it is a more safe/secure approach. IF any wrong-doer would be able to create his own Announcements it would (probably) not harm on the server. Please,do not allow the server to #perform: anything directly received from the client. Always validate the received information on the server. Having meaningful Announcements with simple data is probably the best way to go. It does not hurt performance to create an Announcement per state for example and prevent having to add state as a value added onto a more generic Announcement. It is also nicer to listen to a number of explicit Announcements on the server, instead of having to decide what to do based on a value from a single Announcement.
+A View in the browser can only communicate back to the server by announcing something. This is a deliberate design decision. For starters, the model stays clean this way. Secondly it is a more safe/secure approach. IF any wrong-doer would be able to create his own Announcements it would not do harm on the server. Please, do not allow the server to #perform: anything directly received from the client. Always validate the received information on the server. Having meaningful Announcements with simple data is probably the best way to go. It does not hurt performance to create an Announcement per state for example and prevent having to add state as a value added onto a more generic Announcement. It is also nicer to listen to a number of explicit Announcements on the server, instead of having to decide what to do based on a value from a single Announcement.
 
 The ClientEnvironment for running in the browser can be installed manually. To download the ClientEnvironment clone [CP-ClientEnvironment](https://github.com/ErikOnBike/CP-ClientEnvironment) or copy the 3 raw files in the html directory. Remember the directory in which the 3 files `app.html`, `squeak_headless_bundle.js` and `client-environment.image` are written. You will need this location when starting the ApplicationServer.
 
 The files:
+
 * `app.html` contains a few lines of code to start the Squeak JS VM and specify which Smalltalk image to run
 * `squeak_headless_bundle.js` contains the Squeak JS VM in headless mode (ie no BitBlt support) and a number of plugins
-   * Large Integers
-   * Misc primitives (includes some String handling)
-   * (CodeParadise) System (includes WebSocket support)
-   * (CodeParadise) DOM (wrapper code for DOM functionality)
-* `client-environment.image` is a tiny (around 200Kb) Smalltalk image
+  * Large Integers
+  * Misc primitives (includes some String handling)
+  * (CodeParadise) System (includes WebSocket support)
+  * (CodeParadise) DOM (wrapper code for DOM functionality)
+* `client-environment.image` is a tiny (around 218Kb) Smalltalk image
 
-The tiny Smalltalk image does not include a Compiler or Debugger. If you try to start it using a desktop VM you will not get it running, since it assumes a number of Javascript primitives is implemented. The image is based on [Pharo Candle](https://github.com/carolahp/PharoCandleSrc) but has been extended with Exception handling, Announcements and the minimal ClientEnvironment classes like a Communicator. The code and some explanation for this tiny image can be found on [CP-Bootstrap](https://github.com/ErikOnBike/CP-Bootstrap). The tool to create the tiny image can be found on [TinyBootstrap](https://github.com/ErikOnBike/TinyBootstrap).
+The ApplicationServer provides an HTTP server (using [Zinc HTTP Components](https://github.com/svenvc/zinc)) for a number of static files. You can use any other web server for this if you prefer.
+
+The ApplicationServer also provides a WebSocket server (again using [Zinc HTTP Components](https://github.com/svenvc/zinc)) for the interactive communication between ClientEnvironment and ServerEnvironment.
+
+The tiny Smalltalk image does not include a Compiler or Debugger. If you try to start it using a desktop VM you will not get it running, since it assumes a number of JavaScript primitives is implemented. The image is based on [Pharo Candle](https://github.com/carolahp/PharoCandleSrc) but has been extended with Exception handling, Announcements and the minimal ClientEnvironment classes like a Communicator. The code and some explanation for this tiny image can be found on [CP-Bootstrap](https://github.com/ErikOnBike/CP-Bootstrap). The tool to create the tiny image can be found on [TinyBootstrap](https://github.com/ErikOnBike/TinyBootstrap).
 
 ![Design](./webapplication_design_detail.svg)
