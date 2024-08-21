@@ -132,7 +132,7 @@ SlElement class >> loadLibrary [
 	This script should stay present and not be removed like the
 	individual component load scripts do. Its attribute 'data-shoelace'
 	contains the base path to assets. Shoelace uses this value internally."
-	(CpHtmlElement documentAddModuleScript: '// Do not remove this script tag, Shoelace uses the data attribute");')
+	(CpHtmlElement documentAddModuleScript: '// Do not remove this script tag, Shoelace uses the data attribute')
 		attributeAt: 'data-shoelace' put: self importBasePath
 ]
 
