@@ -446,6 +446,41 @@ CpJavaScriptObject >> asString [
 			nextPutAll: className ]
 ]
 
+{ #category : #printing }
+CpJavaScriptObject >> consoleError [
+
+	self consoleLevel: #error
+]
+
+{ #category : #printing }
+CpJavaScriptObject >> consoleLevel: aSymbol [
+
+	"Log the receiver using the specified log level (#log, #trace, #debug, #info, #warn or #error) to the console"
+
+	(CpJavaScriptObject global propertyAt: #console resultAs: CpJavaScriptObject)
+		apply: aSymbol withArguments: { self } resultAs: nil
+]
+
+{ #category : #printing }
+CpJavaScriptObject >> consoleLog [
+
+	self consoleLevel: #log
+]
+
+{ #category : #printing }
+CpJavaScriptObject >> consoleTrace [
+
+	"Log the receiver to the console, inclusing stack trace"
+
+	self consoleLevel: #trace
+]
+
+{ #category : #printing }
+CpJavaScriptObject >> consoleWarn [
+
+	self consoleLevel: #warn
+]
+
 { #category : #'reflective operations' }
 CpJavaScriptObject >> doesNotUnderstand: aMessage [
 
