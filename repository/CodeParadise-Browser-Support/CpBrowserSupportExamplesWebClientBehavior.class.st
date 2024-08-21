@@ -1,17 +1,17 @@
 Class {
-	#name : #CpBrowserSupportExamplesClientBehavior,
+	#name : #CpBrowserSupportExamplesWebClientBehavior,
 	#superclass : #CpWebClientBehavior,
 	#category : #'CodeParadise-Browser-Support-Examples'
 }
 
 { #category : #accessing }
-CpBrowserSupportExamplesClientBehavior >> clearOutput [
+CpBrowserSupportExamplesWebClientBehavior >> clearOutput [
 
 	self outputElement textContent: ''
 ]
 
 { #category : #examples }
-CpBrowserSupportExamplesClientBehavior >> clipboardRead [
+CpBrowserSupportExamplesWebClientBehavior >> clipboardRead [
 
 	| outputElement |
 
@@ -45,7 +45,7 @@ CpBrowserSupportExamplesClientBehavior >> clipboardRead [
 ]
 
 { #category : #examples }
-CpBrowserSupportExamplesClientBehavior >> clipboardReadText [
+CpBrowserSupportExamplesWebClientBehavior >> clipboardReadText [
 
 	| outputElement |
 
@@ -63,7 +63,7 @@ CpBrowserSupportExamplesClientBehavior >> clipboardReadText [
 ]
 
 { #category : #examples }
-CpBrowserSupportExamplesClientBehavior >> clipboardWrite [
+CpBrowserSupportExamplesWebClientBehavior >> clipboardWrite [
 
 	| outputElement input input2 htmlInput items |
 
@@ -111,7 +111,7 @@ CpBrowserSupportExamplesClientBehavior >> clipboardWrite [
 ]
 
 { #category : #examples }
-CpBrowserSupportExamplesClientBehavior >> clipboardWriteText [
+CpBrowserSupportExamplesWebClientBehavior >> clipboardWriteText [
 
 	| outputElement input |
 
@@ -131,7 +131,7 @@ CpBrowserSupportExamplesClientBehavior >> clipboardWriteText [
 ]
 
 { #category : #examples }
-CpBrowserSupportExamplesClientBehavior >> exampleBrowserClipboard [
+CpBrowserSupportExamplesWebClientBehavior >> exampleBrowserClipboard [
 
 	<example: 'Clipboard API' order: 100>
 
@@ -186,7 +186,7 @@ CpBrowserSupportExamplesClientBehavior >> exampleBrowserClipboard [
 ]
 
 { #category : #examples }
-CpBrowserSupportExamplesClientBehavior >> exampleBrowserGeolocation [
+CpBrowserSupportExamplesWebClientBehavior >> exampleBrowserGeolocation [
 
 	<example: 'Geolocation API' order: 200>
 
@@ -216,7 +216,7 @@ CpBrowserSupportExamplesClientBehavior >> exampleBrowserGeolocation [
 ]
 
 { #category : #examples }
-CpBrowserSupportExamplesClientBehavior >> exampleBrowserMediaStreams [
+CpBrowserSupportExamplesWebClientBehavior >> exampleBrowserMediaStreams [
 
 	<example: 'Media Streams API (stream video)' order: 510>
 
@@ -247,7 +247,7 @@ CpBrowserSupportExamplesClientBehavior >> exampleBrowserMediaStreams [
 ]
 
 { #category : #examples }
-CpBrowserSupportExamplesClientBehavior >> exampleBrowserMediaStreamsDevices [
+CpBrowserSupportExamplesWebClientBehavior >> exampleBrowserMediaStreamsDevices [
 
 	<example: 'Media Streams API (show devices)' order: 509>
 
@@ -272,7 +272,7 @@ CpBrowserSupportExamplesClientBehavior >> exampleBrowserMediaStreamsDevices [
 ]
 
 { #category : #examples }
-CpBrowserSupportExamplesClientBehavior >> exampleBrowserNavigator [
+CpBrowserSupportExamplesWebClientBehavior >> exampleBrowserNavigator [
 
 	<example: 'Navigator' order: 50>
 
@@ -306,7 +306,7 @@ CpBrowserSupportExamplesClientBehavior >> exampleBrowserNavigator [
 ]
 
 { #category : #examples }
-CpBrowserSupportExamplesClientBehavior >> exampleBrowserScreen [
+CpBrowserSupportExamplesWebClientBehavior >> exampleBrowserScreen [
 
 	<example: 'Screen' order: 25>
 
@@ -344,7 +344,7 @@ CpBrowserSupportExamplesClientBehavior >> exampleBrowserScreen [
 ]
 
 { #category : #examples }
-CpBrowserSupportExamplesClientBehavior >> exampleBrowserSpeechSynthesis [
+CpBrowserSupportExamplesWebClientBehavior >> exampleBrowserSpeechSynthesis [
 
 	<example: 'Speech API (Synthesis)' order: 300>
 
@@ -389,7 +389,7 @@ CpBrowserSupportExamplesClientBehavior >> exampleBrowserSpeechSynthesis [
 ]
 
 { #category : #examples }
-CpBrowserSupportExamplesClientBehavior >> exampleDNU [
+CpBrowserSupportExamplesWebClientBehavior >> exampleDNU [
 
 	<example: 'DNU' order: 9999>
 
@@ -416,7 +416,7 @@ CpBrowserSupportExamplesClientBehavior >> exampleDNU [
 ]
 
 { #category : #examples }
-CpBrowserSupportExamplesClientBehavior >> exampleJavaScriptEventTarget [
+CpBrowserSupportExamplesWebClientBehavior >> exampleJavaScriptEventTarget [
 
 	<example: 'Basic: Proxy for JavaScript EventTarget' order: 1100>
 
@@ -444,7 +444,7 @@ CpBrowserSupportExamplesClientBehavior >> exampleJavaScriptEventTarget [
 ]
 
 { #category : #examples }
-CpBrowserSupportExamplesClientBehavior >> exampleJavaScriptFunction [
+CpBrowserSupportExamplesWebClientBehavior >> exampleJavaScriptFunction [
 
 	<example: 'Basic: Proxy for JavaScript functions' order: 1000>
 
@@ -492,7 +492,7 @@ CpBrowserSupportExamplesClientBehavior >> exampleJavaScriptFunction [
 ]
 
 { #category : #examples }
-CpBrowserSupportExamplesClientBehavior >> exampleJavaScriptProxy [
+CpBrowserSupportExamplesWebClientBehavior >> exampleJavaScriptProxy [
 
 	<example: 'Basic: Proxy for JavaScript objects' order: 1000>
 
@@ -516,7 +516,7 @@ CpBrowserSupportExamplesClientBehavior >> exampleJavaScriptProxy [
 ]
 
 { #category : #examples }
-CpBrowserSupportExamplesClientBehavior >> geolocationGetCurrent [
+CpBrowserSupportExamplesWebClientBehavior >> geolocationGetCurrent [
 
 	| outputElement |
 	
@@ -537,7 +537,7 @@ CpBrowserSupportExamplesClientBehavior >> geolocationGetCurrent [
 ]
 
 { #category : #initialization }
-CpBrowserSupportExamplesClientBehavior >> initialize [
+CpBrowserSupportExamplesWebClientBehavior >> initialize [
 
 	super initialize.
 
@@ -545,7 +545,7 @@ CpBrowserSupportExamplesClientBehavior >> initialize [
 ]
 
 { #category : #examples }
-CpBrowserSupportExamplesClientBehavior >> mediaStreamShowDevices [
+CpBrowserSupportExamplesWebClientBehavior >> mediaStreamShowDevices [
 
 	| outputElement |
 
@@ -565,7 +565,7 @@ CpBrowserSupportExamplesClientBehavior >> mediaStreamShowDevices [
 ]
 
 { #category : #examples }
-CpBrowserSupportExamplesClientBehavior >> mediaStreamShowVideo [
+CpBrowserSupportExamplesWebClientBehavior >> mediaStreamShowVideo [
 
 	| outputElement video progress |
 
@@ -584,13 +584,13 @@ CpBrowserSupportExamplesClientBehavior >> mediaStreamShowVideo [
 ]
 
 { #category : #accessing }
-CpBrowserSupportExamplesClientBehavior >> outputElement [
+CpBrowserSupportExamplesWebClientBehavior >> outputElement [
 
 	^ CpHtmlElement documentBody firstDescendantMatching: '#output'
 ]
 
 { #category : #examples }
-CpBrowserSupportExamplesClientBehavior >> showIndex [
+CpBrowserSupportExamplesWebClientBehavior >> showIndex [
 
 	"Beware: this method is NOT to be taken as exemplar for creating a UI.
 	This class is just a collection of examples of UI possibilities."
@@ -654,7 +654,7 @@ CpBrowserSupportExamplesClientBehavior >> showIndex [
 ]
 
 { #category : #examples }
-CpBrowserSupportExamplesClientBehavior >> speechSpeak [
+CpBrowserSupportExamplesWebClientBehavior >> speechSpeak [
 
 	| outputElement speakButton text progress speechSynthesis utterance onStartHandler onBoundaryHandler onEndHandler onErrorHandler cleanup |
 
@@ -723,7 +723,7 @@ CpBrowserSupportExamplesClientBehavior >> speechSpeak [
 ]
 
 { #category : #examples }
-CpBrowserSupportExamplesClientBehavior >> speechVoiceSelected [
+CpBrowserSupportExamplesWebClientBehavior >> speechVoiceSelected [
 
 	| voiceIndex |
 

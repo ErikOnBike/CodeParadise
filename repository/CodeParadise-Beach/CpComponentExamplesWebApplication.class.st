@@ -12,12 +12,6 @@ CpComponentExamplesWebApplication class >> app [
 	^ #'Component-Examples'
 ]
 
-{ #category : #accessing }
-CpComponentExamplesWebApplication class >> clientBehaviorClass [
-
-	^ CpComponentExamplesClientBehavior
-]
-
 { #category : #installing }
 CpComponentExamplesWebApplication >> installExtensionMethods [
 

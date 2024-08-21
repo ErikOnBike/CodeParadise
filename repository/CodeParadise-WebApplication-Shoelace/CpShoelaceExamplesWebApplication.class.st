@@ -12,12 +12,6 @@ CpShoelaceExamplesWebApplication class >> app [
 	^ #'Shoelace-Examples'
 ]
 
-{ #category : #accessing }
-CpShoelaceExamplesWebApplication class >> clientBehaviorClass [
-
-	^ CpShoelaceExamplesClientBehavior
-]
-
 { #category : #installing }
 CpShoelaceExamplesWebApplication >> installExtensionMethods [
 

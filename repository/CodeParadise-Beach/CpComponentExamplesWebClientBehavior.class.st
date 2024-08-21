@@ -1,11 +1,11 @@
 Class {
-	#name : #CpComponentExamplesClientBehavior,
+	#name : #CpComponentExamplesWebClientBehavior,
 	#superclass : #CpMvpWebClientBehavior,
 	#category : #'CodeParadise-Beach-Examples'
 }
 
 { #category : #examples }
-CpComponentExamplesClientBehavior >> exampleButtons [
+CpComponentExamplesWebClientBehavior >> exampleButtons [
 
 	<example: 'Buttons' order: 200>
 
@@ -147,7 +147,7 @@ CpComponentExamplesClientBehavior >> exampleButtons [
 ]
 
 { #category : #examples }
-CpComponentExamplesClientBehavior >> exampleCheckboxes [
+CpComponentExamplesWebClientBehavior >> exampleCheckboxes [
 
 	<example: 'Checkboxes' order: 300>
 
@@ -175,7 +175,7 @@ CpComponentExamplesClientBehavior >> exampleCheckboxes [
 ]
 
 { #category : #examples }
-CpComponentExamplesClientBehavior >> exampleDraggableWindows [
+CpComponentExamplesWebClientBehavior >> exampleDraggableWindows [
 
 	<example: 'Draggable windows' order: 500>
 
@@ -195,7 +195,7 @@ CpComponentExamplesClientBehavior >> exampleDraggableWindows [
 ]
 
 { #category : #examples }
-CpComponentExamplesClientBehavior >> exampleLinks [
+CpComponentExamplesWebClientBehavior >> exampleLinks [
 
 	<example: 'Links' order: 100>
 
@@ -210,7 +210,7 @@ CpComponentExamplesClientBehavior >> exampleLinks [
 ]
 
 { #category : #examples }
-CpComponentExamplesClientBehavior >> exampleRadioButtons [
+CpComponentExamplesWebClientBehavior >> exampleRadioButtons [
 
 	<example: 'Radio buttons' order: 310>
 
@@ -245,7 +245,7 @@ CpComponentExamplesClientBehavior >> exampleRadioButtons [
 ]
 
 { #category : #examples }
-CpComponentExamplesClientBehavior >> exampleRichTextField [
+CpComponentExamplesWebClientBehavior >> exampleRichTextField [
 
 	"Temporary remove this example, because it is no longer working"
 	"<example: 'Rich text fields' order: 400>"
@@ -272,7 +272,7 @@ CpComponentExamplesClientBehavior >> exampleRichTextField [
 ]
 
 { #category : #examples }
-CpComponentExamplesClientBehavior >> exampleTextField [
+CpComponentExamplesWebClientBehavior >> exampleTextField [
 
 	<example: 'Text fields' order: 400>
 
@@ -298,13 +298,13 @@ CpComponentExamplesClientBehavior >> exampleTextField [
 ]
 
 { #category : #events }
-CpComponentExamplesClientBehavior >> handleFocusEvent: aFocusEvent [
+CpComponentExamplesWebClientBehavior >> handleFocusEvent: aFocusEvent [
 
 	self traceCr: aFocusEvent printString
 ]
 
 { #category : #initialization }
-CpComponentExamplesClientBehavior >> initialize [
+CpComponentExamplesWebClientBehavior >> initialize [
 
 	super initialize.
 
@@ -312,13 +312,13 @@ CpComponentExamplesClientBehavior >> initialize [
 ]
 
 { #category : #accessing }
-CpComponentExamplesClientBehavior >> outputElement [
+CpComponentExamplesWebClientBehavior >> outputElement [
 
 	^ CpHtmlElement documentBody firstDescendantMatching: '#output'
 ]
 
 { #category : #examples }
-CpComponentExamplesClientBehavior >> showIndex [
+CpComponentExamplesWebClientBehavior >> showIndex [
 
 	"Beware: this method is not to be taken as exemplar for creating a UI.
 	This class is just a collection of examples of UI possibilities."
@@ -408,7 +408,7 @@ CpComponentExamplesClientBehavior >> showIndex [
 ]
 
 { #category : #explanation }
-CpComponentExamplesClientBehavior >> textFieldExplanation [
+CpComponentExamplesWebClientBehavior >> textFieldExplanation [
 
 	^ 'This is a very early first beta trial prototype experiment thing
 	(hoping this makes it clear you can''t claim anything based on the result ;-).

@@ -15,9 +15,3 @@ CpDomExamplesWebApplication class >> app [
 
 	^ #'DOM-Examples'
 ]
-
-{ #category : #accessing }
-CpDomExamplesWebApplication class >> clientBehaviorClass [
-
-	^ CpDomExamplesClientBehavior
-]

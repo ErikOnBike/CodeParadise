@@ -3,7 +3,7 @@ I am the client behavior for the DOM Example Server Application.
 I only live in the ClientEnvironment.
 "
 Class {
-	#name : #CpDomExamplesClientBehavior,
+	#name : #CpDomExamplesWebClientBehavior,
 	#superclass : #CpWebClientBehavior,
 	#instVars : [
 		'transition',
@@ -13,13 +13,13 @@ Class {
 }
 
 { #category : #'class initialization' }
-CpDomExamplesClientBehavior class >> beLoaded [
+CpDomExamplesWebClientBehavior class >> beLoaded [
 
 	CpTransition beLoaded
 ]
 
 { #category : #resources }
-CpDomExamplesClientBehavior class >> gearPathForRaduis: radius teeth: teethCount asAnnulus: aBoolean [
+CpDomExamplesWebClientBehavior class >> gearPathForRaduis: radius teeth: teethCount asAnnulus: aBoolean [
 
 	| path innerRadius outerRadius axelRadius arcDelta arc |
 
@@ -97,13 +97,13 @@ CpDomExamplesClientBehavior class >> gearPathForRaduis: radius teeth: teethCount
 ]
 
 { #category : #examples }
-CpDomExamplesClientBehavior class >> someValue [
+CpDomExamplesWebClientBehavior class >> someValue [
 
 	^ 3 + 4
 ]
 
 { #category : #examples }
-CpDomExamplesClientBehavior >> addEventListenersIn: outputElement to: listElement [
+CpDomExamplesWebClientBehavior >> addEventListenersIn: outputElement to: listElement [
 
 	"DO NOT ADD EVENT LISTENERS HERE, it will cause infinite recursion"	
 
@@ -125,7 +125,7 @@ CpDomExamplesClientBehavior >> addEventListenersIn: outputElement to: listElemen
 ]
 
 { #category : #accessing }
-CpDomExamplesClientBehavior >> clearOutput [
+CpDomExamplesWebClientBehavior >> clearOutput [
 
 	transition ifNotNil: [ transition stop ].
 
@@ -133,7 +133,7 @@ CpDomExamplesClientBehavior >> clearOutput [
 ]
 
 { #category : #examples }
-CpDomExamplesClientBehavior >> exampleAnimationMany [
+CpDomExamplesWebClientBehavior >> exampleAnimationMany [
 
 	<example: 'Many Animation' order: 810>
 
@@ -159,7 +159,7 @@ CpDomExamplesClientBehavior >> exampleAnimationMany [
 ]
 
 { #category : #examples }
-CpDomExamplesClientBehavior >> exampleAnimationSimple [
+CpDomExamplesWebClientBehavior >> exampleAnimationSimple [
 
 	<example: 'Simple Animation' order: 800>
 
@@ -189,7 +189,7 @@ CpDomExamplesClientBehavior >> exampleAnimationSimple [
 ]
 
 { #category : #examples }
-CpDomExamplesClientBehavior >> exampleClickEvents [
+CpDomExamplesWebClientBehavior >> exampleClickEvents [
 
 	<example: 'Click Events' order: 900>
 
@@ -238,7 +238,7 @@ CpDomExamplesClientBehavior >> exampleClickEvents [
 ]
 
 { #category : #examples }
-CpDomExamplesClientBehavior >> exampleCreateRandomBlocks [
+CpDomExamplesWebClientBehavior >> exampleCreateRandomBlocks [
 
 	<example: 'Create 1000 random blocks' order: 100>
 
@@ -268,7 +268,7 @@ CpDomExamplesClientBehavior >> exampleCreateRandomBlocks [
 ]
 
 { #category : #examples }
-CpDomExamplesClientBehavior >> exampleCreateRandomEllipses [
+CpDomExamplesWebClientBehavior >> exampleCreateRandomEllipses [
 
 	<example: 'Create 1000 random ellipses' order: 100>
 
@@ -313,7 +313,7 @@ CpDomExamplesClientBehavior >> exampleCreateRandomEllipses [
 ]
 
 { #category : #examples }
-CpDomExamplesClientBehavior >> exampleDebugger [
+CpDomExamplesWebClientBehavior >> exampleDebugger [
 
 	<example: 'Debugger' order: 9999>
 
@@ -358,7 +358,7 @@ CpDomExamplesClientBehavior >> exampleDebugger [
 ]
 
 { #category : #examples }
-CpDomExamplesClientBehavior >> exampleEventMultipleHandlers [
+CpDomExamplesWebClientBehavior >> exampleEventMultipleHandlers [
 
 	<example: 'Event multiple handlers' order: 920>
 
@@ -419,7 +419,7 @@ CpDomExamplesClientBehavior >> exampleEventMultipleHandlers [
 ]
 
 { #category : #examples }
-CpDomExamplesClientBehavior >> exampleEventPropagation [
+CpDomExamplesWebClientBehavior >> exampleEventPropagation [
 
 	<example: 'Event propagation' order: 910>
 
@@ -500,7 +500,7 @@ CpDomExamplesClientBehavior >> exampleEventPropagation [
 ]
 
 { #category : #examples }
-CpDomExamplesClientBehavior >> exampleHelloWorld [
+CpDomExamplesWebClientBehavior >> exampleHelloWorld [
 
 	<example: 'Hello world' order: 10>
 
@@ -522,7 +522,7 @@ CpDomExamplesClientBehavior >> exampleHelloWorld [
 ]
 
 { #category : #examples }
-CpDomExamplesClientBehavior >> exampleMathFormula [
+CpDomExamplesWebClientBehavior >> exampleMathFormula [
 
 	<example: 'MathML formula' order: 200>
 
@@ -541,7 +541,7 @@ CpDomExamplesClientBehavior >> exampleMathFormula [
 ]
 
 { #category : #examples }
-CpDomExamplesClientBehavior >> exampleMutationEvents [
+CpDomExamplesWebClientBehavior >> exampleMutationEvents [
 
 	<example: 'Mutation Events' order: 930>
 
@@ -613,7 +613,7 @@ CpDomExamplesClientBehavior >> exampleMutationEvents [
 ]
 
 { #category : #examples }
-CpDomExamplesClientBehavior >> exampleNestedClickEvents [
+CpDomExamplesWebClientBehavior >> exampleNestedClickEvents [
 
 	<example: 'Nested Click Events' order: 901>
 
@@ -695,7 +695,7 @@ CpDomExamplesClientBehavior >> exampleNestedClickEvents [
 ]
 
 { #category : #examples }
-CpDomExamplesClientBehavior >> exampleSVGGears [
+CpDomExamplesWebClientBehavior >> exampleSVGGears [
 
 	<example: 'SVG Gears (animated)' order: 210>
 
@@ -775,7 +775,7 @@ CpDomExamplesClientBehavior >> exampleSVGGears [
 ]
 
 { #category : #examples }
-CpDomExamplesClientBehavior >> exampleSVGSimple [
+CpDomExamplesWebClientBehavior >> exampleSVGSimple [
 
 	<example: 'Simple SVG' order: 200>
 
@@ -816,7 +816,7 @@ CpDomExamplesClientBehavior >> exampleSVGSimple [
 ]
 
 { #category : #examples }
-CpDomExamplesClientBehavior >> exampleToDo [
+CpDomExamplesWebClientBehavior >> exampleToDo [
 
 	<example: 'ToDo List' order: 1000>
 
@@ -849,7 +849,7 @@ CpDomExamplesClientBehavior >> exampleToDo [
 ]
 
 { #category : #initialization }
-CpDomExamplesClientBehavior >> initialize [
+CpDomExamplesWebClientBehavior >> initialize [
 
 	super initialize.
 
@@ -857,13 +857,13 @@ CpDomExamplesClientBehavior >> initialize [
 ]
 
 { #category : #accessing }
-CpDomExamplesClientBehavior >> outputElement [
+CpDomExamplesWebClientBehavior >> outputElement [
 
 	^ CpHtmlElement documentBody firstDescendantMatching: '#output'
 ]
 
 { #category : #'event handling' }
-CpDomExamplesClientBehavior >> shakeLabelOnEvent: aClickEvent [
+CpDomExamplesWebClientBehavior >> shakeLabelOnEvent: aClickEvent [
 
 	(aClickEvent target tagName = #input)
 		ifTrue: [ ^ self ].
@@ -876,7 +876,7 @@ CpDomExamplesClientBehavior >> shakeLabelOnEvent: aClickEvent [
 ]
 
 { #category : #examples }
-CpDomExamplesClientBehavior >> showIndex [
+CpDomExamplesWebClientBehavior >> showIndex [
 
 	"Beware: this method is NOT to be taken as exemplar for creating a UI.
 	This class is just a collection of examples of UI possibilities."
@@ -940,7 +940,7 @@ CpDomExamplesClientBehavior >> showIndex [
 ]
 
 { #category : #accessing }
-CpDomExamplesClientBehavior >> showText: textString in: selectorString [
+CpDomExamplesWebClientBehavior >> showText: textString in: selectorString [
 
 	textRegistry at: selectorString ifPresent: [ :textTransition | textTransition finish ].
 
@@ -953,7 +953,7 @@ CpDomExamplesClientBehavior >> showText: textString in: selectorString [
 ]
 
 { #category : #'event handling' }
-CpDomExamplesClientBehavior >> wiggleOnEvent: aClickEvent [
+CpDomExamplesWebClientBehavior >> wiggleOnEvent: aClickEvent [
 
 	aClickEvent currentTarget
 		animate: CpCssAnimation tadaKeyframes duration: 750

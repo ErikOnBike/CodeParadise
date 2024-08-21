@@ -1,11 +1,11 @@
 Class {
-	#name : #CpShoelaceExamplesClientBehavior,
+	#name : #CpShoelaceExamplesWebClientBehavior,
 	#superclass : #CpWebClientBehavior,
 	#category : #'CodeParadise-WebApplication-Shoelace-Examples'
 }
 
 { #category : #examples }
-CpShoelaceExamplesClientBehavior >> exampleButton [
+CpShoelaceExamplesWebClientBehavior >> exampleButton [
 
 	<example: 'Button' order: 100>
 
@@ -69,7 +69,7 @@ CpShoelaceExamplesClientBehavior >> exampleButton [
 ]
 
 { #category : #examples }
-CpShoelaceExamplesClientBehavior >> exampleButtonGroup [
+CpShoelaceExamplesWebClientBehavior >> exampleButtonGroup [
 
 	<example: 'ButtonGroup' order: 100>
 
@@ -88,7 +88,7 @@ CpShoelaceExamplesClientBehavior >> exampleButtonGroup [
 ]
 
 { #category : #examples }
-CpShoelaceExamplesClientBehavior >> exampleCheckbox [
+CpShoelaceExamplesWebClientBehavior >> exampleCheckbox [
 
 	<example: 'Checkbox' order: 100>
 
@@ -111,7 +111,7 @@ CpShoelaceExamplesClientBehavior >> exampleCheckbox [
 ]
 
 { #category : #examples }
-CpShoelaceExamplesClientBehavior >> exampleCode [
+CpShoelaceExamplesWebClientBehavior >> exampleCode [
 
 	<example: 'Code' order: 900>
 
@@ -143,7 +143,7 @@ CpShoelaceExamplesClientBehavior >> exampleCode [
 ]
 
 { #category : #examples }
-CpShoelaceExamplesClientBehavior >> exampleDialog [
+CpShoelaceExamplesWebClientBehavior >> exampleDialog [
 
 	<example: 'Dialog' order: 200>
 
@@ -228,7 +228,7 @@ CpShoelaceExamplesClientBehavior >> exampleDialog [
 ]
 
 { #category : #examples }
-CpShoelaceExamplesClientBehavior >> exampleDrawer [
+CpShoelaceExamplesWebClientBehavior >> exampleDrawer [
 
 	<example: 'Drawer' order: 200>
 
@@ -274,7 +274,7 @@ CpShoelaceExamplesClientBehavior >> exampleDrawer [
 ]
 
 { #category : #examples }
-CpShoelaceExamplesClientBehavior >> exampleIcon [
+CpShoelaceExamplesWebClientBehavior >> exampleIcon [
 
 	<example: 'Icon' order: 100>
 
@@ -293,7 +293,7 @@ CpShoelaceExamplesClientBehavior >> exampleIcon [
 ]
 
 { #category : #examples }
-CpShoelaceExamplesClientBehavior >> exampleInput [
+CpShoelaceExamplesWebClientBehavior >> exampleInput [
 
 	<example: 'Input' order: 100>
 
@@ -340,7 +340,7 @@ CpShoelaceExamplesClientBehavior >> exampleInput [
 ]
 
 { #category : #examples }
-CpShoelaceExamplesClientBehavior >> exampleRange [
+CpShoelaceExamplesWebClientBehavior >> exampleRange [
 
 	<example: 'Range' order: 100>
 
@@ -375,7 +375,7 @@ CpShoelaceExamplesClientBehavior >> exampleRange [
 ]
 
 { #category : #examples }
-CpShoelaceExamplesClientBehavior >> exampleSelect [
+CpShoelaceExamplesWebClientBehavior >> exampleSelect [
 
 	<example: 'Select' order: 100>
 
@@ -416,7 +416,7 @@ CpShoelaceExamplesClientBehavior >> exampleSelect [
 ]
 
 { #category : #examples }
-CpShoelaceExamplesClientBehavior >> exampleSwitch [
+CpShoelaceExamplesWebClientBehavior >> exampleSwitch [
 
 	<example: 'Switch' order: 100>
 
@@ -435,7 +435,7 @@ CpShoelaceExamplesClientBehavior >> exampleSwitch [
 ]
 
 { #category : #examples }
-CpShoelaceExamplesClientBehavior >> exampleTabGroup [
+CpShoelaceExamplesWebClientBehavior >> exampleTabGroup [
 
 	<example: 'TabGroup' order: 100>
 
@@ -479,7 +479,7 @@ CpShoelaceExamplesClientBehavior >> exampleTabGroup [
 ]
 
 { #category : #examples }
-CpShoelaceExamplesClientBehavior >> exampleTextarea [
+CpShoelaceExamplesWebClientBehavior >> exampleTextarea [
 
 	<example: 'Textarea' order: 100>
 
@@ -518,7 +518,7 @@ CpShoelaceExamplesClientBehavior >> exampleTextarea [
 ]
 
 { #category : #examples }
-CpShoelaceExamplesClientBehavior >> exampleTooltip [
+CpShoelaceExamplesWebClientBehavior >> exampleTooltip [
 
 	<example: 'Tooltip' order: 100>
 
@@ -553,7 +553,7 @@ CpShoelaceExamplesClientBehavior >> exampleTooltip [
 ]
 
 { #category : #initialization }
-CpShoelaceExamplesClientBehavior >> initialize [
+CpShoelaceExamplesWebClientBehavior >> initialize [
 
 	super initialize.
 
@@ -561,13 +561,13 @@ CpShoelaceExamplesClientBehavior >> initialize [
 ]
 
 { #category : #accessing }
-CpShoelaceExamplesClientBehavior >> outputElement [
+CpShoelaceExamplesWebClientBehavior >> outputElement [
 
 	^ CpHtmlElement documentBody firstDescendantMatching: '#output'
 ]
 
 { #category : #examples }
-CpShoelaceExamplesClientBehavior >> showIndex [
+CpShoelaceExamplesWebClientBehavior >> showIndex [
 
 	"Beware: this method is NOT to be taken as exemplar for creating a UI.
 	This class is just a collection of examples of UI possibilities."

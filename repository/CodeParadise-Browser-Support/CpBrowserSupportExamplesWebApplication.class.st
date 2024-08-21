@@ -11,9 +11,3 @@ CpBrowserSupportExamplesWebApplication class >> app [
 
 	^ #'Browser-Support-Examples'
 ]
-
-{ #category : #accessing }
-CpBrowserSupportExamplesWebApplication class >> clientBehaviorClass [
-
-	^ CpBrowserSupportExamplesClientBehavior
-]

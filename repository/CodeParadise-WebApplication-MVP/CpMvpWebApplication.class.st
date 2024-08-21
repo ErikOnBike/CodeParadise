@@ -33,7 +33,9 @@ CpMvpWebApplication class >> allowedPackages [
 ]
 
 { #category : #accessing }
-CpMvpWebApplication class >> clientBehaviorClass [
+CpMvpWebApplication class >> defaultClientBehaviorClass [
+
+	"Answer the default class for the receiver's WebClientBehavior"
 
 	^ CpMvpWebClientBehavior
 ]

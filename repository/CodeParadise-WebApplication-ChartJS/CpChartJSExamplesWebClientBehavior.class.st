@@ -1,17 +1,17 @@
 Class {
-	#name : #CpChartJSExamplesClientBehavior,
+	#name : #CpChartJSExamplesWebClientBehavior,
 	#superclass : #CpWebClientBehavior,
 	#category : #'CodeParadise-WebApplication-ChartJS-Examples'
 }
 
 { #category : #'class initialization' }
-CpChartJSExamplesClientBehavior class >> beLoaded [
+CpChartJSExamplesWebClientBehavior class >> beLoaded [
 
 	CpTransition beLoaded
 ]
 
 { #category : #examples }
-CpChartJSExamplesClientBehavior >> exampleBarChartRandom [
+CpChartJSExamplesWebClientBehavior >> exampleBarChartRandom [
 
 	<example: 'Bar chart random' order: 30>
 
@@ -87,7 +87,7 @@ CpChartJSExamplesClientBehavior >> exampleBarChartRandom [
 ]
 
 { #category : #examples }
-CpChartJSExamplesClientBehavior >> exampleDoughnutChartRandom [
+CpChartJSExamplesWebClientBehavior >> exampleDoughnutChartRandom [
 
 	<example: 'Doughnut chart random' order: 50>
 
@@ -151,7 +151,7 @@ CpChartJSExamplesClientBehavior >> exampleDoughnutChartRandom [
 ]
 
 { #category : #examples }
-CpChartJSExamplesClientBehavior >> exampleLineChart [
+CpChartJSExamplesWebClientBehavior >> exampleLineChart [
 
 	<example: 'Line chart' order: 10>
 
@@ -199,7 +199,7 @@ CpChartJSExamplesClientBehavior >> exampleLineChart [
 ]
 
 { #category : #examples }
-CpChartJSExamplesClientBehavior >> exampleLineChartRandom [
+CpChartJSExamplesWebClientBehavior >> exampleLineChartRandom [
 
 	<example: 'Line chart random' order: 20>
 
@@ -263,7 +263,7 @@ CpChartJSExamplesClientBehavior >> exampleLineChartRandom [
 ]
 
 { #category : #examples }
-CpChartJSExamplesClientBehavior >> exampleMultiRandom [
+CpChartJSExamplesWebClientBehavior >> exampleMultiRandom [
 
 	<example: 'Multi chart random' order: 0>
 
@@ -338,7 +338,7 @@ CpChartJSExamplesClientBehavior >> exampleMultiRandom [
 ]
 
 { #category : #examples }
-CpChartJSExamplesClientBehavior >> exampleStackedBarChartRandom [
+CpChartJSExamplesWebClientBehavior >> exampleStackedBarChartRandom [
 
 	<example: 'Bar chart stacked random' order: 40>
 
@@ -420,7 +420,7 @@ CpChartJSExamplesClientBehavior >> exampleStackedBarChartRandom [
 ]
 
 { #category : #initialization }
-CpChartJSExamplesClientBehavior >> initialize [
+CpChartJSExamplesWebClientBehavior >> initialize [
 
 	super initialize.
 
@@ -428,20 +428,20 @@ CpChartJSExamplesClientBehavior >> initialize [
 ]
 
 { #category : #accessing }
-CpChartJSExamplesClientBehavior >> outputElement [
+CpChartJSExamplesWebClientBehavior >> outputElement [
 
 	^ CpHtmlElement documentBody firstDescendantMatching: '#output'
 ]
 
 { #category : #progress }
-CpChartJSExamplesClientBehavior >> removeProgressBar [
+CpChartJSExamplesWebClientBehavior >> removeProgressBar [
 
 	(self outputElement firstDescendantMatching: #progress)
 		ifNotNil: [ :progressBar | progressBar destroy ]
 ]
 
 { #category : #examples }
-CpChartJSExamplesClientBehavior >> showIndex [
+CpChartJSExamplesWebClientBehavior >> showIndex [
 
 	"Beware: this method is NOT to be taken as exemplar for creating a UI.
 	This class is just a collection of examples of UI possibilities."
@@ -576,7 +576,7 @@ CpChartJSExamplesClientBehavior >> showIndex [
 ]
 
 { #category : #progress }
-CpChartJSExamplesClientBehavior >> showProgressBar: aDuration [
+CpChartJSExamplesWebClientBehavior >> showProgressBar: aDuration [
 
 	| progressBar |
 

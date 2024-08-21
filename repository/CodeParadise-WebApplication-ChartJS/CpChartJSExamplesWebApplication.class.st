@@ -12,12 +12,6 @@ CpChartJSExamplesWebApplication class >> app [
 	^ #'ChartJS-Examples'
 ]
 
-{ #category : #accessing }
-CpChartJSExamplesWebApplication class >> clientBehaviorClass [
-
-	^ CpChartJSExamplesClientBehavior
-]
-
 { #category : #installing }
 CpChartJSExamplesWebApplication >> installExtensionMethods [
 

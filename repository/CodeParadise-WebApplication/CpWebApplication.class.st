@@ -34,7 +34,20 @@ CpWebApplication class >> app [
 { #category : #accessing }
 CpWebApplication class >> clientBehaviorClass [
 
-	^ CpWebClientBehavior
+	"Answer the class representing the WebClientBehavior.
+	By default the class with a matching name will be used (if present in the image).
+	The matching name is created by replacing the postfix #WebApplication with #WebClientBehavior.
+	Otherwise the default implementation as answered by #defaultClientBehaviorClass
+	or a subclass should override this method to answer a specific class."
+
+	| className clientBehaviorClass | 
+
+	className := (self name withoutSuffix: #WebApplication) asSymbol , #WebClientBehavior.
+	clientBehaviorClass := Smalltalk classNamed: className.
+
+	"If no class is found, answer the default implementation"
+	^ clientBehaviorClass
+		ifNil: [ self defaultClientBehaviorClass ]
 ]
 
 { #category : #'event handling' }
@@ -44,6 +57,14 @@ CpWebApplication class >> clientLoaded: anAnnouncement [
 
 	(super clientLoaded: anAnnouncement)
 		ifNotNil: [ :application | application removeLoader ]
+]
+
+{ #category : #accessing }
+CpWebApplication class >> defaultClientBehaviorClass [
+
+	"Answer the default class for the receiver's WebClientBehavior"
+
+	^ CpWebClientBehavior
 ]
 
 { #category : #'class initialization' }
