@@ -196,15 +196,11 @@ CpJavaScriptObject class >> new [
 { #category : #'instance creation' }
 CpJavaScriptObject class >> newInstance [
 
-	"For better performance use #newInstanceResultAs: if the result Class is known."
-
 	^ self newInstanceWithArguments: nil resultAs: self
 ]
 
 { #category : #'instance creation' }
 CpJavaScriptObject class >> newInstanceFor: aString [
-
-	"For better performance use #newInstanceFor:resultAs: if the result Class is known."
 
 	^ self newInstanceFor: aString withArguments: nil resultAs: self
 ]
@@ -217,8 +213,6 @@ CpJavaScriptObject class >> newInstanceFor: aString resultAs: aProxyClass [
 
 { #category : #'instance creation' }
 CpJavaScriptObject class >> newInstanceFor: aString withArguments: anArray [
-
-	"For better performance use #newInstanceFor:withArguments:resultAs: if the result Class is known."
 
 	^ self newInstanceFor: aString withArguments: anArray resultAs: self
 ]
@@ -242,8 +236,6 @@ CpJavaScriptObject class >> newInstanceResultAs: aProxyClass [
 
 { #category : #'instance creation' }
 CpJavaScriptObject class >> newInstanceWithArguments: anArray [
-
-	"For better performance use #newInstanceWithArguments:resultAs: if the result Class is known."
 
 	^ self newInstanceWithArguments: anArray resultAs: self
 ]
