@@ -108,7 +108,7 @@ If you encounter any problems with connecting to the server, please check that n
 
 ### Unknown classes
 
-Once you have a client running and change code, the client environment might not know a class you are using. Please add this class by using the #beLoaded method (see existing senders to understand its usage). You might need to manually install it in a running environment (you have to find the corresponding server environment and use #addClass: to add it). Or reload the page in your browser. In some cases this is not enough, because of the order in which classes are installed. In such case you have to close the tab/page and open a new browser tab/page. In a future version this should not be necessary anymore.
+Once you have a client running and change code, the client environment might not know a class you are using. Please add this class by using the #beLoaded method (see existing senders to understand its usage). You might need to manually install it in a running environment (you have to find the corresponding server environment and use #addClass: to add it). Or reload the page in your browser. In some cases this is not enough, because of the order in which classes are installed. In such case you have to close the tab/page and open a new browser tab/page.
 
 ## Possible usages
 
@@ -120,6 +120,6 @@ Applications can also be 'sealed' allowing them to be run without the need of a 
 
 ## Compatibility
 
-The means of installing (Compiled) code in the tiny Smalltalk image (aka ClientEnvironment) is by sending the relevant bytecode. The current implementation assumes that both the Pharo server image (aka ServerEnvironment) and the ClientEnvironment share the same bytecode set. Since the ClientEnvironment is running on SqueakJS VM, only bytecode sets supported by SqueakJS VM are usable. Currently Pharo 8 up to 12 (and including) are supported. Active development is on P11 and at some point support for P8 and P9 will be dropped because of the non-standard process of creating the tiny Smalltalk image which runs in the browser. From P10 onwards this is standardized using [TinyBootstrap](https://github.com/ErikOnBike/TinyBootstrap).
+The means of installing (Compiled) code in the tiny Smalltalk image (aka ClientEnvironment) is by sending the relevant bytecode. The current implementation assumes that both the Pharo server image (aka ServerEnvironment) and the ClientEnvironment share the same bytecode set. Since the ClientEnvironment is running on SqueakJS VM, only bytecode sets supported by SqueakJS VM are usable. Currently Pharo 10 up to 13 (and including) are supported. Active development is on P12. Support for P8 and P9 is no longer provided, because of the non-standard process of creating the tiny Smalltalk image which runs in the browser. From P10 onwards this is standardized using [TinyBootstrap](https://github.com/ErikOnBike/TinyBootstrap). IF you still need support for P8 or P9, please contact me directly or create an issue.
 
 There is no explicit list of supported browsers at the moment. Please use a recent browser version. If you have trouble using (the pre-Chrome based) Microsoft Edge, please consider switching to Chrome, Firefox or one of the derivatives.
