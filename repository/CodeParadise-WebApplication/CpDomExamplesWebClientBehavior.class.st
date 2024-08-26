@@ -19,7 +19,7 @@ CpDomExamplesWebClientBehavior class >> beLoaded [
 ]
 
 { #category : #resources }
-CpDomExamplesWebClientBehavior class >> gearPathForRaduis: radius teeth: teethCount asAnnulus: aBoolean [
+CpDomExamplesWebClientBehavior class >> gearPathForRadius: radius teeth: teethCount asAnnulus: aBoolean [
 
 	| path innerRadius outerRadius axelRadius arcDelta arc |
 
