@@ -601,6 +601,20 @@ CpJavaScriptObject >> primLastExceptionAs: aProxyClass [
 	^ nil
 ]
 
+{ #category : #accessing }
+CpJavaScriptObject >> primPropertyAt: aSymbol put: anObject [
+
+	"Set the property from the proxied JavaScript object with the specified value.
+	In line with regular JavaScript this will set or create a property with the
+	given value.
+
+	This method is more forgiving than #apply:witArguments: since it will just
+	add a property if not present, instead of raising an error."
+
+	<primitive: 'primitiveJavaScriptObjectPropertyAt:put:' module: 'CpSystemPlugin'>
+	self primitiveFailed
+]
+
 { #category : #printing }
 CpJavaScriptObject >> printOn: aStream [
 
@@ -672,10 +686,15 @@ CpJavaScriptObject >> propertyAt: aSymbol put: anObject [
 	given value.
 
 	This method is more forgiving than #apply:witArguments: since it will just
-	add a property if not present, instead of raising an error."
+	add a property if not present, instead of raising an error.
 
-	<primitive: 'primitiveJavaScriptObjectPropertyAt:put:' module: 'CpSystemPlugin'>
-	self primitiveFailed
+	Implementation:
+	Convert Smalltalk Blocks to JavaScript functions if necessary.
+	See also CpJavaScriptFunction class >> #wrap:"
+
+	self primPropertyAt: aSymbol put: (anObject isBlock
+		ifTrue: [ CpJavaScriptFunction wrap: anObject ]
+		ifFalse: [ anObject ])
 ]
 
 { #category : #accessing }
