@@ -14,8 +14,9 @@ CpNodeJSEventEmitter >> addListener: aSymbol handler: aBlock [
 
 	| function |
 
-	"Create function from the Block"
+	"Create function from the Block and specify the event name (to allow later removal)"
 	function := CpJavaScriptFunction wrap: aBlock.
+	function propertyAt: #eventName put: aSymbol.
 
 	"Add event listener"
 	self apply: #addListener withArguments: { aSymbol . function }.
@@ -24,9 +25,9 @@ CpNodeJSEventEmitter >> addListener: aSymbol handler: aBlock [
 ]
 
 { #category : #adding }
-CpNodeJSEventEmitter >> removeListener: aSymbol handler: aFunction [
+CpNodeJSEventEmitter >> removeListener: aFunction [
 
 	"Removes the specified listener from the listener array for the event named eventName."
 
-	self apply: #removeListener withArguments: { aSymbol . aFunction }
+	self apply: #removeListener withArguments: { aFunction propertyAt: #eventName . aFunction }
 ]

@@ -130,42 +130,6 @@ CpBrowserMediaStream >> onRemoveTrackDo: aBlock [
 	^ self addEventListener: #removetrack handler: aBlock
 ]
 
-{ #category : #'event handling' }
-CpBrowserMediaStream >> removeActiveHandler: aFunction [
-
-	"Remove an earlier installed event listener
-	(using the handler which was answered during installation)"
-
-	self removeEventListener: #active handler: aFunction
-]
-
-{ #category : #'event handling' }
-CpBrowserMediaStream >> removeAddTrackHandler: aFunction [
-
-	"Remove an earlier installed event listener
-	(using the handler which was answered during installation)"
-
-	self removeEventListener: #addtrack handler: aFunction
-]
-
-{ #category : #'event handling' }
-CpBrowserMediaStream >> removeInactiveHandler: aFunction [
-
-	"Remove an earlier installed event listener
-	(using the handler which was answered during installation)"
-
-	self removeEventListener: #inactive handler: aFunction
-]
-
-{ #category : #'event handling' }
-CpBrowserMediaStream >> removeRemoveTrackHandler: aFunction [
-
-	"Remove an earlier installed event listener
-	(using the handler which was answered during installation)"
-
-	self removeEventListener: #removetrack handler: aFunction
-]
-
 { #category : #operations }
 CpBrowserMediaStream >> removeTrack: aMediaStreamTrack [
 

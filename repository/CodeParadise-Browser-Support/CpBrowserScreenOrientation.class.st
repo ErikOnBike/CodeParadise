@@ -67,15 +67,6 @@ CpBrowserScreenOrientation >> onChangeDo: aBlock [
 	^ self addEventListener: #change handler: aBlock
 ]
 
-{ #category : #'event handling' }
-CpBrowserScreenOrientation >> removeChangeHandler: aFunction [
-
-	"Remove an earlier installed event listener
-	(using the handler which was answered during installation)"
-
-	self removeEventListener: #change handler: aFunction
-]
-
 { #category : #accessing }
 CpBrowserScreenOrientation >> type [
 

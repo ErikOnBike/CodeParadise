@@ -198,60 +198,6 @@ CpNodeJSStreamWritable >> onUnpipeDo: aBlock [
 	^ self addListener: #unpipe handler: aBlock
 ]
 
-{ #category : #'event handling' }
-CpNodeJSStreamWritable >> removeCloseHandler: aFunction [
-
-	"Remove an earlier installed event listener
-	(using the handler which was answered during installation)"
-
-	self removeListener: #close handler: aFunction
-]
-
-{ #category : #'event handling' }
-CpNodeJSStreamWritable >> removeDrainHandler: aFunction [
-
-	"Remove an earlier installed event listener
-	(using the handler which was answered during installation)"
-
-	self removeListener: #drain handler: aFunction
-]
-
-{ #category : #'event handling' }
-CpNodeJSStreamWritable >> removeErrorHandler: aFunction [
-
-	"Remove an earlier installed event listener
-	(using the handler which was answered during installation)"
-
-	self removeListener: #error handler: aFunction
-]
-
-{ #category : #'event handling' }
-CpNodeJSStreamWritable >> removeFinishHandler: aFunction [
-
-	"Remove an earlier installed event listener
-	(using the handler which was answered during installation)"
-
-	self removeListener: #finish handler: aFunction
-]
-
-{ #category : #'event handling' }
-CpNodeJSStreamWritable >> removePipeHandler: aFunction [
-
-	"Remove an earlier installed event listener
-	(using the handler which was answered during installation)"
-
-	self removeListener: #pipe handler: aFunction
-]
-
-{ #category : #'event handling' }
-CpNodeJSStreamWritable >> removeUnpipeHandler: aFunction [
-
-	"Remove an earlier installed event listener
-	(using the handler which was answered during installation)"
-
-	self removeListener: #unpipe handler: aFunction
-]
-
 { #category : #accessing }
 CpNodeJSStreamWritable >> setDefaultEncoding: aString [
 

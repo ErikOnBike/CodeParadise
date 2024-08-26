@@ -300,69 +300,6 @@ CpNodeJSHttpServer >> onUpgradeDo: aBlock [
 	^ self addListener: #upgrade handler: aBlock
 ]
 
-{ #category : #'event handling' }
-CpNodeJSHttpServer >> removeCheckContinueHandler: aFunction [
-
-	"Remove an earlier installed event listener
-	(using the handler which was answered during installation)"
-
-	self removeListener: #checkContinue handler: aFunction
-]
-
-{ #category : #'event handling' }
-CpNodeJSHttpServer >> removeCheckExpectationHandler: aFunction [
-
-	"Remove an earlier installed event listener
-	(using the handler which was answered during installation)"
-
-	self removeListener: #checkExpectation handler: aFunction
-]
-
-{ #category : #'event handling' }
-CpNodeJSHttpServer >> removeClientErrorHandler: aFunction [
-
-	"Remove an earlier installed event listener
-	(using the handler which was answered during installation)"
-
-	self removeListener: #clientError handler: aFunction
-]
-
-{ #category : #'event handling' }
-CpNodeJSHttpServer >> removeConnectHandler: aFunction [
-
-	"Remove an earlier installed event listener
-	(using the handler which was answered during installation)"
-
-	self removeListener: #connect handler: aFunction
-]
-
-{ #category : #'event handling' }
-CpNodeJSHttpServer >> removeDropRequestHandler: aFunction [
-
-	"Remove an earlier installed event listener
-	(using the handler which was answered during installation)"
-
-	self removeListener: #dropRequest handler: aFunction
-]
-
-{ #category : #'event handling' }
-CpNodeJSHttpServer >> removeRequestHandler: aFunction [
-
-	"Remove an earlier installed event listener
-	(using the handler which was answered during installation)"
-
-	self removeListener: #request handler: aFunction
-]
-
-{ #category : #'event handling' }
-CpNodeJSHttpServer >> removeUpgradeHandler: aFunction [
-
-	"Remove an earlier installed event listener
-	(using the handler which was answered during installation)"
-
-	self removeListener: #upgrade handler: aFunction
-]
-
 { #category : #accessing }
 CpNodeJSHttpServer >> requestTimeout [
 

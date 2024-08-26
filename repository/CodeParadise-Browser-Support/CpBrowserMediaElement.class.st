@@ -17,6 +17,17 @@ CpBrowserMediaElement class >> domElement: aDomElement [
 	^ self wrap: aDomElement
 ]
 
+{ #category : #'event handling' }
+CpBrowserMediaElement >> onPlayDo: aBlock [
+
+	"Fired when the paused property is changed from true to false, as a result of the HTMLMediaElement.play() method, or the autoplay attribute."
+
+	"Add an event listener and answer the handler (a JavaScript Function).
+	Use the handler to remove the listener later when no longer needed."
+
+	^ self addEventListener: #play handler: aBlock
+]
+
 { #category : #operations }
 CpBrowserMediaElement >> plause [
 

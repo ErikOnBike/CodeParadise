@@ -18,8 +18,9 @@ CpJavaScriptEventTarget >> addEventListener: aSymbol handler: aBlock [
 
 	| function |
 
-	"Create function from the Block"
+	"Create function from the Block and specify the event name (to allow later removal)"
 	function := CpJavaScriptFunction wrap: aBlock.
+	function propertyAt: #eventName put: aSymbol.
 
 	"Add event listener"
 	self apply: #addEventListener withArguments: { aSymbol . function }.
@@ -28,10 +29,10 @@ CpJavaScriptEventTarget >> addEventListener: aSymbol handler: aBlock [
 ]
 
 { #category : #operations }
-CpJavaScriptEventTarget >> removeEventListener: aSymbol handler: aFunction [
+CpJavaScriptEventTarget >> removeEventListener: aFunction [
 
 	"Remove the specified funcion (a wrapped Block, answered by #addEventListener:handler:)
-	for the specified event from the receiver's proxied JavaScript object (i.e. an EventTarget)."
+	from the receiver's proxied JavaScript object (i.e. an EventTarget)."
 
-	self apply: #removeEventListener withArguments: { aSymbol . aFunction }
+	self apply: #removeEventListener withArguments: { aFunction propertyAt: #eventName . aFunction }
 ]

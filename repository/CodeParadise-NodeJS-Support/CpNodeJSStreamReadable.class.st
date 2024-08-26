@@ -308,69 +308,6 @@ CpNodeJSStreamReadable >> readableObjectMode [
 	^ self propertyAt: #readableObjectMode
 ]
 
-{ #category : #'event handling' }
-CpNodeJSStreamReadable >> removeCloseHandler: aFunction [
-
-	"Remove an earlier installed event listener
-	(using the handler which was answered during installation)"
-
-	self removeListener: #close handler: aFunction
-]
-
-{ #category : #'event handling' }
-CpNodeJSStreamReadable >> removeDataHandler: aFunction [
-
-	"Remove an earlier installed event listener
-	(using the handler which was answered during installation)"
-
-	self removeListener: #data handler: aFunction
-]
-
-{ #category : #'event handling' }
-CpNodeJSStreamReadable >> removeEndHandler: aFunction [
-
-	"Remove an earlier installed event listener
-	(using the handler which was answered during installation)"
-
-	self removeListener: #end handler: aFunction
-]
-
-{ #category : #'event handling' }
-CpNodeJSStreamReadable >> removeErrorHandler: aFunction [
-
-	"Remove an earlier installed event listener
-	(using the handler which was answered during installation)"
-
-	self removeListener: #error handler: aFunction
-]
-
-{ #category : #'event handling' }
-CpNodeJSStreamReadable >> removePauseHandler: aFunction [
-
-	"Remove an earlier installed event listener
-	(using the handler which was answered during installation)"
-
-	self removeListener: #pause handler: aFunction
-]
-
-{ #category : #'event handling' }
-CpNodeJSStreamReadable >> removeReadableHandler: aFunction [
-
-	"Remove an earlier installed event listener
-	(using the handler which was answered during installation)"
-
-	self removeListener: #readable handler: aFunction
-]
-
-{ #category : #'event handling' }
-CpNodeJSStreamReadable >> removeResumeHandler: aFunction [
-
-	"Remove an earlier installed event listener
-	(using the handler which was answered during installation)"
-
-	self removeListener: #resume handler: aFunction
-]
-
 { #category : #operations }
 CpNodeJSStreamReadable >> resume [
 

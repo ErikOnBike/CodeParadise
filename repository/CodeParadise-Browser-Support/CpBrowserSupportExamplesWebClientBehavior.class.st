@@ -434,7 +434,7 @@ CpBrowserSupportExamplesWebClientBehavior >> exampleJavaScriptEventTarget [
 			yourself) ;
 		appendChild: ((CpHtmlElement newWithTag: #button)
 			textContent: 'Click me to remove event listener (stop other button)' ;
-			when: CpClickEvent primary only do: [ eventTarget removeEventListener: #click handler: handler ] for: self ;
+			when: CpClickEvent primary only do: [ eventTarget removeEventListener: handler ] for: self ;
 			yourself) ;
 		yourself.
 
@@ -680,10 +680,10 @@ CpBrowserSupportExamplesWebClientBehavior >> speechSpeak [
 	"Add event handlers"
 	cleanup := [
 		utterance
-			removeStartHandler: onStartHandler ;
-			removeBoundaryHandler: onBoundaryHandler ;
-			removeEndHandler: onEndHandler ;
-			removeErrorHandler: onErrorHandler.
+			removeEventListener: onStartHandler ;
+			removeEventListener: onBoundaryHandler ;
+			removeEventListener: onEndHandler ;
+			removeEventListener: onErrorHandler.
 
 		"Restore progress"
 		progress textContent: text.

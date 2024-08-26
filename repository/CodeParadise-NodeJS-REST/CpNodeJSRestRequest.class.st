@@ -128,9 +128,9 @@ CpNodeJSRestRequest >> resolveBodyThenDo: aBlock ifFail: exceptionBlock [
 	dataHandler := incomingMessage onDataDo: [ :chunk | buffer add: chunk ].
 	endHandler := incomingMessage onEndDo: [
 		incomingMessage
-			removeDataHandler: dataHandler ;
-			removeEndHandler: endHandler ;
-			removeErrorHandler: errorHandler.
+			removeListener: dataHandler ;
+			removeListener: endHandler ;
+			removeListener: errorHandler.
 		[
 			body := CpNodeJSBuffer concat: buffer asArray.
 			aBlock value
@@ -138,9 +138,9 @@ CpNodeJSRestRequest >> resolveBodyThenDo: aBlock ifFail: exceptionBlock [
 			exceptionBlock cull: error ] ].
 	errorHandler := incomingMessage onErrorDo: [ :error |
 		incomingMessage
-			removeDataHandler: dataHandler ;
-			removeEndHandler: endHandler ;
-			removeErrorHandler: errorHandler.
+			removeListener: dataHandler ;
+			removeListener: endHandler ;
+			removeListener: errorHandler.
 		exceptionBlock cull: error ]
 ]
 

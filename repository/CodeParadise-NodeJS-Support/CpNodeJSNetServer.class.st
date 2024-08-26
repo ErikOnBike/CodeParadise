@@ -203,39 +203,3 @@ CpNodeJSNetServer >> onListeningDo: aBlock [
 
 	^ self addListener: #listening handler: aBlock
 ]
-
-{ #category : #'event handling' }
-CpNodeJSNetServer >> removeConnectionHandler: aFunction [
-
-	"Remove an earlier installed event listener
-	(using the handler which was answered during installation)"
-
-	self removeListener: #connection handler: aFunction
-]
-
-{ #category : #'event handling' }
-CpNodeJSNetServer >> removeDropHandler: aFunction [
-
-	"Remove an earlier installed event listener
-	(using the handler which was answered during installation)"
-
-	self removeListener: #drop handler: aFunction
-]
-
-{ #category : #'event handling' }
-CpNodeJSNetServer >> removeErrorHandler: aFunction [
-
-	"Remove an earlier installed event listener
-	(using the handler which was answered during installation)"
-
-	self removeListener: #error handler: aFunction
-]
-
-{ #category : #'event handling' }
-CpNodeJSNetServer >> removeListeningHandler: aFunction [
-
-	"Remove an earlier installed event listener
-	(using the handler which was answered during installation)"
-
-	self removeListener: #listening handler: aFunction
-]

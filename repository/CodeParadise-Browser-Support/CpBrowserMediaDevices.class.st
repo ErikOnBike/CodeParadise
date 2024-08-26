@@ -152,12 +152,3 @@ CpBrowserMediaDevices >> onDeviceChangeDo: aBlock [
 
 	^ self addEventListener: #devicechange handler: aBlock
 ]
-
-{ #category : #'event handling' }
-CpBrowserMediaDevices >> removeDeviceChangeHandler: aFunction [
-
-	"Remove an earlier installed event listener
-	(using the handler which was answered during installation)"
-
-	self removeEventListener: #devicechange handler: aFunction
-]

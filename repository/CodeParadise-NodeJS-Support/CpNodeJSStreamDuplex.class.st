@@ -121,42 +121,6 @@ CpNodeJSStreamDuplex >> onUnpipeDo: aBlock [
 	^ self addListener: #unpipe handler: aBlock
 ]
 
-{ #category : #'event handling' }
-CpNodeJSStreamDuplex >> removeDrainHandler: aFunction [
-
-	"Remove an earlier installed event listener
-	(using the handler which was answered during installation)"
-
-	self removeListener: #drain handler: aFunction
-]
-
-{ #category : #'event handling' }
-CpNodeJSStreamDuplex >> removeFinishHandler: aFunction [
-
-	"Remove an earlier installed event listener
-	(using the handler which was answered during installation)"
-
-	self removeListener: #finish handler: aFunction
-]
-
-{ #category : #'event handling' }
-CpNodeJSStreamDuplex >> removePipeHandler: aFunction [
-
-	"Remove an earlier installed event listener
-	(using the handler which was answered during installation)"
-
-	self removeListener: #pipe handler: aFunction
-]
-
-{ #category : #'event handling' }
-CpNodeJSStreamDuplex >> removeUnpipeHandler: aFunction [
-
-	"Remove an earlier installed event listener
-	(using the handler which was answered during installation)"
-
-	self removeListener: #unpipe handler: aFunction
-]
-
 { #category : #accessing }
 CpNodeJSStreamDuplex >> setDefaultEncoding: aString [
 

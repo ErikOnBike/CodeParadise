@@ -159,33 +159,6 @@ CpBrowserMediaStreamTrack >> readyState [
 	^ self propertyAt: #readyState
 ]
 
-{ #category : #'event handling' }
-CpBrowserMediaStreamTrack >> removeEndedHandler: aFunction [
-
-	"Remove an earlier installed event listener
-	(using the handler which was answered during installation)"
-
-	self removeEventListener: #ended handler: aFunction
-]
-
-{ #category : #'event handling' }
-CpBrowserMediaStreamTrack >> removeMuteHandler: aFunction [
-
-	"Remove an earlier installed event listener
-	(using the handler which was answered during installation)"
-
-	self removeEventListener: #mute handler: aFunction
-]
-
-{ #category : #'event handling' }
-CpBrowserMediaStreamTrack >> removeUnmuteHandler: aFunction [
-
-	"Remove an earlier installed event listener
-	(using the handler which was answered during installation)"
-
-	self removeEventListener: #unmute handler: aFunction
-]
-
 { #category : #operations }
 CpBrowserMediaStreamTrack >> stop [
 

@@ -70,15 +70,6 @@ CpBrowserSpeechSynthesis >> pending [
 	^ self propertyAt: #pending
 ]
 
-{ #category : #'event handling' }
-CpBrowserSpeechSynthesis >> removeVoicesChangedHandler: aFunction [
-
-	"Remove an earlier installed event listener
-	(using the handler which was answered during installation)"
-
-	self removeEventListener: #voiceschanged handler: aFunction
-]
-
 { #category : #operations }
 CpBrowserSpeechSynthesis >> resume [
 
