@@ -19,7 +19,7 @@ CpDomExamplesWebClientBehavior class >> beLoaded [
 ]
 
 { #category : #resources }
-CpDomExamplesWebClientBehavior class >> gearPathForRaduis: radius teeth: teethCount asAnnulus: aBoolean [
+CpDomExamplesWebClientBehavior class >> gearPathForRadius: radius teeth: teethCount asAnnulus: aBoolean [
 
 	| path innerRadius outerRadius axelRadius arcDelta arc |
 
@@ -731,7 +731,7 @@ CpDomExamplesWebClientBehavior >> exampleSVGGears [
 		attributeAt: #transform put: 'translate(250,250)scale(.55)' ;
 		appendChild: ((CpSvgElement newWithTag: #g)
 			appendChild: (middleElement := (CpSvgElement newWithTag: #path)
-				attributeAt: #d put: (self class gearPathForRaduis: 80 teeth: 16 asAnnulus: false) ;
+				attributeAt: #d put: (self class gearPathForRadius: 80 teeth: 16 asAnnulus: false) ;
 				attributeAt: #fill put: '#ff0000' ;
 				yourself) ;
 			yourself) ;
