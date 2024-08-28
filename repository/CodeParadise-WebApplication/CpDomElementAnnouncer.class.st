@@ -82,7 +82,7 @@ CpDomElementAnnouncer >> when: anAnnouncementClass send: aSymbol to: anObject [
 
 	Implementation:
 	Simply perform the same behavior as the superclass. Do NOT add a listener here as in the
-	method #when:do: because then it will be added twice."
+	method #when:do:for: because then it will be added twice."
 
 	^ self
 		when: anAnnouncementClass
