@@ -585,6 +585,10 @@ CpJavaScriptObject >> primApply: aSymbol withArguments: anArray resultAs: aProxy
 
 	type ifNil: [ ^ super doesNotUnderstand: (Message selector: aSymbol arguments: anArray) ].
 
+	"Log (generic) error"
+	self errorCr: 'Error when calling ', aSymbol, '() on:'.
+	self consoleError.
+
 	self primitiveFailed
 ]
 
