@@ -12,6 +12,17 @@ CpBrowserVideoElement >> height [
 	^ self propertyAt: #height
 ]
 
+{ #category : #'event handling' }
+CpBrowserVideoElement >> onResizeDo: aBlock [
+
+	"Fires when one or both of the videoWidth and videoHeight properties have just been updated."
+
+	"Add an event listener and answer the handler (a JavaScript Function).
+	Use the handler to remove the listener later when no longer needed."
+
+	^ self addEventListener: #resize handler: aBlock
+]
+
 { #category : #accessing }
 CpBrowserVideoElement >> videoHeight [
 
