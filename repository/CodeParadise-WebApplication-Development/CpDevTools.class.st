@@ -129,7 +129,8 @@ CpDevTools class >> start [
 	"Start a server and examples"
 	<script>
 	
-	| resourcePath |
+	| resourcePath applicationServer |
+
 	self traceCr: 'Starting CP...'.
 	
 	CpMessageChannel environmentImplementation: CpZincWebSocketChannel.
@@ -140,12 +141,15 @@ CpDevTools class >> start [
 	resourcePath := IceRepository directoryNamed: 'html' in: 'CP-ClientEnvironment'.
 
 	"Start the HTTP and WeSocket servers (use the path where you stored the ClientEnvironment)"
-	CpApplicationServerStarter
+	applicationServer := CpApplicationServerStarter
 		startUsingConfig: {
 			#portNumber -> self defaultPort.
 			#staticFilesDirectoryName 	-> resourcePath.
 			#clientErrorHandler -> self
-		} asDictionary
+		} asDictionary.
+
+	"Let web applications add their resource directory"
+	self allWebApplications do: [ :each | each addWebResourcesDelegateTo: applicationServer server ]
 ]
 
 { #category : #scripts }
