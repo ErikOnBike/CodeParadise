@@ -106,11 +106,16 @@ CpWebComponent class >> new [
 { #category : #'class initialization' }
 CpWebComponent class >> postInstall [
 
-	"Register the receiver as a WebComponent in the web browser"
+	"Register the receiver as a WebComponent in the web browser.
 
-	super postInstall.
+	Implementation:
+	First perform the registration, then proceed with calling super's
+	implementation. This ensures that when #postInstallOnce is executed
+	the receiver is already registered."
 
-	self register
+	self register.
+
+	super postInstall
 ]
 
 { #category : #primitives }

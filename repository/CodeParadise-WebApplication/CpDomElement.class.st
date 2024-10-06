@@ -138,12 +138,17 @@ CpDomElement class >> newWithTag: tagString [
 { #category : #'class initialization' }
 CpDomElement class >> postInstall [
 
-	"Register a namespace for the receiver"
+	"Register a namespace for the receiver.
 
-	super postInstall.
+	Implementation:
+	First perform the registration, then proceed with calling super's
+	implementation. This ensures that when #postInstallOnce is executed
+	the receiver is already registered."
 
 	(self classSide includesSelector: #namespace)
-		ifTrue: [ self registerNamespace: self namespace forPrefix: self prefix ]
+		ifTrue: [ self registerNamespace: self namespace forPrefix: self prefix ].
+
+	super postInstall
 ]
 
 { #category : #support }
