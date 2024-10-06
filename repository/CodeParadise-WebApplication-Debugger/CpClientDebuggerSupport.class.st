@@ -43,6 +43,14 @@ CpClientDebuggerSupport class >> on: anEnvironment [
 	^ instance
 ]
 
+{ #category : #initialization }
+CpClientDebuggerSupport class >> release [
+
+	<script>
+
+	CpServerEnvironment unsubscribe: self
+]
+
 { #category : #actions }
 CpClientDebuggerSupport >> debuggerSourceCodeAlert: aString [
 

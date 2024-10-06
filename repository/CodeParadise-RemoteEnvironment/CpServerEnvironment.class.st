@@ -128,6 +128,13 @@ CpServerEnvironment class >> resetAnnouncer [
 ]
 
 { #category : #announcing }
+CpServerEnvironment class >> unsubscribe: anObject [
+
+	^ self announcer
+		unsubscribe: anObject
+]
+
+{ #category : #announcing }
 CpServerEnvironment class >> whenClientLoadedSend: aSymbol to: anObject [
 
 	^ self announcer
