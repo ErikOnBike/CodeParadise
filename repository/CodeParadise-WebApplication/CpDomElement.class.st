@@ -1046,12 +1046,16 @@ CpDomElement >> textContent: aString [
 { #category : #'tag/id/classes' }
 CpDomElement >> toggleClass: aString [
 
-	"Toggle the specified class for the receiver"
+	"Toggle the specified class for the receiver.
+	Answer the new state (i.e. true if presnet, false if not)."
 
 	(self isClassed: aString)
-		ifTrue: [ self removeClass: aString ]
-		ifFalse: [ self addClass: aString ]
-
+		ifTrue: [
+			self removeClass: aString.
+			^ false ]
+		ifFalse: [
+			self addClass: aString.
+			^ true ]
 ]
 
 { #category : #announcing }
