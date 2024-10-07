@@ -96,6 +96,27 @@ SlMenuItem >> enabled: aBoolean [
 	self disabled: aBoolean not
 ]
 
+{ #category : #'text input' }
+SlMenuItem >> focus [
+
+	"Set focus to the receiver.
+
+	Implementation:
+	Since Shoelace uses tabindex attributes to indicate the currently
+	selected item for tabbing/cursor movement, update all sibligs to
+	properly indicate the receiver has focus/is active."
+
+	| menu |
+
+	super focus.
+
+	menu := self firstAncestorMatching: SlMenu asCssSelector.
+	(menu allDescendantsMatching: self class asCssSelector) do: [ :each |
+		each attributeAt: #tabindex put: (each == self
+			ifTrue: [ '0' ]
+			ifFalse: [ '-1' ]) ]
+]
+
 { #category : #accessing }
 SlMenuItem >> isChecked [
 
