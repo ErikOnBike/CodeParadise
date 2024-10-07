@@ -212,6 +212,12 @@ CpWebComponent >> firstChildAtSlotNamed: nameString [
 		ifEmpty: [ nil ]
 ]
 
+{ #category : #testing }
+CpWebComponent >> hasTemplate [
+
+	^ false
+]
+
 { #category : #'adding/removing' }
 CpWebComponent >> insertChild: childElement before: siblingElement atSlotNamed: nameString [
 

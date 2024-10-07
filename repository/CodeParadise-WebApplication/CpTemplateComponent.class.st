@@ -212,6 +212,12 @@ CpTemplateComponent >> ensureShadowRoot [
 	self primitiveFailed
 ]
 
+{ #category : #testing }
+CpTemplateComponent >> hasTemplate [
+
+	^ true
+]
+
 { #category : #initialization }
 CpTemplateComponent >> initialize [
 
