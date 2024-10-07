@@ -18,6 +18,14 @@ CpBrowserWindow class >> newInstanceWithArguments: anArray resultAs: aProxyClass
 	self error: 'An instance should be retrieved using the selector ', #current
 ]
 
+{ #category : #enumerating }
+CpBrowserWindow >> clearTimeout: anInteger [
+
+	"Clear a previously set timeout"
+
+	^ self apply: #clearTimeout withArguments: { anInteger }
+]
+
 { #category : #operations }
 CpBrowserWindow >> fetch: aString withOptions: aDictionary [
 
@@ -98,4 +106,14 @@ CpBrowserWindow >> print [
 	"Opens the print dialog to print the current document."
 
 	self apply: #print
+]
+
+{ #category : #enumerating }
+CpBrowserWindow >> setTimeout: anInteger thenDo: aBlock [
+
+	"Set a timeout (in milliseconds) before performing the specified Block.
+	An integer is answered to identify this timeout. It can be
+	used to stop the timeout using #clearTimeout."
+
+	^ self apply: #setTimeout withArguments: { aBlock . anInteger }
 ]
