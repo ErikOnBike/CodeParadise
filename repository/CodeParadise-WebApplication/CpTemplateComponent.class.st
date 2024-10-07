@@ -76,18 +76,6 @@ CpTemplateComponent class >> isAbstractTag [
 ]
 
 { #category : #'class initialization' }
-CpTemplateComponent class >> postInstall [
-
-	"Install the style and template of the receiver"
-
-	super postInstall.
-
-	self
-		installStyle: self style andTemplate: self template ;
-		installGlobalStyle
-]
-
-{ #category : #'class initialization' }
 CpTemplateComponent class >> postInstallOnce [
 
 	"Install event handler to make sure all (sub)instances of the receiver get initialized correctly.
@@ -100,14 +88,20 @@ CpTemplateComponent class >> postInstallOnce [
 		when: CpCreatedFromMarkupEvent send: #initializeMarkupCreatedInstance: to: self
 ]
 
-{ #category : #primitives }
+{ #category : #'class initialization' }
 CpTemplateComponent class >> register [
 
-	"Register the receiver as a WebComponent class (with own style and template)"
+
+	"Register the receiver as a WebComponent class (with own style and template)
+	and then install style and template"
 
 	super register.
 
-	self registerStyleAndTemplate
+	self registerStyleAndTemplate.
+
+	self
+		installStyle: self style andTemplate: self template ;
+		installGlobalStyle
 ]
 
 { #category : #primitives }
