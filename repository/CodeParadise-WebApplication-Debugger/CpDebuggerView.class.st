@@ -63,7 +63,16 @@ CpDebuggerView class >> style [
 	}
 	:host {
 		display: block;
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
 		height: 100%;
+		z-index: 9999;
+		pointer-events: auto;
+	}
+	:host(:not(.active)) {
+		display: none;
 	}
 	#container {
 		display: flex;
@@ -207,7 +216,7 @@ CpDebuggerView >> halt [
 { #category : #actions }
 CpDebuggerView >> hide [
 
-	self styleAt: #display put: #none
+	self removeClass: #active
 ]
 
 { #category : #initialization }
@@ -216,8 +225,6 @@ CpDebuggerView >> initialize [
 	"Make myself top view, but do not show by default"
 
 	super initialize.
-
-	self attributeAt: #style put: 'display: none; position: absolute; top: 0; left: 0; width: 100%; height: 100%;'.
 
 	"Install break handler"
 "	CpHtmlElement documentBody
@@ -293,7 +300,7 @@ CpDebuggerView >> renderSourceCode: aDictionary [
 { #category : #actions }
 CpDebuggerView >> show [
 
-	self styleAt: #display put: #block
+	self addClass: #active
 ]
 
 { #category : #'event handling' }
