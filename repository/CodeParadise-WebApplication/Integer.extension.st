@@ -7,6 +7,8 @@ Integer >> bitCount [
 
 	Implementation: This method will fail on negative numbers."
 
+	<webApplicationExtension>
+
 	| bitCount value |
 
 	self negative

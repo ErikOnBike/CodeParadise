@@ -38,6 +38,8 @@ String >> asKebabCase [
 	Reason for this algorithm is that a 'string' of uppercase characters should be
 	regarded as a whole. This avoids results as 'OSProcess' to become 'o-s-process'."
 
+	<webApplicationExtension>
+
 	self ifEmpty: [ ^ '' ].
 
 	^ self class streamContents: [ :stream |
