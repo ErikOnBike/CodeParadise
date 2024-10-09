@@ -657,6 +657,17 @@ CpDomElement >> lastDescendantMatching: cssSelectorString [
 ]
 
 { #category : #content }
+CpDomElement >> localTextContent [
+
+	"Answer the text content of the receiver itself
+	(as opposed to text content in one of the descendants,
+	since #textContent will answer that as well)."
+
+	<primitive: 'primitiveDomElementLocalTextContent' module: 'CpDOMPlugin'>
+	self primitiveFailed
+]
+
+{ #category : #content }
 CpDomElement >> markupContent [
 
 	"Answer a String representation of the DOM fragment of the receiver's children"
