@@ -1,7 +1,8 @@
 Class {
 	#name : #CpDomElementAnnouncer,
-	#superclass : #Announcer,
+	#superclass : #Object,
 	#instVars : [
+		'announcer',
 		'element'
 	],
 	#category : #'CodeParadise-WebApplication-DOM'
@@ -22,9 +23,23 @@ CpDomElementAnnouncer class >> newForElement: anElement [
 ]
 
 { #category : #accessing }
+CpDomElementAnnouncer >> announce: anAnnouncement [
+
+	announcer announce: anAnnouncement
+]
+
+{ #category : #accessing }
 CpDomElementAnnouncer >> element [
 
 	^ element
+]
+
+{ #category : #initialization }
+CpDomElementAnnouncer >> initialize [
+
+	super initialize.
+
+	announcer := Announcer new
 ]
 
 { #category : #initialization }
@@ -36,13 +51,49 @@ CpDomElementAnnouncer >> initializeWithElement: anElement [
 ]
 
 { #category : #subscription }
+CpDomElementAnnouncer >> removeInterestIn: anAnnouncementClass for: anObject [
+
+	announcer removeInterestIn: anAnnouncementClass for: anObject
+]
+
+{ #category : #subscription }
 CpDomElementAnnouncer >> removeSubscription: aSubscription [
 
 	"Remove the specified subscription from the receiver"
 
 	aSubscription announcementClass removeListenerFrom: self element.
 
-	^ super removeSubscription: aSubscription
+	^ announcer removeSubscription: aSubscription
+]
+
+{ #category : #subscription }
+CpDomElementAnnouncer >> reset [
+
+	"Reset the subscriptions.
+
+	Implementation:
+	The current Announcer's #subscriptions method actually answers the
+	registry, therefore sending #subscriptions and then #reset."
+
+	^ announcer reset
+]
+
+{ #category : #subscription }
+CpDomElementAnnouncer >> subscriptions [
+
+	"Answer the receiver's subscriptions.
+
+	Implementation:
+	The current Announcer's #subscriptions method actually answers the
+	registry, therefore sending #subscriptions twice."
+
+	^ announcer subscriptions subscriptions
+]
+
+{ #category : #subscription }
+CpDomElementAnnouncer >> subscriptionsOf: anObject do: aBlock [
+
+	announcer subscriptionsOf: anObject do: aBlock
 ]
 
 { #category : #subscription }
@@ -50,10 +101,10 @@ CpDomElementAnnouncer >> unsubscribe: anObject [
 
 	"Unsubscribe all subscriptions of anObject from the receiver"
 	
-	registry subscriptionsOf: anObject do: [ :each |
+	self subscriptionsOf: anObject do: [ :each |
 		each announcementClass removeListenerFrom: each subscriber ].
 
-	super unsubscribe: anObject
+	announcer unsubscribe: anObject
 ]
 
 { #category : #deprecated }
@@ -72,7 +123,7 @@ CpDomElementAnnouncer >> when: anAnnouncementClass do: aBlock for: anObject [
 
 	anAnnouncementClass addListenerTo: self element.
 
-	^ super when: anAnnouncementClass do: aBlock for: anObject
+	^ announcer when: anAnnouncementClass do: aBlock for: anObject
 ]
 
 { #category : #subscription }

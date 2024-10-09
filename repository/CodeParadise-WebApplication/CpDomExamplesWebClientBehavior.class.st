@@ -109,7 +109,7 @@ CpDomExamplesWebClientBehavior >> addEventListenersIn: outputElement to: listEle
 
 	| subscriptions |
 
-	subscriptions := outputElement announcer subscriptions subscriptions.
+	subscriptions := outputElement announcer subscriptions.
 
 	subscriptions do: [ :each |
 		listElement appendChild: ((CpHtmlElement newWithTag: #li)

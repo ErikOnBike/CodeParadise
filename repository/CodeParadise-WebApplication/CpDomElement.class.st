@@ -780,7 +780,7 @@ CpDomElement >> propertyAt: nameString put: anObject [
 CpDomElement >> release [
 
 	announcer ifNotNil: [
-		announcer subscriptions reset.
+		announcer reset.
 		announcer := nil ].
 
 	self unregisterAllInterest.
