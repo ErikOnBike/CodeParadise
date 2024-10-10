@@ -44,14 +44,18 @@ CpViewInspectorSyncStyleRequest >> performIn: anEnvironment [
 
 	self viewClass ifNotNil: [ :viewClass |
 		| styleSource escapedStyle newStyleSourceCode |
-		styleSource := (viewClass class >> #style) sourceCode
-			ifNil: [ ^ self showErrorAlert: 'Unknown source code' in: anEnvironment ].
+		styleSource := (viewClass class includesSelector: #style)
+			ifTrue: [
+				(viewClass class >> #style) sourceCode
+					ifNil: [ ^ self showErrorAlert: 'Unknown source code' in: anEnvironment ] ]
+			ifFalse: [ '' ].
 
 		styleSource := styleSource trim.
-		(styleSource beginsWith: self sourceCodePrefix)
-			ifFalse: [ ^ self showErrorAlert: 'Unexpected source code format' in: anEnvironment ].
-		(styleSource endsWith: self sourceCodeSuffix)
-			ifFalse: [ ^ self showErrorAlert: 'Unexpected source code format' in: anEnvironment ].
+		styleSource ifNotEmpty: [
+			(styleSource beginsWith: self sourceCodePrefix)
+				ifFalse: [ ^ self showErrorAlert: 'Unexpected source code format' in: anEnvironment ].
+			(styleSource endsWith: self sourceCodeSuffix)
+				ifFalse: [ ^ self showErrorAlert: 'Unexpected source code format' in: anEnvironment ] ].
 
 		"Escape single quote in style (remove leading and trailing quote)"
 		escapedStyle := style printString.
@@ -63,7 +67,7 @@ CpViewInspectorSyncStyleRequest >> performIn: anEnvironment [
 			ifTrue: [ self showAlert: 'Source already up-to-date' in: anEnvironment ] 
 			ifFalse: [
 				[
-					viewClass class compile: newStyleSourceCode.
+					viewClass class compile: newStyleSourceCode classified: 'web resources'.
 					self showAlert: 'Source code updated' in: anEnvironment
 				] on: Error do: [ :err | self halt ] ] ]
 ]

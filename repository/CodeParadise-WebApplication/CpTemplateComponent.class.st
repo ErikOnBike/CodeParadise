@@ -132,7 +132,9 @@ CpTemplateComponent class >> style [
 
 	<webResource: #css>
 
-	^ ''
+	^ '*, *:before, *:after {
+	box-sizing: border-box;
+}'
 ]
 
 { #category : #'web resources' }

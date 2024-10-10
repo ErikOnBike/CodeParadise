@@ -10,5 +10,7 @@ CpViewInspectorBrowseStyleRequest >> perform [
 	<serverEnvironment>
 
 	self viewClass ifNotNil: [ :viewClass |
-		(viewClass class >> #style) browse ]
+		(viewClass class includesSelector: #style)
+			ifTrue: [
+				(viewClass class >> #style) browse ] ]
 ]
