@@ -1,16 +1,23 @@
 Class {
 	#name : #CpViewInspectorView,
 	#superclass : #CpTemplateComponent,
+	#instVars : [
+		'tagNameCache',
+		'completionIndex'
+	],
 	#category : #'CodeParadise-WebApplication-Development-View'
 }
 
 { #category : #'class initialization' }
 CpViewInspectorView class >> beLoaded [
 
+	SlCard beLoaded.
+	SlDivider beLoaded.
+	SlInput beLoaded.
 	SlMenu beLoaded.
 	SlMenuItem beLoaded.
 	SlMenuLabel beLoaded.
-	SlDivider beLoaded.
+	SlPopup beLoaded.
 	SlSplitPanel beLoaded
 ]
 
@@ -127,6 +134,39 @@ CpViewInspectorView class >> style [
 	:host(:not(.active-menu)) #menu {
 		display: none;
 	}
+	#input {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+		z-index: 9999;
+		pointer-events: auto;
+	}
+	:host(:not(.active-input)) #input {
+		display: none;
+	}
+	#completion {
+		max-height: 300px;
+		padding: 8px;
+		overflow-y: scroll;
+		border: 1px solid #666;
+		border-radius: 6px;
+		background-color: #fff;
+	}
+	::slotted([slot="completion"]) {
+		display: inline-block;
+		width: 100%;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+	}
+	::slotted([slot="completion"]:not(:last-child)) {
+		border-bottom: 1px solid #ccc;
+	}
+	::slotted([slot="completion"].selected) {
+		background-color: #00f;
+		color: #fff;
+	}
 	#tool {
 		position: absolute;
 		top: 0;
@@ -160,6 +200,17 @@ CpViewInspectorView class >> template [
 			<sl-divider></sl-divider>
 			<sl-menu-item>Close</sl-menu-item>
 		</sl-menu>
+		<sl-card id="input">
+			<div slot="header">
+				Which WebComponent would you like to edit?
+			</div>
+			<sl-popup id="name-complete" placement="bottom" distance="6">
+				<sl-input id="name-input" size="small" slot="anchor"></sl-input>
+				<div id="completion">
+					<slot name="completion"></slot>
+				</div>
+			</sl-popup>
+		</sl-card>
 		<sl-split-panel id="tool" vertical position="75">
 			<slot name="start" slot="start"><div></div></slot>
 			<slot name="end" slot="end"><div></div></slot>
@@ -192,6 +243,12 @@ CpViewInspectorView >> addViewLinkFor: anElement [
 ]
 
 { #category : #rendering }
+CpViewInspectorView >> closeInput [
+
+	self removeClass: #'active-input'
+]
+
+{ #category : #rendering }
 CpViewInspectorView >> closeMenu [
 
 	self removeClass: #'active-menu'
@@ -212,6 +269,14 @@ CpViewInspectorView >> deactivate [
 
 	self unsubscribe: self.
 	CpHtmlElement documentBody unsubscribe: self
+]
+
+{ #category : #'event handling' }
+CpViewInspectorView >> handleBrowse: aKeyEvent [
+
+	aKeyEvent preventDefault.
+
+	self showInput
 ]
 
 { #category : #'event handling' }
@@ -253,6 +318,50 @@ CpViewInspectorView >> handleCloseMenu [
 ]
 
 { #category : #'event handling' }
+CpViewInspectorView >> handleEndInput [
+
+	(self shadowedElementWithId: #'name-complete')
+		beNotActive.
+
+	tagNameCache := nil
+]
+
+{ #category : #'event handling' }
+CpViewInspectorView >> handleInput [
+
+	| input selectedTag |
+
+	input := (self shadowedElementWithId: #'name-input') value.
+
+	selectedTag := (completionIndex > 0
+		ifTrue: [ (self childrenAtSlotNamed: #completion) at: completionIndex ifAbsent: [ nil ] ]
+		ifFalse: [ nil ]) ifNotNil: [ :selection | selection textContent ].
+
+	self removeChildrenAtSlotNamed: #completion.
+	completionIndex := 0.
+
+	(tagNameCache select: [ :each | each includesSubstring: input ]) withIndexDo: [ :each :index |
+		| selection |
+		selection := self appendChild: each asHtmlElement atSlotNamed: #completion.
+		each = selectedTag
+			ifTrue: [
+				selection addClass: #selected.
+				completionIndex := index ] ]
+]
+
+{ #category : #'event handling' }
+CpViewInspectorView >> handleNextCompletion [
+
+	| completions |
+
+	completions := (self childrenAtSlotNamed: #completion).
+
+	completionIndex := completionIndex + 1 min: completions size.
+	completions withIndexDo: [ :each :index |
+		each classed: #selected if: index = completionIndex ]
+]
+
+{ #category : #'event handling' }
 CpViewInspectorView >> handleNextLink: aKeyPressEvent [
 
 	| selectedLink |
@@ -285,6 +394,18 @@ CpViewInspectorView >> handlePointerMove: aPointerMoveEvent [
 ]
 
 { #category : #'event handling' }
+CpViewInspectorView >> handlePreviousCompletion [
+
+	| completions |
+
+	completions := (self childrenAtSlotNamed: #completion).
+
+	completionIndex := completionIndex - 1 max: (completions ifNotEmpty: [ 1 ] ifEmpty: [ 0 ]).
+	completions withIndexDo: [ :each :index |
+		each classed: #selected if: index = completionIndex ]
+]
+
+{ #category : #'event handling' }
 CpViewInspectorView >> handlePreviousLink: aKeyPressEvent [
 
 	| selectedLink |
@@ -302,11 +423,50 @@ CpViewInspectorView >> handlePreviousLink: aKeyPressEvent [
 ]
 
 { #category : #'event handling' }
+CpViewInspectorView >> handleSelectCompletion [
+
+	| tagName |
+
+	tagName := completionIndex > 0
+		ifTrue: [ ((self childrenAtSlotNamed: #completion) at: completionIndex) textContent ]
+		ifFalse: [ (self shadowedElementWithId: #'name-input') value ].
+
+	tagName ifEmpty: [
+		self closeInput.
+		^ self ].
+
+	CpTemplateComponent allSubclassesDo: [ :each |
+		each tagName = tagName
+			ifTrue: [
+				self closeInput.
+				self showCodeFor: each new.
+				^ self ] ].
+
+	self class showErrorAlert: 'Tag not found: ', tagName printString
+]
+
+{ #category : #'event handling' }
 CpViewInspectorView >> handleSelectLink: aKeyEvent [
 
 	aKeyEvent preventDefault.
 
 	self selectLink
+]
+
+{ #category : #'event handling' }
+CpViewInspectorView >> handleStartInput [
+
+	(self shadowedElementWithId: #'name-complete')
+		beActive.
+
+	tagNameCache := SortedCollection new.
+	CpTemplateComponent allSubclassesDo: [ :each |
+		each hasAbstractTag
+			ifFalse: [ tagNameCache add: each tagName ] ].
+
+	completionIndex := 0. "none selected"
+
+	self handleInput
 ]
 
 { #category : #'event handling' }
@@ -316,6 +476,9 @@ CpViewInspectorView >> handleToggle: aKeyDownEvent [
 	aKeyDownEvent
 		stopPropagation ;
 		preventDefault.
+
+	self closeMenu.
+	self closeInput.
 
 	(self isClassed: #active)
 		ifTrue: [ self deactivate ]
@@ -333,10 +496,13 @@ CpViewInspectorView >> initialize [
 
 	super initialize.
 
+	completionIndex := 0.
+
 	self appendChild: CpViewCodeInspectorView new atSlotNamed: #end.
 
 	CpHtmlElement document
-		when: (CpKeyDownEvent key: 'i') & CpActionKeyDown send: #handleToggle: to: self
+		when: (CpKeyDownEvent key: 'i') & CpActionKeyDown send: #handleToggle: to: self ;
+		when: (CpKeyDownEvent key: 'b') & CpActionKeyDown send: #handleBrowse: to: self
 ]
 
 { #category : #initialization }
@@ -354,7 +520,14 @@ CpViewInspectorView >> initializeShadowRoot [
 	(self menuItemFor: #'browse-style-in-browser')
 		when: CpClickEvent send: #handleBrowseStyleInBrowser to: self.
 	(self menuItemFor: #'browse-presenter-in-pharo')
-		when: CpClickEvent send: #handleBrowsePresenterInPharo to: self
+		when: CpClickEvent send: #handleBrowsePresenterInPharo to: self.
+	(self shadowedElementWithId: #'name-input')
+		when: SlFocusEvent send: #handleStartInput to: self ;
+		when: SlInputEvent send: #handleInput to: self ;
+		when: SlBlurEvent send: #handleEndInput to: self ;
+		when: CpKeyDownEvent arrowUp send: #handlePreviousCompletion to: self ;
+		when: CpKeyDownEvent arrowDown send: #handleNextCompletion to: self ;
+		when: CpKeyDownEvent enter send: #handleSelectCompletion to: self
 ]
 
 { #category : #rendering }
@@ -455,13 +628,33 @@ CpViewInspectorView >> serverAnnounce: anAnnouncement [
 CpViewInspectorView >> showCode [
 
 	self selectedElement ifNotNil: [ :element |
-		self codeElement showElement: element.
+		self showCodeFor: element ]
+]
 
-		self addClass: #'active-code' ]
+{ #category : #rendering }
+CpViewInspectorView >> showCodeFor: anElement [
+
+	self codeElement showElement: anElement.
+
+	self addClass: #'active-code'
+]
+
+{ #category : #rendering }
+CpViewInspectorView >> showInput [
+
+	self deactivate.
+	self closeMenu.
+
+	self addClass: #'active-input'.
+
+	(self shadowedElementWithId: #'name-input') focus
 ]
 
 { #category : #rendering }
 CpViewInspectorView >> showMenu [
+
+	self deactivate.
+	self closeInput.
 
 	self addClass: #'active-menu'.
 
