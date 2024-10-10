@@ -1,14 +1,6 @@
 Extension { #name : #String }
 
 { #category : #'*CodeParadise-RemoteEnvironment' }
-String >> asHtmlTag [ 
-
-	<webApplicationExtension>
-
-	^ (Smalltalk classNamed: #CpHtmlElement) newWithTag: self
-]
-
-{ #category : #'*CodeParadise-RemoteEnvironment' }
 String >> asNumberOrNil [
 
 	^ [ self asNumber ] on: Error do: [ nil ]

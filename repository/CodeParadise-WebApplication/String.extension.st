@@ -17,6 +17,14 @@ String >> asHtmlElement [
 ]
 
 { #category : #'*CodeParadise-WebApplication' }
+String >> asHtmlTag [ 
+
+	<webApplicationExtension>
+
+	^ CpHtmlElement newWithTag: self
+]
+
+{ #category : #'*CodeParadise-WebApplication' }
 String >> asKebabCase [
 
 	"Answer the receiver using kebab-case.
@@ -98,7 +106,7 @@ String >> inHtmlTag: tagString [
 
 	<webApplicationExtension>
 
-	^ ((Smalltalk classNamed: #CpHtmlElement) newWithTag: tagString)
+	^ (CpHtmlElement newWithTag: tagString)
 		textContent: self ;
 		yourself
 ]
