@@ -53,13 +53,16 @@ CpViewCodeInspectorView class >> globalStyle [
 	[slot="css-props"] span.hide {
 		display: none;
 	}
-	.dev-highlight:before {
+	cp-view-code-inspector sl-tree-item::part(label) {
+		overflow: hidden;
+	}
+	cp-view-code-inspector sl-icon-button {
 		position: absolute;
-		top: 0;
-		left: 0;
-		width: 100%;
-		height: 100%;
-		background-color: rgba(0, 0, 255, .5);
+		right: 2px;
+		color: #00f;
+	}
+	cp-view-code-inspector sl-icon-button::part(base) {
+		padding: 0;
 	}'
 ]
 
@@ -201,6 +204,11 @@ CpViewCodeInspectorView >> domTreeFor: anElement [
 
 	anElement isWebComponent
 		ifTrue: [
+			((anElement isKindOf: CpTemplateComponent) and: [ anElement ~= self element ])
+				ifTrue: [
+					tree appendChild: ((SlIconButton named: 'pencil')
+						when: CpClickEvent do: [ self showElement: anElement ] for: self ;
+						yourself) ].
 			anElement shadowRoot ifNotNil: [ :shadowRoot |
 				shadowRoot children ifNotEmpty: [ :children |
 					| shadowTree |
@@ -442,10 +450,13 @@ CpViewCodeInspectorView >> showCssProps [
 			when: CpClickEvent send: #handleCssPropSelected: to: self ;
 			yourself) ].
 
-	propsElement := SlSplitPanel new
-		appendChild: nameElements atSlotNamed: #start ;
-		appendChild: valueElements atSlotNamed: #end ;
-		yourself.
+	propsElement := computedStyles length >= 1
+		ifTrue: [
+			SlSplitPanel new
+				appendChild: nameElements atSlotNamed: #start ;
+				appendChild: valueElements atSlotNamed: #end ;
+				yourself ]
+		ifFalse: [ '<no computed style, probably no element instance selected>' inHtmlTag: #div ].
 
 	self replaceAllChildrenWith: propsElement atSlotNamed: #'css-props'
 ]
