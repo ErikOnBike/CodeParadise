@@ -1,6 +1,12 @@
 Extension { #name : #CpWebApplication }
 
 { #category : #'*CodeParadise-WebApplication-Development' }
+CpWebApplication >> addViewInspector [
+
+	CpViewInspectorSupport on: self environment
+]
+
+{ #category : #'*CodeParadise-WebApplication-Development' }
 CpWebApplication class >> addWebResourcesDelegateTo: aServer [
 
 	"Add the repository's web resource directory to the Zinc server's delegates.
