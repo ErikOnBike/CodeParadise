@@ -547,6 +547,14 @@ CpDomElement >> id: aString [
 	self primitiveFailed
 ]
 
+{ #category : #querying }
+CpDomElement >> indexInParent [
+
+	^ self parent
+		ifNotNil: [ :parent | parent children indexOf: self ifAbsent: [ 0 ] ]
+		ifNil: [ 0 ]
+]
+
 { #category : #'adding/removing' }
 CpDomElement >> insertChild: childElement [
 
