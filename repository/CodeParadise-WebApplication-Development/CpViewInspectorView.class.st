@@ -205,7 +205,7 @@ CpViewInspectorView class >> template [
 				Which WebComponent would you like to edit?
 			</div>
 			<sl-popup id="name-complete" placement="bottom" distance="6">
-				<sl-input id="name-input" size="small" slot="anchor"></sl-input>
+				<sl-input id="name-input" size="small" placeholder="cp-some-component" slot="anchor"></sl-input>
 				<div id="completion">
 					<slot name="completion"></slot>
 				</div>
@@ -439,7 +439,7 @@ CpViewInspectorView >> handleSelectCompletion [
 		each tagName = tagName
 			ifTrue: [
 				self closeInput.
-				self showCodeFor: each new.
+				self showCodeFor: (each first ifNil: [ each new ]).
 				^ self ] ].
 
 	self class showErrorAlert: 'Tag not found: ', tagName printString
