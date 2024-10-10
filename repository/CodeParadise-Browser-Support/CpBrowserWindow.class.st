@@ -18,7 +18,7 @@ CpBrowserWindow class >> newInstanceWithArguments: anArray resultAs: aProxyClass
 	self error: 'An instance should be retrieved using the selector ', #current
 ]
 
-{ #category : #enumerating }
+{ #category : #operations }
 CpBrowserWindow >> clearTimeout: anInteger [
 
 	"Clear a previously set timeout"
@@ -122,7 +122,7 @@ CpBrowserWindow >> print [
 	self apply: #print
 ]
 
-{ #category : #enumerating }
+{ #category : #operations }
 CpBrowserWindow >> setTimeout: anInteger thenDo: aBlock [
 
 	"Set a timeout (in milliseconds) before performing the specified Block.
