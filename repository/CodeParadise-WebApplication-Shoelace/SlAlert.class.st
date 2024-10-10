@@ -11,6 +11,18 @@ SlAlert >> beClosable [
 ]
 
 { #category : #'accessing variant' }
+SlAlert >> beCountdownLeftToRight [
+
+	self countdown: 'ltr'
+]
+
+{ #category : #'accessing variant' }
+SlAlert >> beCountdownRightToLeft [
+
+	self countdown: 'rtl'
+]
+
+{ #category : #'accessing variant' }
 SlAlert >> beDanger [
 
 	self variant: #danger
@@ -20,6 +32,12 @@ SlAlert >> beDanger [
 SlAlert >> beNeutral [
 
 	self variant: #neutral
+]
+
+{ #category : #'accessing variant' }
+SlAlert >> beNoneCountdown [
+
+	self countdown: nil
 ]
 
 { #category : #'accessing style' }
@@ -82,6 +100,18 @@ SlAlert >> closable [
 SlAlert >> closable: aBoolean [
 
 	self propertyAt: #closable put: aBoolean
+]
+
+{ #category : #accessing }
+SlAlert >> countdown [
+
+	^ self propertyAt: #countdown
+]
+
+{ #category : #accessing }
+SlAlert >> countdown: aString [
+
+	self propertyAt: #countdown put: aString
 ]
 
 { #category : #accessing }
