@@ -100,6 +100,20 @@ CpBrowserWindow >> fetch: aString withOptions: aDictionary [
 	^ self apply: #fetch withArguments: { aString . aDictionary } resultAs: CpJavaScriptPromise
 ]
 
+{ #category : #accessing }
+CpBrowserWindow >> getComputedStyle: anElement [
+
+	^ self getComputedStyle: anElement pseudoElement: nil
+]
+
+{ #category : #accessing }
+CpBrowserWindow >> getComputedStyle: anElement pseudoElement: aString [
+
+	"Gets computed style for the specified element. Computed style indicates the computed values of all CSS properties of the element."
+
+	^ self apply: #getComputedStyle withArguments: { anElement . aString }
+]
+
 { #category : #operations }
 CpBrowserWindow >> print [
 
