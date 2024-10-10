@@ -2,8 +2,8 @@ Class {
 	#name : #CpViewInspectorView,
 	#superclass : #CpTemplateComponent,
 	#instVars : [
-		'tagNameCache',
-		'completionIndex'
+		'completionIndex',
+		'classNameCache'
 	],
 	#category : #'CodeParadise-WebApplication-Development-View'
 }
@@ -323,27 +323,27 @@ CpViewInspectorView >> handleEndInput [
 	(self shadowedElementWithId: #'name-complete')
 		beNotActive.
 
-	tagNameCache := nil
+	classNameCache := nil
 ]
 
 { #category : #'event handling' }
 CpViewInspectorView >> handleInput [
 
-	| input selectedTag |
+	| input selectedClassName |
 
 	input := (self shadowedElementWithId: #'name-input') value.
 
-	selectedTag := (completionIndex > 0
+	selectedClassName := (completionIndex > 0
 		ifTrue: [ (self childrenAtSlotNamed: #completion) at: completionIndex ifAbsent: [ nil ] ]
 		ifFalse: [ nil ]) ifNotNil: [ :selection | selection textContent ].
 
 	self removeChildrenAtSlotNamed: #completion.
 	completionIndex := 0.
 
-	(tagNameCache select: [ :each | each includesSubstring: input ]) withIndexDo: [ :each :index |
+	(classNameCache select: [ :each | each includesSubstring: input ]) withIndexDo: [ :each :index |
 		| selection |
 		selection := self appendChild: each asHtmlElement atSlotNamed: #completion.
-		each = selectedTag
+		each = selectedClassName
 			ifTrue: [
 				selection addClass: #selected.
 				completionIndex := index ] ]
@@ -425,24 +425,24 @@ CpViewInspectorView >> handlePreviousLink: aKeyPressEvent [
 { #category : #'event handling' }
 CpViewInspectorView >> handleSelectCompletion [
 
-	| tagName |
+	| className |
 
-	tagName := completionIndex > 0
+	className := completionIndex > 0
 		ifTrue: [ ((self childrenAtSlotNamed: #completion) at: completionIndex) textContent ]
 		ifFalse: [ (self shadowedElementWithId: #'name-input') value ].
 
-	tagName ifEmpty: [
+	className ifEmpty: [
 		self closeInput.
 		^ self ].
 
 	CpTemplateComponent allSubclassesDo: [ :each |
-		each tagName = tagName
+		each name = className
 			ifTrue: [
 				self closeInput.
 				self showCodeFor: (each first ifNil: [ each new ]).
 				^ self ] ].
 
-	self class showErrorAlert: 'Tag not found: ', tagName printString
+	self class showErrorAlert: 'Class not found: ', className printString
 ]
 
 { #category : #'event handling' }
@@ -459,10 +459,10 @@ CpViewInspectorView >> handleStartInput [
 	(self shadowedElementWithId: #'name-complete')
 		beActive.
 
-	tagNameCache := SortedCollection new.
+	classNameCache := SortedCollection new.
 	CpTemplateComponent allSubclassesDo: [ :each |
 		each hasAbstractTag
-			ifFalse: [ tagNameCache add: each tagName ] ].
+			ifFalse: [ classNameCache add: each name ] ].
 
 	completionIndex := 0. "none selected"
 
