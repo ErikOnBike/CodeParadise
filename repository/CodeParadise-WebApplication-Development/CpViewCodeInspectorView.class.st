@@ -53,6 +53,23 @@ CpViewCodeInspectorView class >> globalStyle [
 	[slot="css-props"] span.hide {
 		display: none;
 	}
+	[slot="completion"] {
+		padding: 3px 8px;
+	}
+	[slot="completion"] {
+		display: inline-block;
+		width: 100%;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+	}
+	[slot="completion"]:not(:last-child) {
+		border-bottom: 1px solid #ccc;
+	}
+	[slot="completion"].selected {
+		background-color: #99f;
+		color: #fff;
+	}
 	cp-view-code-inspector sl-tree-item::part(label) {
 		overflow: hidden;
 	}

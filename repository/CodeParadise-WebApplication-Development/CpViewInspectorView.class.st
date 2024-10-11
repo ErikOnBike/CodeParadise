@@ -155,20 +155,6 @@ CpViewInspectorView class >> style [
 		border-radius: 6px;
 		background-color: #fff;
 	}
-	::slotted([slot="completion"]) {
-		display: inline-block;
-		width: 100%;
-		overflow: hidden;
-		text-overflow: ellipsis;
-		white-space: nowrap;
-	}
-	::slotted([slot="completion"]:not(:last-child)) {
-		border-bottom: 1px solid #ccc;
-	}
-	::slotted([slot="completion"].selected) {
-		background-color: #00f;
-		color: #fff;
-	}
 	#tool {
 		position: absolute;
 		top: 0;
