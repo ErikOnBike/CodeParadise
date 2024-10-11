@@ -57,7 +57,7 @@ CpViewInspectorView class >> showAlert: aString [
 			slot: 'icon' ;
 			yourself) ;
 		textContent: aString ;
-		duration: 3000 ;
+		duration: 1500 ;
 		beCountdownRightToLeft ;
 		toast
 ]
@@ -72,6 +72,8 @@ CpViewInspectorView class >> showErrorAlert: aString [
 			slot: 'icon' ;
 			yourself) ;
 		textContent: aString ;
+		duration: 5000 ;
+		beCountdownRightToLeft ;
 		toast
 ]
 
@@ -205,7 +207,7 @@ CpViewInspectorView class >> template [
 				Which WebComponent would you like to edit?
 			</div>
 			<sl-popup id="name-complete" placement="bottom" distance="6">
-				<sl-input id="name-input" size="small" placeholder="cp-some-component" slot="anchor"></sl-input>
+				<sl-input id="name-input" size="small" placeholder="CpSomeComponent" slot="anchor"></sl-input>
 				<div id="completion">
 					<slot name="completion"></slot>
 				</div>
