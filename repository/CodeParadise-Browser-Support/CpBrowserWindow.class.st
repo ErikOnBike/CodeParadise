@@ -1,6 +1,6 @@
 Class {
 	#name : #CpBrowserWindow,
-	#superclass : #CpJavaScriptObject,
+	#superclass : #CpJavaScriptEventTarget,
 	#category : #'CodeParadise-Browser-Support-Core'
 }
 
