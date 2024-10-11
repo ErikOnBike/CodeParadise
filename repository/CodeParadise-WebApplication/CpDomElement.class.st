@@ -300,6 +300,19 @@ CpDomElement >> appendChild: childElement [
 	self primitiveFailed
 ]
 
+{ #category : #'adding/removing' }
+CpDomElement >> appendChild: childElement after: siblingElement [
+
+	"Append childElement as a child of the receiver after the specified sibling. Answer the child element."
+
+	siblingElement parent = self
+		ifFalse: [ self error: 'Specified sibling is not an actual sibling of the receiver' ].
+
+	^ siblingElement nextSibling
+		ifNotNil: [ :nextSibling | self insertChild: childElement before: nextSibling ]
+		ifNil: [ self appendChild: childElement ]
+]
+
 { #category : #performing }
 CpDomElement >> apply: aSymbol withArguments: anArray [
 
