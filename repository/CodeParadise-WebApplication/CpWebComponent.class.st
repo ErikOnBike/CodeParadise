@@ -153,7 +153,35 @@ CpWebComponent class >> tagName [
 ]
 
 { #category : #accessing }
-CpWebComponent class >> whenDefined: aBlock [
+CpWebComponent class >> whenAll: aCollection definedDo: aBlock [
+
+	"Perform the specified Block once all the specified WebComponents are defined
+	(allowing third-party WebComponents to be present before using them).
+
+	Implementation:
+	The method does not refer to the CpBrowserCustomElementRegistry class
+	directly to prevent another class from being put into the image. Please
+	add this class in the relevant #beLoaded method (either of a specific
+	component or more generally in the WebClient class for your application).
+	Likewise for the CpJavaScriptPromise class."
+
+	| registryClass registry promiseClass |
+
+	(registryClass := Smalltalk classNamed: #CpBrowserCustomElementRegistry)
+		ifNil: [ self error: 'The class ', #CpBrowserCustomElementRegistry, ' is not installed, please add it in the #beLoaded of your class/application' ].
+	(promiseClass := Smalltalk classNamed: #CpJavaScriptPromise)
+		ifNil: [ self error: 'The class ', #CpJavaScriptPromise, ' is not installed, please add it in the #beLoaded of your class/application' ].
+
+	registry := registryClass current.
+
+	"Perform Promise.all on the individual Promise per WebComponent (class)"
+	(promiseClass all: (aCollection collect: [ :each |
+		registryClass current whenDefined: each tagName ]))
+			then: aBlock
+]
+
+{ #category : #accessing }
+CpWebComponent class >> whenDefinedDo: aBlock [
 
 	"Perform the specified Block once the receiver is defined
 	(allowing third-party WebComponents to be present before using them).
