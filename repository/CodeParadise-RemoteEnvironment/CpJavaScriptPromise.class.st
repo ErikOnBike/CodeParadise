@@ -8,6 +8,14 @@ Class {
 	#category : #'CodeParadise-RemoteEnvironment-Support'
 }
 
+{ #category : #operations }
+CpJavaScriptPromise class >> all: aCollection [
+
+	"Takes an iterable of promises as input and returns a single Promise. This returned promise fulfills when all of the input's promises fulfill (including when an empty iterable is passed), with an array of the fulfillment values. It rejects when any of the input's promises reject, with this first rejection reason."
+
+	^ self apply: #all withArguments: { aCollection } resultAs: self
+]
+
 { #category : #convenience }
 CpJavaScriptPromise class >> on: executorBlock [
 
