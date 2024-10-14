@@ -254,7 +254,9 @@ CpJavaScriptObject class >> newInstanceWithArguments: anArray resultAs: aProxyCl
 { #category : #'class initialization' }
 CpJavaScriptObject class >> postInstall [
 
-	self registerProxyClass
+	self registerProxyClass.
+
+	super postInstall
 ]
 
 { #category : #'class initialization' }
