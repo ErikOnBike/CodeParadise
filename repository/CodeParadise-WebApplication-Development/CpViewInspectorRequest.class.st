@@ -24,19 +24,11 @@ CpViewInspectorRequest >> initializeWithViewTagName: aString [
 ]
 
 { #category : #actions }
-CpViewInspectorRequest >> perform [
-
-	<serverEnvironment>
-
-	self subclassResponsibility
-]
-
-{ #category : #actions }
 CpViewInspectorRequest >> performIn: anEnvironment [
 
 	<serverEnvironment>
 
-	self perform
+	self subclassResponsibility
 ]
 
 { #category : #view }

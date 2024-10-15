@@ -14,9 +14,6 @@ CpViewInspectorView class >> beLoaded [
 	SlCard beLoaded.
 	SlDivider beLoaded.
 	SlInput beLoaded.
-	SlMenu beLoaded.
-	SlMenuItem beLoaded.
-	SlMenuLabel beLoaded.
 	SlPopup beLoaded.
 	SlSplitPanel beLoaded
 ]
@@ -28,6 +25,34 @@ CpViewInspectorView class >> createInstance [
 
 	CpHtmlElement documentBody
 		appendChild: super new
+]
+
+{ #category : #'web resources' }
+CpViewInspectorView class >> globalStyle [
+
+	<webResource: #css>
+
+	^ 'cp-view-inspector .completion {
+	display: inline-block;
+	width: 100%;
+	height: var(--sl-input-height-small);
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	padding: 3px 8px;
+	font-family: var(--sl-input-font-family);
+	font-size: var(--sl-input-font-size-small);
+	font-weight: var(--sl-input-font-weight);
+	letter-spacing: var(--sl-input-letter-spacing);
+}
+cp-view-inspector .completion:not(.selected):hover {
+	background-color: var(--sl-color-primary-200);
+	cursor: pointer;
+}
+cp-view-inspector .selected.completion {
+	background-color: #99f;
+	color: #fff;
+}'
 ]
 
 { #category : #'instance creation' }
@@ -77,6 +102,33 @@ CpViewInspectorView class >> showErrorAlert: aString [
 		toast
 ]
 
+{ #category : #rendering }
+CpViewInspectorView class >> showStyle: styleString [
+
+	"Show the provided style in the code inspector"
+
+	self first
+		showTemplate: nil style: styleString
+]
+
+{ #category : #rendering }
+CpViewInspectorView class >> showTemplate: templateString [
+
+	"Show the provided template in the code inspector"
+
+	self first
+		showTemplate: templateString style: nil
+]
+
+{ #category : #rendering }
+CpViewInspectorView class >> showTemplate: templateString style: styleString [
+
+	"Show the provided template and style in the code inspector"
+
+	self first
+		showTemplate: templateString style: styleString
+]
+
 { #category : #'web resources' }
 CpViewInspectorView class >> style [
 
@@ -97,50 +149,24 @@ CpViewInspectorView class >> style [
 		pointer-events: none;
 		z-index: 9999;
 	}
-	:host(.active),
-	:host(.active-menu) {
-		pointer-events: auto;
-	}
 	#container {
 		width: 100%;
 		height: 100%;
 		overflow: hidden;
 		font-family: "Monaco", "Lucida Grande", "Andela Mono", "Courier";
 		font-size: 12px;
-	}
-	#views {
-		position: absolute;
-		top: 0;
-		left: 0;
-		width: 100%;
-		padding: 6px 6px;
-		background-color: #fff;
-	}
-	:host(:not(.active)) #views {
-		display: none;
-	}
-	:host(.free-top) #views {
-		top: auto;
-		bottom: 0;
-	}
-	::slotted(.link.active) {
-		/* Trickery here to get button to show differently */
-		--sl-color-neutral-0: #00f;
-		--sl-color-neutral-700: #fff;
-	}
-	#menu {
-		top: 1em;
-		left: 1em;
-		max-width: 22em;
-	}
-	:host(:not(.active-menu)) #menu {
-		display: none;
+		pointer-events: none;
 	}
 	#input {
 		position: absolute;
-		top: 50%;
+		top: 30%;
 		left: 50%;
+		width: 30em;
 		transform: translate(-50%, -50%);
+		font-family: var(--sl-input-font-family);
+		font-size: var(--sl-input-font-size-small);
+		font-weight: var(--sl-input-font-weight);
+		letter-spacing: var(--sl-input-letter-spacing);
 		z-index: 9999;
 		pointer-events: auto;
 	}
@@ -148,11 +174,12 @@ CpViewInspectorView class >> style [
 		display: none;
 	}
 	#completion {
+		width: 30em;
 		max-height: 300px;
 		padding: 8px;
 		overflow-y: scroll;
-		border: 1px solid #666;
-		border-radius: 6px;
+		border-bottom-left-radius: 6px;
+		border-bottom-right-radius: 6px;
 		background-color: #fff;
 	}
 	#tool {
@@ -177,17 +204,6 @@ CpViewInspectorView class >> template [
 	<webResource: #html>
 
 	^ '<div id="container">
-		<div id="views"><span>Inspector selection: </span><slot name="views"></slot></div>
-		<sl-menu id="menu">
-			<sl-menu-label>Select action</sl-menu-label>
-			<sl-divider></sl-divider>
-			<sl-menu-item id="browse-template-in-pharo">Browse template in Pharo</sl-menu-item>
-			<sl-menu-item id="browse-style-in-pharo">Browse style in Pharo</sl-menu-item>
-			<sl-menu-item id="browse-style-in-browser">Browse style here</sl-menu-item>
-			<sl-menu-item id="browse-presenter-in-pharo">Browse Presenter in Pharo</sl-menu-item>
-			<sl-divider></sl-divider>
-			<sl-menu-item>Close</sl-menu-item>
-		</sl-menu>
 		<sl-card id="input">
 			<div slot="header">
 				Which WebComponent would you like to edit?
@@ -206,103 +222,19 @@ CpViewInspectorView class >> template [
 	</div>'
 ]
 
-{ #category : #actions }
-CpViewInspectorView >> activate [
-
-	"Activate inspector by adding appropriate event handlers"
-
-	"Make sure the inspector is on top"
-	self makeTopView.
-
-	self
-		when: CpPointerMoveEvent send: #handlePointerMove: to: self.
-	CpHtmlElement documentBody
-		when: CpKeyDownEvent arrowRight send: #handleNextLink: to: self ;
-		when: CpKeyDownEvent arrowLeft send: #handlePreviousLink: to: self ;
-		when: CpKeyDownEvent enter send: #handleSelectLink: to: self.
-
-	self addClass: #active
-]
-
-{ #category : #rendering }
-CpViewInspectorView >> addViewLinkFor: anElement [
-
-	self appendChild: (self viewLinkFor: anElement) atSlotNamed: #views
-]
-
-{ #category : #rendering }
-CpViewInspectorView >> closeInput [
-
-	self removeClass: #'active-input'
-]
-
-{ #category : #rendering }
-CpViewInspectorView >> closeMenu [
-
-	self removeClass: #'active-menu'
-]
-
 { #category : #accessing }
 CpViewInspectorView >> codeElement [
 
 	^ self firstChild
 ]
 
-{ #category : #actions }
-CpViewInspectorView >> deactivate [
-
-	"Deactivate inspector by removing installed event handlers"
-
-	self removeClass: #active.
-
-	self unsubscribe: self.
-	CpHtmlElement documentBody unsubscribe: self
-]
-
 { #category : #'event handling' }
 CpViewInspectorView >> handleBrowse: aKeyEvent [
 
+	"Prevent the key from being processed further"
 	aKeyEvent preventDefault.
 
 	self showInput
-]
-
-{ #category : #'event handling' }
-CpViewInspectorView >> handleBrowsePresenterInPharo [
-
-	self serverAnnounce: (CpViewInspectorBrowsePresenterRequest viewTagName: self selectedTagName).
-
-	self closeMenu
-]
-
-{ #category : #'event handling' }
-CpViewInspectorView >> handleBrowseStyleInBrowser [
-
-	self showCode.
-
-	self closeMenu
-]
-
-{ #category : #'event handling' }
-CpViewInspectorView >> handleBrowseStyleInPharo [
-
-	self serverAnnounce: (CpViewInspectorBrowseStyleRequest viewTagName: self selectedTagName).
-
-	self closeMenu
-]
-
-{ #category : #'event handling' }
-CpViewInspectorView >> handleBrowseTemplateInPharo [
-
-	self serverAnnounce: (CpViewInspectorBrowseTemplateRequest viewTagName: self selectedTagName).
-
-	self closeMenu
-]
-
-{ #category : #'event handling' }
-CpViewInspectorView >> handleCloseMenu [
-
-	self closeMenu
 ]
 
 { #category : #'event handling' }
@@ -312,6 +244,15 @@ CpViewInspectorView >> handleEndInput [
 		beNotActive.
 
 	classNameCache := nil
+]
+
+{ #category : #'event handling' }
+CpViewInspectorView >> handleEscape: aKeyEvent [
+
+	"Prevent the key from being processed further"
+	aKeyEvent preventDefault.
+
+	self hideInput
 ]
 
 { #category : #'event handling' }
@@ -328,9 +269,13 @@ CpViewInspectorView >> handleInput [
 	self removeChildrenAtSlotNamed: #completion.
 	completionIndex := 0.
 
-	(classNameCache select: [ :each | each includesSubstring: input ]) withIndexDo: [ :each :index |
+	(classNameCache select: [ :each | each asLowercase includesSubstring: input asLowercase ]) withIndexDo: [ :each :index |
 		| selection |
-		selection := self appendChild: each asHtmlElement atSlotNamed: #completion.
+		selection := (self appendChild: each asHtmlElement atSlotNamed: #completion)
+			addClass: #completion ;
+			"Can't use CpClickEvent because the receiver will have been removed because the input loses focus"
+			when: CpPointerDownEvent do: [ self showCodeForClassNamed: each ] for: self ;
+			yourself.
 		each = selectedClassName
 			ifTrue: [
 				selection addClass: #selected.
@@ -350,38 +295,6 @@ CpViewInspectorView >> handleNextCompletion [
 ]
 
 { #category : #'event handling' }
-CpViewInspectorView >> handleNextLink: aKeyPressEvent [
-
-	| selectedLink |
-
-	aKeyPressEvent preventDefault.
-
-	selectedLink := self selectedLink
-		ifNil: [ ^ self ].
-
-	selectedLink removeClass: #active.
-	selectedLink := selectedLink nextSibling
-		ifNil: [ self firstChildAtSlotNamed: #views ].
-	selectedLink ifNotNil: [ 
-		selectedLink addClass: #active ]
-]
-
-{ #category : #'event handling' }
-CpViewInspectorView >> handlePointerMove: aPointerMoveEvent [
-
-	"Find Views under the cursor and show them.
-	Keep track of views to allow slight pointer movement"
-
-	| point |
-
-	point := aPointerMoveEvent point.
-
-	self classed: #'free-top' if: point y < 40.
-
-	self updateViews: (self viewsUnderPointer: point)
-]
-
-{ #category : #'event handling' }
 CpViewInspectorView >> handlePreviousCompletion [
 
 	| completions |
@@ -394,51 +307,11 @@ CpViewInspectorView >> handlePreviousCompletion [
 ]
 
 { #category : #'event handling' }
-CpViewInspectorView >> handlePreviousLink: aKeyPressEvent [
-
-	| selectedLink |
-
-	aKeyPressEvent preventDefault.
-
-	selectedLink := self selectedLink
-		ifNil: [ ^ self ].
-
-	selectedLink removeClass: #active.
-	selectedLink := selectedLink previousSibling
-		ifNil: [ self lastChildAtSlotNamed: #views ].
-	selectedLink ifNotNil: [ 
-		selectedLink addClass: #active ]
-]
-
-{ #category : #'event handling' }
 CpViewInspectorView >> handleSelectCompletion [
 
-	| className |
-
-	className := completionIndex > 0
+	self showCodeForClassNamed: (completionIndex > 0
 		ifTrue: [ ((self childrenAtSlotNamed: #completion) at: completionIndex) textContent ]
-		ifFalse: [ (self shadowedElementWithId: #'name-input') value ].
-
-	className ifEmpty: [
-		self closeInput.
-		^ self ].
-
-	CpTemplateComponent allSubclassesDo: [ :each |
-		each name = className
-			ifTrue: [
-				self closeInput.
-				self showCodeFor: (each first ifNil: [ each new ]).
-				^ self ] ].
-
-	self class showErrorAlert: 'Class not found: ', className printString
-]
-
-{ #category : #'event handling' }
-CpViewInspectorView >> handleSelectLink: aKeyEvent [
-
-	aKeyEvent preventDefault.
-
-	self selectLink
+		ifFalse: [ (self shadowedElementWithId: #'name-input') value ])
 ]
 
 { #category : #'event handling' }
@@ -458,25 +331,24 @@ CpViewInspectorView >> handleStartInput [
 ]
 
 { #category : #'event handling' }
-CpViewInspectorView >> handleToggle: aKeyDownEvent [
+CpViewInspectorView >> handleToggle: aKeyEvent [
 
 	"Prevent the key from being processed further"
-	aKeyDownEvent
-		stopPropagation ;
-		preventDefault.
+	aKeyEvent preventDefault.
 
-	self closeMenu.
-	self closeInput.
-
-	(self isClassed: #active)
-		ifTrue: [ self deactivate ]
-		ifFalse: [ self activate ]
+	self toggle
 ]
 
 { #category : #rendering }
 CpViewInspectorView >> hideCode [
 
 	self removeClass: #'active-code'
+]
+
+{ #category : #rendering }
+CpViewInspectorView >> hideInput [
+
+	self removeClass: #'active-input'
 ]
 
 { #category : #initialization }
@@ -488,9 +360,26 @@ CpViewInspectorView >> initialize [
 
 	self appendChild: CpViewCodeInspectorView new atSlotNamed: #end.
 
-	CpHtmlElement document
+	"Show this info delayed, so it will appear at the bottom of the console"
+	CpHtmlElement documentBody
 		when: (CpKeyDownEvent key: 'i') & CpActionKeyDown send: #handleToggle: to: self ;
-		when: (CpKeyDownEvent key: 'b') & CpActionKeyDown send: #handleBrowse: to: self
+		when: (CpKeyDownEvent key: 'b') & CpActionKeyDown send: #handleBrowse: to: self ;
+		when: CpKeyPressEvent escape send: #handleEscape: to: self.
+
+	CpBrowserWindow current setTimeout: 1000 thenDo: [
+	self traceCr: ('
+===================== Installed ViewInspector tool =====================
+Press Cmd-i or Ctrl-i to open the Inspector view.
+Press Cmd-b or Ctrl-b to browse for a specific view by name.
+
+In the Inspector view you can select WebComponents. Once selected you can edit the
+#template and #style methods in your browser and have it update (all instances) in
+the browser. This allows you to better see the results of your changes, before saving
+it in the WebComponent (i.e. saving it in the Smalltalk image).
+
+Inside the two editors:
+Press Cmd-s or Ctrl-s to update the template or style (in browser only).
+Press Shift-Cmd-s or Shift-Ctrl-s to save the template or style (in Smalltalk image).' replaceAll: Character cr with: Character lf) ]
 ]
 
 { #category : #initialization }
@@ -498,17 +387,6 @@ CpViewInspectorView >> initializeShadowRoot [
 
 	super initializeShadowRoot.
 
-	self menuElement
-		when: CpKeyPressEvent escape send: #handleCloseMenu to: self.
-
-	(self menuItemFor: #'browse-template-in-pharo')
-		when: CpClickEvent send: #handleBrowseTemplateInPharo to: self.
-	(self menuItemFor: #'browse-style-in-pharo')
-		when: CpClickEvent send: #handleBrowseStyleInPharo to: self.
-	(self menuItemFor: #'browse-style-in-browser')
-		when: CpClickEvent send: #handleBrowseStyleInBrowser to: self.
-	(self menuItemFor: #'browse-presenter-in-pharo')
-		when: CpClickEvent send: #handleBrowsePresenterInPharo to: self.
 	(self shadowedElementWithId: #'name-input')
 		when: SlFocusEvent send: #handleStartInput to: self ;
 		when: SlInputEvent send: #handleInput to: self ;
@@ -516,17 +394,6 @@ CpViewInspectorView >> initializeShadowRoot [
 		when: CpKeyDownEvent arrowUp send: #handlePreviousCompletion to: self ;
 		when: CpKeyDownEvent arrowDown send: #handleNextCompletion to: self ;
 		when: CpKeyDownEvent enter send: #handleSelectCompletion to: self
-]
-
-{ #category : #rendering }
-CpViewInspectorView >> insertViewLinkFor: viewElement before: linkElement [
-
-	"Insert a new view link for the specified view element before the link element.
-	If link element is nil, append the view link."
-
-	linkElement
-		ifNotNil: [ self insertChild: (self viewLinkFor: viewElement) before: linkElement atSlotNamed: #views ]
-		ifNil: [ self addViewLinkFor: viewElement ]
 ]
 
 { #category : #rendering }
@@ -539,72 +406,6 @@ CpViewInspectorView >> makeTopView [
 	self parent appendChild: self remove
 ]
 
-{ #category : #accessing }
-CpViewInspectorView >> menuElement [
-
-	^ self shadowedElementWithId: #menu
-]
-
-{ #category : #accessing }
-CpViewInspectorView >> menuItemFor: aString [
-
-	"Answer the menu item for the specified id"
-
-	^ self shadowedElementWithId: aString
-]
-
-{ #category : #rendering }
-CpViewInspectorView >> removeViewLink: linkElement [
-
-	linkElement removePropertyAt: #element.
-
-	linkElement destroy
-]
-
-{ #category : #actions }
-CpViewInspectorView >> selectLink [
-
-	self deactivate.
-
-	self showMenu
-]
-
-{ #category : #accessing }
-CpViewInspectorView >> selectedElement [
-
-	"Answer the element for the view link which is active"
-
-	^ self selectedLink ifNotNil: [ :element |
-		element propertyAt: #element ]
-]
-
-{ #category : #accessing }
-CpViewInspectorView >> selectedElementIsView [
-
-	"Answer whether the element for the view link which is active is actually a CpView (instead of CpTemplateComponent)"
-
-	^ self selectedElement
-		ifNotNil: [ :element | element isKindOf: CpView ]
-		ifNil: [ false ]
-]
-
-{ #category : #accessing }
-CpViewInspectorView >> selectedLink [
-
-	"Answer the view link which is active"
-
-	^ self firstDescendantMatching: '.active.link'
-]
-
-{ #category : #accessing }
-CpViewInspectorView >> selectedTagName [
-
-	"Answer the tag name for the view link which is active"
-
-	^ self selectedElement ifNotNil: [ :element |
-		element tagName ]
-]
-
 { #category : #private }
 CpViewInspectorView >> serverAnnounce: anAnnouncement [
 
@@ -615,23 +416,42 @@ CpViewInspectorView >> serverAnnounce: anAnnouncement [
 { #category : #rendering }
 CpViewInspectorView >> showCode [
 
-	self selectedElement ifNotNil: [ :element |
-		self showCodeFor: element ]
+	"Show code using the existing (or default) element"
+
+	self showCodeFor: nil
 ]
 
 { #category : #rendering }
 CpViewInspectorView >> showCodeFor: anElement [
+
+	self hideInput.
+
+	self makeTopView.
 
 	self codeElement showElement: anElement.
 
 	self addClass: #'active-code'
 ]
 
+{ #category : #'event handling' }
+CpViewInspectorView >> showCodeForClassNamed: aString [
+self traceCr: 'here?'.
+	aString ifEmpty: [
+		self hideInput.
+		^ self ].
+
+	CpTemplateComponent allSubclassesDo: [ :each |
+		each name = aString
+			ifTrue: [
+				self hideInput.
+				self showCodeFor: (each first ifNil: [ each new ]).
+				^ self ] ].
+
+	self class showErrorAlert: 'Class not found: ', aString printString
+]
+
 { #category : #rendering }
 CpViewInspectorView >> showInput [
-
-	self deactivate.
-	self closeMenu.
 
 	self addClass: #'active-input'.
 
@@ -639,90 +459,18 @@ CpViewInspectorView >> showInput [
 ]
 
 { #category : #rendering }
-CpViewInspectorView >> showMenu [
+CpViewInspectorView >> showTemplate: templateString style: styleString [
 
-	self deactivate.
-	self closeInput.
+	"Show the provided template in the code inspector"
 
-	self addClass: #'active-menu'.
-
-	(self menuElement firstDescendantMatching: SlMenuLabel asCssSelector)
-		labelText: 'Select action for: ', self selectedTagName printString.
-	(self menuItemFor: #'browse-presenter-in-pharo') enabled: self selectedElementIsView.
-	(self menuItemFor: #'browse-style-in-browser') focus
+	self codeElement
+		showTemplate: templateString style: styleString
 ]
 
 { #category : #rendering }
-CpViewInspectorView >> updateViews: aCollection [
+CpViewInspectorView >> toggle [
 
-	| selectedLink nextViewLink |
-
-	selectedLink := self selectedLink.
-	nextViewLink := self firstChildAtSlotNamed: #views.
-
-	aCollection reverseDo: [ :each |
-		nextViewLink
-			ifNotNil: [
-				(self viewLink: nextViewLink isFor: each)
-					ifTrue: [ nextViewLink := nextViewLink nextSibling ]
-					ifFalse: [
-						| newNextViewLink |
-						newNextViewLink := nextViewLink nextSibling.
-						selectedLink == nextViewLink
-							ifTrue: [ selectedLink := nil ].
-						self removeViewLink: nextViewLink.
-						self insertViewLinkFor: each before: newNextViewLink.
-						nextViewLink := newNextViewLink ] ]
-			ifNil: [ self addViewLinkFor: each ] ].
-
-	"Remove 'old' view links"
-	nextViewLink ifNotNil: [
-		"Remove everything after the first known old view link"
-		[ nextViewLink nextSibling isNotNil ] whileTrue: [
-			(self lastChildAtSlotNamed: #views) destroy ].
-
-		"Remove the old view link itself"
-		nextViewLink destroy ].
-
-	selectedLink ifNil: [
-		selectedLink := self lastChildAtSlotNamed: #views ].
-
-	selectedLink ifNotNil: [
-			selectedLink addClass: #active ]
-]
-
-{ #category : #rendering }
-CpViewInspectorView >> viewLink: linkElement isFor: viewElement [
-
-	"Answer whether the specified view element matches the element in
-	the specified link element"
-
-	^ (linkElement propertyAt: #element) == viewElement
-]
-
-{ #category : #rendering }
-CpViewInspectorView >> viewLinkFor: anElement [
-
-	"Answer a link for the specified element.
-	Add the element as a property to allow recognition later."
-
-	^ SlButton new
-		beSmall ;
-		labelText: '<', anElement tagName, '>' ;
-		addClass: #link ;
-		propertyAt: #element put: anElement ;
-		yourself
-]
-
-{ #category : #accessing }
-CpViewInspectorView >> viewsUnderPointer: aPoint [
-
-	| viewsUnderPointer |
-
-	viewsUnderPointer := CpHtmlElement elementsFromPoint: aPoint.
-
-	"Select views with a template only, ignoring ourself (we are also template view)"
-
-	^ viewsUnderPointer
-		select: [ :each | each isWebComponent and: [ each hasTemplate and: [ each ~= self ] ] ]
+	(self isClassed: #'active-code')
+		ifTrue: [ self hideCode ]
+		ifFalse: [ self showCode ]
 ]

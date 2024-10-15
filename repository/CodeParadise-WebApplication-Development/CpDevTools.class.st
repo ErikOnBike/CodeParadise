@@ -129,7 +129,7 @@ CpDevTools class >> start [
 	"Start a server and examples"
 	<script>
 	
-	| resourcePath applicationServer |
+	| resourcePath toolsResourcePath applicationServer |
 
 	self traceCr: 'Starting CP...'.
 	
@@ -149,7 +149,16 @@ CpDevTools class >> start [
 		} asDictionary.
 
 	"Let web applications add their resource directory"
-	self allWebApplications do: [ :each | each addWebResourcesDelegateTo: applicationServer server ]
+	self allWebApplications do: [ :each | each addWebResourcesDelegateTo: applicationServer server ].
+
+	"Add an entry for development tool resources"
+	toolsResourcePath := IceRepository directoryNamed: 'dev' in: 'CodeParadise'.
+	applicationServer server
+		delegate
+		map: 'dev'
+		to: (ZnStaticFileServerDelegate new
+			directory: toolsResourcePath ;
+			yourself)
 ]
 
 { #category : #scripts }
