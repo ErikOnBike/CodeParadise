@@ -77,6 +77,16 @@ SlAbstractPrompter >> beOpen [
 
 ]
 
+{ #category : #'accessing - convenience' }
+SlAbstractPrompter >> close [
+
+	"Convenience method to hide and destroy the receiver"
+
+	self
+		hide ;
+		destroy
+]
+
 { #category : #accessing }
 SlAbstractPrompter >> content [
 
