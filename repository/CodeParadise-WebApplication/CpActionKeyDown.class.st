@@ -28,11 +28,25 @@ CpActionKeyDown class >> modifiers [
 ]
 
 { #category : #'class initialization' }
+CpActionKeyDown class >> platformModifierKey [
+
+	"Answer the modifier key based on the current platform"
+
+	^ CpClientEnvironment isPlatformMacOS
+		ifTrue: [ CpMetaKeyDown ]
+		ifFalse: [ CpCtrlKeyDown ]
+]
+
+{ #category : #'class initialization' }
 CpActionKeyDown class >> postInstallOnce [
 
 	"Set the modifiers based on the current platform"
 
-	PlatformModifier := CpClientEnvironment isPlatformMacOS
-		ifTrue: [ CpMetaKeyDown modifiers ]
-		ifFalse: [ CpCtrlKeyDown modifiers ]
+	PlatformModifier := self platformModifierKey modifiers
+]
+
+{ #category : #accessing }
+CpActionKeyDown class >> visualCharacter [
+
+	^ self platformModifierKey visualCharacter
 ]

@@ -17,3 +17,11 @@ CpMetaKeyDown class >> modifiers [
 
 	^ 4
 ]
+
+{ #category : #accessing }
+CpMetaKeyDown class >> visualCharacter [
+
+	^ CpClientEnvironment isPlatformMacOS
+		ifTrue: [ '⌘' ]
+		ifFalse: [ 'Win' ]
+]

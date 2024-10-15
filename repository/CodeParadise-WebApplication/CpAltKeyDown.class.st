@@ -17,3 +17,11 @@ CpAltKeyDown class >> modifiers [
 
 	^ 1
 ]
+
+{ #category : #accessing }
+CpAltKeyDown class >> visualCharacter [
+
+	^ CpClientEnvironment isPlatformMacOS
+		ifTrue: [ '⌥' ]
+		ifFalse: [ 'Alt' ]
+]

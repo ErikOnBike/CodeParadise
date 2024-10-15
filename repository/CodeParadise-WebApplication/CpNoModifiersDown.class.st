@@ -11,3 +11,9 @@ CpNoModifiersDown class >> modifiers [
 
 	^ 0
 ]
+
+{ #category : #accessing }
+CpNoModifiersDown class >> visualCharacter [
+
+	^ ''
+]

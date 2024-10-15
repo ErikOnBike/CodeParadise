@@ -17,3 +17,11 @@ CpCtrlKeyDown class >> modifiers [
 
 	^ 2
 ]
+
+{ #category : #accessing }
+CpCtrlKeyDown class >> visualCharacter [
+
+	^ CpClientEnvironment isPlatformMacOS
+		ifTrue: [ '⌃' ]
+		ifFalse: [ 'Ctrl' ]
+]

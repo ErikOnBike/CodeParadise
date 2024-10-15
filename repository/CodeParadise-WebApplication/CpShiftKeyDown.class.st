@@ -17,3 +17,11 @@ CpShiftKeyDown class >> modifiers [
 
 	^ 8
 ]
+
+{ #category : #accessing }
+CpShiftKeyDown class >> visualCharacter [
+
+	^ CpClientEnvironment isPlatformMacOS
+		ifTrue: [ '⇧' ]
+		ifFalse: [ 'Shift' ]
+]

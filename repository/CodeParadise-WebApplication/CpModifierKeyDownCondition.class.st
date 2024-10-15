@@ -75,6 +75,28 @@ CpModifierKeyDownCondition class >> new [
 ]
 
 { #category : #accessing }
+CpModifierKeyDownCondition class >> visualCharacter [
+
+	"Answer the visual Character (the one the user recognizes) for the receiver.
+	This should answer a String, since some OS's don't have single Character
+	representations (like Alt on Windows)."
+
+	self subclassResponsibility
+]
+
+{ #category : #accessing }
+CpModifierKeyDownCondition class >> visualStringForKey: aString [
+
+	"Answer the visual representation (the one the user recognizes) for the receiver and specified String.
+	The specified String can either be a regular character like 's' or 'a' or an already combined String
+	like Shift-x."
+
+	^ CpClientEnvironment isPlatformMacOS
+		ifTrue: [ self visualCharacter, (aString size = 1 ifTrue: [ aString asUppercase ] ifFalse: [ aString ]) ]
+		ifFalse: [ self visualCharacter, '-', aString ]
+]
+
+{ #category : #accessing }
 CpModifierKeyDownCondition >> + aModifierKeyCondition [
 
 	"Update the receiver specifying an additional modifier to be combined with the receiver"
