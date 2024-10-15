@@ -40,6 +40,13 @@ CpCodeEditor class >> new [
 ]
 
 { #category : #accessing }
+CpCodeEditor class >> updateHtmlTags: aCollection [
+
+	CpBrowserWindow current
+		apply: #cpSetWellKnownHtmlTags: withArguments: { aCollection }
+]
+
+{ #category : #accessing }
 CpCodeEditor >> content [
 
 	"Answer the content of the editor as String"

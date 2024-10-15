@@ -222,6 +222,12 @@ CpViewInspectorView class >> template [
 	</div>'
 ]
 
+{ #category : #'as yet unclassified' }
+CpViewInspectorView class >> updateHtmlTags: aCollection [
+
+	CpCodeEditor updateHtmlTags: aCollection
+]
+
 { #category : #accessing }
 CpViewInspectorView >> codeElement [
 
@@ -406,6 +412,14 @@ CpViewInspectorView >> makeTopView [
 	self parent appendChild: self remove
 ]
 
+{ #category : #rendering }
+CpViewInspectorView >> retrieveHtmlTags [
+
+	"Retrieve a collection of HTML tags from the server (for HTML completion in editor)"
+
+	self serverAnnounce: CpCodeEditorHtmlTagsRequest
+]
+
 { #category : #private }
 CpViewInspectorView >> serverAnnounce: anAnnouncement [
 
@@ -427,6 +441,8 @@ CpViewInspectorView >> showCodeFor: anElement [
 	self hideInput.
 
 	self makeTopView.
+
+	self retrieveHtmlTags.
 
 	self codeElement showElement: anElement.
 

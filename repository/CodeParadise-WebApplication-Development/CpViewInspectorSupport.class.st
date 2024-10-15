@@ -60,7 +60,30 @@ CpViewInspectorSupport >> initializeWithEnvironment: anEnvironment [
 
 	environment
 		addClass: CpViewInspectorView ;
-		when: CpViewInspectorRequest send: #viewInspectorRequest: to: self
+		when: CpViewInspectorRequest send: #viewInspectorRequest: to: self ;
+		when: CpCodeEditorHtmlTagsRequest send: #updateHtmlTagsRequest to: self
+]
+
+{ #category : #'event handling' }
+CpViewInspectorSupport >> updateHtmlTagsRequest [
+
+	| htmlTags |
+
+	"Start with common <div> and <span> (block/inline) elements"
+	htmlTags := OrderedCollection new
+		add: #div ;
+		add: #span ;
+		yourself.
+
+	"Add all WebComponents"
+	CpWebComponent allSubclassesDo: [ :each |
+		each hasAbstractTag
+			ifFalse: [ htmlTags add: each tagName ] ].
+
+	environment sendMessage: (MessageSend
+		receiver: CpViewInspectorView name
+		selector: #updateHtmlTags:
+		arguments: { htmlTags asArray })
 ]
 
 { #category : #'event handling' }
