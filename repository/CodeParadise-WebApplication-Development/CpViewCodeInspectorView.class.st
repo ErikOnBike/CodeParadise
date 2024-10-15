@@ -531,6 +531,12 @@ CpViewCodeInspectorView >> handleSwap: anEvent [
 			ifFalse: [ #start ])
 ]
 
+{ #category : #rendering }
+CpViewCodeInspectorView >> hideCode [
+
+	self domSelectionRemove
+]
+
 { #category : #initialization }
 CpViewCodeInspectorView >> initialize [
 

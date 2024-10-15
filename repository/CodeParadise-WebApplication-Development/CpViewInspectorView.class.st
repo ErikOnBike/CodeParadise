@@ -348,7 +348,9 @@ CpViewInspectorView >> handleToggle: aKeyEvent [
 { #category : #rendering }
 CpViewInspectorView >> hideCode [
 
-	self removeClass: #'active-code'
+	self removeClass: #'active-code'.
+
+	self codeElement hideCode
 ]
 
 { #category : #rendering }
