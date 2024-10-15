@@ -75,6 +75,12 @@ APP="http-server-example" SERVER_URL="ws://localhost:8080/io" node cp-node.js cl
 
 ---
 
+### Using developer tools
+
+CodeParadise currently has a 'debugger' and a View inspector. The debugger is mostly an inspector too, you can't change code but you can see the stack trace and inspect variables. Already very useful during development.
+
+The View inspector allows you to open a special pane in which you can view the DOM, including the Shadow DOM of your WebComponents. The WebComponents created in Smalltalk can be edited right in your browser! Change the HTML template or CSS style of your WebComponent in two coding panes. Update the browser by simplying pressing Cmd-S/Ctrl-S or clicking a button. Press Shift-Cmd-S/Shift-Ctrl-S to actually save it in your Smalltalk image once your satisfied with the results. To start the View inspector press Cmd-i/Ctrl-i or press Cmd-b/Ctrl-b to select a WebComponent by name (instead of browsing through the DOM).
+
 ### <a name="manually">Manually starting and stopping</a>
 
 To start CodeParadise the following code has to be executed:
