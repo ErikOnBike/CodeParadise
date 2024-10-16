@@ -12,9 +12,9 @@ Array >> asViewValueFor: aModel [
 ]
 
 { #category : #'*CodeParadise-View' }
-Array >> renderViewFor: aModel on: anElement [
+Array >> renderElementFor: aModel on: anElement [
 
-	"Render the receiver (assumed to be a view specification) on the specified Element"
+	"Render the receiver (assumed to be a element specification) on the specified Element"
 
 	| stream className childElement |
 
@@ -26,9 +26,20 @@ Array >> renderViewFor: aModel on: anElement [
 	[ stream atEnd ] whileFalse: [
 		| token |
 		token := stream next.
-		token = #textContent
-			ifTrue: [ childElement textContent: (stream next asViewValueFor: aModel) ]
-			ifFalse: [ self error: 'Unknown token ', token printString ] ].
+		token isArray
+			ifTrue: [ token renderElementFor: aModel on: anElement ]
+			ifFalse: [
+				token = #textContent
+					ifTrue: [ childElement textContent: (stream next asViewValueFor: aModel) ]
+					ifFalse: [ self error: 'Unknown token ', token printString ] ] ].
 
 	anElement appendChild: childElement
+]
+
+{ #category : #'*CodeParadise-View' }
+Array >> renderViewFor: aModel on: anElement [
+
+	"Render the receiver (assumed to be a view specification) on the specified Element"
+
+	self do: [ :each | each renderElementFor: aModel on: anElement ]
 ]
