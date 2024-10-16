@@ -1,5 +1,5 @@
 "
-I am a Model containing properties.
+I am a Model containing properties. I announce when my properties have changed.
 I am responsible for keeping track of my property values.
 My properties can have conditional constraints.
 Property values can be public or private, distinguished by their name.
@@ -16,11 +16,10 @@ variable will have code generated which accesses the Dictionary directly.
 "
 Class {
 	#name : #CpPropertyModel,
-	#superclass : #Object,
+	#superclass : #CpBaseModel,
 	#instVars : [
 		'data',
-		'privateData',
-		'_test'
+		'privateData'
 	],
 	#category : #'CodeParadise-Model-Property'
 }
@@ -39,8 +38,7 @@ CpPropertyModel >> initialize [
 
 	Implementation:
 	Only the data Dictionary is created.
-	The private data Dictionary will be created lazyly,
-	since it will probably not be used often."
+	The private data Dictionary will be created lazily, since it will probably not be used often."
 
 	super initialize.
 
@@ -89,21 +87,53 @@ CpPropertyModel >> propertyAt: aSymbol [
 { #category : #accessing }
 CpPropertyModel >> propertyAt: aSymbol put: anObject [
 
-	"Set the specified property to the specified value"
+	"Set the specified property to the specified value.
+
+	Implementation:
+	If a property receives nil as value, it is removed from the (appropriate) data collection.
+	The private data collection is created lazily since it is assumed not to be used often.
+	If this data collection becomes empty, it is not destroyed since it might be used again.
+	The two branches: anObject being not nil and nil, seem similar in first part, but are in
+	fact slightly different because of this private data collection that can be nil and requires
+	instantiation ONLY in the non-nil branch."
 
 	(self class hasDefinedProperty: aSymbol)
 		ifFalse: [ self error: 'Undefined property ', aSymbol, ' in a ', self class name ].
 
-	"privateData might be nil, so check for this"
-	^ anObject
+	anObject
 		ifNotNil: [
-			((aSymbol beginsWith: #_)
+
+			| collection oldValue |
+
+			"Select the correct  private or public data collection"
+			collection := (aSymbol beginsWith: #_)
 				ifTrue: [ privateData ifNil: [ privateData := Dictionary new ] ]
-				ifFalse: [ data ])
-					at: aSymbol put: anObject ]
+				ifFalse: [ data ].
+
+			"Retrieve the old value"
+			oldValue := collection at: aSymbol ifAbsent: [ nil ].
+
+			"Update the value in the data collection only if new value is different"
+			oldValue = anObject
+				ifFalse: [
+					collection at: aSymbol put: anObject.
+					self announce: (CpPropertyChanged name: aSymbol oldValue: oldValue newValue: anObject) ] ]
 		ifNil: [
-			((aSymbol beginsWith: #_)
+
+			| collection oldValue |
+
+			"Select the corect private or public data collection"
+			collection := (aSymbol beginsWith: #_)
 				ifTrue: [ privateData ]
-				ifFalse: [ data ])
-					ifNotNil: [ :dict | dict removeKey: aSymbol ifAbsent: [ "ignore" ] ] ]
+				ifFalse: [ data ].
+
+			"Retrieve the old value (only if there is a collection)"
+			oldValue := collection ifNotNil: [ collection at: aSymbol ifAbsent: [ nil ] ].
+
+			"Update (i.e. remove) the value from the data collection only if it was present"
+			oldValue ifNotNil: [
+				collection removeKey: aSymbol.
+				self announce: (CpPropertyChanged name: aSymbol oldValue: oldValue newValue: nil) ] ].
+
+	^ anObject
 ]
