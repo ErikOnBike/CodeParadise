@@ -16,21 +16,10 @@ CpBaseModel >> announce: anAnnouncement [
 
 	"Let the receiver announce the specified Announcement"
 
-	self announcer announce: anAnnouncement
-]
+	"Nobody has registered interest"
+	announcer ifNil: [ ^ self ].
 
-{ #category : #accessing }
-CpBaseModel >> announcer [
-
-	^ announcer
-]
-
-{ #category : #initialization }
-CpBaseModel >> initialize [
-
-	super initialize.
-
-	announcer := Announcer new
+	announcer announce: anAnnouncement
 ]
 
 { #category : #initialization }
@@ -48,7 +37,10 @@ CpBaseModel >> removeSubscription: aSubscription [
 
 	"Remove the specified subscription from the receiver"
 
-	^ self announcer removeSubscription: aSubscription
+	"Nobody has registered interest"
+	announcer ifNil: [ ^ aSubscription ].
+
+	announcer removeSubscription: aSubscription
 ]
 
 { #category : #announcing }
@@ -56,7 +48,10 @@ CpBaseModel >> unsubscribe: anObject [
 
 	"Unsubscribe the specified Object from Announcements of the receiver"
 
-	^ self announcer unsubscribe: anObject
+	"Nobody has registered interest"
+	announcer ifNil: [ ^ nil ].
+
+	^ announcer unsubscribe: anObject
 ]
 
 { #category : #announcing }
@@ -65,9 +60,14 @@ CpBaseModel >> valueChanged [
 	"Announce the fact that the receiver's value changed.
 
 	Implementation:
-	This method is for compatibility with Model and NewValueHolder"
+	This method is for compatibility with Model and NewValueHolder.
+	The method contains some duplicate code with #announce: for
+	performance reasons."
 
-	self announce: (ValueChanged newValue: self)
+	"Nobody has registered interest"
+	announcer ifNil: [ ^ self ].
+
+	announcer announce: (ValueChanged newValue: self)
 ]
 
 { #category : #deprecated }
@@ -84,7 +84,9 @@ CpBaseModel >> when: anAnnouncementClass do: aBlock for: anObject [
 	"Subscribe anObject to announcements of anAnnouncementClass class. 
 	 When announced, aBlock is evaluated."
 
-	^ self announcer
+	announcer ifNil: [ announcer := Announcer new ].
+
+	^ announcer
 		when: anAnnouncementClass do: aBlock for: anObject
 ]
 
@@ -94,7 +96,9 @@ CpBaseModel >> when: anAnnouncementClass send: aSymbol to: anObject [
 	"Let the sender subscribe to the specified announcement of the receiver.
 	See Announcer>>#when:send:to:"
 
-	^ self announcer when: anAnnouncementClass send: aSymbol to: anObject
+	announcer ifNil: [ announcer := Announcer new ].
+
+	^ announcer when: anAnnouncementClass send: aSymbol to: anObject
 ]
 
 { #category : #deprecated }
