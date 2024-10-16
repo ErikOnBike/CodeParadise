@@ -49,6 +49,9 @@ CpDomElement >> renderItemUsingSpec: aStream for: aModel [
 	token = #attrs
 		ifTrue: [ ^ self renderAttributesUsingSpec: aStream next readStream for: aModel ].
 
+	token = #props
+		ifTrue: [ ^ self renderPropertiesUsingSpec: aStream next readStream for: aModel ].
+
 	token = #textContent
 		ifTrue: [ ^ self textContent: (aStream next asViewValueFor: aModel) ].
 
@@ -56,6 +59,15 @@ CpDomElement >> renderItemUsingSpec: aStream for: aModel [
 		ifTrue: [ ^ self bindUsingSpec: aStream next readStream for: aModel ].
 
 	self error: 'Unknown token ', token printString
+]
+
+{ #category : #'*CodeParadise-View' }
+CpDomElement >> renderPropertiesUsingSpec: aStream for: aModel [
+
+	"Render the properties using the view specifiction provided in the Stream"
+
+	[ aStream atEnd ] whileFalse: [
+		self propertyAt: aStream next put: (aStream next asViewValueFor: aModel) ]
 ]
 
 { #category : #'*CodeParadise-View' }
