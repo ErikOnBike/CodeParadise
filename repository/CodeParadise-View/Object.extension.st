@@ -5,5 +5,5 @@ Object >> asViewValueFor: aModel [
 
 	<webApplicationExtension>
 
-	^ self asString
+	^ self
 ]
