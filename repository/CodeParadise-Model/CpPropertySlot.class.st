@@ -45,6 +45,18 @@ CpPropertySlot >> emitValue: methodBuilder [
 		send: #propertyAt:
 ]
 
+{ #category : #testing }
+CpPropertySlot >> isAccessedIn: aCompiledMethod [
+
+	"Return whether the receiver is accessed in the specified Method.
+
+	Pay attention that the compiler is free to remove unused variable. The access is only garanteed for used
+	instance variables e.g. part of return, expression, assignment..."
+
+	^ aCompiledMethod ast instanceVariableNodes
+		anySatisfy: [ :node | node binding == self ]
+]
+
 { #category : #'meta-object-protocol' }
 CpPropertySlot >> read: anObject [
 
