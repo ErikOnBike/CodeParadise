@@ -10,8 +10,14 @@ CpViewInspectorTemplateRequest >> performIn: anEnvironment [
 	<serverEnvironment>
 
 	self viewClass ifNotNil: [ :viewClass |
+		| sourceCodeInfo |
+
+		[ sourceCodeInfo := self extractSourceCode: viewClass class >> #template ] on: Error do: [ :err |
+			self showErrorAlert: err messageText in: anEnvironment.
+			self halt ].
+
 		anEnvironment sendMessage: (MessageSend
 			receiver: CpViewInspectorView name
 			selector: #showTemplate:
-			arguments: { viewClass template }) ]
+			arguments: { sourceCodeInfo at: #sourceCode }) ]
 ]

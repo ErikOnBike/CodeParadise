@@ -25,35 +25,9 @@ CpViewInspectorSaveTemplateRequest >> initializeWithViewTagName: tagNameString t
 ]
 
 { #category : #accessing }
-CpViewInspectorSaveTemplateRequest >> sourceCodePrefix [
-
-	"Answer the source code prefix, to check if format is correct and create new method.
-	Currently very strict check."
-
-	<serverEnvironment>
-
-	^ 'template
-
-	<webResource: #html>
-
-	^ '''
-]
-
-{ #category : #accessing }
 CpViewInspectorSaveTemplateRequest >> sourceCodeSelector [
 
 	<serverEnvironment>
 
 	^ #template
-]
-
-{ #category : #accessing }
-CpViewInspectorSaveTemplateRequest >> sourceCodeSuffix [
-
-	"Answer the source code suffix, to check if format is correct and create new method.
-	Currently very strict check."
-
-	<serverEnvironment>
-
-	^ ''''
 ]
