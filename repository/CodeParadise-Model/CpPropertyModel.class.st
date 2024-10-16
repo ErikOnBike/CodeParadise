@@ -2,6 +2,8 @@
 I am a Model containing properties.
 I am responsible for keeping track of my property values.
 My properties can have conditional constraints.
+Property values can be public or private, distinguished by their name.
+A property name starting with #_ is assumed to be private.
 
 Implementation:
 I use a Dictionary to store my property values. This allows a DerivedSlot to be used
@@ -16,7 +18,9 @@ Class {
 	#name : #CpPropertyModel,
 	#superclass : #Object,
 	#instVars : [
-		'data'
+		'data',
+		'privateData',
+		'_test'
 	],
 	#category : #'CodeParadise-Model-Property'
 }
@@ -30,6 +34,13 @@ CpPropertyModel class >> initializeSlots: anObject [
 
 { #category : #initialization }
 CpPropertyModel >> initialize [
+
+	"Initialize the receiver.
+
+	Implementation:
+	Only the data Dictionary is created.
+	The private data Dictionary will be created lazyly,
+	since it will probably not be used often."
 
 	super initialize.
 
@@ -51,6 +62,9 @@ CpPropertyModel >> instVarNamed: aSymbol put: anObject [
 { #category : #printing }
 CpPropertyModel >> printOn: aStream [
 
+	"Print the receiver on the specified Stream.
+	Only public properties are printed."
+
 	aStream
 		nextPutAll: self class name ;
 		nextPutAll: ': '.
@@ -65,7 +79,11 @@ CpPropertyModel >> propertyAt: aSymbol [
 	(self class hasDefinedProperty: aSymbol)
 		ifFalse: [ self error: 'Undefined property ', aSymbol, ' in a ', self class name ].
 
-	^ data at: aSymbol ifAbsent: [ nil ]
+	"privateData might be nil, so check for this"
+	^ ((aSymbol beginsWith: #_)
+		ifTrue: [ privateData ]
+		ifFalse: [ data ])
+			ifNotNil: [ :dict | dict at: aSymbol ifAbsent: [ nil ] ]
 ]
 
 { #category : #accessing }
@@ -76,7 +94,16 @@ CpPropertyModel >> propertyAt: aSymbol put: anObject [
 	(self class hasDefinedProperty: aSymbol)
 		ifFalse: [ self error: 'Undefined property ', aSymbol, ' in a ', self class name ].
 
+	"privateData might be nil, so check for this"
 	^ anObject
-		ifNotNil: [ data at: aSymbol put: anObject ]
-		ifNil: [ data removeKey: aSymbol ifAbsent: [ "ignore" ] ]
+		ifNotNil: [
+			((aSymbol beginsWith: #_)
+				ifTrue: [ privateData ifNil: [ privateData := Dictionary new ] ]
+				ifFalse: [ data ])
+					at: aSymbol put: anObject ]
+		ifNil: [
+			((aSymbol beginsWith: #_)
+				ifTrue: [ privateData ]
+				ifFalse: [ data ])
+					ifNotNil: [ :dict | dict removeKey: aSymbol ifAbsent: [ "ignore" ] ] ]
 ]

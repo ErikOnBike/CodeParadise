@@ -48,11 +48,15 @@ CpPropertySlot >> emitValue: methodBuilder [
 { #category : #'meta-object-protocol' }
 CpPropertySlot >> read: anObject [
 
-	^ anObject instVarNamed: self name
+	"Delegate reading to property getter"
+
+	^ anObject propertyAt: self name
 ]
 
 { #category : #'meta-object-protocol' }
 CpPropertySlot >> write: aValue to: anObject [
 
-	^ anObject instVarNamed: self name put: aValue
+	"Delegate writing to property setter"
+
+	^ anObject propertyAt: self name put: aValue
 ]
