@@ -227,12 +227,12 @@ CpViewCodeInspectorView >> domSelectionKeep [
 	"Keep original styling of DOM selection"
 	originalStyle := {
 		#'background-color' -> (selectedDomElement styleAt: #'background-color').
-		#border -> (selectedDomElement styleAt: #border)
+		#'border-color' -> (selectedDomElement styleAt: #'border-color')
 	} asDictionary.
 
 	selectedDomElement
 		styleAt: #'background-color' put: 'rgba(0, 0, 255, .5)' ;
-		styleAt: #border put: '2px solid #00f'
+		styleAt: #'border-color' put: '#00f'
 ]
 
 { #category : #rendering }
@@ -242,7 +242,7 @@ CpViewCodeInspectorView >> domSelectionRemove [
 
 	selectedDomElement
 		styleAt: #'background-color' put: (originalStyle at: #'background-color') ;
-		styleAt: #border put: (originalStyle at: #border).
+		styleAt: #'border-color' put: (originalStyle at: #'border-color').
 
 	selectedDomElement := nil.
 	originalStyle := nil
