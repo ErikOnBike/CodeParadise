@@ -3,43 +3,28 @@ Extension { #name : #Array }
 { #category : #'*CodeParadise-View' }
 Array >> asViewValueFor: aModel [
 
-	self size = 2
-		ifFalse: [ self error: 'Unknown value specifiction ', self printString ].
+	<webApplicationExtension>
 
-	^ self first = #selector
-		ifTrue: [ aModel perform: self second ]
-		ifFalse: [ self error: 'Unknown value specifier: ', self first printString ]
+	^ aModel viewValueUsingSpec: self readStream
 ]
 
 { #category : #'*CodeParadise-View' }
 Array >> renderElementFor: aModel on: anElement [
 
+	<webApplicationExtension>
+
 	"Render the receiver (assumed to be a element specification) on the specified Element"
 
-	| stream className childElement |
-
-	stream := ReadStream on: self.
-
-	className := stream next.
-	childElement := (Smalltalk classNamed: className) new.
-
-	[ stream atEnd ] whileFalse: [
-		| token |
-		token := stream next.
-		token isArray
-			ifTrue: [ token renderElementFor: aModel on: anElement ]
-			ifFalse: [
-				token = #textContent
-					ifTrue: [ childElement textContent: (stream next asViewValueFor: aModel) ]
-					ifFalse: [ self error: 'Unknown token ', token printString ] ] ].
-
-	anElement appendChild: childElement
+	CpDomElement appendElementUsingSpec: self readStream for: aModel on: anElement
 ]
 
 { #category : #'*CodeParadise-View' }
 Array >> renderViewFor: aModel on: anElement [
 
+	<webApplicationExtension>
+
 	"Render the receiver (assumed to be a view specification) on the specified Element"
 
-	self do: [ :each | each renderElementFor: aModel on: anElement ]
+	self do: [ :each |
+		each renderElementFor: aModel on: anElement ]
 ]

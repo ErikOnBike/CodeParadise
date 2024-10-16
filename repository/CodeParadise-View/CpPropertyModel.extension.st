@@ -36,3 +36,22 @@ CpPropertyModel >> viewState [
 
 	^ nil
 ]
+
+{ #category : #'*CodeParadise-View' }
+CpPropertyModel >> viewValueUsingSpec: aStream [
+
+	| token |
+	
+	aStream size = 2
+		ifFalse: [ self error: 'Unknown value specification ', aStream contents printString ].
+
+	token := aStream next.
+
+	token = #selector
+		ifTrue: [ ^ self perform: aStream next ].
+
+	token = #property
+		ifTrue: [ ^ self propertyAt: aStream next ].
+
+	self error: 'Unknown value specifier: ', token printString
+]
