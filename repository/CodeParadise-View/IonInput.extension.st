@@ -13,8 +13,14 @@ IonInput >> bindUsingSpec: aStream for: aModel [
 		ifTrue: [
 			| property |
 			property := CpProperty on: aModel name: aStream next.
-			self when: SlInputEvent do: [ property value: self value ] for: self.
+			
+			"Set initial value"
+			property value ifNotNil: [ :value | self value: value ].
+
+			"Add event listeners"
+			self when: IonInputEvent do: [ property value: self value ] for: self.
 			property whenChangedDo: [ self value: property value ] for: self.
+
 			^ self].
 
 	self error: 'Unknown binding specifier: ', token printString
