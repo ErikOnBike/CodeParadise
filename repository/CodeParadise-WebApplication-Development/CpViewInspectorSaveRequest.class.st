@@ -15,7 +15,7 @@ CpViewInspectorSaveRequest >> initializeWithViewTagName: tagNameString sourceCod
 	sourceCode := sourceCodeString
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #actions }
 CpViewInspectorSaveRequest >> performIn: anEnvironment [
 
 	<serverEnvironment>
@@ -26,7 +26,7 @@ CpViewInspectorSaveRequest >> performIn: anEnvironment [
 			ifTrue: [
 				(viewClass class >> self sourceCodeSelector) sourceCode
 					ifNil: [ ^ self showErrorAlert: 'Unknown source code' in: anEnvironment ] ]
-			ifFalse: [ '' ].
+			ifFalse: [ (CpTemplateComponent class >> self sourceCodeSelector) sourceCode ].
 
 		originalSourceCode := originalSourceCode trim.
 		originalSourceCode ifNotEmpty: [
