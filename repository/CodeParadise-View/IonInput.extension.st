@@ -19,7 +19,7 @@ IonInput >> bindUsingSpec: aStream for: aModel [
 
 			"Add event listeners"
 			self when: IonInputEvent do: [ property value: self value ] for: self.
-			property whenChangedDo: [ self value: property value ] for: self.
+			property whenChangedDo: [ self updateIfChangedValue: property value ] for: self.
 
 			^ self].
 
@@ -32,4 +32,13 @@ IonInput >> destroy [
 	super destroy.
 
 	self traceCr: 'Removed IonInput element'
+]
+
+{ #category : #'*CodeParadise-View' }
+IonInput >> updateIfChangedValue: aString [
+
+	"Update the receiver only if the value changed"
+
+	self value = aString
+		ifFalse: [ self value: aString ]
 ]
