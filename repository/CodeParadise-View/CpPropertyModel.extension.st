@@ -23,7 +23,7 @@ CpPropertyModel >> viewSpecForState: aSymbol [
 		ifNotNil: [ aSymbol, #ViewSpec ]
 		ifNil: [ #viewSpec ].
 
-	^ (self class canUnderstand: viewSpecSelector)
+	^ (self class classSide canUnderstand: viewSpecSelector)
 		ifTrue: [ self class perform: viewSpecSelector ]
 		ifFalse: [ nil ]
 ]
