@@ -137,3 +137,22 @@ CpPropertyModel >> propertyAt: aSymbol put: anObject [
 
 	^ anObject
 ]
+
+{ #category : #accessing }
+CpPropertyModel >> propertyNamed: aSymbol [
+
+	"Answer a Property instance for the receiver with the specified property name"
+
+	(self class hasDefinedProperty: aSymbol)
+		ifFalse: [ self error: 'Undefined property ', aSymbol, ' in a ', self class name ].
+
+	^ CpProperty on: self name: aSymbol
+]
+
+{ #category : #accessing }
+CpPropertyModel >> propertyNames [
+
+	"Answer an Array of property names defined for the receiver"
+
+	^ self class definedPropertyNames
+]

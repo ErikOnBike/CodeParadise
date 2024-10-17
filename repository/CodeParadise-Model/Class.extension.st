@@ -1,6 +1,14 @@
 Extension { #name : #Class }
 
 { #category : #'*CodeParadise-Model' }
+Class >> definedPropertyNames [
+
+	<applicationExtension>
+
+	^ self allInstVarNames
+]
+
+{ #category : #'*CodeParadise-Model' }
 Class >> hasDefinedProperty: aSymbol [
 
 	<applicationExtension>
