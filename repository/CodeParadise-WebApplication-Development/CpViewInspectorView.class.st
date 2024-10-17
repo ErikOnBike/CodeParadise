@@ -453,7 +453,7 @@ CpViewInspectorView >> showCodeFor: anElement [
 
 { #category : #'event handling' }
 CpViewInspectorView >> showCodeForClassNamed: aString [
-self traceCr: 'here?'.
+
 	aString ifEmpty: [
 		self hideInput.
 		^ self ].

@@ -140,6 +140,7 @@ CpViewCodeInspectorView class >> template [
 			<div id="dom" slot="start">
 				<div class="controls">
 					<sl-tooltip content="Refresh DOM"><sl-icon-button id="refresh-dom" name="arrow-counterclockwise"></sl-icon-button></sl-tooltip>
+					<sl-tooltip content="Start at root DOM"><sl-icon-button id="root-dom" name="house"></sl-icon-button></sl-tooltip>
 				</div>
 				<slot name="dom"></slot>
 			</div>
@@ -496,6 +497,16 @@ CpViewCodeInspectorView >> handleRefreshTemplate: anEvent [
 ]
 
 { #category : #'event handling' }
+CpViewCodeInspectorView >> handleRootDom: anEvent [
+
+	anEvent
+		stopPropagation ;
+		preventDefault.
+
+	self showElement: CpHtmlElement documentBody
+]
+
+{ #category : #'event handling' }
 CpViewCodeInspectorView >> handleSaveStyle: anEvent [
 
 	anEvent
@@ -558,6 +569,8 @@ CpViewCodeInspectorView >> initializeShadowRoot [
 		when: CpClickEvent send: #handleClose: to: self.
 	(self shadowedElementWithId: #'refresh-dom')
 		when: CpClickEvent send: #handleRefreshDom: to: self.
+	(self shadowedElementWithId: #'root-dom')
+		when: CpClickEvent send: #handleRootDom: to: self.
 	(self shadowedElementWithId: #'refresh-template')
 		when: CpClickEvent send: #handleRefreshTemplate: to: self.
 	(self shadowedElementWithId: #'refresh-style')
