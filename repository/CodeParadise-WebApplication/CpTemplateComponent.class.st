@@ -164,27 +164,35 @@ CpTemplateComponent class >> updateAllInstances [
 { #category : #updating }
 CpTemplateComponent class >> updateGlobalStyle [
 
-	"Install or update the global (light DOM) style for the instances of the receiver.
+	"Install or update the global (light DOM) style for the instances of the receiver"
+
+	self updateGlobalStyleUsing: self globalStyle
+]
+
+{ #category : #updating }
+CpTemplateComponent class >> updateGlobalStyleUsing: aString [
+
+	"Install or update the global (light DOM) style for the instances of the receiver using the
+	specified String.
 
 	Implementation:
 	A <style> tag is added or updated with the current global style (as described in #globalStyle).
 	The method can therefore be called multiple times to update the global style as well (without
 	adding unnecessary DOM elements)."
 
-	| cssIdentifier globalStyle |
+	| cssIdentifier |
 
 	cssIdentifier := 'global-css-', self tagName.
-	globalStyle := self globalStyle.
 
 	(CpHtmlElement documentHead firstDescendantMatching: '#', cssIdentifier)
 		ifNotNil: [ :styleElement |
-			globalStyle
-				ifNotEmpty: [ styleElement textContent: globalStyle ]
+			aString
+				ifNotEmpty: [ styleElement textContent: aString ]
 				ifEmpty: [ styleElement remove ] ]
 		ifNil: [
-			globalStyle
+			aString
 				ifNotEmpty: [
-					(CpHtmlElement documentAddStyle: self globalStyle)
+					(CpHtmlElement documentAddStyle: aString)
 						id: cssIdentifier ] ]
 ]
 

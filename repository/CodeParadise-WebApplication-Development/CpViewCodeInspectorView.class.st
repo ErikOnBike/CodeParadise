@@ -183,8 +183,13 @@ CpViewCodeInspectorView >> applyStyle [
 	self elementIsTemplateComponent
 		ifFalse: [ ^ self ].
 
-	element class
-		installStyle: self styleContent
+	styleType = #style
+		ifTrue: [
+			element class
+				installStyle: self styleContent ]
+		ifFalse: [
+			element class
+				updateGlobalStyleUsing: self styleContent ]
 ]
 
 { #category : #rendering }
@@ -584,7 +589,7 @@ CpViewCodeInspectorView >> initialize [
 
 	super initialize.
 
-	styleType := #local.
+	styleType := #style.
 
 	CpHtmlElement document
 		when: (CpKeyDownEvent fromString: 'X-s') send: #preventDefault: to: self ;
@@ -683,7 +688,7 @@ CpViewCodeInspectorView >> requestGlobalStyle [
 
 	"Request global style"
 
-	styleType = #global
+	styleType = #globalStyle
 		ifTrue: [ ^ self ].
 
 	cssEditor isDirty
@@ -694,7 +699,7 @@ CpViewCodeInspectorView >> requestGlobalStyle [
 					'Keep' -> [ "Nothing to do" ] .
 					'Discard' -> [ self revertStyle ; requestGlobalStyle ] } ]
 		ifFalse: [
-			styleType := #global.
+			styleType := #globalStyle.
 			self requestStyle ]
 ]
 
@@ -703,7 +708,7 @@ CpViewCodeInspectorView >> requestLocalStyle [
 
 	"Request local style"
 
-	styleType = #local
+	styleType = #style
 		ifTrue: [ ^ self ].
 
 	cssEditor isDirty
@@ -714,7 +719,7 @@ CpViewCodeInspectorView >> requestLocalStyle [
 					'Keep' -> [ "Nothing to do" ] .
 					'Discard' -> [ self revertStyle ; requestLocalStyle ] } ]
 		ifFalse: [
-			styleType := #local.
+			styleType := #style.
 			self requestStyle ]
 ]
 
@@ -725,7 +730,7 @@ CpViewCodeInspectorView >> requestStyle [
 
 	self removeStyle.
 
-	self serverAnnounce: ((styleType = #local
+	self serverAnnounce: ((styleType = #style
 		ifTrue: [ CpViewInspectorStyleRequest ]
 		ifFalse: [ CpViewInspectorGlobalStyleRequest ])
 			viewTagName: element tagName)
@@ -754,7 +759,7 @@ CpViewCodeInspectorView >> revertTemplate [
 { #category : #private }
 CpViewCodeInspectorView >> saveStyle [
 
-	self serverAnnounce: ((styleType = #local
+	self serverAnnounce: ((styleType = #style
 		ifTrue: [ CpViewInspectorSaveStyleRequest ]
 		ifFalse: [ CpViewInspectorSaveGlobalStyleRequest ]) viewTagName: element tagName style: self styleContent)
 ]
@@ -810,7 +815,7 @@ CpViewCodeInspectorView >> showElement: anElement [
 	self domSelectionRemove.
 
 	element := anElement ifNil: [ CpHtmlElement documentBody ].
-	styleType := #local.
+	styleType := #style.
 
 	"Empty the current editors"
 	self
@@ -830,7 +835,7 @@ CpViewCodeInspectorView >> showElement: anElement [
 { #category : #rendering }
 CpViewCodeInspectorView >> showGlobalStyle: aString [
 
-	self showStyle: aString type: #global
+	self showStyle: aString type: #globalStyle
 ]
 
 { #category : #rendering }
@@ -847,7 +852,7 @@ CpViewCodeInspectorView >> showSaveSuccess: aSymbol [
 { #category : #rendering }
 CpViewCodeInspectorView >> showStyle: aString [
 
-	self showStyle: aString type: #local
+	self showStyle: aString type: #style
 ]
 
 { #category : #rendering }
@@ -866,7 +871,7 @@ CpViewCodeInspectorView >> showStyle: aString type: aSymbol [
 	self controlsEnable: ((self shadowedElementWithId: #style) allDescendantsMatching: '.controls sl-icon-button').
 	styleType := aSymbol.
 
-	styleType = #local
+	styleType = #style
 		ifTrue: [
 			(self shadowedElementWithId: #'local-style-button')
 				bePrimary ;

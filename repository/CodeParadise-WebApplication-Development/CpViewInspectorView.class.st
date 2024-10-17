@@ -117,7 +117,7 @@ CpViewInspectorView class >> showGlobalStyle: styleString [
 CpViewInspectorView class >> showSaveSuccess: aSymbol [
 
 	self first
-		showSaveSuccessIn: aSymbol.
+		showSaveSuccess: aSymbol.
 
 	self showAlert: 'Source code saved successfully'
 ]
