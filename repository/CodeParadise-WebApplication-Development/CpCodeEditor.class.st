@@ -62,10 +62,16 @@ CpCodeEditor >> initializeWithEditor: anEditor [
 	editor := anEditor
 ]
 
-{ #category : #testing }
+{ #category : #accessing }
 CpCodeEditor >> isDirty [
 
 	^ editor isDirty
+]
+
+{ #category : #accessing }
+CpCodeEditor >> markClean [
+
+	editor markClean
 ]
 
 { #category : #accessing }

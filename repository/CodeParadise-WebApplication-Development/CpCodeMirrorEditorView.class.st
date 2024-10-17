@@ -33,6 +33,14 @@ CpCodeMirrorEditorView >> isDirty [
 ]
 
 { #category : #'accessing - convenience' }
+CpCodeMirrorEditorView >> markClean [
+
+	"Convenience method to mark the current content as clean in the editor"
+
+	self apply: #markClean
+]
+
+{ #category : #'accessing - convenience' }
 CpCodeMirrorEditorView >> revert [
 
 	"Convenience method to revert the editor content to initial value"

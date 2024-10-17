@@ -834,6 +834,17 @@ CpViewCodeInspectorView >> showGlobalStyle: aString [
 ]
 
 { #category : #rendering }
+CpViewCodeInspectorView >> showSaveSuccess: aSymbol [
+
+	aSymbol = styleType
+		ifTrue: [ cssEditor markClean ]
+		ifFalse: [
+			aSymbol = #template
+				ifTrue: [ htmlEditor markClean ]
+				ifFalse: [ self error: 'Invalid state when receiving successful save of code' ] ]
+]
+
+{ #category : #rendering }
 CpViewCodeInspectorView >> showStyle: aString [
 
 	self showStyle: aString type: #local

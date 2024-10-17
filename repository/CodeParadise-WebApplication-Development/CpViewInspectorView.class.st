@@ -114,6 +114,15 @@ CpViewInspectorView class >> showGlobalStyle: styleString [
 ]
 
 { #category : #rendering }
+CpViewInspectorView class >> showSaveSuccess: aSymbol [
+
+	self first
+		showSaveSuccessIn: aSymbol.
+
+	self showAlert: 'Source code saved successfully'
+]
+
+{ #category : #rendering }
 CpViewInspectorView class >> showStyle: styleString [
 
 	"Show the provided style in the code inspector"
@@ -224,7 +233,7 @@ CpViewInspectorView class >> template [
 	</div>'
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #rendering }
 CpViewInspectorView class >> updateHtmlTags: aCollection [
 
 	CpCodeEditor updateHtmlTags: aCollection
@@ -483,6 +492,13 @@ CpViewInspectorView >> showInput [
 	self addClass: #'active-input'.
 
 	(self shadowedElementWithId: #'name-input') focus
+]
+
+{ #category : #rendering }
+CpViewInspectorView >> showSaveSuccess: aSymbol [
+
+	self codeElement
+		showSaveSuccess: aSymbol
 ]
 
 { #category : #rendering }

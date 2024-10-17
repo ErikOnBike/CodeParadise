@@ -46,10 +46,21 @@ CpViewInspectorSaveRequest >> performIn: anEnvironment [
 			viewClass class
 				compile: (sourceCodeInfo at: #prefix), escapedSourceCode, (sourceCodeInfo at: #suffix)
 				classified: 'web resources'.
-			self showAlert: 'Source code updated' in: anEnvironment
+			self showSaveSuccessIn: anEnvironment
 		] on: Error do: [ :err |
 			self showErrorAlert: err messageText in: anEnvironment.
 			self halt ] ]
+]
+
+{ #category : #'as yet unclassified' }
+CpViewInspectorSaveRequest >> showSaveSuccessIn: anEnvironment [
+
+	<serverEnvironment>
+
+	anEnvironment sendMessage: (MessageSend
+		receiver: CpViewInspectorView name
+		selector: #showSaveSuccess:
+		arguments: { self sourceCodeSelector })
 ]
 
 { #category : #accessing }
