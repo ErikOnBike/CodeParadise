@@ -1,6 +1,38 @@
 Extension { #name : #CpPropertyModel }
 
 { #category : #'*CodeParadise-View' }
+CpPropertyModel class >> exampleViewSpec [
+
+	^ #(
+		(IonItem
+			textContent (selector taskDescription)
+		)
+		(IonList
+			(IonItem
+				(IonInput
+					attrs (label 'Email' type 'email' autocomplete 'email' placeholder 'naam@domein.nl')
+					props (debounce 1000)
+					bind (property email)
+				)
+			)
+			(IonItem
+				(IonInput
+					attrs (label 'Wachtwoord' type 'password' autocomplete 'current-password' placeholder 'EenLangWachtwoordIsBeter')
+					bind (property password)
+				)	
+			)
+			(IonItem
+				(IonButton
+					textContent 'Inloggen'
+					attrs (color 'primary' expand 'block')
+					bind (selector login)
+				)
+			)
+		)
+	)
+]
+
+{ #category : #'*CodeParadise-View' }
 CpPropertyModel >> viewOn: anElement [
 
 	self viewSpec
