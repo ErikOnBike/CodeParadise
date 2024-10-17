@@ -11,6 +11,8 @@ Class {
 { #category : #'class initialization' }
 CpViewInspectorView class >> beLoaded [
 
+	SlButton beLoaded.
+	SlButtonGroup beLoaded.
 	SlCard beLoaded.
 	SlDivider beLoaded.
 	SlInput beLoaded.
@@ -103,12 +105,21 @@ CpViewInspectorView class >> showErrorAlert: aString [
 ]
 
 { #category : #rendering }
+CpViewInspectorView class >> showGlobalStyle: styleString [
+
+	"Show the provided style in the code inspector"
+
+	self first
+		showGlobalStyle: styleString
+]
+
+{ #category : #rendering }
 CpViewInspectorView class >> showStyle: styleString [
 
 	"Show the provided style in the code inspector"
 
 	self first
-		showTemplate: nil style: styleString
+		showStyle: styleString
 ]
 
 { #category : #rendering }
@@ -117,16 +128,7 @@ CpViewInspectorView class >> showTemplate: templateString [
 	"Show the provided template in the code inspector"
 
 	self first
-		showTemplate: templateString style: nil
-]
-
-{ #category : #rendering }
-CpViewInspectorView class >> showTemplate: templateString style: styleString [
-
-	"Show the provided template and style in the code inspector"
-
-	self first
-		showTemplate: templateString style: styleString
+		showTemplate: templateString
 ]
 
 { #category : #'web resources' }
@@ -469,6 +471,13 @@ CpViewInspectorView >> showCodeForClassNamed: aString [
 ]
 
 { #category : #rendering }
+CpViewInspectorView >> showGlobalStyle: aString [
+
+	self codeElement
+		showGlobalStyle: aString
+]
+
+{ #category : #rendering }
 CpViewInspectorView >> showInput [
 
 	self addClass: #'active-input'.
@@ -477,12 +486,17 @@ CpViewInspectorView >> showInput [
 ]
 
 { #category : #rendering }
-CpViewInspectorView >> showTemplate: templateString style: styleString [
-
-	"Show the provided template in the code inspector"
+CpViewInspectorView >> showStyle: aString [
 
 	self codeElement
-		showTemplate: templateString style: styleString
+		showStyle: aString
+]
+
+{ #category : #rendering }
+CpViewInspectorView >> showTemplate: aString [
+
+	self codeElement
+		showTemplate: aString
 ]
 
 { #category : #rendering }

@@ -5,6 +5,7 @@ Class {
 		'element',
 		'selectedDomElement',
 		'originalStyle',
+		'styleType',
 		'cssEditor',
 		'htmlEditor'
 	],
@@ -59,71 +60,79 @@ CpViewCodeInspectorView class >> style [
 	<webResource: #css>
 
 	^ '*, *:before, *:after {
-		-moz-box-sizing: border-box;
-		-webkit-box-sizing: border-box;
-		box-sizing: border-box;
-	}
-	:host {
-		height: 100%;
-		overflow: hidden;
-	}
-	#container {
-		position: relative;
-		height: 100%;
-		overflow: hidden;
-		background-color: #fff;
-		pointer-events: auto;
-	}
-	#controls {
-		position: absolute;
-		top: 0;
-		right: 0;
-		font-size: 1.5em;
-		border-bottom-left-radius: 8px;
-		background-color: #ccc;
-		z-index: 10;
-	}
-	#panes {
-		height: 100%;
-		overflow: hidden;
-	}
-	#dom,
-	#template,
-	#style {
-		position: relative;
-		width: 100%;
-		height: 100%;
-		overflow-x: hidden;
-		overflow-y: scroll;
-	}
-	#code {
-		width: 100%;
-		height: 100%;
-		overflow: hidden;
-	}
-	.controls {
-		display: inline-flex;
-		flex-direction: row;
-		justify-content: end;
-		align-items: center;
-		position: absolute;
-		top: 0;
-		right: 0;
-		font-size: 1.5em;
-		z-index: 20;
-	}
-	.controls sl-icon-button::part(base) {
-		padding: 4px;
-	}
-	[slot="end"] > .controls {
-		right: 4.6em;
-	}
-	slot,
-	::slotted(*) {
-		height: 100%;
-		overflow-x: hidden;
-		overflow-y: scroll;
-	}'
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	box-sizing: border-box;
+}
+:host {
+	height: 100%;
+	overflow: hidden;
+	--sl-input-height-small: 17px;
+}
+#container {
+	position: relative;
+	height: 100%;
+	overflow: hidden;
+	background-color: #fff;
+	pointer-events: auto;
+}
+#controls {
+	position: absolute;
+	top: 0;
+	right: 0;
+	font-size: 1.5em;
+	border-bottom-left-radius: 8px;
+	background-color: #ccc;
+	z-index: 10;
+}
+#panes {
+	height: 100%;
+	overflow: hidden;
+}
+#dom,
+#template,
+#style {
+	position: relative;
+	width: 100%;
+	height: 100%;
+	overflow-x: hidden;
+	overflow-y: scroll;
+}
+#code {
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+}
+.controls {
+	display: inline-flex;
+	flex-direction: row;
+	justify-content: end;
+	align-items: center;
+	position: absolute;
+	top: 0;
+	right: 0;
+	font-size: 1.5em;
+	z-index: 20;
+}
+.controls sl-icon-button::part(base) {
+	padding: 4px;
+}
+[slot="end"] > .controls {
+	right: 4.6em;
+}
+header {
+	display: block;
+	border-bottom: 1px solid #666;
+	padding: 3px 4px;
+	margin-bottom: 2px;
+	line-height: 1.5em;
+}
+slot,
+::slotted(*) {
+	height: 100%;
+	overflow-x: hidden;
+	overflow-y: scroll;
+}'
 ]
 
 { #category : #'web resources' }
@@ -132,38 +141,40 @@ CpViewCodeInspectorView class >> template [
 	<webResource: #html>
 
 	^ '<div id="container">
-		<div id="controls">
-			<sl-icon-button id="swap" name="arrow-down-up"></sl-icon-button>
-			<sl-icon-button id="close" name="x-circle"></sl-icon-button>
-		</div>
-		<sl-split-panel id="panes" position="33" slot="end">
-			<div id="dom" slot="start">
-				<div class="controls">
-					<sl-tooltip content="Refresh DOM"><sl-icon-button id="refresh-dom" name="arrow-counterclockwise"></sl-icon-button></sl-tooltip>
-					<sl-tooltip content="Start at root DOM"><sl-icon-button id="root-dom" name="house"></sl-icon-button></sl-tooltip>
-				</div>
-				<slot name="dom"></slot>
+	<div id="controls">
+		<sl-icon-button id="swap" name="arrow-down-up"></sl-icon-button>
+		<sl-icon-button id="close" name="x-circle"></sl-icon-button>
+	</div>
+	<sl-split-panel id="panes" position="33" slot="end">
+		<div id="dom" slot="start">
+			<div class="controls">
+				<sl-tooltip content="Refresh DOM"><sl-icon-button id="refresh-dom" name="arrow-counterclockwise"></sl-icon-button></sl-tooltip>
+				<sl-tooltip content="Start at root DOM"><sl-icon-button id="root-dom" name="house"></sl-icon-button></sl-tooltip>
 			</div>
-			<sl-split-panel id="code" slot="end">
-				<div id="template" slot="start">
-					<div class="controls">
-						<sl-tooltip content="Refresh template"><sl-icon-button id="refresh-template" name="arrow-counterclockwise"></sl-icon-button></sl-tooltip>
-						<sl-tooltip content="Apply template"><sl-icon-button id="save-template" name="save"></sl-icon-button></sl-tooltip>
-						<sl-tooltip content="Save template"><sl-icon-button id="sync-template" name="send-check"></sl-icon-button></sl-tooltip>
-					</div>
-					<slot name="template"></slot>
+			<slot name="dom"></slot>
+		</div>
+		<sl-split-panel id="code" slot="end">
+			<div id="template" slot="start">
+				<div class="controls">
+					<sl-tooltip content="Refresh template"><sl-icon-button id="refresh-template" name="arrow-counterclockwise"></sl-icon-button></sl-tooltip>
+					<sl-tooltip content="Apply template"><sl-icon-button id="save-template" name="save"></sl-icon-button></sl-tooltip>
+					<sl-tooltip content="Save template"><sl-icon-button id="sync-template" name="send-check"></sl-icon-button></sl-tooltip>
 				</div>
-				<div id="style" slot="end">
-					<div class="controls">
-						<sl-tooltip content="Refresh style"><sl-icon-button id="refresh-style" name="arrow-counterclockwise"></sl-icon-button></sl-tooltip>
-						<sl-tooltip content="Apply style"><sl-icon-button id="save-style" name="save"></sl-icon-button></sl-tooltip>
-						<sl-tooltip content="Save style"><sl-icon-button id="sync-style" name="send-check"></sl-icon-button></sl-tooltip>
-					</div>
-					<slot name="style"></slot>
+				<header>Template</header>
+				<slot name="template"></slot>
+			</div>
+			<div id="style" slot="end">
+				<div class="controls">
+					<sl-tooltip content="Refresh style"><sl-icon-button id="refresh-style" name="arrow-counterclockwise"></sl-icon-button></sl-tooltip>
+					<sl-tooltip content="Apply style"><sl-icon-button id="save-style" name="save"></sl-icon-button></sl-tooltip>
+					<sl-tooltip content="Save style"><sl-icon-button id="sync-style" name="send-check"></sl-icon-button></sl-tooltip>
 				</div>
-			</sl-split-panel>
+				<header><span>Style </span><sl-button-group><sl-button id="local-style-button" size="small" pill>local</sl-button><sl-button id="global-style-button" size="small" pill>global</sl-button></sl-button-group></header>
+				<slot name="style"></slot>
+			</div>
 		</sl-split-panel>
-	</div>'
+	</sl-split-panel>
+</div>'
 ]
 
 { #category : #rendering }
@@ -497,6 +508,26 @@ CpViewCodeInspectorView >> handleRefreshTemplate: anEvent [
 ]
 
 { #category : #'event handling' }
+CpViewCodeInspectorView >> handleRequestGlobalStyle: anEvent [
+
+	anEvent
+		stopPropagation ;
+		preventDefault.
+
+	self requestGlobalStyle
+]
+
+{ #category : #'event handling' }
+CpViewCodeInspectorView >> handleRequestLocalStyle: anEvent [
+
+	anEvent
+		stopPropagation ;
+		preventDefault.
+
+	self requestLocalStyle
+]
+
+{ #category : #'event handling' }
 CpViewCodeInspectorView >> handleRootDom: anEvent [
 
 	anEvent
@@ -553,9 +584,15 @@ CpViewCodeInspectorView >> initialize [
 
 	super initialize.
 
+	styleType := #local.
+
 	CpHtmlElement document
 		when: (CpKeyDownEvent fromString: 'X-s') send: #preventDefault: to: self ;
-		when: (CpKeyDownEvent fromString: 'X-S-s') send: #preventDefault: to: self
+		when: (CpKeyDownEvent fromString: 'X-S-s') send: #preventDefault: to: self.
+
+	self
+		removeTemplate ;
+		removeStyle
 ]
 
 { #category : #initialization }
@@ -586,7 +623,11 @@ CpViewCodeInspectorView >> initializeShadowRoot [
 		parent) attributeAt: 'content' put: 'Save template - ', (CpShiftKeyDown visualStringForKey: (CpActionKeyDown visualStringForKey: 's')).
 	((self shadowedElementWithId: #'sync-style')
 		when: CpClickEvent send: #handleSaveStyle: to: self ;
-		parent) attributeAt: 'content' put: 'Save style - ', (CpShiftKeyDown visualStringForKey: (CpActionKeyDown visualStringForKey: 's'))
+		parent) attributeAt: 'content' put: 'Save style - ', (CpShiftKeyDown visualStringForKey: (CpActionKeyDown visualStringForKey: 's')).
+	(self shadowedElementWithId: #'local-style-button')
+		when: CpClickEvent send: #handleRequestLocalStyle: to: self.
+	(self shadowedElementWithId: #'global-style-button')
+		when: CpClickEvent send: #handleRequestGlobalStyle: to: self.
 ]
 
 { #category : #rendering }
@@ -602,7 +643,7 @@ CpViewCodeInspectorView >> refreshStyle [
 				options: {
 					'Keep' -> [ "Nothing to do" ] .
 					'Discard' -> [ self revertStyle ; refreshStyle ] } ]
-		ifFalse: [ self serverAnnounce: (CpViewInspectorStyleRequest viewTagName: element tagName) ]
+		ifFalse: [ self requestStyle ]
 ]
 
 { #category : #rendering }
@@ -618,14 +659,16 @@ CpViewCodeInspectorView >> refreshTemplate [
 				options: {
 					'Keep' -> [ "Nothing to do" ] .
 					'Discard' -> [ self revertTemplate ; refreshTemplate ] } ]
-		ifFalse: [ self serverAnnounce: (CpViewInspectorTemplateRequest viewTagName: element tagName) ]
+		ifFalse: [ self requestTemplate ]
 ]
 
 { #category : #rendering }
 CpViewCodeInspectorView >> removeStyle [
 	
 	self replaceAllChildrenWith: '<no style>' asHtmlElement atSlotNamed: #style.
-	self controlsDisable: ((self shadowedElementWithId: #style) allDescendantsMatching: '.controls sl-icon-button')
+	self controlsDisable: ((self shadowedElementWithId: #style) allDescendantsMatching: '.controls sl-icon-button').
+	(self shadowedElementWithId: #'local-style-button') beDisabled.
+	(self shadowedElementWithId: #'global-style-button') beDisabled
 ]
 
 { #category : #rendering }
@@ -633,6 +676,67 @@ CpViewCodeInspectorView >> removeTemplate [
 	
 	self replaceAllChildrenWith: '<no template>' asHtmlElement atSlotNamed: #template.
 	self controlsDisable: ((self shadowedElementWithId: #template) allDescendantsMatching: '.controls sl-icon-button')
+]
+
+{ #category : #private }
+CpViewCodeInspectorView >> requestGlobalStyle [
+
+	"Request global style"
+
+	styleType = #global
+		ifTrue: [ ^ self ].
+
+	cssEditor isDirty
+		ifTrue: [
+			self
+				confirm: 'The source code for the style is changed. What do you want to do with the code?'
+				options: {
+					'Keep' -> [ "Nothing to do" ] .
+					'Discard' -> [ self revertStyle ; requestGlobalStyle ] } ]
+		ifFalse: [
+			styleType := #global.
+			self requestStyle ]
+]
+
+{ #category : #private }
+CpViewCodeInspectorView >> requestLocalStyle [
+
+	"Request local style"
+
+	styleType = #local
+		ifTrue: [ ^ self ].
+
+	cssEditor isDirty
+		ifTrue: [
+			self
+				confirm: 'The source code for the style is changed. What do you want to do with the code?'
+				options: {
+					'Keep' -> [ "Nothing to do" ] .
+					'Discard' -> [ self revertStyle ; requestLocalStyle ] } ]
+		ifFalse: [
+			styleType := #local.
+			self requestStyle ]
+]
+
+{ #category : #private }
+CpViewCodeInspectorView >> requestStyle [
+
+	"Request local or global style"
+
+	self removeStyle.
+
+	self serverAnnounce: ((styleType = #local
+		ifTrue: [ CpViewInspectorStyleRequest ]
+		ifFalse: [ CpViewInspectorGlobalStyleRequest ])
+			viewTagName: element tagName)
+]
+
+{ #category : #private }
+CpViewCodeInspectorView >> requestTemplate [
+
+	"Request template"
+
+	self serverAnnounce: (CpViewInspectorTemplateRequest viewTagName: element tagName)
 ]
 
 { #category : #accessing }
@@ -647,13 +751,15 @@ CpViewCodeInspectorView >> revertTemplate [
 	htmlEditor revert
 ]
 
-{ #category : #rendering }
+{ #category : #private }
 CpViewCodeInspectorView >> saveStyle [
 
-	self serverAnnounce: (CpViewInspectorSaveStyleRequest viewTagName: element tagName style: self styleContent)
+	self serverAnnounce: ((styleType = #local
+		ifTrue: [ CpViewInspectorSaveStyleRequest ]
+		ifFalse: [ CpViewInspectorSaveGlobalStyleRequest ]) viewTagName: element tagName style: self styleContent)
 ]
 
-{ #category : #rendering }
+{ #category : #private }
 CpViewCodeInspectorView >> saveTemplate [
 
 	self serverAnnounce: (CpViewInspectorSaveTemplateRequest viewTagName: element tagName template: self templateContent)
@@ -704,6 +810,7 @@ CpViewCodeInspectorView >> showElement: anElement [
 	self domSelectionRemove.
 
 	element := anElement ifNil: [ CpHtmlElement documentBody ].
+	styleType := #local.
 
 	"Empty the current editors"
 	self
@@ -712,13 +819,28 @@ CpViewCodeInspectorView >> showElement: anElement [
 
 	"Request the server for the template and style info (will render once results arrive)"
 	self elementIsTemplateComponent
-		ifTrue: [ self serverAnnounce: (CpViewInspectorTemplateAndStyleRequest viewTagName: element tagName) ].
+		ifTrue: [
+			self
+				requestTemplate ;
+				requestStyle ].
 
 	self showDom
 ]
 
 { #category : #rendering }
+CpViewCodeInspectorView >> showGlobalStyle: aString [
+
+	self showStyle: aString type: #global
+]
+
+{ #category : #rendering }
 CpViewCodeInspectorView >> showStyle: aString [
+
+	self showStyle: aString type: #local
+]
+
+{ #category : #rendering }
+CpViewCodeInspectorView >> showStyle: aString type: aSymbol [
 
 	| container |
 
@@ -730,7 +852,24 @@ CpViewCodeInspectorView >> showStyle: aString [
 		yourself.
 
 	cssEditor := CpCodeEditor in: (self replaceAllChildrenWith: container atSlotNamed: #style) onCss: aString.
-	self controlsEnable: ((self shadowedElementWithId: #style) allDescendantsMatching: '.controls sl-icon-button')
+	self controlsEnable: ((self shadowedElementWithId: #style) allDescendantsMatching: '.controls sl-icon-button').
+	styleType := aSymbol.
+
+	styleType = #local
+		ifTrue: [
+			(self shadowedElementWithId: #'local-style-button')
+				bePrimary ;
+				beEnabled.
+			(self shadowedElementWithId: #'global-style-button')
+				beDefault ;
+				beEnabled ]
+		ifFalse: [
+			(self shadowedElementWithId: #'local-style-button')
+				beDefault ;
+				beEnabled.
+			(self shadowedElementWithId: #'global-style-button')
+				bePrimary ;
+				beEnabled ]
 ]
 
 { #category : #rendering }
@@ -747,14 +886,6 @@ CpViewCodeInspectorView >> showTemplate: aString [
 
 	htmlEditor := CpCodeEditor in: (self replaceAllChildrenWith: container atSlotNamed: #template) onHtml: aString.
 	self controlsEnable: ((self shadowedElementWithId: #template) allDescendantsMatching: '.controls sl-icon-button')
-]
-
-{ #category : #rendering }
-CpViewCodeInspectorView >> showTemplate: templateString style: styleString [
-
-	self
-		showTemplate: templateString ;
-		showStyle: styleString
 ]
 
 { #category : #accessing }
