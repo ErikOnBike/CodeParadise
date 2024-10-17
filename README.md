@@ -9,6 +9,7 @@ A few online videos:
 * to-do list tutorial walk through [video](https://youtu.be/Y-i6C_yVHxA) - 47:47 minutes
 * creating a Node.js application [video](https://youtu.be/2FxPBCq75qY) - 10:22 minutes
 * Zettelkasten example application [video](https://youtu.be/omKrz9stuOQ) - 1:37 minutes
+* short demo of view inspector [video](https://youtu.be/QPPe49iw8Io) - 6:44 minutes
 * short demo of debugger [video](https://youtu.be/hCwlrWRhrZc) - 1:07 minutes
 * UK Smalltalk UG May 2022 [demo](https://vimeo.com/719355883) - CodeParadise used in Expressive Systems by [Object Guild](https://objectguild.com)
 * UK Smalltalk UG August 2020 [demo](https://vimeo.com/457353130) - CodeParadise
@@ -80,6 +81,8 @@ APP="http-server-example" SERVER_URL="ws://localhost:8080/io" node cp-node.js cl
 CodeParadise currently has a 'debugger' and a View inspector. The debugger is mostly an inspector too, you can't change code but you can see the stack trace and inspect variables. Already very useful during development.
 
 The View inspector allows you to open a special pane in which you can view the DOM, including the Shadow DOM of your WebComponents. The WebComponents created in Smalltalk can be edited right in your browser! Change the HTML template or CSS style of your WebComponent in two coding panes. Update the browser by simplying pressing Cmd-S/Ctrl-S or clicking a button. Press Shift-Cmd-S/Shift-Ctrl-S to actually save it in your Smalltalk image once your satisfied with the results. To start the View inspector press Cmd-i/Ctrl-i or press Cmd-b/Ctrl-b to select a WebComponent by name (instead of browsing through the DOM).
+
+You can install the debugger or View inspector sending either `addDebugger` or `addViewInspector` to your Application (in the `load` method of the Application for example).
 
 ### <a name="manually">Manually starting and stopping</a>
 
