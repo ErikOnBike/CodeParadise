@@ -672,8 +672,13 @@ CpViewCodeInspectorView >> removeStyle [
 	
 	self replaceAllChildrenWith: '<no style>' asHtmlElement atSlotNamed: #style.
 	self controlsDisable: ((self shadowedElementWithId: #style) allDescendantsMatching: '.controls sl-icon-button').
-	(self shadowedElementWithId: #'local-style-button') beDisabled.
-	(self shadowedElementWithId: #'global-style-button') beDisabled
+	self elementIsTemplateComponent
+		ifTrue: [
+			(self shadowedElementWithId: #'local-style-button') beEnabled.
+			(self shadowedElementWithId: #'global-style-button') beEnabled ]
+		ifFalse: [
+			(self shadowedElementWithId: #'local-style-button') beDisabled.
+			(self shadowedElementWithId: #'global-style-button') beDisabled ]
 ]
 
 { #category : #rendering }
