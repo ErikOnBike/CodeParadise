@@ -326,9 +326,13 @@ CpViewInspectorView >> handlePreviousCompletion [
 { #category : #'event handling' }
 CpViewInspectorView >> handleSelectCompletion [
 
-	self showCodeForClassNamed: (completionIndex > 0
-		ifTrue: [ ((self childrenAtSlotNamed: #completion) at: completionIndex) textContent ]
-		ifFalse: [ (self shadowedElementWithId: #'name-input') value ])
+	completionIndex = 0
+		ifTrue: [ ^ self ].
+
+	self showCodeForClassNamed: ((self childrenAtSlotNamed: #completion) at: completionIndex) textContent.
+
+	"Clear input"
+	(self shadowedElementWithId: #'name-input') value: ''
 ]
 
 { #category : #'event handling' }
