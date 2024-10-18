@@ -12,6 +12,9 @@ CpViewInspectorTemplateRequest >> performIn: anEnvironment [
 	self viewClass ifNotNil: [ :viewClass |
 		| sourceCodeInfo |
 
+		(viewClass class includesSelector: #template)
+			ifFalse: [ ^ self ].
+
 		[ sourceCodeInfo := self extractSourceCode: viewClass class >> #template ] on: Error do: [ :err |
 			self showErrorAlert: err messageText in: anEnvironment.
 			self halt ].

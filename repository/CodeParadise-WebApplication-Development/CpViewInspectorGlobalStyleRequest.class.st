@@ -12,6 +12,9 @@ CpViewInspectorGlobalStyleRequest >> performIn: anEnvironment [
 	self viewClass ifNotNil: [ :viewClass |
 		| sourceCodeInfo |
 
+		(viewClass class includesSelector: #globalStyle)
+			ifFalse: [ ^ self ].
+
 		[ sourceCodeInfo := self extractSourceCode: viewClass class >> #globalStyle ] on: Error do: [ :err |
 			self showErrorAlert: err messageText in: anEnvironment.
 			self halt ].
