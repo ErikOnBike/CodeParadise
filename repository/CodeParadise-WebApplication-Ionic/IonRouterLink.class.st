@@ -1,0 +1,5 @@
+Class {
+	#name : #IonRouterLink,
+	#superclass : #IonElement,
+	#category : #'CodeParadise-WebApplication-Ionic-Elements'
+}
