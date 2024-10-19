@@ -28,6 +28,7 @@ BaselineOfCodeParadise >> baseline: spec [
 			package: 'CodeParadise-WebApplication-MVP' with: [ spec requires: #('CodeParadise-WebApplication') ];
 
 			package: 'CodeParadise-WebApplication-Shoelace' with: [ spec requires: #('CodeParadise-WebApplication-MVP') ];
+			package: 'CodeParadise-WebApplication-Ionic' with: [ spec requires: #('CodeParadise-WebApplication-MVP') ];
 			package: 'CodeParadise-WebApplication-Presentation' with: [ spec requires: #('CodeParadise-WebApplication-MVP') ];
 			package: 'CodeParadise-WebApplication-ChartJS' with: [ spec requires: #('CodeParadise-WebApplication-MVP') ];
 			package: 'CodeParadise-Beach' with: [ spec requires: #('CodeParadise-WebApplication-MVP') ];
@@ -46,7 +47,7 @@ BaselineOfCodeParadise >> baseline: spec [
 
 		"Groups"
 		spec 
-			group: 'default' with: #( 'Core' 'NodeJS-Core' 'Shoelace' 'ChartJS' 'Presentation' 'Beach' 'Snapshot' 'Tests' 'Development' 'NodeJS-Applications');
+			group: 'default' with: #( 'Core' 'NodeJS-Core' 'Shoelace' 'Ionic' 'ChartJS' 'Presentation' 'Snapshot' 'Tests' 'Development' 'NodeJS-Applications');
 
 			group: 'Core' with: #( 'CodeParadise-WebApplication' 'CodeParadise-Browser-Support' );
 			group: 'NodeJS-Core' with: #( 'CodeParadise-RemoteEnvironment' 'CodeParadise-NodeJS-Support' );
@@ -55,6 +56,7 @@ BaselineOfCodeParadise >> baseline: spec [
 			group: 'MVP' with: #( 'CodeParadise-WebApplication-MVP' );
 
 			group: 'Shoelace' with: #( 'CodeParadise-WebApplication-Shoelace' );
+			group: 'Ionic' with: #( 'CodeParadise-WebApplication-Ionic' );
 			group: 'ChartJS' with: #( 'CodeParadise-WebApplication-ChartJS' );
 			group: 'Presentation' with: #( 'CodeParadise-WebApplication-Presentation' );
 			group: 'Beach' with: #( 'CodeParadise-Beach' );
