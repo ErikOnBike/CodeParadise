@@ -314,6 +314,12 @@ CpDomElement >> appendChild: childElement after: siblingElement [
 ]
 
 { #category : #performing }
+CpDomElement >> apply: aSymbol resultAs: aProxyClass [
+
+	^ self apply: aSymbol withArguments: nil resultAs: aProxyClass
+]
+
+{ #category : #performing }
 CpDomElement >> apply: aSymbol withArguments: anArray [
 
 	"Perform the specified symbol as JavaScript function on the receiver with the specified arguments
@@ -321,6 +327,19 @@ CpDomElement >> apply: aSymbol withArguments: anArray [
 	Answer the result of the JavaScript function."
 
 	<primitive: 'primitiveDomElementApply:withArguments:' module: 'CpDOMPlugin'>
+	self primitiveFailed
+]
+
+{ #category : #performing }
+CpDomElement >> apply: aSymbol withArguments: anArray resultAs: aProxyClass [
+
+	"Perform the specified symbol as JavaScript function on the receiver with the specified arguments
+	(nil means no arguments).
+	Answer the result of the JavaScript function proxied in the specified class.
+
+	See class CpJavaScriptObject"
+
+	<primitive: 'primitiveDomElementApply:withArguments:resultAs:' module: 'CpDOMPlugin'>
 	self primitiveFailed
 ]
 
