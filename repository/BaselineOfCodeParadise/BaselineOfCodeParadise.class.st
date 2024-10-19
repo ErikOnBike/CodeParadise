@@ -51,7 +51,7 @@ BaselineOfCodeParadise >> baseline: spec [
 
 			group: 'Core' with: #( 'CodeParadise-WebApplication' 'CodeParadise-Browser-Support' );
 			group: 'NodeJS-Core' with: #( 'CodeParadise-RemoteEnvironment' 'CodeParadise-NodeJS-Support' );
-			group: 'Tests' with: #( 'CodeParadise-WebApplication-Tests' 'CodeParadise-RemoteEnvironment-Tests' 'CodeParadise-Beach-Tests' );
+			group: 'Tests' with: #( 'CodeParadise-WebApplication-Tests' 'CodeParadise-RemoteEnvironment-Tests' );
 
 			group: 'MVP' with: #( 'CodeParadise-WebApplication-MVP' );
 
@@ -59,7 +59,7 @@ BaselineOfCodeParadise >> baseline: spec [
 			group: 'Ionic' with: #( 'CodeParadise-WebApplication-Ionic' );
 			group: 'ChartJS' with: #( 'CodeParadise-WebApplication-ChartJS' );
 			group: 'Presentation' with: #( 'CodeParadise-WebApplication-Presentation' );
-			group: 'Beach' with: #( 'CodeParadise-Beach' );
+			group: 'Beach' with: #( 'CodeParadise-Beach' 'CodeParadise-Beach-Tests' );
 
 			"2022-06: No longer maintained (needs to be loaded manually)"
 			group: 'Fomantic' with: #( 'CodeParadise-WebApplication-Fomantic' );
