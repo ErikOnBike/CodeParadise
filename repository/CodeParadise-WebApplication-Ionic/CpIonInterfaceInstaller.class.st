@@ -104,7 +104,6 @@ CpIonInterfaceInstaller >> installClass [
 		ifFalse: [ self error: 'Unexpected format, assumed curly brace after interface name. Working on interface for: ', componentName ].
 	stream skipSeparators.
 
-self halt.
 	componentClass := (componentName includesSubstring: 'Legacy')
 		ifTrue: [ nil ]
 		ifFalse: [
@@ -121,25 +120,24 @@ CpIonInterfaceInstaller >> installGetterAndSetter: selectorString comment: comme
 
 	| type |
 
-	self installMethod: (self
-		sourceCodeMethod: selectorString
-		comment: commentString
-		code: '^ self propertyAt: #', selectorString).
+	self
+		installMethod: (self
+			sourceCodeMethod: selectorString
+			comment: commentString
+			code: '^ self propertyAt: #', selectorString)
+		selector: selectorString asSymbol.
 
-	type := ((typeString indexOf: $') > 0 or: [ (typeString indexOf: $") > 0 or: [ typeString = 'string' or: [ typeString = 'Color' ] ] ])
-		ifTrue: [ 'aString' ]
-		ifFalse: [
-			typeString = 'boolean'
-				ifTrue: [ 'aBoolean' ]
-				ifFalse: [
-					typeString = 'number'
-						ifTrue: [ 'aNumber' ]
-						ifFalse: [ 'anObject' ] ] ].
+	type := self typeFromTypeString: typeString.
+	type := (type first isVowel
+		ifTrue: [ 'an' ]
+		ifFalse: [ 'a' ]), type.
 
-	self installMethod: (self
-		sourceCodeMethod: selectorString, ': ', type
-		comment: commentString
-		code: 'self propertyAt: #', selectorString, ' put: ', type)
+	self
+		installMethod: (self
+			sourceCodeMethod: selectorString, ': ', type
+			comment: commentString
+			code: 'self propertyAt: #', selectorString, ' put: ', type)
+		selector: (selectorString, ':') asSymbol
 ]
 
 { #category : #installing }
@@ -181,7 +179,7 @@ CpIonInterfaceInstaller >> installMethod [
 	stream skipSeparators.
 
 	"Read type definition"
-	type := stream upTo: $;.
+	type := (stream upTo: $;) trim.
 
 	"Now create and install methods (getter and setter or single method)"
 	self installMethodsForAccessor: accessorName comment: comment type: type optional: isOptional.
@@ -190,64 +188,96 @@ CpIonInterfaceInstaller >> installMethod [
 ]
 
 { #category : #installing }
-CpIonInterfaceInstaller >> installMethod: aString [
+CpIonInterfaceInstaller >> installMethod: selectorString arguments: arguments optionals: optionalCount comment: commentString type: typeString [
 
-	componentClass ifNil: [ ^ self ].
+	"Install the method with it optional arguments"
 
-	"componentClass compile: aString classified: 'api'"
-	self traceCr: 'Install the following method in ', componentClass name.
-	self traceCr: (aString replaceAll: Character lf with: Character cr)
+	| totalOptionalCount selector code actualArgs sourceCode |
+
+	totalOptionalCount := (arguments select: [ :each | each at: 3 ]) size.		"Count optional arguments"
+
+	actualArgs := OrderedCollection new.
+	selector := String streamContents: [ :selectorStream |
+		
+		"Add the required arguments"
+		1 to: arguments size - totalOptionalCount do: [ :argIndex |
+			| argumentName |
+			argumentName := (arguments at: argIndex) at: 1.
+			argIndex = 1
+				ifTrue: [ selectorStream nextPutAll: selectorString ]
+				ifFalse: [ selectorStream space ; nextPutAll: argumentName ].
+			selectorStream
+				nextPutAll: ': ' ;
+				nextPutAll: argumentName.
+			actualArgs add: argumentName ].
+
+		"Add the optional arguments"
+		arguments size - totalOptionalCount + 1 to: arguments size - totalOptionalCount + optionalCount do: [ :argIndex |
+			| argumentName |
+			argumentName := (arguments at: argIndex) at: 1.
+			argIndex = 1
+				ifTrue: [ selectorStream nextPutAll: selectorString ]
+				ifFalse: [ selectorStream space ; nextPutAll: argumentName ].
+			selectorStream
+				nextPutAll: ': ' ;
+				nextPutAll: argumentName.
+			actualArgs add: argumentName ] ].
+
+	"In case there are no required arguments"
+	selector ifEmpty: [ selector := selectorString ].
+
+	"Build the code"
+	code := String streamContents: [ :codeStream |
+		codeStream 
+			nextPutAll: '^ self apply: #' ;
+			nextPutAll: selectorString.
+		actualArgs ifNotEmpty: [
+			codeStream
+				nextPutAll: ' withArguments: { ' ;
+				nextPutAll: (' . ' join: actualArgs) ;
+				nextPutAll: ' }' ].
+		(self resultTypeFromTypeString: typeString) ifNotNil: [ :resultType |
+			codeStream
+				nextPutAll: ' resultAs: ' ;
+				nextPutAll: resultType ] ].
+
+	sourceCode := self sourceCodeMethod: selector comment: commentString code: code.
+	self installMethod: sourceCode selector: (self selectorSymbolFrom: selector)
 ]
 
 { #category : #installing }
 CpIonInterfaceInstaller >> installMethod: selectorString comment: commentString type: typeString [
 
-	| arguments methodCount |
+	"Install the method, including ones for optional arguments"
+
+	| arguments optionalCount |
 
 	arguments := self parseArguments: typeString.
-	methodCount := (arguments select: [ :each | each at: 3 ]) size.		"Count optional arguments"
+	optionalCount := (arguments select: [ :each | each at: 3 ]) size.		"Count optional arguments"
 
-	"Create the methods with optional arguments"
-	1 to: methodCount do: [ :count |
-		| selector code actualArgs sourceCode |
+	0 to: optionalCount do: [ :count |
+		self installMethod: selectorString arguments: arguments optionals: count comment: commentString type: typeString ]
+]
 
-		actualArgs := OrderedCollection new.
-		selector := String streamContents: [ :selectorStream |
-			
-			"Add the required arguments"
-			1 to: arguments size - methodCount do: [ :argIndex |
-				| argumentName |
-				argumentName := (arguments at: argIndex) at: 1.
-				argIndex = 1
-					ifTrue: [ selectorStream nextPutAll: selectorString ]
-					ifFalse: [ selectorStream space ; nextPutAll: argumentName ].
-				selectorStream
-					nextPutAll: ': ' ;
-					nextPutAll: argumentName.
-				actualArgs add: argumentName ].
+{ #category : #installing }
+CpIonInterfaceInstaller >> installMethod: aString selector: aSymbol [
 
-			"Add the optional arguments"
-			arguments size - methodCount + 1 to: arguments size - methodCount + count do: [ :argIndex |
-				| argumentName |
-				argumentName := (arguments at: argIndex) at: 1.
-				argIndex = 1
-					ifTrue: [ selectorStream nextPutAll: selectorString ]
-					ifFalse: [ selectorStream space ; nextPutAll: argumentName ].
-				selectorStream
-					nextPutAll: ': ' ;
-					nextPutAll: argumentName.
-				actualArgs add: argumentName ] ].
+	| normalizedSourceCode |
 
-		code := String streamContents: [ :codeStream |
-			codeStream 
-				nextPutAll: '^ self apply: #' ;
-				nextPutAll: selectorString ;
-				nextPutAll: ' withArguments: { ' ;
-				nextPutAll: (' . ' join: actualArgs) ;
-				nextPutAll: ' }' ].
+	componentClass ifNil: [ ^ self ].
 
-		sourceCode := self sourceCodeMethod: selector comment: commentString code: code.
-		self installMethod: sourceCode ]
+	normalizedSourceCode := aString replaceAll: Character lf with: Character cr.
+
+	"Check for presence of existing method"
+	(componentClass includesSelector: aSymbol)
+		ifTrue: [
+			| sourceCode |
+			sourceCode := (componentClass >> aSymbol) sourceCode.
+
+			sourceCode = normalizedSourceCode
+				ifFalse: [ self halt ] ].
+
+	componentClass compile: aString classified: 'api'
 ]
 
 { #category : #installing }
@@ -264,16 +294,23 @@ CpIonInterfaceInstaller >> installMethods [
 { #category : #installing }
 CpIonInterfaceInstaller >> installMethodsForAccessor: selectorString comment: commentString type: typeString optional: aBoolean [
 
-	| finalComment isFunction |
+	| functionIndex isFunction finalType finalComment |
+
+	functionIndex := typeString indexOfSubCollection: ' => '.
+	isFunction := functionIndex > 0.
+	finalType := (isFunction and: [ typeString beginsWith: '()' ])
+		ifTrue: [ (typeString allButFirst: functionIndex + 3) trim ] "Do not show useless () =>, in other situations do show it"
+		ifFalse: [ typeString ].
 
 	finalComment := (String streamContents: [ :commentStream |
+		commentString ifNotEmpty: [
+			commentStream
+				nextPutAll: commentString ;
+				nextPut: Character lf ].
 		commentStream
-			nextPutAll: commentString ;
-			nextPut: Character lf ;
 			nextPutAll: 'Type: ' ;
-			nextPutAll: typeString ;
+			nextPutAll: finalType ;
 			nextPut: Character lf ]).
-	isFunction := typeString includesSubstring: ' => '.
 
 	isFunction
 		ifTrue: [ self installMethod: selectorString comment: finalComment type: typeString ]
@@ -307,7 +344,8 @@ CpIonInterfaceInstaller >> parseArguments: aString [
 
 		"Decide if argument is optional (not most solid check, but suffices here)"
 		optional := name endsWith: '?'.
-		name := name allButLast.
+		optional
+			ifTrue: [ name := name allButLast ].
 
 		"Add argument to the collection"
 		arguments add: { name . type . optional }.
@@ -315,6 +353,52 @@ CpIonInterfaceInstaller >> parseArguments: aString [
 		typeStream skipSeparators ].
 
 	^ arguments
+]
+
+{ #category : #accessing }
+CpIonInterfaceInstaller >> resultTypeFromTypeString: aString [
+
+	"Answer the most likely result type defined in the specified String.
+	Only non-trivial types are answered (i.e. in which case #resultAs: is
+	relevant for the #apply:withArguments:resultAs method)."
+
+	| resultType |
+
+	resultType := self typeFromTypeString: aString.
+
+	^ (#('String' 'Number' 'Boolean') includes: resultType)
+		ifTrue: [ nil ]
+		ifFalse: [
+			resultType = 'Promise'
+				ifTrue: [ CpJavaScriptPromise name ]
+				ifFalse: [
+					(Smalltalk classNamed: resultType) isNotNil
+						ifTrue: [ resultType ]
+						ifFalse: [ nil ] ] ]
+]
+
+{ #category : #accessing }
+CpIonInterfaceInstaller >> selectorSymbolFrom: selectorString [
+
+	"Remove the arguments from the selector String"
+
+	| selector |
+
+	selector := String streamContents: [ :selectorStream |
+		| readStream |
+		readStream := selectorString readStream.
+		[  readStream atEnd ] whileFalse: [
+			"Add selector part"
+			selectorStream nextPutAll: (readStream upTo: $:).
+			readStream atEnd
+				ifFalse: [
+					selectorStream nextPut: $:.
+
+					"Remove argument (surrounded by spaces)"
+					readStream skip: 1.
+					readStream upTo: Character space ] ] ].
+
+	^ selector asSymbol
 ]
 
 { #category : #accessing }
@@ -352,4 +436,46 @@ CpIonInterfaceInstaller >> sourceCodeMethod: selectorString comment: commentStri
 
 		"Finally add the method code (always single line delegating to JavaScript object)"
 		sourceStream tab ; nextPutAll: codeString ]
+]
+
+{ #category : #accessing }
+CpIonInterfaceInstaller >> typeFromTypeString: aString [
+
+	"Answer the most likely type defined in the specified String.
+
+	Implementation:
+	Some assumptions are done here. When a quote is present, it is assumed to be for
+	a property (not a function). Similarly, the presence of '=> Promise' assumes this
+	is the result of a function."
+
+	| isString |
+
+	"Strings come in different shapes and sizes"
+	isString := (aString indexOf: $') > 0 or: [ (aString indexOf: $") > 0 or: [ aString = 'string' or: [ aString = 'Color' ] ] ].
+	isString ifFalse: [
+		| alternatives |
+
+		"A combination of String types and undefined/null are accepted as String. Also the combination 'string | string[]'"
+		alternatives := aString findTokens: '|'.
+		(alternatives allSatisfy: [ :each | #('string' 'string[]' 'null' 'undefined' 'Color') includes: each trim ])
+			ifTrue: [
+				"Additional check for something like: 'string[] | undefined' which should not be considered a String"
+				((aString includesSubstring: 'string[]') not or: [ (aString occurrencesOf: 'string') > 1 ])
+					ifTrue: [ isString := true ] ] ].
+
+	^ isString
+		ifTrue: [ 'String' ]
+		ifFalse: [
+			aString = 'boolean'
+				ifTrue: [ 'Boolean' ]
+				ifFalse: [
+					aString = 'number'
+						ifTrue: [ 'Number' ]
+						ifFalse: [
+							(aString isAllAlphaNumerics and: [ (Smalltalk classNamed: aString capitalized) isNotNil ])
+								ifTrue: [ aString capitalized ]
+								ifFalse: [
+									(aString includesSubstring: '=> Promise')
+										ifTrue: [ 'Promise' ]
+										ifFalse: [ 'Object' ] ] ] ] ]
 ]
