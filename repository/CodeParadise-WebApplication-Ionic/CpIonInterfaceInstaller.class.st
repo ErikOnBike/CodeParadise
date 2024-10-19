@@ -297,7 +297,9 @@ CpIonInterfaceInstaller >> installMethodsForAccessor: selectorString comment: co
 	| functionIndex isFunction finalType finalComment |
 
 	functionIndex := typeString indexOfSubCollection: ' => '.
-	isFunction := functionIndex > 0.
+
+	"Current (20241019) a single property (IonModel >> #canDismiss:) allows both a boolean and a function, check for specific situation of such combinations"
+	isFunction := functionIndex > 0 and: [ (typeString findTokens: '|') noneSatisfy: [ :each | #('boolean' 'string' 'number') includes: each trim ] ].
 	finalType := (isFunction and: [ typeString beginsWith: '()' ])
 		ifTrue: [ (typeString allButFirst: functionIndex + 3) trim ] "Do not show useless () =>, in other situations do show it"
 		ifFalse: [ typeString ].
