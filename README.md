@@ -4,6 +4,11 @@ CodeParadise is the name of a framework and a future platform. CodeParadise as f
 
 The general principle behind CodeParadise is the execution of a regular (but tiny) Smalltalk image inside a JavaScript execution environment. During development this tiny Smalltalk image communicates with a full Pharo development environment to be kept up to date and provide the typical live programming experience we love so much in Smalltalk. Since CodeParadise runs in a Smalltalk image, there is no need for transpiling Smalltalk to JavaScript. That is: Smalltalk all the way!
 
+JavaScript libraries can be used from your Smalltalk code quite easily. The DOM model is coded in CodeParadise, but many other things can be accessed through a generic proxy mechanism. Furthermore, support has been added for two UI frameworks:
+
+* Shoelace (many, but not all components yet) [website](https://shoelace.style)
+* Ionic (all components) *NEW* [website](https://ionicframework.com/docs/components)
+
 A few online videos:
 
 * to-do list tutorial walk through [video](https://youtu.be/Y-i6C_yVHxA) - 47:47 minutes
@@ -54,12 +59,11 @@ If all went well you should be able to fire up a number of browser tabs/pages an
 
 The example applications can be reached using the following URLs:
 * Introduction Presentation [http://localhost:8080/static/app.html?presentation](http://localhost:8080/static/app.html?presentation)
-* **Building your first app** [http://localhost:8080/static/app.html?building-my-first-app](http://localhost:8080/static/app.html?building-my-first-app) [*NEW*]
+* Building your first app [http://localhost:8080/static/app.html?building-my-first-app](http://localhost:8080/static/app.html?building-my-first-app)
 * Shoelace Examples [http://localhost:8080/static/app.html?Shoelace-Examples](http://localhost:8080/static/app.html?Shoelace-Examples)
 * ChartJS Examples [http://localhost:8080/static/app.html?ChartJS-Examples](http://localhost:8080/static/app.html?ChartJS-Examples)
 * Counter Example [http://localhost:8080/static/app.html?counter](http://localhost:8080/static/app.html?counter)
 * DOM Examples [http://localhost:8080/static/app.html?DOM-Examples](http://localhost:8080/static/app.html?DOM-Examples)
-* Component Examples [http://localhost:8080/static/app.html?Component-Examples](http://localhost:8080/static/app.html?Component-Examples)
 
 A bigger example application is under development. It is a [Zettelkasten](https://en.wikipedia.org/wiki/Zettelkasten) application.
 
@@ -75,6 +79,18 @@ APP="http-server-example" SERVER_URL="ws://localhost:8080/io" node cp-node.js cl
 (replace the value of the APP environment variable with the identifier of your preferred application)
 
 ---
+
+### Using Ionic Framework *NEW*
+
+The Ionic Framework support is a recently added feature. It allows you to build mobile apps more easily.
+
+If you are using Ionic components inside your shadow DOM (the recommended way when creating WebComponents with CodeParadise), please make sure to include the CSS bundle in all your #style methods. Ionic uses some global styling which does not penetrate through the shadow DOM's encapsulation. Please add the following CSS rule to your style method (or use a more specific version if required):
+
+```CSS
+@import url("https://cdn.jsdelivr.net/npm/@ionic/core/css/ionic.bundle.css");
+```
+
+The CSS included is not very big in size and browsers should cache the content, so it does not have to load on every WebComponent you have developed.
 
 ### Using developer tools
 
