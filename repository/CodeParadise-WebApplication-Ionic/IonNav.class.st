@@ -414,17 +414,6 @@ IonNav >> push: component componentProps: componentProps opts: opts done: done [
 	^ self apply: #push withArguments: { component . componentProps . opts . done } resultAs: CpJavaScriptPromise
 ]
 
-{ #category : #actions }
-IonNav >> push: anElement withOptions: aDictionary [
-
-	"Description	:
-		Push a new component onto the current navigation stack. Pass any additional information along as an object. This additional information is accessible through NavParams.
-	Signature	:
-		push<T extends NavComponent>(component: T, componentProps?: ComponentProps<T> | null, opts?: NavOptions | null, done?: TransitionDoneFn) => Promise<boolean>"
-
-	^ self apply: #push withArguments: { anElement . aDictionary }
-]
-
 { #category : #api }
 IonNav >> removeIndex: startIndex [
 
