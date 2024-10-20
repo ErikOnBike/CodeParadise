@@ -153,7 +153,7 @@ CpWebComponent class >> tagName [
 ]
 
 { #category : #accessing }
-CpWebComponent class >> whenAll: aCollection definedDo: aBlock [
+CpWebComponent class >> whenDefinedAll: aCollection do: aBlock [
 
 	"Perform the specified Block once all the specified WebComponents are defined
 	(allowing third-party WebComponents to be present before using them).
