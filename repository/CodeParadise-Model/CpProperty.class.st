@@ -68,7 +68,7 @@ CpProperty >> whenChangedDo: aBlock for: anObject [
 
 	"Let the sender subscribe to the value changed announcement of the receiver"
 
-	model
+	^ model
 		when: (CpPropertyChanged name: self name)
 		do: aBlock
 		for: anObject
@@ -79,7 +79,7 @@ CpProperty >> whenChangedSend: aSymbol to: anObject [
 
 	"Let the sender subscribe to the value changed announcement of the receiver"
 
-	model
+	^ model
 		when: (CpPropertyChanged name: self name)
 		send: aSymbol
 		to: anObject
