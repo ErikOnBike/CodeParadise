@@ -4,6 +4,17 @@ Class {
 	#category : #'CodeParadise-WebApplication-Ionic-Elements'
 }
 
+{ #category : #support }
+IonRoute class >> redirect: aString [
+
+	"Answer a NavigationHookOptions compatible instance representing a redirect
+	to the specified URL (a String)"
+
+	^ Dictionary new
+		at: #redirect put: aString ;
+		yourself
+]
+
 { #category : #api }
 IonRoute >> beforeEnter [
 
