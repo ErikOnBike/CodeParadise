@@ -64,7 +64,7 @@ CpDevTools class >> handleClientError: aClientError for: aServerEnvironment [
 		ifFound: [ :serverApplication | application := serverApplication ].
 
 	application ifNotNil: [
-		aClientError class == CpClientMessageSendFailed
+		(aClientError class == CpClientMessageSendFailed and: [ application class isMvpWebApplication ])
 			ifTrue: [
 				aClientError messageSend ifNotNil: [ :messageSend |
 					presenter := application presenterWithId: messageSend receiver ifAbsent: [ nil ] ] ] ].
