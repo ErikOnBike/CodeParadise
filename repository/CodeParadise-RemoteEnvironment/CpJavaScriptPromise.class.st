@@ -30,12 +30,21 @@ CpJavaScriptPromise class >> on: executorBlock [
 	conversions and vice versa on the boundaries between the two, we need
 	some special handling here. Otherwise this automatic conversion
 	mechanism will 'undo' any explicit conversions made in Blocks which
-	are required (for example in CpBrowserClipboard read operation)."
+	are required."
 
 	^ self newInstanceWithArguments: { [ :resolveFunc :rejectFunc |
 		executorBlock
 			value: [ :value | resolveFunc apply: #applyPassThrough withArguments: { nil . { value } } ]
 			value: [ :reason | rejectFunc apply: #applyPassThrough withArguments: { nil . { reason } } ] ] }
+]
+
+{ #category : #convenience }
+CpJavaScriptPromise class >> resolve: aBlock [
+
+	"Answer a new instance of the receiver using only a resolve (and not a reject) Block"
+
+	^ self on: [ :resolveBlock :rejectBlock |
+		resolveBlock value: aBlock value ]
 ]
 
 { #category : #accessing }
