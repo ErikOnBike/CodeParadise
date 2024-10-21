@@ -31,15 +31,6 @@ CpPropertyModel class >> initializeSlots: anObject [
 	(which is absent in the tiny image of CodeParadise)."
 ]
 
-{ #category : #announcing }
-CpPropertyModel >> allPropertiesChanged [
-
-	"Convenience method to signal changes in all properties"
-
-	self propertyNames do: [ :each |
-		self announce: (CpPropertyChanged name: each oldValue: nil newValue: (self propertyAt: each)) ]
-]
-
 { #category : #initialization }
 CpPropertyModel >> initialize [
 
