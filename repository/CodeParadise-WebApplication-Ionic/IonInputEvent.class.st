@@ -1,5 +1,5 @@
 Class {
 	#name : #IonInputEvent,
-	#superclass : #IonEvent,
+	#superclass : #IonNamedEvent,
 	#category : #'CodeParadise-WebApplication-Ionic-Events'
 }

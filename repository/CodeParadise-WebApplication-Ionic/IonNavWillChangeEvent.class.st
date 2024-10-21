@@ -1,5 +1,5 @@
 Class {
-	#name : #IonBlurEvent,
+	#name : #IonNavWillChangeEvent,
 	#superclass : #IonNamedEvent,
 	#category : #'CodeParadise-WebApplication-Ionic-Events'
 }
