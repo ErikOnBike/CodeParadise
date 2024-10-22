@@ -1098,7 +1098,7 @@ CpMyFirstAppPresentationWebApplication >> updateToDoListModel2Slide [
 	^ aToDoItem' methodClass: #MyToDoList classified: #accessing.
 			}.
 			CpMultiContent withAll: {
-				CpTextContent text: 'Since existing items have not been subsribed to, execute the following (once!):'.
+				CpTextContent text: 'Since existing items have not been subscribed to, execute the following (once!):'.
 				CpDemoExecutableCodeContent code: 'GlobalMyToDoList items do: [ :each |
 	each whenChangedSend: #itemChanged to: GlobalMyToDoList ]'.
 			}.
