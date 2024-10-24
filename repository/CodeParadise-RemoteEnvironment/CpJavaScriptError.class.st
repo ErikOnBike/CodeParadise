@@ -21,6 +21,14 @@ CpJavaScriptError >> cause [
 ]
 
 { #category : #accessing }
+CpJavaScriptError >> cause: anObject [
+
+	"Error cause indicating the reason why the current error is thrown — usually another caught error. For user-created Error objects, this is the value provided as the cause property of the constructor's second argument."
+
+	self propertyAt: #cause put: anObject
+]
+
+{ #category : #accessing }
 CpJavaScriptError >> description [
 
 	"Answer a description of the receiver (similar to Exception >> #description)"
@@ -49,6 +57,14 @@ CpJavaScriptError >> message [
 	"Error message. For user-created Error objects, this is the string provided as the constructor's first argument."
 
 	^ self propertyAt: #message
+]
+
+{ #category : #accessing }
+CpJavaScriptError >> message: aString [
+
+	"Error message. For user-created Error objects, this is the string provided as the constructor's first argument."
+
+	self propertyAt: #message put: aString
 ]
 
 { #category : #signalling }
