@@ -4,6 +4,14 @@ Class {
 	#category : #'CodeParadise-RemoteEnvironment-Support'
 }
 
+{ #category : #'instance creation' }
+CpJavaScriptError class >> message: aString [
+
+	"Answer an instance of the receiver with the specified message"
+
+	^ self newInstanceWithArguments: { aString } resultAs: self
+]
+
 { #category : #accessing }
 CpJavaScriptError >> cause [
 

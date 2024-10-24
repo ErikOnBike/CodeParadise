@@ -69,7 +69,7 @@ CpJavaScriptFunction class >> wrap: aBlock [
 						startingAt: 1 ].
 
 			"Execute the Block and store the result (or the error instance if an error occurred)"
-			self currentSetResult: ([ aBlock valueWithArguments: arguments ] on: Error do: [ :error | error ]).
+			self currentSetResult: ([ aBlock valueWithArguments: arguments ] on: Error do: [ :error | CpJavaScriptError message: error messageText ]).
 
 			"Stop execution"
 			Processor activeProcess terminate ] asContext
