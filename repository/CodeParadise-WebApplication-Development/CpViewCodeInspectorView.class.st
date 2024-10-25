@@ -449,7 +449,7 @@ CpViewCodeInspectorView >> handleClose: anEvent [
 	anEvent
 		stopPropagation ;
 		preventDefault.
-self traceCr: 'here?'.
+
 	self parent hideCode
 ]
 
