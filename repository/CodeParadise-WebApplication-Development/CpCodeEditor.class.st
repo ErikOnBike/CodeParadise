@@ -36,7 +36,7 @@ CpCodeEditor class >> in: anElement onHtml: aString [
 { #category : #'instance creation' }
 CpCodeEditor class >> new [
 
-	self error: 'Instances should be created in an existing HTML element. Please use ', #in:onCss:, ' or ', #in:onHtml:
+	self errorNewReplacedBy: (' or ' join: { #in:onCss: . #in:onHtml: })
 ]
 
 { #category : #accessing }

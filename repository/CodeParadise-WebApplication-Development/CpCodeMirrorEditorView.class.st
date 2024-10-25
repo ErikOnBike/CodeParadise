@@ -7,7 +7,7 @@ Class {
 { #category : #'instance creation' }
 CpCodeMirrorEditorView class >> newInstanceWithArguments: anArray resultAs: aProxyClass [
 
-	self error: 'An instance should be retrieved using class ', #CpCssEditor
+	self errorNewReplacedBy: #CpCssEditor
 ]
 
 { #category : #'class initialization' }

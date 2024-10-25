@@ -60,7 +60,7 @@ cp-view-inspector .selected.completion {
 { #category : #'instance creation' }
 CpViewInspectorView class >> new [
 
-	self error: 'New instance should be created using ', #createInstance
+	self errorNewReplacedBy: #createInstance
 ]
 
 { #category : #'class initialization' }

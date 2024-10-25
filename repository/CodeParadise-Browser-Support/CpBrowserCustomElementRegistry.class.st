@@ -19,7 +19,7 @@ CpBrowserCustomElementRegistry class >> current [
 { #category : #'instance creation' }
 CpBrowserCustomElementRegistry class >> newInstanceWithArguments: anArray resultAs: aProxyClass [
 
-	self error: 'An instance should be retrieved using the selector ', #current
+	self errorNewReplacedBy: #current
 ]
 
 { #category : #operations }
