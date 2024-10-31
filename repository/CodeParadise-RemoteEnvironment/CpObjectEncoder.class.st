@@ -213,9 +213,10 @@ CpObjectEncoder >> encodeClass: aClass [
 	self writeSymbol: aClass name.
 	self writeSymbol: aClass superclass name.
 
-	"Write instance variable and class variable names (name collections might be Set or OrderedCollection)"
+	"Write instance variable, class variable and class instance variable names (name collections might be Set or OrderedCollection)"
 	self writeArray: aClass instVarNames asArray.
 	self writeArray: aClass classVarNames asArray.
+	self writeArray: aClass class instVarNames asArray.
 
 	"Write both instance and class methods"
 	self writeArray: aClass methodDictionary asArray.

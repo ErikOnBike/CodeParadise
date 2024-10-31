@@ -177,7 +177,7 @@ CpObjectDecoder >> decodeClass [
 	"Decode a Class and install it. Answer the newly installed Class or nil if this failed.
 	A failure will occur when the superclass specified does not exist."
 
-	| newClass theSuperclass className superclassName instVarNames classVarNames |
+	| newClass theSuperclass className superclassName instVarNames classVarNames classInstVarNames |
 
 	"Raise error if the receiver is not running in the ClientEnvironment"
 	CpClientEnvironment isRunning
@@ -190,29 +190,56 @@ CpObjectDecoder >> decodeClass [
 	"Read instance variable, class variable and share pool names"
 	instVarNames := self readArray.
 	classVarNames := self readArray.
+	classInstVarNames := self readArray.
 
 	"Retrieve super class"
-	theSuperclass := Smalltalk classNamed: superclassName.
-	theSuperclass ifNil: [
-		"Read both instance and class methods, so the decoder continues correctly"
-		self readArray ; readArray.
-		^ nil ].
+	(theSuperclass := Smalltalk classNamed: superclassName)
+		ifNil: [
 
-	"Create new subclass"
-	newClass := theSuperclass
-		subclass: className
-		instanceVariableNames: instVarNames
-		classVariableNames: classVarNames.
+			"Create temporary class to allow cyclic dependencies"
+			theSuperclass := Object
+				subclass: superclassName
+				instanceVariableNames: #()
+				classVariableNames: #()
+				classInstanceVariableNames: #().
+			Smalltalk at: superclassName put: theSuperclass ].
 
-	"Store class in Smalltalk globals (for referencing from methods)"
-	Smalltalk at: className put: newClass.
+	"Create new or update existing subclass from our superclass"
+	(Smalltalk classNamed: className)
+		ifNotNil: [ :existingClass |
+
+			"Not actually a new class, but update it to become the 'full' class"
+			superclassName == #Object
+				ifTrue: [ newClass := existingClass ]
+				ifFalse: [
+					existingClass superclass == Object
+						ifTrue: [ Object removeSubclass: existingClass ].
+					newClass := existingClass.
+					newClass superclass: theSuperclass.
+					newClass class superclass: theSuperclass class.
+					newClass setFormat: newClass format + theSuperclass instSize.	"Object has no instance vars, so simply add the new inst var count"
+					theSuperclass addSubclass: newClass ].
+
+			"Update instance variables and class variables"
+			instVarNames
+				ifNotEmpty: [
+					newClass instVarNames: instVarNames.
+					newClass withAllSubclassesDo: [ :each | each setFormat: each format + instVarNames size ] ].
+			classVarNames do: [ :each | newClass addClassVarNamed: each ] ]
+		ifNil: [
+
+			"Create new subclass"
+			newClass := theSuperclass
+				subclass: className
+				instanceVariableNames: instVarNames
+				classVariableNames: classVarNames
+				classInstanceVariableNames: classInstVarNames ].
 
 	"Read and install instance and class methods"
-	newClass methodDictionary: self readMethodDictionary.
-	newClass class methodDictionary: self readMethodDictionary.
+	newClass installMethodDictionary: self readMethodDictionary.
+	newClass class installMethodDictionary: self readMethodDictionary.
 
 	^ newClass
-
 ]
 
 { #category : #decoding }
@@ -223,13 +250,16 @@ CpObjectDecoder >> decodeClassReference [
 	name := self readSymbol.
 	class := Smalltalk classNamed: name.
 	class ifNil: [
-		"In the client environment create dummy class (helpful for cycling dependencies)"
+		"In the client environment create dummy class (helpful for cyclic dependencies)"
 		CpClientEnvironment isRunning
 			ifTrue: [
-				Smalltalk at: name put: (Smalltalk at: #CpTemporaryClass).
-				^ self ].
-		self error: 'Unknown class named ', name ].
-
+				class := Object
+					subclass: name
+					instanceVariableNames: #()
+					classVariableNames: #()
+					classInstanceVariableNames: #().
+				Smalltalk at: name put: class ]
+			ifFalse: [ self error: 'Unknown class named ', name ] ].
 	^ Association key: name value: class
 ]
 

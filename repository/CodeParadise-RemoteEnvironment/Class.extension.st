@@ -264,15 +264,9 @@ Class >> removeMethod: aCompiledMethod [
 ]
 
 { #category : #'*CodeParadise-RemoteEnvironment' }
-Class >> subclass: className instanceVariableNames: instVarNames classVariableNames: classVarNames [
+Class >> subclass: className instanceVariableNames: instVarNames classVariableNames: classVarNames classInstanceVariableNames: classInstVarNames [
 
-	"Create a new Class in the same package as the receiver"
+	"Placeholder for method in tiny image, to prevent Pharo from complaining about missing method"
 
 	<clientEnvironment>
-
-	^ self
-		subclass: className
-		instanceVariableNames: instVarNames
-		classVariableNames: classVarNames
-		package: self category
 ]
