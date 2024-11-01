@@ -739,7 +739,7 @@ CpDomExamplesWebClientBehavior >> exampleSVGGears [
 		appendChild: ((CpSvgElement newWithTag: #g)
 			attributeAt: #transform put: 'translate(0,-240)' ;
 			appendChild: (topElement := (CpSvgElement newWithTag: #path)
-				attributeAt: #d put: (self class gearPathForRaduis: 160 teeth: 32 asAnnulus: false) ;
+				attributeAt: #d put: (self class gearPathForRadius: 160 teeth: 32 asAnnulus: false) ;
 				attributeAt: #fill put: '#0000ff' ;
 				yourself) ;
 			yourself) ;
@@ -747,7 +747,7 @@ CpDomExamplesWebClientBehavior >> exampleSVGGears [
 		appendChild: ((CpSvgElement newWithTag: #g)
 			attributeAt: #transform put: 'translate(', (-240 * x) printString, ',', (-240 * y) printString, ')' ;
 			appendChild: (leftElement := (CpSvgElement newWithTag: #path)
-				attributeAt: #d put: (self class gearPathForRaduis: 160 teeth: 32 asAnnulus: false) ;
+				attributeAt: #d put: (self class gearPathForRadius: 160 teeth: 32 asAnnulus: false) ;
 				attributeAt: #fill put: '#00ffff' ;
 				yourself) ;
 			yourself) ;
@@ -755,7 +755,7 @@ CpDomExamplesWebClientBehavior >> exampleSVGGears [
 		appendChild: ((CpSvgElement newWithTag: #g)
 			attributeAt: #transform put: 'translate(', (240 * x) printString, ',', (-240 * y) printString, ')' ;
 			appendChild: (rightElement := (CpSvgElement newWithTag: #path)
-				attributeAt: #d put: (self class gearPathForRaduis: 160 teeth: 32 asAnnulus: false) ;
+				attributeAt: #d put: (self class gearPathForRadius: 160 teeth: 32 asAnnulus: false) ;
 				attributeAt: #fill put: '#ff00ff' ;
 				yourself) ;
 			yourself) ;
