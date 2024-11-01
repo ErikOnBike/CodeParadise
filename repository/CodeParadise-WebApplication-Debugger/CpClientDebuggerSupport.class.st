@@ -26,6 +26,9 @@ CpClientDebuggerSupport class >> clientLoaded: aClientLoaded [
 { #category : #initialization }
 CpClientDebuggerSupport class >> initialize [
 
+	"Perform this method to have all applications receive debugger support.
+	Otherwise add support manually sending #addDebugger to a specific Application instance."
+
 	CpServerEnvironment whenClientLoadedSend: #clientLoaded: to: self
 ]
 

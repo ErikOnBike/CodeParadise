@@ -26,6 +26,9 @@ CpViewInspectorSupport class >> clientLoaded: aClientLoaded [
 { #category : #'class initialization' }
 CpViewInspectorSupport class >> initialize [
 
+	"Perform this method to have all applications receive view inspector support.
+	Otherwise add support manually sending #addViewInspector to a specific Application instance."
+
 	CpServerEnvironment whenClientLoadedSend: #clientLoaded: to: self
 ]
 

@@ -33,6 +33,7 @@ Class {
 		'installedClasses',
 		'installedMethods',
 		'installationMutex',
+		'installationChecker',
 		'announcer',
 		'loaded'
 	],
@@ -146,17 +147,8 @@ CpServerEnvironment class >> whenClientLoadedSend: aSymbol to: anObject [
 { #category : #'adding/removing' }
 CpServerEnvironment >> addClass: aClass [
 
-	"Add the specified class to the receiver, assuming no application level validation is required"
-
-	^ self addClass: aClass forApplication: nil
-]
-
-{ #category : #'adding/removing' }
-CpServerEnvironment >> addClass: aClass forApplication: anApplication [
-
 	"Add the specified Class to the client environment of the receiver and answer it.
-	A check is performed with the specified application if the class is allowed.
-	If no application is provided the class installation will be accepted.
+	If an installation checker is present a check is performed if the class is allowed.
 
 	Implementation:
 	Since the Class can depend on other classes a collection of Classes might need to be
@@ -170,8 +162,21 @@ CpServerEnvironment >> addClass: aClass forApplication: anApplication [
 	installationMutex critical: [
 
 		"Select all the required classes in 'dependency order' which are not already installed"
-		(aClass cpAllRequiredClassesMatching: [ :each | self requiresClass: each forApplication: anApplication ])
+		(aClass cpAllRequiredClassesMatching: [ :each | (self clientKnowsClass: each) not ])
 			do: [ :each |
+
+				"If an installation checker is installed it will check if the class
+				is allowed. An error is raised here if it is not.
+				Typically the Application is the installation checker for the receiver.
+				As a failsafe, only classes defined in a package in the collection of
+				allowed application packages are allowed. This is to prevent accidental
+				installation of Classes which (indirectly) refer to more classes and then
+				resulting in trying to install the full Pharo IDE in a tiny image (which
+				will fail with a crash). If the following error occurs, please check if
+				the application's #allowedPackages method contains all packages allowed."
+				installationChecker ifNotNil: [
+					(installationChecker isClassAllowed: aClass)
+						ifFalse: [ self error: 'Trying to install ', aClass name, ' from ', aClass package name, ' which is not allowed by the installation checker' ] ].
 
 				"Remember which Classes are installed (in order) for reloading"
 				self installedClasses add: each.
@@ -195,6 +200,10 @@ CpServerEnvironment >> addMethod: aCompiledMethod [
 
 	aCompiledMethod isServerSideOnly
 		ifTrue: [ ^ aCompiledMethod ].
+
+	installationChecker ifNotNil: [
+		(installationChecker isMethodAllowed: aCompiledMethod)
+			ifFalse: [ self error: 'Trying to install ', aCompiledMethod printString, ' from ', aCompiledMethod package name, ' which is not allowed by the installation checker' ] ].
 
 	installationMutex critical: [
 
@@ -227,7 +236,7 @@ CpServerEnvironment >> announce: anAnnouncement [
 		error messageText: (String streamContents: [ :stream |
 			stream
 				nextPutAll: error messageText ;
-				nextPutAll: ' (occurred while handling the View Announcement: ' ;
+				nextPutAll: ' (occurred while handling the Announcement: ' ;
 				print: anAnnouncement ;
 				nextPut: $) ]).
 		self handleError: error ]
@@ -350,6 +359,12 @@ CpServerEnvironment >> hasAnnouncer: anAnnouncer [
 ]
 
 { #category : #testing }
+CpServerEnvironment >> hasInstallationChecker [
+
+	^ installationChecker isNotNil
+]
+
+{ #category : #testing }
 CpServerEnvironment >> hasInstalledClass: aClass [
 
 	"Answer whether the specified Class is installed in the client environment through the receiver"
@@ -434,6 +449,22 @@ CpServerEnvironment >> installRegisteredCode [
 ]
 
 { #category : #accessing }
+CpServerEnvironment >> installationChecker [
+
+	"Answer the installation checker of the receiver"
+
+	^ installationChecker
+]
+
+{ #category : #accessing }
+CpServerEnvironment >> installationChecker: anInstallationChecker [
+
+	"Set the installation checker for the receiver"
+
+	installationChecker := anInstallationChecker
+]
+
+{ #category : #accessing }
 CpServerEnvironment >> installedClasses [
 
 	^ installedClasses
@@ -481,6 +512,7 @@ CpServerEnvironment >> release [
 	installedClasses := nil.
 	installedMethods := nil.
 	installationMutex := nil.
+	installationChecker := nil.
 
 	super release
 ]
@@ -516,27 +548,6 @@ CpServerEnvironment >> removeSubscription: aSubscription [
 	"Remove the specified subscription from the receiver"
 
 	^ self announcer removeSubscription: aSubscription
-]
-
-{ #category : #testing }
-CpServerEnvironment >> requiresClass: aClass forApplication: anApplication [
-
-	"Answer whether the receiver requires the specified class.
-	The specified application will validate whether the class is allowed
-	and raise an error if it is not. Simply answering false would result
-	in invalid code being installed in the client environment.
-	Therefore the error is raised."
-
-	(self clientKnowsClass: aClass)
-		ifTrue: [ ^ false ].
-
-	"If an application is specified, let it validate the class.
-	This could result in an error being signaled (to prevent flushing
-	the client environment with too many 'unknown' classes)."
-	anApplication
-		ifNotNil: [ anApplication validateRequiredClass: aClass ].
-
-	^ true
 ]
 
 { #category : #'input/output' }

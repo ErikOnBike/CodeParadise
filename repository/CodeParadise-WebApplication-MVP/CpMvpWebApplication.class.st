@@ -113,7 +113,7 @@ CpMvpWebApplication >> clientCreateViewForPresenter: aPresenter [
 	"Create a new View in the ClientEnvironment for the specified Presenter"
 
 	"First install View class"
-	self installRequiredClass: aPresenter viewClass.
+	self installClass: aPresenter viewClass.
 
 	"Then instantiate the View.
 	Implementation: The MessageSend's receiver is replaced by its id

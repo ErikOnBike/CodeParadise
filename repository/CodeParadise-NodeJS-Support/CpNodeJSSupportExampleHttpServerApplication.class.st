@@ -30,5 +30,5 @@ CpNodeJSSupportExampleHttpServerApplication >> load [
 
 	super load.
 
-	self installRequiredClass: CpNodeJSExampleHttpServer
+	self installClass: CpNodeJSExampleHttpServer
 ]

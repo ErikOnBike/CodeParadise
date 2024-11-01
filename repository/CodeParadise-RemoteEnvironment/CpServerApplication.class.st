@@ -257,9 +257,14 @@ CpServerApplication >> environment [
 { #category : #accessing }
 CpServerApplication >> environment: aServerEnvironment [
 
-	"Set the ServerEnvironment of the receiver to the specified value"
+	"Set the ServerEnvironment of the receiver to the specified value.
+	If the receiver should perform strict checking, add the receiver
+	as installation checker to the ServerEnvironment."
 
-	environment := aServerEnvironment
+	environment := aServerEnvironment.
+
+	self useStrictInstallationChecking
+		ifTrue: [ aServerEnvironment installationChecker: self ]
 ]
 
 { #category : #accessing }
@@ -273,10 +278,7 @@ CpServerApplication >> extensionMethodCategories [
 { #category : #installing }
 CpServerApplication >> installClass: aClass [
 
-	"Install the specified class in the receiver's environment.
-	It will NOT be validated whether the specified class is part of
-	an allowed package (see method #installRequiredClass:)
-	ONLY use this method if you can't use #installRequiredClass:"
+	"Install the specified class in the receiver's environment"
 
 	self environment
 		addClass: aClass
@@ -312,15 +314,45 @@ CpServerApplication >> installExtensionMethodsFor: aSymbol [
 				self environment addMethod: eachPragma method ] ]
 ]
 
-{ #category : #installing }
+{ #category : #deprecated }
 CpServerApplication >> installRequiredClass: aClass [
 
 	"Install the specified class in the receiver's environment.
 	This will also result in validating whether the required class
 	is part of an allowed package (see class method #allowedPackages)"
 
-	self environment
-		addClass: aClass forApplication: self
+	self warnCr: 'Deprecation: The method #installRequiredClass: is deprecated.'.
+	self warnCr: 'Please use #installClass:'.
+	self warnCr: 'IMPORTANT: Please also update your Application class to specify all #allowedPackages'.
+	self warnCr: 'CodeParadise will check ALL classes and methods against this collection.'.
+	self warnCr: 'Failing to set the appropriate allowed packages, may result in classes or methods not getting installed anymore.'.
+
+	self installClass: aClass
+]
+
+{ #category : #testing }
+CpServerApplication >> isClassAllowed: aClass [
+
+	"Answer whether the specified Class is allowed within the receiver"
+
+	^ self class allowedPackages includes: aClass package
+]
+
+{ #category : #testing }
+CpServerApplication >> isMethodAllowed: aCompiledMethod [
+
+	| pragmas |
+
+	"Check if the method is defined in an allowed package"
+	(self class allowedPackages includes: aCompiledMethod package)
+		ifTrue: [ ^ true ].
+
+	"Check if this method is an explicit extension method"
+	pragmas := aCompiledMethod pragmas.
+	self extensionMethodCategories do: [ :each |
+		pragmas detect: [ :pragma | pragma keyword = each ] ifFound: [ ^ true ] ].
+
+	^ false
 ]
 
 { #category : #actions }
@@ -334,8 +366,8 @@ CpServerApplication >> load [
 	"Install the JavaScriptObject proxy which allows a transparent use of JavaScript objects inside CodeParadise.
 	And install the JavaScriptFunction proxy which allows Smalltalk Blocks to be used as JavaScript functions."
 	self
-		installRequiredClass: CpJavaScriptObject ;
-		installRequiredClass: CpJavaScriptFunction
+		installClass: CpJavaScriptObject ;
+		installClass: CpJavaScriptFunction
 ]
 
 { #category : #'private - actions' }
@@ -463,17 +495,11 @@ CpServerApplication >> stop: anAnnouncement [
 ]
 
 { #category : #installing }
-CpServerApplication >> validateRequiredClass: aClass [
+CpServerApplication >> useStrictInstallationChecking [
 
-	"Validate whether the required Class is allowed within the receiver.
+	"Answer a Boolean indicating whether strict checking should be performed
+	on code being installed in the ClientEnvironment for the receiver.
+	By default strict checking is on."
 
-	Implementation:
-	As a failsafe, only classes in the collection of allowed application
-	packages are allowed. This is to prevent accidental installation of
-	Classes which refer to more classes and then resulting in trying to
-	install the full Pharo IDE in a tiny image (which will fail with a
-	crash)."
-
-	(self class allowedPackages includes: aClass package)
-		ifFalse: [ self error: 'Trying to install ', aClass name, ' from ', aClass package name, ' which is not part of the allowedPackages collection of this application' ]
+	^ true
 ]
