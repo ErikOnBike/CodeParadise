@@ -17,7 +17,7 @@ Exception >> restResponseString [
 
 	"Answer a REST response string from the receiver"
 
-	<applicationExtension>
+	<restApplicationExtension>
 
 	| error indent |
 
