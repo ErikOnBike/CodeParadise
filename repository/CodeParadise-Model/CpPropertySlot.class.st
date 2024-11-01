@@ -1,6 +1,10 @@
 "
-I am a Slot that uses a specific instance variable in the superclass to store all property slot values.
-The property values are stored in a Dictionary, indexed by the properties name.
+I am a Slot that uses a specific instance variable in the CpPropertyModel to store all property slot values.
+The property values are stored in a Dictionary, indexed by the property's name.
+
+Furthermore my definitions are stored in a class instance variable of CpPropertyModel to allow interogating
+my definitions. These definitions are dynamic to allow different applications to keep track of their own
+set of definitions without the need to create new subclasses.
 
 Be aware:
 This technique can be used inside CodeParadise's tiny image, only because the code generated for this
@@ -14,6 +18,16 @@ Class {
 	#superclass : #DerivedSlot,
 	#category : #'CodeParadise-Model-Property'
 }
+
+{ #category : #'class initialization' }
+CpPropertySlot class >> postInstall [
+
+	"This is a stop gap method to notice if the receiver is installed in a ClientEnvironment.
+	This should NOT happen. Since it is part of the slot-mechanism of Pharo which is not
+	present in the tiny image of CodeParadise."
+
+	self error: 'I should not be installed in a ClientEnvironment!'
+]
 
 { #category : #'code generation' }
 CpPropertySlot >> emitStore: methodBuilder [

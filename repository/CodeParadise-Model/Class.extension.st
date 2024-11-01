@@ -1,22 +1,15 @@
 Extension { #name : #Class }
 
 { #category : #'*CodeParadise-Model' }
-Class >> definedPropertyNames [
+Class >> allInstVarNamesDo: aBlock [
+
+	"Evaluate the specified Block for all instance variables in the order defined.
+	The super class' instance variables are evaluated before the receiver's variables."
 
 	<applicationExtension>
 
-	^ self allInstVarNames
-]
+	self superclass
+		ifNotNil: [ :sup | sup allInstVarNamesDo: aBlock ].
 
-{ #category : #'*CodeParadise-Model' }
-Class >> hasDefinedProperty: aSymbol [
-
-	<applicationExtension>
-
-	(self instVarNames includes: aSymbol)
-		ifTrue: [ ^ true ].
-
-	^ self superclass
-		ifNotNil: [ :sup | sup hasDefinedProperty: aSymbol ]
-		ifNil: [ false ]
+	self instVarNames do: aBlock
 ]
