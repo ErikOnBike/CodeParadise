@@ -13,11 +13,10 @@ CpChartJSExamplesWebApplication class >> app [
 ]
 
 { #category : #installing }
-CpChartJSExamplesWebApplication >> installExtensionMethods [
+CpChartJSExamplesWebApplication >> extensionMethodCategories [
 
-	"Install the extension methods from known Classes (include Shoelace extensions)"
+	"Answer the collection of extension method categories needed for the receiver"
 
-	super installExtensionMethods.
-
-	self installExtensionMethodsFor: #webApplicationShoelaceExtension
+	^ super extensionMethodCategories,
+		#(webApplicationShoelaceExtension)
 ]

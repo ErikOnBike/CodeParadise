@@ -141,6 +141,15 @@ CpWebApplication >> end [
 	self clientEndSession
 ]
 
+{ #category : #installing }
+CpWebApplication >> extensionMethodCategories [
+
+	"Answer the collection of extension method categories needed for the receiver"
+
+	^ super extensionMethodCategories,
+		#(webApplicationExtension)
+]
+
 { #category : #actions }
 CpWebApplication >> forceEnd [
 
@@ -165,16 +174,6 @@ CpWebApplication >> forceEnd [
 		self isEnded
 			ifFalse: [ environment fakeStop ]
 	]
-]
-
-{ #category : #installing }
-CpWebApplication >> installExtensionMethods [
-
-	"Install the extension methods from known Classes"
-
-	super installExtensionMethods.
-
-	self installExtensionMethodsFor: #webApplicationExtension
 ]
 
 { #category : #testing }

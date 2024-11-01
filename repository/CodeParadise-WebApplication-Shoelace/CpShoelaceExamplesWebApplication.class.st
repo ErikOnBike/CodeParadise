@@ -13,11 +13,10 @@ CpShoelaceExamplesWebApplication class >> app [
 ]
 
 { #category : #installing }
-CpShoelaceExamplesWebApplication >> installExtensionMethods [
+CpShoelaceExamplesWebApplication >> extensionMethodCategories [
 
-	"Install the extension methods from known Classes"
+	"Answer the collection of extension method categories needed for the receiver"
 
-	super installExtensionMethods.
-
-	self installExtensionMethodsFor: #webApplicationShoelaceExtension
+	^ super extensionMethodCategories,
+		#(webApplicationShoelaceExtension)
 ]

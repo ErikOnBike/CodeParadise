@@ -262,6 +262,14 @@ CpServerApplication >> environment: aServerEnvironment [
 	environment := aServerEnvironment
 ]
 
+{ #category : #accessing }
+CpServerApplication >> extensionMethodCategories [
+
+	"Answer the collection of extension method categories needed for the receiver"
+
+	^ #(applicationExtension)
+]
+
 { #category : #installing }
 CpServerApplication >> installClass: aClass [
 
@@ -279,7 +287,8 @@ CpServerApplication >> installExtensionMethods [
 
 	"Install the extension methods from known Classes"
 
-	self installExtensionMethodsFor: #applicationExtension
+	self extensionMethodCategories do: [ :each |
+		self installExtensionMethodsFor: each ]
 ]
 
 { #category : #installing }

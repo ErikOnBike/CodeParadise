@@ -13,11 +13,10 @@ CpComponentExamplesWebApplication class >> app [
 ]
 
 { #category : #installing }
-CpComponentExamplesWebApplication >> installExtensionMethods [
+CpComponentExamplesWebApplication >> extensionMethodCategories [
 
-	"Install the extension methods from known Classes"
+	"Answer the collection of extension method categories needed for the receiver"
 
-	super installExtensionMethods.
-
-	self installExtensionMethodsFor: #webApplicationFontAwesomeExtension
+	^ super extensionMethodCategories,
+		#(webApplicationFontAwesomeExtension)
 ]
