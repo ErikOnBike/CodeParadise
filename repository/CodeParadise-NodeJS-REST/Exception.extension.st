@@ -7,7 +7,7 @@ Exception >> restResponseCode [
 	Since in general an error is our 'fault' answer a
 	response code for an Internal Server Error (501)."
 
-	<applicationExtension>
+	<restApplicationExtension>
 
 	^ CpNodeJSRestError responseCode
 ]
