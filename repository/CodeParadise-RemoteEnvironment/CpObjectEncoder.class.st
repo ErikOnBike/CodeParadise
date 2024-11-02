@@ -201,7 +201,8 @@ CpObjectEncoder >> encodeCharacter: aCharacter [
 { #category : #encoding }
 CpObjectEncoder >> encodeClass: aClass [
 
-	"Encode aClass using its name, the superclass' name, instance and class variable names and instance and class methods.
+	"Encode aClass using its name, the superclass' name, instance, class and class instance variable names
+	and instance and class methods.
 	Classes with SharedPools, that is pool dictionaries, are currently not supported."
 
 	aClass sharedPoolNames
@@ -419,6 +420,35 @@ CpObjectEncoder >> encodeMetaclassReference: aClass [
 CpObjectEncoder >> encodeNil [
 
 	writeStream nextPut: 1
+]
+
+{ #category : #encoding }
+CpObjectEncoder >> encodePartialClass: aPartialClass [
+
+	"Encode aPartialClass using its name, the superclass' name, instance, class and class instance variable names
+	and instance and class methods.
+	Classes with SharedPools, that is pool dictionaries, are currently not supported.
+
+	Implementation:
+	The encoding uses the same structure as a 'full' class, since the decoding should be exactly the same."
+
+	aPartialClass sharedPoolNames
+		ifNotEmpty: [ self error: 'Classes with pool dictionaries are not supported yet' ]. 	
+
+	writeStream nextPut: 25.
+
+	"Write class and superclass names"
+	self writeSymbol: aPartialClass name.
+	self writeSymbol: aPartialClass superclass name.
+
+	"Write instance variable, class variable and class instance variable names (name collections might be Set or OrderedCollection)"
+	self writeArray: aPartialClass instVarNames asArray.
+	self writeArray: aPartialClass classVarNames asArray.
+	self writeArray: aPartialClass classInstVarNames asArray.
+
+	"Write both instance and class methods"
+	self writeArray: aPartialClass instMethods asArray.
+	self writeArray: aPartialClass classMethods asArray
 ]
 
 { #category : #encoding }
