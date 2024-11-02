@@ -115,14 +115,17 @@ Class >> cpRequiredClassesDo: anOneArgBlock [
 ]
 
 { #category : #'*CodeParadise-RemoteEnvironment' }
-Class >> errorNewReplacedBy: aSymbol [
+Class >> errorNewReplacedBy: aString [
 
 	"Signal the receiver should not be instantiated using #new
-	but using the specified Symbol"
+	but using the specified String. If a Symbol is used in the
+	sending location, it will be recognized as a 'sender' allowing
+	refactoring tools to update it.
+	If there are mutiple alternatives use: (' or ' join: { #alt1 . #alt2 })"
 
 	<applicationExtension>
 
-	self error: 'Please create new or access current instances of ', self name, ' using method ', aSymbol printString
+	self error: 'Please create new or access current instances of ', self name, ' using method ', aString printString
 ]
 
 { #category : #'*CodeParadise-RemoteEnvironment' }
