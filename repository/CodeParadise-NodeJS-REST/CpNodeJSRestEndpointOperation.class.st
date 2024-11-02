@@ -38,26 +38,6 @@ CpNodeJSRestEndpointOperation class >> handleRequest: aRestRequest response: aSe
 	^ false
 ]
 
-{ #category : #convenience }
-CpNodeJSRestEndpointOperation class >> handleResponse: aResponse [
-
-	"Convenience method to create a Promise which resolves the response text
-	or rejects on a failed response (i.e. status not in the success range 200 - 299)"
-
-	^ CpJavaScriptPromise on: [ :resolveBlock :rejectBlock |
-
-		| status |
-
-		status := aResponse status.
-
-		(status between: 200 and: 299)
-			ifTrue: [ CpNodeJSRestEndpointOperation readResponseFrom: aResponse thenDo: resolveBlock ]
-			ifFalse: [
-				rejectBlock value: ((CpJavaScriptError message: 'Failed REST request: ', aResponse statusMessage asString)
-					propertyAt: #statusCode put: status ;
-					yourself) ] ]
-]
-
 { #category : #'instance creation' }
 CpNodeJSRestEndpointOperation class >> new [
 
@@ -120,25 +100,6 @@ CpNodeJSRestEndpointOperation class >> path: aString putOperation: aMessageSend 
 		method: #PUT
 		bodyRequired: true
 		operation: aMessageSend
-]
-
-{ #category : #convenience }
-CpNodeJSRestEndpointOperation class >> readResponseFrom: aResponse thenDo: aBlock [
-
-	"Convenience method to read the response text (i.e. body) from the Response instance.
-	Evaluate the specified Block with the response text."
-
-	| reader handleChunk responseText |
-
-	responseText := ''.
-	reader := aResponse body getReader.
-	handleChunk := [ :chunk |
-		(chunk at: #done)
-			ifTrue: [ aBlock value: responseText ]
-			ifFalse: [
-				responseText := responseText, (chunk at: #value) asString.
-				reader read then: handleChunk ] ].
-	reader read then: handleChunk
 ]
 
 { #category : #registration }
