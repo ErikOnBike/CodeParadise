@@ -177,19 +177,6 @@ CpWebApplication >> forceEnd [
 ]
 
 { #category : #testing }
-CpWebApplication >> isClassAllowed: aClass [
-
-	"Answer whether the specified Class is allowed within the receiver"
-
-	"Allow development tools if in development mode"
-	environment ifDevelopment: [
-		aClass package isDevelopmentSupport
-			ifTrue: [ ^ true ] ].
-
-	^ super isClassAllowed: aClass
-]
-
-{ #category : #testing }
 CpWebApplication >> isEnded [
 
 	"Answer whether the receiver ended (has become unusable)"

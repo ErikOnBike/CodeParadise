@@ -162,7 +162,7 @@ CpServerEnvironment >> addClass: aClass [
 	installationMutex critical: [
 
 		"Select all the required classes in 'dependency order' which are not already installed"
-		(aClass cpAllRequiredClassesMatching: [ :each | (self clientKnowsClass: each) not ])
+		(self allRequiredClassesFromClass: aClass matching: [ :each | (self clientKnowsClass: each) not ])
 			do: [ :each |
 
 				"If an installation checker is installed it will check if the class
@@ -190,6 +190,16 @@ CpServerEnvironment >> addClass: aClass [
 		^ aClass ]
 ]
 
+{ #category : #accessing }
+CpServerEnvironment >> addInstallationChecker: anInstallationChecker [
+
+	"Add the installation checker to the receiver"
+
+	installationChecker := installationChecker
+		ifNotNil: [ anInstallationChecker chainTo: installationChecker ]
+		ifNil: [ anInstallationChecker ]
+]
+
 { #category : #'adding/removing' }
 CpServerEnvironment >> addMethod: aCompiledMethod [
 
@@ -201,12 +211,14 @@ CpServerEnvironment >> addMethod: aCompiledMethod [
 	aCompiledMethod isServerSideOnly
 		ifTrue: [ ^ aCompiledMethod ].
 
-	installationChecker ifNotNil: [
-		(installationChecker isMethodAllowed: aCompiledMethod)
-			ifFalse: [ self error: 'Trying to install ', aCompiledMethod printString, ' from ', aCompiledMethod package name, ' which is not allowed by the installation checker' ] ].
-
 	installationMutex critical: [
 
+		"Check the CompiledMethod may be installed"
+		installationChecker ifNotNil: [
+			(installationChecker isMethodAllowed: aCompiledMethod)
+				ifFalse: [ self error: 'Trying to install ', aCompiledMethod printString, ' from ', aCompiledMethod package name, ' which is not allowed by the installation checker' ] ].
+
+		"Keep CompiledMethod for re-installation on reload"
 		(self hasInstalledClass: aCompiledMethod methodClass instanceSide)
 			ifFalse: [
 
@@ -223,6 +235,68 @@ CpServerEnvironment >> addMethod: aCompiledMethod [
 		self installMethod: aCompiledMethod.
 
 		^ aCompiledMethod ]
+]
+
+{ #category : #'installing - support' }
+CpServerEnvironment >> allRequiredClassesFromClass: aClass matching: matchBlock [
+
+	"Answer a collection of Classes the receiver is dependent on in the ClientEnvironment
+	and which match the specified (one argument) Block"
+
+	| requiredClasses processingClasses addUniqueClassBlock |
+
+	requiredClasses := OrderedCollection new.
+	processingClasses := Set new.
+
+	"Only unique instances should be added"
+	addUniqueClassBlock := [ :class |
+
+		"Validate the class is not obsolete. Sometimes during class updates, including Iceberg operations,
+		a class can become obsolete. When a debugger in the CodeParadise class loader code is triggered
+		during a class update, it might leave such a class obsolete. Installing an obsolete class is of
+		course useless."
+		class isObsolete
+			ifTrue: [ self errorCr: 'Obsolete class ', class name, ' is referenced, please manually remove references. Application(s) might have become unstable.' ]
+			ifFalse: [
+
+				"Check for matched classes which are not already in the process of being added"
+				((matchBlock value: class) and: [ (processingClasses includes: class) not ])
+					ifTrue: [
+
+						"Mark class for processing to prevent infinite recursion"
+						processingClasses add: class.
+
+						"First add the super class"
+						addUniqueClassBlock value: class superclass.
+
+						"Then add the required classes"
+						self requiredClassesFromClass: class do: addUniqueClassBlock.
+
+						"Because of circular references add the class itself only if not already present"
+						requiredClasses addIfNotPresent: class ] ] ].
+
+	"Fire of the process with the receiver"
+	addUniqueClassBlock value: aClass.
+
+	"Because of circular references a superclass can still be added after its subclass, repair this"
+	[
+		| changed |
+
+		changed := false.
+		requiredClasses withIndexDo: [ :each :index |
+			| nextIndex |
+
+			"Check if superclass is defined at higher index"
+			nextIndex := requiredClasses indexOf: each superclass startingAt: index + 1 ifAbsent: [ 0 ].
+			nextIndex > 0
+				ifTrue: [
+					"Swap sub and super class (it is okay to change collection during #withIndexDo: here)"
+					requiredClasses swap: index with: nextIndex.
+					changed := true ] ].
+
+		changed ] whileTrue.
+
+	^ requiredClasses
 ]
 
 { #category : #announcing }
@@ -407,7 +481,7 @@ CpServerEnvironment >> installClass: aClass [
 	self sendMessage: (MessageSend
 		receiver: nil
 		selector: #installClass:
-		arguments: { aClass })
+		arguments: { self partialClassForClass: aClass })
 ]
 
 { #category : #installing }
@@ -449,22 +523,6 @@ CpServerEnvironment >> installRegisteredCode [
 ]
 
 { #category : #accessing }
-CpServerEnvironment >> installationChecker [
-
-	"Answer the installation checker of the receiver"
-
-	^ installationChecker
-]
-
-{ #category : #accessing }
-CpServerEnvironment >> installationChecker: anInstallationChecker [
-
-	"Set the installation checker for the receiver"
-
-	installationChecker := anInstallationChecker
-]
-
-{ #category : #accessing }
 CpServerEnvironment >> installedClasses [
 
 	^ installedClasses
@@ -480,6 +538,33 @@ CpServerEnvironment >> installedMethods [
 CpServerEnvironment >> isLoaded [
 
 	^ loaded
+]
+
+{ #category : #'installing - support' }
+CpServerEnvironment >> partialClassForClass: aClass [
+
+	"Answer the PartialClass representing the specified Class
+	with only the allowed methods for installation.
+
+	For example regular extension methods will not be installed
+	if the Package they are defined in is not set as an allowed
+	Package in the Application."
+
+	| partialClass |
+
+	partialClass := CpPartialClass on: aClass.
+
+	"Instance methods"
+	aClass instanceSide methodDictionary keysAndValuesDo: [ :selector :compiledMethod |
+		(installationChecker isNil or: [ installationChecker isMethodAllowed: compiledMethod ])
+			ifTrue: [ partialClass addInstSelector: selector ] ].
+
+	"Class methods"
+	aClass classSide methodDictionary keysAndValuesDo: [ :selector :compiledMethod |
+		(installationChecker isNil or: [ installationChecker isMethodAllowed: compiledMethod ])
+			ifTrue: [ partialClass addClassSelector: selector ] ].
+
+	^ partialClass
 ]
 
 { #category : #installing }
@@ -517,16 +602,20 @@ CpServerEnvironment >> release [
 	super release
 ]
 
-{ #category : #'adding/removing' }
+{ #category : #installing }
 CpServerEnvironment >> removeMethod: aCompiledMethod [
 
-	"Remove the specified CompiledMethod from the client environment of the receiver and answer it"
+	"Remove the specified CompiledMethod if it's a known method.
+	Answer whether the method is removed."
 
-	| methodElement |
+	| methodElement removed |
+
+	removed := false.
 
 	installationMutex critical: [
 
 		(self hasInstalledClass: aCompiledMethod methodClass instanceSide)
+			ifTrue: [ removed := true ] "Will remove the method below"
 			ifFalse: [
 
 				"Only methods which are not part of installed classes need to be remembered.
@@ -534,12 +623,14 @@ CpServerEnvironment >> removeMethod: aCompiledMethod [
 				Prevent this method from being remembered as needing installation."
 				methodElement := Association key: aCompiledMethod methodClass value: aCompiledMethod selector.
 				(installedMethods includes: methodElement)
-					ifTrue: [ installedMethods remove: methodElement ] ].
+					ifTrue: [
+						installedMethods remove: methodElement.
+						removed := true ] ].
 
 		"Remove the method"
-		self uninstallMethod: aCompiledMethod.
+		self uninstallMethod: aCompiledMethod ].
 
-		^ aCompiledMethod ]
+	^ removed
 ]
 
 { #category : #announcing }
@@ -548,6 +639,34 @@ CpServerEnvironment >> removeSubscription: aSubscription [
 	"Remove the specified subscription from the receiver"
 
 	^ self announcer removeSubscription: aSubscription
+]
+
+{ #category : #'installing - support' }
+CpServerEnvironment >> requiredClassesFromClass: aClass do: aBlock [
+
+	"Perform the specified Block on the specified Class's required classes 'in order of dependency'"
+
+	"Handle classes referenced (in non server side only methods) in class and instance methods"
+	self requiredClassesFromMethods: aClass classSide methods do: aBlock.
+	self requiredClassesFromMethods: aClass instanceSide methods do: aBlock
+]
+
+{ #category : #'installing - support' }
+CpServerEnvironment >> requiredClassesFromMethods: aCollection do: aBlock [
+
+	"Evaluate the specified Block for all classes which are required by the
+	CompiledMethods in the specified Collection.
+	If an InstallationChecker is present, only allowed methods will be handled."
+
+	aCollection do: [ :each |
+
+		"Skip server side only methods"
+		each isServerSideOnly
+			ifFalse: [
+
+				"Check if the method is allowed, before handling the referenced classes"
+				(installationChecker isNil or: [ installationChecker isMethodAllowed: each ])
+					ifTrue: [ each referencedClasses do: aBlock ] ] ]
 ]
 
 { #category : #'input/output' }
@@ -644,6 +763,26 @@ CpServerEnvironment >> updateCommunicatorWith: aMessageChannel [
 		ifFalse: [ self communicator: self createCommunicator ].
 
 	self communicator messageChannel: aMessageChannel
+]
+
+{ #category : #installing }
+CpServerEnvironment >> updateMethod: aCompiledMethod [
+
+	"Update the specified CompiledMethod if it's a known method.
+	Answer whether the method is updated."
+
+	| methodClass |
+
+	methodClass := aCompiledMethod methodClass instanceSide.
+	(self clientKnowsClass: methodClass)
+		ifFalse: [ ^ self ].
+
+	"Check if the method is allowed"
+	(installationChecker isNil or: [ installationChecker isMethodAllowed: aCompiledMethod ])
+		ifFalse: [ ^ false ].
+
+	self addMethod: aCompiledMethod.
+	^ true
 ]
 
 { #category : #accessing }

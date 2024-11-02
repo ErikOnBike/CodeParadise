@@ -62,6 +62,7 @@ CpViewInspectorSupport >> initializeWithEnvironment: anEnvironment [
 	environment := anEnvironment.
 
 	environment
+		addInstallationChecker: (CpPackageInstallationChecker packages: { CpViewInspectorView package . SlElement package }) ;
 		addClass: CpViewInspectorView ;
 		when: CpViewInspectorRequest send: #viewInspectorRequest: to: self ;
 		when: CpCodeEditorHtmlTagsRequest send: #updateHtmlTagsRequest to: self

@@ -79,6 +79,7 @@ CpClientDebuggerSupport >> initializeWithEnvironment: anEnvironment [
 	environment := anEnvironment.
 
 	environment
+		addInstallationChecker: (CpPackageInstallationChecker package: CpDebuggerView package) ;
 		addClass: CpDebuggerView ;
 		when: CpSourceCodeRequest send: #sourceCodeRequest: to: self
 ]

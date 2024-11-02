@@ -36,7 +36,7 @@ CpServerApplication class >> allowedPackages [
 	
 	An easy way to reference packages is by asking well known classes for their package.
 	Like `CpHtmlElement package` to use the WebApplication package. This way there is no problem
-	is the package name changes."
+	if the package name changes."
 
 	^ Set with: self package with: CpClientEnvironment package
 ]
@@ -204,6 +204,29 @@ CpServerApplication class >> whenStoppedSend: aSymbol to: anObject [
 		to: anObject
 ]
 
+{ #category : #installing }
+CpServerApplication >> addInstallationChecker [
+
+	"If the receiver should perform strict checking, add an InstallationChecker
+	to the receiver's (server) environment. This checker is setup to check if
+	only classes and methods from a known set of Packages are installed or if
+	a method is a known extension method."
+
+	self useStrictInstallationChecking
+		ifFalse: [ ^ self ].
+
+	"Add an InstallationChecker with the receiver's allowed Packages.
+	And add the InstallationChecker for extension methods.
+	The later is the 'slower' check, so it is performed if the Packages checker
+	did not allow the installation (of Methods).
+	Both InstallationCheckers receive the collection of allowed elements
+	(Packages or extension method categories) to prevent the dynamic creation
+	of these collections on each call to #isClassAllowed: or #isMethodAllowed:"
+	environment
+		addInstallationChecker: (CpPackageInstallationChecker packages: self class allowedPackages) ;
+		addInstallationChecker: (CpExtensionMethodInstallationChecker extensionMethodCategories: self extensionMethodCategories)
+]
+
 { #category : #announcing }
 CpServerApplication >> announceLoaded [
 
@@ -257,14 +280,11 @@ CpServerApplication >> environment [
 { #category : #accessing }
 CpServerApplication >> environment: aServerEnvironment [
 
-	"Set the ServerEnvironment of the receiver to the specified value.
-	If the receiver should perform strict checking, add the receiver
-	as installation checker to the ServerEnvironment."
+	"Set the ServerEnvironment of the receiver to the specified value and install an InstallationChecker"
 
 	environment := aServerEnvironment.
 
-	self useStrictInstallationChecking
-		ifTrue: [ aServerEnvironment installationChecker: self ]
+	self addInstallationChecker
 ]
 
 { #category : #accessing }
@@ -330,31 +350,6 @@ CpServerApplication >> installRequiredClass: aClass [
 	self installClass: aClass
 ]
 
-{ #category : #testing }
-CpServerApplication >> isClassAllowed: aClass [
-
-	"Answer whether the specified Class is allowed within the receiver"
-
-	^ self class allowedPackages includes: aClass package
-]
-
-{ #category : #testing }
-CpServerApplication >> isMethodAllowed: aCompiledMethod [
-
-	| pragmas |
-
-	"Check if the method is defined in an allowed package"
-	(self class allowedPackages includes: aCompiledMethod package)
-		ifTrue: [ ^ true ].
-
-	"Check if this method is an explicit extension method"
-	pragmas := aCompiledMethod pragmas.
-	self extensionMethodCategories do: [ :each |
-		pragmas detect: [ :pragma | pragma keyword = each ] ifFound: [ ^ true ] ].
-
-	^ false
-]
-
 { #category : #actions }
 CpServerApplication >> load [
 
@@ -383,34 +378,20 @@ CpServerApplication >> load: anAnnoucement [
 { #category : #updating }
 CpServerApplication >> methodChanged: anAnnouncement [
 
-	"Update any known methods in the ClientEnvironment or add new methods.
-	Answer whether the method is added to the ClientEnvironment."
+	"Update any known methods in the ClientEnvironment, add new or remove old methods.
+	Answer whether the method is added to/removed from the ClientEnvironment."
 
-	| method methodClass |
+	| method |
 
 	(self environment ifNil: [ ^ false ]) isRunning
 		ifFalse: [ ^ false ].
 
-	"Validate method is or should be available in ClientEnvironment"
 	method := anAnnouncement method.
 	method ifNil: [ ^ false ].
-	methodClass := method methodClass instanceSide.
-	(self environment clientKnowsClass: methodClass)
-		ifTrue: [
 
-			anAnnouncement isMethodRemoved
-				ifTrue: [
-
-					"Remove method from ClientEnviroment (making sure it is not installed again on reload)"
-					self environment removeMethod: method ]
-				ifFalse: [
-
-					"Add method in ClientEnviroment (making sure it is installed again on reload)"
-					self environment addMethod: method ].
-
-			^ true ].
-
-	^ false
+	^ anAnnouncement isMethodRemoved
+		ifTrue: [ self environment removeMethod: method ]
+		ifFalse: [ self environment updateMethod: method ]
 ]
 
 { #category : #'private - actions' }
