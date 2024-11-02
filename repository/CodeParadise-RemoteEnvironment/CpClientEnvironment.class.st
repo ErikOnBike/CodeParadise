@@ -424,7 +424,12 @@ CpClientEnvironment >> initialize [
 { #category : #installing }
 CpClientEnvironment >> installClass: aClass [
 
-	"Install (decoded) Class"
+	"Install (decoded) Class.
+
+	Implementation:
+	During decoding the class is already installed, just keep track of the
+	installed Class here to allow the #postInstall operation to be performed
+	when all related Classes are installed too."
 
 	installedClasses add: aClass
 ]
