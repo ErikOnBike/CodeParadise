@@ -4,6 +4,12 @@ Class {
 	#category : #'CodeParadise-NodeJS-Sqlite3-Core'
 }
 
+{ #category : #'class initialization' }
+CpNodeJSSqlite3Statement class >> beLoaded [
+
+	CpNodeJSSqliteError beLoaded
+]
+
 { #category : #accessing }
 CpNodeJSSqlite3Statement class >> getClassName [
 
