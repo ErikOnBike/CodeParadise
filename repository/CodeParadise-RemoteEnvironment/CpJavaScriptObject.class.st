@@ -486,7 +486,10 @@ CpJavaScriptObject >> doesNotUnderstand: aMessage [
 { #category : #'apply primitives' }
 CpJavaScriptObject >> exceptionClass [
 
-	"Answer the JavaScript exception class which could be thrown by the receiver's methods"
+	"Answer the JavaScript exception class which could be thrown by the receiver's methods.
+	By default a search is made for a matching Exception class (from the known classes
+	installed in the ClientEnvironment). If no such class is found, the Class answered
+	here is used (as fallback)."
 
 	^ CpJavaScriptError
 ]
