@@ -775,7 +775,7 @@ CpServerEnvironment >> updateMethod: aCompiledMethod [
 
 	methodClass := aCompiledMethod methodClass instanceSide.
 	(self clientKnowsClass: methodClass)
-		ifFalse: [ ^ self ].
+		ifFalse: [ ^ false ].
 
 	"Check if the method is allowed"
 	(installationChecker isNil or: [ installationChecker isMethodAllowed: aCompiledMethod ])
