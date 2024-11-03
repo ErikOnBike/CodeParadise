@@ -67,6 +67,19 @@ CpJavaScriptError >> message: aString [
 	self propertyAt: #message put: aString
 ]
 
+{ #category : #accessing }
+CpJavaScriptError >> rootCause [
+
+	"Answer the 'lowest' cause (an Error object) of the receiver"
+
+	^ self cause
+		ifNotNil: [ :cause |
+			cause isErrorObject
+				ifTrue: [ cause rootCause ]
+				ifFalse: [ cause ] ]
+		ifNil: [ self ]
+]
+
 { #category : #signalling }
 CpJavaScriptError >> signal [
 

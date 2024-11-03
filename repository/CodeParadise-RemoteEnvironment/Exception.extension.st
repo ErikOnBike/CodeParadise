@@ -38,3 +38,17 @@ Exception >> isErrorObject [
 
 	^ true
 ]
+
+{ #category : #'*CodeParadise-RemoteEnvironment' }
+Exception >> rootCause [
+
+	"Answer the root cause of the Exception. The root cause is the 'lowest'
+	cause found in the chain of Exceptions. If an Exception does not have
+	a lower cause, the Exception itself is the root cause."
+
+	<applicationExtension>
+
+	^ tag isErrorObject
+		ifTrue: [ tag rootCause ]
+		ifFalse: [ self ]
+]
