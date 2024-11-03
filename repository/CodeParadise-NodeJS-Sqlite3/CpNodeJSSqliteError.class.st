@@ -25,3 +25,9 @@ CpNodeJSSqliteError >> code [
 
 	^ self propertyAt: #code
 ]
+
+{ #category : #testing }
+CpNodeJSSqliteError >> isSqliteError [
+
+	^ true
+]

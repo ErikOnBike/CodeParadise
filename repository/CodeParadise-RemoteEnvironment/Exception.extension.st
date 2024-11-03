@@ -40,6 +40,16 @@ Exception >> isErrorObject [
 ]
 
 { #category : #'*CodeParadise-RemoteEnvironment' }
+Exception >> isSqliteError [
+
+	"Answer whether the receiver represents a Sqlite Error"
+
+	<applicationExtension>
+
+	^ false
+]
+
+{ #category : #'*CodeParadise-RemoteEnvironment' }
 Exception >> rootCause [
 
 	"Answer the root cause of the Exception. The root cause is the 'lowest'
