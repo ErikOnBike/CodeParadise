@@ -31,34 +31,6 @@ CpNodeJSRestHttpServer class >> newOnPort: anInteger [
 ]
 
 { #category : #accessing }
-CpNodeJSRestHttpServer class >> responseStringFromError: anError [
-
-	"Answer a response string from the specified error"
-
-	| error indent |
-
-	error := anError.
-	indent := ''.
-
-	^ String streamContents: [ :stream |
-		[
-			"Write error description"
-			stream
-				nextPutAll: error description ;
-				nextPutAll: String lf.
-
-			indent := indent, '    '.
-
-			"Go deeper into the cause until nothing left"
-			(error cause
-				ifNotNil: [ :cause |
-					cause isErrorObject
-						ifTrue: [ error := cause ]
-						ifFalse: [ nil ] ]) isNotNil
-		] whileTrue ]
-]
-
-{ #category : #accessing }
 CpNodeJSRestHttpServer class >> statusCreated [
 
 	^ 201
@@ -100,10 +72,9 @@ CpNodeJSRestHttpServer >> handleRequest: anIncomingMessage response: aServerResp
 	] on: Error do: [ :error |
 		aServerResponse
 			statusCode: error restResponseCode ;
-			writeChunk: (self class responseStringFromError: error) ;
+			writeChunk: error restResponseString ;
 			writeChunk: String lf ;
-			end.
-		^ self	
+			end
 	]
 ]
 
