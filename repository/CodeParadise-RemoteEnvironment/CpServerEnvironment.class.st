@@ -628,9 +628,10 @@ CpServerEnvironment >> removeMethod: aCompiledMethod [
 						removed := true ] ].
 
 		"Remove the method"
-		self uninstallMethod: aCompiledMethod ].
+		removed
+			ifTrue: [ self uninstallMethod: aCompiledMethod ].
 
-	^ removed
+		^ removed ]
 ]
 
 { #category : #announcing }
