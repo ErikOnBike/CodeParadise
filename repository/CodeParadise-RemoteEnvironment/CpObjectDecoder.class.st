@@ -164,6 +164,20 @@ CpObjectDecoder >> decodeAssociation [
 ]
 
 { #category : #decoding }
+CpObjectDecoder >> decodeByteArray [
+
+	"Decode ByteArray"
+
+	| array size |
+
+	size := self readLength.
+	array := ByteArray new: size.
+	1 to: size do: [ :index | array at: index put: readStream next ].
+
+	^ array
+]
+
+{ #category : #decoding }
 CpObjectDecoder >> decodeCharacter [
 
 	"Decode a Character based on a Unicode value written using UTF-8"
@@ -514,6 +528,9 @@ CpObjectDecoder >> decodeNext [
 		decodeMessage
 		decodePoint
 		decodeCompiledBlock
+		decodeConstantBlockClosure
+		decodeByteArray
+		decodeWordArray
 	) at: type ifAbsent: [ self error: 'Unknown type in decode stream' ].
 
 	^ self perform: selector
@@ -567,6 +584,20 @@ CpObjectDecoder >> decodeSymbol [
 CpObjectDecoder >> decodeTrue [
 
 	^ true
+]
+
+{ #category : #decoding }
+CpObjectDecoder >> decodeWordArray [
+
+	"Decode WordArray"
+
+	| array size |
+
+	size := self readLength.
+	array := WordArray new: size.
+	1 to: size do: [ :index | array at: index put: self readUInt32 ].
+
+	^ array
 ]
 
 { #category : #accessing }

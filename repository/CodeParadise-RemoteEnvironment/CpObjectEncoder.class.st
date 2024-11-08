@@ -190,6 +190,16 @@ CpObjectEncoder >> encodeAssociation: anAssociation [
 ]
 
 { #category : #encoding }
+CpObjectEncoder >> encodeByteArray: aByteArray [
+
+	"Encode the ByteArray by writing its length and encoding the individuel elements"
+
+	writeStream nextPut: 32.
+	self writeLength: aByteArray size.
+	aByteArray do: [ :each | writeStream nextPut: each ]
+]
+
+{ #category : #encoding }
 CpObjectEncoder >> encodeCharacter: aCharacter [
 
 	"Encode aCharacter using its Unicode value and write using UTF-8."
@@ -489,6 +499,16 @@ CpObjectEncoder >> encodeSymbol: aSymbol [
 CpObjectEncoder >> encodeTrue [
 
 	writeStream nextPut: 2
+]
+
+{ #category : #encoding }
+CpObjectEncoder >> encodeWordArray: aWordArray [
+
+	"Encode the WordArray by writing its length and encoding the individuel elements"
+
+	writeStream nextPut: 33.
+	self writeLength: aWordArray size.
+	aWordArray do: [ :each | self writeUInt32: each ]
 ]
 
 { #category : #initialization }
