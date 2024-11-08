@@ -89,11 +89,35 @@ CpPropertyModel class >> postInstall [
 ]
 
 { #category : #accessing }
+CpPropertyModel class >> propertyCount [
+
+	"Answer the number of properties of the receiver"
+
+	^ propertyDefinitions size
+]
+
+{ #category : #accessing }
 CpPropertyModel class >> propertyDefinitionAt: aSymbol [
 
 	"Answer a ClientPropertySlot containing the definition for the specified property name"
 
 	^ propertyDefinitions at: aSymbol ifAbsent: [ self error: 'Undefined property ', aSymbol, ' in a ', self name ]
+]
+
+{ #category : #accessing }
+CpPropertyModel class >> propertyNames [
+
+	"Answer the names of the properties of the receiver"
+
+	^ propertyDefinitions keys
+]
+
+{ #category : #accessing }
+CpPropertyModel class >> propertyNamesDo: aBlock [
+
+	"Evaluate the specified Block for the names of the properties of the receiver"
+
+	^ propertyDefinitions keysDo: aBlock
 ]
 
 { #category : #initialization }
@@ -127,7 +151,7 @@ CpPropertyModel class >> updatePropertyDefinitions [
 
 	"The individual property definitions are Dictionaries to allow adding definitions dynamically"
 	propertyDefinitions := OrderedDictionary new.
-	self allInstVarNamesDo: [ :each | propertyDefinitions at: each put: (CpClientPropertySlot named: each) ].
+	self allInstVarNamesBelow: CpPropertyModel do: [ :each | propertyDefinitions at: each put: (CpClientPropertySlot named: each) ].
 
 	"Perform the methods to set the property definitions (based on presence of pragma <propertyDefinition>.
 	The order is not important here."
@@ -172,6 +196,36 @@ CpPropertyModel >> instVarNamed: aSymbol [
 CpPropertyModel >> instVarNamed: aSymbol put: anObject [
 
 	^ self propertyAt: aSymbol put: anObject
+]
+
+{ #category : #'accessing - dictionary access' }
+CpPropertyModel >> keys [
+
+	"Answer the property names of the receiver.
+
+	This gives the receiver a Dictionary like interface."
+
+	^ self propertyNames
+]
+
+{ #category : #'accessing - dictionary access' }
+CpPropertyModel >> keysAndvaluesDo: aBlock [
+
+	"Evaluate the specified Block for the property names and values of the receiver.
+
+	This gives the receiver a Dictionary like interface."
+
+	^ self propertyNamesAndValuesDo: aBlock
+]
+
+{ #category : #'accessing - dictionary access' }
+CpPropertyModel >> keysDo: aBlock [
+
+	"Evaluate the specified Block for all property names of the receiver.
+
+	This gives the receiver a Dictionary like interface."
+
+	self propertyNamesDo: aBlock
 ]
 
 { #category : #printing }
@@ -240,12 +294,73 @@ CpPropertyModel >> propertyDefinitionAt: aSymbol [
 ]
 
 { #category : #accessing }
-CpPropertyModel >> propertyNamed: aSymbol [
+CpPropertyModel >> propertyNames [
 
-	"Answer a Property instance for the receiver with the specified property name"
+	"Answer the property names of the receiver"
 
-	(self class hasPropertyDefinitionAt: aSymbol)
-		ifFalse: [ self error: 'Undefined property ', aSymbol, ' in a ', self class name ].
+	^ self class propertyNames
+]
 
-	^ CpProperty on: self name: aSymbol
+{ #category : #accessing }
+CpPropertyModel >> propertyNamesAndValuesDo: aBlock [
+
+	"Evaluate the specified Block for the property names and values of the receiver"
+
+	^ self propertyNamesDo: [ :name | aBlock value: name value: (self propertyAt: name) ]
+]
+
+{ #category : #accessing }
+CpPropertyModel >> propertyNamesDo: aBlock [
+
+	"Evaluate the specified Block for all property names of the receiver"
+
+	self class propertyNamesDo: aBlock
+]
+
+{ #category : #accessing }
+CpPropertyModel >> propertyValues [
+
+	"Answer a Collection containing the property values of the receiver"
+
+	^ Array
+		new: self size
+		streamContents: [ :aStream | self propertyValuesDo: [ :value | aStream nextPut: value ] ]
+]
+
+{ #category : #accessing }
+CpPropertyModel >> propertyValuesDo: aBlock [
+
+	"Evaluate the specified Block for the property values of the receiver"
+
+	^ self propertyNamesDo: [ :name | aBlock value: (self propertyAt: name) ]
+]
+
+{ #category : #'accessing - dictionary access' }
+CpPropertyModel >> size [
+
+	"Answer the number of properties of the receiver.
+
+	This gives the receiver a Dictionary like interface."
+
+	^ self class propertyCount
+]
+
+{ #category : #'accessing - dictionary access' }
+CpPropertyModel >> values [
+
+	"Answer a Collection containing the property values of the receiver.
+
+	This gives the receiver a Dictionary like interface."
+
+	^ self propertyValues
+]
+
+{ #category : #'accessing - dictionary access' }
+CpPropertyModel >> valuesDo: aBlock [
+
+	"Evaluate the specified Block for the property values of the receiver.
+
+	This gives the receiver a Dictionary like interface."
+
+	^ self propertyValuesDo: aBlock
 ]
