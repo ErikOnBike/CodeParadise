@@ -10,7 +10,11 @@ Class {
 { #category : #tests }
 CpClientEnvironmentTest >> testInstallClass [
 
+	"These tests are disabled because safety checks prevent it (to prevent CompiledMethods from being installed)"
+
 	| clientEnvironment someClass |
+
+	self skip.
 
 	clientEnvironment := CpClientEnvironment current.
 	self
@@ -44,7 +48,11 @@ CpClientEnvironmentTest >> testInstallClass [
 { #category : #tests }
 CpClientEnvironmentTest >> testInstallMethod [
 
+	"These tests are disabled because safety checks prevent it (to prevent CompiledMethods from being installed)"
+
 	| clientEnvironment someMethod |
+
+	self skip.
 
 	clientEnvironment := CpClientEnvironment current.
 	self
@@ -75,7 +83,11 @@ CpClientEnvironmentTest >> testInstallMethod [
 { #category : #tests }
 CpClientEnvironmentTest >> testInstallMethodWithClassVarAccess [
 
+	"These tests are disabled because safety checks prevent it (to prevent CompiledMethods from being installed)"
+
 	| clientEnvironment someMethod |
+
+	self skip.
 
 	clientEnvironment := CpClientEnvironment current.
 	self
@@ -110,7 +122,11 @@ CpClientEnvironmentTest >> testInstallMethodWithClassVarAccess [
 { #category : #tests }
 CpClientEnvironmentTest >> testInstallMethodWithInstVarAccess [
 
+	"These tests are disabled because safety checks prevent it (to prevent CompiledMethods from being installed)"
+
 	| clientEnvironment someMethod instance |
+
+	self skip.
 
 	clientEnvironment := CpClientEnvironment current.
 	self

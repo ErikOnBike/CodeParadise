@@ -115,6 +115,33 @@ CpEncodeDecodeObjectTest >> testAssociation [
 ]
 
 { #category : #tests }
+CpEncodeDecodeObjectTest >> testByteArray [
+
+	| testValue |
+
+	self
+		assert: (CpObjectDecoder on: (CpObjectEncoder new encodeByteArray: ByteArray new ; bytes)) decodeNext class = ByteArray
+		description: 'Encode/decode empty ByteArray'.
+	self
+		assert: (CpObjectDecoder on: (CpObjectEncoder new encodeByteArray: ByteArray new ; bytes)) decodeNext isEmpty
+		description: 'Encode/decode empty ByteArray has no elements'.
+	self
+		assert: (CpObjectDecoder on: (CpObjectEncoder new encodeByteArray: 'hello' asByteArray ; bytes)) decodeNext asString = 'hello'
+		description: 'Encode/decode ByteArray from String'.
+
+	testValue := ByteArray new: 5 streamContents: [ :aStream |
+		aStream
+			nextPut: 0 ;
+			nextPut: 1 ;
+			nextPut: 16r7f ;
+			nextPut: 16r80 ;
+			nextPut: 16rff ].
+	self
+		assert: (CpObjectDecoder on: (CpObjectEncoder new encodeByteArray: testValue ; bytes)) decodeNext = testValue
+		description: 'Encode/decode ByteArray with test value'
+]
+
+{ #category : #tests }
 CpEncodeDecodeObjectTest >> testCharacter [
 
 	"Test different (Unicode) characters"
@@ -173,6 +200,10 @@ CpEncodeDecodeObjectTest >> testCharacter [
 { #category : #tests }
 CpEncodeDecodeObjectTest >> testCompiledMethod [
 
+	"These tests are disabled because safety checks prevent it (to prevent CompiledMethods from being installed)"
+
+	self skip.
+
 	self
 		assert: (self class compareMethod: (CpObjectDecoder on: (CpObjectEncoder new encodeCompiledMethod: (CpEncodeDecodeObjectTest >> #testCompiledMethod) ; bytes)) decodeNext to: CpEncodeDecodeObjectTest >> #testCompiledMethod)
 		description: 'Encode/decode CpEncodeDecodeMessageTest >> #testCompiledMethod'.
@@ -187,7 +218,11 @@ CpEncodeDecodeObjectTest >> testCompiledMethod [
 { #category : #tests }
 CpEncodeDecodeObjectTest >> testCompiledMethodWithAdditionalMethodState [
 
+	"These tests are disabled because safety checks prevent it (to prevent CompiledMethods from being installed)"
+
 	<somePragma: #someValue>
+
+	self skip.
 
 	self
 		assert: (self class compareMethod: (CpObjectDecoder on: (CpObjectEncoder new encodeCompiledMethod: (CpEncodeDecodeObjectTest >> #testCompiledMethodWithAdditionalMethodState) ; bytes)) decodeNext to: CpEncodeDecodeObjectTest >> #testCompiledMethodWithAdditionalMethodState)
@@ -452,4 +487,28 @@ CpEncodeDecodeObjectTest >> testTrue [
 	self
 		assert: (CpObjectDecoder on: true cpEncoded) decodeNext == true
 		description: 'Decode an encoded true'
+]
+
+{ #category : #tests }
+CpEncodeDecodeObjectTest >> testWordArray [
+
+	| testValue |
+
+	self
+		assert: (CpObjectDecoder on: (CpObjectEncoder new encodeWordArray: WordArray new ; bytes)) decodeNext class = WordArray
+		description: 'Encode/decode empty WordArray'.
+	self
+		assert: (CpObjectDecoder on: (CpObjectEncoder new encodeWordArray: WordArray new ; bytes)) decodeNext isEmpty
+		description: 'Encode/decode empty WordArray has no elements'.
+
+	testValue := WordArray new: 5 streamContents: [ :aStream |
+		aStream
+			nextPut: 0 ;
+			nextPut: 1 ;
+			nextPut: 16rffff0000 ;
+			nextPut: 16rffffff00 ;
+			nextPut: 16rffffffff ].
+	self
+		assert: (CpObjectDecoder on: (CpObjectEncoder new encodeWordArray: testValue ; bytes)) decodeNext = testValue
+		description: 'Encode/decode WordArray with test value'
 ]
