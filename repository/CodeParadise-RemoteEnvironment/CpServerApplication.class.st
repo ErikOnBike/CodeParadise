@@ -92,6 +92,8 @@ CpServerApplication class >> clientLoaded: anAnnouncement [
  	anAnnouncement app = self app
 		ifFalse: [ ^ nil ].
 
+	self validateClientVersion: (anAnnouncement variableAt: #CLIENT_VERSION).
+
 	"Create new instance and call the load handler (faking the loaded event which triggered this invocation)"
 	^ (self newInEnvironment: anAnnouncement environment) 
 		clientVariables: anAnnouncement variables ;
@@ -175,6 +177,19 @@ CpServerApplication class >> unregister [
 
 	CpServerEnvironment removeSubscription: announcementSubscription.
 	announcementSubscription := nil
+]
+
+{ #category : #support }
+CpServerApplication class >> validateClientVersion: aString [
+
+	"Validate version match between Client and Server.
+	Subclasses might override this behavior.
+
+	Implementation:
+	Currently a strict check is performed on the client version (a monotonic increasing counter)."
+
+	aString = '1'
+		ifFalse: [ self error: 'Incompatible ClientEnvironment, please match CodeParadise and ClientEnvironment repos' ]
 ]
 
 { #category : #announcing }
