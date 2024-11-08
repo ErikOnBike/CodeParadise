@@ -71,7 +71,7 @@ CpJavaScriptFunction class >> wrap: aBlock [
 			"Execute the Block and store the result (or the error instance if an error occurred)"
 			self currentSetResult: ([ aBlock valueWithArguments: arguments ] on: Error do: [ :error |
 				(CpJavaScriptError message: error messageText)
-					cause: '--Smalltalk-code--' ;
+					rawPropertyAt: #cause put: error ;
 					yourself ]).
 
 			"Stop execution"

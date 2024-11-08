@@ -88,6 +88,15 @@ CpJavaScriptError >> signal [
 	Error signal: 'Error in JavaScript' withTag: self
 ]
 
+{ #category : #testing }
+CpJavaScriptError >> smalltalkCause [
+
+	"Answer the Smalltalk Exception causing the receiver.
+	Answers nil if the cause was not a Smalltalk Exception"
+
+	^ [ self rawPropertyAt: #cause ] on: Error do: [ nil ]
+]
+
 { #category : #operations }
 CpJavaScriptError >> toString [
 

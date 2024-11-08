@@ -723,3 +723,24 @@ CpJavaScriptObject >> propertyAt: aSymbol resultAs: aProxyClass [
 	<primitive: 'primitiveJavaScriptObjectPropertyAt:resultAs:' module: 'CpSystemPlugin'>
 	self primitiveFailed
 ]
+
+{ #category : #accessing }
+CpJavaScriptObject >> rawPropertyAt: aSymbol [
+
+	"Answer the raw property value (i.e. without JavaScript conversion).
+	If the property has no value, nil will be answered.
+	If the specified property is not a Smalltalk object, the primitive
+	will fail."
+
+	<primitive: 'primitiveJavaScriptObjectRawPropertyAt:' module: 'CpSystemPlugin'>
+	self primitiveFailed
+]
+
+{ #category : #accessing }
+CpJavaScriptObject >> rawPropertyAt: aSymbol put: anObject [
+
+	"Set the property with the specified raw value (i.e. without JavaScript conversion)"
+
+	<primitive: 'primitiveJavaScriptObjectRawPropertyAt:put:' module: 'CpSystemPlugin'>
+	self primitiveFailed
+]
