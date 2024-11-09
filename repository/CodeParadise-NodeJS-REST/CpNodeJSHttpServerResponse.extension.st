@@ -14,6 +14,5 @@ CpNodeJSHttpServerResponse >> writeError: anError [
 	self
 		statusCode: anError restResponseCode ;
 		writeChunk: anError restResponseString ;
-		writeChunk: String lf ;
 		end
 ]
