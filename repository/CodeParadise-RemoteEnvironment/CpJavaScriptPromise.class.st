@@ -48,23 +48,55 @@ CpJavaScriptPromise class >> resolve: aBlock [
 ]
 
 { #category : #accessing }
-CpJavaScriptPromise >> catch: rejectedBlock [
+CpJavaScriptPromise >> catch: aBlockOrFunction [
 
 	"Appends a rejection handler callback to the promise, and returns a new promise
 	resolving to the return value of the callback if it is called, or to its original
-	fulfillment value if the promise is instead fulfilled."
+	fulfillment value if the promise is instead fulfilled.
 
-	^ self apply: #catch withArguments: { rejectedBlock } resultAs: CpJavaScriptPromise
+	This implementation unwraps the JavaScript Error and uses the underlying Smalltalk
+	Error (if possible). If there is no Smalltalk Error (signaled) causing this catch,
+	the regular JavaScript Error is used. If this is unwanted behavior, please use
+	#rawCatch:"
+
+	aBlockOrFunction ifNil: [ self error: 'A Block or Function should be specified' ].
+
+	aBlockOrFunction isBlock
+		ifFalse: [ ^ self rawCatch: aBlockOrFunction ].
+
+	^ self
+		apply: #catch
+		withArguments: { CpJavaScriptFunction wrap: [ :error |
+			| rootCause |
+			rootCause := error rootCause.
+			aBlockOrFunction value: (rootCause isJavaScriptObject
+				ifTrue: [ error ]
+				ifFalse: [ rootCause ]) ] }
+		resultAs: CpJavaScriptPromise
 ]
 
 { #category : #accessing }
-CpJavaScriptPromise >> finally: aBlock [
+CpJavaScriptPromise >> finally: aBlockOrFunction [
 
 	"Appends a handler to the promise, and returns a new promise that is resolved when
 	the original promise is resolved. The handler is called when the promise is settled,
 	whether fulfilled or rejected."
 
-	^ self apply: #finally withArguments: { aBlock } resultAs: CpJavaScriptPromise
+	aBlockOrFunction ifNil: [ self error: 'A Block or Function should be specified' ].
+
+	^ self apply: #finally withArguments: { aBlockOrFunction asJavaScriptFunction } resultAs: CpJavaScriptPromise
+]
+
+{ #category : #accessing }
+CpJavaScriptPromise >> rawCatch: aBlockOrFunction [
+
+	"Appends a rejection handler callback to the promise, and returns a new promise
+	resolving to the return value of the callback if it is called, or to its original
+	fulfillment value if the promise is instead fulfilled."
+
+	aBlockOrFunction ifNil: [ self error: 'A Block or Function should be specified' ].
+
+	^ self apply: #catch withArguments: { aBlockOrFunction asJavaScriptFunction } resultAs: CpJavaScriptPromise
 ]
 
 { #category : #accessing }
@@ -79,15 +111,25 @@ CpJavaScriptPromise >> then: fullfilledBlock catch: rejectedBlock [
 	^ (self then: fullfilledBlock) catch: rejectedBlock
 ]
 
-{ #category : #convenience }
+{ #category : #accessing }
 CpJavaScriptPromise >> then: fullfilledBlock onRejected: rejectedBlock [
 
 	"Appends fulfillment and rejection handlers to the promise, and returns a new promise
 	resolving to the return value of the called handler, or to its original settled value
 	if the promise was not handled (i.e. if the relevant handler onFulfilled or onRejected
-	is not a function)."
+	is not a function).
 
-	^ self apply: #then withArguments: { fullfilledBlock . rejectedBlock } resultAs: CpJavaScriptPromise
+	fullfilledBlock and rejectedBlock can each be either a Block or a JavaScript Function.
+	The rejectedBlock can also be nil, meaning no handling of a Promise rejection."
+
+	fullfilledBlock ifNil: [ self error: 'A Block or Function should be specified' ].
+
+	^ self
+		apply: #then
+		withArguments: {
+			fullfilledBlock asJavaScriptFunction.
+			rejectedBlock ifNotNil: [ rejectedBlock asJavaScriptFunction ] }
+		resultAs: CpJavaScriptPromise
 ]
 
 { #category : #convenience }

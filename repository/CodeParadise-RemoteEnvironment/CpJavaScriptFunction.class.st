@@ -78,6 +78,12 @@ CpJavaScriptFunction class >> wrap: aBlock [
 			Processor activeProcess terminate ] asContext
 ]
 
+{ #category : #converting }
+CpJavaScriptFunction >> asJavaScriptFunction [
+
+	^ self
+]
+
 { #category : #operations }
 CpJavaScriptFunction >> call: anObject withArguments: anArray [
 
