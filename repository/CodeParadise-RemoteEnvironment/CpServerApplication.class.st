@@ -342,11 +342,20 @@ CpServerApplication >> installExtensionMethodsFor: aSymbol [
 
 			"Install instance methods"
 			(Pragma allNamed: aSymbol in: eachClass) do: [ :eachPragma |
-				self environment addMethod: eachPragma method ].
+				self installMethod: eachPragma method ].
 
 			"Install class methods"
 			(Pragma allNamed: aSymbol in: eachClass class) do: [ :eachPragma |
-				self environment addMethod: eachPragma method ] ]
+				self installMethod: eachPragma method ] ]
+]
+
+{ #category : #installing }
+CpServerApplication >> installMethod: aCompiledMethod [
+
+	"Install the specified method in the receiver's environment"
+
+	self environment
+		addMethod: aCompiledMethod
 ]
 
 { #category : #deprecated }
@@ -374,10 +383,13 @@ CpServerApplication >> load [
 	self installExtensionMethods.
 
 	"Install the JavaScriptObject proxy which allows a transparent use of JavaScript objects inside CodeParadise.
-	And install the JavaScriptFunction proxy which allows Smalltalk Blocks to be used as JavaScript functions."
+	And install the JavaScriptFunction proxy which allows Smalltalk Blocks to be used as JavaScript functions.
+	Finally install the extension method to convert a Block to a JavaScriptFunction. Because of circular dependencies
+	this can't be done by defining that method as an extension method."
 	self
 		installClass: CpJavaScriptObject ;
-		installClass: CpJavaScriptFunction
+		installClass: CpJavaScriptFunction ;
+		installMethod: BlockClosure >> #asJavaScriptFunction
 ]
 
 { #category : #'private - actions' }
