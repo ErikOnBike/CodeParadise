@@ -21,7 +21,7 @@ defineRequiredProperties
 	<propertyDefinition>
 
 	self requiredPropertyNames do: [ :each |
-		(self propertyDefinitionAt: each) addFlag: #required ]
+		(self propertySlotAt: each) addFlag: #required ]
 ```
 
 Implementation:
@@ -40,7 +40,7 @@ Class {
 		'data'
 	],
 	#classInstVars : [
-		'propertyDefinitions'
+		'propertySlots'
 	],
 	#category : #'CodeParadise-Model-Property'
 }
@@ -71,11 +71,11 @@ CpPropertyModel class >> fromDictionary: aDictionary [
 ]
 
 { #category : #testing }
-CpPropertyModel class >> hasPropertyDefinitionAt: aSymbol [
+CpPropertyModel class >> hasPropertyNamed: aSymbol [
 
 	"Answer whether the receiver has defined the specified property"
 
-	^ propertyDefinitions includesKey: aSymbol
+	^ propertySlots includesKey: aSymbol
 ]
 
 { #category : #initialization }
@@ -113,15 +113,7 @@ CpPropertyModel class >> propertyCount [
 
 	"Answer the number of properties of the receiver"
 
-	^ propertyDefinitions size
-]
-
-{ #category : #accessing }
-CpPropertyModel class >> propertyDefinitionAt: aSymbol [
-
-	"Answer a ClientPropertySlot containing the definition for the specified property name"
-
-	^ propertyDefinitions at: aSymbol ifAbsent: [ self error: 'Undefined property ', aSymbol, ' in a ', self name ]
+	^ propertySlots size
 ]
 
 { #category : #accessing }
@@ -129,7 +121,7 @@ CpPropertyModel class >> propertyNames [
 
 	"Answer the names of the properties of the receiver"
 
-	^ propertyDefinitions keys
+	^ propertySlots keys
 ]
 
 { #category : #accessing }
@@ -137,7 +129,15 @@ CpPropertyModel class >> propertyNamesDo: aBlock [
 
 	"Evaluate the specified Block for the names of the properties of the receiver"
 
-	^ propertyDefinitions keysDo: aBlock
+	^ propertySlots keysDo: aBlock
+]
+
+{ #category : #accessing }
+CpPropertyModel class >> propertySlotAt: aSymbol [
+
+	"Answer a ClientPropertySlot containing the definition for the specified property name"
+
+	^ propertySlots at: aSymbol ifAbsent: [ self error: 'Undefined property ', aSymbol, ' in a ', self name ]
 ]
 
 { #category : #initialization }
@@ -165,13 +165,13 @@ CpPropertyModel class >> updateAllPropertyDefinitions [
 { #category : #private }
 CpPropertyModel class >> updatePropertyDefinitions [
 
-	"Update the slot definitions for the receiver"
+	"Update the property definitions for the receiver"
 
 	| class |
 
-	"The individual property definitions are Dictionaries to allow adding definitions dynamically"
-	propertyDefinitions := OrderedDictionary new.
-	self allInstVarNamesBelow: CpPropertyModel do: [ :each | propertyDefinitions at: each put: (CpClientPropertySlot named: each) ].
+	"The individual property definitions are stored in the (Client)PropertySlot"
+	propertySlots := OrderedDictionary new.
+	self allInstVarNamesBelow: CpPropertyModel do: [ :each | propertySlots at: each put: (CpClientPropertySlot named: each) ].
 
 	"Perform the methods to set the property definitions (based on presence of pragma <propertyDefinition>.
 	The order is not important here."
@@ -189,7 +189,7 @@ CpPropertyModel >> hasPropertyAt: aSymbol [
 
 	"Answer whether the receiver has the specified property"
 
-	^ self class hasPropertyDefinitionAt: aSymbol
+	^ self class hasPropertyNamed: aSymbol
 ]
 
 { #category : #initialization }
@@ -265,7 +265,7 @@ CpPropertyModel >> propertyAt: aSymbol [
 
 	"Answer the value of the specified property"
 
-	(self class hasPropertyDefinitionAt: aSymbol)
+	(self class hasPropertyNamed: aSymbol)
 		ifFalse: [ self error: 'Undefined property ', aSymbol, ' in a ', self class name ].
 
 	^ data at: aSymbol ifAbsent: [ nil ]
@@ -281,10 +281,10 @@ CpPropertyModel >> propertyAt: aSymbol put: anObject [
 
 	| oldValue |
 
-	(self class hasPropertyDefinitionAt: aSymbol)
+	(self class hasPropertyNamed: aSymbol)
 		ifFalse: [ self error: 'Undefined property ', aSymbol, ' in a ', self class name ].
 
-	"Retrieve the old value (only if there is a collection)"
+	"Retrieve the old value"
 	oldValue := data at: aSymbol ifAbsent: [ nil ].
 
 	anObject
@@ -297,20 +297,12 @@ CpPropertyModel >> propertyAt: aSymbol put: anObject [
 					self announce: (CpPropertyChanged name: aSymbol oldValue: oldValue newValue: anObject) ] ]
 		ifNil: [
 
-			"Update (i.e. remove) the value from the data collection only if it was present"
+			"Update (i.e. remove) the value from the data collection only if some value was present"
 			oldValue ifNotNil: [
 				data removeKey: aSymbol ifAbsent: [ "ignore" ].
 				self announce: (CpPropertyChanged name: aSymbol oldValue: oldValue newValue: nil) ] ].
 
 	^ anObject
-]
-
-{ #category : #accessing }
-CpPropertyModel >> propertyDefinitionAt: aSymbol [
-
-	"Answer a ClientPropertySlot containing the definition for the specified slot name"
-
-	^ self class propertyDefinitionAt: aSymbol
 ]
 
 { #category : #accessing }
@@ -335,6 +327,14 @@ CpPropertyModel >> propertyNamesDo: aBlock [
 	"Evaluate the specified Block for all property names of the receiver"
 
 	self class propertyNamesDo: aBlock
+]
+
+{ #category : #accessing }
+CpPropertyModel >> propertySlotAt: aSymbol [
+
+	"Answer a ClientPropertySlot containing the definition for the specified slot name"
+
+	^ self class propertySlotAt: aSymbol
 ]
 
 { #category : #accessing }

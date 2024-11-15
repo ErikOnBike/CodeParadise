@@ -1,19 +1,13 @@
 "
-I am a PropertySlot for a PropertyModel. I define/describe a single Property with a PropertyModel.
-My definitions are name/value pairs. Names are Symbols representing the 'feature' of the Property
-and the value can be any Object.
-For flags I have two convenience methods #addFlag: and #hasFlag: to allow to set a `true` value
-for a specific feature. This could be used to mark required properties for example. You can't
-remove a flag, since it is meant to describe all Property instances (please use a conditional
-mechanism if the flag should not be set in all situations).
-
+I am a PropertySlot for a PropertyModel. I define/describe a single Property within a PropertyModel.
+I know my name in the PropertyModel and I maintain a collection of PropertyDefinitions.
 "
 Class {
 	#name : #CpClientPropertySlot,
 	#superclass : #Object,
 	#instVars : [
 		'name',
-		'definition'
+		'definitions'
 	],
 	#category : #'CodeParadise-Model-Property'
 }
@@ -30,59 +24,59 @@ CpClientPropertySlot class >> named: aSymbol [
 CpClientPropertySlot >> = anObject [ 
 
 	^ name = anObject name
-		and: [ definition = anObject definition ]
+		and: [ definitions = anObject definitions ]
 ]
 
 { #category : #accessing }
-CpClientPropertySlot >> addDefinition: anAssociation [
+CpClientPropertySlot >> addAllDefinitions: aCollection [
+
+	"Add a Collection of new definitions"
+
+	aCollection do: [ :each |
+		self addDefinition: each ].
+
+	^ aCollection
+]
+
+{ #category : #accessing }
+CpClientPropertySlot >> addDefinition: aPropertyDefinition [
 
 	"Add a new definition"
 
-	definition ifNil: [ definition := Dictionary new ].
+	definitions ifNil: [ definitions := Set new ].
 
-	^ definition add: anAssociation
+	^ definitions add: aPropertyDefinition
 ]
 
 { #category : #accessing }
-CpClientPropertySlot >> addFlag: aSymbol [
+CpClientPropertySlot >> addFlag: aSymbolOrPropertyFlag [
 
-	self definitionAt: aSymbol put: true
+	"Add the specified flag (either a Symbol representing the PropertyFlag or a PropertyFlag).
+
+	Implementation:
+	To prevent adding many extension methods, a specific check for #isSymbol is made here."
+
+	self addDefinition: (aSymbolOrPropertyFlag isSymbol
+		ifTrue: [ CpPropertyFlag named: aSymbolOrPropertyFlag ]
+		ifFalse: [ aSymbolOrPropertyFlag ])
 ]
 
 { #category : #private }
-CpClientPropertySlot >> definition [
+CpClientPropertySlot >> definitions [
 
-	^ definition
-]
+	"Private method to allow comparing the receiver"
 
-{ #category : #accessing }
-CpClientPropertySlot >> definitionAt: aSymbol [
-
-	"Answer the value for the specified definition or nil if none is present"
-
-	^ definition
-		ifNotNil: [ definition at: aSymbol ifAbsent: [ nil ] ]
-]
-
-{ #category : #accessing }
-CpClientPropertySlot >> definitionAt: aSymbol put: anObject [
-
-	"Set the specified definition"
-
-	definition ifNil: [ definition := Dictionary new ].
-
-	^ definition at: aSymbol put: anObject
+	^ definitions
 ]
 
 { #category : #accessing }
 CpClientPropertySlot >> definitionsDo: aBlock [
 
-	"Evaluate the specified Block for all definitions.
-	The Block should accept two arguments: key and value."
+	"Evaluate the specified Block for all definitions"
 
-	definition ifNil: [ ^ self ].
+	definitions ifNil: [ ^ self ].
 
-	definition keysAndValuesDo: aBlock
+	definitions do: aBlock
 ]
 
 { #category : #testing }
@@ -90,19 +84,31 @@ CpClientPropertySlot >> hasDefinitions [
 
 	"Answer whether the receiver has actual definitions"
 
-	^ definition isEmptyOrNil not
+	^ definitions isEmptyOrNil not
 ]
 
 { #category : #testing }
-CpClientPropertySlot >> hasFlag: aSymbol [
+CpClientPropertySlot >> hasFlag: aSymbolOrPropertyFlag [
 
-	^ (self definitionAt: aSymbol) = true
+	"Answer whether the "
+
+	| flagName |
+	
+	flagName := aSymbolOrPropertyFlag isSymbol
+		ifTrue: [ aSymbolOrPropertyFlag ]
+		ifFalse: [ aSymbolOrPropertyFlag name ].
+
+	self definitionsDo: [ :each |
+		(each isPropertyFlag: flagName)
+			ifTrue: [ ^ true ] ].
+
+	^ false
 ]
 
 { #category : #comparing }
 CpClientPropertySlot >> hash [
 
-	^ name hash bitXor: definition hash
+	^ name hash bitXor: definitions hash
 ]
 
 { #category : #initialization }
@@ -133,5 +139,5 @@ CpClientPropertySlot >> printOn: aStream [
 		nextPutAll: ': ' ;
 		nextPutAll: (name ifNil: [ '<no name>' ]) ;
 		nextPutAll: ' -> ' ;
-		print: definition
+		print: definitions
 ]
