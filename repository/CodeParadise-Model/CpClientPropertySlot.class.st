@@ -1,3 +1,13 @@
+"
+I am a PropertySlot for a PropertyModel. I define/describe a single Property with a PropertyModel.
+My definitions are name/value pairs. Names are Symbols representing the 'feature' of the Property
+and the value can be any Object.
+For flags I have two convenience methods #addFlag: and #hasFlag: to allow to set a `true` value
+for a specific feature. This could be used to mark required properties for example. You can't
+remove a flag, since it is meant to describe all Property instances (please use a conditional
+mechanism if the flag should not be set in all situations).
+
+"
 Class {
 	#name : #CpClientPropertySlot,
 	#superclass : #Object,
@@ -76,7 +86,9 @@ CpClientPropertySlot >> definitionsDo: aBlock [
 ]
 
 { #category : #testing }
-CpClientPropertySlot >> hasDefinition [
+CpClientPropertySlot >> hasDefinitions [
+
+	"Answer whether the receiver has actual definitions"
 
 	^ definition isEmptyOrNil not
 ]
