@@ -112,3 +112,14 @@ CpClientPropertySlot >> name: aSymbol [
 
 	name := aSymbol
 ]
+
+{ #category : #printing }
+CpClientPropertySlot >> printOn: aStream [
+
+	aStream
+		nextPutAll: self class name ;
+		nextPutAll: ': ' ;
+		nextPutAll: (name ifNil: [ '<no name>' ]) ;
+		nextPutAll: ' -> ' ;
+		print: definition
+]

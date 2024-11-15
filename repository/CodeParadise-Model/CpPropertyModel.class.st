@@ -177,7 +177,7 @@ CpPropertyModel class >> updatePropertyDefinitions [
 	The order is not important here."
 	class := self.
 	[ class = CpPropertyModel ] whileFalse: [
-		class selectorsAndMethodsDo: [ :selector :method |
+		class classSide selectorsAndMethodsDo: [ :selector :method |
 			method pragmas do: [ :each |
 				each keyword = #propertyDefinition
 					ifTrue: [ self perform: selector ] ] ].
