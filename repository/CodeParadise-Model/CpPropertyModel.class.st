@@ -4,6 +4,26 @@ I am responsible for keeping track of my property values.
 My properties can have additional definitions. I don't use these definitions
 but make them accessable. Subclasses can use thes definitions to adapt behavior.
 
+Property definitions can be added (automagically) by adding methods which have the
+pragma <propertyDefinition>. Such methods will be executed when updating the
+definitions because a Class definition changed (or by manually selecting
+either #updateAllPropertyDefinitions or #updatePropertyDefinitions of the class involved).
+
+Example:
+To create a 'required' flag which is part of a property definition, the following
+could be added to the (base) class of the Model (assuming a method exists on that
+same class and subclasses which answers the collection of property names which
+are required):
+
+```Smalltalk
+defineRequiredProperties
+
+	<propertyDefinition>
+
+	self requiredPropertyNames do: [ :each |
+		(self propertyDefinitionAt: each) addFlag: #required ]
+```
+
 Implementation:
 I use a Dictionary to store my property values. This allows a DerivedSlot to be used
 to represent properties which have additional constraints. This way CodeParadise's
