@@ -26,7 +26,7 @@ CpNodeJSNodemailerSmtpTransport >> authMethod: aString [
 ]
 
 { #category : #accessing }
-CpNodeJSNodemailerSmtpTransport >> authPassword [
+CpNodeJSNodemailerSmtpTransport >> authPass [
 
 	"is the password for the user if normal login is used"
 
@@ -35,7 +35,7 @@ CpNodeJSNodemailerSmtpTransport >> authPassword [
 ]
 
 { #category : #accessing }
-CpNodeJSNodemailerSmtpTransport >> authPassword: aString [
+CpNodeJSNodemailerSmtpTransport >> authPass: aString [
 
 	"is the password for the user if normal login is used"
 
