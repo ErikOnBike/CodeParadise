@@ -83,6 +83,13 @@ CpJsonObject >> initializeWithOrderedDictionary: anOrderedDictionary [
 { #category : #printing }
 CpJsonObject >> printOn: aStream [
 
+	"Print the receiver on the specified Stream.
+
+	Implementation:
+	Use the JSON.stringify() method to create a regular JSON representation of the receiver.
+	Since the VM does not recognize the receiver as a Dictionary-like Object, make an explicit
+	Dictionary for this purpose."
+
 	aStream nextPutAll: (CpJavaScriptJSON stringify: self)
 ]
 
