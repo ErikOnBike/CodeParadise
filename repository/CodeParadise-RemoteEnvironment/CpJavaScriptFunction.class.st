@@ -51,7 +51,7 @@ CpJavaScriptFunction class >> wrap: aBlock [
 	when the function gets executed, we need to terminate this (i.e. the
 	active) Process at the end of the Block."
 
-	^ super wrap: [
+	^ (super wrap: [
 			| arguments |
 
 			"Retrieve and resize arguments to match the Block"
@@ -75,7 +75,19 @@ CpJavaScriptFunction class >> wrap: aBlock [
 					yourself ]).
 
 			"Stop execution"
-			Processor activeProcess terminate ] asContext
+			Processor activeProcess terminate ] asContext)
+
+		"Add the original Block as property to the new JavaScript Function instance"
+		rawPropertyAt: #_st_block put: aBlock ;
+		yourself
+]
+
+{ #category : #converting }
+CpJavaScriptFunction >> asBlock [
+
+	"Answer the Smalltalk Block used to create the receiver (if any)"
+
+	^ self rawPropertyAt: #_st_block
 ]
 
 { #category : #converting }
