@@ -35,3 +35,13 @@ CpNodeJSNodemailerOptions >> merge: anObject [
 	anObject keysAndValuesDo: [ :key :value |
 		options at: key put: value ]
 ]
+
+{ #category : #printing }
+CpNodeJSNodemailerOptions >> printOn: aStream [
+
+	aStream
+		nextPutAll: (self class name withoutPrefix: CpNodeJSNodemailer name) ;
+		nextPut: $( ;
+		print: options ;
+		nextPut: $)
+]
