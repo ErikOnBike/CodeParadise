@@ -9,6 +9,30 @@ Class {
 	#category : #'CodeParadise-NodeJS-Nodemailer-Core'
 }
 
+{ #category : #'instance creation' }
+CpNodeJSNodemailerTransporter class >> createTransport: aTransportOptions [
+
+	^ self createTransport: aTransportOptions withDefaults: Dictionary new
+]
+
+{ #category : #'instance creation' }
+CpNodeJSNodemailerTransporter class >> createTransport: aTransportOptions withDefaults: aMessage [
+
+	"Create and answer an instance of a Transporter.
+
+	aTransportOptions: transport is the transport configuration object, connection url or a transport plugin instance
+	aMessage: defaults is an object that defines default values for mail options"
+
+	^ self module require
+		apply: #createTransport withArguments: { aTransportOptions asDictionary . aMessage asDictionary } resultAs: self
+]
+
+{ #category : #accessing }
+CpNodeJSNodemailerTransporter class >> module [
+
+	^ CpNodeJSNodemailer
+]
+
 { #category : #'operations - pool' }
 CpNodeJSNodemailerTransporter >> close [
 

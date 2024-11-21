@@ -29,23 +29,6 @@ Class {
 	#category : #'CodeParadise-NodeJS-Nodemailer-Core'
 }
 
-{ #category : #'instance creation' }
-CpNodeJSNodemailer class >> createTransport: aTransportOptions [
-
-	^ self createTransport: aTransportOptions withDefaults: Dictionary new
-]
-
-{ #category : #'instance creation' }
-CpNodeJSNodemailer class >> createTransport: aTransportOptions withDefaults: aMessage [
-
-	"Create and answer an instance of a Transporter.
-
-	aTransportOptions: transport is the transport configuration object, connection url or a transport plugin instance
-	aMessage: defaults is an object that defines default values for mail options"
-
-	^ self apply: #createTransport withArguments: { aTransportOptions asDictionary . aMessage asDictionary }
-]
-
 { #category : #accessing }
 CpNodeJSNodemailer class >> moduleName [
 
