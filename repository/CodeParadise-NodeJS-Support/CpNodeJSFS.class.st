@@ -5,6 +5,25 @@ Class {
 }
 
 { #category : #actions }
+CpNodeJSFS >> syncReadFile: aString options: aDictionary [
+
+	"Synchronously read the content of the specified file using the options provided.
+	
+	path <string> | <Buffer> | <URL> | <integer> filename or file descriptor
+	options <Object> | <string>
+		encoding <string> | <null> Default: null
+		flag <string> See support of file system flags. Default: 'r'.
+
+	Returns: <string> | <Buffer>
+
+	If the encoding option is specified then this function returns a string. Otherwise it returns a buffer.
+
+	If options is a string, then it specifies the encoding."
+
+	^ self apply: #readFileSync withArguments: { aString . aDictionary }
+]
+
+{ #category : #actions }
 CpNodeJSFS >> syncWriteFile: aString data: anObject options: aDictionary [
 
 	"Synchronously write the specified data to the specified file using the options provided.
