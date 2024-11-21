@@ -37,6 +37,12 @@ CpJsonObject >> at: anObject ifAbsent: aBlock [
 ]
 
 { #category : #accessing }
+CpJsonObject >> at: anObject ifAbsentPut: aBlock [
+
+	^ super at: anObject asString ifAbsentPut: aBlock
+]
+
+{ #category : #accessing }
 CpJsonObject >> at: keyObject put: valueObject [
 
 	^ super at: keyObject asString put: valueObject
