@@ -229,7 +229,7 @@ CpPropertyModel >> keys [
 ]
 
 { #category : #'accessing - dictionary access' }
-CpPropertyModel >> keysAndvaluesDo: aBlock [
+CpPropertyModel >> keysAndValuesDo: aBlock [
 
 	"Evaluate the specified Block for the property names and values of the receiver.
 
