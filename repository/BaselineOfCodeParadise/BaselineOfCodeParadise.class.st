@@ -24,6 +24,8 @@ BaselineOfCodeParadise >> baseline: spec [
 
 			package: 'CodeParadise-NodeJS-Support' with: [ spec requires: #('CodeParadise-RemoteEnvironment') ];
 			package: 'CodeParadise-NodeJS-REST' with: [ spec requires: #('CodeParadise-NodeJS-Support') ];
+			package: 'CodeParadise-NodeJS-Sqlite3' with: [ spec requires: #('CodeParadise-NodeJS-Support') ];
+			package: 'CodeParadise-NodeJS-Nodemailer' with: [ spec requires: #('CodeParadise-NodeJS-Support') ];
 
 			package: 'CodeParadise-WebApplication-MVP' with: [ spec requires: #('CodeParadise-WebApplication') ];
 
@@ -68,7 +70,7 @@ BaselineOfCodeParadise >> baseline: spec [
 
 			group: 'Development' with: #( 'CodeParadise-WebApplication-Development' 'CodeParadise-WebApplication-Debugger' );
 
-			group: 'NodeJS-Applications' with: #( 'CodeParadise-NodeJS-REST' );
+			group: 'NodeJS-Applications' with: #( 'CodeParadise-NodeJS-REST' 'CodeParadise-NodeJS-Sqlite3' 'CodeParadise-NodeJS-Nodemailer' );
 
 			group: 'CI' with: #( 'Tests' ) ].
 
