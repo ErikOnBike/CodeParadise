@@ -566,6 +566,22 @@ CpJavaScriptObject >> isJavaScriptObject [
 	^ true
 ]
 
+{ #category : #enumerating }
+CpJavaScriptObject >> keysAndValuesDo: aBlock [
+
+	"Evaluate the specified Block for all properties (not being JS Functions) and their values.
+
+	This is a convenience method to allow Dictionaries and JavaScript Objects to be treated similarly.
+
+	Implementation:
+	Property names starting with an underscore are skipped, because it is assumed to be private."
+
+	self getSelectorNames do: [ :each |
+		((self getSelectorType: each) ~= #function and: [ each first ~= $_ ])
+			ifTrue: [
+				aBlock value: each value: (self propertyAt: each) ] ]
+]
+
 { #category : #'apply primitives' }
 CpJavaScriptObject >> primApply: aSymbol withArguments: anArray resultAs: aProxyClass [
 
