@@ -31,7 +31,7 @@ CpNodeJSNodemailerSmtpTransport >> authPassword [
 	"is the password for the user if normal login is used"
 
 	^ (options at: #auth)
-		ifNotNil: [ :auth | auth at: #password ]
+		ifNotNil: [ :auth | auth at: #pass ]
 ]
 
 { #category : #accessing }
@@ -40,7 +40,7 @@ CpNodeJSNodemailerSmtpTransport >> authPassword: aString [
 	"is the password for the user if normal login is used"
 
 	(options at: #auth ifAbsentPut: [ CpJsonObject new ])
-		at: #password put: aString
+		at: #pass put: aString
 ]
 
 { #category : #accessing }
