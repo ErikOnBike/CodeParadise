@@ -7,8 +7,9 @@ Class {
 { #category : #accessing }
 CpNodeJSSqliteError class >> getClassName [
 
-	^ self nameWithoutPrefix
-		withoutPrefix: 'NodeJS'
+	"Answer the name of the JavaScript class"
+
+	^ #SqliteError
 ]
 
 { #category : #accessing }
