@@ -140,6 +140,14 @@ CpPropertyModel class >> propertySlotAt: aSymbol [
 	^ propertySlots at: aSymbol ifAbsent: [ self error: 'Undefined property ', aSymbol, ' in a ', self name ]
 ]
 
+{ #category : #accessing }
+CpPropertyModel class >> propertySlotsDo: aBlock [
+
+	"Evaluate the specified Block for all ClientPropertySlots of the receiver"
+
+	propertySlots valuesDo: aBlock
+]
+
 { #category : #initialization }
 CpPropertyModel class >> release [
 
@@ -211,7 +219,7 @@ CpPropertyModel >> asJsonObjectValue [
 	^ result
 ]
 
-{ #category : #accessing }
+{ #category : #testing }
 CpPropertyModel >> hasPropertyAt: aSymbol [
 
 	"Answer whether the receiver has the specified property"
@@ -273,6 +281,19 @@ CpPropertyModel >> keysDo: aBlock [
 	This gives the receiver a Dictionary like interface."
 
 	self propertyNamesDo: aBlock
+]
+
+{ #category : #accessing }
+CpPropertyModel >> normalize [
+
+	"Normalize the properties of the receiver.
+
+	Implementation:
+	Constrained properties have an optional normalization step.
+	Perform these for all constraints."
+
+	self propertySlotsDo: [ :each |
+		each constraints do: [ :eachConstraint | eachConstraint normalizeProperty: each name in: self ] ]
 ]
 
 { #category : #printing }
@@ -362,6 +383,14 @@ CpPropertyModel >> propertySlotAt: aSymbol [
 	"Answer a ClientPropertySlot containing the definition for the specified slot name"
 
 	^ self class propertySlotAt: aSymbol
+]
+
+{ #category : #accessing }
+CpPropertyModel >> propertySlotsDo: aBlock [
+
+	"Evaluate the specified Block for all property slots of the receiver"
+
+	self class propertySlotsDo: aBlock
 ]
 
 { #category : #accessing }

@@ -56,7 +56,7 @@ CpPropertyConstraint >> isValid: anObject [
 	"Answer whether the specified value is valid in the receiver.
 	The specified value is normalized before validation."
 
-	^ (self violationsIn: (self normalize: anObject)) isEmpty
+	^ (self violationsIn: anObject) isEmpty
 ]
 
 { #category : #accessing }
@@ -98,11 +98,14 @@ CpPropertyConstraint >> violationsForProperty: aSymbol in: aModel [
 { #category : #accessing }
 CpPropertyConstraint >> violationsIn: anObject [
 
-	"Answer a Collection of Strings representing violations in the specified value"
+	"Answer a Collection of Strings representing violations in the specified value.
+
+	Implementation:
+	Normalize the value before collecting violations."
 
 	| violations |
 
-	violations := self collectViolationsIn: anObject.
+	violations := self collectViolationsIn: (self normalize: anObject).
 	violations isString
 		ifTrue: [ violations := Array with: violations ].
 

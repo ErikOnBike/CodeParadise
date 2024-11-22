@@ -26,3 +26,15 @@ CpPropertyDefinition >> isPropertyFlag: aSymbol [
 
 	^ false
 ]
+
+{ #category : #testing }
+CpPropertyDefinition >> isPropertyValue [
+
+	^ false
+]
+
+{ #category : #testing }
+CpPropertyDefinition >> isPropertyValue: aSymbol [
+
+	^ false
+]
