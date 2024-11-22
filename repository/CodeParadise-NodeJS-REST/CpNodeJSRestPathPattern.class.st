@@ -45,7 +45,7 @@ CpNodeJSRestPathPattern class >> validatePathSegment: aString [
 			((unicode between: 97 and: 122)       "between $a asUnicode and $z asUnicode"
 			or: [ (unicode between: 48 and: 57)   "between $0 asUnicode and $9 asUnicode"
 			or: [ '_-$' includes: each ] ]) "special characters: _ - $"
-				ifFalse: [ self error: 'REST path segment contains invalid character ', each asString ] ].
+				ifFalse: [ self error: ('REST path segment contains invalid character {1}' format: { each }) ] ].
 
 	aString first = $:
 		ifTrue: [ aString allButFirst do: [ :each | validCharacterBlock value: each ] ]
@@ -70,7 +70,7 @@ CpNodeJSRestPathPattern >> initializeFromString: aString [
 			ifTrue: [
 				paramMapping
 					at: each allButFirst asSymbol
-					ifPresent: [ self error: 'Duplicate parameter ', each allButFirst, ' in REST path pattern' ]
+					ifPresent: [ self error: ('Duplicate parameter {1} in REST path pattern' format: { each allButFirst }) ]
 					ifAbsentPut: index ] ]
 ]
 
@@ -119,7 +119,7 @@ CpNodeJSRestPathPattern >> pathUsingParameters: aDictionary [
 		pathSegments do: [ :each |
 			stream nextPut: $/.
 			(each beginsWith: ':')
-				ifTrue: [ stream nextPutAll: (aDictionary at: each allButFirst ifAbsent: [ self error: 'Missing parameter ', each, ' in path ', self asString ]) ]
+				ifTrue: [ stream nextPutAll: (aDictionary at: each allButFirst ifAbsent: [ self error: ('Missing parameter {1} in path {2}' format: { each . self asString }) ]) ]
 				ifFalse: [ stream nextPutAll: each ] ] ]
 ]
 

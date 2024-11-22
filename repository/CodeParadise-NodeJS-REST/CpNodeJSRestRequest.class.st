@@ -58,7 +58,7 @@ CpNodeJSRestRequest >> jsonBody [
 	"Answer the body as JSON object"
 
 	^ [ CpJavaScriptJSON parse: body toString ] on: Error do: [ :error |
-		self error: 'Failed to parse JSON: ', error printString ]
+		self error: ('Failed to parse JSON: {1}' format: { error }) ]
 ]
 
 { #category : #accessing }
