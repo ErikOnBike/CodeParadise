@@ -56,7 +56,7 @@ CpNodeJSNodemailerTransporter >> onIdle: aBlock [
 
 	See also: https://nodemailer.com/smtp/pooled/"
 
-	self apply: #on withArguments: { #idle, CpJavaScriptFunction wrap: aBlock }
+	self apply: #on withArguments: { #idle . CpJavaScriptFunction wrap: aBlock }
 ]
 
 { #category : #'operations - proxy' }

@@ -41,7 +41,7 @@ CpNodeJSSqlite3Database class >> onPath: aString withOptions: aDictionary [
 
 	^ (self global
 		apply: #require withArguments: { self moduleName } resultAs: CpJavaScriptFunction)
-			call: nil withArguments: { aString, aDictionary } resultAs: self
+			call: nil withArguments: { aString . aDictionary } resultAs: self
 ]
 
 { #category : #operations }
