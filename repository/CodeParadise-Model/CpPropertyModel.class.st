@@ -184,6 +184,33 @@ CpPropertyModel class >> updatePropertyDefinitions [
 		class := class superclass ]
 ]
 
+{ #category : #'accessing - dictionary access' }
+CpPropertyModel >> asDictionary [
+
+	"Answer a Dictionary representing the receiver"
+
+	^ data copy
+]
+
+{ #category : #converting }
+CpPropertyModel >> asJsonObjectValue [
+
+	"Answer a representation of the receiver to be used in a JSON Object.
+
+	Implementation:
+	Since values of the receiver's properties can be any value,
+	convert these to JSON Object values. Keys are already Strings."
+
+	| result |
+
+	result := Dictionary new.
+
+	self keysAndValuesDo: [ :key :value |
+		result at: key put: value asJsonObjectValue ].
+
+	^ result
+]
+
 { #category : #accessing }
 CpPropertyModel >> hasPropertyAt: aSymbol [
 
