@@ -16,6 +16,7 @@ A few online videos:
 * Zettelkasten example application [video](https://youtu.be/omKrz9stuOQ) - 1:37 minutes
 * short demo of view inspector [video](https://youtu.be/QPPe49iw8Io) - 6:44 minutes
 * short demo of debugger [video](https://youtu.be/hCwlrWRhrZc) - 1:07 minutes
+* presentation during ESUG 2024 [video](https://www.youtube.com/watch?v=JkoEveeGTqk) - 31:26 minutes
 * UK Smalltalk UG May 2022 [demo](https://vimeo.com/719355883) - CodeParadise used in Expressive Systems by [Object Guild](https://objectguild.com)
 * UK Smalltalk UG August 2020 [demo](https://vimeo.com/457353130) - CodeParadise
 
