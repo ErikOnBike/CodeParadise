@@ -1,11 +1,15 @@
+"
+I represent both the Browser AbortSignal and the Node.js AbortSignal.
+These classes are similar enough to have to same proxy implementation.
+"
 Class {
-	#name : #CpJavaScriptAbortSignal,
-	#superclass : #CpJavaScriptEventTarget,
-	#category : #'CodeParadise-RemoteEnvironment-Support'
+	#name : #CpBrowserAbortSignal,
+	#superclass : #CpBrowserEventTarget,
+	#category : #'CodeParadise-JavaScript-Shared'
 }
 
 { #category : #'instance creation' }
-CpJavaScriptAbortSignal class >> abort [
+CpBrowserAbortSignal class >> abort [
 
 	"Returns an AbortSignal instance that is already set as aborted."
 
@@ -13,7 +17,7 @@ CpJavaScriptAbortSignal class >> abort [
 ]
 
 { #category : #'instance creation' }
-CpJavaScriptAbortSignal class >> abort: reasonObject [
+CpBrowserAbortSignal class >> abort: reasonObject [
 
 	"Returns an AbortSignal instance that is already set as aborted."
 
@@ -21,7 +25,7 @@ CpJavaScriptAbortSignal class >> abort: reasonObject [
 ]
 
 { #category : #'instance creation' }
-CpJavaScriptAbortSignal class >> any: aCollection [
+CpBrowserAbortSignal class >> any: aCollection [
 
 	"Returns an AbortSignal that aborts when any of the given abort signals abort."
 
@@ -29,7 +33,7 @@ CpJavaScriptAbortSignal class >> any: aCollection [
 ]
 
 { #category : #'instance creation' }
-CpJavaScriptAbortSignal class >> timeout: anInteger [
+CpBrowserAbortSignal class >> timeout: anInteger [
 
 	"Returns an AbortSignal instance that will automatically abort after a specified time (in ms)."
 
@@ -37,7 +41,7 @@ CpJavaScriptAbortSignal class >> timeout: anInteger [
 ]
 
 { #category : #accessing }
-CpJavaScriptAbortSignal >> aborted [
+CpBrowserAbortSignal >> aborted [
 
 	"A Boolean that indicates whether the request(s) the signal is communicating with is/are aborted (true) or not (false)."
 
@@ -45,7 +49,7 @@ CpJavaScriptAbortSignal >> aborted [
 ]
 
 { #category : #accessing }
-CpJavaScriptAbortSignal >> reason [
+CpBrowserAbortSignal >> reason [
 
 	"A JavaScript value providing the abort reason, once the signal has aborted."
 
@@ -53,7 +57,7 @@ CpJavaScriptAbortSignal >> reason [
 ]
 
 { #category : #accessing }
-CpJavaScriptAbortSignal >> throwIfAborted [
+CpBrowserAbortSignal >> throwIfAborted [
 
 	"Throws the signal's abort reason if the signal has been aborted; otherwise it does nothing."
 

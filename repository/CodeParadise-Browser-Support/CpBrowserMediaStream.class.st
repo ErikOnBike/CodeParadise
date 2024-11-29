@@ -1,6 +1,6 @@
 Class {
 	#name : #CpBrowserMediaStream,
-	#superclass : #CpJavaScriptEventTarget,
+	#superclass : #CpBrowserEventTarget,
 	#category : #'CodeParadise-Browser-Support-MediaStreams'
 }
 

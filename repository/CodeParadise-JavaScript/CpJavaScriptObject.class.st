@@ -81,7 +81,7 @@ explicitly call like in CpJavaScriptPromise >> #then:onRejected:
 Class {
 	#name : #CpJavaScriptObject,
 	#superclass : #Object,
-	#category : #'CodeParadise-RemoteEnvironment-Support'
+	#category : #'CodeParadise-JavaScript-Core'
 }
 
 { #category : #accessing }

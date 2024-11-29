@@ -1,7 +1,11 @@
+"
+I represent both the Browser Response and the Node.js Response.
+These classes are similar enough to have to same proxy implementation.
+"
 Class {
 	#name : #CpBrowserResponse,
 	#superclass : #CpJavaScriptObject,
-	#category : #'CodeParadise-Browser-Support-Fetch'
+	#category : #'CodeParadise-JavaScript-Shared'
 }
 
 { #category : #'instance creation' }

@@ -1,10 +1,11 @@
 "
-I represent the Browser's Blob class.
+I represent both the Browser Blob and the Node.js Blob.
+These classes are similar enough to have to same proxy implementation.
 "
 Class {
 	#name : #CpBrowserBlob,
 	#superclass : #CpJavaScriptObject,
-	#category : #'CodeParadise-Browser-Support-Core'
+	#category : #'CodeParadise-JavaScript-Shared'
 }
 
 { #category : #'class initialization' }

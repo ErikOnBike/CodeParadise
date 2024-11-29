@@ -7,7 +7,7 @@ For the latter I implement #at: and #at:put: and a DNU to allow access to fields
 Class {
 	#name : #CpJavaScriptJSON,
 	#superclass : #CpJavaScriptObject,
-	#category : #'CodeParadise-RemoteEnvironment-Support'
+	#category : #'CodeParadise-JavaScript-Core'
 }
 
 { #category : #operations }

@@ -1,7 +1,11 @@
+"
+I represent both the Browser ReadableStreamDefaultReader and the Node.js ReadableStreamDefaultReader.
+These classes are similar enough to have to same proxy implementation.
+"
 Class {
 	#name : #CpBrowserReadableStreamDefaultReader,
 	#superclass : #CpJavaScriptObject,
-	#category : #'CodeParadise-Browser-Support-Streams'
+	#category : #'CodeParadise-JavaScript-Shared'
 }
 
 { #category : #actions }

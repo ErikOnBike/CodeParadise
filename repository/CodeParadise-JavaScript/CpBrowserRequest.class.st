@@ -1,7 +1,11 @@
+"
+I represent both the Browser Request and the Node.js Request.
+These classes are similar enough to have to same proxy implementation.
+"
 Class {
 	#name : #CpBrowserRequest,
 	#superclass : #CpJavaScriptObject,
-	#category : #'CodeParadise-Browser-Support-Fetch'
+	#category : #'CodeParadise-JavaScript-Shared'
 }
 
 { #category : #'instance creation' }
@@ -169,7 +173,7 @@ CpBrowserRequest >> signal [
 
 	"Returns the AbortSignal associated with the request"
 
-	^ self propertyAt: #signal resultAs: CpJavaScriptAbortSignal
+	^ self propertyAt: #signal resultAs: CpBrowserAbortSignal
 ]
 
 { #category : #operations }

@@ -1,7 +1,7 @@
 Class {
 	#name : #CpJavaScriptError,
 	#superclass : #CpJavaScriptObject,
-	#category : #'CodeParadise-RemoteEnvironment-Support'
+	#category : #'CodeParadise-JavaScript-Core'
 }
 
 { #category : #'instance creation' }

@@ -1,7 +1,11 @@
+"
+I represent both the Browser Headers and the Node.js Headers.
+These classes are similar enough to have to same proxy implementation.
+"
 Class {
 	#name : #CpBrowserHeaders,
 	#superclass : #CpJavaScriptObject,
-	#category : #'CodeParadise-Browser-Support-Fetch'
+	#category : #'CodeParadise-JavaScript-Shared'
 }
 
 { #category : #'instance creation' }

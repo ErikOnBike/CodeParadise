@@ -3,13 +3,13 @@ I represent both the Browser EventTarget and the Node.js EventTarget.
 These classes are similar enough to have to same proxy implementation.
 "
 Class {
-	#name : #CpJavaScriptEventTarget,
+	#name : #CpBrowserEventTarget,
 	#superclass : #CpJavaScriptObject,
-	#category : #'CodeParadise-RemoteEnvironment-Support'
+	#category : #'CodeParadise-JavaScript-Shared'
 }
 
 { #category : #operations }
-CpJavaScriptEventTarget >> addEventListener: aSymbol handler: aBlock [
+CpBrowserEventTarget >> addEventListener: aSymbol handler: aBlock [
 
 	"Add the specified Block as an event handler for the specified event
 	for the receiver's proxied JavaScript object (i.e. an EventTarget).
@@ -29,7 +29,7 @@ CpJavaScriptEventTarget >> addEventListener: aSymbol handler: aBlock [
 ]
 
 { #category : #operations }
-CpJavaScriptEventTarget >> removeEventListener: aFunction [
+CpBrowserEventTarget >> removeEventListener: aFunction [
 
 	"Remove the specified funcion (a wrapped Block, answered by #addEventListener:handler:)
 	from the receiver's proxied JavaScript object (i.e. an EventTarget)."

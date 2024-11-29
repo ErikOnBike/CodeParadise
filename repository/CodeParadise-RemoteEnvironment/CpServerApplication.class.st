@@ -38,7 +38,7 @@ CpServerApplication class >> allowedPackages [
 	Like `CpHtmlElement package` to use the WebApplication package. This way there is no problem
 	if the package name changes."
 
-	^ Set with: self package with: CpClientEnvironment package
+	^ Set with: self package with: CpClientEnvironment package with: CpJavaScriptObject package
 ]
 
 { #category : #announcing }

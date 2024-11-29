@@ -6,7 +6,7 @@ byte or word arrays.
 Class {
 	#name : #CpJavaScriptArrayBuffer,
 	#superclass : #CpJavaScriptObject,
-	#category : #'CodeParadise-RemoteEnvironment-Support'
+	#category : #'CodeParadise-JavaScript-Core'
 }
 
 { #category : #converting }

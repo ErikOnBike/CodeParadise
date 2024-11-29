@@ -7,7 +7,7 @@ manipulation behavior.
 "
 Class {
 	#name : #CpBrowserMediaElement,
-	#superclass : #CpJavaScriptEventTarget,
+	#superclass : #CpBrowserEventTarget,
 	#category : #'CodeParadise-Browser-Support-MediaStreams'
 }
 

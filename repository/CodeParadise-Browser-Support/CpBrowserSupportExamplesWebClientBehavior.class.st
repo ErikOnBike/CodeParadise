@@ -438,7 +438,7 @@ CpBrowserSupportExamplesWebClientBehavior >> exampleJavaScriptEventTarget [
 			yourself) ;
 		yourself.
 
-	eventTarget := CpJavaScriptEventTarget wrap: (outputElement firstDescendantMatching: #button).
+	eventTarget := CpBrowserEventTarget wrap: (outputElement firstDescendantMatching: #button).
 	handler := eventTarget addEventListener: #click handler: [ :event | outputElement appendChild: ((CpHtmlElement newWithTag: #div) textContent: event printString ; yourself) ].
 
 ]

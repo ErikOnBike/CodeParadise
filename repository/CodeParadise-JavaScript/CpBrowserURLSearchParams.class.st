@@ -1,11 +1,15 @@
+"
+I represent both the Browser URLSearchParams and the Node.js URLSearchParams.
+These classes are similar enough to have to same proxy implementation.
+"
 Class {
-	#name : #CpJavaScriptURLSearchParams,
+	#name : #CpBrowserURLSearchParams,
 	#superclass : #CpJavaScriptObject,
-	#category : #'CodeParadise-RemoteEnvironment-Support'
+	#category : #'CodeParadise-JavaScript-Shared'
 }
 
 { #category : #operations }
-CpJavaScriptURLSearchParams >> appendKey: aString value: anObject [
+CpBrowserURLSearchParams >> appendKey: aString value: anObject [
 
 	"Appends a specified key/value pair as a new search parameter."
 
@@ -13,7 +17,7 @@ CpJavaScriptURLSearchParams >> appendKey: aString value: anObject [
 ]
 
 { #category : #operations }
-CpJavaScriptURLSearchParams >> deleteKey: aString [
+CpBrowserURLSearchParams >> deleteKey: aString [
 
 	"Deletes search parameters that match a name, and optional value, from the list of all search parameters."
 
@@ -21,7 +25,7 @@ CpJavaScriptURLSearchParams >> deleteKey: aString [
 ]
 
 { #category : #operations }
-CpJavaScriptURLSearchParams >> deleteKey: aString value: anObject [
+CpBrowserURLSearchParams >> deleteKey: aString value: anObject [
 
 	"Deletes search parameters that match a name, and optional value, from the list of all search parameters."
 
@@ -29,7 +33,7 @@ CpJavaScriptURLSearchParams >> deleteKey: aString value: anObject [
 ]
 
 { #category : #operations }
-CpJavaScriptURLSearchParams >> forEach: aFunction [
+CpBrowserURLSearchParams >> forEach: aFunction [
 
 	"Allows iteration through all values contained in this object via a callback function."
 
@@ -37,7 +41,7 @@ CpJavaScriptURLSearchParams >> forEach: aFunction [
 ]
 
 { #category : #operations }
-CpJavaScriptURLSearchParams >> getKey: aString [
+CpBrowserURLSearchParams >> getKey: aString [
 
 	"Returns the first value associated with the given search parameter."
 
@@ -45,7 +49,7 @@ CpJavaScriptURLSearchParams >> getKey: aString [
 ]
 
 { #category : #operations }
-CpJavaScriptURLSearchParams >> hasKey: aString [
+CpBrowserURLSearchParams >> hasKey: aString [
 
 	"Returns a boolean value indicating if a given parameter, or parameter and value pair, exists."
 
@@ -53,7 +57,7 @@ CpJavaScriptURLSearchParams >> hasKey: aString [
 ]
 
 { #category : #operations }
-CpJavaScriptURLSearchParams >> hasKey: aString value: anObject [
+CpBrowserURLSearchParams >> hasKey: aString value: anObject [
 
 	"Returns a boolean value indicating if a given parameter, or parameter and value pair, exists."
 
@@ -61,7 +65,7 @@ CpJavaScriptURLSearchParams >> hasKey: aString value: anObject [
 ]
 
 { #category : #operations }
-CpJavaScriptURLSearchParams >> setKey: aString value: anObject [
+CpBrowserURLSearchParams >> setKey: aString value: anObject [
 
 	"Sets the value associated with a given search parameter to the given value. If there are several values, the others are deleted."
 
@@ -69,7 +73,7 @@ CpJavaScriptURLSearchParams >> setKey: aString value: anObject [
 ]
 
 { #category : #accessing }
-CpJavaScriptURLSearchParams >> size [
+CpBrowserURLSearchParams >> size [
 
 	"Indicates the total number of search parameter entries."
 
@@ -77,7 +81,7 @@ CpJavaScriptURLSearchParams >> size [
 ]
 
 { #category : #operations }
-CpJavaScriptURLSearchParams >> sort [
+CpBrowserURLSearchParams >> sort [
 
 	"Sorts all key/value pairs, if any, by their keys."
 
@@ -85,7 +89,7 @@ CpJavaScriptURLSearchParams >> sort [
 ]
 
 { #category : #operations }
-CpJavaScriptURLSearchParams >> toString [
+CpBrowserURLSearchParams >> toString [
 
 	"Returns a string containing a query string suitable for use in a URL."
 

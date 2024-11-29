@@ -1,7 +1,11 @@
+"
+I represent both the Browser FormData and the Node.js FormData.
+These classes are similar enough to have to same proxy implementation.
+"
 Class {
 	#name : #CpBrowserFormData,
 	#superclass : #CpJavaScriptObject,
-	#category : #'CodeParadise-Browser-Support-Core'
+	#category : #'CodeParadise-JavaScript-Shared'
 }
 
 { #category : #'instance creation' }

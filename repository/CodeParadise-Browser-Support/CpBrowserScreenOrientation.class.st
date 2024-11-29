@@ -1,6 +1,6 @@
 Class {
 	#name : #CpBrowserScreenOrientation,
-	#superclass : #CpJavaScriptEventTarget,
+	#superclass : #CpBrowserEventTarget,
 	#category : #'CodeParadise-Browser-Support-Screen'
 }
 

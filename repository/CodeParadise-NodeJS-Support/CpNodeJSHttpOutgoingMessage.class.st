@@ -122,13 +122,13 @@ CpNodeJSHttpOutgoingMessage >> setHeaderWithName: aString value: anObject [
 ]
 
 { #category : #accessing }
-CpNodeJSHttpOutgoingMessage >> setHeaders: aDictionary [
+CpNodeJSHttpOutgoingMessage >> setHeaders: aHeaders [
 
 	"Sets multiple header values for implicit headers. headers must be an instance of Headers or Map, if a header already exists in the to-be-sent headers, its value will be replaced.
 
 	When headers have been set with outgoingMessage.setHeaders(), they will be merged with any headers passed to response.writeHead(), with the headers passed to response.writeHead() given precedence."
 
-	self apply: #setHeaders withArguments: { aDictionary }
+	self apply: #setHeaders withArguments: { aHeaders }
 ]
 
 { #category : #accessing }

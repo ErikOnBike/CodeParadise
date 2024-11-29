@@ -8,7 +8,7 @@ Smalltalk blocks can be wrapped in an instance of me using:
 Class {
 	#name : #CpJavaScriptFunction,
 	#superclass : #CpJavaScriptObject,
-	#category : #'CodeParadise-RemoteEnvironment-Support'
+	#category : #'CodeParadise-JavaScript-Core'
 }
 
 { #category : #private }

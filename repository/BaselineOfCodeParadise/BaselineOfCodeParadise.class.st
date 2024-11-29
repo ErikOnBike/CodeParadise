@@ -18,25 +18,26 @@ BaselineOfCodeParadise >> baseline: spec [
 		"Packages"
 		spec
 			package: 'CodeParadise-RemoteEnvironment' with: [ spec requires: #('CpClientEnvironment' 'ZincHTTPComponents') ];
-			package: 'CodeParadise-WebApplication' with: [ spec requires: #('CodeParadise-RemoteEnvironment') ];
+			package: 'CodeParadise-WebApplication' with: [ spec requires: #('CodeParadise-RemoteEnvironment' 'CodeParadise-JavaScript') ];
 			package: 'CodeParadise-Browser-Support' with: [ spec requires: #('CodeParadise-WebApplication') ];
 			package: 'CodeParadise-WebApplication-Snapshot' with: [ spec requires: #('CodeParadise-Browser-Support') ];
 
-			package: 'CodeParadise-NodeJS-Support' with: [ spec requires: #('CodeParadise-RemoteEnvironment') ];
+			package: 'CodeParadise-NodeJS-Support' with: [ spec requires: #('CodeParadise-RemoteEnvironment' 'CodeParadise-JavaScript') ];
 			package: 'CodeParadise-NodeJS-REST' with: [ spec requires: #('CodeParadise-NodeJS-Support') ];
 			package: 'CodeParadise-NodeJS-Sqlite3' with: [ spec requires: #('CodeParadise-NodeJS-Support') ];
 			package: 'CodeParadise-NodeJS-Nodemailer' with: [ spec requires: #('CodeParadise-NodeJS-Support') ];
 
 			package: 'CodeParadise-WebApplication-MVP' with: [ spec requires: #('CodeParadise-WebApplication') ];
 
-			package: 'CodeParadise-WebApplication-Shoelace' with: [ spec requires: #('CodeParadise-WebApplication-MVP') ];
-			package: 'CodeParadise-WebApplication-Ionic' with: [ spec requires: #('CodeParadise-WebApplication-MVP') ];
-			package: 'CodeParadise-WebApplication-Presentation' with: [ spec requires: #('CodeParadise-WebApplication-MVP') ];
-			package: 'CodeParadise-WebApplication-ChartJS' with: [ spec requires: #('CodeParadise-WebApplication-MVP') ];
-			package: 'CodeParadise-Beach' with: [ spec requires: #('CodeParadise-WebApplication-MVP') ];
+			package: 'CodeParadise-WebApplication-Shoelace' with: [ spec requires: #('CodeParadise-WebApplication') ];
+			package: 'CodeParadise-WebApplication-Ionic' with: [ spec requires: #('CodeParadise-WebApplication') ];
+			package: 'CodeParadise-WebApplication-ChartJS' with: [ spec requires: #('CodeParadise-WebApplication') ];
 
 			"2022-06: No longer maintained"
 			package: 'CodeParadise-WebApplication-Fomantic' with: [ spec requires: #('CodeParadise-WebApplication') ];
+
+			package: 'CodeParadise-WebApplication-Presentation' with: [ spec requires: #('CodeParadise-WebApplication-MVP') ];
+			package: 'CodeParadise-Beach' with: [ spec requires: #('CodeParadise-WebApplication-MVP') ];
 
 			package: 'CodeParadise-WebApplication-Development' with: [ spec requires: #('CodeParadise-WebApplication') ];
 			package: 'CodeParadise-WebApplication-Debugger' with: [ spec requires: #('CodeParadise-WebApplication') ].
@@ -51,8 +52,8 @@ BaselineOfCodeParadise >> baseline: spec [
 		spec 
 			group: 'default' with: #( 'Core' 'NodeJS-Core' 'Shoelace' 'Ionic' 'ChartJS' 'Presentation' 'Snapshot' 'Tests' 'Development' 'NodeJS-Applications');
 
-			group: 'Core' with: #( 'CodeParadise-WebApplication' 'CodeParadise-Browser-Support' );
-			group: 'NodeJS-Core' with: #( 'CodeParadise-RemoteEnvironment' 'CodeParadise-NodeJS-Support' );
+			group: 'Core' with: #( 'CodeParadise-Browser-Support' );
+			group: 'NodeJS-Core' with: #( 'CodeParadise-NodeJS-Support' );
 			group: 'Tests' with: #( 'CodeParadise-WebApplication-Tests' 'CodeParadise-RemoteEnvironment-Tests' );
 
 			group: 'MVP' with: #( 'CodeParadise-WebApplication-MVP' );

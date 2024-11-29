@@ -1,11 +1,15 @@
+"
+I represent both the Browser AbortController and the Node.js AbortController.
+These classes are similar enough to have to same proxy implementation.
+"
 Class {
-	#name : #CpJavaScriptAbortController,
+	#name : #CpBrowserAbortController,
 	#superclass : #CpJavaScriptObject,
-	#category : #'CodeParadise-RemoteEnvironment-Support'
+	#category : #'CodeParadise-JavaScript-Shared'
 }
 
 { #category : #operations }
-CpJavaScriptAbortController >> abort [
+CpBrowserAbortController >> abort [
 
 	"Aborts an asynchronous operation before it has completed. This is able to abort fetch requests, consumption of any response bodies, and streams."
 
@@ -13,7 +17,7 @@ CpJavaScriptAbortController >> abort [
 ]
 
 { #category : #operations }
-CpJavaScriptAbortController >> abort: reasonObject [
+CpBrowserAbortController >> abort: reasonObject [
 
 	"Aborts an asynchronous operation before it has completed. This is able to abort fetch requests, consumption of any response bodies, and streams."
 
@@ -21,9 +25,9 @@ CpJavaScriptAbortController >> abort: reasonObject [
 ]
 
 { #category : #accessing }
-CpJavaScriptAbortController >> signal [
+CpBrowserAbortController >> signal [
 
 	"Returns an AbortSignal object instance, which can be used to communicate with, or to abort, an asynchronous operation."
 
-	^ self propertyAt: #signal resultAs: CpJavaScriptAbortSignal
+	^ self propertyAt: #signal resultAs: CpBrowserAbortSignal
 ]

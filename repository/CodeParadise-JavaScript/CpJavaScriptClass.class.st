@@ -12,7 +12,7 @@ appropriately, namespace methods).
 Class {
 	#name : #CpJavaScriptClass,
 	#superclass : #CpJavaScriptObject,
-	#category : #'CodeParadise-RemoteEnvironment-Support'
+	#category : #'CodeParadise-JavaScript-Core'
 }
 
 { #category : #'instance creation' }

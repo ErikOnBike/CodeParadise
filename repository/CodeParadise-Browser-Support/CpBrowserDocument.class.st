@@ -1,6 +1,6 @@
 Class {
 	#name : #CpBrowserDocument,
-	#superclass : #CpJavaScriptEventTarget,
+	#superclass : #CpBrowserEventTarget,
 	#category : #'CodeParadise-Browser-Support-Core'
 }
 
@@ -42,7 +42,7 @@ CpBrowserDocument >> url [
 	"Convenience method to answer the receiver's URL as an Object (instead of String).
 	See also: #urlString."
 
-	^ CpJavaScriptURL newUrl: self urlString
+	^ CpBrowserURL newUrl: self urlString
 ]
 
 { #category : #accessing }

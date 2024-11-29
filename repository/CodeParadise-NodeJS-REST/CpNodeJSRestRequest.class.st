@@ -47,7 +47,7 @@ CpNodeJSRestRequest >> initializeWithIncomingMessage: anIncomingMessage [
 
 	self initialize.
 
-	url := CpJavaScriptURL newUrl: anIncomingMessage url base: 'http://localhost'.
+	url := CpBrowserURL newUrl: anIncomingMessage url base: 'http://localhost'.
 	path := CpNodeJSRestPath fromString: url pathname.
 	incomingMessage := anIncomingMessage
 ]

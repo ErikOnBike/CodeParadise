@@ -7,7 +7,7 @@ manipulation behavior.
 "
 Class {
 	#name : #CpBrowserCanvasElement,
-	#superclass : #CpJavaScriptEventTarget,
+	#superclass : #CpBrowserEventTarget,
 	#category : #'CodeParadise-Browser-Support-Canvas'
 }
 

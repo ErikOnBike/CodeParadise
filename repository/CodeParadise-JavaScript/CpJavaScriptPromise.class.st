@@ -5,7 +5,7 @@ I represent the JavaScript Promise class.
 Class {
 	#name : #CpJavaScriptPromise,
 	#superclass : #CpJavaScriptObject,
-	#category : #'CodeParadise-RemoteEnvironment-Support'
+	#category : #'CodeParadise-JavaScript-Core'
 }
 
 { #category : #operations }

@@ -1,6 +1,6 @@
 Class {
 	#name : #CpBrowserSpeechSynthesisUtterance,
-	#superclass : #CpJavaScriptEventTarget,
+	#superclass : #CpBrowserEventTarget,
 	#category : #'CodeParadise-Browser-Support-Speech'
 }
 

@@ -5,7 +5,7 @@ These classes are similar enough to have to same proxy implementation.
 Class {
 	#name : #CpJavaScriptEvent,
 	#superclass : #CpJavaScriptObject,
-	#category : #'CodeParadise-RemoteEnvironment-Support'
+	#category : #'CodeParadise-JavaScript-Core'
 }
 
 { #category : #accessing }
