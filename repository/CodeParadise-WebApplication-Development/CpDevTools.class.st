@@ -11,6 +11,15 @@ CpDevTools class >> actionApplications [
 ]
 
 { #category : #actions }
+CpDevTools class >> actionCleanApplications [ 
+
+	^ [
+		CpServerApplication allSubInstancesDo: [ :each | each stopIfNotConnected ].
+		3 timesRepeat: [ Smalltalk garbageCollect ].
+		self actionApplications value ]
+]
+
+{ #category : #actions }
 CpDevTools class >> actionOpen [ 
 
 	^ [ self open ]
@@ -198,41 +207,48 @@ CpDevTools class >> worldMenuCommandOn: aBuilder [
 	the keymap repository by evaluating: KMRepository reset."
 
 	<worldMenu>
-	 
+
 	| menuId |
-	
+
 	(aBuilder item: (menuId := #Paradise))
 		order: 4.0;
 		target: self;
 		help: 'Tools to support Code Paradise projects'.
-		
+
 	(aBuilder item: #'Open...')
 		parent: menuId;
 		help: 'Open a web browser on a running application';
 		order: 10;
 		icon: (self iconNamed: #smallOpen);
 		action: self actionOpen.
-		
+
 	(aBuilder item: #'Reload...')
 		parent: menuId;
 		help: 'Clear the session for a web application, and reload its page';
 		order: 15;
 		icon: (self iconNamed: #smallUpdate);
 		action: self actionReload.
-		
+
 	aBuilder withSeparatorAfter.
-	
+
 	(aBuilder item: #'Reset')
 		parent: menuId;
 		help: 'Reset the backend server and all web applications';
 		order: 20;
 		icon: (self iconNamed: #smallError);
 		action: self actionReset.		
-	
+
+	(aBuilder item: #'Clean applications...')
+		parent: menuId;
+		help: 'Clean-up unconnected application instances and inspect remaining';
+		order: 25;
+		icon: (self iconNamed: #smallInspectIt);
+		action: self actionCleanApplications.
+
 	(aBuilder item: #'Applications...')
 		parent: menuId;
 		help: 'Open an inspector on the web application instances';
-		order: 25;
+		order: 30;
 		icon: (self iconNamed: #smallInspectIt);
 		action: self actionApplications
 ]
