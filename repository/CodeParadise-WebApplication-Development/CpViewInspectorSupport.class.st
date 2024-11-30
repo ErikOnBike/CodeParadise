@@ -64,6 +64,7 @@ CpViewInspectorSupport >> initializeWithEnvironment: anEnvironment [
 	environment
 		addInstallationChecker: (CpPackageInstallationChecker packages: { CpViewInspectorView package . SlElement package }) ;
 		addClass: CpViewInspectorView ;
+		addMethod: (CpDomElement >> #allNonShadowedElementsDo:) ;
 		when: CpViewInspectorRequest send: #viewInspectorRequest: to: self ;
 		when: CpCodeEditorHtmlTagsRequest send: #updateHtmlTagsRequest to: self
 ]
