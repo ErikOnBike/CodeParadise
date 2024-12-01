@@ -5,7 +5,8 @@ Class {
 		'path',
 		'pathParameters',
 		'body',
-		'incomingMessage'
+		'incomingMessage',
+		'properties'
 	],
 	#category : #'CodeParadise-NodeJS-REST-Core'
 }
@@ -109,6 +110,23 @@ CpNodeJSRestRequest >> printOn: aStream [
 				ifTrue: [ '***' ]
 				ifFalse: [ value ]) ;
 			nextPut: $) ]
+]
+
+{ #category : #accessing }
+CpNodeJSRestRequest >> propertyAt: aSymbol [
+
+	"Answer a custom property from the receiver (or nil if the property does not exist)"
+
+	^ properties ifNotNil: [ properties at: #aSymbol ifAbsent: [ nil ] ]
+]
+
+{ #category : #accessing }
+CpNodeJSRestRequest >> propertyAt: aSymbol put: anObject [
+
+	"Set a custom property of the receiver"
+
+	^ (properties ifNil: [ properties := Dictionary new ])
+		at: #aSymbol put: anObject
 ]
 
 { #category : #resolving }
