@@ -147,8 +147,8 @@ CpEvent class >> registerEventProcess [
 	See also CpJavaScriptFunction class >> #wrap:"
 
 	self registerEventProcess: [
-		self dispatchEvents.
 		CpJavaScriptFunction currentSetResult: nil.
+		self dispatchEvents.
 		Processor activeProcess terminate ] asContext
 ]
 

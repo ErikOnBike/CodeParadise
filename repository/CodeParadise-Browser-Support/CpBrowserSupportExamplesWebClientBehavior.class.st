@@ -492,6 +492,33 @@ CpBrowserSupportExamplesWebClientBehavior >> exampleJavaScriptFunction [
 ]
 
 { #category : #examples }
+CpBrowserSupportExamplesWebClientBehavior >> exampleJavaScriptPromise [
+
+	<example: 'Basic: Proxy for JavaScript Promises' order: 1200>
+
+	| outputElement |
+
+	self clearOutput.
+	outputElement := self outputElement.
+
+	outputElement
+		appendChild: ((CpHtmlElement newWithTag: #h1)
+			textContent: 'JavaScript Promises' ;
+			yourself) ;
+		appendChild: ((CpHtmlElement newWithTag: #p)
+			textContent: 'Promises can be used and created from Smalltalk using CpJavaScriptPromise class >> #on: aTwoArgBlock, CpJavaScriptPromise class >> #resolve: aBlock or CpJavaScriptPromise class >> #all: aCollection' ;
+			yourself) ;
+		appendChild: ((CpHtmlElement newWithTag: #p)
+			textContent: 'You can use the asynchronous behavior of Promises or use #await to become synchronous again.' ;
+			yourself) ;
+		appendChild: ((CpHtmlElement newWithTag: #button)
+			textContent: 'Show message (using await, takes 2s)' ;
+			when: CpClickEvent primary only send: #promiseAwait to: self ;
+			yourself) ;
+		yourself
+]
+
+{ #category : #examples }
 CpBrowserSupportExamplesWebClientBehavior >> exampleJavaScriptProxy [
 
 	<example: 'Basic: Proxy for JavaScript objects' order: 1000>
@@ -587,6 +614,31 @@ CpBrowserSupportExamplesWebClientBehavior >> mediaStreamShowVideo [
 CpBrowserSupportExamplesWebClientBehavior >> outputElement [
 
 	^ CpHtmlElement documentBody firstDescendantMatching: '#output'
+]
+
+{ #category : #examples }
+CpBrowserSupportExamplesWebClientBehavior >> promiseAwait [
+
+	"Extract Promise and await result.
+	Should take 2 seconds on first run and 0 on consecutive runs."
+
+	| jsPromise message outputElement |
+
+	outputElement := self outputElement.
+
+	"Resolve a message after 2 seconds"
+	jsPromise := CpJavaScriptPromise on: [ :resolveBlock :rejectBlock |
+		CpBrowserWindow current setTimeout: 2000 thenDo: [ resolveBlock value: 'Hello world' ] ].
+
+	"Wait for the result..."
+	message := jsPromise await.
+
+	"Show it"
+	outputElement
+		appendChild: ((CpHtmlElement newWithTag: #p)
+			textContent: 'Result from Promise: ', message printString ;
+			yourself) ;
+		yourself
 ]
 
 { #category : #examples }

@@ -224,8 +224,8 @@ CpTransition class >> registerTransitionProcess [
 	See also CpJavaScriptFunction class >> #wrap:"
 
 	self registerTransitionProcess: [
-		self performTransitions.
 		CpJavaScriptFunction currentSetResult: nil.
+		self performTransitions.
 		Processor activeProcess terminate ] asContext
 ]
 

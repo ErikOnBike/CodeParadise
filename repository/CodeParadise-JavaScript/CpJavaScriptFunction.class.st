@@ -1,8 +1,19 @@
 "
-I represent a JavaScript function.
-I am used in CpJavaScriptEventTarget to represent an event handler.
+I represent a JavaScript function. I can be used for callbacks and Promises.
+I am also used in CpJavaScriptEventTarget to represent an event handler.
 Smalltalk blocks can be wrapped in an instance of me using:
 	CpJavaScriptFunction wrap: [ ""some block"" ]
+
+Within the CpJavaScriptObject >> #apply:... range of methods, any Block
+arguments are automatically wrapped in an instance of me. So there is normally
+no need to do the wrapping manually/explicitly. You are free to do so anyway.
+
+Implementation:
+The execution of an instance of me is always performed on a separate Process.
+This allows multiple instances to run in 'parallel' when used for callbacks
+or in Promises where some form of asynchronous operation is required.
+Remember this might influence the value of 'Processor activeProcess' outside
+and inside a Block of code (within the same method).
 
 "
 Class {

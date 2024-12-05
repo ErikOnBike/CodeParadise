@@ -47,7 +47,42 @@ CpJavaScriptPromise class >> resolve: aBlock [
 		resolveBlock value: aBlock value ]
 ]
 
-{ #category : #accessing }
+{ #category : #operations }
+CpJavaScriptPromise >> await [
+
+	"Evaluate the receiver and wait for its result.
+	This makes the Promise result become available as regular value.
+	No need to use #then: anymore.
+
+	Implementation:
+	Since JavaScriptFunctions are (already) performed in separate Processes,
+	the thenable Block to receive the value result will execute even though
+	this active Process is suspended and it will, after execution, resume the
+	initial active Process to provide the result.
+
+	See also class comments in CpJavaScriptFunction"
+
+	| activeProcess result |
+
+	"Keep track of original Process"
+	activeProcess := Processor activeProcess.
+
+	"The following (thenable) Block will be performed in own Process"
+	self then: [ :value |
+
+		"Store the result"
+		result := value.
+		
+		"Resume the original Process"
+		activeProcess resume ].
+
+	"Stop the current Process (will be resumed when the result is obtained)"
+	activeProcess suspend.
+
+	^ result
+]
+
+{ #category : #operations }
 CpJavaScriptPromise >> catch: aBlockOrFunction [
 
 	"Appends a rejection handler callback to the promise, and returns a new promise
@@ -75,7 +110,7 @@ CpJavaScriptPromise >> catch: aBlockOrFunction [
 		resultAs: CpJavaScriptPromise
 ]
 
-{ #category : #accessing }
+{ #category : #operations }
 CpJavaScriptPromise >> finally: aBlockOrFunction [
 
 	"Appends a handler to the promise, and returns a new promise that is resolved when
@@ -87,7 +122,7 @@ CpJavaScriptPromise >> finally: aBlockOrFunction [
 	^ self apply: #finally withArguments: { aBlockOrFunction asJavaScriptFunction } resultAs: CpJavaScriptPromise
 ]
 
-{ #category : #accessing }
+{ #category : #private }
 CpJavaScriptPromise >> rawCatch: aBlockOrFunction [
 
 	"Appends a rejection handler callback to the promise, and returns a new promise
@@ -99,7 +134,7 @@ CpJavaScriptPromise >> rawCatch: aBlockOrFunction [
 	^ self apply: #catch withArguments: { aBlockOrFunction asJavaScriptFunction } resultAs: CpJavaScriptPromise
 ]
 
-{ #category : #accessing }
+{ #category : #operations }
 CpJavaScriptPromise >> then: fullfilledBlock [
 
 	^ self then: fullfilledBlock onRejected: nil
@@ -111,7 +146,7 @@ CpJavaScriptPromise >> then: fullfilledBlock catch: rejectedBlock [
 	^ (self then: fullfilledBlock) catch: rejectedBlock
 ]
 
-{ #category : #accessing }
+{ #category : #operations }
 CpJavaScriptPromise >> then: fullfilledBlock onRejected: rejectedBlock [
 
 	"Appends fulfillment and rejection handlers to the promise, and returns a new promise
