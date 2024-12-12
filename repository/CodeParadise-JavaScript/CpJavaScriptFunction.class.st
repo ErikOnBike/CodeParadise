@@ -22,28 +22,6 @@ Class {
 	#category : #'CodeParadise-JavaScript-Core'
 }
 
-{ #category : #private }
-CpJavaScriptFunction class >> currentArguments [
-
-	"Answer the currently executing function's arguments (an Array).
-	This method should only be called while the receiver's block is
-	being executed."
-
-	<primitive: 'primitiveJavaScriptFunctionCurrentArguments' module: 'CpSystemPlugin'>
-	self primitiveFailed
-]
-
-{ #category : #private }
-CpJavaScriptFunction class >> currentSetResult: anObject [
-
-	"Set the currently executing function's result value.
-	This method should only be called while the receiver's block is
-	being executed."
-
-	<primitive: 'primitiveJavaScriptFunctionCurrentSetResult:' module: 'CpSystemPlugin'>
-	self primitiveFailed
-]
-
 { #category : #converting }
 CpJavaScriptFunction class >> wrap: aBlock [
 
@@ -62,35 +40,50 @@ CpJavaScriptFunction class >> wrap: aBlock [
 	when the function gets executed, we need to terminate this (i.e. the
 	active) Process at the end of the Block."
 
-	^ (super wrap: [
-			| arguments |
+	| instance executionContext |
 
-			"Retrieve and resize arguments to match the Block"
-			arguments := self currentArguments.
-			arguments size = aBlock numArgs
-				ifFalse: [
-					"Create correct sized arguments Array (potentially losing arguments or adding nils)"
-					| receivedArguments |
-					receivedArguments := arguments.
-					arguments := Array new: aBlock numArgs.
-					arguments
-						replaceFrom: 1
-						to: (receivedArguments size min: arguments size)
-						with: receivedArguments
-						startingAt: 1 ].
+	executionContext := [
+		| arguments |
 
-			"Execute the Block and store the result (or the error instance if an error occurred)"
-			self currentSetResult: ([ aBlock valueWithArguments: arguments ] on: Error do: [ :error |
-				(CpJavaScriptError message: error messageText)
-					rawPropertyAt: #cause put: error ;
-					yourself ]).
+		"Retrieve and resize arguments to match the Block"
+		arguments := instance arguments.
+		arguments size = aBlock numArgs
+			ifFalse: [
+				"Create correct sized arguments Array (potentially losing arguments or adding nils)"
+				| receivedArguments |
+				receivedArguments := arguments.
+				arguments := Array new: aBlock numArgs.
+				arguments
+					replaceFrom: 1
+					to: (receivedArguments size min: arguments size)
+					with: receivedArguments
+					startingAt: 1 ].
 
-			"Stop execution"
-			Processor activeProcess terminate ] asContext)
+		"Execute the Block and store the result (or the error instance if an error occurred)"
+		instance setResult: ([ aBlock valueWithArguments: arguments ] on: Error do: [ :error |
+			(CpJavaScriptError message: error messageText)
+				rawPropertyAt: #cause put: error ;
+				yourself ]).
 
-		"Add the original Block as property to the new JavaScript Function instance"
+		"Stop execution"
+		Processor activeProcess terminate ] asContext.
+
+	"Create an instance with the newly created execution Context"
+	instance := super wrap: executionContext.
+
+	"Add the original Block as property to the new JavaScript Function instance"
+	^ instance
 		rawPropertyAt: #_st_block put: aBlock ;
 		yourself
+]
+
+{ #category : #private }
+CpJavaScriptFunction >> arguments [
+
+	"Answer the arguments of the receiver's executing JavaScript function (an Array)"
+
+	<primitive: 'primitiveJavaScriptFunctionArguments' module: 'CpSystemPlugin'>
+	self primitiveFailed
 ]
 
 { #category : #converting }
@@ -115,7 +108,7 @@ CpJavaScriptFunction >> call: anObject withArguments: anArray [
 	Because of the similar names, the JavaScript methods 'apply()' and
 	'call' are both mapped onto this #call:withArguments:"
 
-	^ self apply: #apply withArguments: { self . anArray }
+	^ self apply: #apply withArguments: { anObject . anArray }
 ]
 
 { #category : #operations }
@@ -126,5 +119,14 @@ CpJavaScriptFunction >> call: anObject withArguments: anArray resultAs: aClass [
 	Because of the similar names, the JavaScript methods 'apply()' and
 	'call' are both mapped onto this #call:withArguments:"
 
-	^ self apply: #apply withArguments: { self . anArray } resultAs: aClass
+	^ self apply: #apply withArguments: { anObject . anArray } resultAs: aClass
+]
+
+{ #category : #private }
+CpJavaScriptFunction >> setResult: anObject [
+
+	"Set the result value for the receiver's executing JavaScript function"
+
+	<primitive: 'primitiveJavaScriptFunctionSetResult:' module: 'CpSystemPlugin'>
+	self primitiveFailed
 ]

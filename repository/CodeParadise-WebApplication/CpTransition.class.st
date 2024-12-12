@@ -217,16 +217,16 @@ CpTransition class >> registerTransitionProcess [
 
 	Implementation:
 	The transition process is actually a Block which will be executed
-	in a dynamically created Process to allow better interaction with
-	the JavaScript environment (like calling synchronous JavaScript
-	functions from Smalltalk and vice versa). The Block is converted
-	to a CpJavaScriptFunction internally.
-	See also CpJavaScriptFunction class >> #wrap:"
+	in a special internal Process which can't be put asleep to allow
+	better interaction with the JavaScript environment (like calling
+	synchronous JavaScript functions from Smalltalk and vice versa).
+	After each loop it will suspend itself to be resumed by the internal
+	transition mechanism."
 
 	self registerTransitionProcess: [
-		CpJavaScriptFunction currentSetResult: nil.
-		self performTransitions.
-		Processor activeProcess terminate ] asContext
+		[ true ] whileTrue: [
+			self performTransitions.
+			Processor activeProcess suspend ] ] asContext
 ]
 
 { #category : #'processing - private' }

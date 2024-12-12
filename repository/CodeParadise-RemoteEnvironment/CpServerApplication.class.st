@@ -188,7 +188,7 @@ CpServerApplication class >> validateClientVersion: aString [
 	Implementation:
 	Currently a strict check is performed on the client version (a monotonic increasing counter)."
 
-	aString = '1'
+	aString = '2'
 		ifFalse: [ self error: 'Incompatible ClientEnvironment, please match CodeParadise and ClientEnvironment repos' ]
 ]
 
