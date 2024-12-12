@@ -411,6 +411,23 @@ CpPropertyModel >> propertyValuesDo: aBlock [
 	^ self propertyNamesDo: [ :name | aBlock value: (self propertyAt: name) ]
 ]
 
+{ #category : #accessing }
+CpPropertyModel >> reset [
+
+	"Restore to initial (empty) state"
+
+	| oldData |
+
+	data ifEmpty: [ ^ self ].
+
+	oldData := data.
+	data := Dictionary new.
+
+	"Announce the receiver's value(s) changed"
+	oldData keysAndValuesDo: [ :key :value |
+		self announce: (CpPropertyChanged name: key oldValue: value newValue: nil) ]
+]
+
 { #category : #'accessing - dictionary access' }
 CpPropertyModel >> size [
 
