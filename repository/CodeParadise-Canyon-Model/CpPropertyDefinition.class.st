@@ -6,7 +6,7 @@ methods to Object for the sake of identifying or using Property definitions.
 Class {
 	#name : #CpPropertyDefinition,
 	#superclass : #Object,
-	#category : #'CodeParadise-Canyon-Model'
+	#category : #'CodeParadise-Canyon-Model-Core'
 }
 
 { #category : #testing }

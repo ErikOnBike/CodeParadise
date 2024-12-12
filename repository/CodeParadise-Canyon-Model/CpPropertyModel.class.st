@@ -42,7 +42,7 @@ Class {
 	#classInstVars : [
 		'propertySlots'
 	],
-	#category : #'CodeParadise-Canyon-Model'
+	#category : #'CodeParadise-Canyon-Model-Core'
 }
 
 { #category : #'event handling' }

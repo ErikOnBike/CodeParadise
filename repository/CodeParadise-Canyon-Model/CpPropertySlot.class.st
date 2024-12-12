@@ -16,7 +16,7 @@ name inside methods) will generate this specific code and is therefore free of a
 Class {
 	#name : #CpPropertySlot,
 	#superclass : #DerivedSlot,
-	#category : #'CodeParadise-Canyon-Model'
+	#category : #'CodeParadise-Canyon-Model-Core'
 }
 
 { #category : #'class initialization' }
