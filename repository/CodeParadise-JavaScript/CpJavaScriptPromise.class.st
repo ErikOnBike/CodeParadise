@@ -1,6 +1,19 @@
 "
 I represent the JavaScript Promise class.
 
+I do not support await as in JavaScript. The reason is that await is not actually suspending execution
+(like Smalltalk Processes can), but is more a syntactic replacement for chained Promises.
+Furthermore, the way CodeParadise is implemented does not play well with this asynchronous mechanism.
+Browser events are the initiator for performing code. The event handler should perform its task as
+quickly as possible (not waiting on some Promise to resolve). Similar for Transitions which periodically
+run (as quickly as possible).
+So only background Processes would/could benefit from having an await feature, because these Processes
+can be suspended. Since such Processes are probably not used often and making distinction between such
+Processes is probably awkward for the developer to understand, await is not supported.
+
+See also explanation in the link below:
+https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/async_function
+
 "
 Class {
 	#name : #CpJavaScriptPromise,
@@ -45,41 +58,6 @@ CpJavaScriptPromise class >> resolve: aBlock [
 
 	^ self on: [ :resolveBlock :rejectBlock |
 		resolveBlock value: aBlock value ]
-]
-
-{ #category : #operations }
-CpJavaScriptPromise >> await [
-
-	"Evaluate the receiver and wait for its result.
-	This makes the Promise result become available as regular value.
-	No need to use #then: anymore.
-
-	Implementation:
-	Since JavaScriptFunctions are (already) performed in separate Processes,
-	the thenable Block to receive the value result will execute even though
-	this active Process is suspended and it will, after execution, resume the
-	initial active Process to provide the result.
-
-	See also class comments in CpJavaScriptFunction"
-
-	| activeProcess result |
-
-	"Keep track of original Process"
-	activeProcess := Processor activeProcess.
-
-	"The following (thenable) Block will be performed in own Process"
-	self then: [ :value |
-
-		"Store the result"
-		result := value.
-		
-		"Resume the original Process"
-		activeProcess resume ].
-
-	"Stop the current Process (will be resumed when the result is obtained)"
-	activeProcess suspend.
-
-	^ result
 ]
 
 { #category : #operations }

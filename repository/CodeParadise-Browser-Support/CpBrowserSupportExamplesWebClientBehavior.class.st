@@ -509,11 +509,21 @@ CpBrowserSupportExamplesWebClientBehavior >> exampleJavaScriptPromise [
 			textContent: 'Promises can be used and created from Smalltalk using CpJavaScriptPromise class >> #on: aTwoArgBlock, CpJavaScriptPromise class >> #resolve: aBlock or CpJavaScriptPromise class >> #all: aCollection' ;
 			yourself) ;
 		appendChild: ((CpHtmlElement newWithTag: #p)
-			textContent: 'You can use the asynchronous behavior of Promises or use #await to become synchronous again.' ;
+			textContent: 'You can use the asynchronous behavior of Promises.' ;
 			yourself) ;
 		appendChild: ((CpHtmlElement newWithTag: #button)
-			textContent: 'Show message (using await, takes 2s)' ;
-			when: CpClickEvent primary only send: #promiseAwait to: self ;
+			id: 'promise-button' ;
+			textContent: 'Show message (using await, takes 2s to run)' ;
+			when: CpClickEvent primary only send: #promiseRun to: self ;
+			yourself) ;
+		appendChild: ((CpHtmlElement newWithTag: #p)
+			textContent: 'There is no Smalltalk equivalent for await with Promises. The reason is that await is not actually suspending execution (like Smalltalk Processes can), but is more a syntactic replacement for chained Promises. Furthermore, the way CodeParadise is implemented does not play well with this asynchronous mechanism. Browser events are the initiator for performing code. The event handler should perform its task as quickly as possible (not waiting on some Promise to resolve). Similar for Transitions which periodically run (as quickly as possible). So only background Processes would/could benefit from having an await feature, because these Processes can be suspended. Since such Processes are probably not used often and making distinction between such Processes is probably awkward for the developer, await is not supported. See also explanation in the link below:' ;
+			yourself) ;
+		appendChild: ((CpHtmlElement newWithTag: #p)
+			appendChild: ((CpHtmlElement newWithTag: #a)
+				attributeAt: #href put: 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/async_function' ;
+				textContent: 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/async_function' ;
+				yourself) ;
 			yourself) ;
 		yourself
 ]
@@ -616,29 +626,23 @@ CpBrowserSupportExamplesWebClientBehavior >> outputElement [
 	^ CpHtmlElement documentBody firstDescendantMatching: '#output'
 ]
 
-{ #category : #examples }
-CpBrowserSupportExamplesWebClientBehavior >> promiseAwait [
+{ #category : #'as yet unclassified' }
+CpBrowserSupportExamplesWebClientBehavior >> promiseRun [
 
-	"Extract Promise and await result.
-	Should take 2 seconds on first run and 0 on consecutive runs."
-
-	| jsPromise message outputElement |
+	| outputElement jsPromise |
 
 	outputElement := self outputElement.
 
-	"Resolve a message after 2 seconds"
 	jsPromise := CpJavaScriptPromise on: [ :resolveBlock :rejectBlock |
 		CpBrowserWindow current setTimeout: 2000 thenDo: [ resolveBlock value: 'Hello world' ] ].
 
-	"Wait for the result..."
-	message := jsPromise await.
-
-	"Show it"
-	outputElement
-		appendChild: ((CpHtmlElement newWithTag: #p)
-			textContent: 'Result from Promise: ', message printString ;
-			yourself) ;
-		yourself
+	outputElement appendChild: ((CpHtmlElement newWithTag: #p)
+		textContent: 'Wait 2 seconds...' ;
+		yourself).
+	jsPromise then: [  :value |
+		outputElement appendChild: ((CpHtmlElement newWithTag: #p)
+			textContent: value ;
+			yourself) ]
 ]
 
 { #category : #examples }
