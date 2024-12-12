@@ -488,7 +488,12 @@ CpBrowserSupportExamplesWebClientBehavior >> exampleJavaScriptFunction [
 
 	"Prevent errors from giving results"
 	jsFunc4 := CpJavaScriptFunction wrap: [ self traceCr: 'In for an error?'. self error: 'OOPS' ].
-	self traceCr: 'Result on error ', (jsFunc4 call: nil withArguments: nil) printString
+	[
+		self traceCr: 'Result on error ', (jsFunc4 call: nil withArguments: nil) printString
+	] on: Error do: [ :err |
+		self traceCr: 'Error during JavaScriptFunction: ', err rootCause printString
+	].
+	self traceCr: 'After the Error incident'
 ]
 
 { #category : #examples }
