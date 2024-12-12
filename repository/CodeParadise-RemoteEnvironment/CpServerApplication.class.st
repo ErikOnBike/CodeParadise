@@ -238,7 +238,7 @@ CpServerApplication >> addInstallationChecker [
 	(Packages or extension method categories) to prevent the dynamic creation
 	of these collections on each call to #isClassAllowed: or #isMethodAllowed:"
 	environment
-		addInstallationChecker: (CpPackageInstallationChecker packages: self class allowedPackages) ;
+		addInstallationChecker: (CpApplicationPackageInstallationChecker applicationClass: self class) ;
 		addInstallationChecker: (CpExtensionMethodInstallationChecker extensionMethodCategories: self extensionMethodCategories)
 ]
 
