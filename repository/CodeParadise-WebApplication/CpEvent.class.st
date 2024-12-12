@@ -140,16 +140,16 @@ CpEvent class >> registerEventProcess [
 
 	Implementation:
 	The event process is actually a Block which will be executed
-	in a dynamically created Process to allow better interaction with
-	the JavaScript environment (like calling synchronous JavaScript
-	functions from Smalltalk and vice versa). The Block is converted
-	to a CpJavaScriptFunction internally.
-	See also CpJavaScriptFunction class >> #wrap:"
+	in a special internal Process which can't be put asleep to allow
+	better interaction with the JavaScript environment (like calling
+	synchronous JavaScript functions from Smalltalk and vice versa).
+	After each loop it will suspend itself to be resumed by the internal
+	event mechanism."
 
 	self registerEventProcess: [
-		CpJavaScriptFunction currentSetResult: nil.
-		self dispatchEvents.
-		Processor activeProcess terminate ] asContext
+		[ true ] whileTrue: [
+			self dispatchEvents.
+			Processor activeProcess suspend ] ] asContext
 ]
 
 { #category : #'processing - private' }
