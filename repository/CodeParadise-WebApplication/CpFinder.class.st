@@ -77,7 +77,7 @@ CpFinder class >> new [
 
 	"Use self >> #current instead to get the singleton instance"
 
-	^ self errorNewReplacedBy: #current
+	self errorNewReplacedBy: #current
 ]
 
 { #category : #enumerating }
