@@ -39,7 +39,7 @@ CpOrdinalTextLookup class >> pluralRulesForLocale: aString [
 
 	^ PluralRulesCache
 		at: aString
-		ifAbsentPut: [ CpBrowserPluralRules ordinalLocale: aString ]
+		ifAbsentPut: [ CpIntl pluralRulesClass ordinalLocale: aString ]
 ]
 
 { #category : #accessing }
