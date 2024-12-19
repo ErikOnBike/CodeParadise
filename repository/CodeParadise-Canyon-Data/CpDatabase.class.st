@@ -1,3 +1,14 @@
+"
+I am a Database. I am responsible for querying and updating records.
+I am using SQL as the query language.
+
+My implementation is based on Sqlite. For performance I keep track of
+the prepared statements which are created while creating query and
+update statements. Prepared statements are kept by an identifier, meaning
+the user is responsible to come up with unique names (although a safety
+check is made the identifier and query are matching).
+
+"
 Class {
 	#name : #CpDatabase,
 	#superclass : #Object,
