@@ -17,11 +17,17 @@ String >> formatKnown: aCollection [
 			[ stream atEnd ]
 				whileFalse: [ | currentChar |
 					(currentChar := stream next) == ${
-						ifTrue: [ | expression index |
+						ifTrue: [ | expression index replacement |
 							expression := stream upTo: $}.
-							index := expression asNumberOrNil ifNil: [ expression ].
-							(aCollection at: index ifAbsent: [ nil ])
-								ifNotNil: [ :replacement | result nextPutAll: replacement asString ]
+							index := expression asNumberOrNil.
+							replacement := index
+								ifNotNil: [ aCollection at: index ifAbsent: [ nil ] ]
+								ifNil: [
+									(aCollection isKindOf: SequenceableCollection)
+										ifTrue: [ nil ] "SequenceableCollection has numeric indices and we have a name here"
+										ifFalse: [ aCollection at: expression ifAbsent: [ nil ] ] ].
+							replacement
+								ifNotNil: [ result nextPutAll: replacement asString ]
 								ifNil: [ result nextPut: ${ ; nextPutAll: expression ; nextPut: $} ] ]
 						ifFalse: [ currentChar == $\
 								ifTrue: [ stream atEnd
