@@ -219,6 +219,21 @@ CpPropertyModel >> asJsonObjectValue [
 	^ result
 ]
 
+{ #category : #'accessing - dictionary access' }
+CpPropertyModel >> at: aSymbol [
+
+	^ self at: aSymbol ifAbsent: [ self error: 'key not found' ]
+]
+
+{ #category : #'accessing - dictionary access' }
+CpPropertyModel >> at: aSymbol ifAbsent: aBlock [
+
+	(self hasPropertyAt: aSymbol)
+		ifFalse: [ ^ aBlock value ].
+
+	^ self propertyAt: aSymbol
+]
+
 { #category : #testing }
 CpPropertyModel >> hasPropertyAt: aSymbol [
 
