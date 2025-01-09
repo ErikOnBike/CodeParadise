@@ -296,6 +296,14 @@ CpPropertyModel >> normalize [
 		each constraints do: [ :eachConstraint | eachConstraint normalizeProperty: each name in: self ] ]
 ]
 
+{ #category : #copying }
+CpPropertyModel >> postCopy [
+
+	super postCopy.
+
+	data := data copy
+]
+
 { #category : #printing }
 CpPropertyModel >> printOn: aStream [
 
