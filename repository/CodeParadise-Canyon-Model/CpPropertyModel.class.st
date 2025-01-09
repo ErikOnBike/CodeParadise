@@ -192,6 +192,21 @@ CpPropertyModel class >> updatePropertyDefinitions [
 		class := class superclass ]
 ]
 
+{ #category : #comparing }
+CpPropertyModel >> = anObject [
+
+	"Answer whether the specified Object is equal to the receiver.
+	This method allows comparing against Dictionaries."
+
+	self == anObject
+		ifTrue: [ ^ true ].
+
+	"If the specified Object is a PropertyModel as well, the following will
+	invoke the same method again, this time with a Dictionary to compare against.
+	If the speicied Object is a Dictionary it will compare two Dictionaries."
+	^ anObject = data
+]
+
 { #category : #'accessing - dictionary access' }
 CpPropertyModel >> asDictionary [
 
@@ -240,6 +255,12 @@ CpPropertyModel >> hasPropertyAt: aSymbol [
 	"Answer whether the receiver has the specified property"
 
 	^ self class hasPropertyNamed: aSymbol
+]
+
+{ #category : #comparing }
+CpPropertyModel >> hash [
+
+	^ data hash
 ]
 
 { #category : #initialization }
