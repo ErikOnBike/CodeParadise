@@ -21,23 +21,15 @@ CpExtensionMethodInstallationChecker class >> new [
 	self errorNewReplacedBy: #extensionMethodCategories:
 ]
 
-{ #category : #initialization }
-CpExtensionMethodInstallationChecker >> initializeWithExtensionMethodCategories: aCollection [
-
-	self initialize.
-
-	extensionMethodCategories := aCollection
-]
-
 { #category : #testing }
-CpExtensionMethodInstallationChecker >> isMethodAllowed: aCompiledMethod [
+CpExtensionMethodInstallationChecker >> includeMethod: aCompiledMethod [
 
-	"Answer whether the specified CompiledMethod can be installed (in a ClientEnvironment)"
+	"Answer whether the specified CompiledMethod should be installed (in a ClientEnvironment)"
 
 	| pragmas |
 
 	"Check if the method is allowed by a chained InstallationChecker first (since accessing pragmas might be slower)"
-	(super isMethodAllowed: aCompiledMethod)
+	(super includeMethod: aCompiledMethod)
 		ifTrue: [ ^ true ].
 
 	"Check if this method is an explicit extension method"
@@ -46,4 +38,12 @@ CpExtensionMethodInstallationChecker >> isMethodAllowed: aCompiledMethod [
 		pragmas detect: [ :pragma | pragma keyword = each ] ifFound: [ ^ true ] ].
 
 	^ false
+]
+
+{ #category : #initialization }
+CpExtensionMethodInstallationChecker >> initializeWithExtensionMethodCategories: aCollection [
+
+	self initialize.
+
+	extensionMethodCategories := aCollection
 ]

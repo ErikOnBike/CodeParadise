@@ -34,26 +34,26 @@ CpPackageInstallationChecker class >> packages: aCollection [
 		yourself
 ]
 
+{ #category : #testing }
+CpPackageInstallationChecker >> includeClass: aClass [
+
+	"Answer whether the specified Class should be installed (in a ClientEnvironment)"
+
+	^ (super includeClass: aClass) or: [ packages includes: aClass package ]
+]
+
+{ #category : #testing }
+CpPackageInstallationChecker >> includeMethod: aCompiledMethod [
+
+	"Answer whether the specified CompiledMethod should be installed (in a ClientEnvironment)"
+
+	^ (super includeMethod: aCompiledMethod) or: [ packages includes: aCompiledMethod package ]
+]
+
 { #category : #initialization }
 CpPackageInstallationChecker >> initializeWithPackages: aCollection [
 
 	self initialize.
 
 	packages := aCollection
-]
-
-{ #category : #testing }
-CpPackageInstallationChecker >> isClassAllowed: aClass [
-
-	"Answer whether the specified Class is allowed within the receiver"
-
-	^ (super isClassAllowed: aClass) or: [ packages includes: aClass package ]
-]
-
-{ #category : #testing }
-CpPackageInstallationChecker >> isMethodAllowed: aCompiledMethod [
-
-	"Answer whether the specified CompiledMethod can be installed (in a ClientEnvironment)"
-
-	^ (super isMethodAllowed: aCompiledMethod) or: [ packages includes: aCompiledMethod package ]
 ]
