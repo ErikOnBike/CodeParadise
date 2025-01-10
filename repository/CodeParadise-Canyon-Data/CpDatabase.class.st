@@ -156,5 +156,5 @@ CpDatabase >> signalSqliteError: error [
 			rootCause code = #SQLITE_CONSTRAINT_UNIQUE
 				ifTrue: [ CpDatabaseUniqueConstraintViolation signal ] ].
 
-	error signal
+	error pass
 ]
