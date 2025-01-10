@@ -319,6 +319,19 @@ CpPropertyModel >> keysDo: aBlock [
 	self propertyNamesDo: aBlock
 ]
 
+{ #category : #merging }
+CpPropertyModel >> merge: anObject [
+
+	"Merge the specified Object into the receiver.
+	Assuming the Object is Dictionary-like (like MaEntity but also a JSON Object).
+	Answer the Object merged into the receiver."
+
+	anObject keysAndValuesDo: [ :key :value |
+		self propertyAt: key put: value ].
+
+	^ anObject
+]
+
 { #category : #accessing }
 CpPropertyModel >> normalize [
 
