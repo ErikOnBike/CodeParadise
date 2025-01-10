@@ -22,6 +22,16 @@ CpBaseModel >> announce: anAnnouncement [
 	announcer announce: anAnnouncement
 ]
 
+{ #category : #copying }
+CpBaseModel >> postCopy [
+
+	"Remove the Announcer and let it be re-created lazily"
+
+	super postCopy.
+
+	announcer := nil
+]
+
 { #category : #initialization }
 CpBaseModel >> release [
 
