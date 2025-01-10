@@ -126,6 +126,7 @@ CpClientEnvironment class >> preInstalledClasses [
 			add: Behavior ;
 "			add: Block ;				Only in tiny image (for P8 version)
 "			add: BlockClosure ;
+			add: Boolean ;
 			add: ByteArray ;
 			add: ByteString ;
 			add: Character ;
