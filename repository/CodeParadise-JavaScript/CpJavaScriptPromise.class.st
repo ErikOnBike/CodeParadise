@@ -146,9 +146,21 @@ CpJavaScriptPromise >> then: fullfilledBlock onRejected: rejectedBlock [
 ]
 
 { #category : #convenience }
+CpJavaScriptPromise >> then: fullfilledBlock then: secondBlock [
+
+	^ (self then: fullfilledBlock) then: secondBlock
+]
+
+{ #category : #convenience }
 CpJavaScriptPromise >> then: fullfilledBlock then: secondBlock catch: rejectedBlock [
 
 	^ (self then: fullfilledBlock) then: secondBlock catch: rejectedBlock
+]
+
+{ #category : #convenience }
+CpJavaScriptPromise >> then: fullfilledBlock then: secondBlock then: thirdBlock [
+
+	^ (self then: fullfilledBlock) then: secondBlock then: thirdBlock
 ]
 
 { #category : #convenience }
