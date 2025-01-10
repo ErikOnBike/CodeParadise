@@ -639,7 +639,7 @@ CpBrowserSupportExamplesWebClientBehavior >> promiseRun [
 	outputElement := self outputElement.
 
 	jsPromise := CpJavaScriptPromise on: [ :resolveBlock :rejectBlock |
-		CpBrowserWindow current setTimeout: 2000 thenDo: [ resolveBlock value: 'Hello world' ] ].
+		CpGlobalThis setTimeout: 2000 thenDo: [ resolveBlock value: 'Hello world' ] ].
 
 	outputElement appendChild: ((CpHtmlElement newWithTag: #p)
 		textContent: 'Wait 2 seconds...' ;

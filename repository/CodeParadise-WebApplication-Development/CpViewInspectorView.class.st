@@ -389,7 +389,7 @@ CpViewInspectorView >> initialize [
 		when: (CpKeyDownEvent key: 'b') & CpActionKeyDown send: #handleBrowse: to: self ;
 		when: CpKeyPressEvent escape send: #handleEscape: to: self.
 
-	CpBrowserWindow current setTimeout: 1000 thenDo: [
+	CpGlobalThis setTimeout: 1000 thenDo: [
 	self traceCr: ('
 ===================== Installed ViewInspector tool =====================
 Press Cmd-i or Ctrl-i to open the Inspector view.

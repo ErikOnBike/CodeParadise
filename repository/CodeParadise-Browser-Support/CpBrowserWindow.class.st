@@ -23,6 +23,8 @@ CpBrowserWindow >> clearTimeout: anInteger [
 
 	"Clear a previously set timeout"
 
+	self warnCr: 'Use of CpBrowserWindow >> #clearTimeout: is deprecated, please use CpGlobalThis class >> #clearTimeout:'.
+
 	^ self apply: #clearTimeout withArguments: { anInteger }
 ]
 
@@ -97,6 +99,8 @@ CpBrowserWindow >> fetch: aString withOptions: aDictionary [
 		auto
 			Automatically determine the priority of the fetch request relative to other requests of the same type (default)."
 
+	self warnCr: 'Use of CpBrowserWindow >> #fetch:withOptions: is deprecated, please use CpGlobalThis class >> #fetch:withOptions:'.
+
 	^ self apply: #fetch withArguments: { aString . aDictionary } resultAs: CpJavaScriptPromise
 ]
 
@@ -128,6 +132,8 @@ CpBrowserWindow >> setTimeout: anInteger thenDo: aBlock [
 	"Set a timeout (in milliseconds) before performing the specified Block.
 	An integer is answered to identify this timeout. It can be
 	used to stop the timeout using #clearTimeout."
+
+	self warnCr: 'Use of CpBrowserWindow >> #setTimeout:thenDo: is deprecated, please use CpGlobalThis class >> #setTimeout:thenDo:'.
 
 	^ self apply: #setTimeout withArguments: { aBlock . anInteger }
 ]

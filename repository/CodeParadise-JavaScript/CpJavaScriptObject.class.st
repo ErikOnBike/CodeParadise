@@ -706,7 +706,7 @@ CpJavaScriptObject >> propertyAt: aSymbol [
 { #category : #accessing }
 CpJavaScriptObject >> propertyAt: aSymbol put: anObject [
 
-	"Set the property from the proxied JavaScript object with the specified value.
+	"Set the property of the proxied JavaScript object to the specified value.
 	In line with regular JavaScript this will set or create a property with the
 	given value.
 

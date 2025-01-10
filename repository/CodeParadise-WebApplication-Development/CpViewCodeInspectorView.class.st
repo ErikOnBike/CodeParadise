@@ -793,10 +793,10 @@ CpViewCodeInspectorView >> showDom [
 
 	"Expand 2 levels"
 	"Perform update after short delay because it otherwise will not trigger actual update sl-tree-item"
-	CpBrowserWindow current setTimeout: 10 thenDo: [
+	CpGlobalThis setTimeout: 10 thenDo: [
 		(domTree allDescendantsMatching: ':scope > sl-tree-item') do: [ :each | each beExpanded ].	
 
-		CpBrowserWindow current setTimeout: 10 thenDo: [
+		CpGlobalThis setTimeout: 10 thenDo: [
 			(domTree allDescendantsMatching: ':scope > sl-tree-item > sl-tree-item') do: [ :each | each beExpanded ] ] ]
 ]
 
