@@ -112,6 +112,16 @@ CpWebApplication class >> webResourcePragmaName [
 	^ #webResource:
 ]
 
+{ #category : #installing }
+CpWebApplication >> addInstallationChecker [
+
+	super addInstallationChecker.
+
+	"Add an InstallationChecker for the browser environment"
+	environment
+		addInstallationChecker: CpEnvironmentMethodInstallationChecker browser
+]
+
 { #category : #accessing }
 CpWebApplication >> clientBehaviorClass [
 
