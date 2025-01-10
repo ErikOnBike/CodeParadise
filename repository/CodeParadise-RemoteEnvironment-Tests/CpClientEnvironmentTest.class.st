@@ -18,7 +18,7 @@ CpClientEnvironmentTest >> testInstallClass [
 
 	clientEnvironment := CpClientEnvironment current.
 	self
-		assert: (Smalltalk at: #CpTestClassToBeRemoved ifAbsent: [ nil ]) isNil
+		assert: (Smalltalk classNamed: #CpTestClassToBeRemoved) isNil
 		description: 'Class not already present'.
 
 	someClass := Object subclass: #CpTestClassToBeRemoved
@@ -33,7 +33,7 @@ CpClientEnvironmentTest >> testInstallClass [
 			arguments: { someClass }) cpEncoded.
 
 		self
-			assert: (Smalltalk at: #CpTestClassToBeRemoved ifAbsent: [ nil ]) notNil
+			assert: (Smalltalk classNamed: #CpTestClassToBeRemoved) isNotNil
 			description: 'Class is installed'.
 		self
 			assertCollection: (Smalltalk classNamed: #CpTestClassToBeRemoved) instVarNames

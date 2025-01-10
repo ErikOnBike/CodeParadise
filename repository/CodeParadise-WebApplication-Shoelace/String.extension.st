@@ -5,7 +5,7 @@ String >> asShoelaceIcon [
 
 	<webApplicationShoelaceExtension>
 
-	^ (Smalltalk at: #SlIcon) new
+	^ (Smalltalk classNamed: #SlIcon) new
 		name: self ;
 		yourself
 ]

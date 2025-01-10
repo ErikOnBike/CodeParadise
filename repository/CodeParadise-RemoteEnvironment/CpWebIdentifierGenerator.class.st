@@ -82,11 +82,11 @@ CpWebIdentifierGenerator class >> defaultLength [
 { #category : #'instance creation' }
 CpWebIdentifierGenerator class >> defaultRandomGenerator [
 
-	^ Smalltalk at: #SecureRandom
-		ifAbsent: [
-			Smalltalk at: #SharedRandom
-				ifAbsent: [
-					Smalltalk at: #Random ifAbsent: [ self error: 'No Random generator present in image.' ] ] ]
+	^ (Smalltalk classNamed: #SecureRandom)
+		ifNil: [
+			(Smalltalk classNamed: #SharedRandom)
+				ifNil: [
+					(Smalltalk classNamed: #Random) ifNil: [ self error: 'No Random generator present in image.' ] ] ]
 ]
 
 { #category : #'class initialization' }
