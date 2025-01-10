@@ -226,7 +226,7 @@ CpPropertyModel >> asJsonObjectValue [
 
 	| result |
 
-	result := Dictionary new.
+	result := OrderedDictionary new.
 
 	self keysAndValuesDo: [ :key :value |
 		result at: key put: value asJsonObjectValue ].

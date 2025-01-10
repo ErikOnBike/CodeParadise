@@ -1,31 +1,72 @@
+"
+I represent a JSON structure. I do NOT represent individual JSON
+values (like String or Integer), but my properties do.
+
+The properties of my instances can be accessed like a Dictionary.
+All keys are (converted to) Strings.
+All values should be one of:
+	Object (another JSON structure)
+	String
+	Integer
+	Float
+	Boolean
+	nil
+	Array (of one of the above or another Array)
+
+See also: https://www.json.org
+
+Implementation:
+I wrap a Dictionary or an OrderedDictionary and perform any
+required conversions for keys and values.
+
+"
 Class {
 	#name : #CpJsonObject,
-	#superclass : #OrderedDictionary,
+	#superclass : #Object,
+	#instVars : [
+		'dict'
+	],
 	#category : #'CodeParadise-RemoteEnvironment-Support'
 }
 
 { #category : #'instance creation' }
-CpJsonObject class >> fromOrderedDictionary: anOrderedDictionary [
+CpJsonObject class >> fromDictionary: aDictionary [
 
 	^ self basicNew
-		initializeWithOrderedDictionary: anOrderedDictionary ;
+		initializeWithDictionary: aDictionary ;
 		yourself
 ]
 
 { #category : #'instance creation' }
 CpJsonObject class >> fromString: aString [
 
-	^ self fromOrderedDictionary: (CpJavaScriptJSON parse: aString)
+	^ self fromDictionary: (CpJavaScriptJSON parse: aString)
 ]
 
 { #category : #adding }
 CpJsonObject >> add: anAssociation [
 
-	^ super add: anAssociation key asString -> anAssociation value
+	"Add a new key/value pair, maintaining the JSON structure"
+
+	^ dict add: anAssociation key asString -> anAssociation value asJsonObjectValue
+]
+
+{ #category : #converting }
+CpJsonObject >> asJsonObjectValue [
+
+	"Answer a representation of the receiver to be used in a JSON Object.
+
+	Implementation:
+	Since my instance variable #dict is already created using #asJsonObjectValue
+	and is maintained as such, simply answer a copy."
+
+	^ dict copy
 ]
 
 { #category : #accessing }
 CpJsonObject >> at: anObject [
+
+	"Answer property value or nil if not present"
 
 	^ self at: anObject ifAbsent: [ nil ]
 ]
@@ -33,25 +74,37 @@ CpJsonObject >> at: anObject [
 { #category : #accessing }
 CpJsonObject >> at: anObject ifAbsent: aBlock [
 
-	^ super at: anObject asString ifAbsent: aBlock
+	"Answer property value or evaluate the specified Block if not present"
+
+	^ dict at: anObject asString ifAbsent: aBlock
 ]
 
 { #category : #accessing }
 CpJsonObject >> at: anObject ifAbsentPut: aBlock [
 
-	^ super at: anObject asString ifAbsentPut: aBlock
+	"Answer property value or evaluate the specified Block and set the property to this value.
+	Maintain the JSON structure by using a String key and converting the value using #asJsonObjectValue"
+
+	^ dict at: anObject asString ifAbsentPut: [ aBlock value asJsonObjectValue ]
 ]
 
 { #category : #accessing }
 CpJsonObject >> at: keyObject put: valueObject [
 
-	^ super at: keyObject asString put: valueObject
+	"Update property value.
+	Maintain the JSON structure by using a String key and converting the value using #asJsonObjectValue"
+
+	^ dict at: keyObject asString put: valueObject asJsonObjectValue
 ]
 
 { #category : #'reflective operations' }
 CpJsonObject >> doesNotUnderstand: aMessage [
 
-	"Accept getters and setters"
+	"Convenience mechanism to allow sending arbitrary messages to the JSON Object.
+	Accept getters and setters.
+
+	Be aware: some names are selectors of methods in Object and will therefore not be
+	handled by this DNU mechanism. E.g. #value, #class, #error:"
 
 	| key isSetter |
 
@@ -71,13 +124,11 @@ CpJsonObject >> doesNotUnderstand: aMessage [
 ]
 
 { #category : #initialization }
-CpJsonObject >> initializeWithOrderedDictionary: anOrderedDictionary [
+CpJsonObject >> initializeWithDictionary: aDictionary [
 
-	self initialize: anOrderedDictionary size.
+	self initialize.
 
-	"Add individual keys and values to make sure keys are converted to Strings"
-	anOrderedDictionary keysAndValuesDo: [ :key :value |
-		self at: key put: value ]
+	dict := aDictionary asJsonObjectValue
 ]
 
 { #category : #printing }
@@ -90,13 +141,5 @@ CpJsonObject >> printOn: aStream [
 	Since the VM does not recognize the receiver as a Dictionary-like Object, make an explicit
 	Dictionary for this purpose."
 
-	aStream nextPutAll: (CpJavaScriptJSON stringify: self)
-]
-
-{ #category : #accessing }
-CpJsonObject >> value [
-
-	"To allow accessing #value through a message send"
-
-	^ self at: #value
+	aStream nextPutAll: (CpJavaScriptJSON stringify: dict)
 ]

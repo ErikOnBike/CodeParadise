@@ -5,8 +5,9 @@ String >> asJsonObjectValue [
 
 	"Answer a representation of the receiver to be used in a JSON Object.
 
-	JSON values can either be: String, Number, Boolean, a Dictionary-like value (Dictionary, OrderedDictionary or subclasses)
-	or an Array of such elements."
+	Implementation:
+	Override the Collection >> #asJsonObjectValue implementation, since Strings are supported natively
+	and should not be seen as an Array of Characters."
 
 	<applicationExtension>
 

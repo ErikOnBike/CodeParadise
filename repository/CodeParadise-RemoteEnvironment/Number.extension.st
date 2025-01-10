@@ -1,7 +1,7 @@
-Extension { #name : #UndefinedObject }
+Extension { #name : #Number }
 
 { #category : #'*CodeParadise-RemoteEnvironment' }
-UndefinedObject >> asJsonObjectValue [
+Number >> asJsonObjectValue [
 
 	"Answer a representation of the receiver to be used in a JSON Object.
 
@@ -11,13 +11,5 @@ UndefinedObject >> asJsonObjectValue [
 
 	<applicationExtension>
 
-	^ self
-]
-
-{ #category : #'*CodeParadise-RemoteEnvironment' }
-UndefinedObject >> cpEncodeWith: anEncoder [
-
-	<clientEnvironment>
-
-	anEncoder encodeNil
+	^ self asFloat
 ]
