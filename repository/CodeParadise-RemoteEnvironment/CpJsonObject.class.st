@@ -43,6 +43,26 @@ CpJsonObject class >> fromString: aString [
 	^ self fromDictionary: (CpJavaScriptJSON parse: aString)
 ]
 
+{ #category : #'instance creation' }
+CpJsonObject class >> new [
+
+	"Answer a new empty JSON structure"
+
+	^ self wrap: Dictionary new
+]
+
+{ #category : #'instance creation' }
+CpJsonObject class >> wrap: aDictionary [
+
+	"Answer an instance of the receiver wrapping the specified Dictionary.
+	This assumes the Dictionary already is JSON compatible (see class comment
+	for an explanation)."
+
+	^ self basicNew
+		initializeWithWrappedDictionary: aDictionary ;
+		yourself
+]
+
 { #category : #adding }
 CpJsonObject >> add: anAssociation [
 
@@ -97,6 +117,24 @@ CpJsonObject >> at: keyObject put: valueObject [
 	^ dict at: keyObject asString put: valueObject asJsonObjectValue
 ]
 
+{ #category : #accessing }
+CpJsonObject >> atPath: aCollection [
+
+	"Answer the element at the specified path (a Collection of Dictionary and/or Array
+	indices, i.e. Strings or Integers).
+	If an element (somewhere along the path) is not present, nil is answered.
+	If an element (somewhere along the path, not being the last element) is not a
+	structural element like a Dictionary or an Array, an error will be signalled."
+
+	^ aCollection inject: self into: [ :result :index |
+		result
+			ifNotNil: [ :jsonObject |
+				(self isStructuralElement: jsonObject)
+					ifFalse: [ self error: ('indexing JSON object {1} for non indexable field {2} of {3}' format: { self printString . index printString . aCollection printString }) ].
+				jsonObject at: index ifAbsent: [ nil ] ]
+			ifNil: [ ^ nil ] ]
+]
+
 { #category : #'reflective operations' }
 CpJsonObject >> doesNotUnderstand: aMessage [
 
@@ -129,6 +167,30 @@ CpJsonObject >> initializeWithDictionary: aDictionary [
 	self initialize.
 
 	dict := aDictionary asJsonObjectValue
+]
+
+{ #category : #initialization }
+CpJsonObject >> initializeWithWrappedDictionary: aDictionary [
+
+	self initialize.
+
+	dict := aDictionary
+]
+
+{ #category : #private }
+CpJsonObject >> isStructuralElement: anObject [
+
+	"Answer whether the specified Object is a structural element
+	which can contain other elements.
+
+	Implementation:
+	Because the tiny image lacks different methods like #isCollection
+	and #isDictionary, an old fashioned match on class is performed."
+
+	^ anObject class = CpJsonObject or: [
+		anObject isArray or: [
+			anObject class = Dictionary or: [
+				anObject class = OrderedDictionary ] ] ]
 ]
 
 { #category : #printing }
