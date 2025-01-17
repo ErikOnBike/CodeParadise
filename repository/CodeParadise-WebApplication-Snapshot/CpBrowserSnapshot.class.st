@@ -53,7 +53,7 @@ Squeak.flushAllFiles = function() {};
 Squeak.filePut = function(name, buffer) {
 	if(name === "./client-environment.image") {
 		console.log("Saving image");
-		window.cpDownload(buffer, "application/octet-stream", "snapshot.image");
+		globalThis.cpDownload(buffer, "application/octet-stream", "snapshot.image");
 	}
 };'
 ]
