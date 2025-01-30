@@ -458,14 +458,14 @@ CpBrowserSupportExamplesWebClientBehavior >> exampleJavaScriptFunction [
 			textContent: 'JavaScript functions' ;
 			yourself) ;
 		appendChild: ((CpHtmlElement newWithTag: #p)
-			textContent: 'Smalltalk Blocks can be used in place of JavaScript functions (like callbacks or in Promises). The Smalltalk Block can call other JavaScript functions which can call Smalltalk Blocks again. Even recursively. See the dev console for some output (please check source code to see what is going on). Need to make some proper tests at some point ;-).' ;
+			textContent: 'Smalltalk Blocks can be used in place of JavaScript functions (like callbacks or in Promises). The Smalltalk Block can call other JavaScript functions which can call Smalltalk Blocks again. Even recursively. See the output below (please check source code to see what is going on).' ;
 			yourself) ;
 		yourself.
 
 	counter := 1.
 
 	jsFunc1 := CpJavaScriptFunction wrap: [ :input |
-		self traceCr: 'in func1 with ', input printString.
+		self showInfo: 'In func1 with input: ', input printString.
 		counter := counter + 1.
 
 		"Answer counter without the increment"
@@ -474,39 +474,41 @@ CpBrowserSupportExamplesWebClientBehavior >> exampleJavaScriptFunction [
 	jsFunc2 := CpJavaScriptFunction wrap: [ :input |
 		| x |
 		
-		self traceCr: 'in func2 with ', input printString, ' calling func1'.
-		x := jsFunc1 call: nil withArguments: { 'from 2 first (expect result 1)' }.
+		self showInfo: 'In func2 with input: ', input printString.
+		self showInfo: 'Calling func1'.
+		x := jsFunc1 call: nil withArguments: { 'from func2 first' }.
 		x = 1
-			ifFalse: [ self traceCr: 'Unexpected result from func1' ].
-		self traceCr: 'called 1 - result ', x printString.
-		x := jsFunc1 call: nil withArguments: { 'from 2 second (expect result 2)' }.
+			ifFalse: [ self showInfo: 'Unexpected result from func1' ].
+		self showInfo: 'Called func1 -  (expect result 1): ', x printString.
+		self showInfo: 'Calling func1'.
+		x := jsFunc1 call: nil withArguments: { 'from func2 second' }.
 		x = 2
-			ifFalse: [ self traceCr: 'Unexpected result from func1' ].
-		self traceCr: 'called 1 more - result ', x printString.
+			ifFalse: [ self showInfo: 'Unexpected result from func1' ].
+		self showInfo: 'Called func1 more - (expect result 2): ', x printString.
 
 		"Answer fixed value"		
 		123 ].
 
-	(jsFunc2 call: nil withArguments: { 'from fixThis' })
+	(jsFunc2 call: nil withArguments: { 'from example' })
 		ifNotNil: [ :result |
 			result = 123
-				ifFalse: [ self traceCr: 'Unexpected result from func2' ].
-			self traceCr: 'Ran all - result (expect 123) ', result printString ]
-		ifNil: [ self traceCr: 'Unexpected result from func2' ].
+				ifFalse: [ self showInfo: 'Unexpected result from func2' ].
+			self showInfo: 'Ran all - result (expect result 123): ', result printString ]
+		ifNil: [ self showInfo: 'Unexpected result from func2' ].
 
 	"Some recursive calls"
 	counter := 10.
-	jsFunc3 := CpJavaScriptFunction wrap: [ counter >= 0 ifTrue: [ self traceCr: 'Count down ', counter printString. counter := counter - 1. jsFunc3 call: nil withArguments: nil ] ].
+	jsFunc3 := CpJavaScriptFunction wrap: [ counter >= 0 ifTrue: [ self showInfo: 'Count down ', counter printString. counter := counter - 1. jsFunc3 call: nil withArguments: nil ] ].
 	jsFunc3 call: nil withArguments: nil.
 
 	"Prevent errors from giving results"
-	jsFunc4 := CpJavaScriptFunction wrap: [ self traceCr: 'In for an error?'. self error: 'OOPS' ].
+	jsFunc4 := CpJavaScriptFunction wrap: [ self showInfo: 'In for an error?'. self error: 'OOPS' ].
 	[
-		self traceCr: 'Result on error ', (jsFunc4 call: nil withArguments: nil) printString
+		self showInfo: 'Result on error ', (jsFunc4 call: nil withArguments: nil) printString
 	] on: Error do: [ :err |
-		self traceCr: '(Expected) Error during JavaScriptFunction: ', err rootCause printString
+		self showInfo: '(Expected) Error during JavaScriptFunction: ', err rootCause printString
 	].
-	self traceCr: 'After the Error incident (glad that is over ;-)'
+	self showInfo: 'After the Error incident (glad that is over ;-)'
 ]
 
 { #category : #examples }
@@ -769,6 +771,12 @@ CpBrowserSupportExamplesWebClientBehavior >> showIndex [
 			textContent: item value first ;	"ie title"
 			when: CpClickEvent send: item key to: self ;
 			yourself) ]
+]
+
+{ #category : #examples }
+CpBrowserSupportExamplesWebClientBehavior >> showInfo: aString [
+
+	self outputElement appendChild: (aString inHtmlTag: #div)
 ]
 
 { #category : #examples }
