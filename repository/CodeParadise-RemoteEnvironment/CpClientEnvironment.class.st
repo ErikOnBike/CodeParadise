@@ -224,6 +224,20 @@ CpClientEnvironment class >> variableNameApp [
 	^ #APP
 ]
 
+{ #category : #versions }
+CpClientEnvironment class >> version [
+
+	"Answer the version of the receiver.
+	This value must match (exactly) the version provided by the ClientEnvironment running
+	in the browser or in Node.js. Make sure the CodeParadise and CP-ClientEnvironment repos
+	match up to use the same version.
+
+	Implementation:
+	Currently the version is implemented as a monotonic increasing counter."
+
+	^ '3'
+]
+
 { #category : #'user interaction' }
 CpClientEnvironment >> alert: aString [
 
