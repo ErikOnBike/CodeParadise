@@ -216,17 +216,21 @@ CpTransition class >> registerTransitionProcess [
 	"Register a transition process.
 
 	Implementation:
-	The transition process is actually a Block which will be executed
-	in a special internal Process which can't be put asleep to allow
-	better interaction with the JavaScript environment (like calling
-	synchronous JavaScript functions from Smalltalk and vice versa).
-	After each loop it will suspend itself to be resumed by the internal
-	transition mechanism."
+	After each loop it will suspend itself to be resumed by the internal transition mechanism."
 
-	self registerTransitionProcess: [
-		[ true ] whileTrue: [
-			self performTransitions.
-			Processor activeProcess suspend ] ] asContext
+	| process |
+
+	process := Process
+		forContext: [
+			"Use #whileTrue: because it is inlined"
+			[ true ] whileTrue: [
+				self performTransitions.
+				Processor activeProcess suspend ] ] asContext
+		priority: Processor highestPriority.
+
+	process name: 'Transition'.
+
+	self registerTransitionProcess: process
 ]
 
 { #category : #'processing - private' }
@@ -364,7 +368,7 @@ CpTransition >> handleTick: anInteger [
 	started
 		ifTrue: [ self block cull: (self progressAt: anInteger) cull: anInteger ]
 		ifFalse: [
-			"First tick should be at 0.0 (progress)"
+			"First tick should be at t0 (progress)"
 			started := true.
 			self announce: CpTransitionStarted.
 			self block cull: (self progressAt: 0) cull: anInteger ].

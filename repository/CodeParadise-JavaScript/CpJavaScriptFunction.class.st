@@ -29,60 +29,44 @@ CpJavaScriptFunction class >> wrap: aBlock [
 	Smalltalk code in places where a JavaScript function is required.
 
 	Implementation:
-	Wrap the Block in a Context to allow execution by a Process (internally).
+	Wrap the Block in a Context to allow execution by the VM interpreter.
 	This allows Smalltalk calling JavaScript calling Smalltalk calling
 	JavaScript constructs as well as recursive calls (even within the Block
 	where the Block evaluates itself).
 	The Block below makes sure the correct arguments are retrieved (which
 	come from JavaScript) and the result is stored again for the JavaScript
 	code performing this function (i.e. Block).
-	Since the Context will be used inside a Process that will be created
-	when the function gets executed, we need to terminate this (i.e. the
-	active) Process at the end of the Block."
+	The Context will be executed in a new Process, so the Process needs
+	termination once the Block is evaluated and the result is stored."
 
-	| instance executionContext |
+	| instance |
 
-	executionContext := [
-		| arguments |
-
-		"Retrieve and resize arguments to match the Block"
-		arguments := instance arguments.
-		arguments size = aBlock numArgs
-			ifFalse: [
-				"Create correct sized arguments Array (potentially losing arguments or adding nils)"
-				| receivedArguments |
-				receivedArguments := arguments.
-				arguments := Array new: aBlock numArgs.
-				arguments
-					replaceFrom: 1
-					to: (receivedArguments size min: arguments size)
-					with: receivedArguments
-					startingAt: 1 ].
+	instance := super wrap: [
 
 		"Execute the Block and store the result (or the error instance if an error occurred)"
-		instance setResult: ([ aBlock valueWithArguments: arguments ] on: Error do: [ :error |
+		instance setResult: ([ aBlock valueWithArguments: (instance arguments: aBlock numArgs) ] on: Error do: [ :error |
 			(CpJavaScriptError message: error messageText)
 				rawPropertyAt: #cause put: error ;
 				yourself ]).
 
-		"Stop execution"
+		"Terminate the Process running this context"
 		Processor activeProcess terminate ] asContext.
 
-	"Create an instance with the newly created execution Context"
-	instance := super wrap: executionContext.
-
-	"Add the original Block as property to the new JavaScript Function instance"
+	"Add the original Block to the new JavaScript Function instance"
 	^ instance
-		rawPropertyAt: #_st_block put: aBlock ;
+		setBlock: aBlock ;
 		yourself
 ]
 
 { #category : #private }
-CpJavaScriptFunction >> arguments [
+CpJavaScriptFunction >> arguments: anInteger [
 
-	"Answer the arguments of the receiver's executing JavaScript function (an Array)"
+	"Answer the arguments of the receiver's executing JavaScript function (an Array),
+	matching the number of arguments specified.
+	If too many arguments are present, the last will be ignored.
+	If not enough arguments are present, nils will be added."
 
-	<primitive: 'primitiveJavaScriptFunctionArguments' module: 'CpSystemPlugin'>
+	<primitive: 'primitiveJavaScriptFunctionArguments:' module: 'CpSystemPlugin'>
 	self primitiveFailed
 ]
 
@@ -91,7 +75,8 @@ CpJavaScriptFunction >> asBlock [
 
 	"Answer the Smalltalk Block used to create the receiver (if any)"
 
-	^ self rawPropertyAt: #_st_block
+	<primitive: 'primitiveJavaScriptFunctionBlock' module: 'CpSystemPlugin'>
+	self primitiveFailed
 ]
 
 { #category : #converting }
@@ -120,6 +105,15 @@ CpJavaScriptFunction >> call: anObject withArguments: anArray resultAs: aClass [
 	'call' are both mapped onto this #call:withArguments:"
 
 	^ self apply: #apply withArguments: { anObject . anArray } resultAs: aClass
+]
+
+{ #category : #private }
+CpJavaScriptFunction >> setBlock: aBlock [
+
+	"Set the Block which was used to create the receiver (using class side #wrap:)"
+
+	<primitive: 'primitiveJavaScriptFunctionSetBlock:' module: 'CpSystemPlugin'>
+	self primitiveFailed
 ]
 
 { #category : #private }

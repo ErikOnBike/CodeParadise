@@ -139,17 +139,21 @@ CpEvent class >> registerEventProcess [
 	"Register an event process.
 
 	Implementation:
-	The event process is actually a Block which will be executed
-	in a special internal Process which can't be put asleep to allow
-	better interaction with the JavaScript environment (like calling
-	synchronous JavaScript functions from Smalltalk and vice versa).
-	After each loop it will suspend itself to be resumed by the internal
-	event mechanism."
+	After each loop it will suspend itself to be resumed by the internal event mechanism."
 
-	self registerEventProcess: [
-		[ true ] whileTrue: [
-			self dispatchEvents.
-			Processor activeProcess suspend ] ] asContext
+	| process |
+
+	process := Process
+		forContext: [
+			"Use #whileTrue: because it is inlined"
+			[ true ] whileTrue: [
+				self dispatchEvents.
+				Processor activeProcess suspend ] ] asContext
+		priority: Processor highestPriority.
+
+	process name: 'Event'.
+
+	self registerEventProcess: process
 ]
 
 { #category : #'processing - private' }
