@@ -475,25 +475,38 @@ CpBrowserSupportExamplesWebClientBehavior >> exampleJavaScriptFunction [
 		| x |
 		
 		self traceCr: 'in func2 with ', input printString, ' calling func1'.
-		x := jsFunc1 call: nil withArguments: { 'from 2' }.
+		x := jsFunc1 call: nil withArguments: { 'from 2 first (expect result 1)' }.
+		x = 1
+			ifFalse: [ self traceCr: 'Unexpected result from func1' ].
 		self traceCr: 'called 1 - result ', x printString.
-		x := jsFunc1 call: nil withArguments: { 'from 2 too' }.
+		x := jsFunc1 call: nil withArguments: { 'from 2 second (expect result 2)' }.
+		x = 2
+			ifFalse: [ self traceCr: 'Unexpected result from func1' ].
 		self traceCr: 'called 1 more - result ', x printString.
 
 		"Answer fixed value"		
 		123 ].
 
-	self traceCr: 'Ran all - result ', (jsFunc2 call: nil withArguments: { 'from fixThis' }) printString.
+	(jsFunc2 call: nil withArguments: { 'from fixThis' })
+		ifNotNil: [ :result |
+			result = 123
+				ifFalse: [ self traceCr: 'Unexpected result from func2' ].
+			self traceCr: 'Ran all - result (expect 123) ', result printString ]
+		ifNil: [ self traceCr: 'Unexpected result from func2' ].
 
+	"Some recursive calls"
+	counter := 10.
+	jsFunc3 := CpJavaScriptFunction wrap: [ counter > 0 ifTrue: [ self traceCr: 'Count down ', counter printString. counter := counter - 1. jsFunc3 call: nil withArguments: nil ] ].
+	jsFunc3 call: nil withArguments: nil.
 
 	"Prevent errors from giving results"
 	jsFunc4 := CpJavaScriptFunction wrap: [ self traceCr: 'In for an error?'. self error: 'OOPS' ].
 	[
 		self traceCr: 'Result on error ', (jsFunc4 call: nil withArguments: nil) printString
 	] on: Error do: [ :err |
-		self traceCr: 'Error during JavaScriptFunction: ', err rootCause printString
+		self traceCr: '(Expected) Error during JavaScriptFunction: ', err rootCause printString
 	].
-	self traceCr: 'After the Error incident'
+	self traceCr: 'After the Error incident (glad that is over ;-)'
 ]
 
 { #category : #examples }
@@ -553,6 +566,50 @@ CpBrowserSupportExamplesWebClientBehavior >> exampleJavaScriptProxy [
 		appendChild: ((CpHtmlElement newWithTag: #button)
 			textContent: 'Add text (after 2s)' ;
 			when: CpClickEvent primary only do: [ CpJavaScriptObject global setTimeout: [ outputElement appendChild: 'Hello!' asHtmlElement ] duration: 2000 ] for: self ;
+			yourself) ;
+		yourself
+]
+
+{ #category : #examples }
+CpBrowserSupportExamplesWebClientBehavior >> exampleProcess [
+
+	<example: 'Process test' order: 9999>
+
+	| outputElement process |
+
+	self clearOutput.
+	outputElement := self outputElement.
+
+	outputElement
+		appendChild: ((CpHtmlElement newWithTag: #h1)
+			textContent: 'Process' ;
+			yourself) ;
+		appendChild: ((CpHtmlElement newWithTag: #p)
+			textContent: 'Press buttons to start or stop the process' ;
+			yourself) ;
+		appendChild: ((CpHtmlElement newWithTag: #button)
+			id: 'start-button' ;
+			textContent: 'Start' ;
+			when: CpClickEvent primary only do: [
+				process
+					ifNotNil: [
+						process myIsSuspended
+							ifTrue: [ process resume ]
+							ifFalse: [ outputElement appendChild: ('Not suspended' inHtmlTag: #p) ] ]
+					ifNil: [
+						process := Process forContext: [ | counter | outputElement appendChild: ('Go!' inHtmlTag: #p). counter := 0. [ counter := counter + 1. (counter rem: 100000) = 0 ifTrue: [ outputElement appendChild: (('counted ', counter printString) inHtmlTag: #p) ]. counter > 0 ] whileTrue ] asContext priority: 3.
+						outputElement appendChild: ('About to start new process...' inHtmlTag: #p).
+						process resume ] ] for: self ;
+			yourself) ;
+		appendChild: ((CpHtmlElement newWithTag: #button)
+			id: 'stop-button' ;
+			textContent: 'Stop' ;
+			when: CpClickEvent primary only do: [
+				process
+					ifNotNil: [ process myIsSuspended
+							ifTrue: [ outputElement appendChild: ('Already suspended' inHtmlTag: #p) ]
+							ifFalse: [ process suspend ] ]
+					ifNil: [ outputElement appendChild: ('Not created yet' inHtmlTag: #p) ] ] for: self ;
 			yourself) ;
 		yourself
 ]
@@ -631,7 +688,7 @@ CpBrowserSupportExamplesWebClientBehavior >> outputElement [
 	^ CpHtmlElement documentBody firstDescendantMatching: '#output'
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #examples }
 CpBrowserSupportExamplesWebClientBehavior >> promiseRun [
 
 	| outputElement jsPromise |
