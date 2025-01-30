@@ -391,7 +391,7 @@ CpBrowserSupportExamplesWebClientBehavior >> exampleBrowserSpeechSynthesis [
 { #category : #examples }
 CpBrowserSupportExamplesWebClientBehavior >> exampleDNU [
 
-	<example: 'DNU' order: 9999>
+	<example: 'Basic: DNU' order: 1400>
 
 	| outputElement math |
 
@@ -573,7 +573,7 @@ CpBrowserSupportExamplesWebClientBehavior >> exampleJavaScriptProxy [
 { #category : #examples }
 CpBrowserSupportExamplesWebClientBehavior >> exampleProcess [
 
-	<example: 'Process test' order: 9999>
+	<example: 'Basic: Process test' order: 1300>
 
 	| outputElement process |
 
