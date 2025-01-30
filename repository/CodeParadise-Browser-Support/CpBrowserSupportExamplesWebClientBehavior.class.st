@@ -496,7 +496,7 @@ CpBrowserSupportExamplesWebClientBehavior >> exampleJavaScriptFunction [
 
 	"Some recursive calls"
 	counter := 10.
-	jsFunc3 := CpJavaScriptFunction wrap: [ counter > 0 ifTrue: [ self traceCr: 'Count down ', counter printString. counter := counter - 1. jsFunc3 call: nil withArguments: nil ] ].
+	jsFunc3 := CpJavaScriptFunction wrap: [ counter >= 0 ifTrue: [ self traceCr: 'Count down ', counter printString. counter := counter - 1. jsFunc3 call: nil withArguments: nil ] ].
 	jsFunc3 call: nil withArguments: nil.
 
 	"Prevent errors from giving results"
