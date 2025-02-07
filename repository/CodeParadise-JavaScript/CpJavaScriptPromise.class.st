@@ -190,7 +190,7 @@ CpJavaScriptPromise >> errorFromReason: anObject [
 		ifFalse: [ ^ anObject ].
 
 	"Check for a non-JavaScript error, otherwise use original value"
-	rootCause := anObject rootCause
+	rootCause := anObject rootCause.
 	rootCause isJavaScriptObject
 		ifTrue: [ ^ anObject ].
 
