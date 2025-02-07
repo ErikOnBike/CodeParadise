@@ -468,6 +468,40 @@ CpPropertyModel >> propertyValuesDo: aBlock [
 	^ self propertyNamesDo: [ :name | aBlock value: (self propertyAt: name) ]
 ]
 
+{ #category : #'accessing - dictionary access' }
+CpPropertyModel >> removeKey: aSymbol [
+
+	^ self removeKey: aSymbol ifAbsent: [ self error: 'key not found' ]
+]
+
+{ #category : #'accessing - dictionary access' }
+CpPropertyModel >> removeKey: aSymbol ifAbsent: aBlock [
+
+	^ self removePropertyAt: aSymbol ifAbsent: aBlock
+]
+
+{ #category : #accessing }
+CpPropertyModel >> removePropertyAt: aSymbol [
+
+	"Remove the specified property and answer its original value
+	or nil if the property does not exist"
+
+	^ self removePropertyAt: aSymbol ifAbsent: [ nil ]
+]
+
+{ #category : #accessing }
+CpPropertyModel >> removePropertyAt: aSymbol ifAbsent: aBlock [
+
+	"Remove the specified property and answer its original value
+	or evaluate the specified Block if the property does not exist"
+
+	^ (self propertyAt: aSymbol)
+		ifNotNil: [ :value |
+			self propertyAt: aSymbol put: nil.
+			value ]
+		ifNil: [ aBlock value ]
+]
+
 { #category : #accessing }
 CpPropertyModel >> reset [
 
