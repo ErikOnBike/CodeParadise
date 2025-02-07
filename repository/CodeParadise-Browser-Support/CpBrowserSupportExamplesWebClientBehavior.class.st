@@ -569,7 +569,9 @@ CpBrowserSupportExamplesWebClientBehavior >> exampleJavaScriptPromise [
 			textContent: 'Run Promise: show message then signal error (no catch)' ;
 			when: CpClickEvent primary only send: #promiseRunError to: self ;
 			yourself) ;
-		yourself
+		yourself.
+
+	self promiseRunTests
 ]
 
 { #category : #examples }
@@ -801,6 +803,51 @@ CpBrowserSupportExamplesWebClientBehavior >> promiseRunError [
 			outputElement appendChild: ((CpHtmlElement newWithTag: #p)
 				textContent: 'Error is never caught, because of async nature of Promises: ', error rootCause printString ;
 				yourself) ].
+	] fork
+]
+
+{ #category : #examples }
+CpBrowserSupportExamplesWebClientBehavior >> promiseRunTests [
+
+	| outputElement jsPromise result error |
+
+	[
+		outputElement := self outputElement.
+
+		jsPromise := CpJavaScriptPromise resolve: 123.
+		result := (jsPromise
+			then: [ :value |
+				value = 123
+					ifFalse: [ outputElement appendChild: ('ERROR: resolve failure 1' inHtmlTag: #p) ].
+				999 ]
+			then: [ :value |
+				value = 999
+					ifFalse: [ outputElement appendChild: ('ERROR: resolve failure 2' inHtmlTag: #p) ].
+			1000 ]) await.
+		result = 1000
+			ifFalse: [ outputElement appendChild: ('ERROR: resolve failure 3' inHtmlTag: #p) ].
+
+		result := (jsPromise
+			then: [ :value | CpJavaScriptPromise reject: 666 ]
+			then: [ :value | 123 ]
+			catch: [ :reason |
+				reason = 666
+					ifFalse: [ outputElement appendChild: ('ERROR: reject failure 1' inHtmlTag: #p) ].
+				1000 ]) await.
+		result = 1000
+			ifFalse: [ outputElement appendChild: ('ERROR: reject failure 2' inHtmlTag: #p) ].
+
+		result := (jsPromise
+			then: [ :value | error := Error new messageText: 'Oops' ; yourself. error signal ]
+			then: [ :value | 123 ]
+			catch: [ :reason |
+				reason = error
+					ifFalse: [ outputElement appendChild: ('ERROR: reject failure 3' inHtmlTag: #p) ].
+				1000 ]) await.
+		result = 1000
+			ifFalse: [ outputElement appendChild: ('ERROR: reject failure 4' inHtmlTag: #p) ].
+
+		self traceCr: 'Internal tests done'
 	] fork
 ]
 
