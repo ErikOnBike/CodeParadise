@@ -27,9 +27,7 @@ CpNodeJSSnapshot class >> registerSnapshotClass: aClass [
 CpNodeJSSnapshot class >> saveSnapshot [
 
 	"Start snapshot in separate process which terminates itself"
-	(Process forContext: [
-		self snapshotImage.
-		Processor activeProcess terminate ] asContext  priority: 2) resume
+	[ self snapshotImage ] forkAt: 2 named: 'Snapshot'
 ]
 
 { #category : #actions }

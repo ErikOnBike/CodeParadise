@@ -3,15 +3,11 @@ Extension { #name : #Exception }
 { #category : #'*CodeParadise-RemoteEnvironment' }
 Exception >> asJavaScriptError [
 
-	"Answer the receiver's JavaScript representation or nil if none is availble.
-
-	Implementation:
-	Assume that if another Error object is present as a tag we have a JavaScript
-	error stored there. Tag is (almost) unused in default Pharo image."
+	"Answer the receiver's JavaScript representation or nil if none is availble"
 
 	<applicationExtension>
 
-	^ tag isErrorObject
+	^ (tag isErrorObject and: [ tag isJavaScriptObject ])
 		ifTrue: [ tag ]
 		ifFalse: [ nil ]
 ]
