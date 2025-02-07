@@ -12,7 +12,7 @@ CpSecondaryClickEvent class >> handlesClickEvent: aClickEvent [
 	^ aClickEvent isSecondaryButtonPressed
 ]
 
-{ #category : #initialization }
+{ #category : #'class initialization' }
 CpSecondaryClickEvent class >> postInstallOnce [
 
 	"Prevent default handling of ContextMenu by default (because it interferes with secondary click)"

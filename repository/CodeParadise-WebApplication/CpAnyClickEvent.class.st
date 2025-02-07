@@ -219,7 +219,7 @@ CpAnyClickEvent class >> newFromPointerEvent: aPointerDownEvent [
 		yourself
 ]
 
-{ #category : #initialization }
+{ #category : #'class initialization' }
 CpAnyClickEvent class >> postInstallOnce [
 
 	"Create temporary storage structure and a global event handler

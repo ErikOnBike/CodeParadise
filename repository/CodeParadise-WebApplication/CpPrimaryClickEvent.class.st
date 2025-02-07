@@ -41,7 +41,7 @@ CpPrimaryClickEvent class >> isClickStopped: aClickEvent [
 	^ isStopped
 ]
 
-{ #category : #initialization }
+{ #category : #'class initialization' }
 CpPrimaryClickEvent class >> postInstallOnce [
 
 	"Make sure stop propagation does not prevent future clicks from working.
