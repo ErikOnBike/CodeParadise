@@ -305,3 +305,21 @@ CpJavaScriptPromise >> then: fulfilledBlock then: secondBlock then: thirdBlock c
 
 	^ (self then: fulfilledBlock) then: secondBlock then: thirdBlock catch: rejectedBlock
 ]
+
+{ #category : #convenience }
+CpJavaScriptPromise >> then: fulfilledBlock then: secondBlock thenAwait: thirdBlock [
+
+	^ (self then: fulfilledBlock) then: secondBlock thenAwait: thirdBlock
+]
+
+{ #category : #convenience }
+CpJavaScriptPromise >> then: fulfilledBlock thenAwait: secondBlock [
+
+	^ (self then: fulfilledBlock) thenAwait: secondBlock
+]
+
+{ #category : #convenience }
+CpJavaScriptPromise >> thenAwait: fulfilledBlock [
+
+	^ (self then: fulfilledBlock) await
+]
