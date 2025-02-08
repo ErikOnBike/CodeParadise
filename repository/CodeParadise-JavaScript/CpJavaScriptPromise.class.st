@@ -130,7 +130,10 @@ CpJavaScriptPromise >> await [
 			success := true.
 
 			"Resume the original Process"
-			activeProcess resume ]
+			activeProcess resume.
+
+			"Use nil as result (it will be easy to convert to a JavaScript value)"
+			nil ]
 		onRejected: [ :reason |
 
 			"Store the rejected result"
@@ -138,7 +141,10 @@ CpJavaScriptPromise >> await [
 			success := false.
 
 			"Resume the original Process"
-			activeProcess resume ].
+			activeProcess resume.
+
+			"Use nil as result (it will be easy to convert to a JavaScript value)"
+			nil ].
 
 	"Stop the current Process (will be resumed when the result is obtained)"
 	activeProcess suspend.
