@@ -4,6 +4,14 @@ Class {
 	#category : #'CodeParadise-WebApplication-Core'
 }
 
+{ #category : #accessing }
+CpNodeApplication class >> app [
+
+	"Answer the receiver unique name (used in URL to access the application as well)"
+
+	^ (self nameWithoutPrefix withoutSuffix: #NodeApplication) asKebabCase asSymbol
+]
+
 { #category : #installing }
 CpNodeApplication >> addInstallationChecker [
 
