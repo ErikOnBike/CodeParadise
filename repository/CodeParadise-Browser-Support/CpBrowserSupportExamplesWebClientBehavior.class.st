@@ -797,7 +797,7 @@ CpBrowserSupportExamplesWebClientBehavior >> promiseRunError [
 						appendChild: ((CpHtmlElement newWithTag: #p)
 							textContent: value ;
 							yourself) ;
-						appendChild: ('Check the console for the message about an unhandled exception. It can''t be caught because of the async nature of Promises. This type of unhandled rejection should be considered a programmer''s error. Please add a #catch or make the call synchronous using #await to allow a regular Smalltalk [ ... ] on: Error do: [ ...] handler.' inHtmlTag: #p) ])
+						appendChild: ('Check the console for the message about an unhandled exception. It can''t be caught because of the async nature of Promises. This type of unhandled rejection should be considered a programmer''s error. Please add a #catch: or make the call synchronous using #await to allow a regular Smalltalk [ ... ] on: Error do: [ ...] handler.' inHtmlTag: #p) ])
 				then: [ :value | self error: 'Error as expected' ]
 		] on: Error do: [ :error |
 			outputElement appendChild: ((CpHtmlElement newWithTag: #p)
@@ -846,6 +846,26 @@ CpBrowserSupportExamplesWebClientBehavior >> promiseRunTests [
 				1000 ]) await.
 		result = 1000
 			ifFalse: [ outputElement appendChild: ('ERROR: reject failure 4' inHtmlTag: #p) ].
+
+		result := (jsPromise
+			then: [ :value | 345 ]
+			thenAwait: [ :value |
+				value ~= 345
+					ifTrue: [ self error: 'Failed on 345' ].
+				(CpJavaScriptPromise resolve: 456) await ]).
+		result = 456
+			ifFalse: [ outputElement appendChild: ('ERROR: reject failure 5' inHtmlTag: #p) ].
+
+		[ result := jsPromise
+			then: [ :value | 345 ]
+			thenAwait: [ :value |
+				value ~= 345
+					ifTrue: [ self error: 'Failed on 345' ].
+				(CpJavaScriptPromise reject: 456) await ].
+			outputElement appendChild: ('ERROR: reject failure 6' inHtmlTag: #p)
+		] on: Error do: [ :err |
+			err rootCause = 456
+				ifFalse: [ outputElement appendChild: ('ERROR: reject failure 7' inHtmlTag: #p) ] ].
 
 		self traceCr: 'Internal tests done'
 	] fork

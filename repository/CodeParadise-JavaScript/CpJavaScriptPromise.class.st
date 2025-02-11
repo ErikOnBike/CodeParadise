@@ -154,7 +154,7 @@ CpJavaScriptPromise >> await [
 		ifFalse: [
 			rejected isErrorObject
 				ifTrue: [ rejected signal ]
-				ifFalse: [ CpUnhandledRejection reason: rejected promise: self compiledCode: (CpUnhandledRejection >> #syncMarker) ] ]
+				ifFalse: [ (CpUnhandledRejection reason: rejected promise: self compiledCode: (CpUnhandledRejection >> #syncMarker)) signal ] ]
 ]
 
 { #category : #operations }

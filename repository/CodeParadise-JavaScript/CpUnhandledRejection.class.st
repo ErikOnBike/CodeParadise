@@ -66,7 +66,7 @@ CpUnhandledRejection >> isSync [
 	A synchronous unhandled rejection should have the class side #syncMarker as
 	compiled code. See CpJavaScriptPromise >> #await"
 
-	^ promiseCompiledCode = (CpUnhandledRejection >> #syncMarker)
+	^ promiseCompiledCode == (CpUnhandledRejection >> #syncMarker)
 ]
 
 { #category : #logging }
