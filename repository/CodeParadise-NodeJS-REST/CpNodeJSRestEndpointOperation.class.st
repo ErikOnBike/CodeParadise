@@ -136,7 +136,7 @@ CpNodeJSRestEndpointOperation >> handleRequest: aRestRequest response: aServerRe
 
 	"Check authorization (authorization can not rely on body content atm)"
 	(self isAuthorizedRequest: aRestRequest)
-		ifFalse: [ CpNodeJSRestUnauthorizedError signal ].
+		ifFalse: [ CpNodeJSRestForbiddenError signal ].
 
 	"Resolve the body (if required) and perform the operation"
 	isBodyRequired
