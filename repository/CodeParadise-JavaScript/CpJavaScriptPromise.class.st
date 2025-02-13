@@ -119,7 +119,7 @@ CpJavaScriptPromise >> await [
 	activeProcess := Processor activeProcess.
 
 	activeProcess allowAwaitPromise
-		ifFalse: [ self error: 'Only use #await in a Process which allows waiting. Please run this code in a separate Process using ''[ ... ] fork''. Current Process: ', activeProcess name ].
+		ifFalse: [ self error: 'Only use #await in a Process which allows waiting. Please run this code in a separate Process using ''[ ... ] fork'' or ''[ ... ] forkedOnErrorDo: [ :error | ...]''. Current Process: ', activeProcess name ].
 
 	"The following (thenable) Block will be performed in own Process"
 	self
