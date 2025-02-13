@@ -106,6 +106,10 @@ CpUnhandledRejection >> signalAsync [
 	programming issue and try to add a #catch: to the incriminating code (see console log for
 	the origin of the issue)."
 
+	"Set the signalContext and signaler (happens in #signal normally)"
+	signalContext := thisContext.
+	signaler ifNil: [ signaler := self receiver ].
+
 	self log.
 
 	CpExceptionAnnouncer announceException: self
