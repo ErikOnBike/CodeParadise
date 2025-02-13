@@ -424,22 +424,6 @@ CpJavaScriptObject >> asSmalltalkObject [
 	^ instance
 ]
 
-{ #category : #converting }
-CpJavaScriptObject >> asString [
-
-	"Answer a bare representation of the receiver
-	(see #printOn: for an explanation)"
-
-	| className |
-
-	className := self class name.
-
-	^ String streamContents: [ :aStream |
-		aStream
-			nextPutAll: (className first isVowel ifTrue: [ 'an ' ] ifFalse: [ 'a ' ]) ;
-			nextPutAll: className ]
-]
-
 { #category : #printing }
 CpJavaScriptObject >> consoleError [
 
@@ -578,8 +562,7 @@ CpJavaScriptObject >> keysAndValuesDo: aBlock [
 
 	self getSelectorNames do: [ :each |
 		((self getSelectorType: each) ~= #function and: [ each first ~= $_ ])
-			ifTrue: [
-				aBlock value: each value: (self propertyAt: each) ] ]
+			ifTrue: [ aBlock value: each value: (self propertyAt: each) ] ]
 ]
 
 { #category : #'apply primitives' }
@@ -645,48 +628,7 @@ CpJavaScriptObject >> printOn: aStream [
 
 	"Print a representation of the receiver onto the specified Stream"
 
-	aStream
-		nextPutAll: self class name ;
-		nextPut: $(.
-
-	self printPropertiesOn: aStream.
-
-	aStream nextPut: $)
-]
-
-{ #category : #printing }
-CpJavaScriptObject >> printPropertiesOn: aStream [
-
-	"Print the properties of the receiver onto the specified Stream.
-
-	Implementation:
-	Only property and/or attribute values are shown. Internal properties (i.e.
-	starting with an underscore) are not shown.
-	To prevent cycles in Dictionary-like graphs from becoming an infinite
-	recursive call, use #asString on the field values of the object."
-
-	| isFirst |
-
-	isFirst := true.
-	self getSelectorNames do: [ :each |
-		((self getSelectorType: each) ~= #function and: [ each first ~= $_ ])
-			ifTrue: [
-				isFirst
-					ifTrue: [ isFirst := false ]
-					ifFalse: [ aStream nextPutAll: ', ' ].
-				aStream
-					nextPutAll: each ;
-					nextPutAll: ': ' ;
-					nextPutAll: ([ (self apply: each) asString ] on: Error do: [ '<error>' ]) ] ]
-]
-
-{ #category : #printing }
-CpJavaScriptObject >> propertiesString [
-
-	"Answer a String representing the receivers's properties"
-
-	^ String streamContents: [ :aStream |
-		self printPropertiesOn: aStream ]
+	aStream nextPutAll: self toString
 ]
 
 { #category : #accessing }
@@ -759,4 +701,10 @@ CpJavaScriptObject >> rawPropertyAt: aSymbol put: anObject [
 
 	<primitive: 'primitiveJavaScriptObjectRawPropertyAt:put:' module: 'CpSystemPlugin'>
 	self primitiveFailed
+]
+
+{ #category : #converting }
+CpJavaScriptObject >> toString [
+
+	^ self apply: #toString
 ]
