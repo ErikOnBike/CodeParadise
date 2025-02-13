@@ -507,6 +507,7 @@ CpTransition >> unsubscribe: anObject [
 { #category : #deprecated }
 CpTransition >> when: anAnnouncementClass do: aBlock [
 
+	self flag: #deprecatedMethod.
 	self warnCr: 'Use of any Announcer''s #when:do: is deprecated, please use #when:do:for:'.
 
 	^ self when: anAnnouncementClass do: aBlock for: aBlock receiver

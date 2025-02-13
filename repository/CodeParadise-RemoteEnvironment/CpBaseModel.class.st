@@ -83,6 +83,7 @@ CpBaseModel >> valueChanged [
 { #category : #deprecated }
 CpBaseModel >> when: anAnnouncementClass do: aBlock [
 
+	self flag: #deprecatedMethod.
 	self warnCr: 'Use of any Announcer''s #when:do: is deprecated, please use #when:do:for:'.
 
 	^ self when: anAnnouncementClass do: aBlock for: aBlock receiver
@@ -114,6 +115,7 @@ CpBaseModel >> when: anAnnouncementClass send: aSymbol to: anObject [
 { #category : #deprecated }
 CpBaseModel >> whenChangedDo: aBlock [
 
+	self flag: #deprecatedMethod.
 	self warnCr: 'Use of any Announcer''s #whenChanged:do: is deprecated, please use #whenChangedDo:for:'.
 
 	^ self whenChangedDo: aBlock for: aBlock receiver
