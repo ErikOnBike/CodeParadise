@@ -82,7 +82,7 @@ CpNodeJSNodemailerTransporter >> sendMail: aMessage [
 
 	See also: https://nodemailer.com/usage/#sending-mail"
 
-	self sendMail: aMessage thenDo: [ "Having an empty Block as callback handler here, preventS the creation of a Promise" ]
+	self sendMail: aMessage thenDo: [ "Having an empty Block as callback handler here, prevents the creation of a Promise" ]
 ]
 
 { #category : #operations }
