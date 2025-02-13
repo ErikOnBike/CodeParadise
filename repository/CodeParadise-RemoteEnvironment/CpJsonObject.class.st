@@ -72,6 +72,12 @@ CpJsonObject >> add: anAssociation [
 ]
 
 { #category : #converting }
+CpJsonObject >> asDictionary [
+
+	^ dict copy
+]
+
+{ #category : #converting }
 CpJsonObject >> asJsonObjectValue [
 
 	"Answer a representation of the receiver to be used in a JSON Object.
@@ -81,6 +87,18 @@ CpJsonObject >> asJsonObjectValue [
 	and is maintained as such, simply answer a copy."
 
 	^ dict copy
+]
+
+{ #category : #'accessing - dictionary access' }
+CpJsonObject >> associations [
+
+	^ dict associations
+]
+
+{ #category : #'accessing - dictionary access' }
+CpJsonObject >> associationsDo: aBlock [
+
+	dict associationsDo: aBlock
 ]
 
 { #category : #accessing }
@@ -106,6 +124,36 @@ CpJsonObject >> at: anObject ifAbsentPut: aBlock [
 	Maintain the JSON structure by using a String key and converting the value using #asJsonObjectValue"
 
 	^ dict at: anObject asString ifAbsentPut: [ aBlock value asJsonObjectValue ]
+]
+
+{ #category : #accessing }
+CpJsonObject >> at: anObject ifPresent: aBlock [
+
+	"Answer the result of evaluating the Block with the found Object,
+	or answer nil if such Object is not found"
+
+	^ dict at: anObject asString ifPresent: aBlock
+]
+
+{ #category : #accessing }
+CpJsonObject >> at: anObject ifPresent: presentBlock ifAbsent: absentBlock [
+
+	"Answer the result of evaluating either the present or the absent Block"
+
+	^ dict at: anObject asString ifPresent: presentBlock ifAbsent: absentBlock
+]
+
+{ #category : #accessing }
+CpJsonObject >> at: anObject ifPresent: presentBlock ifAbsentPut: absentBlock [
+
+	"Answer the evaluation of the present Block (optionally receiving the property value) if present
+	or evaluate the specified absent Block and set the property to this value.
+	Maintain the JSON structure by using a String key and converting the value using #asJsonObjectValue"
+
+	^ dict
+		at: anObject asString
+		ifPresent: presentBlock
+		ifAbsentPut: [ absentBlock value asJsonObjectValue ]
 ]
 
 { #category : #accessing }
@@ -135,6 +183,12 @@ CpJsonObject >> atPath: aCollection [
 			ifNil: [ ^ nil ] ]
 ]
 
+{ #category : #'accessing - dictionary access' }
+CpJsonObject >> do: aBlock [
+
+	dict do: aBlock
+]
+
 { #category : #'reflective operations' }
 CpJsonObject >> doesNotUnderstand: aMessage [
 
@@ -159,6 +213,12 @@ CpJsonObject >> doesNotUnderstand: aMessage [
 	isSetter
 		ifTrue: [ self at: key allButLast put: aMessage arguments first ]
 		ifFalse: [ ^ self at: key ]
+]
+
+{ #category : #'accessing - dictionary access' }
+CpJsonObject >> includesKey: anObject [
+
+	^ dict includesKey: anObject asString
 ]
 
 { #category : #initialization }
@@ -191,6 +251,24 @@ CpJsonObject >> isStructuralElement: anObject [
 		anObject isArray or: [
 			anObject class = Dictionary or: [
 				anObject class = OrderedDictionary ] ] ]
+]
+
+{ #category : #'accessing - dictionary access' }
+CpJsonObject >> keys [
+
+	^ dict keys
+]
+
+{ #category : #'accessing - dictionary access' }
+CpJsonObject >> keysAndValuesDo: aBlock [
+
+	dict keysAndValuesDo: aBlock
+]
+
+{ #category : #'accessing - dictionary access' }
+CpJsonObject >> keysDo: aBlock [
+
+	dict keysDo: aBlock
 ]
 
 { #category : #printing }
