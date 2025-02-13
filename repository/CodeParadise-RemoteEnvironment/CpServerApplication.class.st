@@ -365,6 +365,7 @@ CpServerApplication >> installRequiredClass: aClass [
 	This will also result in validating whether the required class
 	is part of an allowed package (see class method #allowedPackages)"
 
+	self flag: #deprecatedMethod.
 	self warnCr: 'Deprecation: The method #installRequiredClass: is deprecated.'.
 	self warnCr: 'Please use #installClass:'.
 	self warnCr: 'IMPORTANT: Please also update your Application class to specify all #allowedPackages'.

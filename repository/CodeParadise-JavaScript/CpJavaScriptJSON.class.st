@@ -1,8 +1,9 @@
 "
-I represent the JavaScript JSON namespace and I also work as a Proxy for JavaScript objects.
-For the former I have the two #parse:/#stringify: methods.
-For the latter I implement #at: and #at:put: and a DNU to allow access to fields.
+I represent the JavaScript JSON namespace and therefore I have the two class methods: #parse:/#stringify:
 
+Deprecation notice:
+I also used to work as a Proxy for JavaScript objects. Having the typical #at: and #at:put: behavior.
+This behavior has been deprecated. Please use CpJsonObject for this.
 "
 Class {
 	#name : #CpJavaScriptJSON,
@@ -31,6 +32,9 @@ CpJavaScriptJSON >> at: aString [
 
 	"Answer the property with the specified name or nil if such a property does not exist"
 
+	self flag: #deprecatedMethod.
+	self warnCr: 'Use of CpJavaScriptJSON instances is deprecated, please use CpJsonObject'.
+
 	^ self propertyAt: aString
 ]
 
@@ -38,6 +42,9 @@ CpJavaScriptJSON >> at: aString [
 CpJavaScriptJSON >> at: aString put: anObject [
 
 	"Store the specified value in the property with the specified name"
+
+	self flag: #deprecatedMethod.
+	self warnCr: 'Use of CpJavaScriptJSON instances is deprecated, please use CpJsonObject'.
 
 	^ self propertyAt: aString put: anObject
 ]
@@ -48,6 +55,9 @@ CpJavaScriptJSON >> doesNotUnderstand: aMessage [
 	"Accept getters and setters"
 
 	| key isSetter |
+
+	self flag: #deprecatedMethod.
+	self warnCr: 'Use of CpJavaScriptJSON instances is deprecated, please use CpJsonObject'.
 
 	"Check for keyword message"
 	key := aMessage selector asString.
@@ -68,6 +78,9 @@ CpJavaScriptJSON >> doesNotUnderstand: aMessage [
 CpJavaScriptJSON >> value [
 
 	"To allow accessing #value through a message send"
+
+	self flag: #deprecatedMethod.
+	self warnCr: 'Use of CpJavaScriptJSON instances is deprecated, please use CpJsonObject'.
 
 	^ self at: #value
 ]
