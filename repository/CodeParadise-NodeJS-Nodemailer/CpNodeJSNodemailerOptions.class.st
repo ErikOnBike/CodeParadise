@@ -10,7 +10,7 @@ Class {
 { #category : #converting }
 CpNodeJSNodemailerOptions >> asDictionary [
 
-	^ options
+	^ options asDictionary
 ]
 
 { #category : #initialization }
