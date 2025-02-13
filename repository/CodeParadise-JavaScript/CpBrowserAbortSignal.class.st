@@ -33,6 +33,12 @@ CpBrowserAbortSignal class >> any: aCollection [
 ]
 
 { #category : #'instance creation' }
+CpBrowserAbortSignal class >> newInstanceWithArguments: anArray resultAs: aProxyClass [
+
+	self errorNewReplacedBy: (' or ' join: { #abort . #abort: . #any: . #timeout: })
+]
+
+{ #category : #'instance creation' }
 CpBrowserAbortSignal class >> timeout: anInteger [
 
 	"Returns an AbortSignal instance that will automatically abort after a specified time (in ms)."
