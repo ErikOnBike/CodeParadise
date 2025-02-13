@@ -34,3 +34,11 @@ CpBrowserNavigator >> languages [
 
 	^ self propertyAt: #languages
 ]
+
+{ #category : #'beacon api' }
+CpBrowserNavigator >> sendBeacon: aString data: anObject [
+
+	"The method takes two arguments, the URL and the data to send in the request. The data argument is optional and its type may be a string, an ArrayBuffer, a TypedArray, a DataView, a ReadableStream, a Blob, a FormData object, or a URLSearchParams object. If the browser successfully queues the request for delivery, the method returns true; otherwise, it returns false."
+
+	^ self apply: #sendBeacon withArguments: { aString . anObject }
+]
