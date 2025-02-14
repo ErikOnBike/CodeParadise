@@ -1,8 +1,12 @@
 "
 I am a REST HTTP Server and will serve the endpoints provided.
+I work fully synchronous. Meaning any asynchronous behavior should make us of
+or be wrapped in a Promise await to allow correct execution. The CodeParadise
+Promise await actually suspends execution (in contrast with JavaScript's
+keyword 'await' which is syntactical sugar).
 I am snapshot aware, meaning I can be turned into a standalone application
 by snapshotting my instances.
-
+ Unmatched ' in string literal. ->
 "
 Class {
 	#name : #CpNodeJSRestHttpServer,
