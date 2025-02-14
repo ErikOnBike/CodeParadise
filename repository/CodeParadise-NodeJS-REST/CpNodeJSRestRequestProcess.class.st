@@ -1,0 +1,190 @@
+"
+I represent a Process in which a REST Request is handled.
+I am responsible for letting an EndpointOperation handle the Request
+and send a Response. The EndpointOperation will notify me when the
+Request can't be handled because of a mismatch in available endpoints.
+I am responsible for keeping track of time and signal a timeout if
+the Process takes too long.
+"
+Class {
+	#name : #CpNodeJSRestRequestProcess,
+	#superclass : #Object,
+	#instVars : [
+		'request',
+		'response',
+		'process',
+		'startedAt',
+		'endedAt',
+		'isUnhandled',
+		'timer'
+	],
+	#category : #'CodeParadise-NodeJS-REST-Core'
+}
+
+{ #category : #'instance creation' }
+CpNodeJSRestRequestProcess class >> new [
+
+	self errorNewReplacedBy: #request:response:
+]
+
+{ #category : #'instance creation' }
+CpNodeJSRestRequestProcess class >> request: aRequest response: aServerResponse [
+
+	^ self basicNew
+		initializeWithRequest: aRequest response: aServerResponse ;
+		yourself
+]
+
+{ #category : #running }
+CpNodeJSRestRequestProcess class >> runRequest: aRequest response: aServerResponse [
+
+	"Create an instance of the receiver for the specified Request and Response and start running it"
+
+	^ (self request: aRequest response: aServerResponse)
+		run ;
+		yourself
+]
+
+{ #category : #running }
+CpNodeJSRestRequestProcess >> abort [
+
+	"Abort the request process.
+
+	Implementation:
+	Allow multiple invocations by guarding the clean-up code. The #writeError: message
+	has its own safe guard and prevents multiple writes on the same response.
+	This method will be called from a separate Process (the timeout handler set in the
+	method #run) and can therefore terminate the Process without terminating itself."
+
+	endedAt ifNotNil: [ ^ self ].
+
+	endedAt := CpNodeJSRestHttpServer timestampNow.
+
+	process ifNotNil: [
+		process terminate.
+		process := nil ].
+
+	timer ifNotNil: [
+		CpGlobalThis clearTimeout: timer.
+		timer := nil ].
+
+	self respondTimedout
+]
+
+{ #category : #initialization }
+CpNodeJSRestRequestProcess >> initializeWithRequest: aRequest response: aServerResponse [
+
+	self initialize.
+
+	request := aRequest.
+	response := aServerResponse.
+
+	"See method #unhandled"
+	isUnhandled := false
+]
+
+{ #category : #printing }
+CpNodeJSRestRequestProcess >> printOn: aStream [
+
+	aStream
+		nextPutAll: 'RequestProcess for ' ;
+		nextPutAll: request path asString.
+
+	startedAt
+		ifNotNil: [
+			aStream
+				nextPutAll: ' started at: ' ;
+				nextPutAll: (CpNodeJSRestHttpServer timeStringAt: startedAt) ]
+		ifNil: [ aStream nextPutAll: ' not started yet' ].
+
+	response writableEnded
+		ifTrue: [
+			aStream
+				nextPutAll: ' ended with status ' ;
+				print: response statusCode ]
+		ifFalse: [ aStream nextPutAll: ' not ended yet' ]
+]
+
+{ #category : #accessing }
+CpNodeJSRestRequestProcess >> request [
+
+	^ request
+]
+
+{ #category : #responding }
+CpNodeJSRestRequestProcess >> respondError: anError [
+
+	"Write an error response"
+
+	response writeError: anError
+]
+
+{ #category : #responding }
+CpNodeJSRestRequestProcess >> respondTimedout [
+
+	"Write a response to indicate the request is timed out (this is an Error).
+
+	Implementation:
+	There is no generic timeout error in the standard HTTP status codes.
+	Use the generic 500 - Internal Server Error, but provide a specific error message."
+
+	self respondError: (CpNodeJSRestError new
+		messageText: 'Timeout processing request ', request path ;
+		yourself)
+]
+
+{ #category : #responding }
+CpNodeJSRestRequestProcess >> respondUnhandled [
+
+	"Write a response to indicate the request is unhandled (this is an Error).
+
+	Implementation:
+	An unhandled GET aka read Request is considered a 404 - Not found.
+	An unhandled write Request is considered a 400 - Bad Request."
+
+	self respondError: (request method = 'GET'
+		ifTrue: [ CpNodeJSRestNotFoundError ]
+		ifFalse: [ CpNodeJSRestBadRequestError ])
+]
+
+{ #category : #accessing }
+CpNodeJSRestRequestProcess >> response [
+
+	^ response
+]
+
+{ #category : #running }
+CpNodeJSRestRequestProcess >> run [
+
+	"Try to handle the request and produce a matching response"
+
+	[
+		process := Processor activeProcess.
+		timer := CpGlobalThis setTimeout: 4000 thenDo: [ self abort ].
+
+		startedAt := CpNodeJSRestHttpServer timestampNow.
+		CpNodeJSRestEndpointOperation handleRequestIn: self.
+		endedAt := CpNodeJSRestHttpServer timestampNow.
+
+		CpGlobalThis clearTimeout: timer.
+		timer := nil.
+		process := nil
+	] forkedOn: Error do: [ :error |
+		endedAt := CpNodeJSRestHttpServer timestampNow.
+
+		CpGlobalThis clearTimeout: timer.
+		timer := nil.
+		process := nil.
+
+		self respondError: error ]
+]
+
+{ #category : #running }
+CpNodeJSRestRequestProcess >> unhandled [
+
+	"The receiver is unhandled"
+
+	isUnhandled := true.
+
+	self respondUnhandled
+]

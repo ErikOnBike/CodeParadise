@@ -325,6 +325,14 @@ CpNodeJSBuffer >> readUInt8At: anInteger [
 	^ self apply: #readUInt8 withArguments: { anInteger }
 ]
 
+{ #category : #accessing }
+CpNodeJSBuffer >> size [
+
+	"Compatibility with Smalltalk Collections"
+
+	^ self length
+]
+
 { #category : #operations }
 CpNodeJSBuffer >> subArrayStart: start end: end [
 

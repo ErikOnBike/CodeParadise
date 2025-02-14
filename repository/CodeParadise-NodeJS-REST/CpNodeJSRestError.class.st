@@ -4,6 +4,16 @@ Class {
 	#category : #'CodeParadise-NodeJS-REST-Errors'
 }
 
+{ #category : #'instance creation' }
+CpNodeJSRestError class >> messageText: aString [
+
+	"Answer an instance of the receiver with the specified message"
+
+	^ self new
+		messageText: aString ;
+		yourself
+]
+
 { #category : #accessing }
 CpNodeJSRestError class >> responseCode [
 

@@ -1,12 +1,46 @@
+"
+I represent the endpoint for a REST service.
+I am responsible for validating whether I can handle a REST Request
+and for handling such a Request.
+
+EndPoints need to be registered using my class side method #registerOperation:
+An EndPoint is created using one of the instance creation methods:
+	path:getOperation:
+	path:postOperation:
+	path:putOperation:
+	path:patchOperation:
+	path:deleteOperation:
+
+The operation provided during instantiation should be a MessageSend.
+From this MessageSend the CompiledMethod performing the actual request operation
+can be extracted. In the CompiledMethod a number of pragma's is used to define
+the operation's behavior. The following pragma's are supported:
+
+For authorization:
+	<public>
+	<authorization: #selector:>
+
+If <authorization:> is present, its argument needs to be a selector accepting
+a single argument (the CpNodeJSRestRequest instance). This selector should be
+available on the same object as the endpoint operation itself. If no <public>
+(nor <authorization:> is present, the default selector #isAuthorizedRequest:
+will be used. And finally if only <public> is specified, #isPublicAuthorizedRequest:
+is used.
+
+When using the Request body a maximum body size can be specified (that is, per
+endpoint). This is done using the following pragma:
+	<maxBodySize: 100000>
+
+The default max body size is defined in:
+	CpNodeRestJSRestRequest class >> #maxBodySize
+"
 Class {
 	#name : #CpNodeJSRestEndpointOperation,
 	#superclass : #Object,
 	#instVars : [
 		'method',
 		'pathPattern',
-		'operation',
-		'isBodyRequired',
-		'authorizationBlock'
+		'operation'
 	],
 	#classVars : [
 		'Operations'
@@ -14,34 +48,38 @@ Class {
 	#category : #'CodeParadise-NodeJS-REST-Core'
 }
 
-{ #category : #'event handling' }
-CpNodeJSRestEndpointOperation class >> handleRequest: aRestRequest response: aServerResponse [
+{ #category : #request }
+CpNodeJSRestEndpointOperation class >> handleRequestIn: aRequestProcess [
 
-	"Handle the specified message and answer true if handled"
+	"Handle the REST Request in the specified RequestProcess or notify it is unhandled"
 
-	Operations ifNil: [ ^ false ].
+	| request response |
+
+	Operations ifNil: [
+		aRequestProcess unhandled.
+		^ self ].
 
 	"Log the call in development"
 	CpJavaScriptObject isDevelopmentEnvironment
-		ifTrue: [ self traceCr: aRestRequest printString ].
+		ifTrue: [ self traceCr: 'Handling request: ', aRequestProcess printString ].
 
-	"Try each EndPointOperation until one succeeds in handling request"
-	Operations valuesDo: [ :each |
-		(each handleRequest: aRestRequest response: aServerResponse)
-			ifTrue: [ ^ true ] ].
+	request := aRequestProcess request.
+	response := aRequestProcess response.
 
-	"Not handled, means it was a bad request or resource not found"
-	aServerResponse writeError: (aRestRequest method = 'GET'
-		ifTrue: [ CpNodeJSRestNotFoundError ]
-		ifFalse: [ CpNodeJSRestBadRequestError ]).
+	Operations
+		detect: [ :each | each canHandleRequest: request ]
+		ifFound: [ :endpointOperation | endpointOperation handleRequest: request response: response ]
+		ifNone: [ aRequestProcess unhandled ].
 
-	^ false
+	"Log the call in development"
+	CpJavaScriptObject isDevelopmentEnvironment
+		ifTrue: [ self traceCr: 'Handled request: ', aRequestProcess printString ]
 ]
 
 { #category : #'instance creation' }
 CpNodeJSRestEndpointOperation class >> new [
 
-	self errorNewReplacedBy: #path:method:bodyRequired:operation:
+	self errorNewReplacedBy: #path:method:operation:
 ]
 
 { #category : #'instance creation' }
@@ -50,7 +88,6 @@ CpNodeJSRestEndpointOperation class >> path: aString deleteOperation: aMessageSe
 	^ self
 		path: aString
 		method: #DELETE
-		bodyRequired: false
 		operation: aMessageSend
 ]
 
@@ -60,15 +97,14 @@ CpNodeJSRestEndpointOperation class >> path: aString getOperation: aMessageSend 
 	^ self
 		path: aString
 		method: #GET
-		bodyRequired: false
 		operation: aMessageSend
 ]
 
 { #category : #'instance creation' }
-CpNodeJSRestEndpointOperation class >> path: aString method: aSymbol bodyRequired: aBoolean operation: aMessageSend [
+CpNodeJSRestEndpointOperation class >> path: aString method: aSymbol operation: aMessageSend [
 
 	^ self basicNew
-		initializeWithPath: aString method: aSymbol bodyRequired: aBoolean operation: aMessageSend ;
+		initializeWithPath: aString method: aSymbol operation: aMessageSend ;
 		yourself
 ]
 
@@ -78,7 +114,6 @@ CpNodeJSRestEndpointOperation class >> path: aString patchOperation: aMessageSen
 	^ self
 		path: aString
 		method: #PATCH
-		bodyRequired: true
 		operation: aMessageSend
 ]
 
@@ -88,7 +123,6 @@ CpNodeJSRestEndpointOperation class >> path: aString postOperation: aMessageSend
 	^ self
 		path: aString
 		method: #POST
-		bodyRequired: true
 		operation: aMessageSend
 ]
 
@@ -98,7 +132,6 @@ CpNodeJSRestEndpointOperation class >> path: aString putOperation: aMessageSend 
 	^ self
 		path: aString
 		method: #PUT
-		bodyRequired: true
 		operation: aMessageSend
 ]
 
@@ -122,40 +155,68 @@ CpNodeJSRestEndpointOperation class >> unregisterOperation: anEndPointOperation 
 	^ anEndPointOperation
 ]
 
+{ #category : #accessing }
+CpNodeJSRestEndpointOperation >> authorizationOperation [
+
+	"Answer a MessageSend which performs the authorization for a given REST Request
+	(i.e. a single argument MessageSend accepting the CpNodeJSRestRequest instance).
+	The operation's receiver is also the receiver for the authorization operation."
+
+	| operationMethod selector|
+
+	operationMethod := self operationMethod.
+
+	"Check for a custom authorization handler (assumed to take single argument):
+		<authorization: #customAuthChecker:>
+	Use a default authorization handler for the other public and non-public endpoints."
+	selector := (operationMethod pragmaAt: #authorization:)
+		ifNotNil: [ :authorizationPragma | authorizationPragma argumentAt: 1 ]
+		ifNil: [
+			(operationMethod pragmaAt: #public)
+				ifNotNil: [ #isPublicAuthorizedRequest: ]
+				ifNil: [ #isAuthorizedRequest: ] ].
+
+	^ MessageSend receiver: operation receiver selector: selector
+]
+
+{ #category : #testing }
+CpNodeJSRestEndpointOperation >> canHandleRequest: aRestRequest [
+
+	"Answer whether the receiver can handle the specified REST request.
+	An EndpointOperation can handle a Request if the method and path are
+	matching."
+
+	^ method = aRestRequest method
+		and: [ pathPattern matchesPath: aRestRequest path ]
+]
+
 { #category : #performing }
 CpNodeJSRestEndpointOperation >> handleRequest: aRestRequest response: aServerResponse [
 
-	"Handle the specified REST request and answer true if handled"
+	"Handle the specified REST request"
 
-	method = aRestRequest method
-		ifFalse: [ ^ false ].
+	"Store the path parameters in the request"
+	aRestRequest setPathParameters: (pathPattern parametersFromPath: aRestRequest path).
 
-	(pathPattern isNotNil and: [ pathPattern matchesPath: aRestRequest path ])
-		ifTrue: [ aRestRequest setPathParameters: (pathPattern parametersFromPath: aRestRequest path) ]
-		ifFalse: [ ^ false ].
+	"Store the max body size (if a specific value is specified in the operation)"
+	self maxBodySize ifNotNil: [ :maxBodySize |
+		aRestRequest maxBodySize: maxBodySize ].
 
-	"Check authorization (authorization can not rely on body content atm)"
+	"Check authorization"
 	(self isAuthorizedRequest: aRestRequest)
 		ifFalse: [ CpNodeJSRestForbiddenError signal ].
 
-	"Resolve the body (if required) and perform the operation"
-	isBodyRequired
-		ifTrue: [
-			aRestRequest
-				resolveBodyThenDo: [ self performOperationRequest: aRestRequest response: aServerResponse ]
-				ifFail: [ :error | aServerResponse writeError: error ] ]
-		ifFalse: [ self performOperationRequest: aRestRequest response: aServerResponse ].
-
-	^ true
+	"Perform the operation"
+	self performOperationRequest: aRestRequest response: aServerResponse
 ]
 
-{ #category : #accessing }
+{ #category : #private }
 CpNodeJSRestEndpointOperation >> identifier [
 
 	"Answer an (internal) identifier for the receiver.
 
 	Implementation:
-	An identifier consisting off '<class><hash><selector>' is created."
+	An identifier consisting of '<class><hash><selector>' is created."
 
 	^ String streamContents: [ :stream |
 		stream
@@ -165,38 +226,45 @@ CpNodeJSRestEndpointOperation >> identifier [
 ]
 
 { #category : #initialization }
-CpNodeJSRestEndpointOperation >> initializeWithPath: aString method: aSymbol bodyRequired: aBoolean operation: aMessageSend [
+CpNodeJSRestEndpointOperation >> initializeWithPath: aString method: aSymbol operation: aMessageSend [
 
 	self initialize.
 
 	pathPattern := CpNodeJSRestPathPattern fromString: aString.
 	method := aSymbol.
-	isBodyRequired := aBoolean.
 	operation := aMessageSend
 ]
 
 { #category : #testing }
 CpNodeJSRestEndpointOperation >> isAuthorizedRequest: aRestRequest [
 
-	"Answer whether the specified REST Request is authorized to perform the operation.
-	If no authorization Block is set, it is assumed this is a public endpoint and
-	authorization is therefore okay.
-	
-	Implementation:
-	Currently (see #handleRequest:response:) authorization is assumed to use information
-	in either the request header or path. Information in the request body is not available
-	when this method is performed. For now, use a custom authorization handler if authorization
-	using body content is required."
+	"Answer whether the specified REST Request is authorized to perform the operation"
 
-	^ authorizationBlock
-		ifNotNil: [ authorizationBlock value: aRestRequest ]
-		ifNil: [ true ]
+	^ self authorizationOperation
+		value: aRestRequest
+]
+
+{ #category : #accessing }
+CpNodeJSRestEndpointOperation >> maxBodySize [
+
+	"Answer the max body size defined in the operation"
+
+	^ (self operationMethod pragmaAt: #maxBodySize:)
+		ifNotNil: [ :pragma | pragma argumentAt: 1 ]
 ]
 
 { #category : #accessing }
 CpNodeJSRestEndpointOperation >> method [
 
 	^ method
+]
+
+{ #category : #private }
+CpNodeJSRestEndpointOperation >> operationMethod [
+
+	"Answer the CompiledMethod of the operation"
+
+	^ operation receiver class >> operation selector
 ]
 
 { #category : #accessing }
@@ -210,9 +278,9 @@ CpNodeJSRestEndpointOperation >> performOperationRequest: aRestRequest response:
 
 	"Perform the receiver's operation using the specified REST Request and Server Response"
 
-	[ operation valueWithArguments: { aRestRequest . aServerResponse } ] on: Error do: [ :error |
-		aServerResponse writableEnded
-			ifFalse: [ aServerResponse writeError: error] ]
+	[ operation valueWithArguments: { aRestRequest . aServerResponse } ]
+		on: Error
+		do: [ :error | aServerResponse writeError: error]
 ]
 
 { #category : #printing }
@@ -226,10 +294,4 @@ CpNodeJSRestEndpointOperation >> printOn: aStream [
 		nextPutAll: self path ;
 		nextPutAll: '" for method ' ;
 		nextPutAll: self method
-]
-
-{ #category : #accessing }
-CpNodeJSRestEndpointOperation >> setAuthorizationBlock: aBlock [
-
-	authorizationBlock := aBlock
 ]
