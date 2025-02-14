@@ -44,7 +44,7 @@ CpUncaughtException >> defaultAction [
 
 	"Log issue as default action"
 
-	self errorCr: 'Uncaught exception'.
+	self errorCr: 'Uncaught exception: ', self rootCause printString.
 
 	^ nil
 ]
