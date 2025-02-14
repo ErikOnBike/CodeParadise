@@ -35,7 +35,7 @@ CpExtensionMethodInstallationChecker >> includeMethod: aCompiledMethod [
 	"Check if this method is an explicit extension method"
 	pragmas := aCompiledMethod pragmas.
 	extensionMethodCategories do: [ :each |
-		pragmas detect: [ :pragma | pragma keyword = each ] ifFound: [ ^ true ] ].
+		pragmas detect: [ :pragma | pragma selector = each ] ifFound: [ ^ true ] ].
 
 	^ false
 ]

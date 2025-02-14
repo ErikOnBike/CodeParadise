@@ -48,7 +48,7 @@ CpEnvironmentMethodInstallationChecker >> excludeMethod: aCompiledMethod [
 	refersToEnvironment := false.
 	isPresent := false.
 	aCompiledMethod pragmas do: [ :each |
-		each keyword = #environment:
+		each selector = #environment:
 			ifTrue: [
 				refersToEnvironment := true.
 				(each argumentAt: 1) = environmentName
