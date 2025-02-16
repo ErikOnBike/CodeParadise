@@ -146,7 +146,7 @@ CpJavaScriptPromise >> await [
 			"Use nil as result (it will be easy to convert to a JavaScript value)"
 			nil ].
 
-	"Stop the current Process (will be resumed when the result is obtained)"
+	"Stop the current Process (will be resumed by the resolve or reject Block above)"
 	activeProcess suspend.
 
 	^ success
