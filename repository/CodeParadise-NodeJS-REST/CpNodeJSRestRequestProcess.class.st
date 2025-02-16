@@ -169,7 +169,7 @@ CpNodeJSRestRequestProcess >> run [
 		CpGlobalThis clearTimeout: timer.
 		timer := nil.
 		process := nil
-	] forkedOn: Error do: [ :error |
+	] forkedOnErrorDo: [ :error |
 		endedAt := CpNodeJSRestHttpServer timestampNow.
 
 		CpGlobalThis clearTimeout: timer.
