@@ -61,7 +61,7 @@ CpNodeJSRestEndpointOperation class >> handleRequestIn: aRequestProcess [
 
 	"Log the call in development"
 	CpJavaScriptObject isDevelopmentEnvironment
-		ifTrue: [ self traceCr: 'Handling request: ', aRequestProcess printString ].
+		ifTrue: [ self traceCr: aRequestProcess printString ].
 
 	request := aRequestProcess request.
 	response := aRequestProcess response.
@@ -73,7 +73,7 @@ CpNodeJSRestEndpointOperation class >> handleRequestIn: aRequestProcess [
 
 	"Log the call in development"
 	CpJavaScriptObject isDevelopmentEnvironment
-		ifTrue: [ self traceCr: 'Handled request: ', aRequestProcess printString ]
+		ifTrue: [ self traceCr: aRequestProcess printString ]
 ]
 
 { #category : #'instance creation' }

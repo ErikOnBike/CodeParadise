@@ -87,7 +87,9 @@ CpNodeJSRestRequestProcess >> initializeWithRequest: aRequest response: aServerR
 CpNodeJSRestRequestProcess >> printOn: aStream [
 
 	aStream
-		nextPutAll: 'RequestProcess for ' ;
+		nextPutAll: 'Request for ' ;
+		nextPutAll: request method asString ;
+		nextPutAll: ' on ' ;
 		nextPutAll: request path asString.
 
 	startedAt
@@ -99,9 +101,12 @@ CpNodeJSRestRequestProcess >> printOn: aStream [
 
 	response writableEnded
 		ifTrue: [
+			endedAt ifNil: [ endedAt := CpNodeJSRestHttpServer timestampNow ].
 			aStream
 				nextPutAll: ' ended with status ' ;
-				print: response statusCode ]
+				print: response statusCode ;
+				nextPutAll: ' at ' ;
+				nextPutAll: (CpNodeJSRestHttpServer timeStringAt: endedAt) ]
 		ifFalse: [ aStream nextPutAll: ' not ended yet' ]
 ]
 
