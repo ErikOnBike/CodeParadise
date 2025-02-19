@@ -127,7 +127,7 @@ IonSelect >> fill: aString [
 { #category : #api }
 IonSelect >> interface [
 
-	"The interface the select should use: 'action-sheet', 'popover' or 'alert'.
+	"The interface the select should use: 'action-sheet', 'popover', 'alert', or 'modal'.
 	
 	Type: SelectInterface"
 
@@ -137,7 +137,7 @@ IonSelect >> interface [
 { #category : #api }
 IonSelect >> interface: anObject [
 
-	"The interface the select should use: 'action-sheet', 'popover' or 'alert'.
+	"The interface the select should use: 'action-sheet', 'popover', 'alert', or 'modal'.
 	
 	Type: SelectInterface"
 
@@ -147,7 +147,7 @@ IonSelect >> interface: anObject [
 { #category : #api }
 IonSelect >> interfaceOptions [
 
-	"Any additional options that the 'alert', 'action-sheet' or 'popover' interface can take. See the [ion-alert docs](./alert), the [ion-action-sheet docs](./action-sheet) and the [ion-popover docs](./popover) for the create options for each interface.  Note: 'interfaceOptions' will not override 'inputs' or 'buttons' with the 'alert' interface.
+	"Any additional options that the 'alert', 'action-sheet' or 'popover' interface can take. See the [ion-alert docs](./alert), the [ion-action-sheet docs](./action-sheet), the [ion-popover docs](./popover), and the [ion-modal docs](./modal) for the create options for each interface.  Note: 'interfaceOptions' will not override 'inputs' or 'buttons' with the 'alert' interface.
 	
 	Type: any"
 
@@ -157,7 +157,7 @@ IonSelect >> interfaceOptions [
 { #category : #api }
 IonSelect >> interfaceOptions: anObject [
 
-	"Any additional options that the 'alert', 'action-sheet' or 'popover' interface can take. See the [ion-alert docs](./alert), the [ion-action-sheet docs](./action-sheet) and the [ion-popover docs](./popover) for the create options for each interface.  Note: 'interfaceOptions' will not override 'inputs' or 'buttons' with the 'alert' interface.
+	"Any additional options that the 'alert', 'action-sheet' or 'popover' interface can take. See the [ion-alert docs](./alert), the [ion-action-sheet docs](./action-sheet), the [ion-popover docs](./popover), and the [ion-modal docs](./modal) for the create options for each interface.  Note: 'interfaceOptions' will not override 'inputs' or 'buttons' with the 'alert' interface.
 	
 	Type: any"
 

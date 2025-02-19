@@ -185,6 +185,14 @@ IonCheckbox >> name: aString [
 ]
 
 { #category : #api }
+IonCheckbox >> setFocus [
+
+	"Type: Promise<void>"
+
+	^ self apply: #setFocus resultAs: CpJavaScriptPromise
+]
+
+{ #category : #api }
 IonCheckbox >> value [
 
 	"The value of the checkbox does not mean if it's checked or not, use the 'checked' property for that.  The value of a checkbox is analogous to the value of an '<input type='checkbox'>', it's only used when the checkbox participates in a native '<form>'.

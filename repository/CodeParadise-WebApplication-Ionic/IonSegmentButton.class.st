@@ -5,6 +5,26 @@ Class {
 }
 
 { #category : #api }
+IonSegmentButton >> contentId [
+
+	"The 'id' of the segment content.
+	
+	Type: string"
+
+	^ self propertyAt: #contentId
+]
+
+{ #category : #api }
+IonSegmentButton >> contentId: aString [
+
+	"The 'id' of the segment content.
+	
+	Type: string"
+
+	self propertyAt: #contentId put: aString
+]
+
+{ #category : #api }
 IonSegmentButton >> disabled [
 
 	"If 'true', the user cannot interact with the segment button.

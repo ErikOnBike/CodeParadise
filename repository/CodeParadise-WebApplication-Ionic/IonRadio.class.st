@@ -153,9 +153,17 @@ IonRadio >> setButtonTabindex: value [
 ]
 
 { #category : #api }
+IonRadio >> setFocus [
+
+	"Type: (ev?: globalThis.Event) => Promise<void>"
+
+	^ self apply: #setFocus resultAs: CpJavaScriptPromise
+]
+
+{ #category : #api }
 IonRadio >> setFocus: ev [
 
-	"Type: (ev: globalThis.Event) => Promise<void>"
+	"Type: (ev?: globalThis.Event) => Promise<void>"
 
 	^ self apply: #setFocus withArguments: { ev } resultAs: CpJavaScriptPromise
 ]

@@ -9,7 +9,7 @@ IonMenu >> close [
 
 	"Closes the menu. If the menu is already closed or it can't be closed, it returns 'false'.
 	
-	Type: (animated?: boolean) => Promise<boolean>"
+	Type: (animated?: boolean, role?: string) => Promise<boolean>"
 
 	^ self apply: #close resultAs: CpJavaScriptPromise
 ]
@@ -19,9 +19,19 @@ IonMenu >> close: animated [
 
 	"Closes the menu. If the menu is already closed or it can't be closed, it returns 'false'.
 	
-	Type: (animated?: boolean) => Promise<boolean>"
+	Type: (animated?: boolean, role?: string) => Promise<boolean>"
 
 	^ self apply: #close withArguments: { animated } resultAs: CpJavaScriptPromise
+]
+
+{ #category : #api }
+IonMenu >> close: animated role: role [
+
+	"Closes the menu. If the menu is already closed or it can't be closed, it returns 'false'.
+	
+	Type: (animated?: boolean, role?: string) => Promise<boolean>"
+
+	^ self apply: #close withArguments: { animated . role } resultAs: CpJavaScriptPromise
 ]
 
 { #category : #api }
@@ -149,7 +159,7 @@ IonMenu >> setOpen: shouldOpen [
 
 	"Opens or closes the button. If the operation can't be completed successfully, it returns 'false'.
 	
-	Type: (shouldOpen: boolean, animated?: boolean) => Promise<boolean>"
+	Type: (shouldOpen: boolean, animated?: boolean, role?: string) => Promise<boolean>"
 
 	^ self apply: #setOpen withArguments: { shouldOpen } resultAs: CpJavaScriptPromise
 ]
@@ -159,9 +169,19 @@ IonMenu >> setOpen: shouldOpen animated: animated [
 
 	"Opens or closes the button. If the operation can't be completed successfully, it returns 'false'.
 	
-	Type: (shouldOpen: boolean, animated?: boolean) => Promise<boolean>"
+	Type: (shouldOpen: boolean, animated?: boolean, role?: string) => Promise<boolean>"
 
 	^ self apply: #setOpen withArguments: { shouldOpen . animated } resultAs: CpJavaScriptPromise
+]
+
+{ #category : #api }
+IonMenu >> setOpen: shouldOpen animated: animated role: role [
+
+	"Opens or closes the button. If the operation can't be completed successfully, it returns 'false'.
+	
+	Type: (shouldOpen: boolean, animated?: boolean, role?: string) => Promise<boolean>"
+
+	^ self apply: #setOpen withArguments: { shouldOpen . animated . role } resultAs: CpJavaScriptPromise
 ]
 
 { #category : #api }

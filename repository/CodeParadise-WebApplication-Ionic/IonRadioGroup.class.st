@@ -65,6 +65,14 @@ IonRadioGroup >> name: aString [
 ]
 
 { #category : #api }
+IonRadioGroup >> setFocus [
+
+	"Type: Promise<void>"
+
+	^ self apply: #setFocus resultAs: CpJavaScriptPromise
+]
+
+{ #category : #api }
 IonRadioGroup >> value [
 
 	"the value of the radio group.
