@@ -5,7 +5,7 @@ I support a CustomContentModel and use a model specific view.
 Class {
 	#name : #CpCustomContentPresenter,
 	#superclass : #CpSlideContentPresenter,
-	#category : 'CodeParadise-WebApplication-Presentation-Presenter'
+	#category : #'CodeParadise-WebApplication-Presentation-Presenter'
 }
 
 { #category : #view }

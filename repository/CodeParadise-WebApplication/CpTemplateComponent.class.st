@@ -68,7 +68,7 @@ CpTemplateComponent class >> installTemplate: templateString [
 	self primitiveFailed
 ]
 
-{ #category : #testing }
+{ #category : #tags }
 CpTemplateComponent class >> isAbstractTag [
 
 	"The method is present to indicate the receiver is abstract.

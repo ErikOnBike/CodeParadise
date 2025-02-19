@@ -1,7 +1,7 @@
 Class {
 	#name : #CpAnimationDemoContentView,
 	#superclass : #CpCustomContentView,
-	#category : 'CodeParadise-WebApplication-Presentation-View'
+	#category : #'CodeParadise-WebApplication-Presentation-View'
 }
 
 { #category : #rendering }

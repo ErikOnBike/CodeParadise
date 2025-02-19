@@ -73,7 +73,7 @@ CpWebApplication class >> initialize [
 	IdentifierGenerator := CpWebIdentifierGenerator new
 ]
 
-{ #category : #testing }
+{ #category : #tags }
 CpWebApplication class >> isAbstractTag [
 
 	"The method is present to indicate the receiver is abstract.

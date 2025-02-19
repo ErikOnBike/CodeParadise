@@ -7,7 +7,7 @@ Class {
 	#category : #'CodeParadise-WebApplication-Presentation-Application'
 }
 
-{ #category : #testing }
+{ #category : #tags }
 CpPresentationWebApplication class >> isAbstractTag [
 
 	"The method is present to indicate the receiver is abstract.

@@ -6,5 +6,5 @@ I am an abstract base class.
 Class {
 	#name : #CpSlideContent,
 	#superclass : #CpModel,
-	#category : 'CodeParadise-WebApplication-Presentation-Model'
+	#category : #'CodeParadise-WebApplication-Presentation-Model'
 }

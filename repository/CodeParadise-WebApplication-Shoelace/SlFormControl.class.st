@@ -4,7 +4,7 @@ Class {
 	#category : #'CodeParadise-WebApplication-Shoelace-Elements'
 }
 
-{ #category : #testing }
+{ #category : #tags }
 SlFormControl class >> isAbstractTag [
 
 	"The method is present to indicate the receiver is abstract.

@@ -109,7 +109,7 @@ CpServerApplication class >> hasAbstractTag [
 	^ self classSide includesSelector: #isAbstractTag
 ]
 
-{ #category : #testing }
+{ #category : #tags }
 CpServerApplication class >> isAbstractTag [
 
 	"The method is present to indicate the receiver is abstract.

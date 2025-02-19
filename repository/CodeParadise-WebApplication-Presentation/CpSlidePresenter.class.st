@@ -5,7 +5,7 @@ I support a SlideModel and use a model specific view.
 Class {
 	#name : #CpSlidePresenter,
 	#superclass : #CpPresenter,
-	#category : 'CodeParadise-WebApplication-Presentation-Presenter'
+	#category : #'CodeParadise-WebApplication-Presentation-Presenter'
 }
 
 { #category : #model }

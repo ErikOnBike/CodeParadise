@@ -1,7 +1,7 @@
 Class {
 	#name : #CpDemoMethodCodeContentView,
 	#superclass : #CpDemoCodeContentView,
-	#category : 'CodeParadise-WebApplication-Presentation-Examples'
+	#category : #'CodeParadise-WebApplication-Presentation-Examples'
 }
 
 { #category : #'web resources' }

@@ -9,7 +9,7 @@ Class {
 	#instVars : [
 		'bullets'
 	],
-	#category : 'CodeParadise-WebApplication-Presentation-Model'
+	#category : #'CodeParadise-WebApplication-Presentation-Model'
 }
 
 { #category : #'instance creation' }

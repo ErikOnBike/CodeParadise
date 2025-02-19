@@ -46,7 +46,7 @@ CpFieldsView class >> debounceTimeForField: aSymbol [
 	^ self debounceTime
 ]
 
-{ #category : #testing }
+{ #category : #tags }
 CpFieldsView class >> isAbstractTag [
 
 	"The method is present to indicate the receiver is abstract.

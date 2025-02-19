@@ -40,7 +40,7 @@ CpMvpWebApplication class >> defaultClientBehaviorClass [
 	^ CpMvpWebClientBehavior
 ]
 
-{ #category : #testing }
+{ #category : #tags }
 CpMvpWebApplication class >> isAbstractTag [
 
 	"The method is present to indicate the receiver is abstract.

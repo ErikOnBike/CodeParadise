@@ -8,7 +8,7 @@ Class {
 	#category : #'CodeParadise-WebApplication-Shoelace-Elements'
 }
 
-{ #category : #testing }
+{ #category : #tags }
 SlAbstractPrompter class >> isAbstractTag [
 
 	"The method is present to indicate the receiver is abstract.

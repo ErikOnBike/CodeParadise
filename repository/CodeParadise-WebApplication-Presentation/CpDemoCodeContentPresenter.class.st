@@ -1,7 +1,7 @@
 Class {
 	#name : #CpDemoCodeContentPresenter,
 	#superclass : #CpSlideContentPresenter,
-	#category : 'CodeParadise-WebApplication-Presentation-Examples'
+	#category : #'CodeParadise-WebApplication-Presentation-Examples'
 }
 
 { #category : #'user interaction' }

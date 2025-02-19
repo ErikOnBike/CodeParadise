@@ -1,7 +1,7 @@
 Class {
 	#name : #CpFullPageSlideView,
 	#superclass : #CpView,
-	#category : 'CodeParadise-WebApplication-Presentation-View'
+	#category : #'CodeParadise-WebApplication-Presentation-View'
 }
 
 { #category : #'web resources' }

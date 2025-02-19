@@ -9,7 +9,7 @@ Class {
 	#instVars : [
 		'currentSlideIndex'
 	],
-	#category : 'CodeParadise-WebApplication-Presentation-Presenter'
+	#category : #'CodeParadise-WebApplication-Presentation-Presenter'
 }
 
 { #category : #model }

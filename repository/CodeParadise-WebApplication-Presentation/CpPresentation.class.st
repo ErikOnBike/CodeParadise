@@ -20,7 +20,7 @@ Class {
 		'slideStack',
 		'useStack'
 	],
-	#category : 'CodeParadise-WebApplication-Presentation-Model'
+	#category : #'CodeParadise-WebApplication-Presentation-Model'
 }
 
 { #category : #'instance creation' }

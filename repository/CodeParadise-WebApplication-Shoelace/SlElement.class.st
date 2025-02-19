@@ -98,7 +98,7 @@ SlElement class >> importThemesPath [
 	^ self importBasePath, 'themes/light.css'
 ]
 
-{ #category : #testing }
+{ #category : #tags }
 SlElement class >> isAbstractTag [
 
 	"The method is present to indicate the receiver is abstract.

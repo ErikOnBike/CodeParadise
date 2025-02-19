@@ -5,7 +5,7 @@ Class {
 		'methodClass',
 		'methodClassifier'
 	],
-	#category : 'CodeParadise-WebApplication-Presentation-Examples'
+	#category : #'CodeParadise-WebApplication-Presentation-Examples'
 }
 
 { #category : #'instance creation' }

@@ -5,7 +5,7 @@ I support a PresentationModel and use a PresentationView.
 Class {
 	#name : #CpPresentationPresenter,
 	#superclass : #CpPresenter,
-	#category : 'CodeParadise-WebApplication-Presentation-Presenter'
+	#category : #'CodeParadise-WebApplication-Presentation-Presenter'
 }
 
 { #category : #model }

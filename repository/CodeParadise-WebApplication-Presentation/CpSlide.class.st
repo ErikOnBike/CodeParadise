@@ -9,7 +9,7 @@ Class {
 	#instVars : [
 		'content'
 	],
-	#category : 'CodeParadise-WebApplication-Presentation-Model'
+	#category : #'CodeParadise-WebApplication-Presentation-Model'
 }
 
 { #category : #accessing }

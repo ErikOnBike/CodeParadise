@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'contentCollection'
 	],
-	#category : 'CodeParadise-WebApplication-Presentation-Model'
+	#category : #'CodeParadise-WebApplication-Presentation-Model'
 }
 
 { #category : #'instance creation' }

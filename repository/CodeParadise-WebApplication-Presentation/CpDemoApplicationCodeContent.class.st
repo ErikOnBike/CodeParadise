@@ -1,5 +1,5 @@
 Class {
 	#name : #CpDemoApplicationCodeContent,
 	#superclass : #CpDemoCodeContent,
-	#category : 'CodeParadise-WebApplication-Presentation-Examples'
+	#category : #'CodeParadise-WebApplication-Presentation-Examples'
 }

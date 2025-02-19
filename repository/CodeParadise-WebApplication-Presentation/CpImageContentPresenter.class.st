@@ -5,7 +5,7 @@ I support a ImageContentModel and use ImageContentView.
 Class {
 	#name : #CpImageContentPresenter,
 	#superclass : #CpSlideContentPresenter,
-	#category : 'CodeParadise-WebApplication-Presentation-Presenter'
+	#category : #'CodeParadise-WebApplication-Presentation-Presenter'
 }
 
 { #category : #model }

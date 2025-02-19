@@ -10,7 +10,7 @@ Class {
 		'width',
 		'height'
 	],
-	#category : 'CodeParadise-WebApplication-Presentation-Model'
+	#category : #'CodeParadise-WebApplication-Presentation-Model'
 }
 
 { #category : #accessing }

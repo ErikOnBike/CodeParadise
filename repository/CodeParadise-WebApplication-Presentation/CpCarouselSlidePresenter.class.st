@@ -6,7 +6,7 @@ I support a SlideModel and use a CarouselSlideView.
 Class {
 	#name : #CpCarouselSlidePresenter,
 	#superclass : #CpPresenter,
-	#category : 'CodeParadise-WebApplication-Presentation-Presenter'
+	#category : #'CodeParadise-WebApplication-Presentation-Presenter'
 }
 
 { #category : #view }

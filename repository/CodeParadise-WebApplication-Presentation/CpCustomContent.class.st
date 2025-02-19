@@ -10,7 +10,7 @@ Class {
 	#instVars : [
 		'viewClass'
 	],
-	#category : 'CodeParadise-WebApplication-Presentation-Model'
+	#category : #'CodeParadise-WebApplication-Presentation-Model'
 }
 
 { #category : #view }

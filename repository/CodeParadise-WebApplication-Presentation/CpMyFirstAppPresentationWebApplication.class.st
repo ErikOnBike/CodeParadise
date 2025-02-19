@@ -1,7 +1,7 @@
 Class {
 	#name : #CpMyFirstAppPresentationWebApplication,
 	#superclass : #CpPresentationWebApplication,
-	#category : 'CodeParadise-WebApplication-Presentation-Examples'
+	#category : #'CodeParadise-WebApplication-Presentation-Examples'
 }
 
 { #category : #accessing }

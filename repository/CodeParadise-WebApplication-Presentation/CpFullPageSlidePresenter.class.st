@@ -5,5 +5,5 @@ I support a FullPageSlideModel and use a FullPageSlideView.
 Class {
 	#name : #CpFullPageSlidePresenter,
 	#superclass : #CpSlidePresenter,
-	#category : 'CodeParadise-WebApplication-Presentation-Presenter'
+	#category : #'CodeParadise-WebApplication-Presentation-Presenter'
 }
