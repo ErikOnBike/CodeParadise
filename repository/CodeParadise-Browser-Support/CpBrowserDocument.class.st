@@ -37,6 +37,18 @@ CpBrowserDocument >> location [
 ]
 
 { #category : #accessing }
+CpBrowserDocument >> title [
+
+	^ self propertyAt: #title
+]
+
+{ #category : #accessing }
+CpBrowserDocument >> title: aString [
+
+	self propertyAt: #title put: aString
+]
+
+{ #category : #accessing }
 CpBrowserDocument >> url [
 
 	"Convenience method to answer the receiver's URL as an Object (instead of String).
