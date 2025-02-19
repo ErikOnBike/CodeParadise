@@ -540,7 +540,7 @@ CpDomElement >> fullStopEvent: anEvent [
 	"Stop propagation and default handling of the specified Event.
 	Other event handlers on the receiver are still executed
 	(i.e. stopImmediatePropagation: is NOT used)."
-self traceCr: 'Full Stop event ', anEvent printString, ' for ', self printString.
+
 	anEvent
 		stopPropagation ;
 		preventDefault
