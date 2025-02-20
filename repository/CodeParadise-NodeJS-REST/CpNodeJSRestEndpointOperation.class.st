@@ -173,8 +173,8 @@ CpNodeJSRestEndpointOperation >> authorizationOperation [
 		ifNotNil: [ :authorizationPragma | authorizationPragma argumentAt: 1 ]
 		ifNil: [
 			(operationMethod pragmaAt: #public)
-				ifNotNil: [ #isPublicAuthorizedRequest: ]
-				ifNil: [ #isAuthorizedRequest: ] ].
+				ifNotNil: [ #validatePublicAuthorizedRequest: ]
+				ifNil: [ #validateAuthorizedRequest: ] ].
 
 	^ MessageSend receiver: operation receiver selector: selector
 ]
@@ -203,8 +203,7 @@ CpNodeJSRestEndpointOperation >> handleRequest: aRestRequest response: aServerRe
 		aRestRequest maxBodySize: maxBodySize ].
 
 	"Check authorization"
-	(self isAuthorizedRequest: aRestRequest)
-		ifFalse: [ CpNodeJSRestForbiddenError signal ].
+	self validateAuthorizedRequest: aRestRequest.
 
 	"Perform the operation"
 	self performOperationRequest: aRestRequest response: aServerResponse
@@ -233,15 +232,6 @@ CpNodeJSRestEndpointOperation >> initializeWithPath: aString method: aSymbol ope
 	pathPattern := CpNodeJSRestPathPattern fromString: aString.
 	method := aSymbol.
 	operation := aMessageSend
-]
-
-{ #category : #testing }
-CpNodeJSRestEndpointOperation >> isAuthorizedRequest: aRestRequest [
-
-	"Answer whether the specified REST Request is authorized to perform the operation"
-
-	^ self authorizationOperation
-		value: aRestRequest
 ]
 
 { #category : #accessing }
@@ -294,4 +284,13 @@ CpNodeJSRestEndpointOperation >> printOn: aStream [
 		nextPutAll: self path ;
 		nextPutAll: '" for method ' ;
 		nextPutAll: self method
+]
+
+{ #category : #testing }
+CpNodeJSRestEndpointOperation >> validateAuthorizedRequest: aRestRequest [
+
+	"Validate the specified REST Request is authorized to perform the operation"
+
+	self authorizationOperation
+		value: aRestRequest
 ]
