@@ -61,6 +61,16 @@ CpClientPropertySlot >> addFlag: aSymbolOrPropertyFlag [
 		ifFalse: [ aSymbolOrPropertyFlag ])
 ]
 
+{ #category : #accessing }
+CpClientPropertySlot >> constraints [
+
+	"Answer a Collection of constraints from my definitions"
+
+	^ definitions
+		ifNotNil: [ definitions select: [ :each | each isPropertyConstraint ] ]
+		ifNil: [ #() ]
+]
+
 { #category : #private }
 CpClientPropertySlot >> definitions [
 
@@ -140,4 +150,18 @@ CpClientPropertySlot >> printOn: aStream [
 		nextPutAll: (name ifNil: [ '<no name>' ]) ;
 		nextPutAll: ' -> ' ;
 		print: definitions
+]
+
+{ #category : #accessing }
+CpClientPropertySlot >> propertyValue: aSymbol ifAbsent: aBlock [
+
+	"Answer the value of the (first) property of the receiver with the specified name.
+	If such a property does not exist answer the evaluation of Block."
+
+	definitions ifNil: [ ^ aBlock value ].
+
+	^ definitions
+		detect: [ :each | each isPropertyValue: aSymbol ]
+		ifFound: [ :property | property value ]
+		ifNone: aBlock
 ]

@@ -203,7 +203,7 @@ CpPropertyModel >> = anObject [
 
 	"If the specified Object is a PropertyModel as well, the following will
 	invoke the same method again, this time with a Dictionary to compare against.
-	If the speicied Object is a Dictionary it will compare two Dictionaries."
+	If the specified Object is a Dictionary it will compare two Dictionaries."
 	^ anObject = data
 ]
 
@@ -289,6 +289,17 @@ CpPropertyModel >> instVarNamed: aSymbol put: anObject [
 	^ self propertyAt: aSymbol put: anObject
 ]
 
+{ #category : #testing }
+CpPropertyModel >> isValidPropertyAt: aSymbol [
+
+	| value |
+
+	value := self propertyAt: aSymbol.
+
+	^ (self propertySlotAt: aSymbol) constraints allSatisfy: [ :each |
+		each isValid: value ]
+]
+
 { #category : #'accessing - dictionary access' }
 CpPropertyModel >> keys [
 
@@ -332,10 +343,17 @@ CpPropertyModel >> merge: anObject [
 	^ anObject
 ]
 
-{ #category : #accessing }
+{ #category : #normalizing }
 CpPropertyModel >> normalize [
 
 	"Normalize the properties of the receiver.
+	Normalization should not change the effective content of the property.
+	It is allowed to remove whitespace or control characters or change
+	character casing, but prevent removal of unwanted special characters
+	for example. Either try to prevent the user from entering an invalid
+	value and/or provide a clear description (or error message) what is
+	incorrect wrt the provided value/input. The user might otherwise not
+	notice their input is silently replaced by something else.
 
 	Implementation:
 	Constrained properties have an optional normalization step.
