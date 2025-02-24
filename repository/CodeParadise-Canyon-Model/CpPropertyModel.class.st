@@ -137,7 +137,7 @@ CpPropertyModel class >> propertySlotAt: aSymbol [
 
 	"Answer a ClientPropertySlot containing the definition for the specified property name"
 
-	^ propertySlots at: aSymbol ifAbsent: [ self error: 'Undefined property ', aSymbol, ' in a ', self name ]
+	^ propertySlots at: aSymbol ifAbsent: [ self errorUndefinedProperty: aSymbol ]
 ]
 
 { #category : #accessing }
@@ -389,7 +389,7 @@ CpPropertyModel >> propertyAt: aSymbol [
 	"Answer the value of the specified property"
 
 	(self class hasPropertyNamed: aSymbol)
-		ifFalse: [ self error: 'Undefined property ', aSymbol, ' in a ', self class name ].
+		ifFalse: [ self class errorUndefinedProperty: aSymbol ].
 
 	^ data at: aSymbol ifAbsent: [ nil ]
 ]
@@ -405,7 +405,7 @@ CpPropertyModel >> propertyAt: aSymbol put: anObject [
 	| oldValue |
 
 	(self class hasPropertyNamed: aSymbol)
-		ifFalse: [ self error: 'Undefined property ', aSymbol, ' in a ', self class name ].
+		ifFalse: [ self class errorUndefinedProperty: aSymbol ].
 
 	"Retrieve the old value"
 	oldValue := data at: aSymbol ifAbsent: [ nil ].
