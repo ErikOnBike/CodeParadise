@@ -290,14 +290,26 @@ CpPropertyModel >> instVarNamed: aSymbol put: anObject [
 ]
 
 { #category : #testing }
+CpPropertyModel >> isValid [
+
+	"Answer whether the receiver has valid properties"
+
+	self propertySlotsDo: [ :each |
+		(each constraints allSatisfy: [ :eachConstraint | eachConstraint isValidProperty: each name in: self ])
+			ifFalse: [ ^ false ] ].
+
+	^ true
+]
+
+{ #category : #testing }
 CpPropertyModel >> isValidPropertyAt: aSymbol [
 
 	| value |
 
 	value := self propertyAt: aSymbol.
 
-	^ (self propertySlotAt: aSymbol) constraints allSatisfy: [ :each |
-		each isValid: value ]
+	^ (self propertyConstraintsAt: aSymbol)
+		allSatisfy: [ :each | each isValid: value ]
 ]
 
 { #category : #'accessing - dictionary access' }
@@ -363,6 +375,15 @@ CpPropertyModel >> normalize [
 		each constraints do: [ :eachConstraint | eachConstraint normalizeProperty: each name in: self ] ]
 ]
 
+{ #category : #normalizing }
+CpPropertyModel >> normalizePropertyAt: aSymbol [
+
+	"Normalize the specified property of the receiver"
+
+	(self propertyConstraintsAt: aSymbol)
+		do: [ :each | each normalizeProperty: aSymbol in: self ]
+]
+
 { #category : #copying }
 CpPropertyModel >> postCopy [
 
@@ -426,6 +447,14 @@ CpPropertyModel >> propertyAt: aSymbol put: anObject [
 				self announce: (CpPropertyChanged name: aSymbol oldValue: oldValue newValue: nil) ] ].
 
 	^ anObject
+]
+
+{ #category : #normalizing }
+CpPropertyModel >> propertyConstraintsAt: aSymbol [
+
+	"Answer the constraints of the specified property of the receiver"
+
+	^ (self propertySlotAt: aSymbol) constraints
 ]
 
 { #category : #accessing }

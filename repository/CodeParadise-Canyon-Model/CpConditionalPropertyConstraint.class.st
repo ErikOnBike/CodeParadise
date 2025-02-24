@@ -39,6 +39,19 @@ CpConditionalPropertyConstraint >> initializeWithCondition: aBlock constraint: a
 ]
 
 { #category : #accessing }
+CpConditionalPropertyConstraint >> normalizeProperty: aSymbol in: aModel [
+
+	"Store a normalized value for the specified value in the specified Object.
+
+	Implementation:
+	The PropertyModel will do nothing if the same value is stored 'over' the
+	old value (therefore no checks here if old and new value are equal)."
+
+	(condition value: aModel)
+		ifTrue: [ constraint normalizeProperty: aSymbol in: aModel ]
+]
+
+{ #category : #accessing }
 CpConditionalPropertyConstraint >> violationsForProperty: aSymbol in: aModel [
 
 	"Answer a Collection of Strings representing violations in the specified value"
