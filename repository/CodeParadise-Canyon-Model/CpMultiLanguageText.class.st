@@ -33,6 +33,31 @@ Class {
 	#category : #'CodeParadise-Canyon-Model-Language'
 }
 
+{ #category : #accessing }
+CpMultiLanguageText >> addVolume: aVolume locale: aSymbol [
+
+	"Add the specified LanguageVolume to the receiver for the specified Locale"
+
+	^ (dictionaries at: aSymbol ifAbsentPut: [ CpLanguageDictionary new ])
+		addVolume: aVolume
+]
+
+{ #category : #accessing }
+CpMultiLanguageText >> addVolumeFromDictionary: aDictionary locale: aSymbol [
+
+	"Convenience method to add Volumes based on an input Dictionary"
+
+	^ self addVolume: (CpLanguageVolume fromDictionary: aDictionary) locale: aSymbol
+]
+
+{ #category : #accessing }
+CpMultiLanguageText >> addVolumeFromString: aString locale: aSymbol [
+
+	"Convenience method to add Volumes based on an input String (assume JSON)"
+
+	^ self addVolume: (CpLanguageVolume fromString: aString) locale: aSymbol
+]
+
 { #category : #private }
 CpMultiLanguageText >> formatDict: aDictionary with: anAssociation [
 
@@ -154,6 +179,6 @@ CpMultiLanguageText >> lang: aLanguage lookup: aTextLookup [
 { #category : #private }
 CpMultiLanguageText >> locale: localeSymbol lookup: aTextLookup [
 
-	^ (dictionaries at: #localeSymbol ifAbsent: [ ^ nil ])
+	^ (dictionaries at: localeSymbol ifAbsent: [ ^ nil ])
 		lookup: aTextLookup
 ]
