@@ -1,3 +1,9 @@
+"
+I am a value definition of a Property in a PropertyModel.
+I can be used to add values to a Property in a PropertyModel.
+You can use me to add (UI) labels to Properties for example.
+
+"
 Class {
 	#name : #CpPropertyValue,
 	#superclass : #CpPropertyDefinition,

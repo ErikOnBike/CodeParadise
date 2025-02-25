@@ -1,3 +1,8 @@
+"
+I am a flag/boolean value definition of a Property in a PropertyModel.
+I can be used to add a Boolean value to a Property in a PropertyModel.
+You can use me to mark a Property readonly or hidden for example.
+"
 Class {
 	#name : #CpPropertyFlag,
 	#superclass : #CpPropertyDefinition,

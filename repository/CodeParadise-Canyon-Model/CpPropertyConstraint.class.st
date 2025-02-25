@@ -32,7 +32,7 @@ resulting value back again.
 Class {
 	#name : #CpPropertyConstraint,
 	#superclass : #CpPropertyDefinition,
-	#category : #'CodeParadise-Canyon-Model-Core'
+	#category : #'CodeParadise-Canyon-Model-Constraints'
 }
 
 { #category : #accessing }

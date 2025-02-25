@@ -1,3 +1,10 @@
+"
+I am a conditional PropertyConstraint.
+My rules only apply if a specified condition is met.
+The condition is a Block which accepts the PropertyModel as input/argument.
+If the condition Block evaluates to true, my (conditional) rules apply.
+Otherwise my (conditional) rules are ignored.
+"
 Class {
 	#name : #CpConditionalPropertyConstraint,
 	#superclass : #CpPropertyConstraint,
@@ -5,7 +12,7 @@ Class {
 		'condition',
 		'constraint'
 	],
-	#category : #'CodeParadise-Canyon-Model-Core'
+	#category : #'CodeParadise-Canyon-Model-Constraints'
 }
 
 { #category : #'instance creation' }
