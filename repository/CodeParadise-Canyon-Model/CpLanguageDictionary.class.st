@@ -11,24 +11,24 @@ Example JSON input which is acceptable. The numeric keys are all converted to In
 ```
 {
 	""errors"": {
-		""errorNoPersonsFound"": {
+		""error.domain.NoPersonsFound"": {
 			""default"": ""no persons found""
 		},
-		""errorThingUnknown"": {
+		""error.domain.ThingUnknown"": {
 			""default"": ""unknown thing"",
 			""1"": ""first thing unknown"",
 			""2"": ""second thing unknown""
 		}
 	},
 	""domain"": {
-		""ordinalPerson"": {
+		""domain.ordinalPerson"": {
 			""default"": ""a person"",
 			""1"": ""{index}st person"",
 			""2"": ""{index}nd person"",
 			""-1"": ""last person"",
 			""-2"": ""second last person""
 		},
-		""cardinalThing"": {
+		""domain.cardinalThing"": {
 			""default"": ""some things"",
 			""0"": ""no things"",
 			""one"": ""one thing"",

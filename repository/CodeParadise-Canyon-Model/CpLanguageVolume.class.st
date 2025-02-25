@@ -8,7 +8,8 @@ I delegate the lookup for the specific variant to the TextVariant matching
 the lookup value requested.
 The definition does NOT specify which text variant is present. This is a
 responsibility of the Dictionary/Volume creator. It is good practice to use
-keys which make the distinction clear.
+keys which make the distinction clear. Also it is probably good practice to
+prepend keys with their usage context to prevent 'key collisions'.
 
 All text variants are identified using a key, which is a Symbol (will be
 converted to a Symbol on creation).
@@ -16,14 +17,14 @@ converted to a Symbol on creation).
 Example JSON input which is acceptable. The numeric keys are all converted to Integers.
 ```
 {
-	""ordinalPerson"": {
+	""domain.ordinalPerson"": {
 		""default"": ""a person"",
 		""1"": ""{index}st person"",
 		""2"": ""{index}nd person"",
 		""-1"": ""last person"",
 		""-2"": ""second last person""
 	},
-	""cardinalThing"": {
+	""domain.cardinalThing"": {
 		""default"": ""some things"",
 		""0"": ""no things"",
 		""one"": ""one thing"",
