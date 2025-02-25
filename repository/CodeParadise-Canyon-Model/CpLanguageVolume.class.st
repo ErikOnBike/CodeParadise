@@ -33,6 +33,16 @@ Example JSON input which is acceptable. The numeric keys are all converted to In
 }
 ```
 
+For convenience when no ordinal or cardinal differentiation is required and a simple
+default text suffices, the following elements are allowed too. They become the value
+of the ""default"" key. As can be seen, formatting can still be part of the text.
+```
+{
+	""domain.greeting"": ""Hello world"",
+	""domain.label.login"": ""Login"",
+	""error.game.attempt"": ""Failed attempt, {1} attempts remaining""
+}
+```
 "
 Class {
 	#name : #CpLanguageVolume,
@@ -72,7 +82,9 @@ CpLanguageVolume >> addTextVariantsFromDictionary: aDictionary [
 	aDictionary keysAndValuesDo: [ :key :value |
 		textVariants
 			at: key asSymbol
-			put: (CpTextVariant fromDictionary: value) ]
+			put: (CpTextVariant fromDictionary: (value isString
+				ifTrue: [ Dictionary with: #default -> value ]
+				ifFalse: [ value ])) ]
 ]
 
 { #category : #initialization }

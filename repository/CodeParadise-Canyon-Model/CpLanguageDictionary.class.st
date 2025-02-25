@@ -11,10 +11,8 @@ Example JSON input which is acceptable. The numeric keys are all converted to In
 ```
 {
 	""errors"": {
-		""error.domain.NoPersonsFound"": {
-			""default"": ""no persons found""
-		},
-		""error.domain.ThingUnknown"": {
+		""error.domain.noPersonsFound"": ""no persons found"",
+		""error.domain.thingUnknown"": {
 			""default"": ""unknown thing"",
 			""1"": ""first thing unknown"",
 			""2"": ""second thing unknown""
