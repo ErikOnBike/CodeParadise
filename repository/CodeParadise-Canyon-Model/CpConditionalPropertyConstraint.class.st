@@ -61,7 +61,7 @@ CpConditionalPropertyConstraint >> normalizeProperty: aSymbol in: aModel [
 { #category : #accessing }
 CpConditionalPropertyConstraint >> violationsForProperty: aSymbol in: aModel [
 
-	"Answer a Collection of Strings representing violations in the specified value"
+	"Answer a Collection of Symbols representing violations in the specified value"
 
 	^ (condition value: aModel)
 		ifTrue: [ constraint violationsForProperty: aSymbol in: aModel ]

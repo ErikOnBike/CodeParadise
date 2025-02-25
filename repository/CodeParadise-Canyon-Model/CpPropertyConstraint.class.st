@@ -38,8 +38,8 @@ Class {
 { #category : #accessing }
 CpPropertyConstraint >> collectViolationsIn: anObject [
 
-	"Answer a Collection of Strings or a single String representing violations in the specified value.
-	If answering a single String it is assumed a single violation is encountered."
+	"Answer a Collection of Symbols/CpParamTexts or a single Symbol/CpParamText representing violations in the specified value.
+	If answering a single Symbol/CpParamText it is assumed a single violation is encountered."
 
 	^ #()
 ]
@@ -90,7 +90,7 @@ CpPropertyConstraint >> normalizeProperty: aSymbol in: aModel [
 { #category : #accessing }
 CpPropertyConstraint >> violationsForProperty: aSymbol in: aModel [
 
-	"Answer a Collection of Strings representing violations in the specified value"
+	"Answer a Collection of Symbols/CpParamTexts representing violations in the specified value"
 
 	^ self violationsIn: (aModel propertyAt: aSymbol)
 ]
@@ -98,7 +98,7 @@ CpPropertyConstraint >> violationsForProperty: aSymbol in: aModel [
 { #category : #accessing }
 CpPropertyConstraint >> violationsIn: anObject [
 
-	"Answer a Collection of Strings representing violations in the specified value.
+	"Answer a Collection of Symbols/CpParamTexts representing violations in the specified value.
 
 	Implementation:
 	Normalize the value before collecting violations."
@@ -106,8 +106,8 @@ CpPropertyConstraint >> violationsIn: anObject [
 	| violations |
 
 	violations := self collectViolationsIn: (self normalize: anObject).
-	violations isString
-		ifTrue: [ violations := Array with: violations ].
+	violations isCollection
+		ifFalse: [ violations := Array with: violations ].
 
 	^ violations
 ]
