@@ -1,7 +1,9 @@
 "
 I am a value definition of a Property in a PropertyModel.
 I can be used to add values to a Property in a PropertyModel.
-You can use me to add (UI) labels to Properties for example.
+To distinguish between different values, I have a name too.
+You can use me to add (UI) labels to Properties for example
+(using the name #label).
 
 "
 Class {
