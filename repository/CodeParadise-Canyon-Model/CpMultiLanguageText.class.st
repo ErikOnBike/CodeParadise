@@ -28,7 +28,8 @@ Class {
 	#name : #CpMultiLanguageText,
 	#superclass : #Object,
 	#instVars : [
-		'dictionaries'
+		'dictionaries',
+		'defaultLanguage'
 	],
 	#category : #'CodeParadise-Canyon-Model-Language'
 }
@@ -58,6 +59,26 @@ CpMultiLanguageText >> addVolumeFromString: aString locale: aSymbol [
 	^ self addVolume: (CpLanguageVolume fromString: aString) locale: aSymbol
 ]
 
+{ #category : #'accessing - default lang' }
+CpMultiLanguageText >> count: anInteger key: aSymbol [
+
+	"Answer the specified cardinal text for the default language"
+
+	self validateDefaultLanguage.
+
+	^ self lang: defaultLanguage count: anInteger key: aSymbol format: nil
+]
+
+{ #category : #'accessing - default lang' }
+CpMultiLanguageText >> count: anInteger key: aSymbol format: aDictionary [
+
+	"Answer the specified cardinal text for the default language and use the (optional) Dictionary to format the text"
+
+	self validateDefaultLanguage.
+
+	^ self lang: defaultLanguage count: anInteger key: aSymbol format: aDictionary
+]
+
 { #category : #private }
 CpMultiLanguageText >> formatDict: aDictionary with: anAssociation [
 
@@ -77,6 +98,26 @@ CpMultiLanguageText >> formatText: aString language: aLanguage using: aDictionar
 	^ aString format: (CpTextFormat multiLanguageText: self language: aLanguage format: aDictionary)
 ]
 
+{ #category : #'accessing - default lang' }
+CpMultiLanguageText >> index: anInteger key: aSymbol [
+
+	"Answer the specified ordinal text for the default language"
+
+	self validateDefaultLanguage.
+
+	^ self lang: defaultLanguage index: anInteger key: aSymbol format: nil
+]
+
+{ #category : #'accessing - default lang' }
+CpMultiLanguageText >> index: anInteger key: aSymbol format: aDictionary [
+
+	"Answer the specified ordinal text for the default language and use the (optional) Dictionary to format the text"
+
+	self validateDefaultLanguage.
+
+	^ self lang: defaultLanguage index: anInteger key: aSymbol format: aDictionary
+]
+
 { #category : #initialization }
 CpMultiLanguageText >> initialize [
 
@@ -85,7 +126,27 @@ CpMultiLanguageText >> initialize [
 	dictionaries := Dictionary new
 ]
 
-{ #category : #accessing }
+{ #category : #'accessing - default lang' }
+CpMultiLanguageText >> key: aSymbol [
+
+	"Answer the specified text for the default language"
+
+	self validateDefaultLanguage.
+
+	^ self lang: defaultLanguage key: aSymbol format: nil
+]
+
+{ #category : #'accessing - default lang' }
+CpMultiLanguageText >> key: aSymbol format: aDictionary [
+
+	"Answer the specified text for the default language and use the (optional) Dictionary to format the text"
+
+	self validateDefaultLanguage.
+
+	^ self lang: defaultLanguage key: aSymbol format: aDictionary
+]
+
+{ #category : #'accessing - specific lang' }
 CpMultiLanguageText >> lang: aLanguage count: anInteger key: aSymbol [
 
 	"Answer the specified cardinal text for the given language"
@@ -93,7 +154,7 @@ CpMultiLanguageText >> lang: aLanguage count: anInteger key: aSymbol [
 	^ self lang: aLanguage count: anInteger key: aSymbol format: nil
 ]
 
-{ #category : #accessing }
+{ #category : #'accessing - specific lang' }
 CpMultiLanguageText >> lang: aLanguage count: anInteger key: aSymbol format: aDictionary [
 
 	"Answer the specified cardinal text for the given language and use the (optional) Dictionary to format the text.
@@ -109,7 +170,7 @@ CpMultiLanguageText >> lang: aLanguage count: anInteger key: aSymbol format: aDi
 				using: (self formatDict: aDictionary with: #count -> anInteger) ]
 ]
 
-{ #category : #accessing }
+{ #category : #'accessing - specific lang' }
 CpMultiLanguageText >> lang: aLanguage index: anInteger key: aSymbol [
 
 	"Answer the specified ordinal text for the given language"
@@ -117,7 +178,7 @@ CpMultiLanguageText >> lang: aLanguage index: anInteger key: aSymbol [
 	^ self lang: aLanguage index: anInteger key: aSymbol format: nil
 ]
 
-{ #category : #accessing }
+{ #category : #'accessing - specific lang' }
 CpMultiLanguageText >> lang: aLanguage index: anInteger key: aSymbol format: aDictionary [
 
 	"Answer the specified ordinal text for the given language and use the (optional) Dictionary to format the text.
@@ -139,7 +200,7 @@ CpMultiLanguageText >> lang: aLanguage index: anInteger key: aSymbol format: aDi
 				using: (self formatDict: aDictionary with: #index -> anInteger) ]
 ]
 
-{ #category : #accessing }
+{ #category : #'accessing - specific lang' }
 CpMultiLanguageText >> lang: aLanguage key: aSymbol [
 
 	"Answer the specified text for the given language"
@@ -147,7 +208,7 @@ CpMultiLanguageText >> lang: aLanguage key: aSymbol [
 	^ self lang: aLanguage key: aSymbol format: nil
 ]
 
-{ #category : #accessing }
+{ #category : #'accessing - specific lang' }
 CpMultiLanguageText >> lang: aLanguage key: aSymbol format: aDictionary [
 
 	"Answer the specified text for the given language and use the (optional) Dictionary to format the text"
@@ -181,4 +242,10 @@ CpMultiLanguageText >> locale: localeSymbol lookup: aTextLookup [
 
 	^ (dictionaries at: localeSymbol ifAbsent: [ ^ nil ])
 		lookup: aTextLookup
+]
+
+{ #category : #validating }
+CpMultiLanguageText >> validateDefaultLanguage [
+
+	defaultLanguage ifNil: [ self error: 'No default language specified' ]
 ]
