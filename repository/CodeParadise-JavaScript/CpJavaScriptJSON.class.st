@@ -1,5 +1,11 @@
 "
 I represent the JavaScript JSON namespace and therefore I have the two class methods: #parse:/#stringify:
+In JavaScript and JSON the properties are defined as 'unordered'. Yet, iterating over properties (as of
+ES2015) does keep the insertion order (except sometimes for numeric keys). Also defining a JSON structure
+with duplicate keys is not forbidden (not by the JSON nor the JavaScript language specification). More
+specifically, the JavaScript language specification describes that later properties (with the same key)
+override previous one(s). Therefore order does seem to have relevance. Therefore it is chosen that by
+default OrderedDictionary instances are answered in CodeParadise.
 
 Deprecation notice:
 I also used to work as a Proxy for JavaScript objects. Having the typical #at: and #at:put: behavior.
@@ -14,7 +20,8 @@ Class {
 { #category : #operations }
 CpJavaScriptJSON class >> parse: aString [
 
-	"Answer a Dictionary representing the object given by the JSON string specified"
+	"Answer an OrderedDictionary representing the object given by the JSON string specified.
+	See class comment wrt OrderedDictionary vs Dictionary."
 
 	^ self apply: #parse withArguments: { aString }
 ]
