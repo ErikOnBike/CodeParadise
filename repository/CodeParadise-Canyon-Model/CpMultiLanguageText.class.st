@@ -34,7 +34,7 @@ Class {
 	#category : #'CodeParadise-Canyon-Model-Language'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #'instance creation' }
 CpMultiLanguageText class >> defaultLanguage: aLanguage [
 
 	^ self basicNew
