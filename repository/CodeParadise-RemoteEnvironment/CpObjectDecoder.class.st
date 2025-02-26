@@ -234,12 +234,23 @@ CpObjectDecoder >> decodeClass [
 					newClass setFormat: newClass format + theSuperclass instSize.	"Object has no instance vars, so simply add the new inst var count"
 					theSuperclass addSubclass: newClass ].
 
-			"Update instance variables and class variables"
+			"Update instance variables, class variables and class instance variables"
 			instVarNames
 				ifNotEmpty: [
 					newClass instVarNames: instVarNames.
 					newClass withAllSubclassesDo: [ :each | each setFormat: each format + instVarNames size ] ].
-			classVarNames do: [ :each | newClass addClassVarNamed: each ] ]
+			classVarNames do: [ :each | newClass addClassVarNamed: each ].
+			classInstVarNames
+				ifNotEmpty: [
+					self error: 'Currently there is no support for installing a superclass (out of order) which has class instance variables'.
+
+					"Add the class instance variables"
+					"newClass class instVarNames: classInstVarNames.
+					newClass class setFormat: newClass class format + classInstVarNames size."
+
+					"Recreate the metaclass instance(s), i.e. the class, since they have changed size"
+					"newClass withAllSubclassesDo: [ :each |
+						... ]" ] ]
 		ifNil: [
 
 			"Create new subclass"

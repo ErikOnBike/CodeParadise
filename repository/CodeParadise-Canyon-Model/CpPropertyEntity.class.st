@@ -1,11 +1,29 @@
+"
+I am an Entity based on the PropertyModel. I am responsible for loading and storing my instances.
+I therefore know about my instance's identity. I also expect to live in a multi-language environment
+and therefore offer support for this.
+
+Since Entities might need different behaviors for different situations, every class or subclass
+can store configuration information to influence the required behavior.
+This information by default includes support for REST API client and multi-language support.
+Other types of information is to the user to decide.
+
+Configuration information is inherited through the subclass chain. If a configuration item is not
+present on a subclass, it will ask the parent for this information. This allows default to be set
+in a single location. If using #configAt:ifAbsentPut: it will store the confuration item at the
+receiver of the message (not in the root) if the configuration item does not exist yet. Similarly,
+removing a configuration item using #removeConfigAt: will only remove the item in the receiver and
+not from any super class configuration.
+
+"
 Class {
 	#name : #CpPropertyEntity,
 	#superclass : #CpPropertyModel,
 	#instVars : [
 		'#id => CpPropertySlot'
 	],
-	#classVars : [
-		'#LanguageText'
+	#classInstVars : [
+		'#config'
 	],
 	#category : #'CodeParadise-Canyon-Model-Core'
 }
@@ -13,7 +31,52 @@ Class {
 { #category : #'accessing - language' }
 CpPropertyEntity class >> addVolume: aVolume locale: aSymbol [
 
-	LanguageText addVolume: aVolume locale: aSymbol
+	self languageText
+		addVolume: aVolume locale: aSymbol
+]
+
+{ #category : #'accessing - configuration' }
+CpPropertyEntity class >> configAt: aSymbol [
+
+	"Answer the specified configuration item or nil if not present.
+	By default configuration entries are inherited from class to subclasses."
+
+	^ self configAt: aSymbol ifAbsent: [ nil ]
+]
+
+{ #category : #'accessing - configuration' }
+CpPropertyEntity class >> configAt: aSymbol ifAbsent: aBlock [
+
+	"Answer the specified configuration item.
+	By default configuration entries are inherited from class to subclasses."
+
+	"For CpPropertyEntity #config will never be empty
+	(ignore warning about superclass not implementing #configAt:ifAbsent:)"
+	config ifNil: [ ^ self superclass configAt: aSymbol ifAbsent: aBlock ].
+
+	^ config at: aSymbol ifAbsent: [
+		self = CpPropertyEntity
+			ifTrue: [ aBlock value ]
+			ifFalse: [ self superclass configAt: aSymbol ifAbsent: aBlock ] ]
+]
+
+{ #category : #'accessing - configuration' }
+CpPropertyEntity class >> configAt: aSymbol ifAbsentPut: aBlock [
+
+	"Answer the specified configuration item or add a new one.
+	By default configuration entries are inherited from class to subclasses."
+
+	^ self configAt: aSymbol ifAbsent: [ self configAt: aSymbol put: aBlock value ]
+]
+
+{ #category : #'accessing - configuration' }
+CpPropertyEntity class >> configAt: aSymbol put: anObject [
+
+	"Store the specified configuration item.
+	By default configuration entries are inherited from class to subclasses."
+
+	^ (config ifNil: [ config := Dictionary new ])
+		at: aSymbol put: anObject
 ]
 
 { #category : #'accessing - language' }
@@ -25,7 +88,8 @@ CpPropertyEntity class >> count: anInteger text: aSymbolOrParamText [
 { #category : #'accessing - language' }
 CpPropertyEntity class >> count: anInteger text: aSymbolOrParamText format: aDictionary [
 
-	^ LanguageText count: anInteger key: aSymbolOrParamText format: aDictionary
+	^ self languageText
+		count: anInteger key: aSymbolOrParamText format: aDictionary
 ]
 
 { #category : #accessing }
@@ -75,7 +139,8 @@ CpPropertyEntity class >> index: anInteger text: aSymbolOrParamText [
 { #category : #'accessing - language' }
 CpPropertyEntity class >> index: anInteger text: aSymbolOrParamText format: aDictionary [
 
-	^ LanguageText index: anInteger key: aSymbolOrParamText format: aDictionary
+	^ self languageText
+		index: anInteger key: aSymbolOrParamText format: aDictionary
 ]
 
 { #category : #testing }
@@ -98,11 +163,21 @@ CpPropertyEntity class >> labelsByProperty [
 ]
 
 { #category : #'accessing - language' }
+CpPropertyEntity class >> languageText [
+
+	^ self configAt: #languageText ifAbsent: [ self error: 'No languageText is set by default, please fix this' ]
+]
+
+{ #category : #'accessing - language' }
+CpPropertyEntity class >> languageText: aLanguageText [
+
+	self configAt: #languageText put: aLanguageText
+]
+
+{ #category : #'class initialization' }
 CpPropertyEntity class >> postInstallOnce [
 
-	<environment: #browser>
-
-	LanguageText := CpMultiLanguageText defaultLanguage: (CpTextLanguage locale: #nl)
+	config := Dictionary new
 ]
 
 { #category : #accessing }
@@ -114,6 +189,18 @@ CpPropertyEntity class >> propertyConstraints [
 	^ Dictionary new
 ]
 
+{ #category : #'accessing - configuration' }
+CpPropertyEntity class >> removeConfigAt: aSymbol [
+
+	"Remove the specified configuration item and answer its original value.
+	Answer nil if the specified configuration does not exist.
+	By default configuration entries are inherited from class to subclasses."
+
+	config ifNil: [ ^ nil ].
+
+	^ config removeKey: aSymbol ifAbsent: [ nil ]
+]
+
 { #category : #'accessing - language' }
 CpPropertyEntity class >> text: aSymbolOrParamText [
 
@@ -123,7 +210,8 @@ CpPropertyEntity class >> text: aSymbolOrParamText [
 { #category : #'accessing - language' }
 CpPropertyEntity class >> text: aSymbolOrParamText format: aDictionary [
 
-	^ LanguageText key: aSymbolOrParamText format: aDictionary
+	^ self languageText
+		key: aSymbolOrParamText format: aDictionary
 ]
 
 { #category : #resources }
