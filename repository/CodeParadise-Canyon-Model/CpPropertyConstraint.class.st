@@ -106,8 +106,11 @@ CpPropertyConstraint >> violationsIn: anObject [
 	| violations |
 
 	violations := self collectViolationsIn: (self normalize: anObject).
-	violations isCollection
-		ifFalse: [ violations := Array with: violations ].
+
+	"Replace single violation with Collection.
+	Be aware Symbols are Collections too ;-)"
+	(violations isSymbol or: [ violations isCollection not ])
+		ifTrue: [ violations := Array with: violations ].
 
 	^ violations
 ]
