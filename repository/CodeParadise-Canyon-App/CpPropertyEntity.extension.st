@@ -1,6 +1,34 @@
 Extension { #name : #CpPropertyEntity }
 
 { #category : #'*CodeParadise-Canyon-App' }
+CpPropertyEntity class >> defineLabeledProperties [
+
+	<propertyDefinition>
+
+	| labelsByProperty label |
+
+	labelsByProperty := self labelsByProperty.
+
+	self propertySlotsDo: [ :each |
+
+		"Use defined label or otherwise the property name"
+		label := labelsByProperty at: each name ifAbsent: [ each name ].
+
+		each addDefinition: (CpPropertyValue name: #label value: label) ]
+]
+
+{ #category : #'*CodeParadise-Canyon-App' }
+CpPropertyEntity class >> labelsByProperty [
+
+	"Answer a Dictionary containing the labels of the properties.
+	The keys are the property names, the values the labels.
+
+	Subclasses should add their property/label combinations."
+
+	^ Dictionary new
+]
+
+{ #category : #'*CodeParadise-Canyon-App' }
 CpPropertyEntity class >> restApiClient [
 
 	"Use the REST API Client stored in my configuration"

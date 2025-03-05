@@ -5,11 +5,12 @@ and therefore offer support for this.
 
 Since Entities might need different behaviors for different situations, every class or subclass
 can store configuration information to influence the required behavior.
-This information by default includes support for REST API client and multi-language support.
-Other types of information is to the user to decide.
+This information by default includes support for multi-language support. If Canyon-App is also
+loaded, support for REST API client is also present. Other types of information are for the user
+to decide.
 
 Configuration information is inherited through the subclass chain. If a configuration item is not
-present on a subclass, it will ask the parent for this information. This allows default to be set
+present on a subclass, it will ask the parent for this information. This allows defaults to be set
 in a single location. If using #configAt:ifAbsentPut: it will store the confuration item at the
 receiver of the message (not in the root) if the configuration item does not exist yet. Similarly,
 removing a configuration item using #removeConfigAt: will only remove the item in the receiver and
@@ -93,23 +94,6 @@ CpPropertyEntity class >> count: anInteger text: aSymbolOrParamText format: aDic
 ]
 
 { #category : #accessing }
-CpPropertyEntity class >> defineLabeledProperties [
-
-	<propertyDefinition>
-
-	| labelsByProperty label |
-
-	labelsByProperty := self labelsByProperty.
-
-	self propertySlotsDo: [ :each |
-
-		"Use defined label or otherwise the property name"
-		label := labelsByProperty at: each name ifAbsent: [ each name ].
-
-		each addDefinition: (CpPropertyValue name: #label value: label) ]
-]
-
-{ #category : #accessing }
 CpPropertyEntity class >> definePropertyConstraints [
 
 	<propertyDefinition>
@@ -149,17 +133,6 @@ CpPropertyEntity class >> isRunningServerSide [
 	"Answer whether the receiver is executing in a server environment"
 
 	^ (Smalltalk classNamed: #CpDomElement) isNil
-]
-
-{ #category : #accessing }
-CpPropertyEntity class >> labelsByProperty [
-
-	"Answer a Dictionary containing the labels of the properties.
-	The keys are the property names, the values the labels.
-
-	Subclasses should add their property/label combinations."
-
-	^ Dictionary new
 ]
 
 { #category : #'accessing - language' }
