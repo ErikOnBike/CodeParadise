@@ -71,6 +71,38 @@ CpGlobalThis class >> clearTimeout: anInteger [
 ]
 
 { #category : #operations }
+CpGlobalThis class >> decodeURI: aString [
+
+	"Answer a new string representing the unencoded version of the given encoded Uniform Resource Identifier (URI)"
+
+	^ self apply: #decodeURI withArguments: { aString }
+]
+
+{ #category : #operations }
+CpGlobalThis class >> decodeURIComponent: aString [
+
+	"Answer a new string representing the decoded version of the given encoded Uniform Resource Identifier (URI) component"
+
+	^ self apply: #decodeURIComponent withArguments: { aString }
+]
+
+{ #category : #operations }
+CpGlobalThis class >> encodeURI: aString [
+
+	"Answer a new string representing the provided string encoded as a URI"
+
+	^ self apply: #encodeURI withArguments: { aString }
+]
+
+{ #category : #operations }
+CpGlobalThis class >> encodeURIComponent: aString [
+
+	"Answer a new string representing the provided uriComponent encoded as a URI component"
+
+	^ self apply: #encodeURIComponent withArguments: { aString }
+]
+
+{ #category : #operations }
 CpGlobalThis class >> fetch: aString withOptions: aDictionary [
 
 	"Fetch the resource using the specified URL string.
