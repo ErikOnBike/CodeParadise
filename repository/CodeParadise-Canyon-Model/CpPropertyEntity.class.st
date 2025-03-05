@@ -51,8 +51,7 @@ CpPropertyEntity class >> configAt: aSymbol ifAbsent: aBlock [
 	"Answer the specified configuration item.
 	By default configuration entries are inherited from class to subclasses."
 
-	"For CpPropertyEntity #config will never be empty
-	(ignore warning about superclass not implementing #configAt:ifAbsent:)"
+	"For CpPropertyEntity #config will never be empty"
 	config ifNil: [ ^ self superclass configAt: aSymbol ifAbsent: aBlock ].
 
 	^ config at: aSymbol ifAbsent: [
