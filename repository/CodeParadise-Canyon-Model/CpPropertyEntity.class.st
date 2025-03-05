@@ -102,7 +102,7 @@ CpPropertyEntity class >> definePropertyConstraints [
 			addAllDefinitions: constraints ]
 ]
 
-{ #category : #adding }
+{ #category : #accessing }
 CpPropertyEntity class >> for: aSymbol addConstraint: aPropertyConstraint to: aDictionary [
 
 	"Convenience method to add PropertyConstraints to a Collection.
