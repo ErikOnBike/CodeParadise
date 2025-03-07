@@ -14,7 +14,8 @@ Class {
 	#superclass : #Object,
 	#instVars : [
 		'database',
-		'preparedStatements'
+		'preparedStatements',
+		'booleanColumns'
 	],
 	#category : #'CodeParadise-Canyon-Data-Database'
 }
@@ -44,7 +45,8 @@ CpDatabase >> initializeWithDatabaseFile: aString [
 	self initialize.
 
 	database := CpNodeJSSqlite3Database onPath: aString withOptions: Dictionary new.
-	preparedStatements := Dictionary new
+	preparedStatements := Dictionary new.
+	booleanColumns := Dictionary new
 ]
 
 { #category : #database }
@@ -61,7 +63,7 @@ CpDatabase >> performMulti: aSymbol statement: aString bind: aDictionary [
 
 	[
 		resultInfo := (self prepare: aSymbol statement: aString)
-			runWithBindings: aDictionary
+			runWithBindings: (self sqliteBinding: aDictionary)
 	] on: Error do: [ :error | self signalSqliteError: error ].
 
 	^ resultInfo at: #changes
@@ -83,7 +85,47 @@ CpDatabase >> performOne: aSymbol statement: aString bind: aDictionary [
 		ifTrue: [ CpDatabaseTooManyUpdates signal ]
 ]
 
-{ #category : #database }
+{ #category : #private }
+CpDatabase >> prepare: aSymbol selectStatement: aString [
+
+	"Answer the prepared statement identified by a Symbol (for a select query).
+
+	Implementation:
+	Because sqlite does not support native booleans, keep track of the boolean
+	columns to allow converting result values. A temporary #prepared is assigned
+	if (and only if) a new prepared statement is created.
+
+	Currently the implementation is extra careful and also checks whethe the SQL
+	expression has changed between consecutive calls. In a production environment
+	this might not be necessary. Since most often the source is a literal in a
+	method, comparison is a cheap identity comparison and therefore has little
+	overall impact."
+
+	| preparedStatement prepared |
+
+	preparedStatement := preparedStatements
+		at: aSymbol
+		ifPresent: [ :statement |
+			"Since most often the statement source is a literal in a method compare for identity first"
+			(statement source == aString or: [ statement source = aString ])
+				ifTrue: [ statement ]
+				ifFalse: [ preparedStatements at: aSymbol put: (prepared := database prepare: aString) ] ]
+		ifAbsentPut: [ prepared := database prepare: aString ].
+
+	"Only if new prepared statement is created extract the boolean columns"
+	prepared
+		ifNil: [ ^ preparedStatement ].
+
+	booleanColumns
+		at: aSymbol
+		put: ((preparedStatement columns
+		select: [ :each | (each at: #type) = #BOOLEAN ])
+			collect: [ :each | each at: #name ]).
+
+	^ preparedStatement
+]
+
+{ #category : #private }
 CpDatabase >> prepare: aSymbol statement: aString [
 
 	"Answer the prepared statement identified by a Symbol.
@@ -91,12 +133,15 @@ CpDatabase >> prepare: aSymbol statement: aString [
 	Implementation:
 	Currently the implementation is extra careful and also checks whethe the SQL
 	expression has changed between consecutive calls. In a production environment
-	this might not be necessary and saves one String comparison per invocation."
+	this might not be necessary. Since most often the source is a literal in a
+	method, comparison is a cheap identity comparison and therefore has little
+	overall impact."
 
 	^ preparedStatements
 		at: aSymbol
 		ifPresent: [ :statement |
-			statement source = aString
+			"Since most often the statement source is a literal in a method compare for identity first"
+			(statement source == aString or: [ statement source = aString ])
 				ifTrue: [ statement ]
 				ifFalse: [ preparedStatements at: aSymbol put: (database prepare: aString) ] ]
 		ifAbsentPut: [ database prepare: aString ]
@@ -116,10 +161,23 @@ CpDatabase >> selectCount: aSymbol statement: aString bind: aDictionary [
 { #category : #database }
 CpDatabase >> selectMany: aSymbol statement: aString bind: aDictionary [
 
-	"Select (possibly) multiple rows from the database and answer a collection"
+	"Select (possibly) multiple rows from the database and answer a collection.
 
-	^ (self prepare: aSymbol statement: aString)
-		allWithBindings: aDictionary
+	Implementation:
+	Convert boolean column values (which are 0's and 1's in sqlite) back to the
+	native boolean value. Since the results are coming from the database we can
+	replace the value 'in place' and don't need to create a copy of the result."
+
+	| rows |
+
+	rows := (self prepare: aSymbol selectStatement: aString)
+		allWithBindings: (self sqliteBinding: aDictionary).
+
+	"Convert boolean values (integers) to actual booleans"
+	(booleanColumns at: aSymbol) do: [ :each |
+		rows do: [ :row | row at: each put: (row at: each) = 1 ] ].
+
+	^ rows
 ]
 
 { #category : #database }
@@ -130,9 +188,6 @@ CpDatabase >> selectOne: aSymbol statement: aString bind: aDictionary [
 	| rows |
 
 	rows := self selectMany: aSymbol statement: aString bind: aDictionary.
-
-self traceCr: 'Columns for ', aString.
-self traceCr: (self prepare: aSymbol statement: aString) columns printString.
 
 	rows size > 1
 		ifTrue: [ CpDatabaseTooManySelected signal ].
@@ -159,4 +214,23 @@ CpDatabase >> signalSqliteError: error [
 				ifTrue: [ CpDatabaseUniqueConstraintViolation signal ] ].
 
 	error pass
+]
+
+{ #category : #private }
+CpDatabase >> sqliteBinding: aDictionary [
+
+	"Sqlite does not support boolean values natively,
+	convert bound booleans to integers 0 and 1.
+
+	BE AWARE: The current implementation uses an 'in place' conversion
+	for performance. Since literal Dictionaries don't exist in Pharo atm
+	this seems a safe assumption."
+
+	^ aDictionary ifNotNil: [
+		aDictionary associationsDo: [ :each |
+			each value == true
+				ifTrue: [ each value: 1 ]
+				ifFalse: [
+					each value == false
+						ifTrue: [ each value: 0 ] ] ] ]
 ]
