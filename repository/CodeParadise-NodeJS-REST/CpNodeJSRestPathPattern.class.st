@@ -75,6 +75,14 @@ CpNodeJSRestPathPattern >> initializeFromString: aString [
 ]
 
 { #category : #accessing }
+CpNodeJSRestPathPattern >> parameterCount [
+
+	"Answer the number of parameters"
+
+	^ paramMapping size
+]
+
+{ #category : #accessing }
 CpNodeJSRestPathPattern >> parameterNamed: aString fromPath: aPath [
 
 	"Answer the value of the named parameter from the specified path segments (or nil if not available)"

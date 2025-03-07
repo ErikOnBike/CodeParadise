@@ -51,9 +51,19 @@ Class {
 { #category : #request }
 CpNodeJSRestEndpointOperation class >> handleRequestIn: aRequestProcess [
 
-	"Handle the REST Request in the specified RequestProcess or notify it is unhandled"
+	"Handle the REST Request in the specified RequestProcess or notify it is unhandled.
 
-	| request response |
+	Implementation:
+	The most accurate matching operation is selected to handle the request. The operation's path is
+	checked to decide which is most accurate. Fixed path segments are more accurate than parameters,
+	therefore sort on number of parameters while matching.
+
+	Some examples:
+		'/account/current' is more accurate than '/account:id'
+		'/products/:id/photos/latest' is more accurate than '/products/:productId/photos/:photoId'
+		but '/products/current/photos/:id' equals '/products/:id/photos/latest' (i.e. undefined which will be selected)"
+
+	| request response matches |
 
 	Operations ifNil: [
 		aRequestProcess unhandled.
@@ -66,10 +76,17 @@ CpNodeJSRestEndpointOperation class >> handleRequestIn: aRequestProcess [
 	request := aRequestProcess request.
 	response := aRequestProcess response.
 
-	Operations
-		detect: [ :each | each canHandleRequest: request ]
-		ifFound: [ :endpointOperation | endpointOperation handleRequest: request response: response ]
-		ifNone: [ aRequestProcess unhandled ].
+	"Find matching operations and select most accurate one.
+	Fixed path segments are more accurate than parameters, therefore sort on number of parameters.
+	I.e. "
+	matches := SortedCollection sortBlock: [ :a :b | a parameterCount < b parameterCount ].
+	Operations valuesDo: [ :operation |
+		(operation canHandleRequest: request)
+			ifTrue: [ matches add: operation ] ].
+
+	matches
+		ifNotEmpty: [ matches first handleRequest: request response: response ]
+		ifEmpty: [ aRequestProcess unhandled ].
 
 	"Log the call in development"
 	CpJavaScriptObject isDevelopmentEnvironment
@@ -255,6 +272,14 @@ CpNodeJSRestEndpointOperation >> operationMethod [
 	"Answer the CompiledMethod of the operation"
 
 	^ operation receiver class >> operation selector
+]
+
+{ #category : #accessing }
+CpNodeJSRestEndpointOperation >> parameterCount [
+
+	"Answer the number of parameters in the receiver's path"
+
+	^ pathPattern parameterCount
 ]
 
 { #category : #accessing }
