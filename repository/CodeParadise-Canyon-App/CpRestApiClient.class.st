@@ -2,10 +2,46 @@ Class {
 	#name : #CpRestApiClient,
 	#superclass : #CpBaseModel,
 	#instVars : [
+		'baseUrl',
 		'accessToken'
 	],
 	#category : #'CodeParadise-Canyon-App-Support'
 }
+
+{ #category : #'instance creation' }
+CpRestApiClient class >> baseUrl: aString [
+
+	"Answer an instance of the receiver for the specified base URL
+	(all requests will add their URI to access specific resources).
+
+	The base URL can be relative (to the client) or absolute."
+
+	^ self basicNew
+		initializeWithBaseUrl: aString ;
+		yourself
+]
+
+{ #category : #'instance creation' }
+CpRestApiClient class >> new [
+
+	self errorNewReplacedBy: #baseUrl:
+]
+
+{ #category : #operations }
+CpRestApiClient >> deleteUri: aString timeoutPeriod: anInteger [
+
+	"Perform the DELETE operation with the URI and answer the response content"
+
+	^ self performOperation: #DELETE uri: aString queryParams: nil body: nil timeoutPeriod: anInteger
+]
+
+{ #category : #operations }
+CpRestApiClient >> getUri: aString timeoutPeriod: anInteger [
+
+	"Perform the GET operation with the URI and answer the response content"
+
+	^ self performOperation: #GET uri: aString queryParams: nil body: nil timeoutPeriod: anInteger
+]
 
 { #category : #'response handling' }
 CpRestApiClient >> handleErrorResponse: aResponse [
@@ -60,13 +96,28 @@ CpRestApiClient >> initialize [
 		ifNotNil: [ :newAccessToken | self setAccessToken: newAccessToken ]
 ]
 
+{ #category : #initialization }
+CpRestApiClient >> initializeWithBaseUrl: aString [
+
+	self initialize.
+
+	baseUrl := aString
+]
+
 { #category : #operations }
-CpRestApiClient >> performOperation: aSymbol model: aModel timeoutPeriod: anInteger [
+CpRestApiClient >> patchUri: uriString body: bodyString timeoutPeriod: anInteger [
 
-	"Perform the specified operation on the receiver's model and answer the response content.
-	If all instances of a Model are to be read, provide the class as model."
+	"Perform the PATCH operation with the URI and body and answer the response content"
 
-	| headers body url fetch response |
+	^ self performOperation: #PATCH uri: uriString queryParams: nil body: bodyString timeoutPeriod: anInteger
+]
+
+{ #category : #private }
+CpRestApiClient >> performOperation: aSymbol uri: uriString queryParams: aDictionary body: bodyString timeoutPeriod: anInteger [
+
+	"Perform the specified operation with URI and body (can be nil) and answer the response content"
+
+	| headers url fetch response |
 
 	headers := Dictionary new.
 
@@ -74,13 +125,25 @@ CpRestApiClient >> performOperation: aSymbol model: aModel timeoutPeriod: anInte
 	accessToken
 		ifNotNil: [ headers at: #Authorization put: 'Bearer ', accessToken ].
 
-	"Create body (only relevant for #POST #PUT #PATCH)"
-	body := (#(POST PUT PATCH) includes: aSymbol)
-		ifTrue: [ CpJavaScriptJSON stringify: aModel asJsonObjectValue ]
-		ifFalse: [ nil ].
-
 	"Create URL"
-	url := '/api', aModel apiPath.
+	url := String streamContents: [ :stream |
+		stream
+			nextPutAll: baseUrl ;
+			nextPutAll: uriString.
+
+		"Add query parameters"
+		aDictionary isEmptyOrNil ifFalse: [
+			| first |
+			stream nextPut: $?.
+			first := true.
+			aDictionary keysAndValuesDo: [ :key :value |
+				first
+					ifTrue: [ first := false ]
+					ifFalse: [ stream nextPut: $& ].
+				stream
+					nextPutAll: (CpGlobalThis encodeURIComponent: key) ;
+					nextPut: $= ;
+					nextPutAll: (CpGlobalThis encodeURIComponent: value) ] ] ].
 
 	"Create request"
 	fetch := CpGlobalThis
@@ -88,7 +151,7 @@ CpRestApiClient >> performOperation: aSymbol model: aModel timeoutPeriod: anInte
 		withOptions: {
 			#method -> aSymbol.
 			#headers -> headers.
-			#body -> body.
+			#body -> bodyString.
 			#mode -> #cors.
 			#redirect -> #error.
 			#priority -> #high.
@@ -109,6 +172,30 @@ CpRestApiClient >> performOperation: aSymbol model: aModel timeoutPeriod: anInte
 
 { #category : #accessing }
 CpRestApiClient >> performTimeoutPeriod [
+
+	"Answer the number of milliseconds before a request should time out"
+
+	^ 8000
+]
+
+{ #category : #operations }
+CpRestApiClient >> postUri: uriString body: bodyString timeoutPeriod: anInteger [
+
+	"Perform the POST operation with the URI and body and answer the response content"
+
+	^ self performOperation: #POST uri: uriString queryParams: nil body: bodyString timeoutPeriod: anInteger
+]
+
+{ #category : #operations }
+CpRestApiClient >> putUri: uriString body: bodyString timeoutPeriod: anInteger [
+
+	"Perform the PUT operation with the URI and body and answer the response content"
+
+	^ self performOperation: #PUT uri: uriString queryParams: nil body: bodyString timeoutPeriod: anInteger
+]
+
+{ #category : #accessing }
+CpRestApiClient >> requestTimeoutPeriod [
 
 	"Answer the number of milliseconds before a request should time out"
 
@@ -155,7 +242,7 @@ CpRestApiClient >> setAccessToken: aString [
 	self announce: CpSessionUpdated
 ]
 
-{ #category : #operations }
+{ #category : #private }
 CpRestApiClient >> updateAccessTokenFromResponse: aResponse [
 
 	"Retrieve a (new) access token from the specified Response and store it in the receiver"
