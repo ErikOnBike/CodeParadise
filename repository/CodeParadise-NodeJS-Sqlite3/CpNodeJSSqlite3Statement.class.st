@@ -27,7 +27,7 @@ CpNodeJSSqlite3Statement class >> module [
 { #category : #operations }
 CpNodeJSSqlite3Statement >> all [
 
-	^ self allWithBindings: #()
+	^ self allWithBindings: nil
 ]
 
 { #category : #operations }
@@ -37,17 +37,7 @@ CpNodeJSSqlite3Statement >> allWithBindings: aDictionaryOrArray [
 
 	If no rows are found, the array will be empty. If execution of the statement fails, an Error is thrown."
 
-	^ self apply: #all withArguments: (self asBindingParameters: aDictionaryOrArray)
-]
-
-{ #category : #operations }
-CpNodeJSSqlite3Statement >> asBindingParameters: aDictionaryOrArray [
-
-	"Convenience method to create a parameter bindings object"
-
-	^ aDictionaryOrArray class == Array
-		ifTrue: [ aDictionaryOrArray ]
-		ifFalse: [ { aDictionaryOrArray } ]
+	^ self apply: #all withArguments: (aDictionaryOrArray ifNotNil: [ { aDictionaryOrArray } ])
 ]
 
 { #category : #operations }
@@ -59,7 +49,7 @@ CpNodeJSSqlite3Statement >> bind: aDictionaryOrArray [
 
 	This method is primarily used as a performance optimization when you need to execute the same prepared statement many times with the same bound parameters."
 
-	^ self apply: #bind withArguments: (self asBindingParameters: aDictionaryOrArray)
+	^ self apply: #bind withArguments: (aDictionaryOrArray ifNotNil: [ { aDictionaryOrArray } ])
 ]
 
 { #category : #accessing }
@@ -105,7 +95,7 @@ CpNodeJSSqlite3Statement >> expand: aBoolean [
 { #category : #operations }
 CpNodeJSSqlite3Statement >> get [
 
-	^ self getWithBindings: #()
+	^ self getWithBindings: nil
 ]
 
 { #category : #operations }
@@ -117,13 +107,13 @@ CpNodeJSSqlite3Statement >> getWithBindings: aDictionaryOrArray [
 
 	See also #runWithBindings: for an explanation about the parameter bindings."
 
-	^ self apply: #get withArguments: (self asBindingParameters: aDictionaryOrArray)
+	^ self apply: #get withArguments: (aDictionaryOrArray ifNotNil: [ { aDictionaryOrArray } ])
 ]
 
 { #category : #operations }
 CpNodeJSSqlite3Statement >> iterate [
 
-	^ self iterateWithBindings: #()
+	^ self iterateWithBindings: nil
 ]
 
 { #category : #operations }
@@ -135,7 +125,7 @@ If execution of the statement fails, an Error is thrown and the iterator is clos
 
 	self error: 'Iterators are not implemented yet!'.
 
-	^ self apply: #iterate withArguments: (self asBindingParameters: aDictionaryOrArray)
+	^ self apply: #iterate withArguments: (aDictionaryOrArray ifNotNil: [ { aDictionaryOrArray } ])
 ]
 
 { #category : #operations }
@@ -167,7 +157,7 @@ CpNodeJSSqlite3Statement >> readonly [
 { #category : #operations }
 CpNodeJSSqlite3Statement >> run [
 
-	^ self runWithBindings: #()
+	^ self runWithBindings: nil
 ]
 
 { #category : #operations }
@@ -179,15 +169,15 @@ CpNodeJSSqlite3Statement >> runWithBindings: aDictionaryOrArray [
 	info.lastInsertRowid: the rowid of the last row inserted into the database (ignoring those caused by trigger programs). If the current statement did not insert any rows into the database, this number should be completely ignored.
 
 	Binding parameters can be an array consisting of positional parameters
-	ot it can be an array with key, value pairs (keys in the odd and values in the even positions)
+	or it can be an array with key, value pairs (keys in the odd and values in the even positions)
 	or it can be a Dictionary with key/value pairs
-	or a combination of these. For readability the named parameters (and a Dictionary for binding)
-	seems a good choice.
+	or a combination of these.
+	For readability the named parameters (and a Dictionary for binding) seems a good choice.
 	See https://github.com/WiseLibs/better-sqlite3/blob/master/docs/api.md#binding-parameters
 
 	If execution of the statement fails, an Error is thrown."
 
-	^ self apply: #run withArguments: (self asBindingParameters: aDictionaryOrArray)
+	^ self apply: #run withArguments: (aDictionaryOrArray ifNotNil: [ { aDictionaryOrArray } ])
 ]
 
 { #category : #accessing }
