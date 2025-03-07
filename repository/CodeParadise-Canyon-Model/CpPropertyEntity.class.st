@@ -202,7 +202,7 @@ CpPropertyEntity class >> timestampNow [
 	(Smalltalk classNamed: #CpJavaScriptClass)
 		ifNotNil: [ :jsClass | ^ ((jsClass forName: #Date) apply: #now) // 1000 ].
 
-	self error: 'No Data or DateAndTime class available in the current environment'
+	self error: 'No Date or DateAndTime class available in the current environment'
 ]
 
 { #category : #accessing }
