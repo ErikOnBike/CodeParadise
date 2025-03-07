@@ -129,8 +129,10 @@ CpDatabase >> selectOne: aSymbol statement: aString bind: aDictionary [
 
 	| rows |
 
-	rows := (self prepare: aSymbol statement: aString)
-		allWithBindings: aDictionary.
+	rows := self selectMany: aSymbol statement: aString bind: aDictionary.
+
+self traceCr: 'Columns for ', aString.
+self traceCr: (self prepare: aSymbol statement: aString) columns printString.
 
 	rows size > 1
 		ifTrue: [ CpDatabaseTooManySelected signal ].
