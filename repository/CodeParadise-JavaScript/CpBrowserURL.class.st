@@ -197,7 +197,7 @@ CpBrowserURL >> searchParams [
 
 	"A URLSearchParams object which can be used to access the individual query parameters found in search."
 
-	^ self propertyAt: #searchParams
+	^ self propertyAt: #searchParams resultAs: CpBrowserURLSearchParams
 ]
 
 { #category : #accessing }
