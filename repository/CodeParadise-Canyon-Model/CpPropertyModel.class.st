@@ -98,6 +98,22 @@ CpPropertyModel class >> initializeSlots: anObject [
 	<serverEnvironment>
 ]
 
+{ #category : #testing }
+CpPropertyModel class >> isRunningClientSide [
+
+	"Answer whether the receiver is executing in a client environment"
+
+	^ (Smalltalk classNamed: #CpDomElement) isNotNil
+]
+
+{ #category : #testing }
+CpPropertyModel class >> isRunningServerSide [
+
+	"Answer whether the receiver is executing in a server environment"
+
+	^ self isRunningClientSide not
+]
+
 { #category : #accessing }
 CpPropertyModel class >> postInstall [
 
@@ -207,6 +223,23 @@ CpPropertyModel >> = anObject [
 	^ anObject = data
 ]
 
+{ #category : #accessing }
+CpPropertyModel >> addChangeHandlers [
+
+	"Add any change handlers
+	(subclasses should call the super implementation)"
+
+	self class isRunningClientSide
+		ifTrue: [ self addClientChangeHandlers ]
+]
+
+{ #category : #accessing }
+CpPropertyModel >> addClientChangeHandlers [
+
+	"Add any change handlers specific for client environment (i.e. where a UI is present)
+	(subclasses should call the super implementation)"
+]
+
 { #category : #'accessing - dictionary access' }
 CpPropertyModel >> asDictionary [
 
@@ -269,12 +302,31 @@ CpPropertyModel >> initialize [
 	"Initialize the receiver.
 
 	Implementation:
-	Only the data Dictionary is created.
-	The private data Dictionary will be created lazily, since it will probably not be used often."
+	First create the data Dictionary.
+	Then initialize the property values.
+	Finally add any change handlers. This is a mechanism to allow the receiver
+	to act on changes without having to perform checks to see if any property
+	actually changed value. These checks are already performed in methods like
+	#propertyAt:put:. Also it allows to decouple (typically) the setter methods
+	from performing some side effects.
+	Change handlers can be added for the 'general' purpose and specific ones
+	for when running client side (i.e. when a UI is present)."
 
 	super initialize.
 
-	data := Dictionary new
+	data := Dictionary new.
+
+	"When the data Dictionary is setup, set the initial values"
+	self initializeProperties.
+
+	"When the initial property values are set, add change handlers"
+	self addChangeHandlers
+]
+
+{ #category : #initialization }
+CpPropertyModel >> initializeProperties [
+
+	"Set the receiver's initial values"
 ]
 
 { #category : #introspection }
@@ -387,9 +439,13 @@ CpPropertyModel >> normalizePropertyAt: aSymbol [
 { #category : #copying }
 CpPropertyModel >> postCopy [
 
+	"After my instance and data are copied, add the required change handlers"
+
 	super postCopy.
 
-	data := data copy
+	data := data copy.
+
+	self addChangeHandlers
 ]
 
 { #category : #printing }
@@ -554,16 +610,25 @@ CpPropertyModel >> reset [
 
 	"Restore to initial (empty) state"
 
-	| oldData |
+	| oldAnnouncer oldData |
 
 	data ifEmpty: [ ^ self ].
 
-	oldData := data.
-	data := Dictionary new.
+	"Prevent announcing changes while resetting"
+	[
+		oldAnnouncer := announcer.
+		announcer := nil.
+
+		oldData := data.
+		data := Dictionary new.
+
+		"Initialize the properties"
+		self initializeProperties
+	] ensure: [ announcer := oldAnnouncer ].
 
 	"Announce the receiver's value(s) changed"
 	oldData keysAndValuesDo: [ :key :value |
-		self announce: (CpPropertyChanged name: key oldValue: value newValue: nil) ]
+		self announce: (CpPropertyChanged name: key oldValue: value newValue: (self propertyAt: key)) ]
 ]
 
 { #category : #'accessing - dictionary access' }

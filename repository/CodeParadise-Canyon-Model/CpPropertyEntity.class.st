@@ -126,14 +126,6 @@ CpPropertyEntity class >> index: anInteger text: aSymbolOrParamText format: aDic
 		index: anInteger key: aSymbolOrParamText format: aDictionary
 ]
 
-{ #category : #testing }
-CpPropertyEntity class >> isRunningServerSide [
-
-	"Answer whether the receiver is executing in a server environment"
-
-	^ (Smalltalk classNamed: #CpDomElement) isNil
-]
-
 { #category : #'accessing - language' }
 CpPropertyEntity class >> languageText [
 
