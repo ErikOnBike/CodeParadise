@@ -119,8 +119,8 @@ CpDatabase >> prepare: aSymbol selectStatement: aString [
 	booleanColumns
 		at: aSymbol
 		put: ((preparedStatement columns
-		select: [ :each | (each at: #type) = #BOOLEAN ])
-			collect: [ :each | each at: #name ]).
+			select: [ :each | (each at: #type) = #BOOLEAN ])
+				collect: [ :each | each at: #name ]).
 
 	^ preparedStatement
 ]
