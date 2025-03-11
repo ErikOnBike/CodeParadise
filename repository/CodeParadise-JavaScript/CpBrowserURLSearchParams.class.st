@@ -20,6 +20,7 @@ CpBrowserURLSearchParams >> appendKey: aString value: anObject [
 CpBrowserURLSearchParams >> asDictionary [
 
 	"Answer a Dictionary containing the entries of the receiver.
+	The keys are converted to symbols.
 
 	Implementation:
 	In case a key is present more than once, the latest value is kept."
@@ -30,7 +31,7 @@ CpBrowserURLSearchParams >> asDictionary [
 
 	"Entries are given as array with the key in the first and value in the second slot"
 	self entries do: [ :each |
-		dictionary at: each first put: each second ].
+		dictionary at: each first asSymbol put: each second ].
 
 	^ dictionary
 ]

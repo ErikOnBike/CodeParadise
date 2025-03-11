@@ -40,7 +40,8 @@ Class {
 	#instVars : [
 		'method',
 		'pathPattern',
-		'operation'
+		'operation',
+		'queryParameters'
 	],
 	#classVars : [
 		'Operations'
@@ -76,10 +77,8 @@ CpNodeJSRestEndpointOperation class >> handleRequestIn: aRequestProcess [
 	request := aRequestProcess request.
 	response := aRequestProcess response.
 
-	"Find matching operations and select most accurate one.
-	Fixed path segments are more accurate than parameters, therefore sort on number of parameters.
-	I.e. "
-	matches := SortedCollection sortBlock: [ :a :b | a parameterCount < b parameterCount ].
+	"Find matching operations and select most specific one"
+	matches := SortedCollection sortBlock: [ :a :b | a isMoreSpecificThan: b ].
 	Operations valuesDo: [ :operation |
 		(operation canHandleRequest: request)
 			ifTrue: [ matches add: operation ] ].
@@ -94,62 +93,17 @@ CpNodeJSRestEndpointOperation class >> handleRequestIn: aRequestProcess [
 ]
 
 { #category : #'instance creation' }
-CpNodeJSRestEndpointOperation class >> new [
-
-	self errorNewReplacedBy: #path:method:operation:
-]
-
-{ #category : #'instance creation' }
-CpNodeJSRestEndpointOperation class >> path: aString deleteOperation: aMessageSend [
-
-	^ self
-		path: aString
-		method: #DELETE
-		operation: aMessageSend
-]
-
-{ #category : #'instance creation' }
-CpNodeJSRestEndpointOperation class >> path: aString getOperation: aMessageSend [
-
-	^ self
-		path: aString
-		method: #GET
-		operation: aMessageSend
-]
-
-{ #category : #'instance creation' }
-CpNodeJSRestEndpointOperation class >> path: aString method: aSymbol operation: aMessageSend [
+CpNodeJSRestEndpointOperation class >> method: aSymbol path: aString queryParams: aSearchParams operation: aMessageSend [
 
 	^ self basicNew
-		initializeWithPath: aString method: aSymbol operation: aMessageSend ;
+		initializeWithMethod: aSymbol path: aString queryParams: aSearchParams operation: aMessageSend ;
 		yourself
 ]
 
 { #category : #'instance creation' }
-CpNodeJSRestEndpointOperation class >> path: aString patchOperation: aMessageSend [
+CpNodeJSRestEndpointOperation class >> new [
 
-	^ self
-		path: aString
-		method: #PATCH
-		operation: aMessageSend
-]
-
-{ #category : #'instance creation' }
-CpNodeJSRestEndpointOperation class >> path: aString postOperation: aMessageSend [
-
-	^ self
-		path: aString
-		method: #POST
-		operation: aMessageSend
-]
-
-{ #category : #'instance creation' }
-CpNodeJSRestEndpointOperation class >> path: aString putOperation: aMessageSend [
-
-	^ self
-		path: aString
-		method: #PUT
-		operation: aMessageSend
+	self errorNewReplacedBy: #method:path:queryParams:operation:
 ]
 
 { #category : #registration }
@@ -170,6 +124,56 @@ CpNodeJSRestEndpointOperation class >> unregisterOperation: anEndPointOperation 
 	Operations removeKey: anEndPointOperation identifier ifAbsent: [ "ignore" ].
 
 	^ anEndPointOperation
+]
+
+{ #category : #'instance creation' }
+CpNodeJSRestEndpointOperation class >> uri: aUrl deleteOperation: aMessageSend [
+
+	^ self
+		method: #DELETE
+		path: aUrl pathname
+		queryParams: aUrl searchParams
+		operation: aMessageSend
+]
+
+{ #category : #'instance creation' }
+CpNodeJSRestEndpointOperation class >> uri: aUrl getOperation: aMessageSend [
+
+	^ self
+		method: #GET
+		path: aUrl pathname
+		queryParams: aUrl searchParams
+		operation: aMessageSend
+]
+
+{ #category : #'instance creation' }
+CpNodeJSRestEndpointOperation class >> uri: aUrl patchOperation: aMessageSend [
+
+	^ self
+		method: #PATCH
+		path: aUrl pathname
+		queryParams: aUrl searchParams
+		operation: aMessageSend
+]
+
+{ #category : #'instance creation' }
+CpNodeJSRestEndpointOperation class >> uri: aUrl postOperation: aMessageSend [
+
+	^ self
+		method: #POST
+		path: aUrl pathname
+		queryParams: aUrl searchParams
+		operation: aMessageSend
+]
+
+{ #category : #'instance creation' }
+CpNodeJSRestEndpointOperation class >> uri: aUrl putOperation: aMessageSend [
+
+	^ self
+		method: #PUT
+		path: aUrl pathname
+		queryParams: aUrl searchParams
+		operation: aMessageSend
 ]
 
 { #category : #accessing }
@@ -204,7 +208,8 @@ CpNodeJSRestEndpointOperation >> canHandleRequest: aRestRequest [
 	matching."
 
 	^ method = aRestRequest method
-		and: [ pathPattern matchesPath: aRestRequest path ]
+		and: [ (pathPattern matchesPath: aRestRequest path)
+			and: [ self queryParametersMatch: aRestRequest queryParameters ] ]
 ]
 
 { #category : #performing }
@@ -242,13 +247,40 @@ CpNodeJSRestEndpointOperation >> identifier [
 ]
 
 { #category : #initialization }
-CpNodeJSRestEndpointOperation >> initializeWithPath: aString method: aSymbol operation: aMessageSend [
+CpNodeJSRestEndpointOperation >> initializeWithMethod: aSymbol path: aString queryParams: aSearchParams operation: aMessageSend [
 
 	self initialize.
 
-	pathPattern := CpNodeJSRestPathPattern fromString: aString.
 	method := aSymbol.
+	pathPattern := CpNodeJSRestPathPattern fromString: aString.
+	queryParameters := aSearchParams asDictionary.	"Store as Dictionary for familiar access"
 	operation := aMessageSend
+]
+
+{ #category : #testing }
+CpNodeJSRestEndpointOperation >> isMoreSpecificThan: anEndpointOperation [
+
+	"Answer whether the receiver is more specific than the specified EndpointOperation.
+	It is assumed both are already matched against a path and query parameters.
+	If the number of path parameters (i.e. non-fixed path segments) differs, the operation
+	with the lowest path parameters is more specific and wins.
+	If the number of query parameters are equal, the higher number of query parameters
+	is more specific and wins."
+
+	| receiverPathParameterCount comparePathParameterCount |
+
+	receiverPathParameterCount := self pathParameterCount.
+	comparePathParameterCount := anEndpointOperation pathParameterCount.
+
+	"Less dynamic path parameters (i.e. more fixed path parameters) wins"
+	receiverPathParameterCount < comparePathParameterCount
+		ifTrue: [ ^ true ].
+
+	"More query parameters wins (when parameter counts are equal)"
+	(receiverPathParameterCount = comparePathParameterCount and: [ self queryParameterCount > anEndpointOperation queryParameterCount ])
+		ifTrue: [ ^ true ].
+
+	^ false
 ]
 
 { #category : #accessing }
@@ -275,17 +307,17 @@ CpNodeJSRestEndpointOperation >> operationMethod [
 ]
 
 { #category : #accessing }
-CpNodeJSRestEndpointOperation >> parameterCount [
+CpNodeJSRestEndpointOperation >> path [
+
+	^ pathPattern asString
+]
+
+{ #category : #accessing }
+CpNodeJSRestEndpointOperation >> pathParameterCount [
 
 	"Answer the number of parameters in the receiver's path"
 
 	^ pathPattern parameterCount
-]
-
-{ #category : #accessing }
-CpNodeJSRestEndpointOperation >> path [
-
-	^ pathPattern asString
 ]
 
 { #category : #performing }
@@ -309,6 +341,31 @@ CpNodeJSRestEndpointOperation >> printOn: aStream [
 		nextPutAll: self path ;
 		nextPutAll: '" for method ' ;
 		nextPutAll: self method
+]
+
+{ #category : #accessing }
+CpNodeJSRestEndpointOperation >> queryParameterCount [
+
+	^ queryParameters size
+]
+
+{ #category : #testing }
+CpNodeJSRestEndpointOperation >> queryParametersMatch: aDictionary [
+
+	"Validate all required query parameters are present"
+
+	queryParameters keysAndValuesDo: [ :key :value |
+		| actualValue |
+
+		"Check if parameter is present"
+		actualValue := aDictionary at: key ifAbsent: [ ^ false ].
+
+		"Check if parameter value is equal in case of non-dynamic parameter
+		(dynamic parameters start with a colon)"
+		((value beginsWith: ':') or: [ value = actualValue ])
+			ifFalse: [ ^ false ] ].
+
+	^ true
 ]
 
 { #category : #testing }

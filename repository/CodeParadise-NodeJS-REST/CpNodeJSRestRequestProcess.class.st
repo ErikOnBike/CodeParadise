@@ -90,7 +90,7 @@ CpNodeJSRestRequestProcess >> printOn: aStream [
 		nextPutAll: 'Request for ' ;
 		nextPutAll: request method asString ;
 		nextPutAll: ' on ' ;
-		nextPutAll: request path asString.
+		nextPutAll: request url asString.
 
 	startedAt
 		ifNotNil: [

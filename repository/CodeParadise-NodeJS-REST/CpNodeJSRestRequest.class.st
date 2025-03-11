@@ -11,6 +11,7 @@ Class {
 	#instVars : [
 		'path',
 		'pathParameters',
+		'queryParameters',
 		'body',
 		'maxBodySize',
 		'incomingMessage',
@@ -119,6 +120,7 @@ CpNodeJSRestRequest >> initializeWithIncomingMessage: anIncomingMessage [
 
 	url := CpBrowserURL newUrl: anIncomingMessage url base: 'http://localhost'.
 	path := CpNodeJSRestPath fromString: url pathname.
+	queryParameters := url searchParams asDictionary.
 	incomingMessage := anIncomingMessage
 ]
 
@@ -210,8 +212,37 @@ CpNodeJSRestRequest >> propertyAt: aSymbol put: anObject [
 		at: #aSymbol put: anObject
 ]
 
+{ #category : #accessing }
+CpNodeJSRestRequest >> queryParameterAt: aSymbol [
+
+	"Answer the query parameter with the specified name
+	or nil if such a parameter does not exist"
+
+	^ queryParameters at: aSymbol ifAbsent: [ nil ]
+]
+
+{ #category : #accessing }
+CpNodeJSRestRequest >> queryParameters [
+
+	^ queryParameters
+]
+
 { #category : #private }
 CpNodeJSRestRequest >> setPathParameters: aDictionary [
 
+	"Set the actual path parameters for the receiver.
+	This allows the REST service to request path parameter values.
+
+	Implementation:
+	Setting these parameter values is a collaboration between the
+	EndpointOperation and the receiver.
+	See CpNodeJSRestEndpointOperation >> #handleRequest:response:"
+
 	pathParameters := aDictionary
+]
+
+{ #category : #accessing }
+CpNodeJSRestRequest >> url [
+
+	^ incomingMessage url
 ]

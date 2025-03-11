@@ -129,17 +129,19 @@ CpRestApiClient >> performOperation: aSymbol uri: uriString queryParams: aDictio
 	url := String streamContents: [ :stream |
 		stream
 			nextPutAll: baseUrl ;
-			nextPutAll: uriString.
+			nextPutAll: (CpGlobalThis encodeURI: uriString).
 
 		"Add query parameters"
 		aDictionary isEmptyOrNil ifFalse: [
-			| first |
-			stream nextPut: $?.
-			first := true.
+			| haveParams |
+
+			haveParams := uriString includes: $?.
 			aDictionary keysAndValuesDo: [ :key :value |
-				first
-					ifTrue: [ first := false ]
-					ifFalse: [ stream nextPut: $& ].
+				haveParams
+					ifTrue: [ stream nextPut: $& ]
+					ifFalse: [
+						stream nextPut: $?.
+						haveParams := true ].
 				stream
 					nextPutAll: (CpGlobalThis encodeURIComponent: key) ;
 					nextPut: $= ;
@@ -159,7 +161,7 @@ CpRestApiClient >> performOperation: aSymbol uri: uriString queryParams: aDictio
 
 	"Retrieve response"
 	response := fetch await.
-
+self traceCr: 'hiero'.
 	"Extract (new) access token"
 	self updateAccessTokenFromResponse: response.
 
