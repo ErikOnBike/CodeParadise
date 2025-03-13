@@ -197,14 +197,6 @@ CpPropertyEntity class >> timestampNow [
 	self error: 'No Date or DateAndTime class available in the current environment'
 ]
 
-{ #category : #view }
-CpPropertyEntity >> createView [
-
-	<environment: #browser>
-
-	^ self preferredViewClass on: self
-]
-
 { #category : #accessing }
 CpPropertyEntity >> id [
 
@@ -213,97 +205,10 @@ CpPropertyEntity >> id [
 	^ id
 ]
 
-{ #category : #view }
-CpPropertyEntity >> inNewPage [
-
-	<environment: #browser>
-
-	^ self pageClass withModel: self
-]
-
 { #category : #testing }
 CpPropertyEntity >> isNew [
 
+	"Answer whether the receiver is new (has not been written)"
+
 	^ id isNil
-]
-
-{ #category : #view }
-CpPropertyEntity >> pageClass [
-
-	<environment: #browser>
-
-	^ MaModelPage
-]
-
-{ #category : #view }
-CpPropertyEntity >> preferredViewClass [
-
-	"Answer the preferred View class for the receiver"
-
-	<environment: #browser>
-
-	^ Smalltalk classNamed: self class name, #View
-]
-
-{ #category : #view }
-CpPropertyEntity >> show [
-
-	"Show the receiver in its own page"
-
-	<environment: #browser>
-
-	TheMoesAppView current
-		navigateTo: self pageClass withModel: self
-]
-
-{ #category : #view }
-CpPropertyEntity >> validateInView [
-
-	"Validate the receiver in context of a View.
-	Answer a String representing the issue(s) or nil if the receiver is valid."
-
-	<environment: #browser>
-
-	^ self violationsInView
-		ifNotEmpty: [ :violations |
-			violations size = 1
-				ifTrue: [ violations first ]
-				ifFalse: [
-					String streamContents: [ :stream |
-						stream nextPutAll: 'Ik kan je invoer nog niet helemaal gebruiken:'.
-						violations do: [ :each |
-							stream
-								space ;
-								nextPutAll: each ] ] ] ]
-		ifEmpty: [ nil ]
-]
-
-{ #category : #view }
-CpPropertyEntity >> violationsInView [
-
-	"Answer a Collection of Strings representing the constraint violations in the receiver's properties
-	which have been made specific by adding the respective label of the properties"
-
-	<environment: #browser>
-
-	| violations labelDict propertyViolations |
-
-	violations := OrderedCollection new.
-
-	self propertySlotsDo: [ :each |
-
-		"Create a Dictionary for formatting the label"
-		labelDict := Dictionary with: #label -> each label.
-
-		"Check all constraints"
-		each constraints do: [ :eachConstraint |
-
-			"Per constraint, retrieve all violations (can be multiple) and format with label"
-			propertyViolations := (eachConstraint violationsForProperty: each name in: self)
-				collect: [ :violation | self class text: violation format: labelDict ].
-
-			"Add violations to collection of all violations"
-			violations addAll: propertyViolations ] ].
-
-	^ violations
 ]

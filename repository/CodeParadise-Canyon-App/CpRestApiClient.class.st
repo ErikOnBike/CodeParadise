@@ -21,6 +21,13 @@ CpRestApiClient class >> baseUrl: aString [
 		yourself
 ]
 
+{ #category : #'class initialization' }
+CpRestApiClient class >> beLoaded [
+
+	CpBrowserResponse beLoaded.
+	CpJavaScriptError beLoaded
+]
+
 { #category : #'instance creation' }
 CpRestApiClient class >> new [
 

@@ -1,0 +1,589 @@
+"
+I am the Canyon app main view. I also represent the app's main access point and will therefore be
+referenced (e.g. from a CpCanyonPage) as the 'app'.
+I am responsible for maintaining a number of visual components:
+- header
+- footer
+- menu
+- alert
+- toast
+- loading (showing a message while performing some operation)
+- pages
+I am also responsible for navigation, although I delegate most behavior to my pages. Navigation from
+or to a page might not be acceptable and therefore the page itself should be responsible. For example
+there might be unsaved changes in page or the user needs to login first.
+
+There is typically a session active when using the REST API Client. This session is not monitored
+in the app itself. In many cases there is no way to alert the user of an expiring session, because
+the app does not have focus (and it is very rude to ask foccus just because a session is expiring
+while the user is doing more important things). So session expiration is normally only noticed when
+performing some read or write operation on the REST API Client.
+
+As mentioned above, I represent the app's access point and therefore represent the app instance.
+I keep track of the current instance to allow a single app to be accessed easily and fast
+(and not requiring every page to know its app explicitly, for example).
+
+For a nice tag in the browser, my subclasses could be named sonething like TheSpecialAppView
+resulting in the tag <the-special-app> which also describes my 'app' role.
+
+"
+Class {
+	#name : #CpCanyonAppMainView,
+	#superclass : #CpTemplateComponent,
+	#instVars : [
+		'navigation',
+		'menu',
+		'header',
+		'footer',
+		'loading',
+		'toast',
+		'alert'
+	],
+	#classVars : [
+		'Current'
+	],
+	#category : #'CodeParadise-Canyon-App-View'
+}
+
+{ #category : #'class initialization' }
+CpCanyonAppMainView class >> beLoaded [
+
+	"Alphabetically ordered references to the required classes"
+
+	CpBrowserCustomElementRegistry beLoaded.
+	IonElement beLoaded.
+	IonInput beLoaded.
+	IonInputPasswordToggle beLoaded.
+	IonItem beLoaded.
+	IonList beLoaded.
+	IonMenuButton beLoaded.
+	IonSearchbar beLoaded.
+	IonSelect beLoaded.
+	IonSelectOption beLoaded.
+	IonTitle beLoaded.
+	IonTab beLoaded.
+	IonTabBar beLoaded.
+	IonTabs beLoaded.
+	IonToast beLoaded.
+	IonToggle beLoaded
+]
+
+{ #category : #accessing }
+CpCanyonAppMainView class >> current [
+
+	"Answer the singleton instance of the receiver"
+
+	^ Current ifNil: [ Current := self basicNew initialize ; yourself ]
+]
+
+{ #category : #'web resources' }
+CpCanyonAppMainView class >> globalStyle [
+
+	<webResource: #css>
+
+	^ '*, *:before, *:after {
+	box-sizing: border-box;
+}
+html {
+	width: 100%;
+	height: 100%;
+}
+body {
+	width: 100%;
+	max-width: 100%;
+	height: 100%;
+	max-height: 100%;
+	transform: translateZ(0);
+	margin: 0;
+	padding: 0;
+	overflow: hidden;
+	overscroll-behavior-y: none;
+	-webkit-font-smoothing: antialiased;
+	text-rendering: optimizeLegibility;
+	text-size-adjust: none;
+	-webkit-text-size-adjust: none;
+	-moz-text-size-adjust: none;
+	touch-action: manipulation;
+	-webkit-user-drag: none;
+	-ms-content-zooming: none;
+	word-wrap: break-word;
+}'
+]
+
+{ #category : #'instance creation' }
+CpCanyonAppMainView class >> new [
+
+	self errorNewReplacedBy: #current
+]
+
+{ #category : #'web resources' }
+CpCanyonAppMainView class >> style [
+
+	<webResource: #css>
+
+	^ '*, *:before, *:after {
+	box-sizing: border-box;
+}
+#container {
+	height: 100%;
+}'
+]
+
+{ #category : #'web resources' }
+CpCanyonAppMainView class >> template [
+
+	<webResource: #html>
+
+	^ '<div id="container"><slot></slot></div>'
+]
+
+{ #category : #accessing }
+CpCanyonAppMainView >> apiBaseUrl [
+
+	"Answer the base URL for the REST API"
+
+	^ '/api'
+]
+
+{ #category : #testing }
+CpCanyonAppMainView >> canNavigateBack [
+
+	"Answer a Boolean stating whether navigate back is allowed"
+
+	^ self currentPage canNavigateBack
+]
+
+{ #category : #actions }
+CpCanyonAppMainView >> closePage [
+
+	"Close the current page"
+
+	"Do not close the home page"
+	self isHome
+		ifTrue: [ ^ self ].
+
+	"Remove current page and update the new current page"
+	navigation pop await.
+	self updateAfterNavigate
+]
+
+{ #category : #accessing }
+CpCanyonAppMainView >> currentPage [
+
+	"Answer the current page.
+
+	During navigation, there is a transition which might make this value unreliable (at that moment)."
+
+	^ navigation lastChild
+]
+
+{ #category : #accessing }
+CpCanyonAppMainView >> defaultAppTexts [
+
+	"Answer Dictionary with default app texts"
+
+	^ Dictionary new
+		at: #'app.menu.title' put: 'Menu' ;
+		at: #'constraint.multi.violations' put: 'I''m sorry I don''t understand your input:' ;
+		yourself
+]
+
+{ #category : #accessing }
+CpCanyonAppMainView >> defaultToastDuration [
+
+	"The default duration in ms that a toast is shown"
+
+	^ 3000
+]
+
+{ #category : #'event handling' }
+CpCanyonAppMainView >> handleDidDismissAlert [
+
+	"This is an async call, but no use awaiting it, because we're not using the result"
+
+	alert isOpen: false
+]
+
+{ #category : #'event handling' }
+CpCanyonAppMainView >> handleDidDismissLoading [
+
+	"This is an async call, but no use awaiting it, because we're not using the result"
+
+	loading isOpen: false
+]
+
+{ #category : #'event handling' }
+CpCanyonAppMainView >> handleDidDismissToast [
+
+	"This is an async call, but no use awaiting it, because we're not using the result"
+
+	toast isOpen: false
+]
+
+{ #category : #actions }
+CpCanyonAppMainView >> hideLoading [
+
+	loading dismiss await
+]
+
+{ #category : #accessing }
+CpCanyonAppMainView >> homePageClass [
+
+	"Answer the page class representing the initial/home page for the app"
+
+	self subclassResponsibility
+]
+
+{ #category : #accessing }
+CpCanyonAppMainView >> homePageModel [
+
+	"Answer the model representing the initial/home page model for the app.
+	If a model is not required, answer nil."
+
+	^ nil
+]
+
+{ #category : #initialization }
+CpCanyonAppMainView >> initialize [
+
+	| restApiClient |
+
+	super initialize.
+
+	restApiClient := CpRestApiClient baseUrl: self apiBaseUrl.
+	restApiClient
+		when: CpSessionExpired send: #sessionExpired to: self.
+
+	"Attach the REST API Client to the models"
+	CpPropertyEntity restApiClient: restApiClient.
+
+	"Make sure the most prominent components are loaded, before loading the page content"
+	CpWebComponent
+		whenDefinedAll: {
+			IonApp.
+			IonNav.
+			IonHeader.
+			IonFooter.
+			IonMenu.
+			IonToolbar.
+			IonTitle.
+			IonContent.
+			IonItem.
+			IonLoading.
+			IonToast.
+			IonAlert }
+		do: [ self load ]
+]
+
+{ #category : #testing }
+CpCanyonAppMainView >> isHome [
+
+	"Answer whether the Home page is showing.
+
+	Implementation:
+	If no page is present (yet), assume the home page will be shown."
+
+	^ self currentPage
+		ifNotNil: [ :currentPage | currentPage isHome ]
+		ifNil: [ true ]
+]
+
+{ #category : #actions }
+CpCanyonAppMainView >> load [
+
+	"Build the app structure. The app structure lives in the Light DOM and will
+	be subject to Light DOM CSS.
+
+	The general structure of the app consists of:
+		navigation
+		menu
+		header
+		placeholder for page content
+		footer
+		loading (for showing a message while performing some task)
+		toast
+		alert
+
+	The order is relevant. Toast and alert should be last, because they should
+	overlay the other elements (visually). The alert is considered the most
+	important and is therefore added last.
+
+	The structure is chosen so that navigation is on page level and header and
+	footer are separate components (so not every page has to implement it).
+	IF your app requires different headers/footers per page or does not require
+	headers/footers on all pages, consider leaving the app header/footer empty
+	and simply add headers/footers to the individual pages. Alternative is to
+	hide the header/footer if the (current) page should be without them. This
+	should probably be done from the page navigation and not from the
+	#updateAfterNavigate operation, because that would be too late and would
+	make the update more visible (after any animations have been performed).
+
+	It is not necessary to have actual content in the header or footer. They
+	will collapse (and be invisible) if no content is provided. The content for
+	the header and footer should be created in #loadHeader and #loadFooter.
+	Similarly content for the menu should be constructed in #loadMenu. To be
+	able to use the menu typically a IonMenuButton / <ion-menu-button> should
+	be placed visible on the page (in the header for example) or some code
+	should explicitly open the menu based on the user input/action."
+
+	self
+		appendChild: (IonApp new
+
+			"Add the menu"
+			appendChild: (menu := IonMenu new
+				attributeAt: #side put: self menuSide ;
+				appendChild: (IonHeader new
+					appendChild: (IonToolbar new
+						appendChild: (IonTitle new
+							textContent: self menuTitle ;
+							yourself) ;
+						yourself) ;
+					yourself) ;
+				yourself) ;
+
+			"Add the page header (content added through loadHeader)"
+			appendChild: (header := IonHeader new) ;
+
+			"Add the page content (placeholder, including navigation control)"
+			appendChild: (IonContent new
+				id: #app ;
+				appendChild: (navigation := IonNav new) ;
+				yourself) ;
+
+			"Add the page footer (content added through loadFooter)"
+			appendChild: (footer := IonFooter new) ;
+
+			"Add a (global) loading"
+			appendChild: (loading := IonLoading new
+				when: IonLoadingDidDismissEvent send: #handleDidDismissLoading to: self ;
+				yourself) ;
+
+			"Add a (global) toast"
+			appendChild: (toast := IonToast new
+				attributeAt: #position put: #bottom ;
+				attributeAt: #'swipe-gesture' put: #vertical ;
+				when: IonToastDidDismissEvent send: #handleDidDismissToast to: self ;
+				yourself) ;
+
+			"Add a (global) alert"
+			appendChild: (alert := IonAlert new
+				when: IonAlertDidDismissEvent send: #handleDidDismissAlert to: self ;
+				yourself) ;
+
+			yourself).
+
+	"Load the content for the menu, header and footer"
+	self
+		loadMenu ;
+		loadHeader ;
+		loadFooter.
+
+	"Load the first page (aka home page)"
+	self showPage: self homePageClass withModel: self homePageModel.
+
+	"Load any content required for the app"
+	self loadInitialContent
+]
+
+{ #category : #initialization }
+CpCanyonAppMainView >> loadFooter [
+
+	"Load the footer (content) for the app.
+	If no footer is used, leave the method empty.
+	The footer can be used to show some status information or to have
+	some navigation/selection mechanism. For larger 'tabs' consider
+	using the IonTabs / <ion-tabs> on the page level instead.
+	See also: https://ionicframework.com/docs/api/tabs
+	Typically one or more IonToolbars are used as footer content.
+	IF the header has specific content based on the current page being
+	shown, add some update call to #updateAfterNavigate."
+]
+
+{ #category : #initialization }
+CpCanyonAppMainView >> loadHeader [
+
+	"Load the header (content) for the app.
+	If no header is used, leave the method empty.
+	The header can be used to show some title or action at the top of the
+	app screen. It can also contain a menu button or some 'navigate back'
+	button. Add the required components to the header instance variable.
+	Typically one or more IonToolbars are used as header content.
+	IF the header has specific content based on the current page being
+	shown, add some update call to #updateAfterNavigate."
+]
+
+{ #category : #actions }
+CpCanyonAppMainView >> loadInitialContent [
+
+	"Load the initial app content.
+	This can also include restoring the session (e.g. using (persisted) variables
+	from the client environment)."
+]
+
+{ #category : #initialization }
+CpCanyonAppMainView >> loadMenu [
+
+	"Load the menu for the app.
+	Typically this will add an instance of the IonContent to the menu
+	instance variable. How the menu is represented and how it interacts
+	is up to the subclass to decide."
+]
+
+{ #category : #initialization }
+CpCanyonAppMainView >> loadText [
+
+	"Load initial text into the app"
+
+	CpPropertyEntity
+		addVolume: (CpLanguageVolume fromDictionary: self defaultAppTexts) locale: #en
+]
+
+{ #category : #actions }
+CpCanyonAppMainView >> menuClose [
+
+	menu close await
+]
+
+{ #category : #accessing }
+CpCanyonAppMainView >> menuSide [
+
+	"Answer the side where the menu is shown (either #start or #end)"
+
+	^ #start
+]
+
+{ #category : #accessing }
+CpCanyonAppMainView >> menuTitle [
+
+	"Answer the title of the menu (from the language resource)"
+
+	^ CpPropertyEntity text: #'app.menu.title'
+]
+
+{ #category : #actions }
+CpCanyonAppMainView >> navigateBack [
+
+	"Navigate to previous page.
+
+	Let the current page handle this, since it might fail or require
+	user input first (when data is not saved yet)."
+
+	self currentPage navigateBack
+]
+
+{ #category : #actions }
+CpCanyonAppMainView >> navigateTo: aPageClass [
+
+	"Navigate to another page"
+
+	self navigateTo: aPageClass withModel: nil
+]
+
+{ #category : #actions }
+CpCanyonAppMainView >> navigateTo: aPageClass withModel: aModel [
+
+	"Navigate to another page using the (optional) specified Model.
+	The current page is responsible for deciding whether navigation
+	is possible. There might be unsaved changes for example.
+	Or the user needs to login first."
+
+	self currentPage navigateTo: aPageClass withModel: aModel
+]
+
+{ #category : #accessing }
+CpCanyonAppMainView >> pageCount [
+
+	"Answer the number of pages in the navigation stack.
+
+	During navigation, there is a transition which might make this value unreliable (at that moment)."
+
+	^ navigation children size
+]
+
+{ #category : #'event handling' }
+CpCanyonAppMainView >> sessionExpired [
+
+	"The session expired.
+	See also class comment with respect to session expiration."
+
+]
+
+{ #category : #actions }
+CpCanyonAppMainView >> showAlertTitle: titleString message: messageString [
+
+	"Show alert message and wait for user to confirm it"
+
+	(alert
+		header: titleString ;
+		message: messageString ;
+		buttons: { 'Okay' } ;
+		present ;
+		onDidDismiss) await
+]
+
+{ #category : #actions }
+CpCanyonAppMainView >> showLoading: aString [
+
+	"Show a loading message.
+
+	Implementation:
+	Do NOT perform an #await here to prevent any delay."
+
+	loading
+		message: aString ;
+		present
+]
+
+{ #category : #actions }
+CpCanyonAppMainView >> showPage: aPageClass [
+
+	"Show the specified Page"
+
+	self showPage: aPageClass withModel: nil
+]
+
+{ #category : #actions }
+CpCanyonAppMainView >> showPage: aPageClass withModel: aModel [
+
+	"Show the specified Page with the (optional) Model.
+	It is assumed, that all checks have already been performed with respect to navigation."
+
+	(aPageClass isHome and: [ self pageCount > 0 ])
+		ifTrue: [ navigation popToRoot await ]
+		ifFalse: [ (navigation push: (aPageClass withModel: aModel)) await ].
+
+	"Let the current page update itself"
+	self updateAfterNavigate
+]
+
+{ #category : #actions }
+CpCanyonAppMainView >> showToast: aString [
+
+	"Show the specified toast message with the default duration"
+
+	self showToast: aString duration: self defaultToastDuration
+]
+
+{ #category : #actions }
+CpCanyonAppMainView >> showToast: aString duration: anInteger [
+
+	"Show the specified toast message and dismiss after the specified time (milliseconds).
+
+	Implementation:
+	Do NOT perform an #await here to prevent any delay."
+
+	toast
+		message: aString ;
+		duration: anInteger ;
+		present
+]
+
+{ #category : #actions }
+CpCanyonAppMainView >> updateAfterNavigate [
+
+	"Update the current page after navigation has taken place.
+	Subclasses might also want to update the header, footer or menu if
+	this is relevant."
+
+	self currentPage updateAfterNavigate
+]

@@ -18,6 +18,22 @@ CpPropertyEntity class >> defineLabeledProperties [
 ]
 
 { #category : #'*CodeParadise-Canyon-App' }
+CpPropertyEntity >> inModelView [
+
+	"Answer a new ModelView bound to the receiver"
+
+	^ self preferredViewClass on: self
+]
+
+{ #category : #'*CodeParadise-Canyon-App' }
+CpPropertyEntity >> inNewPage [
+
+	"Answer a new Page bound to the receiver"
+
+	^ self pageClass withModel: self
+]
+
+{ #category : #'*CodeParadise-Canyon-App' }
 CpPropertyEntity class >> labelsByProperty [
 
 	"Answer a Dictionary containing the labels of the properties.
@@ -26,6 +42,22 @@ CpPropertyEntity class >> labelsByProperty [
 	Subclasses should add their property/label combinations."
 
 	^ Dictionary new
+]
+
+{ #category : #'*CodeParadise-Canyon-App' }
+CpPropertyEntity >> pageClass [
+
+	"Answer a Page class which can be used to show the receiver"
+
+	^ CpPropertyModelPage
+]
+
+{ #category : #'*CodeParadise-Canyon-App' }
+CpPropertyEntity >> preferredViewClass [
+
+	"Answer the preferred View class for the receiver"
+
+	^ Smalltalk classNamed: self class name, #View
 ]
 
 { #category : #'*CodeParadise-Canyon-App' }
@@ -175,6 +207,15 @@ CpPropertyEntity >> restWrite [
 			self
 				restUpdateUsingUri: self uri
 				timeoutPeriod: self restUpdateTimeoutPeriod ]
+]
+
+{ #category : #'*CodeParadise-Canyon-App' }
+CpPropertyEntity >> show [
+
+	"Show the receiver in its own Page (with its preferred View)"
+
+	CpCanyonAppMainView current
+		navigateTo: self pageClass withModel: self
 ]
 
 { #category : #'*CodeParadise-Canyon-App' }
