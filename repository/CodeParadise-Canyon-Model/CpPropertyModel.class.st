@@ -226,8 +226,8 @@ CpPropertyModel >> = anObject [
 { #category : #accessing }
 CpPropertyModel >> addChangeHandlers [
 
-	"Add any change handlers
-	(subclasses should call the super implementation)"
+	"Add any change handlers.
+	Subclasses should call the super implementation."
 
 	self class isRunningClientSide
 		ifTrue: [ self addClientChangeHandlers ]
@@ -236,8 +236,10 @@ CpPropertyModel >> addChangeHandlers [
 { #category : #accessing }
 CpPropertyModel >> addClientChangeHandlers [
 
-	"Add any change handlers specific for client environment (i.e. where a UI is present)
-	(subclasses should call the super implementation)"
+	"Add any change handlers specific for client environment (i.e. where a UI is present).
+	Subclasses should call the super implementation and preferrable add the following pragma:
+		<environment: #browser>
+	"
 ]
 
 { #category : #'accessing - dictionary access' }
@@ -324,9 +326,22 @@ CpPropertyModel >> initialize [
 ]
 
 { #category : #initialization }
+CpPropertyModel >> initializeClientProperties [
+
+	"Set the receiver's initial values specific for client environment (i.e. where a UI is present).
+	Subclasses should call the super implementation and preferrable add the following pragma:
+		<environment: #browser>
+	"
+]
+
+{ #category : #initialization }
 CpPropertyModel >> initializeProperties [
 
-	"Set the receiver's initial values"
+	"Set the receiver's initial values.
+	Subclasses should call the super implementation."
+
+	self class isRunningClientSide
+		ifTrue: [ self initializeClientProperties ]
 ]
 
 { #category : #introspection }
