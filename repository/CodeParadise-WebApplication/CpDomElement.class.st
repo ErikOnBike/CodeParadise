@@ -552,7 +552,7 @@ CpDomElement >> fullStopWhen: anAnnouncementClass [
 	"Stop propagation (bubbling) and default event handling of the
 	specified Announcement/Event.
 	This will only prevent ancestors of the receiver receiving this
-	Event. If more event handlers for this Aoouncement/Event are
+	Event. If more event handlers for this Anouncement/Event are
 	present on the receiver, they will all be handled normally."
 
 	^ self
