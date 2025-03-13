@@ -288,7 +288,7 @@ CpCanyonAppMainView >> isHome [
 		ifNil: [ true ]
 ]
 
-{ #category : #actions }
+{ #category : #initialization }
 CpCanyonAppMainView >> load [
 
 	"Build the app structure. The app structure lives in the Light DOM and will
