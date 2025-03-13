@@ -412,7 +412,7 @@ CpCanyonAppMainView >> loadHeader [
 	shown, add some update call to #updateAfterNavigate."
 ]
 
-{ #category : #actions }
+{ #category : #initialization }
 CpCanyonAppMainView >> loadInitialContent [
 
 	"Load the initial app content.

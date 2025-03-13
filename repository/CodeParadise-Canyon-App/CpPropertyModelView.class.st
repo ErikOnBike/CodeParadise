@@ -55,7 +55,7 @@ CpPropertyModelView >> addPropertyBindings [
 		self bindProperty: each ]
 ]
 
-{ #category : #validating }
+{ #category : #'validating - private' }
 CpPropertyModelView >> addViolationsForProperty: aSymbol to: aCollection [
 
 	"Add a collection of Strings representing violation messages for the specified property of
@@ -116,9 +116,11 @@ CpPropertyModelView >> bindProperty: aSymbol toElement: anElement [
 	self addBinding: (anElement
 		whenChangedDo: [ self model propertyAt: aSymbol put: anElement valueForModel ] for: self).
 
-	"When an input element loses focus, perform normalization"
+	"When an input element loses focus, perform normalization and validation"
 	self addBinding: (anElement
-		when: IonBlurEvent do: [ self model normalizePropertyAt: aSymbol ] for: self)
+		when: IonBlurEvent do: [
+			self model normalizePropertyAt: aSymbol.
+			self validateProperty: aSymbol ] for: self)
 ]
 
 { #category : #binding }
@@ -230,12 +232,10 @@ CpPropertyModelView >> modelChanged: aPropertyChange [
 	"The model of the receiver changed"
 ]
 
-{ #category : #validating }
+{ #category : #'validating - private' }
 CpPropertyModelView >> modelViolations [
 
-	"Answer a Collection of Strings representing the constraint violations in the properties of the model.
-
-	By default only the bound properties are considered (see #propertiesForValidation)."
+	"Answer a Collection of Strings representing the constraint violations in the properties of the model"
 
 	| violations |
 
@@ -258,7 +258,7 @@ CpPropertyModelView >> multipleViolationsIntroText [
 { #category : #validating }
 CpPropertyModelView >> propertiesForValidation [
 
-	"Answer the collection of properties which should be considered during validation"
+	"Answer the collection of properties which should be considered during validation of the receiver's model"
 
 	^ self boundProperties
 ]
@@ -297,7 +297,26 @@ CpPropertyModelView >> validationMessage [
 	or nil if the model is valid.
 	By default only the model's constraint violations are considered."
 
-	^ self modelViolations
+	^ self validationMessageFrom: self modelViolations
+]
+
+{ #category : #validating }
+CpPropertyModelView >> validationMessageForProperty: aSymbol [
+
+	"Answer a single String representing the validation issue(s) found for the specified property
+	of the receiver's model or nil if the property's value is valid.
+	By default only the property's constraint violations are considered."
+
+	^ self validationMessageFrom: (self violationsForProperty: aSymbol)
+]
+
+{ #category : #'validating - private' }
+CpPropertyModelView >> validationMessageFrom: aCollection [
+
+	"Answer a single String representing the validation issue(s) specified in the Collection
+	or nil if no issues are present"
+
+	^ aCollection
 		ifNotEmpty: [ :violations |
 			violations size = 1
 				ifTrue: [ violations first ]
@@ -309,4 +328,17 @@ CpPropertyModelView >> validationMessage [
 								space ;
 								nextPutAll: each ] ] ] ]
 		ifEmpty: [ nil ]
+]
+
+{ #category : #'validating - private' }
+CpPropertyModelView >> violationsForProperty: aSymbol [
+
+	"Answer a Collection of Strings representing the constraint violations in the specified property of the model"
+
+	| violations |
+
+	violations := OrderedCollection new.
+	self addViolationsForProperty: aSymbol to: violations.
+
+	^ violations
 ]
