@@ -332,6 +332,7 @@ CpCanyonAppMainView >> load [
 			"Add the menu"
 			appendChild: (menu := IonMenu new
 				attributeAt: #side put: self menuSide ;
+				attributeAt: #'content-id' put: #app ;
 				appendChild: (IonHeader new
 					appendChild: (IonToolbar new
 						appendChild: (IonTitle new
