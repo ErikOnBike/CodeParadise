@@ -284,6 +284,13 @@ CpPropertyModelView >> removeBindings [
 	bindingSubscriptions := nil
 ]
 
+{ #category : #actions }
+CpPropertyModelView >> showIssue: aString [
+
+	self app
+		showAlertTitle: 'FIX ME' message: aString
+]
+
 { #category : #accessing }
 CpPropertyModelView >> title [
 
@@ -292,10 +299,50 @@ CpPropertyModelView >> title [
 	^ nil
 ]
 
-{ #category : #operations }
+{ #category : #actions }
 CpPropertyModelView >> updateAfterNavigate [
 
 	"Update the receiver after a navigation has been performed"
+]
+
+{ #category : #validating }
+CpPropertyModelView >> validateModel [
+
+	"Validate the receiver's Model"
+
+	self validateModelIfValid: [ "Do nothing" ]
+]
+
+{ #category : #validating }
+CpPropertyModelView >> validateModelIfValid: aBlock [
+
+	"Validate the receiver's Model.
+	If there are issues, show them.
+	Otherwise (if valid) evaluate the specified block."
+
+	self validationMessage
+		ifNotNil: [ :message | self showIssue: message ]
+		ifNil: [ aBlock value ]
+]
+
+{ #category : #validating }
+CpPropertyModelView >> validateProperty: aSymbol [
+
+	"Validate the specified Property of the receiver's Model"
+
+	self validateProperty: aSymbol ifValid: [ "Do nothing" ]
+]
+
+{ #category : #validating }
+CpPropertyModelView >> validateProperty: aSymbol ifValid: aBlock [
+
+	"Validate the specified Property of the receiver's Model.
+	If there are issues, show them.
+	Otherwise (if valid) evaluate the specified block."
+
+	(self validationMessageForProperty: aSymbol)
+		ifNotNil: [ :message | self showIssue: message ]
+		ifNil: [ aBlock value ]
 ]
 
 { #category : #validating }
