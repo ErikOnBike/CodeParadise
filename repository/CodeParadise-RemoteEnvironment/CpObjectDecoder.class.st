@@ -242,7 +242,7 @@ CpObjectDecoder >> decodeClass [
 			classVarNames do: [ :each | newClass addClassVarNamed: each ].
 			classInstVarNames
 				ifNotEmpty: [
-					self error: 'Currently there is no support for installing a superclass (out of order) which has class instance variables'.
+					self error: 'Currently there is no support for installing a superclass (out of order) which has class instance variables, installing ', className.
 
 					"Add the class instance variables"
 					"newClass class instVarNames: classInstVarNames.
