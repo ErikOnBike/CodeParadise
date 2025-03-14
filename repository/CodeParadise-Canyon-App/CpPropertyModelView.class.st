@@ -284,6 +284,14 @@ CpPropertyModelView >> removeBindings [
 	bindingSubscriptions := nil
 ]
 
+{ #category : #accessing }
+CpPropertyModelView >> title [
+
+	"Answer the title for the receiver"
+
+	^ nil
+]
+
 { #category : #operations }
 CpPropertyModelView >> updateAfterNavigate [
 

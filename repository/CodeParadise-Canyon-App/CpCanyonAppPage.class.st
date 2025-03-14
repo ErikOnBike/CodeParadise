@@ -73,7 +73,24 @@ CpCanyonAppPage class >> style [
 
 	<webResource: #css>
 
-	^ '@import url("https://cdn.jsdelivr.net/npm/@ionic/core/css/ionic.bundle.css");'
+	^ '@import url("https://cdn.jsdelivr.net/npm/@ionic/core/css/ionic.bundle.css");
+*, *:before, *:after {
+	box-sizing: border-box;
+}
+:host {
+	background-color: var(--ion-background-color);
+}
+#container {
+	height: 100%;
+}'
+]
+
+{ #category : #'web resources' }
+CpCanyonAppPage class >> template [
+
+	<webResource: #html>
+
+	^ '<div id="container"><slot></slot></div>'
 ]
 
 { #category : #'instance creation' }
@@ -116,6 +133,14 @@ CpCanyonAppPage >> canNavigateBack [
 	^ true
 ]
 
+{ #category : #accessing }
+CpCanyonAppPage >> hasModel [
+
+	"Answer whether a model is present in the receiver"
+
+	^ self model isNotNil
+]
+
 { #category : #testing }
 CpCanyonAppPage >> isHome [
 
@@ -130,6 +155,31 @@ CpCanyonAppPage >> isPublic [
 	"Answer whether the receiver is a public page (i.e. does not require an authenticated user)"
 
 	^ self class isPublic
+]
+
+{ #category : #accessing }
+CpCanyonAppPage >> model [
+
+	"Answer the model of the receiver (or nil if none is present).
+
+	Implementation:
+	It is assumed the receiver has a single child view containing the actual model.
+	This child view is typically a CpPropertyModelView or subclass."
+
+	^ self firstChild
+		ifNotNil: [ :firstChild | firstChild model ]
+]
+
+{ #category : #accessing }
+CpCanyonAppPage >> model: aModel [
+
+	"Replace the receiver's child view with a new ModelView on the specified model"
+
+	"Remove the model from the existing child view"
+	self firstChild ifNotNil: [ :firstChild |
+		firstChild model: nil ].
+
+	self replaceAllChildrenWith: aModel inModelView
 ]
 
 { #category : #actions }
@@ -168,7 +218,8 @@ CpCanyonAppPage >> title [
 
 	See also current implementation of #updateAfterNavigate"
 
-	^ nil
+	^ self firstChild
+		ifNotNil: [ :firstChild | firstChild title ]
 ]
 
 { #category : #'event handling' }
@@ -177,5 +228,9 @@ CpCanyonAppPage >> updateAfterNavigate [
 	"Update the receiver when being shown again after a navigation"
 
 	"Set the title of the page as the browser title"
-	CpBrowserDocument current title: self title
+	CpBrowserDocument current title: self title.
+
+	"Let the PropertyModelView update itself (if present)"
+	self firstChild
+		ifNotNil: [ :firstChild | firstChild updateAfterNavigate ]
 ]
