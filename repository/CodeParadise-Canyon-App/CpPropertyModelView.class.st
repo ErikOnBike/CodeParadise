@@ -66,7 +66,7 @@ CpPropertyModelView >> addViolationsForProperty: aSymbol to: aCollection [
 
 	| propertySlot labelDict propertyViolations |
 
-	propertySlot := self model propertySlotAt: aSymbol.
+	propertySlot := model propertySlotAt: aSymbol.
 
 	"Create a Dictionary for formatting the label"
 	labelDict := Dictionary with: #label -> propertySlot label.
@@ -76,7 +76,7 @@ CpPropertyModelView >> addViolationsForProperty: aSymbol to: aCollection [
 
 		"Per constraint, retrieve all violations (can be multiple) and format with label"
 		propertyViolations := (each violationsForProperty: aSymbol in: self)
-			collect: [ :violation | self class text: violation format: labelDict ].
+			collect: [ :violation | model class text: violation format: labelDict ].
 
 		"Add formatted violations to collection of all violations"
 		aCollection addAll: propertyViolations ]
@@ -109,17 +109,17 @@ CpPropertyModelView >> bindProperty: aSymbol toElement: anElement [
 	Keep track of the bindings created, so clean-up can be performed afterwards."
 
 	"Set initial value based on receiver's model"
-	anElement valueFromModel: (self model propertyAt: aSymbol).
+	anElement valueFromModel: (model propertyAt: aSymbol).
 
-	self addBinding: (self model
+	self addBinding: (model
 		when: (CpPropertyChanged name: aSymbol) do: [ :event | anElement valueFromModel: event newValue ] for: self).
 	self addBinding: (anElement
-		whenChangedDo: [ self model propertyAt: aSymbol put: anElement valueForModel ] for: self).
+		whenChangedDo: [ model propertyAt: aSymbol put: anElement valueForModel ] for: self).
 
 	"When an input element loses focus, perform normalization and validation"
 	self addBinding: (anElement
 		when: IonBlurEvent do: [
-			self model normalizePropertyAt: aSymbol.
+			model normalizePropertyAt: aSymbol.
 			self validateProperty: aSymbol ] for: self)
 ]
 
@@ -164,7 +164,7 @@ CpPropertyModelView >> doDeleteWhileShowing: aString [
 	"Delete the receiver's model while showing a message.
 	Answer the result of the delete request."
 
-	^ self do: [ self model restDelete ] whileShowing: aString
+	^ self do: [ model restDelete ] whileShowing: aString
 ]
 
 { #category : #operations }
@@ -173,7 +173,7 @@ CpPropertyModelView >> doReadWhileShowing: aString [
 	"Read the receiver's model while showing a message.
 	Answer the result of the read request."
 
-	^ self do: [ self model restRead ] whileShowing: aString
+	^ self do: [ model restRead ] whileShowing: aString
 ]
 
 { #category : #operations }
@@ -182,7 +182,7 @@ CpPropertyModelView >> doWriteWhileShowing: aString [
 	"Write the receiver's model while showing a message.
 	Answer the result of the write request."
 
-	^ self do: [ self model restWrite ] whileShowing: aString
+	^ self do: [ model restWrite ] whileShowing: aString
 ]
 
 { #category : #initialization }
