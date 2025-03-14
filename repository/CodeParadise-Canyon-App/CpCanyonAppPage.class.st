@@ -12,6 +12,9 @@ my instances can keep track of this 'required next page'. An example for this fe
 situation a user goes to an authenticated page and a login page needs to be shown first, because
 the user has not authenticated yet. Alternative for this situation is to show the login as an
 overlay onto an existing page, instead of a separate page.
+My instances can only keep track of a single required page. More elaborate mechanisms need to
+be added in a subclass or extension. In such a case (for example a set of pages representing a
+wizard like component) also consider having a single page which has tabs to represent the pages.
 
 "
 Class {
@@ -131,7 +134,10 @@ CpCanyonAppPage >> app [
 { #category : #testing }
 CpCanyonAppPage >> canNavigate [
 
-	"Answer whether the receiver allows navigating elsewhere"
+	"Answer whether the receiver allows navigating elsewhere.
+	It is adviced to show the user a message when navigation is not possible.
+	This can be an alert or a toast, accessible through the #app accessor.
+	This method is only called when the user herself tries to navigate."
 
 	^ true
 ]
@@ -139,7 +145,10 @@ CpCanyonAppPage >> canNavigate [
 { #category : #testing }
 CpCanyonAppPage >> canNavigateBack [
 
-	"Answer whether the receiver allows navigating back"
+	"Answer whether the receiver allows navigating back.
+	It is adviced to show the user a message when navigation is not possible.
+	This can be an alert or a toast, accessible through the #app accessor.
+	This method is only called when the user herself tries to navigate."
 
 	^ true
 ]
@@ -233,7 +242,7 @@ CpCanyonAppPage >> title [
 		ifNotNil: [ :firstChild | firstChild title ]
 ]
 
-{ #category : #'event handling' }
+{ #category : #actions }
 CpCanyonAppPage >> updateAfterNavigate [
 
 	"Update the receiver when being shown again after a navigation"
