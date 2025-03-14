@@ -1,6 +1,17 @@
 "
 I represent a Page in the Canyon app.
 I am responsible for navigation (to another page or back) and deciding if navigation is possible.
+My instances can be bound to a Model to allow a user to interact with it. Typically this is
+done in collaboration with a CpPropertyModelView.
+When bound, the Model in my instances might need to show non-public information. Therefore my
+instances need to be defined explicitly for public use. By default they assume an authenticated
+user is required. Making a Page public is done by adding a placeholder method/tag #isPublicTag
+(see also method #isPublic).
+Since it is common to want to show some additional Page before going to the Page a user requested,
+my instances can keep track of this 'required next page'. An example for this feature is the
+situation a user goes to an authenticated page and a login page needs to be shown first, because
+the user has not authenticated yet. Alternative for this situation is to show the login as an
+overlay onto an existing page, instead of a separate page.
 
 "
 Class {
