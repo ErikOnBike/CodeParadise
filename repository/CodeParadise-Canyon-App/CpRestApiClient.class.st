@@ -168,7 +168,7 @@ CpRestApiClient >> performOperation: aSymbol uri: uriString queryParams: aDictio
 
 	"Retrieve response"
 	response := fetch await.
-self traceCr: 'hiero'.
+
 	"Extract (new) access token"
 	self updateAccessTokenFromResponse: response.
 
