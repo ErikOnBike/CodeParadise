@@ -148,10 +148,36 @@ body {
 }'
 ]
 
+{ #category : #tags }
+CpCanyonAppMainView class >> isAbstractTag [
+
+	"The method is present to indicate the receiver is abstract.
+	This method will NOT be evaluated to decide if the receiver is abstract."
+]
+
 { #category : #'instance creation' }
 CpCanyonAppMainView class >> new [
 
 	self errorNewReplacedBy: #current
+]
+
+{ #category : #'class initialization' }
+CpCanyonAppMainView class >> postInstall [
+
+	"Install the receiver in the browser.
+
+	Implementation:
+	Make sure to mark all subclasses using #isAbstractTag if the actual MainView
+	is not a direct subclass of the receiver."
+
+	super postInstall.
+
+	self hasAbstractTag
+		ifTrue: [ ^ self ].
+
+	"Install an instance of the receiver"
+	CpHtmlElement documentBody
+		appendChild: self current
 ]
 
 { #category : #'web resources' }
