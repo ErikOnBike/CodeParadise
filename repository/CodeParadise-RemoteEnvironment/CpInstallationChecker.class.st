@@ -59,13 +59,13 @@ CpInstallationChecker >> excludeMethod: aCompiledMethod [
 
 	"Answer whether the specified CompiledMethod should NOT be installed (in a ClientEnvironment).
 
-	By default, methods should NOT be excluded.
+	By default, only server side only methods should be excluded.
 
 	Example of excluding methods are in EnvironmentMethodInstallationChecker."
 
 	^ chainedInstallationChecker
 		ifNotNil: [ chainedInstallationChecker excludeMethod: aCompiledMethod ]
-		ifNil: [ false ]
+		ifNil: [ aCompiledMethod isServerSideOnly ]
 ]
 
 { #category : #testing }

@@ -436,7 +436,8 @@ CpClientEnvironment >> initialize [
 	id := self variableAt: #CLIENT_ID.
 
 	objectRegistry := CpObjectRegistry new.
-	installedClasses := OrderedCollection new
+	installedClasses := OrderedCollection new.
+	unresolvedClassReferences := Dictionary new
 ]
 
 { #category : #installing }
@@ -536,6 +537,23 @@ CpClientEnvironment >> postInstallClasses [
 	installedClasses removeAll
 ]
 
+{ #category : #'as yet unclassified' }
+CpClientEnvironment >> registerUnresolvedClassReference: anAssociation [
+
+	"Keep track of class references for which no Class exists yet.
+	These Classes will be resolved later.
+
+	Implementation:
+	The class references are kept in a Dictionary with the class name
+	as key. This way resolving the actual class can be done fast for
+	all kept instances.
+	An OrderedCollection is used for storing the class reference
+	instances (Associations), because it allows quick addition."
+
+	(unresolvedClassReferences at: anAssociation key ifAbsentPut: [ OrderedCollection new ])
+		add: anAssociation
+]
+
 { #category : #initialization }
 CpClientEnvironment >> release [
 
@@ -590,6 +608,20 @@ CpClientEnvironment >> removeVariableAt: nameString [
 
 	<primitive: 'primitiveEnvironmentRemoveVariableAt:' module: 'CpSystemPlugin'>
 	^ self
+]
+
+{ #category : #'as yet unclassified' }
+CpClientEnvironment >> resolveClassReferences: aClass [
+
+	"Resolve the class references for the specified Class"
+
+	unresolvedClassReferences at: aClass name ifPresent: [ :classReferences |
+
+		"Resolve the class references"
+		classReferences do: [ :each | each value: aClass ].
+
+		"Remove the whole entry, since from now on it is no longer unknown"
+		unresolvedClassReferences removeKey: aClass name ]
 ]
 
 { #category : #support }

@@ -161,28 +161,27 @@ CpServerEnvironment >> addClass: aClass [
 
 	installationMutex critical: [
 
-		"Select all the required classes in 'dependency order' which are not already installed"
-		(self allRequiredClassesFromClass: aClass matching: [ :each | (self clientKnowsClass: each) not ])
-			do: [ :each |
+		"Select all the required classes in 'dependency order' (which are not already installed)"
+		self allRequiredClassesFromClass: aClass do: [ :each |
 
-				"If an installation checker is installed it will check if the class
-				is allowed. An error is raised here if it is not.
-				Typically the Application is the installation checker for the receiver.
-				As a failsafe, only classes defined in a package in the collection of
-				allowed application packages are allowed. This is to prevent accidental
-				installation of Classes which (indirectly) refer to more classes and then
-				resulting in trying to install the full Pharo IDE in a tiny image (which
-				will fail with a crash). If the following error occurs, please check if
-				the application's #allowedPackages method contains all packages allowed."
-				installationChecker ifNotNil: [
-					(installationChecker isClassAllowed: each)
-						ifFalse: [ self error: 'Trying to install ', each name, ' from ', each package name, ' which is not allowed by the installation checker' ] ].
+			"If an installation checker is installed it will check if the class
+			is allowed. An error is raised here if it is not.
+			Typically the Application is the installation checker for the receiver.
+			As a failsafe, only classes defined in a package in the collection of
+			allowed application packages are allowed. This is to prevent accidental
+			installation of Classes which (indirectly) refer to more classes and then
+			resulting in trying to install the full Pharo IDE in a tiny image (which
+			will fail with a crash). If the following error occurs, please check if
+			the application's #allowedPackages method contains all packages allowed."
+			installationChecker ifNotNil: [
+				(installationChecker isClassAllowed: each)
+					ifFalse: [ self error: 'Trying to install ', each name, ' from ', each package name, ' which is not allowed by the installation checker' ] ].
 
-				"Remember which Classes are installed (in order) for reloading"
-				self installedClasses add: each.
+			"Remember which Classes are installed (in order) for reloading"
+			self installedClasses add: each.
 
-				"Install in ClientEnvironment"
-				self installClass: each ].
+			"Install in ClientEnvironment"
+			self installClass: each ].
 
 		"Perform the post installation on all the installed (possibly inter dependent) classes"
 		self postInstallClasses.
@@ -228,75 +227,34 @@ CpServerEnvironment >> addMethod: aCompiledMethod [
 				(installedMethods includes: methodElement)
 					ifFalse: [ installedMethods add: methodElement ] ].
 
-		"Install Classes that are referenced from the method first"
-		aCompiledMethod referencedClasses do: [ :each | self addClass: each ].
-
-		"Now that the referred Classes are installed, install the method"
+		"Install the method"
 		self installMethod: aCompiledMethod.
+
+		"Install Classes that are referenced from the method"
+		self referencedClassesFromMethod: aCompiledMethod do: [ :each | self addClass: each ].
 
 		^ aCompiledMethod ]
 ]
 
 { #category : #'installing - support' }
-CpServerEnvironment >> allRequiredClassesFromClass: aClass matching: matchBlock [
+CpServerEnvironment >> allRequiredClassesFromClass: aClass do: aBlock [
 
-	"Answer a collection of Classes the receiver is dependent on in the ClientEnvironment
-	and which match the specified (one argument) Block"
+	"Evaluate the specified Block for the specified Class and all Classes it dependents on.
+	Process the class hierarchy first and then the referenced Classes."
 
-	| requiredClasses processingClasses addUniqueClassBlock |
+	| processing |
 
-	requiredClasses := OrderedCollection new.
-	processingClasses := Set new.
+	processing := OrderedCollection new.
 
-	"Only unique instances should be added"
-	addUniqueClassBlock := [ :class |
+	"Process the Class and its superclasses which are unknown (not installed yet)"
+	self withAllUnknownSuperclassesFromClass: aClass do: [ :each |
+		aBlock value: each.
+		processing add: each ].
 
-		"Validate the class is not obsolete. Sometimes during class updates, including Iceberg operations,
-		a class can become obsolete. When a debugger in the CodeParadise class loader code is triggered
-		during a class update, it might leave such a class obsolete. Installing an obsolete class is of
-		course useless."
-		class isObsolete
-			ifTrue: [ self errorCr: 'Obsolete class ', class name, ' is referenced, please manually remove references. Application(s) might have become unstable.' ]
-			ifFalse: [
-
-				"Check for matched classes which are not already in the process of being added"
-				((matchBlock value: class) and: [ (processingClasses includes: class) not ])
-					ifTrue: [
-
-						"Mark class for processing to prevent infinite recursion"
-						processingClasses add: class.
-
-						"First add the super class"
-						addUniqueClassBlock value: class superclass.
-
-						"Then add the required classes"
-						self requiredClassesFromClass: class do: addUniqueClassBlock.
-
-						"Because of circular references add the class itself only if not already present"
-						requiredClasses addIfNotPresent: class ] ] ].
-
-	"Fire of the process with the receiver"
-	addUniqueClassBlock value: aClass.
-
-	"Because of circular references a superclass can still be added after its subclass, repair this"
-	[
-		| changed |
-
-		changed := false.
-		requiredClasses withIndexDo: [ :each :index |
-			| nextIndex |
-
-			"Check if superclass is defined at higher index"
-			nextIndex := requiredClasses indexOf: each superclass startingAt: index + 1 ifAbsent: [ 0 ].
-			nextIndex > 0
-				ifTrue: [
-					"Swap sub and super class (it is okay to change collection during #withIndexDo: here)"
-					requiredClasses swap: index with: nextIndex.
-					changed := true ] ].
-
-		changed ] whileTrue.
-
-	^ requiredClasses
+	"Process the dependent Classes from the Class and its superclasses"
+	processing do: [ :each |
+		self referencedClassesFromClass: each do: [ :eachDependent |
+			self allRequiredClassesFromClass: eachDependent do: aBlock ] ]
 ]
 
 { #category : #announcing }
@@ -583,6 +541,46 @@ CpServerEnvironment >> postInstallClasses [
 		selector: #postInstallClasses)
 ]
 
+{ #category : #'installing - support' }
+CpServerEnvironment >> referencedClassesFromClass: aClass do: aBlock [
+
+	"Perform the specified Block on the referenced Classes from the specified Class"
+
+	"Handle classes referenced in class and instance methods"
+	self referencedClassesFromMethods: aClass classSide methods do: aBlock.
+	self referencedClassesFromMethods: aClass instanceSide methods do: aBlock
+]
+
+{ #category : #'installing - support' }
+CpServerEnvironment >> referencedClassesFromMethod: aCompiledMethod do: aBlock [
+
+	"Evaluate the specified Block for the specified CompiledMethod.
+	If an InstallationChecker is present, only allowed methods will be handled.
+	This is to prevent installation of a Class which is referenced for another
+	environment or another purpose."
+
+	"Check if the method is allowed, before handling the referenced classes"
+	(installationChecker isNil or: [ installationChecker isMethodAllowed: aCompiledMethod ])
+		ifFalse: [ ^ self ].
+
+	"Handle all referenced Classes"
+	aCompiledMethod referencedClasses do: [ :each |
+
+		"Check if the referenced Class should be ignored"
+		(aCompiledMethod shouldIgnoreReference: each)
+			ifFalse: [ aBlock value: each ] ]
+]
+
+{ #category : #'installing - support' }
+CpServerEnvironment >> referencedClassesFromMethods: aCollection do: aBlock [
+
+	"Evaluate the specified Block for all classes which are referenced
+	in the specified Collection of CompiledMethods"
+
+	aCollection do: [ :each |
+		self referencedClassesFromMethod: each do: aBlock ]
+]
+
 { #category : #initialization }
 CpServerEnvironment >> release [
 
@@ -640,34 +638,6 @@ CpServerEnvironment >> removeSubscription: aSubscription [
 	"Remove the specified subscription from the receiver"
 
 	^ self announcer removeSubscription: aSubscription
-]
-
-{ #category : #'installing - support' }
-CpServerEnvironment >> requiredClassesFromClass: aClass do: aBlock [
-
-	"Perform the specified Block on the specified Class's required classes 'in order of dependency'"
-
-	"Handle classes referenced (in non server side only methods) in class and instance methods"
-	self requiredClassesFromMethods: aClass classSide methods do: aBlock.
-	self requiredClassesFromMethods: aClass instanceSide methods do: aBlock
-]
-
-{ #category : #'installing - support' }
-CpServerEnvironment >> requiredClassesFromMethods: aCollection do: aBlock [
-
-	"Evaluate the specified Block for all classes which are required by the
-	CompiledMethods in the specified Collection.
-	If an InstallationChecker is present, only allowed methods will be handled."
-
-	aCollection do: [ :each |
-
-		"Skip server side only methods"
-		each isServerSideOnly
-			ifFalse: [
-
-				"Check if the method is allowed, before handling the referenced classes"
-				(installationChecker isNil or: [ installationChecker isMethodAllowed: each ])
-					ifTrue: [ each referencedClasses do: aBlock ] ] ]
 ]
 
 { #category : #'input/output' }
@@ -831,4 +801,27 @@ CpServerEnvironment >> when: anAnnouncementClass send: aSymbol to: anObject [
 	See Announcer>>#when:send:to:"
 
 	^ self announcer when: anAnnouncementClass send: aSymbol to: anObject
+]
+
+{ #category : #'installing - support' }
+CpServerEnvironment >> withAllUnknownSuperclassesFromClass: aClass do: aBlock [
+
+	"Evaluate the specified Block for the specified Class and all its unknown superclasses"
+
+	"Validate the class is not obsolete. Sometimes during class updates, including Iceberg operations,
+	a class can become obsolete. When a debugger in the CodeParadise class loader code is triggered
+	during a class update, it might leave such a class obsolete. Installing an obsolete class is of
+	course useless."
+	aClass isObsolete
+		ifTrue: [ self error: 'Obsolete class ', aClass name, ' is referenced, please manually remove references. Application(s) might have become unstable.' ].
+
+	"Only add unknown Classes (i.e. Classes which are not already present in the default tiny image or have been installed)"
+	(self clientKnowsClass: aClass)
+		ifTrue: [ ^ self ].
+
+	"First handle the unknown superclasses"
+	self withAllUnknownSuperclassesFromClass: aClass superclass do: aBlock.
+
+	"Now handle the class itself"
+	aBlock value: aClass
 ]
