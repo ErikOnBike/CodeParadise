@@ -118,9 +118,11 @@ CpPropertyModelView >> bindProperty: aSymbol toElement: anElement [
 
 	"When an input element loses focus, perform normalization and validation"
 	self addBinding: (anElement
-		when: IonBlurEvent do: [
+		when: IonBlurEvent
+		forkedDo: [
 			model normalizePropertyAt: aSymbol.
-			self validateProperty: aSymbol ] for: self)
+			self validateProperty: aSymbol ]
+		for: self)
 ]
 
 { #category : #binding }
