@@ -48,23 +48,20 @@ Class {
 { #category : #'class initialization' }
 CpCanyonAppMainView class >> beLoaded [
 
-	"Alphabetically ordered references to the required classes"
+	"Alphabetically ordered references to the required classes.
+	(This is not a complete list, other classes are referenced in the code directly)"
 
 	CpBrowserCustomElementRegistry beLoaded.
-	IonElement beLoaded.
 	IonInput beLoaded.
 	IonInputPasswordToggle beLoaded.
-	IonItem beLoaded.
 	IonList beLoaded.
 	IonMenuButton beLoaded.
 	IonSearchbar beLoaded.
 	IonSelect beLoaded.
 	IonSelectOption beLoaded.
-	IonTitle beLoaded.
 	IonTab beLoaded.
 	IonTabBar beLoaded.
 	IonTabs beLoaded.
-	IonToast beLoaded.
 	IonToggle beLoaded
 ]
 
