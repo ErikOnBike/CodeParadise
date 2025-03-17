@@ -62,6 +62,7 @@ CpCanyonAppMainView class >> beLoaded [
 	IonTab beLoaded.
 	IonTabBar beLoaded.
 	IonTabs beLoaded.
+	IonTextarea beLoaded.
 	IonToggle beLoaded
 ]
 
