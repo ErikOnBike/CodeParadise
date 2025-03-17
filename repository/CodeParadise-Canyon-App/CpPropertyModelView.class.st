@@ -343,7 +343,7 @@ CpPropertyModelView >> validateProperty: aSymbol ifValid: aBlock [
 	Otherwise (if valid) evaluate the specified block."
 
 	(self validationMessageForProperty: aSymbol)
-		ifNotNil: [ :message | self showIssue: message ]
+		ifNotNil: [ :message | self app showToast: message ]
 		ifNil: [ aBlock value ]
 ]
 
