@@ -30,7 +30,8 @@ Class {
 	#superclass : #CpEnvironment,
 	#instVars : [
 		'objectRegistry',
-		'installedClasses'
+		'installedClasses',
+		'unresolvedClassReferences'
 	],
 	#classVars : [
 		'Current',
@@ -298,13 +299,15 @@ CpClientEnvironment >> createInstanceOf: className withId: identifier [
 	The initialization code of the instance can then make use of the instance's id,
 	which it can retrieve by querying the receiver's object registry."
 
-	| instance |
+	| class instance |
 
-	instance := (Smalltalk classNamed: className) basicNew.
+	class := (Smalltalk classNamed: className) ifNil: [ self error: 'Unknown class ', className printString ].
+	instance :=  class basicNew.
 	self objectRegistry registerObject: instance withId: identifier.
 	instance initialize.
 
 	^ instance
+
 ]
 
 { #category : #support }
@@ -361,17 +364,17 @@ CpClientEnvironment >> handleMessageReceived: aByteArray [
 			"Announce the error (for debugger or otherwise)"
 			CpExceptionAnnouncer announceException: error.
 
-			"Finish class installation"
+			"Since no Exception handler might be installed, log the error too" 
+			self errorCr: error printString.
+
+			"Finish class installation (as far as we got)"
 			self postInstallClasses.
 
 			"Announce error and stop handling the message"
 			self serverAnnounce: (CpClientDecodeFailed description: error description).
 			^ self ].
 
-		self handleMessageSend: messageSend ].
-
-	"Perform post install methods for installed classes"
-	self postInstallClasses
+		self handleMessageSend: messageSend ]
 ]
 
 { #category : #accessing }
@@ -593,7 +596,7 @@ CpClientEnvironment >> removeVariableAt: nameString [
 CpClientEnvironment >> restartCommunication [
 
 	"Restart communication (after connection has been restored).
-	
+
 	Implementation:
 	Send reconnected announcement only if we have an actual session to reconnect to."
 
@@ -672,4 +675,19 @@ CpClientEnvironment >> variableNames [
 
 	<primitive: 'primitiveEnvironmentVariableNames' module: 'CpSystemPlugin'>
 	self primitiveFailed
+]
+
+{ #category : #accessing }
+CpClientEnvironment >> variables [
+
+	"Answer a dictionary with the names and values of available environment variables."
+
+	| variables |
+
+	variables := Dictionary new.
+
+	self variableNames do: [ :each | 
+		variables at: each put: (self variableAt: each) ].
+
+	^ variables
 ]
