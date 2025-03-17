@@ -76,6 +76,44 @@ CpCanyonAppMainView class >> current [
 	^ Current ifNil: [ Current := self basicNew initialize ; yourself ]
 ]
 
+{ #category : #'accessing - text' }
+CpCanyonAppMainView class >> defaultAppTexts [
+
+	"Answer Dictionary with default app texts"
+
+	^ Dictionary new
+		at: #'app.menu.title' put: 'Menu' ;
+		at: #'constraint.multi.violations' put: 'I''m sorry I don''t understand your input:' ;
+		yourself
+]
+
+{ #category : #'accessing - text' }
+CpCanyonAppMainView class >> defaultFallbackLocales [
+
+	"Answer the collection of fallback locales for the app.
+	By default there are no fallback locales specified."
+
+	^ #()
+]
+
+{ #category : #'accessing - text' }
+CpCanyonAppMainView class >> defaultLanguage [
+	"Answer the app's text language"
+
+	^ CpTextLanguage
+		  locale: self defaultLocale
+		  fallbackLocales: self defaultFallbackLocales
+]
+
+{ #category : #'accessing - text' }
+CpCanyonAppMainView class >> defaultLocale [
+
+	"Answer the default language locale.
+	By default the English language (with no explicit region specified) is answered."
+
+	^ #en
+]
+
 { #category : #'web resources' }
 CpCanyonAppMainView class >> globalStyle [
 
@@ -178,17 +216,6 @@ CpCanyonAppMainView >> currentPage [
 ]
 
 { #category : #accessing }
-CpCanyonAppMainView >> defaultAppTexts [
-
-	"Answer Dictionary with default app texts"
-
-	^ Dictionary new
-		at: #'app.menu.title' put: 'Menu' ;
-		at: #'constraint.multi.violations' put: 'I''m sorry I don''t understand your input:' ;
-		yourself
-]
-
-{ #category : #accessing }
 CpCanyonAppMainView >> defaultToastDuration [
 
 	"The default duration in ms that a toast is shown"
@@ -250,6 +277,9 @@ CpCanyonAppMainView >> initialize [
 
 	super initialize.
 
+	"Initialize the language text before anything else"
+	self initializeLanguageText.
+
 	restApiClient := CpRestApiClient baseUrl: self apiBaseUrl.
 	restApiClient
 		when: CpSessionExpired send: #sessionExpired to: self.
@@ -273,6 +303,16 @@ CpCanyonAppMainView >> initialize [
 			IonToast.
 			IonAlert }
 		do: [ self load ]
+]
+
+{ #category : #initialization }
+CpCanyonAppMainView >> initializeLanguageText [
+
+	"Initialize the language text by setting the default language, locale and fallback locales"
+
+	CpPropertyEntity
+		languageText: (CpMultiLanguageText defaultLanguage: self class defaultLanguage) ;
+		addVolume: (CpLanguageVolume fromDictionary: self class defaultAppTexts) locale: self class defaultLocale
 ]
 
 { #category : #testing }
@@ -326,6 +366,7 @@ CpCanyonAppMainView >> load [
 	be placed visible on the page (in the header for example) or some code
 	should explicitly open the menu based on the user input/action."
 
+	"Create the visual app structure"
 	self
 		appendChild: (IonApp new
 
@@ -428,15 +469,6 @@ CpCanyonAppMainView >> loadMenu [
 	Typically this will add an instance of the IonContent to the menu
 	instance variable. How the menu is represented and how it interacts
 	is up to the subclass to decide."
-]
-
-{ #category : #initialization }
-CpCanyonAppMainView >> loadText [
-
-	"Load initial text into the app"
-
-	CpPropertyEntity
-		addVolume: (CpLanguageVolume fromDictionary: self defaultAppTexts) locale: #en
 ]
 
 { #category : #actions }
