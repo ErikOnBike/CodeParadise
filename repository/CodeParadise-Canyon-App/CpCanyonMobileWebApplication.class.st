@@ -26,16 +26,16 @@ CpCanyonMobileWebApplication class >> allowedPackages [
 CpCanyonMobileWebApplication >> load [
 
 	"Load the application.
-	Include all the PropertyModelViews in the receiver's Package.
+	Include all the Views (Pages, ModelViews and the MainView) from the receiver's Package.
 	Add development tools (if appropriate)."
 
 	| package |
 
 	super load.
 
-	"By default only install the Views in the package of the receiver"
+	"By default install all the Views in the package of the receiver"
 	package := self class package.
-	CpPropertyModelView allSubclassesDo: [ :each |
+	CpWebComponent allSubclassesDo: [ :each |
 		each package = package
 			ifTrue: [ self installClass: each ] ].
 
