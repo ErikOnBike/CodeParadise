@@ -374,13 +374,13 @@ CpPropertyModelView >> validationMessageFrom: aCollection [
 	or nil if no issues are present"
 
 	^ aCollection
-		ifNotEmpty: [ :violations |
-			violations size = 1
-				ifTrue: [ violations first ]
+		ifNotEmpty: [
+			aCollection size = 1
+				ifTrue: [ aCollection first ]
 				ifFalse: [
 					String streamContents: [ :stream |
 						stream nextPutAll: self multipleViolationsIntroText.
-						violations do: [ :each |
+						aCollection do: [ :each |
 							stream
 								space ;
 								nextPutAll: each ] ] ] ]
