@@ -57,7 +57,7 @@ CpRestApiClient >> handleErrorResponse: aResponse [
 	In case an expired session, simply answer nil and do not signal an Error."
 
 	"Check for an expired session"
-	(aResponse status = MaRestError codeUnauthorized and: [ accessToken isNotNil ])
+	(aResponse status = CpRestResponseError codeUnauthorized and: [ accessToken isNotNil ])
 		ifTrue: [
 			self setAccessToken: nil.
 
@@ -70,8 +70,8 @@ CpRestApiClient >> handleErrorResponse: aResponse [
 		| errorDescription |
 		errorDescription := aResponse text await.
 		errorDescription ifEmpty: [ errorDescription := aResponse statusText ifEmpty: [ 'Unspecified error' ] ].
-		MaRestError signal: errorDescription withStatusCode: aResponse status
-	] on: Error do: [ :error | MaRestError signal: error description withStatusCode: aResponse status ]
+		CpRestResponseError signal: errorDescription withStatusCode: aResponse status
+	] on: Error do: [ :error | CpRestResponseError signal: error description withStatusCode: aResponse status ]
 ]
 
 { #category : #'response handling' }
