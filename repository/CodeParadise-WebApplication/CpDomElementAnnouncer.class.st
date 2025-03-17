@@ -128,7 +128,7 @@ CpDomElementAnnouncer >> when: anAnnouncementClass do: aBlock for: anObject [
 ]
 
 { #category : #subscription }
-CpDomElementAnnouncer >> when: anAnnouncementClass forkedDo: aBlock to: anObject [
+CpDomElementAnnouncer >> when: anAnnouncementClass forkedDo: aBlock for: anObject [
 
 	"Subscribe the specified Announcement Class.
 	This particular variant forkes the message send in a separate Process.
