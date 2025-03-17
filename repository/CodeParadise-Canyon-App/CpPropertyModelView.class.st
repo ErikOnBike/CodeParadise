@@ -75,7 +75,7 @@ CpPropertyModelView >> addViolationsForProperty: aSymbol to: aCollection [
 	propertySlot constraints do: [ :each |
 
 		"Per constraint, retrieve all violations (can be multiple) and format with label"
-		propertyViolations := (each violationsForProperty: aSymbol in: self)
+		propertyViolations := (each violationsForProperty: aSymbol in: model)
 			collect: [ :violation | model class text: violation format: labelDict ].
 
 		"Add formatted violations to collection of all violations"
