@@ -53,6 +53,8 @@ CpBrowserScreenOrientation >> lock: aString [
 		was not selected for landscape-primary.
 	"
 
+	<ignoreReference: #CpJavaScriptPromise>
+
 	^ self apply: #lock withArguments: { aString } resultAs: CpJavaScriptPromise
 ]
 

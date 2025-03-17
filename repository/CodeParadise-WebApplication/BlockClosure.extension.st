@@ -4,8 +4,9 @@ Extension { #name : #BlockClosure }
 BlockClosure >> asTransition [
 
 	<webApplicationExtension>
+	<ignoreReference: #CpTransition>
 
-	^ (Smalltalk classNamed: #CpTransition) onBlock: self
+	^ CpTransition onBlock: self
 ]
 
 { #category : #'*CodeParadise-WebApplication' }

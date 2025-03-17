@@ -4,6 +4,7 @@ Extension { #name : #String }
 String >> asBrowserClipboardItem [
 
 	<webApplicationExtension>
+	<ignoreReference: #CpBrowserClipboardItem>
 
 	^ CpBrowserClipboardItem newWithString: self
 ]

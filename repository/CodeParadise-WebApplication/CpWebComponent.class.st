@@ -159,25 +159,22 @@ CpWebComponent class >> whenDefinedAll: aCollection do: aBlock [
 	(allowing third-party WebComponents to be present before using them).
 
 	Implementation:
-	The method does not refer to the CpBrowserCustomElementRegistry class
-	directly to prevent another class from being put into the image. Please
+	The method ignores the reference to the CpBrowserCustomElementRegistry
+	class to prevent another class from being put into the image. Please
 	add this class in the relevant #beLoaded method (either of a specific
-	component or more generally in the WebClient class for your application).
-	Likewise for the CpJavaScriptPromise class."
+	component or more generally in the WebClient class for your application)
+	if using this method."
 
-	| registryClass registry promiseClass |
+	<ignoreReference: #CpBrowserCustomElementRegistry>
+	<ignoreReference: #CpJavaScriptPromise>
 
-	(registryClass := Smalltalk classNamed: #CpBrowserCustomElementRegistry)
-		ifNil: [ self error: 'The class ', #CpBrowserCustomElementRegistry, ' is not installed, please add it in the #beLoaded of your class/application' ].
-	(promiseClass := Smalltalk classNamed: #CpJavaScriptPromise)
-		ifNil: [ self error: 'The class ', #CpJavaScriptPromise, ' is not installed, please add it in the #beLoaded of your class/application' ].
+	| registry |
 
-	registry := registryClass current.
+	registry := CpBrowserCustomElementRegistry current.
 
-	"Perform Promise.all on the individual Promise per WebComponent (class)"
-	(promiseClass all: (aCollection collect: [ :each |
-		registryClass current whenDefined: each tagName ]))
-			then: aBlock
+	"Perform Promise.all on the collection of Promises per WebComponent (class)"
+	(CpJavaScriptPromise all: (aCollection collect: [ :each | registry whenDefined: each tagName ]))
+		then: aBlock
 ]
 
 { #category : #accessing }
@@ -187,14 +184,16 @@ CpWebComponent class >> whenDefinedDo: aBlock [
 	(allowing third-party WebComponents to be present before using them).
 
 	Implementation:
-	The method does not refer to the CpBrowserCustomElementRegistry class
-	directly to prevent another class from being put into the image. Please
+	The method ignores the reference to the CpBrowserCustomElementRegistry
+	class to prevent another class from being put into the image. Please
 	add this class in the relevant #beLoaded method (either of a specific
-	component or more generally in the WebClient class for your application)."
+	component or more generally in the WebClient class for your application)
+	if using this method."
 
-	(Smalltalk classNamed: #CpBrowserCustomElementRegistry)
-		ifNotNil: [ :registryClass | (registryClass current whenDefined: self tagName) then: aBlock ]
-		ifNil: [ self error: 'The class ', #CpBrowserCustomElementRegistry, ' is not installed, please add it in the #beLoaded of your class/application' ]
+	<ignoreReference: #CpBrowserCustomElementRegistry>
+
+	(CpBrowserCustomElementRegistry current whenDefined: self tagName)
+		then: aBlock
 ]
 
 { #category : #private }

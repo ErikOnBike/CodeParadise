@@ -64,3 +64,16 @@ CompiledMethod >> remove [
 	self methodClass
 		ifNotNil: [ :methodClass | methodClass removeMethod: self ]
 ]
+
+{ #category : #'*CodeParadise-RemoteEnvironment' }
+CompiledMethod >> shouldIgnoreReference: aClass [
+
+	"Answer whether the specified Class should be ignored as reference
+	during code installation from CodeParadise"
+
+	self pragmasDo: [ :each |
+		(each selector = #ignoreReference: and: [ each arguments = { aClass name } ])
+			ifTrue: [ ^ true ] ].
+
+	^ false
+]

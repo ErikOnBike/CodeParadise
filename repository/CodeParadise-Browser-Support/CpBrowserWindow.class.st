@@ -100,6 +100,8 @@ CpBrowserWindow >> fetch: aString withOptions: aDictionary [
 		auto
 			Automatically determine the priority of the fetch request relative to other requests of the same type (default)."
 
+	<ignoreReference: #CpJavaScriptPromise>
+
 	self flag: #deprecatedMethod.
 	self warnCr: 'Use of CpBrowserWindow >> #fetch:withOptions: is deprecated, please use CpGlobalThis class >> #fetch:withOptions:'.
 

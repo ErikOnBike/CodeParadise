@@ -87,8 +87,9 @@ String >> asKebabCase [
 String >> asRegularFontAwesomeIcon [
 
 	<webApplicationFontAwesomeExtension>
+	<ignoreReference: #CpHtmlElement>
 
-	^ ((Smalltalk classNamed: #CpHtmlElement) newWithTag: #i)
+	^ (CpHtmlElement newWithTag: #i)
 		attributeAt: #class put: 'far fa-', self
 ]
 
@@ -96,8 +97,9 @@ String >> asRegularFontAwesomeIcon [
 String >> asSolidFontAwesomeIcon [
 
 	<webApplicationFontAwesomeExtension>
+	<ignoreReference: #CpHtmlElement>
 
-	^ ((Smalltalk classNamed: #CpHtmlElement) newWithTag: #i)
+	^ (CpHtmlElement newWithTag: #i)
 		attributeAt: #class put: 'fas fa-', self
 ]
 

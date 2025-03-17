@@ -42,6 +42,8 @@ CpBrowserBlob >> arrayBuffer [
 { #category : #converting }
 CpBrowserBlob >> asBrowserClipboardItem [
 
+	<ignoreReference: #CpBrowserClipboardItem>
+
 	^ CpBrowserClipboardItem newWithBlob: self
 ]
 

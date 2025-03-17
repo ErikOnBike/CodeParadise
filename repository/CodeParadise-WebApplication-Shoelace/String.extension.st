@@ -4,8 +4,7 @@ Extension { #name : #String }
 String >> asShoelaceIcon [
 
 	<webApplicationShoelaceExtension>
+	<ignoreReference: #SlIcon>
 
-	^ (Smalltalk classNamed: #SlIcon) new
-		name: self ;
-		yourself
+	^ SlIcon named: self
 ]
