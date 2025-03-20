@@ -314,6 +314,12 @@ CpDomElement >> appendChild: childElement after: siblingElement [
 ]
 
 { #category : #performing }
+CpDomElement >> apply: aSymbol [
+
+	^ self apply: aSymbol withArguments: nil
+]
+
+{ #category : #performing }
 CpDomElement >> apply: aSymbol resultAs: aProxyClass [
 
 	^ self apply: aSymbol withArguments: nil resultAs: aProxyClass
