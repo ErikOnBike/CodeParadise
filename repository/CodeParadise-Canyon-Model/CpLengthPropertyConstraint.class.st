@@ -54,7 +54,10 @@ CpLengthPropertyConstraint >> collectViolationsIn: aString [
 			ifTrue: [
 				^ min = 1
 					ifTrue: [ #'constraint.empty' ]
-					ifFalse: [ CpParamText key: #'constraint.length.min' with: min with: size ] ] ].
+					ifFalse: [
+						size = 0
+							ifTrue: [ CpParamText key: #'constraint.length.min.zero' with: min ]
+							ifFalse: [ CpParamText key: #'constraint.length.min' with: min with: size ] ] ] ].
 
 	 max ifNotNil: [
 		size > max
