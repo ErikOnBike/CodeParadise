@@ -175,7 +175,9 @@ CpCanyonAppMainView class >> postInstall [
 
 	"Install an instance of the receiver"
 	CpHtmlElement documentBody
-		appendChild: self current
+		appendChild: (self current
+			load ;
+			yourself)
 ]
 
 { #category : #'web resources' }
@@ -309,24 +311,7 @@ CpCanyonAppMainView >> initialize [
 		when: CpSessionExpired send: #sessionExpired to: self.
 
 	"Attach the REST API Client to the models"
-	CpPropertyEntity restApiClient: restApiClient.
-
-	"Make sure the most prominent components are loaded, before loading the page content"
-	CpWebComponent
-		whenDefinedAll: {
-			IonApp.
-			IonNav.
-			IonHeader.
-			IonFooter.
-			IonMenu.
-			IonToolbar.
-			IonTitle.
-			IonContent.
-			IonItem.
-			IonLoading.
-			IonToast.
-			IonAlert }
-		do: [ self load ]
+	CpPropertyEntity restApiClient: restApiClient
 ]
 
 { #category : #initialization }
@@ -354,6 +339,29 @@ CpCanyonAppMainView >> isHome [
 
 { #category : #initialization }
 CpCanyonAppMainView >> load [
+
+	"Load the app and its content"
+
+	"Make sure the most prominent components are loaded, before loading the app content"
+	CpWebComponent
+		whenDefinedAll: {
+			IonApp.
+			IonNav.
+			IonHeader.
+			IonFooter.
+			IonMenu.
+			IonToolbar.
+			IonTitle.
+			IonContent.
+			IonItem.
+			IonLoading.
+			IonToast.
+			IonAlert }
+		do: [ self loadApp ]
+]
+
+{ #category : #initialization }
+CpCanyonAppMainView >> loadApp [
 
 	"Build the app structure. The app structure lives in the Light DOM and will
 	be subject to Light DOM CSS.
