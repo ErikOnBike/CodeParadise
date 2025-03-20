@@ -243,6 +243,7 @@ CpMultiLanguageText >> lang: aLanguage key: aSymbolOrParamText format: aDictiona
 
 	^ (self lang: aLanguage lookup: (CpTextLookup key: aSymbolOrParamText))
 		ifNotNil: [ :text | self formatText: text language: aLanguage using: aDictionary ]
+		ifNil: [ aSymbolOrParamText ]
 ]
 
 { #category : #private }
