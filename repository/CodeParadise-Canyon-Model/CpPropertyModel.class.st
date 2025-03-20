@@ -320,6 +320,8 @@ CpPropertyModel >> initialize [
 
 	"When the data Dictionary is setup, set the initial values"
 	self initializeProperties.
+	self class isRunningClientSide
+		ifTrue: [ self initializeClientProperties ].
 
 	"When the initial property values are set, add change handlers"
 	self addChangeHandlers
@@ -329,7 +331,8 @@ CpPropertyModel >> initialize [
 CpPropertyModel >> initializeClientProperties [
 
 	"Set the receiver's initial values specific for client environment (i.e. where a UI is present).
-	Subclasses should call the super implementation and preferrable add the following pragma:
+	Subclasses should call the super implementation and preferrable add the following pragma or store
+	the method in a client side only package:
 		<environment: #browser>
 	"
 ]
@@ -339,9 +342,6 @@ CpPropertyModel >> initializeProperties [
 
 	"Set the receiver's initial values.
 	Subclasses should call the super implementation."
-
-	self class isRunningClientSide
-		ifTrue: [ self initializeClientProperties ]
 ]
 
 { #category : #introspection }
@@ -638,7 +638,9 @@ CpPropertyModel >> reset [
 		data := Dictionary new.
 
 		"Initialize the properties"
-		self initializeProperties
+		self initializeProperties.
+		self class isRunningClientSide
+			ifTrue: [ self initializeClientProperties ]
 	] ensure: [ announcer := oldAnnouncer ].
 
 	"Announce the receiver's value(s) changed"
