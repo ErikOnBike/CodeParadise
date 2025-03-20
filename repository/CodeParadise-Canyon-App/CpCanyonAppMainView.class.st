@@ -35,6 +35,7 @@ Class {
 		'menu',
 		'header',
 		'footer',
+		'actionSheet',
 		'loading',
 		'toast',
 		'alert'
@@ -250,6 +251,14 @@ CpCanyonAppMainView >> defaultToastDuration [
 ]
 
 { #category : #'event handling' }
+CpCanyonAppMainView >> handleDidDismissActionSheet [
+
+	"This is an async call, but no use awaiting it, because we're not using the result"
+
+	actionSheet isOpen: false
+]
+
+{ #category : #'event handling' }
 CpCanyonAppMainView >> handleDidDismissAlert [
 
 	"This is an async call, but no use awaiting it, because we're not using the result"
@@ -427,6 +436,11 @@ CpCanyonAppMainView >> loadApp [
 			"Add the page footer (content added through loadFooter)"
 			appendChild: (footer := IonFooter new) ;
 
+			"Add a (global) action sheet"
+			appendChild: (actionSheet := IonActionSheet new
+				when: IonActionSheetDidDismissEvent send: #handleDidDismissActionSheet to: self ;
+				yourself) ;
+
 			"Add a (global) loading"
 			appendChild: (loading := IonLoading new
 				when: IonLoadingDidDismissEvent send: #handleDidDismissLoading to: self ;
@@ -563,6 +577,43 @@ CpCanyonAppMainView >> pageCount [
 	During navigation, there is a transition which might make this value unreliable (at that moment)."
 
 	^ navigation children size
+]
+
+{ #category : #actions }
+CpCanyonAppMainView >> selectAction: aString from: aCollection [
+
+	"Show the receiver's ActionSheet and answer the action selected.
+
+	Actions are specified using the ActionSheetButton interface:
+		```
+		interface ActionSheetButton<T = any> {
+		  text?: string;
+		  role?: 'cancel' | 'destructive' | 'selected' | string;
+		  icon?: string;
+		  cssClass?: string | string[];
+		  id?: string;
+		  htmlAttributes?: { [key: string]: any };
+		  handler?: () => boolean | void | Promise<boolean | void>;
+		  data?: T;
+		}
+		```
+
+	When no data is specified, the selected action from the specified
+	Collection is answered.
+
+	See also:
+		https://ionicframework.com/docs/api/action-sheet#actionsheetbutton
+	"
+
+	| action |
+
+	action := (actionSheet
+		header: aString ;
+		buttons: aCollection asJsonObjectValue ;
+		present ;
+		onDidDismiss) await.
+
+	self traceCr: 'Action selected ', action printString
 ]
 
 { #category : #'event handling' }
