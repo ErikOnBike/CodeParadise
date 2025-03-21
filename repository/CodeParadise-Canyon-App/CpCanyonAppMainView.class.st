@@ -585,6 +585,10 @@ CpCanyonAppMainView >> pageCount [
 CpCanyonAppMainView >> selectAction: aString from: aCollection [
 
 	"Show the receiver's ActionSheet and answer the action selected.
+	The answered value is a Dictionary with #data and #role. The field
+	#data contains the data of the selected ActionSheetButton (see below).
+	Idem for the #role field, unless the ActionSheet is cancelled in which
+	case it receives the role 'cancel'.
 
 	Actions are specified using the ActionSheetButton interface:
 		```
@@ -600,22 +604,15 @@ CpCanyonAppMainView >> selectAction: aString from: aCollection [
 		}
 		```
 
-	When no data is specified, the selected action from the specified
-	Collection is answered.
-
 	See also:
 		https://ionicframework.com/docs/api/action-sheet#actionsheetbutton
 	"
 
-	| action |
-
-	action := (actionSheet
+	^ (actionSheet
 		header: aString ;
 		buttons: aCollection asJsonObjectValue ;
 		present ;
-		onDidDismiss) await.
-
-	self traceCr: 'Action selected ', action printString
+		onDidDismiss) await
 ]
 
 { #category : #'event handling' }
