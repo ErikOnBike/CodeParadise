@@ -206,6 +206,32 @@ CpDomElement >> addClasses: aCollection [
 
 ]
 
+{ #category : #'event handling' }
+CpDomElement >> addEventListener: aSymbol handler: aBlock [
+
+	"Add event listener to the receiver.
+	The more common/consistent approach for adding event handlers is using the #when:send:to: or
+	#when:do:for: messages. That approach allows more control of the events (like support for
+	conditional events or synthetic events) and mixes better with the general Pharo approach of
+	using Announcements.
+	If the more native approach of event listeners is preferred, use this method.
+
+	Add the specified Block as an event handler for the specified event for the receiver.
+	Answer the added handler (wrapped as Function) which is needed as the handler to remove
+	the event listener."
+
+	| function |
+
+	"Create function from the Block and specify the event name (to allow later removal)"
+	function := CpJavaScriptFunction wrap: aBlock.
+	function propertyAt: #eventName put: aSymbol.
+
+	"Add event listener"
+	self apply: #addEventListener withArguments: { aSymbol . function }.
+
+	^ function
+]
+
 { #category : #querying }
 CpDomElement >> allAncestorsMatching: cssSelectorString [
 
@@ -925,6 +951,14 @@ CpDomElement >> removeClasses: aCollection [
 
 	aCollection do: [ :each | self removeClass: each ]
 
+]
+
+{ #category : #'event handling' }
+CpDomElement >> removeEventListener: aFunction [
+
+	"Remove the specified funcion (a wrapped Block, answered by #addEventListener:handler:) from the receiver"
+
+	self apply: #removeEventListener withArguments: { aFunction propertyAt: #eventName . aFunction }
 ]
 
 { #category : #'text input' }
