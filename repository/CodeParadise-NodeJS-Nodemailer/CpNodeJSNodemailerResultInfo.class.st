@@ -6,7 +6,7 @@ See https://nodemailer.com/usage/#sending-mail
 "
 Class {
 	#name : #CpNodeJSNodemailerResultInfo,
-	#superclass : #CpNodeJSNodemailerOptions,
+	#superclass : #CpAbstractOptions,
 	#category : #'CodeParadise-NodeJS-Nodemailer-Support'
 }
 

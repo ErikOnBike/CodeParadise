@@ -5,7 +5,7 @@ See https://nodemailer.com/smtp/envelope/
 "
 Class {
 	#name : #CpNodeJSNodemailerSmtpEnvelope,
-	#superclass : #CpNodeJSNodemailerOptions,
+	#superclass : #CpAbstractOptions,
 	#category : #'CodeParadise-NodeJS-Nodemailer-Support'
 }
 

@@ -1,6 +1,6 @@
 Class {
 	#name : #CpNodeJSNodemailerDKIMKey,
-	#superclass : #CpNodeJSNodemailerOptions,
+	#superclass : #CpAbstractOptions,
 	#category : #'CodeParadise-NodeJS-Nodemailer-Support'
 }
 

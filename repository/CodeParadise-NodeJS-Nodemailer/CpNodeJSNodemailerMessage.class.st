@@ -5,7 +5,7 @@ See https://nodemailer.com/message/
 "
 Class {
 	#name : #CpNodeJSNodemailerMessage,
-	#superclass : #CpNodeJSNodemailerOptions,
+	#superclass : #CpAbstractOptions,
 	#category : #'CodeParadise-NodeJS-Nodemailer-Support'
 }
 

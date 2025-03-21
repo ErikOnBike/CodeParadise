@@ -5,7 +5,7 @@ See https://nodemailer.com/dkim/
 "
 Class {
 	#name : #CpNodeJSNodemailerDKIM,
-	#superclass : #CpNodeJSNodemailerOptions,
+	#superclass : #CpAbstractOptions,
 	#category : #'CodeParadise-NodeJS-Nodemailer-Support'
 }
 

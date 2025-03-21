@@ -1,6 +1,6 @@
 Class {
 	#name : #CpNodeJSNodemailerTransport,
-	#superclass : #CpNodeJSNodemailerOptions,
+	#superclass : #CpAbstractOptions,
 	#category : #'CodeParadise-NodeJS-Nodemailer-Support'
 }
 

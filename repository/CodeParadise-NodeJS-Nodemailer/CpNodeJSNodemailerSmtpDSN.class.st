@@ -5,7 +5,7 @@ https://nodemailer.com/smtp/dsn/
 "
 Class {
 	#name : #CpNodeJSNodemailerSmtpDSN,
-	#superclass : #CpNodeJSNodemailerOptions,
+	#superclass : #CpAbstractOptions,
 	#category : #'CodeParadise-NodeJS-Nodemailer-Support'
 }
 

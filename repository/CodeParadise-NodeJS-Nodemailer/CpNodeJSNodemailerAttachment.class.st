@@ -6,7 +6,7 @@ See https://nodemailer.com/message/attachments/
 "
 Class {
 	#name : #CpNodeJSNodemailerAttachment,
-	#superclass : #CpNodeJSNodemailerOptions,
+	#superclass : #CpAbstractOptions,
 	#category : #'CodeParadise-NodeJS-Nodemailer-Support'
 }
 

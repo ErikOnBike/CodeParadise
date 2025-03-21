@@ -5,7 +5,7 @@ See https://nodemailer.com/message/calendar-events/
 "
 Class {
 	#name : #CpNodeJSNodemailerIcalEvent,
-	#superclass : #CpNodeJSNodemailerOptions,
+	#superclass : #CpAbstractOptions,
 	#category : #'CodeParadise-NodeJS-Nodemailer-Support'
 }
 
