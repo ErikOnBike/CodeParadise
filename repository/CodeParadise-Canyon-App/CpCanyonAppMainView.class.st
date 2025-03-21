@@ -520,7 +520,9 @@ CpCanyonAppMainView >> loadMenu [
 { #category : #actions }
 CpCanyonAppMainView >> menuClose [
 
-	menu close await
+	"Close the menu (do not await the closing)"
+
+	menu close
 ]
 
 { #category : #accessing }
