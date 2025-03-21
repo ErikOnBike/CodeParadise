@@ -112,17 +112,18 @@ CpRestApiClient >> initializeWithBaseUrl: aString [
 ]
 
 { #category : #operations }
-CpRestApiClient >> patchUri: uriString body: bodyString timeoutPeriod: anInteger [
+CpRestApiClient >> patchUri: uriString body: anObject timeoutPeriod: anInteger [
 
 	"Perform the PATCH operation with the URI and body and answer the response content"
 
-	^ self performOperation: #PATCH uri: uriString queryParams: nil body: bodyString timeoutPeriod: anInteger
+	^ self performOperation: #PATCH uri: uriString queryParams: nil body: anObject timeoutPeriod: anInteger
 ]
 
 { #category : #private }
-CpRestApiClient >> performOperation: aSymbol uri: uriString queryParams: aDictionary body: bodyString timeoutPeriod: anInteger [
+CpRestApiClient >> performOperation: aSymbol uri: uriString queryParams: aDictionary body: anObject timeoutPeriod: anInteger [
 
-	"Perform the specified operation with URI and body (can be nil) and answer the response content"
+	"Perform the specified operation with URI and body (can be nil) and answer the response content.
+	The body object can be a String, ArrayBuffer, Blob, File, FormData or a ReadableStream."
 
 	| headers url fetch response |
 
@@ -160,7 +161,7 @@ CpRestApiClient >> performOperation: aSymbol uri: uriString queryParams: aDictio
 		withOptions: {
 			#method -> aSymbol.
 			#headers -> headers.
-			#body -> bodyString.
+			#body -> anObject.
 			#mode -> #cors.
 			#redirect -> #error.
 			#priority -> #high.
@@ -188,19 +189,19 @@ CpRestApiClient >> performTimeoutPeriod [
 ]
 
 { #category : #operations }
-CpRestApiClient >> postUri: uriString body: bodyString timeoutPeriod: anInteger [
+CpRestApiClient >> postUri: uriString body: anObject timeoutPeriod: anInteger [
 
 	"Perform the POST operation with the URI and body and answer the response content"
 
-	^ self performOperation: #POST uri: uriString queryParams: nil body: bodyString timeoutPeriod: anInteger
+	^ self performOperation: #POST uri: uriString queryParams: nil body: anObject timeoutPeriod: anInteger
 ]
 
 { #category : #operations }
-CpRestApiClient >> putUri: uriString body: bodyString timeoutPeriod: anInteger [
+CpRestApiClient >> putUri: uriString body: anObject timeoutPeriod: anInteger [
 
 	"Perform the PUT operation with the URI and body and answer the response content"
 
-	^ self performOperation: #PUT uri: uriString queryParams: nil body: bodyString timeoutPeriod: anInteger
+	^ self performOperation: #PUT uri: uriString queryParams: nil body: anObject timeoutPeriod: anInteger
 ]
 
 { #category : #accessing }
