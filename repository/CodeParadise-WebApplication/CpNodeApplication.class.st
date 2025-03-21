@@ -21,3 +21,15 @@ CpNodeApplication >> addInstallationChecker [
 	environment
 		addInstallationChecker: CpEnvironmentMethodInstallationChecker nodejs
 ]
+
+{ #category : #actions }
+CpNodeApplication >> load [
+
+	"Perform any actions needed when the ClientEnvironment belonging to the receiver loaded (for the first time)"
+
+	super load.
+
+	"Install the extension method to convert a Block to a JavaScriptFunction. Because of circular dependencies
+	this can't be done by defining that method as an extension method."
+	self installMethod: BlockClosure >> #asJavaScriptFunction
+]

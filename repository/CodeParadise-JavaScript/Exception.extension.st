@@ -1,6 +1,6 @@
 Extension { #name : #Exception }
 
-{ #category : #'*CodeParadise-RemoteEnvironment' }
+{ #category : #'*CodeParadise-JavaScript' }
 Exception >> asJavaScriptError [
 
 	"Answer the receiver's JavaScript representation or nil if none is availble"
@@ -12,7 +12,7 @@ Exception >> asJavaScriptError [
 		ifFalse: [ nil ]
 ]
 
-{ #category : #'*CodeParadise-RemoteEnvironment' }
+{ #category : #'*CodeParadise-JavaScript' }
 Exception >> cause [
 
 	"Answer the cause of the Exception or nil if no underlying cause
@@ -25,7 +25,7 @@ Exception >> cause [
 		ifFalse: [ nil ]
 ]
 
-{ #category : #'*CodeParadise-RemoteEnvironment' }
+{ #category : #'*CodeParadise-JavaScript' }
 Exception >> isErrorObject [
 
 	"Answer whether the receiver represents an Error"
@@ -35,7 +35,7 @@ Exception >> isErrorObject [
 	^ true
 ]
 
-{ #category : #'*CodeParadise-RemoteEnvironment' }
+{ #category : #'*CodeParadise-JavaScript' }
 Exception >> isSqliteError [
 
 	"Answer whether the receiver represents a Sqlite Error"
@@ -45,7 +45,7 @@ Exception >> isSqliteError [
 	^ false
 ]
 
-{ #category : #'*CodeParadise-RemoteEnvironment' }
+{ #category : #'*CodeParadise-JavaScript' }
 Exception >> rootCause [
 
 	"Answer the root cause of the Exception. The root cause is the 'lowest'

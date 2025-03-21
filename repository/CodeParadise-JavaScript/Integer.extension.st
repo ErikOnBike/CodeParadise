@@ -1,7 +1,7 @@
-Extension { #name : #Boolean }
+Extension { #name : #Integer }
 
-{ #category : #'*CodeParadise-RemoteEnvironment' }
-Boolean >> asJsonObjectValue [
+{ #category : #'*CodeParadise-JavaScript' }
+Integer >> asJsonObjectValue [
 
 	"Answer a representation of the receiver to be used in a JSON Object.
 

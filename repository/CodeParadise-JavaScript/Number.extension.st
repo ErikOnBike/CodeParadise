@@ -1,6 +1,6 @@
 Extension { #name : #Number }
 
-{ #category : #'*CodeParadise-RemoteEnvironment' }
+{ #category : #'*CodeParadise-JavaScript' }
 Number >> asJsonObjectValue [
 
 	"Answer a representation of the receiver to be used in a JSON Object.

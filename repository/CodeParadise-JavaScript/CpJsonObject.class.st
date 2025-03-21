@@ -1,6 +1,10 @@
 "
 I represent a JSON structure. I do NOT represent individual JSON
 values (like String or Integer), but my properties do.
+If requested I can also be a little more relaxed and allow the
+use of Functions as property values too. This is useful in
+situations where option Object can be specified in which so called
+handlers are specified.
 
 The properties of my instances can be accessed like a Dictionary.
 All keys are (converted to) Strings.
@@ -15,6 +19,9 @@ All values should be one of:
 
 See also: https://www.json.org
 
+To allow supporting JavaScriptFunctions, create an instance using one
+of the instance creation methods containing #relaxed in the selector.
+
 Implementation:
 I wrap a Dictionary or an OrderedDictionary and perform any
 required conversions for keys and values.
@@ -24,9 +31,10 @@ Class {
 	#name : #CpJsonObject,
 	#superclass : #Object,
 	#instVars : [
-		'dict'
+		'dict',
+		'allowFunctions'
 	],
-	#category : #'CodeParadise-RemoteEnvironment-Support'
+	#category : #'CodeParadise-JavaScript-Support'
 }
 
 { #category : #'instance creation' }
@@ -52,6 +60,39 @@ CpJsonObject class >> new [
 ]
 
 { #category : #'instance creation' }
+CpJsonObject class >> newRelaxed [
+
+	"Answer a new empty JSON structure"
+
+	^ self relaxedWrap: Dictionary new
+]
+
+{ #category : #'instance creation' }
+CpJsonObject class >> relaxedFromDictionary: aDictionary [
+
+	"Answer an instance of the receiver which also allows JavaScript Functions"
+
+	^ self basicNew
+		beRelaxed ;
+		initializeWithDictionary: aDictionary ;
+		yourself
+]
+
+{ #category : #'instance creation' }
+CpJsonObject class >> relaxedWrap: aDictionary [
+
+	"Answer an instance of the receiver wrapping the specified Dictionary.
+	The instance allows the use of JavaScript Functions as property values.
+	This assumes the Dictionary already is JSON compatible (see class comment
+	for an explanation)."
+
+	^ self basicNew
+		beRelaxed ;
+		initializeWithWrappedDictionary: aDictionary ;
+		yourself
+]
+
+{ #category : #'instance creation' }
 CpJsonObject class >> wrap: aDictionary [
 
 	"Answer an instance of the receiver wrapping the specified Dictionary.
@@ -68,7 +109,7 @@ CpJsonObject >> add: anAssociation [
 
 	"Add a new key/value pair, maintaining the JSON structure"
 
-	^ dict add: anAssociation key asString -> anAssociation value asJsonObjectValue
+	^ dict add: anAssociation key asString -> (self jsonObjectValueOf: anAssociation value)
 ]
 
 { #category : #converting }
@@ -80,12 +121,29 @@ CpJsonObject >> asDictionary [
 { #category : #converting }
 CpJsonObject >> asJsonObjectValue [
 
-	"Answer a representation of the receiver to be used in a JSON Object.
+	"Answer a representation of the receiver to be used in a JSON Object"
 
-	Implementation:
-	Since my instance variable #dict is already created using #asJsonObjectValue
+	"Make values strict if the receiver is relaxed"
+	allowFunctions ifTrue: [ ^ dict asJsonObjectValue ].
+
+	"Since my instance variable #dict is already created using #asJsonObjectValue
 	and is maintained as such, simply answer a copy."
+	^ dict copy
+]
 
+{ #category : #converting }
+CpJsonObject >> asRelaxedJsonObjectValue [
+
+	"Answer a representation of the receiver to be used in a relaxed JSON Object.
+	This means the representation allows JavaScriptFunction property values too.
+
+	JSON values can either be: String, Number (Float or Integer), Boolean, nil,
+	a Dictionary-like value (Dictionary, OrderedDictionary or subclasses)
+	or an Array of such elements.
+	This variant accepts JavaScriptFunction values too."
+
+	"Since my instance variable #dict is already created using #asJsonObjectValue or
+	using #asRelaxedJsonObjectValue and is maintained as such, simply answer a copy."
 	^ dict copy
 ]
 
@@ -123,7 +181,7 @@ CpJsonObject >> at: anObject ifAbsentPut: aBlock [
 	"Answer property value or evaluate the specified Block and set the property to this value.
 	Maintain the JSON structure by using a String key and converting the value using #asJsonObjectValue"
 
-	^ dict at: anObject asString ifAbsentPut: [ aBlock value asJsonObjectValue ]
+	^ dict at: anObject asString ifAbsentPut: [ self jsonObjectValueOf: aBlock value ]
 ]
 
 { #category : #accessing }
@@ -153,7 +211,7 @@ CpJsonObject >> at: anObject ifPresent: presentBlock ifAbsentPut: absentBlock [
 	^ dict
 		at: anObject asString
 		ifPresent: presentBlock
-		ifAbsentPut: [ absentBlock value asJsonObjectValue ]
+		ifAbsentPut: [ self jsonObjectValueOf: absentBlock value ]
 ]
 
 { #category : #accessing }
@@ -162,7 +220,7 @@ CpJsonObject >> at: keyObject put: valueObject [
 	"Update property value.
 	Maintain the JSON structure by using a String key and converting the value using #asJsonObjectValue"
 
-	^ dict at: keyObject asString put: valueObject asJsonObjectValue
+	^ dict at: keyObject asString put: (self jsonObjectValueOf: valueObject)
 ]
 
 { #category : #accessing }
@@ -181,6 +239,20 @@ CpJsonObject >> atPath: aCollection [
 					ifFalse: [ self error: ('indexing JSON object {1} for non indexable field {2} of {3}' format: { self printString . index printString . aCollection printString }) ].
 				jsonObject at: index ifAbsent: [ nil ] ]
 			ifNil: [ ^ nil ] ]
+]
+
+{ #category : #private }
+CpJsonObject >> beRelaxed [
+
+	"Make the receiver relaxed wrt property values.
+	This makes the receiver accept JavaScriptFunctions as well.
+
+	DO NOT call this method once the receiver is initialized.
+	It should be made relaxt before initialization."
+
+	allowFunctions ifNotNil: [ self error: 'The JSON Object can only be made relaxed before initialization' ].
+
+	allowFunctions := true
 ]
 
 { #category : #'accessing - dictionary access' }
@@ -222,6 +294,21 @@ CpJsonObject >> includesKey: anObject [
 ]
 
 { #category : #initialization }
+CpJsonObject >> initialize [
+
+	"Initialize the receiver.
+
+	Implementation:
+	Set the #allowFunctions instance variable if not set.
+	It will normally be set before actual initialization.
+	See the instance creation methods on the class side."
+
+	super initialize.
+
+	allowFunctions ifNil: [ allowFunctions := false ]
+]
+
+{ #category : #initialization }
 CpJsonObject >> initializeWithDictionary: aDictionary [
 
 	self initialize.
@@ -251,6 +338,16 @@ CpJsonObject >> isStructuralElement: anObject [
 		anObject isArray or: [
 			anObject class = Dictionary or: [
 				anObject class = OrderedDictionary ] ] ]
+]
+
+{ #category : #private }
+CpJsonObject >> jsonObjectValueOf: anObject [
+
+	"Sanitize the specified Object based on the receiver's acceptance of JavaScript Functions"
+
+	^ allowFunctions
+		ifTrue: [ anObject asRelaxedJsonObjectValue ]
+		ifFalse: [ anObject asJsonObjectValue ]
 ]
 
 { #category : #'accessing - dictionary access' }

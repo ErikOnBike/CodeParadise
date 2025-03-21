@@ -12,24 +12,3 @@ OrderedDictionary >> asDictionary [
 
 	^ self
 ]
-
-{ #category : #'*CodeParadise-RemoteEnvironment' }
-OrderedDictionary >> asJsonObjectValue [
-
-	"Answer a representation of the receiver to be used in a JSON Object.
-
-	Implementation:
-	Since values of the receiver's properties can be any value,
-	convert these to JSON Object values."
-
-	<applicationExtension>
-
-	| result |
-
-	result := OrderedDictionary new.
-
-	self keysAndValuesDo: [ :key :value |
-		result at: key asString put: value asJsonObjectValue ].
-
-	^ result
-]

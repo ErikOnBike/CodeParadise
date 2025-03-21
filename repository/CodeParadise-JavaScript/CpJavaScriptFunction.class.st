@@ -85,6 +85,20 @@ CpJavaScriptFunction >> asJavaScriptFunction [
 	^ self
 ]
 
+{ #category : #converting }
+CpJavaScriptFunction >> asRelaxedJsonObjectValue [
+
+	"Answer a representation of the receiver to be used in a relaxed JSON Object.
+	This means the representation allows JavaScriptFunction property values too.
+
+	JSON values can either be: String, Number (Float or Integer), Boolean, nil,
+	a Dictionary-like value (Dictionary, OrderedDictionary or subclasses)
+	or an Array of such elements.
+	This variant accepts JavaScriptFunction values too."
+
+	^ self
+]
+
 { #category : #operations }
 CpJavaScriptFunction >> call: anObject withArguments: anArray [
 

@@ -1,7 +1,7 @@
-Extension { #name : #Collection }
+Extension { #name : #Boolean }
 
-{ #category : #'*CodeParadise-RemoteEnvironment' }
-Collection >> asJsonObjectValue [
+{ #category : #'*CodeParadise-JavaScript' }
+Boolean >> asJsonObjectValue [
 
 	"Answer a representation of the receiver to be used in a JSON Object.
 
@@ -11,6 +11,5 @@ Collection >> asJsonObjectValue [
 
 	<applicationExtension>
 
-	^ Array new: self size streamContents: [ :stream |
-		self do: [ :each | stream nextPut: each asJsonObjectValue ] ]
+	^ self
 ]
