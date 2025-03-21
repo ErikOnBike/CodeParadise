@@ -1,5 +1,5 @@
 Class {
 	#name : #CpChangeEvent,
-	#superclass : #CpUserInterfaceEvent,
+	#superclass : #CpEvent,
 	#category : #'CodeParadise-WebApplication-Events'
 }
