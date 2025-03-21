@@ -610,7 +610,7 @@ CpCanyonAppMainView >> selectAction: aString from: aCollection [
 
 	^ (actionSheet
 		header: aString ;
-		buttons: aCollection asJsonObjectValue ;
+		buttons: aCollection asRelaxedJsonObjectValue ;
 		present ;
 		onDidDismiss) await
 ]
