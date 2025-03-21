@@ -23,6 +23,14 @@ Class {
 	#category : #'CodeParadise-Canyon-App-View'
 }
 
+{ #category : #accessing }
+CpCanyonAppPage class >> app [
+
+	"Convenience method to access the app (instance)"
+
+	^ CpCanyonAppMainView current
+]
+
 { #category : #'web resources' }
 CpCanyonAppPage class >> globalStyle [
 
