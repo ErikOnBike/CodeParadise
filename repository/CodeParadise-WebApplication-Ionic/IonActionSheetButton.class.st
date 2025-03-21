@@ -25,7 +25,7 @@ IonActionSheetButton >> data [
 { #category : #accessing }
 IonActionSheetButton >> data: anObject [
 
-	options at: #data put: anObject asJsonObjectValue
+	options at: #data put: anObject
 ]
 
 { #category : #accessing }
