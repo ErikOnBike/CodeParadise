@@ -234,10 +234,7 @@ CpDragEvent class >> preventNativeDragEvents [
 	"The native drag support of Some browsers (like Firefox) need to be prevented"
 
 	CpHtmlElement documentBody
-		apply: #addEventListener
-		withArguments: {
-			'dragstart' .
-			CpJavaScriptFunction wrap: [ :event | event preventDefault ] }
+		addEventListener: #dragstart handler: [ :event | event preventDefault ]
 ]
 
 { #category : #announcing }
