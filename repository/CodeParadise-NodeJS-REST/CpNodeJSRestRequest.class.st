@@ -93,6 +93,23 @@ CpNodeJSRestRequest >> body [
 ]
 
 { #category : #accessing }
+CpNodeJSRestRequest >> contentLength [
+
+	"Answer the Content-Length header of the receiver (as a Number)"
+
+	^ (self headerAt: 'content-length')
+		ifNotNil: [ :lengthString | lengthString asNumberOrNil ]
+]
+
+{ #category : #accessing }
+CpNodeJSRestRequest >> contentType [
+
+	"Answer the Content-Type header of the receiver"
+
+	^ self headerAt: 'content-type'
+]
+
+{ #category : #accessing }
 CpNodeJSRestRequest >> headerAt: aSymbol [
 
 	"Answer the value of the specified header
