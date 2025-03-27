@@ -8,13 +8,13 @@ Class {
 	#category : #'CodeParadise-JavaScript-Shared'
 }
 
-{ #category : #actions }
+{ #category : #operations }
 CpBrowserReadableStream >> cancel [
 
 	^ self cancelWithReason: nil
 ]
 
-{ #category : #actions }
+{ #category : #operations }
 CpBrowserReadableStream >> cancelWithReason: aString [
 
 	"Returns a Promise that resolves when the stream is canceled. Calling this method signals a loss of interest in the stream by a consumer. The supplied reason argument will be given to the underlying source, which may or may not use it."
@@ -22,7 +22,7 @@ CpBrowserReadableStream >> cancelWithReason: aString [
 	^ self apply: #cancel withArguments: { aString } resultAs: CpJavaScriptPromise
 ]
 
-{ #category : #actions }
+{ #category : #operations }
 CpBrowserReadableStream >> getReader [
 
 	"Creates a reader and locks the stream to it. While the stream is locked, no other reader can be acquired until this one is released."
