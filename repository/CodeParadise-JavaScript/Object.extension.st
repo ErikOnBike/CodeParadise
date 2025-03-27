@@ -31,6 +31,12 @@ Object >> asRelaxedJsonObjectValue [
 ]
 
 { #category : #'*CodeParadise-JavaScript' }
+Object >> consoleLog [
+
+	self traceCr: self printString
+]
+
+{ #category : #'*CodeParadise-JavaScript' }
 Object >> isErrorObject [
 
 	"Answer whether the receiver represents an Error"
