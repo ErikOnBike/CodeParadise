@@ -56,6 +56,16 @@ CpBrowserBlob >> size [
 ]
 
 { #category : #accessing }
+CpBrowserBlob >> stream [
+
+	"Returns a ReadableStream that can be used to read the contents of the Blob.
+
+	Return: ReadableStream"
+
+	^ self apply: #stream resultAs: CpBrowserReadableStream
+]
+
+{ #category : #accessing }
 CpBrowserBlob >> text [
 
 	"Returns a promise that resolves with a string containing the entire contents of the Blob interpreted as UTF-8 text."
