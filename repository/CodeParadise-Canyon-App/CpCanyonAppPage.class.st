@@ -170,6 +170,14 @@ CpCanyonAppPage >> hasModel [
 ]
 
 { #category : #testing }
+CpCanyonAppPage >> initialize [
+
+	super initialize.
+
+	self classed: #public if: self isPublic
+]
+
+{ #category : #testing }
 CpCanyonAppPage >> isHome [
 
 	"Answer whether the receiver is the home page (should be true for one page)"
