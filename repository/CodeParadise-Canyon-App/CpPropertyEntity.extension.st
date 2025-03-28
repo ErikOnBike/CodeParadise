@@ -49,7 +49,7 @@ CpPropertyEntity >> pageClass [
 
 	"Answer a Page class which can be used to show the receiver"
 
-	^ CpPropertyModelPage
+	^ self shouldBeImplemented
 ]
 
 { #category : #'*CodeParadise-Canyon-App' }
