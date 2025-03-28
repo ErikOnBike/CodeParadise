@@ -639,6 +639,25 @@ CpDomElement >> id: aString [
 ]
 
 { #category : #querying }
+CpDomElement >> ifEmpty: aBlock [
+
+	"Answer the children of the receiver or the evaluation of the specified Block
+	if there are no children"
+
+	^ self children
+		ifEmpty: aBlock
+]
+
+{ #category : #querying }
+CpDomElement >> ifNotEmpty: aBlock [
+
+	"Answer an empty collection or the evaluation of the specified Block if the receiver has children"
+
+	^ self children
+		ifNotEmpty: aBlock
+]
+
+{ #category : #querying }
 CpDomElement >> indexInParent [
 
 	^ self parent
@@ -703,12 +722,28 @@ CpDomElement >> isDescendantOf: aDomElement [
 	self primitiveFailed
 ]
 
+{ #category : #testing }
+CpDomElement >> isEmpty [
+
+	"Answer whether the receiver is childless"
+
+	^ self children isEmpty
+]
+
 { #category : #announcing }
 CpDomElement >> isListeningTo: anEventClass [
 
 	"Answer whether the receiver is listening for the specified event type"
 
 	^ anEventClass isListenedToOn: self
+]
+
+{ #category : #testing }
+CpDomElement >> isNotEmpty [
+
+	"Answer whether the receiver has children"
+
+	^ self children isNotEmpty
 ]
 
 { #category : #testing }
