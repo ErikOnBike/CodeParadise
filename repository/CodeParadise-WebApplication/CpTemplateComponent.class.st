@@ -144,7 +144,7 @@ CpTemplateComponent class >> template [
 
 	<webResource: #html>
 
-	^ ''
+	^ '<slot></slot>'
 ]
 
 { #category : #updating }
