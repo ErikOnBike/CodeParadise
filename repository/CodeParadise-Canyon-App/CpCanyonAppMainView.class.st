@@ -189,17 +189,9 @@ CpCanyonAppMainView class >> style [
 	^ '*, *:before, *:after {
 	box-sizing: border-box;
 }
-#container {
+:host {
 	height: 100%;
 }'
-]
-
-{ #category : #'web resources' }
-CpCanyonAppMainView class >> template [
-
-	<webResource: #html>
-
-	^ '<div id="container"><slot></slot></div>'
 ]
 
 { #category : #accessing }
