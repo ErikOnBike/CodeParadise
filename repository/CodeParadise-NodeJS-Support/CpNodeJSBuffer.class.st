@@ -235,6 +235,17 @@ CpNodeJSBuffer >> pop [
 	^ self apply: #pop
 ]
 
+{ #category : #printing }
+CpNodeJSBuffer >> printOn: aStream [
+
+	"Prevent writing the full content by overriding this method"
+
+	aStream
+		nextPutAll: 'Buffer(length: ' ;
+		print: self length ;
+		nextPut: $)
+]
+
 { #category : #operations }
 CpNodeJSBuffer >> push: anObject [
 
