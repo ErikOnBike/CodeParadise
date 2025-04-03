@@ -1293,7 +1293,8 @@ CpDomElement >> when: anAnnouncementClass forkedSend: aSymbol to: anObject [
 	Be aware that the event handling should not rely on some ordering or
 	timing. These become unpredictable because of awaiting results."
 
-	^ self announcer when: anAnnouncementClass forkedSend: aSymbol to: anObject
+	^ self announcer
+		when: anAnnouncementClass forkedSend: aSymbol to: anObject
 ]
 
 { #category : #announcing }
@@ -1305,5 +1306,6 @@ CpDomElement >> when: anAnnouncementClass send: aSymbol to: anObject [
 
 	See CpDomElementAnnouncer>>#when:send:to:"
 
-	^ self announcer when: anAnnouncementClass send: aSymbol to: anObject
+	^ self announcer
+		when: anAnnouncementClass send: aSymbol to: anObject
 ]
