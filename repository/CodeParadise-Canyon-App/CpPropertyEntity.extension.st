@@ -144,6 +144,16 @@ CpPropertyEntity >> restDeleteUsingUri: aString timeoutPeriod: anInteger [
 ]
 
 { #category : #'*CodeParadise-Canyon-App' }
+CpPropertyEntity class >> restRead [
+
+	"Read (all) the resources of the receiver's 'type'"
+
+	^ self
+		restReadUsingUri: self uri
+		timeoutPeriod: self restReadTimeoutPeriod
+]
+
+{ #category : #'*CodeParadise-Canyon-App' }
 CpPropertyEntity >> restRead [
 
 	"Read the resource using its identity"
@@ -158,12 +168,30 @@ CpPropertyEntity >> restRead [
 ]
 
 { #category : #'*CodeParadise-Canyon-App' }
+CpPropertyEntity class >> restReadTimeoutPeriod [
+
+	"Answer the read timeout period in milliseconds"
+
+	^ self restApiClient
+		requestTimeoutPeriod
+]
+
+{ #category : #'*CodeParadise-Canyon-App' }
 CpPropertyEntity >> restReadTimeoutPeriod [
 
 	"Answer the read timeout period in milliseconds"
 
 	^ self restApiClient
 		requestTimeoutPeriod
+]
+
+{ #category : #'*CodeParadise-Canyon-App' }
+CpPropertyEntity class >> restReadUsingUri: aString timeoutPeriod: anInteger [
+
+	"Read (all) the resources of the receiver's 'type' using the specified URI"
+
+	^ (self restApiClient getUri: aString timeoutPeriod: anInteger) collect: [ :each |
+		self fromDictionary: each ]
 ]
 
 { #category : #'*CodeParadise-Canyon-App' }
