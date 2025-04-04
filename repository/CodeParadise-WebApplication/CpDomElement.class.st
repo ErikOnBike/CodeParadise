@@ -114,13 +114,9 @@ CpDomElement class >> globalApply: aSymbol withArguments: anArray [
 { #category : #'instance creation' }
 CpDomElement class >> new [
 
-	"Instances of the receiver are created through #newWithTag: or when querying children of existing DOM elements
-	or are created by querying the DOM using #firstDescendantMatching: or #allDescendantsMatching:
-	Subclasses might override this behavior and create specific instances."
+	"Instances of the receiver should be created through #newWithTag:"
 
-	self requiresInstantiationWithTag
-		ifTrue: [ self errorNewReplacedBy: #newWithTag: ]
-		ifFalse: [ ^ super new ]
+	self errorNewReplacedBy: #newWithTag:
 ]
 
 { #category : #'instance creation' }
@@ -162,12 +158,6 @@ CpDomElement class >> registerNamespace: namespaceString forPrefix: prefixString
 
 	<primitive: 'primitiveDomElementRegisterNamespace:forPrefix:' module: 'CpDOMPlugin'>
 	self primitiveFailed
-]
-
-{ #category : #testing }
-CpDomElement class >> requiresInstantiationWithTag [
-
-	^ true
 ]
 
 { #category : #support }
