@@ -84,7 +84,7 @@ CpViewInspectorView class >> showAlert: aString [
 			slot: 'icon' ;
 			yourself) ;
 		textContent: aString ;
-		duration: 1500 ;
+		duration: 2500 ;
 		beCountdownRightToLeft ;
 		toast
 ]
@@ -429,6 +429,25 @@ CpViewInspectorView >> makeTopView [
 	self parent appendChild: self remove
 ]
 
+{ #category : #'instance creation' }
+CpViewInspectorView >> newInstanceFor: aClass [
+
+	"Answer a new instance of the specified TemplateComponent class.
+
+	Implementation:
+	Not all classes allow instantation, check for this and report any errors."
+
+	| instance |
+
+	instance := [ aClass new ] on: Error do: [ nil ].
+
+	instance
+		ifNotNil: [ self class showAlert: 'WebComponent ', aClass name, ' is not present in the current page/DOM, a new instance is created' ]
+		ifNil: [ self class showErrorAlert: 'WebComponent ', aClass name, ' can''t be instantiated and no instance is present in the current page/DOM' ].
+
+	^ instance
+]
+
 { #category : #rendering }
 CpViewInspectorView >> retrieveHtmlTags [
 
@@ -477,7 +496,7 @@ CpViewInspectorView >> showCodeForClassNamed: aString [
 		each name = aString
 			ifTrue: [
 				self hideInput.
-				self showCodeFor: (each first ifNil: [ each new ]).
+				self showCodeFor: (each first ifNil: [ self newInstanceFor: each ]).
 				^ self ] ].
 
 	self class showErrorAlert: 'Class not found: ', aString printString
