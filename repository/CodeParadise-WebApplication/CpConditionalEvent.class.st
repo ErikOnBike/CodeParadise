@@ -152,3 +152,11 @@ CpConditionalEvent >> removeListenerFrom: anElement [
 
 	eventClass removeListenerFrom: anElement withConditions: (conditions ifNil: [ #() ])
 ]
+
+{ #category : #accessing }
+CpConditionalEvent >> type [
+
+	"Answer the event type of the receiver"
+
+	^ eventClass type
+]
