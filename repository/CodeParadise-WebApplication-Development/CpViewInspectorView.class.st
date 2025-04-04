@@ -388,12 +388,13 @@ CpViewInspectorView >> initialize [
 
 	self appendChild: CpViewCodeInspectorView new atSlotNamed: #end.
 
-	"Show this info delayed, so it will appear at the bottom of the console"
-	CpHtmlElement documentBody
+	"Set the key handler on the Window"
+	CpBrowserWindow current
 		when: (CpKeyDownEvent key: 'i') & CpActionKeyDown send: #handleToggle: to: self ;
 		when: (CpKeyDownEvent key: 'b') & CpActionKeyDown send: #handleBrowse: to: self ;
 		when: CpKeyPressEvent escape send: #handleEscape: to: self.
 
+	"Show this info delayed, so it will appear at the bottom of the console"
 	CpGlobalThis setTimeout: 1000 thenDo: [
 	self traceCr: ('
 ===================== Installed ViewInspector tool =====================
