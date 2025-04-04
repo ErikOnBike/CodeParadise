@@ -76,7 +76,7 @@ CpBrowserSnapshot class >> postInstall [
 	CpHtmlElement documentAddScript: self downloadImageScript.
 
 	"Install the keyboard handler to perform the snapshot operation"
-	CpHtmlElement document
+	CpBrowserWindow current
 		when: (CpKeyDownEvent fromString: 'X-S-s') send: #saveSnapshot: to: self
 ]
 

@@ -591,7 +591,7 @@ CpViewCodeInspectorView >> initialize [
 
 	styleType := #style.
 
-	CpHtmlElement document
+	CpBrowserWindow current
 		when: (CpKeyDownEvent fromString: 'X-s') send: #preventDefault: to: self ;
 		when: (CpKeyDownEvent fromString: 'X-S-s') send: #preventDefault: to: self.
 
