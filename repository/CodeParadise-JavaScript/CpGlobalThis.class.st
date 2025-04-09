@@ -89,9 +89,9 @@ CpGlobalThis class >> decodeURIComponent: aString [
 { #category : #'deferred message' }
 CpGlobalThis class >> defer: aBlock [
 
-	"Evaluate the specified Block on a next tick"
+	"Evaluate the specified Block with a small delay (at least on the next tick)"
 
-	self setTimeout: 0 thenDo: aBlock
+	self setTimeout: 10 thenDo: aBlock
 ]
 
 { #category : #operations }

@@ -478,9 +478,7 @@ CpDomElement >> defer: aBlock [
 	"Evaluate the specified block with a small delay.
 	For example to prevent resulting events from overlapping."
 
-	aBlock asTransition
-		duration: 0 ;
-		startDelayedBy: 10
+	CpGlobalThis defer: aBlock
 ]
 
 { #category : #removing }
