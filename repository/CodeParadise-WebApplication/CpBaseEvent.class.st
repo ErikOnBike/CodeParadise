@@ -58,6 +58,12 @@ CpBaseEvent class >> addListenerTo: anElement withConditions: aCollection [
 	self addListenerTo: anElement
 ]
 
+{ #category : #announcing }
+CpBaseEvent class >> asAnnouncement [
+
+	^ self new
+]
+
 { #category : #'conditional events' }
 CpBaseEvent class >> asConditionalEvent [
 
