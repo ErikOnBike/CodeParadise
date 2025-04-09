@@ -162,7 +162,7 @@ CpServerEnvironment >> addClass: aClass [
 	installationMutex critical: [
 
 		"Select all the required classes in 'dependency order' (which are not already installed)"
-		self allRequiredClassesFromClass: aClass do: [ :each |
+		self allReferencedClassesFromClass: aClass do: [ :each |
 
 			"If an installation checker is installed it will check if the class
 			is allowed. An error is raised here if it is not.
@@ -237,7 +237,7 @@ CpServerEnvironment >> addMethod: aCompiledMethod [
 ]
 
 { #category : #'installing - support' }
-CpServerEnvironment >> allRequiredClassesFromClass: aClass do: aBlock [
+CpServerEnvironment >> allReferencedClassesFromClass: aClass do: aBlock [
 
 	"Evaluate the specified Block for the specified Class and all Classes it dependents on.
 	Process the class hierarchy first and then the referenced Classes."
@@ -246,15 +246,15 @@ CpServerEnvironment >> allRequiredClassesFromClass: aClass do: aBlock [
 
 	processing := OrderedCollection new.
 
-	"Process the Class and its superclasses which are unknown (not installed yet)"
-	self withAllUnknownSuperclassesFromClass: aClass do: [ :each |
+	"Process the Class and its required classes (superclasses and the ones needed for initialization)"
+	self withAllRequiredClassesFromClass: aClass do: [ :each |
 		aBlock value: each.
 		processing add: each ].
 
 	"Process the dependent Classes from the Class and its superclasses"
 	processing do: [ :each |
 		self referencedClassesFromClass: each do: [ :eachDependent |
-			self allRequiredClassesFromClass: eachDependent do: aBlock ] ]
+			self allReferencedClassesFromClass: eachDependent do: aBlock ] ]
 ]
 
 { #category : #announcing }
@@ -552,6 +552,27 @@ CpServerEnvironment >> referencedClassesFromClass: aClass do: aBlock [
 ]
 
 { #category : #'installing - support' }
+CpServerEnvironment >> referencedClassesFromClassMethod: aSymbol in: aClass do: aBlock [
+
+	"Evaluate the specified Block for the specified method.
+	Ignore if such a method does not exist in the specified Class."
+
+	aClass classSide
+		compiledMethodAt: aSymbol ifPresent: [ :compiledMethod |
+			self referencedClassesFromMethod: compiledMethod do: aBlock ]
+]
+
+{ #category : #'installing - support' }
+CpServerEnvironment >> referencedClassesFromClassMethods: aCollection in: aClass do: aBlock [
+
+	"Evaluate the specified Block for the specified methods.
+	Ignore any methods that do not exist on the specified Class."
+
+	aCollection do: [ :each |
+		self referencedClassesFromClassMethod: each in: aClass do: aBlock ]
+]
+
+{ #category : #'installing - support' }
 CpServerEnvironment >> referencedClassesFromMethod: aCompiledMethod do: aBlock [
 
 	"Evaluate the specified Block for the specified CompiledMethod.
@@ -804,9 +825,15 @@ CpServerEnvironment >> when: anAnnouncementClass send: aSymbol to: anObject [
 ]
 
 { #category : #'installing - support' }
-CpServerEnvironment >> withAllUnknownSuperclassesFromClass: aClass do: aBlock [
+CpServerEnvironment >> withAllRequiredClassesFromClass: aClass do: aBlock [
 
-	"Evaluate the specified Block for the specified Class and all its unknown superclasses"
+	"Evaluate the specified Block for the specified Class, its superclasses
+	and the classes required for initialization.
+
+	Implementation:
+	The classes referenced in the class side methods #beLoaded, #postInstall
+	and #postInstallOnce are considered required classes. These need to be
+	present/installed before the specified Class is installed."
 
 	"Validate the class is not obsolete. Sometimes during class updates, including Iceberg operations,
 	a class can become obsolete. When a debugger in the CodeParadise class loader code is triggered
@@ -819,9 +846,15 @@ CpServerEnvironment >> withAllUnknownSuperclassesFromClass: aClass do: aBlock [
 	(self clientKnowsClass: aClass)
 		ifTrue: [ ^ self ].
 
-	"First handle the unknown superclasses"
-	self withAllUnknownSuperclassesFromClass: aClass superclass do: aBlock.
+	"First, handle the classes required for initialization"
+	self
+		referencedClassesFromClassMethods: #(beLoaded postInstall postInstallOnce)
+		in: aClass
+		do: [ :eachClass | self withAllRequiredClassesFromClass: eachClass do: aBlock ].
 
-	"Now handle the class itself"
+	"Secondly, handle the superclasses"
+	self withAllRequiredClassesFromClass: aClass superclass do: aBlock.
+
+	"Finally, handle the class itself"
 	aBlock value: aClass
 ]
