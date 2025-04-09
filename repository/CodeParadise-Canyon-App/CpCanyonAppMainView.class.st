@@ -357,7 +357,8 @@ CpCanyonAppMainView >> load [
 			IonItem.
 			IonLoading.
 			IonToast.
-			IonAlert }
+			IonAlert.
+			IonButton }
 		do: [ self loadApp ]
 ]
 
