@@ -101,18 +101,8 @@ CpCanyonAppPage class >> style [
 }
 :host {
 	background-color: var(--ion-background-color);
-}
-#container {
 	height: 100%;
 }'
-]
-
-{ #category : #'web resources' }
-CpCanyonAppPage class >> template [
-
-	<webResource: #html>
-
-	^ '<div id="container"><slot></slot></div>'
 ]
 
 { #category : #'instance creation' }
