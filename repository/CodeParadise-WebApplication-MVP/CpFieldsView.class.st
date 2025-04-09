@@ -98,7 +98,7 @@ CpFieldsView >> handleChangeEvent: aChangeEvent forField: aSymbol [
 
 	"Handle a change event for the specified field.
 	A change event is triggered when an input's value is committed or the input
-	lost focus. (See also #onInputEvent:forField: and
+	lost focus. (See also #handleInputEvent:forField: and
 	https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/change_event)"
 
 	| debounceTransition |
@@ -146,7 +146,7 @@ CpFieldsView >> handleInputEvent: anInputEvent forField: aSymbol [
 
 	"Handle an input event for the specified field.
 	An input event is triggered when an input's value is changed.
-	(See also #onChangeEvent:forField: and
+	(See also #handleChangeEvent:forField: and
 	https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/input_event)"
 
 	| debounceTransition |
