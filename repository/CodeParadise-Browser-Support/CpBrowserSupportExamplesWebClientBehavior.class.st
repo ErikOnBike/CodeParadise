@@ -7,6 +7,12 @@ Class {
 	#category : #'CodeParadise-Browser-Support-Examples'
 }
 
+{ #category : #'class initialization' }
+CpBrowserSupportExamplesWebClientBehavior class >> beLoaded [
+
+	CpBrowserSpeechSynthesisEvent beLoaded
+]
+
 { #category : #accessing }
 CpBrowserSupportExamplesWebClientBehavior >> clearOutput [
 
