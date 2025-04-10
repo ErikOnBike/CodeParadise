@@ -13,11 +13,11 @@ CpWebApplication class >> addWebResourcesDelegateTo: aServer [
 	By default, the following mapping will be installed:
 		/<app-name> -> './www'.
 
-	For example, an WebApplication class with app identifier #'my-first-app'
-	will result in the following mapping:
+	For example, a WebApplication class with app identifier #'my-first-app'
+	will receive the following mapping:
 		'/my-first-app' -> './www'
 
-	The subfolder 'www' can be changed by overriden the method #webResourceDirectory."
+	The subfolder 'www' can be changed by overriding the method #webResourceDirectory."
 	
 	| packageName icePackage repository resourcePath |
 
