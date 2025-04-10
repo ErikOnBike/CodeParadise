@@ -76,19 +76,6 @@ CpTemplateComponent class >> isAbstractTag [
 ]
 
 { #category : #'class initialization' }
-CpTemplateComponent class >> postInstallOnce [
-
-	"Install event handler to make sure all (sub)instances of the receiver get initialized correctly.
-
-	When an instance of the receiver is created through some markup content (i.e. as part of HTML
-	description) it will not be initialized like a regular Smalltalk object instance. Therefore
-	perform the initialization if such a situation is triggered (by an event)."
-
-	CpHtmlElement document
-		when: CpCreatedFromMarkupEvent send: #initializeMarkupCreatedInstance: to: self
-]
-
-{ #category : #'class initialization' }
 CpTemplateComponent class >> register [
 
 

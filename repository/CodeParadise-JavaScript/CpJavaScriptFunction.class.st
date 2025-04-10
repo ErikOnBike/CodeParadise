@@ -22,6 +22,20 @@ Class {
 	#category : #'CodeParadise-JavaScript-Core'
 }
 
+{ #category : #'class initialization' }
+CpJavaScriptFunction class >> postInstallOnce [
+
+	"Install a function which allows calling Smalltalk's #perform:withArguments: code.
+
+	Implementation:
+	This performer function is used internally by the CodeParadise System plugin."
+
+	self getClass
+		propertyAt: #smalltalkPerformer
+		put: (self wrap: [ :instance :selector :arguments |
+			instance perform: selector asSymbol withArguments: arguments ])
+]
+
 { #category : #converting }
 CpJavaScriptFunction class >> wrap: aBlock [
 

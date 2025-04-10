@@ -383,6 +383,10 @@ CpServerApplication >> load [
 	"Install required extensions"
 	self installExtensionMethods.
 
+	"Install the extension method to convert a Block to a JavaScriptFunction. Because of circular dependencies
+	this can't be done by defining that method as an extension method."
+	self installMethod: BlockClosure >> #asJavaScriptFunction.
+
 	"Install the JavaScriptObject proxy which allows a transparent use of JavaScript objects inside CodeParadise.
 	And install the JavaScriptFunction proxy which allows Smalltalk Blocks to be used as JavaScript functions."
 	self
