@@ -23,6 +23,21 @@ CpPropertyModelView class >> on: aModel [
 		yourself
 ]
 
+{ #category : #'web resources' }
+CpPropertyModelView class >> style [
+
+	<webResource: #css>
+
+	^ '@import url("https://cdn.jsdelivr.net/npm/@ionic/core/css/ionic.bundle.css");
+*, *:before, *:after {
+	box-sizing: border-box;
+}
+:host,
+:host > :not(style):first-of-type {
+	height: 100%;
+}'
+]
+
 { #category : #binding }
 CpPropertyModelView >> addBinding: aSubscription [
 
