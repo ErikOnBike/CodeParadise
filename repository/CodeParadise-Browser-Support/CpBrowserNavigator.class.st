@@ -35,6 +35,12 @@ CpBrowserNavigator >> languages [
 	^ self propertyAt: #languages
 ]
 
+{ #category : #accessing }
+CpBrowserNavigator >> onLine [
+
+	^ self propertyAt: #onLine
+]
+
 { #category : #'beacon api' }
 CpBrowserNavigator >> sendBeacon: aString data: anObject [
 
