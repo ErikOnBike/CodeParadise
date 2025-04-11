@@ -106,7 +106,7 @@ CpNodeJSRestHttpServer >> snapshot [
 CpNodeJSRestHttpServer >> startServer [
 
 	self traceCr: ('Create REST server on port ', port printString ).
-	self createServer listenOnPort: 8181 thenDo: [ self traceCr: 'REST server is listening' ]
+	self createServer listenOnPort: port thenDo: [ self traceCr: 'REST server is listening' ]
 ]
 
 { #category : #server }

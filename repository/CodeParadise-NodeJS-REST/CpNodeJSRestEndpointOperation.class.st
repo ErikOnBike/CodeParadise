@@ -303,7 +303,7 @@ CpNodeJSRestEndpointOperation >> operationMethod [
 
 	"Answer the CompiledMethod of the operation"
 
-	^ operation receiver class >> operation selector
+	^ operation receiver class lookupSelector: operation selector
 ]
 
 { #category : #accessing }
