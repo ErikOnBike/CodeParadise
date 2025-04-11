@@ -693,6 +693,49 @@ CpCanyonAppMainView >> showLoading: aString [
 ]
 
 { #category : #actions }
+CpCanyonAppMainView >> showModal: aViewClass [
+
+	"Show the specified View modal.
+	Evaluate the specified Block with the result from the View."
+
+	^ self showModal: aViewClass withModel: nil
+]
+
+{ #category : #actions }
+CpCanyonAppMainView >> showModal: aViewClass withModel: aModel [
+
+	"Show the specified View modal with the (optional) Model"
+
+	| modal view result |
+
+	"Create modal View"
+	modal := IonModal new
+		component: (view := aViewClass on: aModel) ;
+		yourself.
+
+	"Let the view assign dismiss events (after it had time to fully initialize)"
+	view makeDismissableIn: modal.
+
+	"Let the view update itself"
+	view updateAfterNavigate.
+
+	"Present the modal View"
+	self appendChild: modal.
+	modal present.
+
+	"Wait for it to close"
+	result := modal onWillDismiss await.
+
+	"Answer data on confirm (role), otherwise nil.
+	If no data is present on confirm, answer 'true'."
+	result at: #role ifPresent: [ :role |
+		role = #confirm
+			ifTrue: [ ^ result at: #data ifAbsent: [ true ] ] ].
+
+	^ nil
+]
+
+{ #category : #actions }
 CpCanyonAppMainView >> showPage: aPageClass [
 
 	"Show the specified Page"
