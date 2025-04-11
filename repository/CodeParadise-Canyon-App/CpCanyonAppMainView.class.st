@@ -274,6 +274,22 @@ CpCanyonAppMainView >> handleDidDismissToast [
 	toast isOpen: false
 ]
 
+{ #category : #'event handling' }
+CpCanyonAppMainView >> handleOffline [
+
+	"The netwerk is no longer available"
+
+	self addClass: #offline
+]
+
+{ #category : #'event handling' }
+CpCanyonAppMainView >> handleOnline [
+
+	"The netwerk became available (not necessarily actual internet connection)"
+
+	self removeClass: #offline
+]
+
 { #category : #actions }
 CpCanyonAppMainView >> hideLoading [
 
@@ -307,6 +323,12 @@ CpCanyonAppMainView >> initialize [
 	"Initialize the language text before anything else"
 	self initializeLanguageText.
 
+	"Setup handlers for detecting going online/offline"
+	CpBrowserWindow current
+		addEventListener: #online handler: [ self handleOnline ] ;
+		addEventListener: #offline handler: [ self handleOffline ].
+
+	"Create the REST API client"
 	restApiClient := CpRestApiClient baseUrl: self apiBaseUrl.
 	restApiClient
 		when: CpSessionExpired send: #sessionExpired to: self.
@@ -336,6 +358,34 @@ CpCanyonAppMainView >> isHome [
 	^ self currentPage
 		ifNotNil: [ :currentPage | currentPage isHome ]
 		ifNil: [ true ]
+]
+
+{ #category : #testing }
+CpCanyonAppMainView >> isOnline [
+
+	"Answer whether an Internet connection is available.
+	Do NOT call this method too often, since it needs to ping the server.
+
+	Implementation:
+	Some browsers recognize a LAN connection as being online, but it does not mean
+	an actual connection with the Internet is available. Being 'offline' means there
+	is no LAN and therefore no Internet connection. In other cases a 'ping' is done
+	to ensure there is in fact a working internet connection."
+
+	| response |
+
+	(self isClassed: #offline)
+		ifTrue: [ ^ false ].
+
+	CpBrowserNavigator current onLine
+		ifFalse: [ ^ false ].
+
+	response := [
+		CpPropertyEntity restApiClient
+			getUri: '/ping/hello' timeoutPeriod: 2000
+	] on: Error do: [ :err | ^ false ].
+
+	^ response = 'world'
 ]
 
 { #category : #initialization }
