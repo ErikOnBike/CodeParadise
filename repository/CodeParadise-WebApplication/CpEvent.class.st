@@ -190,6 +190,17 @@ CpEvent class >> type [
 	^ (self nameWithoutPrefix withoutSuffix: #Event) asLowercase
 ]
 
+{ #category : #'accessing - private' }
+CpEvent >> copy [
+
+	"Answer a copy of the receiver.
+	BE AWARE: The copy is NOT a fully functional event. Use it only within the Smalltalk world.
+	The copy is already 'stopped' so #isStopped will answer true."
+
+	<primitive: 'primitiveEventCopy' module: 'CpDOMPlugin'>
+	self primitiveFailed
+]
+
 { #category : #accessing }
 CpEvent >> currentTarget [
 
