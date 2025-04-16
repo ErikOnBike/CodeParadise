@@ -361,6 +361,12 @@ CpCanyonAppMainView >> isHome [
 ]
 
 { #category : #testing }
+CpCanyonAppMainView >> isLoading [
+
+	^ loading isOpen
+]
+
+{ #category : #testing }
 CpCanyonAppMainView >> isOnline [
 
 	"Answer whether an Internet connection is available.
