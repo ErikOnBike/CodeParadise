@@ -364,15 +364,15 @@ CpCanyonAppMainView >> isHome [
 CpCanyonAppMainView >> isOnline [
 
 	"Answer whether an Internet connection is available.
-	Do NOT call this method too often, since it needs to ping the server.
 
 	Implementation:
 	Some browsers recognize a LAN connection as being online, but it does not mean
 	an actual connection with the Internet is available. Being 'offline' means there
 	is no LAN and therefore no Internet connection. In other cases a 'ping' is done
-	to ensure there is in fact a working internet connection."
+	to ensure there is in fact a working internet connection. The ping is only
+	performed if there has not been a successful response in the last few seconds."
 
-	| response |
+	| restApiClient response |
 
 	(self isClassed: #offline)
 		ifTrue: [ ^ false ].
@@ -380,9 +380,14 @@ CpCanyonAppMainView >> isOnline [
 	CpBrowserNavigator current onLine
 		ifFalse: [ ^ false ].
 
+	restApiClient := CpPropertyEntity restApiClient.
+
+	"Used REST API successfully within last 5 seconds"
+	restApiClient lastSuccessResponseTimestamp >= (CpRestApiClient timestampNow - 5000)
+		ifTrue: [ ^ true ].
+
 	response := [
-		CpPropertyEntity restApiClient
-			getUri: '/ping/hello' timeoutPeriod: 2000
+		restApiClient getUri: '/ping/hello' timeoutPeriod: 2000
 	] on: Error do: [ :err | ^ false ].
 
 	^ response = 'world'

@@ -3,7 +3,10 @@ Class {
 	#superclass : #CpBaseModel,
 	#instVars : [
 		'baseUrl',
-		'accessToken'
+		'accessToken',
+		'lastUsedTimestamp',
+		'lastResponseTimestamp',
+		'lastSuccessResponseTimestamp'
 	],
 	#category : #'CodeParadise-Canyon-App-Support'
 }
@@ -32,6 +35,25 @@ CpRestApiClient class >> beLoaded [
 CpRestApiClient class >> new [
 
 	self errorNewReplacedBy: #baseUrl:
+]
+
+{ #category : #resources }
+CpRestApiClient class >> timestampNow [
+
+	"Answer the current timestamp as seconds since Unix epoch (midnight Jan 1, 1970, UTC).
+
+	Implementation:
+	Since currently the tiny image for CodeParadise does not support any Date and Time classes,
+	use a simple Unix timestamp. This value can be retrieved in both environments. It allows
+	easy comparison and storage."
+
+	(Smalltalk classNamed: #DateAndTime)
+		ifNotNil: [ :dateAndTimeClass | ^ dateAndTimeClass now asUnixTime ].
+
+	(Smalltalk classNamed: #CpJavaScriptClass)
+		ifNotNil: [ :jsClass | ^ ((jsClass forName: #Date) apply: #now) // 1000 ].
+
+	self error: 'No Date or DateAndTime class available in the current environment'
 ]
 
 { #category : #operations }
@@ -79,12 +101,22 @@ CpRestApiClient >> handleSuccessfulResponse: aResponse [
 
 	"Answer the Response's content (assuming status is in 200-299 range)"
 
+	| result |
+
+	"A JSON result can't be a Symbol, use it as placeholder to recognize it is not used"
+	result := #unused.
+
 	(aResponse headers get: 'Content-Type')
 		ifNotNil: [ :contentType |
 			(contentType includesSubstring: 'application/json')
-				ifTrue: [ ^ aResponse json await ] ].
+				ifTrue: [ result := aResponse json await ] ].
 
-	^ aResponse text await
+	result == #unused
+		ifTrue: [ result := aResponse text await ].
+
+	lastSuccessResponseTimestamp := self class timestampNow.
+
+	^ result
 ]
 
 { #category : #testing }
@@ -109,6 +141,24 @@ CpRestApiClient >> initializeWithBaseUrl: aString [
 	self initialize.
 
 	baseUrl := aString
+]
+
+{ #category : #accessing }
+CpRestApiClient >> lastResponseTimestamp [
+
+	^ lastResponseTimestamp
+]
+
+{ #category : #accessing }
+CpRestApiClient >> lastSuccessResponseTimestamp [
+
+	^ lastSuccessResponseTimestamp
+]
+
+{ #category : #accessing }
+CpRestApiClient >> lastUsedTimestamp [
+
+	^ lastUsedTimestamp
 ]
 
 { #category : #operations }
@@ -166,9 +216,11 @@ CpRestApiClient >> performOperation: aSymbol uri: uriString queryParams: aDictio
 			#redirect -> #error.
 			#priority -> #high.
 			#signal -> (CpBrowserAbortSignal timeout: anInteger) } asDictionary.
+	lastUsedTimestamp := self class timestampNow.
 
 	"Retrieve response"
 	response := fetch await.
+	lastResponseTimestamp := self class timestampNow.
 
 	"Extract (new) access token"
 	self updateAccessTokenFromResponse: response.
