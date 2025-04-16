@@ -62,7 +62,7 @@ CpCounterView >> handleIncrease [
 	self serverAnnounce: CpCounterIncrease
 ]
 
-{ #category : #'event handling' }
+{ #category : #initialization }
 CpCounterView >> initializeShadowRoot [
 
 	super initializeShadowRoot.
