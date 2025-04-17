@@ -737,6 +737,9 @@ CpCanyonAppMainView >> showModal: aViewClass withModel: aModel [
 	"Wait for it to close"
 	result := modal onWillDismiss await.
 
+	"Explicitly destroy the view (to allow it to release dependencies)"
+	view destroy.
+
 	"Answer data on confirm (role), otherwise nil.
 	If no data is present on confirm, answer 'true'."
 	result at: #role ifPresent: [ :role |
