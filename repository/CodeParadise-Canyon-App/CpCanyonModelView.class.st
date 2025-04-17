@@ -1,0 +1,176 @@
+Class {
+	#name : #CpCanyonModelView,
+	#superclass : #CpTemplateComponent,
+	#instVars : [
+		'model',
+		'bindingSubscriptions'
+	],
+	#category : #'CodeParadise-Canyon-App-View'
+}
+
+{ #category : #'instance creation' }
+CpCanyonModelView class >> new [
+
+	self errorNewReplacedBy: #on:
+]
+
+{ #category : #'instance creation' }
+CpCanyonModelView class >> on: aModel [
+
+	^ self basicNew
+		initialize ;
+		model: aModel ;
+		yourself
+]
+
+{ #category : #'web resources' }
+CpCanyonModelView class >> style [
+
+	<webResource: #css>
+
+	^ '@import url("https://cdn.jsdelivr.net/npm/@ionic/core/css/ionic.bundle.css");
+*, *:before, *:after {
+	box-sizing: border-box;
+}
+:host,
+:host > :not(style):first-of-type {
+	height: 100%;
+}'
+]
+
+{ #category : #binding }
+CpCanyonModelView >> addBinding: aSubscription [
+
+	"Add the subscription to the Collection of known bindings"
+
+	bindingSubscriptions ifNil: [ bindingSubscriptions := OrderedCollection new ].
+
+	bindingSubscriptions
+		add: aSubscription
+]
+
+{ #category : #binding }
+CpCanyonModelView >> addBindings [
+
+	"Add any bindings between the model and the receiver"
+
+	model ifNil: [ ^ self ].
+
+	self addBinding: (model whenChangedSend: #modelChanged: to: self)
+]
+
+{ #category : #accessing }
+CpCanyonModelView >> app [
+
+	"Convenience method to access the app (instance)"
+
+	^ CpCanyonAppMainView current
+]
+
+{ #category : #operations }
+CpCanyonModelView >> do: aBlock whileShowing: aString [
+
+	"Evaluate the specified Block while showing a message.
+	Answer the result of the evaluation.
+
+	Implementation:
+	The loading message will not be shown until a loading time has passed. This is to
+	prevent 'flickering' of a loading message on very short operations.
+	Because error handling is being performed before the ensure Block is performed, also
+	hide the loading message when an Error is signaled (hiding it twice will do no harm)."
+
+	| timer |
+
+	timer := CpGlobalThis setTimeout: self loadingTimeout thenDo: [ self app showLoading: aString ].
+	^ [
+		aBlock ensure: [
+			CpGlobalThis clearTimeout: timer.
+			self app hideLoading ]
+	] on: Error do: [ :error |
+		"Hide the loading message and pass on the Error"
+		CpGlobalThis clearTimeout: timer.
+		self app hideLoading.
+		error pass ]
+]
+
+{ #category : #initialization }
+CpCanyonModelView >> initializeShadowRoot [
+
+	super initializeShadowRoot.
+
+	"If a model is present, reset the bindings"
+	model ifNotNil: [
+		self
+			removeBindings ;
+			addBindings ]
+]
+
+{ #category : #accessing }
+CpCanyonModelView >> loadingTimeout [
+
+	"Answer the time (in milliseconds) the receiver waits before showing a loading
+	message on the #do:whileShowing: operation. Setting this value too low will
+	result in a quick succession of a loading message appearing and disappearing."
+
+	^ 750
+]
+
+{ #category : #accessing }
+CpCanyonModelView >> model [
+
+	^ model
+]
+
+{ #category : #accessing }
+CpCanyonModelView >> model: aModel [
+
+	model = aModel
+		ifTrue: [ ^ self ].
+
+	self removeBindings.
+
+	model := aModel.
+
+	self addBindings
+]
+
+{ #category : #'event handling' }
+CpCanyonModelView >> modelChanged: aPropertyChange [
+
+	"The model of the receiver changed"
+]
+
+{ #category : #initialization }
+CpCanyonModelView >> release [
+
+	self removeBindings.
+
+	super release
+]
+
+{ #category : #binding }
+CpCanyonModelView >> removeBindings [
+
+	"Remove any bindings between the model and the receiver"
+
+	bindingSubscriptions ifNil: [ ^ self ].
+
+	bindingSubscriptions do: [ :each |
+		each unsubscribe ].
+
+	bindingSubscriptions := nil
+]
+
+{ #category : #accessing }
+CpCanyonModelView >> title [
+
+	"Answer the title for the receiver"
+
+	^ nil
+]
+
+{ #category : #actions }
+CpCanyonModelView >> updateAfterNavigate [
+
+	"Update the receiver after a navigation has been performed"
+]
