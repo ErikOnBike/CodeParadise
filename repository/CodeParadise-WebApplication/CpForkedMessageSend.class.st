@@ -1,3 +1,17 @@
+"
+I am a MessageSend that gets send in a forked Process.
+My purpose is very specific for situations where an event handler
+is using a Promise await. The event processor does not allow any
+event handler to wait, therefore such event handlers need to be
+executed in a forked Process.
+
+My implementation is limited to the above scenario. I do not work
+as expected when more than one argument is provided, for example.
+I only expect a single argument, the Event/Announcement being handled.
+
+Typically I am used in the form:
+	someElement when: CpClickEvent forkedSend: #handleClick: to: self
+"
 Class {
 	#name : #CpForkedMessageSend,
 	#superclass : #MessageSend,
@@ -5,27 +19,18 @@ Class {
 }
 
 { #category : #evaluating }
-CpForkedMessageSend >> cull: anObject [
+CpForkedMessageSend >> cull: anEvent [
 
 	"Evaluate the receiver in a separate Process"
 
-	[ super cull: anObject ] fork
-]
+	self selector numArgs = 0
+		ifTrue: [ [ super value ] fork ]
+		ifFalse: [
+			| copyEvent |
 
-{ #category : #evaluating }
-CpForkedMessageSend >> cull: arg1 cull: arg2 [
-
-	"Evaluate the receiver in a separate Process"
-
-	[ super cull: arg1 cull: arg2 ] fork
-]
-
-{ #category : #evaluating }
-CpForkedMessageSend >> cull: arg1 cull: arg2 cull: arg3 [
-
-	"Evaluate the receiver in a separate Process"
-
-	[ super cull: arg1 cull: arg2 cull: arg3 ] fork
+			"Because events change while bubbling, create a (stopped) copy"
+			copyEvent := anEvent copy.
+			[ super value: copyEvent ] fork ]
 ]
 
 { #category : #support }
@@ -34,44 +39,4 @@ CpForkedMessageSend >> forked [
 	"Answer a forked version of the receiver"
 
 	^ self
-]
-
-{ #category : #evaluating }
-CpForkedMessageSend >> value [
-
-	"Evaluate the receiver in a separate Process"
-
-	[ super value ] fork
-]
-
-{ #category : #evaluating }
-CpForkedMessageSend >> value: anObject [
-
-	"Evaluate the receiver in a separate Process"
-
-	[ super value: anObject ] fork
-]
-
-{ #category : #evaluating }
-CpForkedMessageSend >> value: arg1 value: arg2 [
-
-	"Evaluate the receiver in a separate Process"
-
-	[ super value: arg1 value: arg2 ] fork
-]
-
-{ #category : #evaluating }
-CpForkedMessageSend >> value: arg1 value: arg2 value: arg3 [
-
-	"Evaluate the receiver in a separate Process"
-
-	[ super value: arg1 value: arg2 value: arg3 ] fork
-]
-
-{ #category : #evaluating }
-CpForkedMessageSend >> valueWithArguments: anArray [
-
-	"Evaluate the receiver in a separate Process"
-
-	[ super valueWithArguments: anArray ] fork
 ]
