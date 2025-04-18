@@ -1,9 +1,31 @@
 "
 I am a TextFormat. I am responsible to provide a value when requesting one using a key.
 I maintain an optional Dictionary of lookup values. When a key is provided which starts
-with a hash (like '#other'), I will delegate the lookup to the MultiLanguageText and
-language I am configured with (using the key without the hash, i.e. in this case 'other').
+with a hash (like '#other') AND I don't store a matching value, I will delegate the
+lookup to the MultiLanguageText and language I am configured with (using the key without
+the hash, i.e. in this case 'other'). This mechanism allows nesting of text variants.
 
+Example JSON input with references (incl. nested) to other entries.
+
+```
+{
+	""sorry"": ""I'm sorry I don't understand your input, "",
+	""error.input.name.missing"": ""{#sorry} the name is missing."",
+	""error.input.name.required"": ""{#error.input.name.missing} And I really need it to operate correctly.""
+}
+```
+
+When the above is used in a LanguageDictionary executing:
+```
+multiLanguageText key: #'error.input.name.required'
+```
+will yield:
+```
+""I'm sorry I don't understand your input, the name is missing. And I really need it to operate correctly.""
+```
+
+Regular formatting parameters can also be used and the position of parameters is not limited to the
+start (as in the example above).
 "
 Class {
 	#name : #CpTextFormat,
@@ -41,9 +63,14 @@ CpTextFormat >> at: keyObject [
 	Implementation:
 	The format Dictionary can be nil (i.e. is optional)."
 
-	^ (keyObject isString and: [ keyObject beginsWith: '#' ])
+	| result |
+
+	"First retrieve 'local' result"
+	result := format ifNotNil: [ format at: keyObject ifAbsent: [ nil ] ].
+
+	^ (result isNil and: [ keyObject isString and: [ keyObject beginsWith: '#' ] ])
 		ifTrue: [ text lang: language key: (keyObject allButFirst: 1) asSymbol format: format ]
-		ifFalse: [ format ifNotNil: [ format at: keyObject ifAbsent: [ nil ] ] ]
+		ifFalse: [ result ]
 ]
 
 { #category : #initialization }
