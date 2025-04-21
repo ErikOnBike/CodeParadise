@@ -45,6 +45,12 @@ CpConditionalPropertyConstraint >> initializeWithCondition: aBlock constraint: a
 	constraint := aPropertyConstraint
 ]
 
+{ #category : #exceptions }
+CpConditionalPropertyConstraint >> isValid: anObject [
+
+	self error: 'Do not use #isValid: on a conditional constraint'
+]
+
 { #category : #accessing }
 CpConditionalPropertyConstraint >> normalizeProperty: aSymbol in: aModel [
 
@@ -59,11 +65,17 @@ CpConditionalPropertyConstraint >> normalizeProperty: aSymbol in: aModel [
 ]
 
 { #category : #accessing }
-CpConditionalPropertyConstraint >> violationsForProperty: aSymbol in: aModel [
+CpConditionalPropertyConstraint >> violationsForProperty: aSymbol in: aModel do: aBlock [
 
-	"Answer a Collection of Symbols representing violations in the specified value"
+	"Evaluate the specified Block for each violation in the specified value.
+	The Block will receive a Symbol or CpParamText representing the violation."
 
-	^ (condition value: aModel)
-		ifTrue: [ constraint violationsForProperty: aSymbol in: aModel ]
-		ifFalse: [ #() ]
+	(condition value: aModel)
+		ifTrue: [ constraint violationsForProperty: aSymbol in: aModel do: aBlock ]
+]
+
+{ #category : #exceptions }
+CpConditionalPropertyConstraint >> violationsIn: anObject do: aBlock [
+
+	self error: 'Do not use #violationsIn:do: on a conditional constraint'
 ]

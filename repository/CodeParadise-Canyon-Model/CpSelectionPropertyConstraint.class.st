@@ -25,26 +25,22 @@ CpSelectionPropertyConstraint class >> selection: aCollection [
 		yourself
 ]
 
-{ #category : #accessing }
-CpSelectionPropertyConstraint >> collectViolationsIn: aString [
-
-	"Validate the provided String is part of the selection.
-	Answer a Collection of Symbols containing the violations
-	or a single Symbol representing the overall violation."
-
-	(aString isEmptyOrNil and: [ (selection includes: nil) not ])
-		ifTrue: [ ^ #'constraint.required' ].
-
-	(selection includes: aString)
-		ifFalse: [ ^ CpParamText key: #'constraint.selection.unknown' with: aString ].
-
-	^ #()
-]
-
 { #category : #initialization }
 CpSelectionPropertyConstraint >> initializeWithSelection: aCollection [
 
 	self initialize.
 
 	selection := aCollection
+]
+
+{ #category : #accessing }
+CpSelectionPropertyConstraint >> violationsIn: aString do: aBlock [
+
+	"Validate the provided String is part of the selection"
+
+	(aString isEmptyOrNil and: [ (selection includes: nil) not ])
+		ifTrue: [ ^ aBlock value: #'constraint.required' ].
+
+	(selection includes: aString)
+		ifFalse: [ ^ aBlock value: (CpParamText key: #'constraint.selection.unknown' with: aString) ]
 ]

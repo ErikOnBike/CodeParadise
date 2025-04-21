@@ -35,36 +35,39 @@ Class {
 	#category : #'CodeParadise-Canyon-Model-Constraints'
 }
 
-{ #category : #accessing }
-CpPropertyConstraint >> collectViolationsIn: anObject [
-
-	"Answer a Collection of Symbols/CpParamTexts or a single Symbol/CpParamText representing violations in the specified value.
-	If answering a single Symbol/CpParamText it is assumed a single violation is encountered."
-
-	^ #()
-]
-
 { #category : #testing }
 CpPropertyConstraint >> isPropertyConstraint [
 
 	^ true
 ]
 
-{ #category : #accessing }
+{ #category : #testing }
 CpPropertyConstraint >> isValid: anObject [
 
 	"Answer whether the specified value is valid in the receiver.
-	The specified value is normalized before validation."
+	The specified value is normalized before validation.
 
-	^ (self violationsIn: anObject) isEmpty
+	DO NOT use this method on conditional property constraints,
+	since it requires access to the whole model instead of only
+	a specific property value. Calling it will raise an error."
+
+	self violationsIn: anObject do: [ :each |
+		"Ignore the actual violation, we know the property is not valid here"
+		^ false ].
+
+	^ true
 ]
 
-{ #category : #accessing }
+{ #category : #testing }
 CpPropertyConstraint >> isValidProperty: aSymbol in: aModel [
 
 	"Answer whether the specified value is valid in the receiver"
 
-	^ self isValid: (aModel propertyAt: aSymbol)
+	self violationsForProperty: aSymbol in: aModel do: [ :each |
+		"Ignore the actual violation, we know the property is not valid here"
+		^ false ].
+
+	^ true
 ]
 
 { #category : #accessing }
@@ -88,29 +91,32 @@ CpPropertyConstraint >> normalizeProperty: aSymbol in: aModel [
 ]
 
 { #category : #accessing }
-CpPropertyConstraint >> violationsForProperty: aSymbol in: aModel [
+CpPropertyConstraint >> violationsForProperty: aSymbol in: aModel do: aBlock [
 
-	"Answer a Collection of Symbols/CpParamTexts representing violations in the specified value"
+	"Evaluate the specified Block for each violation in the specified value.
+	The Block will receive a Symbol or CpParamText representing the violation."
 
-	^ self violationsIn: (aModel propertyAt: aSymbol)
+	self
+		violationsIn: (self normalize: (aModel propertyAt: aSymbol))
+		do: [ :violation |
+			aBlock value: violation.
+			
+			"Use self as the result of evaluating this block.
+			This allows subclasses to implement #violationsIn:do:
+			with code like `^ aBlock value: #error` and still
+			answer the receiver."
+			self ]
 ]
 
 { #category : #accessing }
-CpPropertyConstraint >> violationsIn: anObject [
+CpPropertyConstraint >> violationsIn: anObject do: aBlock [
 
-	"Answer a Collection of Symbols/CpParamTexts representing violations in the specified value.
+	"Evaluate the specified Block for each violation in the specified value.
+	The specified value is assumed to be normalized.
+	The Block will receive a Symbol or CpParamText representing the violation.
 
-	Implementation:
-	Normalize the value before collecting violations."
+	Normally subclasses need to implement this method instead of #violationsForProperty:in:do:
+	The conditional property constraints are an exception."
 
-	| violations |
-
-	violations := self collectViolationsIn: (self normalize: anObject).
-
-	"Replace single violation with Collection.
-	Be aware Symbols are Collections too ;-)"
-	(violations isSymbol or: [ violations isCollection not ])
-		ifTrue: [ violations := Array with: violations ].
-
-	^ violations
+	self subclassResponsibility
 ]

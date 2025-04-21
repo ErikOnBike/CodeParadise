@@ -38,34 +38,6 @@ CpLengthPropertyConstraint class >> new [
 	self errorNewReplacedBy: (' or ' join: { #min: . #max: . #min:max: })
 ]
 
-{ #category : #accessing }
-CpLengthPropertyConstraint >> collectViolationsIn: aString [
-
-	"Validate the provided String as email.
-	Answer a Collection of Symbols containing the violations
-	or a single Symbol representing the overall violation."
-
-	| size |
-
-	size := (aString ifNil: [ '' ]) size.
-
-	min ifNotNil: [
-		size < min
-			ifTrue: [
-				^ min = 1
-					ifTrue: [ #'constraint.empty' ]
-					ifFalse: [
-						size = 0
-							ifTrue: [ CpParamText key: #'constraint.length.min.zero' with: min ]
-							ifFalse: [ CpParamText key: #'constraint.length.min' with: min with: size ] ] ] ].
-
-	 max ifNotNil: [
-		size > max
-			ifTrue: [ ^ CpParamText key: #'constraint.length.max' with: max with: size ] ].
-
-	^ #()
-]
-
 { #category : #initialization }
 CpLengthPropertyConstraint >> initializeWithMin: minInteger max: maxInteger [
 
@@ -97,4 +69,30 @@ CpLengthPropertyConstraint >> normalize: aString [
 
 	"Trim and remove control characters"
 	^ aString trim select: [ :each | each asciiValue >= 32 ]
+]
+
+{ #category : #accessing }
+CpLengthPropertyConstraint >> violationsIn: aString do: aBlock [
+
+	"Validate the provided String is within the receiver's length boundaries"
+
+	| size |
+
+	size := aString
+		ifNotNil: [ aString size ]
+		ifNil: [ 0 ].
+
+	min ifNotNil: [
+		size < min
+			ifTrue: [
+				^ aBlock value: (min = 1
+					ifTrue: [ #'constraint.empty' ]
+					ifFalse: [
+						size = 0
+							ifTrue: [ CpParamText key: #'constraint.length.min.zero' with: min ]
+							ifFalse: [ CpParamText key: #'constraint.length.min' with: min with: size ] ]) ] ].
+
+	 max ifNotNil: [
+		size > max
+			ifTrue: [ ^ aBlock value: (CpParamText key: #'constraint.length.max' with: max with: size) ] ]
 ]

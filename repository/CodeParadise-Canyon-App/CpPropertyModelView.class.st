@@ -32,22 +32,21 @@ CpPropertyModelView >> addViolationsForProperty: aSymbol to: aCollection [
 	Implementation:
 	The violation messages have been made specific by adding the respective label of the properties."
 
-	| propertySlot labelDict propertyViolations |
-
-	propertySlot := model propertySlotAt: aSymbol.
+	| labelDict |
 
 	"Create a Dictionary for formatting the label"
-	labelDict := Dictionary with: #label -> propertySlot label.
+	labelDict := Dictionary with: #label -> (model labelAt: aSymbol).
 
 	"Check all constraints"
-	propertySlot constraints do: [ :each |
+	model propertyConstraintsAt: aSymbol do: [ :each |
 
-		"Per constraint, retrieve all violations (can be multiple) and format with label"
-		propertyViolations := (each violationsForProperty: aSymbol in: model)
-			collect: [ :violation | model class text: violation format: labelDict ].
+		"Per constraint evaluate all violations. Use the 'long' form with
+		the model, since conditional constraints require access to the model.
+		Do NOT use #violationsIn:do: here."
+		each violationsForProperty: aSymbol in: model do: [ :eachViolation |
 
-		"Add formatted violations to collection of all violations"
-		aCollection addAll: propertyViolations ]
+			"Add the text representing the violation and format with label"
+			aCollection add: (model class text: eachViolation format: labelDict) ] ]
 ]
 
 { #category : #binding }

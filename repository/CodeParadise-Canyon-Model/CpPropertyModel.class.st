@@ -361,8 +361,8 @@ CpPropertyModel >> isValid [
 
 	"Answer whether the receiver has valid properties"
 
-	self propertySlotsDo: [ :each |
-		(each constraints allSatisfy: [ :eachConstraint | eachConstraint isValidProperty: each name in: self ])
+	self propertyNamesDo: [ :each |
+		(self isValidPropertyAt: each)
 			ifFalse: [ ^ false ] ].
 
 	^ true
@@ -371,12 +371,18 @@ CpPropertyModel >> isValid [
 { #category : #testing }
 CpPropertyModel >> isValidPropertyAt: aSymbol [
 
-	| value |
+	"Answer whether the specified property is valid.
 
-	value := self propertyAt: aSymbol.
+	Implementation:
+	Because of conditional constraints use #isValidProperty:in: repeatedly.
+	Do NOT retrieve the property value and use #isValid: since it will fail
+	on those conditional constraints."
 
-	^ (self propertyConstraintsAt: aSymbol)
-		allSatisfy: [ :each | each isValid: value ]
+	self propertyConstraintsAt: aSymbol do: [ :each |
+		(each isValidProperty: aSymbol in: self)
+			ifFalse: [ ^ false ] ].
+
+	^ true
 ]
 
 { #category : #'accessing - dictionary access' }
@@ -439,7 +445,8 @@ CpPropertyModel >> normalize [
 	Perform these for all constraints."
 
 	self propertySlotsDo: [ :each |
-		each constraints do: [ :eachConstraint | eachConstraint normalizeProperty: each name in: self ] ]
+		each constraintsDo: [ :eachConstraint |
+			eachConstraint normalizeProperty: each name in: self ] ]
 ]
 
 { #category : #normalizing }
@@ -447,8 +454,8 @@ CpPropertyModel >> normalizePropertyAt: aSymbol [
 
 	"Normalize the specified property of the receiver"
 
-	(self propertyConstraintsAt: aSymbol)
-		do: [ :each | each normalizeProperty: aSymbol in: self ]
+	self propertyConstraintsAt: aSymbol do: [ :each |
+		each normalizeProperty: aSymbol in: self ]
 ]
 
 { #category : #copying }
@@ -521,11 +528,11 @@ CpPropertyModel >> propertyAt: aSymbol put: anObject [
 ]
 
 { #category : #normalizing }
-CpPropertyModel >> propertyConstraintsAt: aSymbol [
+CpPropertyModel >> propertyConstraintsAt: aSymbol do: aBlock [
 
-	"Answer the constraints of the specified property of the receiver"
+	"Evaluate the specified Block for each of the constraints of the specified property"
 
-	^ (self propertySlotAt: aSymbol) constraints
+	^ (self propertySlotAt: aSymbol) constraintsDo: aBlock
 ]
 
 { #category : #accessing }

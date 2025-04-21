@@ -71,6 +71,18 @@ CpClientPropertySlot >> constraints [
 		ifNil: [ #() ]
 ]
 
+{ #category : #accessing }
+CpClientPropertySlot >> constraintsDo: aBlock [
+
+	"Evaluate the specified Block for each constraints in my definitions"
+
+	definitions ifNil: [ ^ self ].
+
+	definitions do: [ :each |
+		each isPropertyConstraint
+			ifTrue: [ aBlock value: each ] ]
+]
+
 { #category : #private }
 CpClientPropertySlot >> definitions [
 
