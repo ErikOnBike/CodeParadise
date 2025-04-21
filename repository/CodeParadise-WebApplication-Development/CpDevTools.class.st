@@ -122,7 +122,7 @@ CpDevTools class >> resetSession [
 		title: 'Reload Session')
 		ifNotNil: [ :choice | 
 			choice environment
-				sendMessage: (MessageSend receiver: nil selector: #invalidSession arguments: {}).
+				sendMessage: (MessageSend receiver: nil selector: #invalidSession arguments: nil).
 			choice release ]
 ]
 
