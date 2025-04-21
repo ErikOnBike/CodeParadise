@@ -599,7 +599,7 @@ CpBrowserSupportExamplesWebClientBehavior >> exampleJavaScriptProxy [
 			yourself) ;
 		appendChild: ((CpHtmlElement newWithTag: #button)
 			textContent: 'Add text (after 2s)' ;
-			when: CpClickEvent primary only do: [ CpJavaScriptObject global setTimeout: [ outputElement appendChild: 'Hello!' asHtmlElement ] duration: 2000 ] for: self ;
+			when: CpClickEvent primary only do: [ CpBrowserWindow current setTimeout: 2000 thenDo: [ outputElement appendChild: 'Hello!' asHtmlElement ] ] for: self ;
 			yourself) ;
 		yourself
 ]
