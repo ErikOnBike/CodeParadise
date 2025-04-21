@@ -193,19 +193,40 @@ CpCanyonAppMainView class >> postInstall [
 	"Install the receiver in the browser.
 
 	Implementation:
-	Make sure to mark all subclasses using #isAbstractTag if the actual MainView
-	is not a direct subclass of the receiver."
+	The last MainView class installed will become the registered main view.
+	Do not add any subclasses to your MainView (or prevent they get loaded)
+	to prevent these from becoming the actual main view."
 
 	super postInstall.
 
 	self hasAbstractTag
 		ifTrue: [ ^ self ].
 
-	"Install an instance of the receiver"
+	"Install a named reference to the main view"
+	CpClientEnvironment current objectRegistry
+		registerObject: self withId: CpCanyonAppMainView name
+]
+
+{ #category : #'class initialization' }
+CpCanyonAppMainView class >> start [
+
+	"Start an instance of the receiver in the browser"
+
 	CpHtmlElement documentBody
 		appendChild: (self current
 			load ;
 			yourself)
+]
+
+{ #category : #'class initialization' }
+CpCanyonAppMainView class >> start: aString [
+
+	"Start an instance of the receiver in the browser,
+	using the specified String as prefix for View classes."
+
+	Smalltalk at: #ViewClassesPrefix put: aString.
+
+	self start
 ]
 
 { #category : #'web resources' }
@@ -219,6 +240,20 @@ CpCanyonAppMainView class >> style [
 :host {
 	height: 100%;
 }'
+]
+
+{ #category : #accessing }
+CpCanyonAppMainView class >> viewClassPrefix [
+
+	"Answer the prefix for View classes.
+
+	By default the classes for both Model Views and Pages are selected
+	based on the Model's class name. For a few classes like CpCanyonLoginAccount
+	this does not work in all cases, because it would only allow a single
+	implementation. Typically you would have an application specific prefix
+	for your view classes."
+
+	^ Smalltalk at: #ViewClassesPrefix ifAbsent: [ self namePrefix ]
 ]
 
 { #category : #accessing }

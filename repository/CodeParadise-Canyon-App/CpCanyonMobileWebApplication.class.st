@@ -43,3 +43,35 @@ CpCanyonMobileWebApplication >> load [
 	self environment ifDevelopment: [
 		self loadDevelopment ]
 ]
+
+{ #category : #actions }
+CpCanyonMobileWebApplication >> postLoad [
+
+	"After application is fully loaded, start it"
+
+	super postLoad.
+
+	self startInstance
+]
+
+{ #category : #actions }
+CpCanyonMobileWebApplication >> postReload [
+
+	"After application is fully reloaded, start it"
+
+	super postReload.
+
+	self startInstance
+]
+
+{ #category : #actions }
+CpCanyonMobileWebApplication >> startInstance [
+
+	"Start instance of the receiver in the browser"
+
+	self environment
+		sendMessage: (MessageSend
+		receiver: CpCanyonAppMainView name
+		selector: #start:
+		arguments: { self class namePrefix })
+]

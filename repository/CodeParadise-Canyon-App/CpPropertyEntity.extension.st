@@ -19,17 +19,30 @@ CpPropertyEntity >> inNewPage [
 { #category : #'*CodeParadise-Canyon-App' }
 CpPropertyEntity >> pageClass [
 
-	"Answer a Page class which can be used to show the receiver"
+	"Answer the page class for the receiver"
 
-	^ self shouldBeImplemented
+	<ignoreReference: #CpCanyonAppMainView>
+
+	^ (Smalltalk classNamed: self class name, #Page) ifNil: [
+		| prefix |
+		prefix := CpCanyonAppMainView viewClassPrefix.
+		(Smalltalk classNamed: prefix, (self class nameWithoutPrefix withoutPrefix: 'Canyon'), #Page)
+			ifNil: [ self error: 'No page class can be found for ', self class name, ' please create one or provide explicit reference to it' ] ]
 ]
 
 { #category : #'*CodeParadise-Canyon-App' }
 CpPropertyEntity >> preferredViewClass [
 
-	"Answer the preferred View class for the receiver"
+	"Answer the preferred view class for the receiver"
 
-	^ Smalltalk classNamed: self class name, #View
+	<ignoreReference: #CpCanyonAppMainView>
+
+	^ (Smalltalk classNamed: self class name, #View) ifNil: [
+		| prefix |
+		prefix := CpCanyonAppMainView viewClassPrefix.
+self traceCr: 'Testing: ', (prefix, (self class nameWithoutPrefix withoutPrefix: 'Canyon'), #View).
+		(Smalltalk classNamed: (prefix, (self class nameWithoutPrefix withoutPrefix: 'Canyon'), #View) asSymbol)
+			ifNil: [ self error: 'No view class can be found for ', self class name, ' please create one or provide explicit reference to it' ] ]
 ]
 
 { #category : #'*CodeParadise-Canyon-App' }
