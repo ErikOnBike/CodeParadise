@@ -71,6 +71,15 @@ CompiledMethod >> shouldIgnoreReference: aClass [
 	"Answer whether the specified Class should be ignored as reference
 	during code installation from CodeParadise"
 
+	"Ignore references to my class itself"
+	self isClassSide
+		ifTrue: [
+			self methodClass = aClass class
+				ifTrue: [ ^ true ] ]
+		ifFalse: [
+			self methodClass = aClass
+				ifTrue: [ ^ true ] ].
+
 	self pragmasDo: [ :each |
 		(each selector = #ignoreReference: and: [ each arguments = { aClass name } ])
 			ifTrue: [ ^ true ] ].
