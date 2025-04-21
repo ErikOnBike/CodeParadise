@@ -30,9 +30,5 @@ CpNodeJSSupportExampleHttpServerApplication >> load [
 
 	super load.
 
-	"Install the extension method to convert a Block to a JavaScriptFunction. Because of circular dependencies
-	this can't be done by defining that method as an extension method."
-	self installMethod: BlockClosure >> #asJavaScriptFunction.
-
 	self installClass: CpNodeJSExampleHttpServer
 ]
