@@ -10,7 +10,7 @@ CpBrowserDocument class >> current [
 	"Answer the current document.
 
 	Implementation:
-	To prevent to many dependencies, retrieve the value from the global object
+	To prevent too many dependencies, retrieve the value from the global object
 	(instead of asking the CpBrowserWindow for it)."
 
 	^ self wrap: (CpJavaScriptObject global propertyAt: #document)
