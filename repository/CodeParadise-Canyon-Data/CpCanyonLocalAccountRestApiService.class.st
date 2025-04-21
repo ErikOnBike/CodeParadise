@@ -62,7 +62,7 @@ CpCanyonLocalAccountRestApiService >> activateAccount: aRestRequest response: aS
 	| body account |
 
 	body := (aRestRequest jsonBody) ifNil: [ self errorNoBody ].
-	account := self extractNewObject: MaActivateAccount fromBody: body.
+	account := self extractNewObject: CpCanyonActivateAccount fromBody: body.
 
 	(self isNonActivatedAccount: account)
 		ifFalse: [ ^ self errorActivationNotFound ].
@@ -96,7 +96,7 @@ CpCanyonLocalAccountRestApiService >> addAccount: aRestRequest response: aServer
 	| body account |
 
 	body := (aRestRequest jsonBody) ifNil: [ self errorNoBody ].
-	account := self extractNewObject: MaCreateAccount fromBody: body.
+	account := self extractNewObject: CpCanyonCreateAccount fromBody: body.
 
 	"If this Account exists, but is not activated, send new activation token,
 	otherwise try to create new account (could fail if on exists, but that is
@@ -154,12 +154,13 @@ CpCanyonLocalAccountRestApiService >> createAccount: account [
 	[
 		modelDatabase
 			performOne: #insertAccount
-			statement: 'INSERT INTO accounts (id, createdAt, email, password) VALUES(:id, :createdAt, :email, :password)'
+			statement: 'INSERT INTO accounts (id, createdAt, email, password, settings) VALUES(:id, :createdAt, :email, :password, :settings)'
 			bind: {
 				#id -> id.
 				#createdAt -> createdAt.
 				#email -> account email.
-				#password -> passwordHash } asDictionary
+				#password -> passwordHash.
+				#settings -> '{}' } asDictionary
 	] on: CpDatabaseUniqueConstraintViolation do: [
 		"Account exists and is already activated (otherwise found it above at #isNonActivatedAccount:).
 		No need to create and send activation token."
@@ -335,14 +336,14 @@ CpCanyonLocalAccountRestApiService >> login: aRestRequest response: aServerRespo
 	| body account storedAccount accessToken |
 
 	body := (aRestRequest jsonBody) ifNil: [ self errorNoBody ].
-	account := self extractNewObject: MaLoginAccount fromBody: body.
+	account := self extractNewObject: CpCanyonLoginAccount fromBody: body.
 
 	"Precaution to not divulge more information than needed"
 	[
 		"Read account"
 		storedAccount := modelDatabase
 			selectOne: #login
-			statement: 'SELECT id, email, password FROM accounts WHERE deletedAt IS NULL AND email=:email'
+			statement: 'SELECT id, email, password, settings FROM accounts WHERE deletedAt IS NULL AND email=:email'
 			bind: {
 				#email -> account email } asDictionary.
 
@@ -361,7 +362,7 @@ CpCanyonLocalAccountRestApiService >> login: aRestRequest response: aServerRespo
 	aServerResponse appendHeaderWithName: #'cp-access-token' value: accessToken.
 
 	"Send response to indicate success"
-	self send: { #success -> true } asDictionary response: aServerResponse
+	self send: { #success -> true . #settings -> (storedAccount at: #settings) } asDictionary response: aServerResponse
 ]
 
 { #category : #'API - support' }
