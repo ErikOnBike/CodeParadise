@@ -67,6 +67,31 @@ CpCanyonAppMainView class >> beLoaded [
 	IonToggle beLoaded
 ]
 
+{ #category : #'accessing - text' }
+CpCanyonAppMainView class >> constraintTexts [
+
+	"Answer Dictionary with constraint texts"
+
+	^ Dictionary new
+		at: #'constraint.multi.violations' put: 'I''m sorry, I don''t understand your input:' ;
+		at: #'constraint.empty' put: 'Please provide some input for ''{label}''.' ;
+		at: #'constraint.required' put: 'Please provide some input for ''{label}'', so I can operate correctly.' ;
+		at: #'constraint.email.name' put: 'I don''t understand this email address. For the @-symbol only letters, digits and the following symbols are allowed: {1}' ;
+		at: #'constraint.email.domain' put: 'I don''t understand this email address. After the @-symbol only letters, digits and dashes are allowed.' ;
+		at: #'constraint.email.format' put: 'I don''t understand this email address, it should contain exactly one @-symbol.' ;
+		at: #'constraint.email.at' put: 'I don''t understand this email address, it should match the pattern "name@example.org".' ;
+		at: #'constraint.email.dot' put: 'I don''t understand this email address, it should only have dots between the domain name parts (like "name@some.example.org").' ;
+		at: #'constraint.email.dash' put: 'I don''t understand this email address, it should only have dashes inside domain name parts (like "name@some.sub-example.org").' ;
+		at: #'constraint.password.length' put: 'The password should be at least {1} characters long.' ;
+		at: #'constraint.token.length' put: 'The code should be exactly 32 characters long. Maybe it is not copied correctly from the mail?' ;
+		at: #'constraint.token.content' put: 'The code should only contain digits and the letters ''a'' until ''f''. Maybe it is not copied correctly from the mail?' ;
+		at: #'constraint.length.min' put: 'The input for ''{label}'' should be at least {1} characters long and is only {2} characters long.' ;
+		at: #'constraint.length.min.zero' put: 'The input for ''{label}'' should be at least {1} characters long and is currently still empty.' ;
+		at: #'constraint.length.max' put: 'The input for ''{label}'' should have at most {1} characters and is {2} characters long.' ;
+		at: #'constraint.selection.unknown' put: 'The value ''{1}'' is not allowed at the input for ''{label}''.' ;
+		yourself
+]
+
 { #category : #accessing }
 CpCanyonAppMainView class >> current [
 
@@ -82,7 +107,9 @@ CpCanyonAppMainView class >> defaultAppTexts [
 
 	^ Dictionary new
 		at: #'app.menu.title' put: 'Menu' ;
-		at: #'constraint.multi.violations' put: 'I''m sorry I don''t understand your input:' ;
+		at: #'app.label.account.email' put: 'email' ;
+		at: #'app.label.account.password' put: 'password' ;
+		at: #'app.label.account.token' put: 'code' ;
 		yourself
 ]
 
@@ -344,7 +371,8 @@ CpCanyonAppMainView >> initializeLanguageText [
 
 	CpPropertyEntity
 		languageText: (CpMultiLanguageText defaultLanguage: self class defaultLanguage) ;
-		addVolume: (CpLanguageVolume fromDictionary: self class defaultAppTexts) locale: self class defaultLocale
+		addVolume: (CpLanguageVolume fromDictionary: self class defaultAppTexts) locale: self class defaultLocale ;
+		addVolume: (CpLanguageVolume fromDictionary: self class constraintTexts) locale: self class defaultLocale
 ]
 
 { #category : #testing }
