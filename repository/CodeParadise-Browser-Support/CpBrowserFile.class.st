@@ -20,6 +20,15 @@ CpBrowserFile >> name [
 	^ self propertyAt: #name
 ]
 
+{ #category : #printing }
+CpBrowserFile >> printOn: aStream [
+
+	aStream
+		nextPutAll: 'File(name: ' ;
+		nextPutAll: self name asString ;
+		nextPut: $)
+]
+
 { #category : #accessing }
 CpBrowserFile >> webkitRelativePath [
 
