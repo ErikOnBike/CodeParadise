@@ -12,7 +12,13 @@ keys which make the distinction clear. Also it is probably good practice to
 prepend keys with their usage context to prevent 'key collisions'.
 
 All text variants are identified using a key, which is a Symbol (will be
-converted to a Symbol on creation).
+converted to a Symbol on creation). Using a Symbol to store the text variants
+allows to quickly find occurrences using the 'senders' of these Symbols.
+Because it is a best practice to use keys with a 'namespace' the Symbols do
+become slightly more involved to enter: #'domain.ordinalPerson'. An
+alternative is to use underscores as separator and camelCase for multiple
+words. The underscore is part of a regular Symbol and does not require escaping
+like the dot (.) does.
 
 Example JSON input which is acceptable. The numeric keys are all converted to Integers.
 ```
