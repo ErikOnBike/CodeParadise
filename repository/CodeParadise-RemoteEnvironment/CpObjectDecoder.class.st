@@ -216,7 +216,7 @@ CpObjectDecoder >> decodeClass [
 				instanceVariableNames: #()
 				classVariableNames: #()
 				classInstanceVariableNames: #().
-			Smalltalk at: superclassName put: theSuperclass ].
+			CpClientEnvironment current resolveClassReferences: theSuperclass ].
 
 	"Create new or update existing subclass from our superclass"
 	(Smalltalk classNamed: className)
@@ -234,7 +234,7 @@ CpObjectDecoder >> decodeClass [
 					newClass setFormat: newClass format + theSuperclass instSize.	"Object has no instance vars, so simply add the new inst var count"
 					theSuperclass addSubclass: newClass ].
 
-			"Update instance variables, class variables and class instance variables"
+			"Update instance variables and class variables"
 			instVarNames
 				ifNotEmpty: [
 					newClass instVarNames: instVarNames.
@@ -242,15 +242,23 @@ CpObjectDecoder >> decodeClass [
 			classVarNames do: [ :each | newClass addClassVarNamed: each ].
 			classInstVarNames
 				ifNotEmpty: [
-					self error: 'Currently there is no support for installing a superclass (out of order) which has class instance variables, installing ', className.
 
 					"Add the class instance variables"
-					"newClass class instVarNames: classInstVarNames.
-					newClass class setFormat: newClass class format + classInstVarNames size."
+					newClass class instVarNames: classInstVarNames.
+
+					"Update the metaclass(es), since their instances (i.e. the classes) have changed size"
+					newClass withAllSubclassesDo: [ :each |
+						each class setFormat: each class format + classInstVarNames size ].
 
 					"Recreate the metaclass instance(s), i.e. the class, since they have changed size"
-					"newClass withAllSubclassesDo: [ :each |
-						... ]" ] ]
+					newClass withAllSubclassesDo: [ :each |
+						| tempClass |
+						tempClass := each superclass
+							subclass: each name
+							instanceVariableNames: each instVarNames
+							classVariableNames: each classVarNames
+							classInstanceVariableNames: each class instVarNames.
+						each becomeForward: tempClass ] ] ]
 		ifNil: [
 
 			"Create new subclass"
@@ -258,7 +266,8 @@ CpObjectDecoder >> decodeClass [
 				subclass: className
 				instanceVariableNames: instVarNames
 				classVariableNames: classVarNames
-				classInstanceVariableNames: classInstVarNames ].
+				classInstanceVariableNames: classInstVarNames.
+			CpClientEnvironment current resolveClassReferences: newClass ].
 
 	"Read and install instance and class methods"
 	newClass installMethodDictionary: self readMethodDictionary.
@@ -270,22 +279,17 @@ CpObjectDecoder >> decodeClass [
 { #category : #decoding }
 CpObjectDecoder >> decodeClassReference [
 
-	| name class |
+	| name class classReference |
 
 	name := self readSymbol.
 	class := Smalltalk classNamed: name.
+	classReference := Association key: name value: (class ifNil: [ #__ClassReference ]).
 	class ifNil: [
-		"In the client environment create dummy class (helpful for cyclic dependencies)"
+		"In the client environment keep track of unresolved class reference"
 		CpClientEnvironment isRunning
-			ifTrue: [
-				class := Object
-					subclass: name
-					instanceVariableNames: #()
-					classVariableNames: #()
-					classInstanceVariableNames: #().
-				Smalltalk at: name put: class ]
+			ifTrue: [ CpClientEnvironment current registerUnresolvedClassReference: classReference ]
 			ifFalse: [ self error: 'Unknown class named ', name ] ].
-	^ Association key: name value: class
+	^ classReference
 ]
 
 { #category : #decoding }

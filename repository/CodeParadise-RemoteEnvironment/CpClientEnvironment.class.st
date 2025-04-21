@@ -366,6 +366,7 @@ CpClientEnvironment >> handleMessageReceived: aByteArray [
 
 			"Since no Exception handler might be installed, log the error too" 
 			self errorCr: error printString.
+			self errorCr: error signalerContext printString.
 
 			"Finish class installation (as far as we got)"
 			self postInstallClasses.
@@ -531,13 +532,17 @@ CpClientEnvironment >> postInstallClasses [
 			"Announce the error (for debugger or otherwise)"
 			CpExceptionAnnouncer announceException: error.
 
+			"Since no Exception handler might be installed, log the error too" 
+			self errorCr: error printString.
+			self errorCr: error signalerContext printString.
+
 			"Announce error but continu post installation process"
 			self serverAnnounce: (CpClientDecodeFailed description: error description) ] ].
 
 	installedClasses removeAll
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #support }
 CpClientEnvironment >> registerUnresolvedClassReference: anAssociation [
 
 	"Keep track of class references for which no Class exists yet.
@@ -610,7 +615,7 @@ CpClientEnvironment >> removeVariableAt: nameString [
 	^ self
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #support }
 CpClientEnvironment >> resolveClassReferences: aClass [
 
 	"Resolve the class references for the specified Class"
