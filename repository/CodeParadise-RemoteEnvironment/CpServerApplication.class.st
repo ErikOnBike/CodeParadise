@@ -397,9 +397,15 @@ CpServerApplication >> load [
 { #category : #'private - actions' }
 CpServerApplication >> load: anAnnoucement [
 
-	"Perform any actions needed when the ClientEnvironment belonging to the receiver loaded (for the first time)"
+	"Perform any actions needed when the ClientEnvironment belonging to the receiver loaded (for the first time).
 
-	self load.
+	Implementation:
+	Because timing can sometimes be an issue, there are pre and post load messages."
+
+	self
+		preLoad ;
+		load ;
+		postLoad.
 
 	self announceLoaded
 ]
@@ -421,6 +427,30 @@ CpServerApplication >> methodChanged: anAnnouncement [
 	^ anAnnouncement isMethodRemoved
 		ifTrue: [ self environment removeMethod: method ]
 		ifFalse: [ self environment updateMethod: method ]
+]
+
+{ #category : #actions }
+CpServerApplication >> postLoad [
+
+	"Perform any actions after the actual load"
+]
+
+{ #category : #actions }
+CpServerApplication >> postReload [
+
+	"Perform any actions after the actual reload"
+]
+
+{ #category : #actions }
+CpServerApplication >> preLoad [
+
+	"Perform any actions needed before the actual load"
+]
+
+{ #category : #actions }
+CpServerApplication >> preReload [
+
+	"Perform any actions needed before the actual reload"
 ]
 
 { #category : #'private - actions' }
@@ -458,7 +488,10 @@ CpServerApplication >> reload: anAnnouncement [
 
 	self clientVariables: anAnnouncement variables.
 
-	self reload.
+	self
+		preReload ;
+		reload ;
+		postReload.
 
 	self announceReloaded
 ]
