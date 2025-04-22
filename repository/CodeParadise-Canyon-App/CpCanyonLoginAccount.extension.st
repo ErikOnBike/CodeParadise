@@ -13,6 +13,8 @@ CpCanyonLoginAccount >> addClientChangeHandlers [
 	listen to changes in the receiver and keep this code separate for the client
 	environment only."
 
+	<environment: #browser>
+
 	super addClientChangeHandlers.
 
 	self
@@ -21,6 +23,8 @@ CpCanyonLoginAccount >> addClientChangeHandlers [
 
 { #category : #'*CodeParadise-Canyon-App' }
 CpCanyonLoginAccount >> initializeClientProperties [
+
+	<environment: #browser>
 
 	super initializeClientProperties.
 
