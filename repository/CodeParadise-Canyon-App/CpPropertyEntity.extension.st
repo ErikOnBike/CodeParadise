@@ -40,7 +40,6 @@ CpPropertyEntity >> preferredViewClass [
 	^ (Smalltalk classNamed: self class name, #View) ifNil: [
 		| prefix |
 		prefix := CpCanyonAppMainView viewClassPrefix.
-self traceCr: 'Testing: ', (prefix, (self class nameWithoutPrefix withoutPrefix: 'Canyon'), #View).
 		(Smalltalk classNamed: (prefix, (self class nameWithoutPrefix withoutPrefix: 'Canyon'), #View) asSymbol)
 			ifNil: [ self error: 'No view class can be found for ', self class name, ' please create one or provide explicit reference to it' ] ]
 ]
