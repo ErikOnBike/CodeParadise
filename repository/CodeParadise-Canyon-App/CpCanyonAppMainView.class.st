@@ -1,15 +1,14 @@
 "
 I am the Canyon app main view. I also represent the app's main access point and will therefore be
-referenced (e.g. from a CpCanyonPage) as the 'app'.
-I am responsible for maintaining a number of visual components:
-- header
-- footer
+referenced (e.g. from a CpCanyonAppPage) as the 'app'.
+I am responsible for maintaining a number of visual components (in order):
 - menu
-- alert
-- toast
+- pages (through a navigation component)
+- action sheet (allowing the user to selection some action)
 - loading (showing a message while performing some operation)
-- pages
-I am also responsible for navigation, although I delegate most behavior to my pages. Navigation from
+- toast
+- alert
+I am responsible for navigation, although I delegate most behavior to my pages. Navigation from
 or to a page might not be acceptable and therefore the page itself should be responsible. For example
 there might be unsaved changes in page or the user needs to login first.
 
@@ -33,8 +32,6 @@ Class {
 	#instVars : [
 		'navigation',
 		'menu',
-		'header',
-		'footer',
 		'actionSheet',
 		'loading',
 		'toast',
@@ -171,6 +168,9 @@ body {
 	-webkit-user-drag: none;
 	-ms-content-zooming: none;
 	word-wrap: break-word;
+}
+#app {
+	height: 100%;
 }'
 ]
 
@@ -493,11 +493,9 @@ CpCanyonAppMainView >> loadApp [
 	be subject to Light DOM CSS.
 
 	The general structure of the app consists of:
-		navigation
 		menu
-		header
-		placeholder for page content
-		footer
+		placeholder for page content (incl. navigation control)
+		action sheet (for allowing the user to select an action)
 		loading (for showing a message while performing some task)
 		toast
 		alert
@@ -506,23 +504,18 @@ CpCanyonAppMainView >> loadApp [
 	overlay the other elements (visually). The alert is considered the most
 	important and is therefore added last.
 
-	The structure is chosen so that navigation is on page level and header and
-	footer are separate components (so not every page has to implement it).
-	IF your app requires different headers/footers per page or does not require
-	headers/footers on all pages, consider leaving the app header/footer empty
-	and simply add headers/footers to the individual pages. Alternative is to
-	hide the header/footer if the (current) page should be without them. This
-	should probably be done from the page navigation and not from the
-	#updateAfterNavigate operation, because that would be too late and would
-	make the update more visible (after any animations have been performed).
+	Each page is responsible for deciding whether a header and/or footer should
+	be present. Also having tabs and the navigation between these tabs is the
+	responsibility of the page. The CpCanyonAppPage does have some default
+	behavior for your convenience. For example, placing a back button in a page's
+	header or footer will make it behave as expected, it will call the page's
+	#navigateBack behavior.
 
-	It is not necessary to have actual content in the header or footer. They
-	will collapse (and be invisible) if no content is provided. The content for
-	the header and footer should be created in #loadHeader and #loadFooter.
-	Similarly content for the menu should be constructed in #loadMenu. To be
-	able to use the menu typically a IonMenuButton / <ion-menu-button> should
-	be placed visible on the page (in the header for example) or some code
-	should explicitly open the menu based on the user input/action."
+	Content for the menu should be constructed in #loadMenu. To be able to use
+	the menu typically a IonMenuButton / <ion-menu-button> should be placed
+	visible on the page (in the header for example, and again it will work
+	automagically) or some code should explicitly open the menu based on the
+	user input/action."
 
 	"Create the visual app structure"
 	self
@@ -541,17 +534,11 @@ CpCanyonAppMainView >> loadApp [
 					yourself) ;
 				yourself) ;
 
-			"Add the page header (content added through loadHeader)"
-			appendChild: (header := IonHeader new) ;
-
 			"Add the page content (placeholder, including navigation control)"
-			appendChild: (IonContent new
+			appendChild: ((CpHtmlElement newWithTag: #div)
 				id: #app ;
 				appendChild: (navigation := IonNav new) ;
 				yourself) ;
-
-			"Add the page footer (content added through loadFooter)"
-			appendChild: (footer := IonFooter new) ;
 
 			"Add a (global) action sheet"
 			appendChild: (actionSheet := IonActionSheet new
@@ -577,44 +564,14 @@ CpCanyonAppMainView >> loadApp [
 
 			yourself).
 
-	"Load the content for the menu, header and footer"
-	self
-		loadMenu ;
-		loadHeader ;
-		loadFooter.
+	"Load the content for the menu"
+	self loadMenu.
 
 	"Load the first page (aka home page)"
 	self showPage: self homePageClass withModel: self homePageModel.
 
 	"Load any content required for the app"
 	self loadInitialContent
-]
-
-{ #category : #initialization }
-CpCanyonAppMainView >> loadFooter [
-
-	"Load the footer (content) for the app.
-	If no footer is used, leave the method empty.
-	The footer can be used to show some status information or to have
-	some navigation/selection mechanism. For larger 'tabs' consider
-	using the IonTabs / <ion-tabs> on the page level instead.
-	See also: https://ionicframework.com/docs/api/tabs
-	Typically one or more IonToolbars are used as footer content.
-	IF the header has specific content based on the current page being
-	shown, add some update call to #updateAfterNavigate."
-]
-
-{ #category : #initialization }
-CpCanyonAppMainView >> loadHeader [
-
-	"Load the header (content) for the app.
-	If no header is used, leave the method empty.
-	The header can be used to show some title or action at the top of the
-	app screen. It can also contain a menu button or some 'navigate back'
-	button. Add the required components to the header instance variable.
-	Typically one or more IonToolbars are used as header content.
-	IF the header has specific content based on the current page being
-	shown, add some update call to #updateAfterNavigate."
 ]
 
 { #category : #initialization }

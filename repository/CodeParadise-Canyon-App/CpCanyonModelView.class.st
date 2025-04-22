@@ -1,3 +1,9 @@
+"
+I am a generic Model View. I am responsible for setting up and tearing down
+bindings between the model and the view. I know the page I live in and I can
+update the page's title when I see necessary. I will be updated after navigation
+has occurred.
+"
 Class {
 	#name : #CpCanyonModelView,
 	#superclass : #CpTemplateComponent,
@@ -140,6 +146,22 @@ CpCanyonModelView >> modelChanged: aPropertyChange [
 	"The model of the receiver changed"
 ]
 
+{ #category : #accessing }
+CpCanyonModelView >> page [
+
+	"Answer the page of the receiver"
+
+	| page |
+
+	page := self parent.
+	[ page isNotNil ] whileTrue: [
+		page isPage
+			ifTrue: [ ^ page ].
+		page := page parent ].
+
+	^ nil
+]
+
 { #category : #initialization }
 CpCanyonModelView >> release [
 
@@ -173,4 +195,21 @@ CpCanyonModelView >> title [
 CpCanyonModelView >> updateAfterNavigate [
 
 	"Update the receiver after a navigation has been performed"
+]
+
+{ #category : #actions }
+CpCanyonModelView >> updateTitle [
+
+	"Update the receiver's title"
+
+	self updateTitle: self title
+]
+
+{ #category : #actions }
+CpCanyonModelView >> updateTitle: aString [
+
+	"Update the receiver's title"
+
+	self page
+		updateTitle: aString
 ]
