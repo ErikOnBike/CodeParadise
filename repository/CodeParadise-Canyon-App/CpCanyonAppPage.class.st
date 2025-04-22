@@ -189,7 +189,7 @@ CpCanyonAppPage >> hasModel [
 	^ self model isNotNil
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #view }
 CpCanyonAppPage >> hideButton: aString if: aBoolean [
 
 	(self shadowedElementWithId: aString)
@@ -210,7 +210,9 @@ CpCanyonAppPage >> initializeShadowRoot [
 	super initializeShadowRoot.
 
 	(self shadowedAllDescendantsMatching: IonBackButton asCssSelector) do: [ :each |
-		each when: CpClickEvent forkedSend: #handleNavigateBack: to: self ]
+		each when: CpClickEvent forkedSend: #handleNavigateBack: to: self ].
+
+	self restoreButtonLabels
 ]
 
 { #category : #testing }
@@ -300,6 +302,17 @@ CpCanyonAppPage >> navigateTo: aPageClass withModel: aModel [
 		showPage: aPageClass withModel: aModel
 ]
 
+{ #category : #view }
+CpCanyonAppPage >> restoreButtonLabels [
+
+	"Restore the button labels (see #setButton:label:)"
+
+	(self shadowedAllDescendantsMatching: IonButton asCssSelector) do: [ :each |
+		(self attributeAt: 'button-', each id) ifNotNil: [ :label |
+self traceCr: 'Restore label ', label.
+			each textContent: label ] ]
+]
+
 { #category : #accessing }
 CpCanyonAppPage >> screenWidth [
 
@@ -309,6 +322,16 @@ CpCanyonAppPage >> screenWidth [
 	^ (CpClientEnvironment current
 			persistentVariableAt: #SCREEN_WIDTH)
 				ifNil: [ #auto ]
+]
+
+{ #category : #view }
+CpCanyonAppPage >> setButton: idString label: labelString [
+
+	(self shadowedElementWithId: idString)
+		textContent: labelString.
+
+	"Store the label in the host so it survives updates"
+	self attributeAt: 'button-', idString put: labelString
 ]
 
 { #category : #accessing }

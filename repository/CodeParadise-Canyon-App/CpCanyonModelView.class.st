@@ -182,7 +182,8 @@ CpCanyonModelView >> pageAllDescendantsMatching: aString [
 	"Answer all descendants matching the specified CSS selector from the page's (shadow) content"
 
 	^ self page
-		shadowedAllDescendantsMatching: aString
+		ifNotNil: [ :page | page shadowedAllDescendantsMatching: aString ]
+		ifNil: [ #() ]
 ]
 
 { #category : #accessing }
@@ -190,8 +191,8 @@ CpCanyonModelView >> pageElementWithId: aString [
 
 	"Answer the element with the specified id from the page's (shadow) content"
 
-	^ self page
-		shadowedElementWithId: aString
+	^ self page ifNotNil: [ :page |
+		page shadowedElementWithId: aString ]
 ]
 
 { #category : #accessing }
@@ -199,8 +200,22 @@ CpCanyonModelView >> pageFirstDescendantMatching: aString [
 
 	"Answer the first descendant matching the specified CSS selector from the page's (shadow) content"
 
-	^ self page
-		shadowedFirstDescendantMatching: aString
+	^ self page ifNotNil: [ :page |
+		page shadowedFirstDescendantMatching: aString ]
+]
+
+{ #category : #view }
+CpCanyonModelView >> pageHideButton: aString if: aBoolean [
+
+	self page ifNotNil: [ :page |
+		page hideButton: aString if: aBoolean ]
+]
+
+{ #category : #view }
+CpCanyonModelView >> pageSetButton: idString label: labelString [
+
+	self page ifNotNil: [ :page |
+		page setButton: idString label: labelString ]
 ]
 
 { #category : #initialization }
