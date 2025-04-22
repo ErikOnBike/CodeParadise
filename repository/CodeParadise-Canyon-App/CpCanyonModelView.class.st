@@ -168,6 +168,33 @@ CpCanyonModelView >> page [
 	^ nil
 ]
 
+{ #category : #accessing }
+CpCanyonModelView >> pageAllDescendantsMatching: aString [
+
+	"Answer all descendants matching the specified CSS selector from the page's (shadow) content"
+
+	^ self page
+		shadowedAllDescendantsMatching: aString
+]
+
+{ #category : #accessing }
+CpCanyonModelView >> pageElementWithId: aString [
+
+	"Answer the element with the specified id from the page's (shadow) content"
+
+	^ self page
+		shadowedElementWithId: aString
+]
+
+{ #category : #accessing }
+CpCanyonModelView >> pageFirstDescendantMatching: aString [
+
+	"Answer the first descendant matching the specified CSS selector from the page's (shadow) content"
+
+	^ self page
+		shadowedFirstDescendantMatching: aString
+]
+
 { #category : #initialization }
 CpCanyonModelView >> release [
 
