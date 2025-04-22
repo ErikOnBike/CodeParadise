@@ -284,6 +284,15 @@ CpPropertyModel >> at: aSymbol ifAbsent: aBlock [
 	^ self propertyAt: aSymbol
 ]
 
+{ #category : #accessing }
+CpPropertyModel >> clientPostCopy [
+
+	"Add post copy actions specific for client environment (i.e. where a UI is present).
+	Subclasses should call the super implementation and preferrable add the following pragma:
+		<environment: #browser>
+	"
+]
+
 { #category : #testing }
 CpPropertyModel >> hasPropertyAt: aSymbol [
 
@@ -466,6 +475,9 @@ CpPropertyModel >> postCopy [
 	super postCopy.
 
 	data := data copy.
+
+	self class isRunningClientSide
+		ifTrue: [ self clientPostCopy ].
 
 	self addChangeHandlers
 ]
