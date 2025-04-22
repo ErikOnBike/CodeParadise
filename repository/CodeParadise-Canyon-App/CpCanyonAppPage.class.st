@@ -92,7 +92,8 @@ CpCanyonAppPage class >> style [
 
 	<webResource: #css>
 
-	"Hide buttons by transitioning them to a 0 width and 0 opacity. Specificity is important, therefore long CSS selector."
+	"Hide buttons by transitioning them to a 0 width and 0 opacity. Specificity is important, therefore long CSS selector.
+	Icon within buttons keep their original size (assuming default size for now) during the transition."
 
 	^ '@import url("https://cdn.jsdelivr.net/npm/@ionic/core/css/ionic.bundle.css");
 *, *:before, *:after {
@@ -105,7 +106,7 @@ CpCanyonAppPage class >> style [
 :host ion-buttons ion-button {
 	transition: width .2s, min-width .2s, opacity .2s;
 }
-:host ion-buttons ion-button::part(native) {
+:host ion-buttons ion-button[slot="icon-only"]::part(native) {
 	width: 3rem;
 	height: 3rem;
 }
