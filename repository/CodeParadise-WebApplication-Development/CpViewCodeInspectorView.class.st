@@ -641,7 +641,7 @@ CpViewCodeInspectorView >> refreshStyle [
 	self elementIsTemplateComponent
 		ifFalse: [ ^ self ].
 
-	cssEditor isDirty
+	(cssEditor isNotNil and: [ cssEditor isDirty ])
 		ifTrue: [
 			self
 				confirm: 'The source code for the style is changed. What do you want to do with the code?'
@@ -696,7 +696,7 @@ CpViewCodeInspectorView >> requestGlobalStyle [
 	styleType = #globalStyle
 		ifTrue: [ ^ self ].
 
-	cssEditor isDirty
+	(cssEditor isNotNil and: [ cssEditor isDirty ])
 		ifTrue: [
 			self
 				confirm: 'The source code for the style is changed. What do you want to do with the code?'
@@ -716,7 +716,7 @@ CpViewCodeInspectorView >> requestLocalStyle [
 	styleType = #style
 		ifTrue: [ ^ self ].
 
-	cssEditor isDirty
+	(cssEditor isNotNil and: [ cssEditor isDirty ])
 		ifTrue: [
 			self
 				confirm: 'The source code for the style is changed. What do you want to do with the code?'
@@ -751,6 +751,8 @@ CpViewCodeInspectorView >> requestTemplate [
 
 { #category : #accessing }
 CpViewCodeInspectorView >> revertStyle [
+
+	cssEditor ifNil: [ ^ self ].
 
 	cssEditor revert
 ]
@@ -911,6 +913,8 @@ CpViewCodeInspectorView >> showTemplate: aString [
 
 { #category : #accessing }
 CpViewCodeInspectorView >> styleContent [
+
+	cssEditor ifNil: [ ^ '' ].
 
 	^ cssEditor content
 ]
