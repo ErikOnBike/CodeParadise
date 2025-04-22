@@ -250,11 +250,15 @@ CpCanyonAppPage >> model: aModel [
 
 	"Replace the receiver's child view with a new ModelView on the specified model"
 
+	| childView |
+
 	"Remove the model from the existing child view"
 	self firstChild ifNotNil: [ :firstChild |
 		firstChild model: nil ].
 
-	self replaceAllChildrenWith: aModel inModelView
+	self replaceAllChildrenWith: (childView := aModel inModelView).
+
+	childView initializeInPage
 ]
 
 { #category : #actions }

@@ -100,6 +100,12 @@ CpCanyonModelView >> do: aBlock whileShowing: aString [
 ]
 
 { #category : #initialization }
+CpCanyonModelView >> initializeInPage [
+
+	"Initialize the receiver now it has been placed in a page"
+]
+
+{ #category : #initialization }
 CpCanyonModelView >> initializeShadowRoot [
 
 	super initializeShadowRoot.
