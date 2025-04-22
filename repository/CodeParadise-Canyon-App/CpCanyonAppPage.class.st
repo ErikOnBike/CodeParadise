@@ -302,6 +302,14 @@ CpCanyonAppPage >> navigateTo: aPageClass withModel: aModel [
 		showPage: aPageClass withModel: aModel
 ]
 
+{ #category : #accessing }
+CpCanyonAppPage >> previousPage [
+
+	"Answer the page before the receiver (if any)"
+
+	^ self previousSibling
+]
+
 { #category : #view }
 CpCanyonAppPage >> restoreButtonLabels [
 
@@ -351,14 +359,24 @@ CpCanyonAppPage >> title [
 CpCanyonAppPage >> updateAfterNavigate [
 
 	"Update the receiver when being shown again after a navigation"
+self traceCr: 'Update after in ', self printString.
+	"Let the PropertyModelView update itself (if present)"
+	self firstChild
+		ifNotNil: [ :firstChild | firstChild updateAfterNavigate ]
+]
 
+{ #category : #actions }
+CpCanyonAppPage >> updateBeforeNavigate [
+
+	"Update the receiver just before being shown again because of a navigation"
+self traceCr: 'Update before in ', self printString.
 	self updateScreenWidth.
 
 	self updateTitle: self title.
 
 	"Let the PropertyModelView update itself (if present)"
 	self firstChild
-		ifNotNil: [ :firstChild | firstChild updateAfterNavigate ]
+		ifNotNil: [ :firstChild | firstChild updateBeforeNavigate ]
 ]
 
 { #category : #view }

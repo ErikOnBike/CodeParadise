@@ -307,6 +307,9 @@ CpCanyonAppMainView >> closePage [
 	self isHome
 		ifTrue: [ ^ self ].
 
+	"Prepare the previous page"
+	self previousPage updateBeforeNavigate.
+
 	"Remove current page and update the new current page"
 	navigation pop await.
 	self updateAfterNavigate
@@ -681,6 +684,17 @@ CpCanyonAppMainView >> pageCount [
 	^ navigation children size
 ]
 
+{ #category : #accessing }
+CpCanyonAppMainView >> previousPage [
+
+	"Answer the previous page.
+
+	During navigation, there is a transition which might make this value unreliable (at that moment)."
+
+	^ self currentPage ifNotNil: [ :page |
+		page previousPage ]
+]
+
 { #category : #actions }
 CpCanyonAppMainView >> selectAction: aString from: aCollection [
 
@@ -774,11 +788,14 @@ CpCanyonAppMainView >> showModal: aViewClass withModel: aModel [
 	view makeDismissableIn: modal.
 
 	"Let the view update itself"
-	view updateAfterNavigate.
+	view updateBeforeNavigate.
 
 	"Present the modal View"
 	self appendChild: modal.
 	modal present.
+
+	"Let the view update itself"
+	view updateAfterNavigate.
 
 	"Wait for it to close"
 	result := modal onWillDismiss await.
@@ -810,8 +827,15 @@ CpCanyonAppMainView >> showPage: aPageClass withModel: aModel [
 	It is assumed, that all checks have already been performed with respect to navigation."
 
 	(aPageClass isHome and: [ self pageCount > 0 ])
-		ifTrue: [ navigation popToRoot await ]
-		ifFalse: [ (navigation push: (aPageClass withModel: aModel)) await ].
+		ifTrue: [
+			(navigation getByIndex: 0) await
+				updateBeforeNavigate.
+			navigation popToRoot await ]
+		ifFalse: [
+			| page |
+			page := aPageClass withModel: aModel.
+			page updateBeforeNavigate.
+			(navigation push: page) await ].
 
 	"Let the current page update itself"
 	self updateAfterNavigate

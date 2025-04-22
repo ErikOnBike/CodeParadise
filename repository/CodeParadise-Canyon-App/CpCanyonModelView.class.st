@@ -254,6 +254,12 @@ CpCanyonModelView >> updateAfterNavigate [
 ]
 
 { #category : #view }
+CpCanyonModelView >> updateBeforeNavigate [
+
+	"Update the receiver just before presenting itself after a navigation has been performed"
+]
+
+{ #category : #view }
 CpCanyonModelView >> updateTitle [
 
 	"Update the receiver's title"
