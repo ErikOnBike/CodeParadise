@@ -162,6 +162,9 @@ CpCanyonAppPage >> canNavigateBack [
 	This can be an alert or a toast, accessible through the #app accessor.
 	This method is only called when the user herself tries to navigate."
 
+	self firstChild ifNotNil: [ :firstChild |
+		^ firstChild canNavigateBack ].
+
 	^ true
 ]
 

@@ -73,6 +73,14 @@ CpCanyonModelView >> app [
 	^ CpCanyonAppMainView current
 ]
 
+{ #category : #testing }
+CpCanyonModelView >> canNavigateBack [
+
+	"Answer whether it is allowed to navigating back (away) from the receiver"
+
+	^ true
+]
+
 { #category : #view }
 CpCanyonModelView >> do: aBlock whileShowing: aString [
 
