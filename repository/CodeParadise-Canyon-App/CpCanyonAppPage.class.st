@@ -235,6 +235,15 @@ CpCanyonAppPage >> isPublic [
 	^ self class isPublic
 ]
 
+{ #category : #testing }
+CpCanyonAppPage >> isWidePreferred [
+
+	"Answer whether the receiver is preferrably shown on a wide screen.
+	By default all pages are shown wide in the receiver."
+
+	^ true
+]
+
 { #category : #accessing }
 CpCanyonAppPage >> model [
 
@@ -292,6 +301,17 @@ CpCanyonAppPage >> navigateTo: aPageClass withModel: aModel [
 ]
 
 { #category : #accessing }
+CpCanyonAppPage >> screenWidth [
+
+	"Answer the screen width setting (as stored in a persistent variable)
+	or use default #auto (alternatives are #min and #max)"
+
+	^ (CpClientEnvironment current
+			persistentVariableAt: #SCREEN_WIDTH)
+				ifNil: [ #auto ]
+]
+
+{ #category : #accessing }
 CpCanyonAppPage >> title [
 
 	"Answer the title for the receiver.
@@ -309,11 +329,34 @@ CpCanyonAppPage >> updateAfterNavigate [
 
 	"Update the receiver when being shown again after a navigation"
 
+	self updateScreenWidth.
+
 	self updateTitle: self title.
 
 	"Let the PropertyModelView update itself (if present)"
 	self firstChild
 		ifNotNil: [ :firstChild | firstChild updateAfterNavigate ]
+]
+
+{ #category : #view }
+CpCanyonAppPage >> updateScreenWidth [
+
+	"The receiver can be shown using the full width of the device, always use a minimal (thin)
+	display or dynamically decide based on the page's behavior. Three different values are
+	possible (and stored in the persistent variable #SCREEN_WIDTH, see method #screenWidth):
+		- #min (always show thin display)
+		- #max (always show full width)
+		- #auto (let page decide based on response from #isWidePreferred)
+
+	It is up to the app to decide how the user can select her preference."
+
+	| screenWidth isWidePreferred |
+
+	screenWidth := self screenWidth.
+	isWidePreferred := self isWidePreferred.
+
+	CpHtmlElement documentBody
+		classed: #thin if: (screenWidth = #min or: [ screenWidth = #auto and: [ isWidePreferred not ] ])
 ]
 
 { #category : #accessing }
