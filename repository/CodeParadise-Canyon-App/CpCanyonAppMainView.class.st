@@ -171,6 +171,22 @@ body {
 }
 #app {
 	height: 100%;
+}
+@media screen and (min-width: 940px) {
+	body {
+		transition: background-color 1s;
+		background-color: var(--ion-background-color);
+	}
+	body.thin {
+		background-color: #999;
+	}
+	ion-app {
+		transition: left 1s, right 1s, background-color 1s;
+	}
+	html body.thin ion-app {
+		left: calc((100% - 940px) / 2);
+		right: calc((100% - 940px) / 2);
+	}
 }'
 ]
 
