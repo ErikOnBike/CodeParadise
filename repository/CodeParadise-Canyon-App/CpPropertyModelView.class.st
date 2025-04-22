@@ -1,3 +1,11 @@
+"
+I am a PropertyModel View. I am responsible for setting up and tearing down
+property bindings between the model and the view. This ensures that my model
+and view stay in sync. I will validate the model when the user enters data
+into the view. By default validation issues are shown at the appropriate
+input field. Before 'committing' these changes I can also validate the model
+and show a friendly message to the user about the validation results.
+"
 Class {
 	#name : #CpPropertyModelView,
 	#superclass : #CpCanyonModelView,
@@ -246,6 +254,7 @@ CpPropertyModelView >> violationsForProperty: aSymbol [
 	| violations |
 
 	violations := OrderedCollection new.
+
 	self addViolationsForProperty: aSymbol to: violations.
 
 	^ violations
