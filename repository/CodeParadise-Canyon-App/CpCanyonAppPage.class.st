@@ -168,7 +168,7 @@ CpCanyonAppPage >> canNavigateBack [
 	^ true
 ]
 
-{ #category : #initialization }
+{ #category : #'event handling' }
 CpCanyonAppPage >> handleNavigateBack: aClickEvent [
 
 	"Handle the 'back' button click"
@@ -196,7 +196,7 @@ CpCanyonAppPage >> hideButton: aString if: aBoolean [
 		classed: #hide if: aBoolean
 ]
 
-{ #category : #testing }
+{ #category : #initialization }
 CpCanyonAppPage >> initialize [
 
 	super initialize.
