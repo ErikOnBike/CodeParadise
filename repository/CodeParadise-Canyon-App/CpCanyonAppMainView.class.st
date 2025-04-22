@@ -208,6 +208,16 @@ CpCanyonAppMainView class >> postInstall [
 ]
 
 { #category : #'class initialization' }
+CpCanyonAppMainView class >> postInstallOnce [
+
+	"Reset the default behavior to prevent the context menu.
+	This is not relevant for mobile apps where a context menu
+	is not present."
+
+	CpSecondaryClickEvent resetDefaultContextMenu.
+]
+
+{ #category : #'class initialization' }
 CpCanyonAppMainView class >> start [
 
 	"Start an instance of the receiver in the browser"
