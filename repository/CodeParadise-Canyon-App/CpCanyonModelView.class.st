@@ -73,7 +73,7 @@ CpCanyonModelView >> app [
 	^ CpCanyonAppMainView current
 ]
 
-{ #category : #operations }
+{ #category : #view }
 CpCanyonModelView >> do: aBlock whileShowing: aString [
 
 	"Evaluate the specified Block while showing a message.
@@ -224,13 +224,13 @@ CpCanyonModelView >> title [
 	^ nil
 ]
 
-{ #category : #actions }
+{ #category : #view }
 CpCanyonModelView >> updateAfterNavigate [
 
 	"Update the receiver after a navigation has been performed"
 ]
 
-{ #category : #actions }
+{ #category : #view }
 CpCanyonModelView >> updateTitle [
 
 	"Update the receiver's title"
@@ -238,7 +238,7 @@ CpCanyonModelView >> updateTitle [
 	self updateTitle: self title
 ]
 
-{ #category : #actions }
+{ #category : #view }
 CpCanyonModelView >> updateTitle: aString [
 
 	"Update the receiver's title"
