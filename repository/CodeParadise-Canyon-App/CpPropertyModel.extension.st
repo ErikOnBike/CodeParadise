@@ -11,7 +11,7 @@ CpPropertyModel class >> labelAt: aSymbol [
 	labelKey := String streamContents: [ :stream |
 		stream
 			nextPutAll: 'app.label.' ;
-			nextPutAll: self nameWithoutPrefix uncapitalized ;
+			nextPutAll: (self nameWithoutPrefix withoutPrefix: #Canyon) uncapitalized ;
 			nextPut: $. ;
 			nextPutAll: aSymbol ].
 
@@ -19,7 +19,7 @@ CpPropertyModel class >> labelAt: aSymbol [
 	labelValue := self text: labelKey.
 
 	"If no label value is found and not yet at root, try superclass"
-	(labelValue isNil and: [ self ~~ CpPropertyModel ])
+	(labelValue == labelKey and: [ self ~~ CpPropertyModel ])
 		ifTrue: [ labelValue := self superclass labelAt: aSymbol ].
 
 	^ labelValue

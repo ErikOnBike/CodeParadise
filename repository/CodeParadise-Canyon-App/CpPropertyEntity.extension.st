@@ -5,18 +5,26 @@ CpPropertyEntity class >> labelFor: propertySymbol selection: selectionSymbol [
 
 	"Answer the label for the specified selection of the specified property"
 
-	| key |
+	| labelKey labelValue |
 
-	key := String streamContents: [ :stream |
+	"Create label key"
+	labelKey := String streamContents: [ :stream |
 		stream
 			nextPutAll: 'app.' ;
-			nextPutAll: self nameWithoutPrefix uncapitalized ;
+			nextPutAll: (self nameWithoutPrefix withoutPrefix: #Canyon) uncapitalized ;
 			nextPut: $. ;
 			nextPutAll: propertySymbol ;
 			nextPut: $. ;
 			nextPutAll: selectionSymbol ].
 
-	^ self text: key asSymbol
+	"Retrieve label value"
+	labelValue := self text: labelKey.
+
+	"If no label value is found and not yet at root, try superclass"
+	(labelValue == labelKey and: [ self ~~ CpPropertyEntity ])
+		ifTrue: [ labelValue := self superclass labelFor: propertySymbol selection: selectionSymbol ].
+
+	^ labelValue
 ]
 
 { #category : #'*CodeParadise-Canyon-App' }
