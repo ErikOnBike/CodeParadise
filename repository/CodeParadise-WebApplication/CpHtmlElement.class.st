@@ -151,6 +151,15 @@ CpHtmlElement class >> documentHead [
 	self primitiveFailed
 ]
 
+{ #category : #'acccessing-ui' }
+CpHtmlElement class >> documentHtml [
+
+	"Answer an instance of the receiver representing the <html> element of
+	the current (browser tab) HTML document"
+
+	^ self documentBody parent
+]
+
 { #category : #accessing }
 CpHtmlElement class >> namespace [
 
