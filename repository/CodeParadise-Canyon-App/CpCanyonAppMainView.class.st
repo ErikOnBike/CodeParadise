@@ -167,7 +167,6 @@ body {
 	touch-action: manipulation;
 	-webkit-user-drag: none;
 	-ms-content-zooming: none;
-	word-wrap: break-word;
 }
 #app {
 	height: 100%;

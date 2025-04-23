@@ -28,16 +28,6 @@ CpCanyonAppPage class >> app [
 	^ CpCanyonAppMainView current
 ]
 
-{ #category : #'web resources' }
-CpCanyonAppPage class >> globalStyle [
-
-	<webResource: #css>
-
-	^ 'ion-nav > * {
-	overflow-y: scroll;
-}'
-]
-
 { #category : #tags }
 CpCanyonAppPage class >> isAbstractTag [
 
@@ -100,7 +90,6 @@ CpCanyonAppPage class >> style [
 	box-sizing: border-box;
 }
 :host {
-	background-color: var(--ion-background-color);
 	height: 100%;
 }
 :host ion-buttons ion-button {

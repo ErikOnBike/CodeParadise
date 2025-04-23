@@ -39,7 +39,7 @@ CpCanyonModelView class >> style [
 	box-sizing: border-box;
 }
 :host,
-:host > :not(style):first-of-type {
+:host > :not(style) {
 	height: 100%;
 }'
 ]
