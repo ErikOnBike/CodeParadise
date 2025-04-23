@@ -16,7 +16,7 @@ CpPropertyModel class >> labelAt: aSymbol [
 			nextPutAll: aSymbol ].
 
 	"Retrieve label value"
-	labelValue := CpPropertyEntity text: labelKey.
+	labelValue := self text: labelKey.
 
 	"If no label value is found and not yet at root, try superclass"
 	(labelValue isNil and: [ self ~~ CpPropertyModel ])
@@ -32,4 +32,16 @@ CpPropertyModel >> labelAt: aSymbol [
 
 	^ self class
 		labelAt: aSymbol
+]
+
+{ #category : #'*CodeParadise-Canyon-App' }
+CpPropertyModel class >> text: aSymbol [
+
+	"Answer the text for the specified Symbol.
+
+	Implementation:
+	Subclasses should override this.
+	For now it simply answers the Symbol."
+
+	^ aSymbol
 ]
