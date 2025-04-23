@@ -75,6 +75,9 @@ CpPropertyModelView >> bindProperty: aSymbol toElement: anElement [
 	Also add binding to normalize the property after an input element has lost focus.
 	Keep track of the bindings created, so clean-up can be performed afterwards."
 
+	"Initialize the element"
+	anElement initializeForModel: model property: aSymbol.
+
 	"Set initial value based on receiver's model"
 	anElement valueFromModel: (model propertyAt: aSymbol).
 

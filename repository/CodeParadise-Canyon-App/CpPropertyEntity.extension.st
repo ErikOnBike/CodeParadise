@@ -17,6 +17,34 @@ CpPropertyEntity >> inNewPage [
 ]
 
 { #category : #'*CodeParadise-Canyon-App' }
+CpPropertyEntity class >> labelFor: propertySymbol selection: selectionSymbol [
+
+	"Answer the label for the specified selection of the specified property"
+
+	| key |
+
+	key := String streamContents: [ :stream |
+		stream
+			nextPutAll: 'app.' ;
+			nextPutAll: self nameWithoutPrefix uncapitalized ;
+			nextPut: $. ;
+			nextPutAll: propertySymbol ;
+			nextPut: $. ;
+			nextPutAll: selectionSymbol ].
+
+	^ self text: key asSymbol
+]
+
+{ #category : #'*CodeParadise-Canyon-App' }
+CpPropertyEntity >> labelFor: propertySymbol selection: selectionSymbol [
+
+	"Answer the label for the specified selection of the specified property"
+
+	^ self class
+		labelFor: propertySymbol selection: selectionSymbol
+]
+
+{ #category : #'*CodeParadise-Canyon-App' }
 CpPropertyEntity >> pageClass [
 
 	"Answer the page class for the receiver.

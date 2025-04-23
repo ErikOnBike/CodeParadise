@@ -42,6 +42,12 @@ CpPropertyConstraint >> isPropertyConstraint [
 ]
 
 { #category : #testing }
+CpPropertyConstraint >> isSelection [
+
+	^ false
+]
+
+{ #category : #testing }
 CpPropertyConstraint >> isValid: anObject [
 
 	"Answer whether the specified value is valid in the receiver.

@@ -1,6 +1,33 @@
 Extension { #name : #IonSelect }
 
 { #category : #'*CodeParadise-Canyon-App' }
+IonSelect >> initializeForModel: aModel property: aSymbol [
+
+	"Initialize the receiver for handling the specified Model and property.
+	Assume the receiver has a selection constraint."
+
+	| selection |
+
+	super initializeForModel: aModel property: aSymbol.
+
+	selection := OrderedDictionary new.
+
+	aModel propertyConstraintsAt: aSymbol do: [ :each |
+		each isSelection
+			ifTrue: [
+				each selection do: [ :value |
+					selection at: value put: (aModel labelFor: aSymbol selection: value) ] ] ].
+
+	self removeChildren.
+
+	selection keysAndValuesDo: [ :value :label |
+		self appendChild: (IonSelectOption new
+			value: value ;
+			textContent: label ;
+			yourself) ]
+]
+
+{ #category : #'*CodeParadise-Canyon-App' }
 IonSelect >> valueForModel [
 
 	"Convenience method used in binding Elements to a Model"

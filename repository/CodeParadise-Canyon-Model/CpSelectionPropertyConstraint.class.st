@@ -33,6 +33,18 @@ CpSelectionPropertyConstraint >> initializeWithSelection: aCollection [
 	selection := aCollection
 ]
 
+{ #category : #testing }
+CpSelectionPropertyConstraint >> isSelection [
+
+	^ true
+]
+
+{ #category : #accessing }
+CpSelectionPropertyConstraint >> selection [
+
+	^ selection
+]
+
 { #category : #accessing }
 CpSelectionPropertyConstraint >> violationsIn: aString do: aBlock [
 
