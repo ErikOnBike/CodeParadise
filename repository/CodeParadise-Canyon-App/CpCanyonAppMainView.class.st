@@ -243,17 +243,6 @@ CpCanyonAppMainView class >> start [
 			yourself)
 ]
 
-{ #category : #'class initialization' }
-CpCanyonAppMainView class >> start: aString [
-
-	"Start an instance of the receiver in the browser,
-	using the specified String as prefix for View classes."
-
-	Smalltalk at: #ViewClassesPrefix put: aString.
-
-	self start
-]
-
 { #category : #'web resources' }
 CpCanyonAppMainView class >> style [
 
@@ -265,20 +254,6 @@ CpCanyonAppMainView class >> style [
 :host {
 	height: 100%;
 }'
-]
-
-{ #category : #accessing }
-CpCanyonAppMainView class >> viewClassPrefix [
-
-	"Answer the prefix for View classes.
-
-	By default the classes for both Model Views and Pages are selected
-	based on the Model's class name. For a few classes like CpCanyonLoginAccount
-	this does not work in all cases, because it would only allow a single
-	implementation. Typically you would have an application specific prefix
-	for your view classes."
-
-	^ Smalltalk at: #ViewClassesPrefix ifAbsent: [ self namePrefix ]
 ]
 
 { #category : #accessing }

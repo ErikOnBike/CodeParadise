@@ -72,6 +72,6 @@ CpCanyonMobileWebApplication >> startInstance [
 	self environment
 		sendMessage: (MessageSend
 		receiver: CpCanyonAppMainView name
-		selector: #start:
-		arguments: { self class namePrefix })
+		selector: #start
+		arguments: nil)
 ]

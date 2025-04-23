@@ -1,22 +1,6 @@
 Extension { #name : #CpPropertyEntity }
 
 { #category : #'*CodeParadise-Canyon-App' }
-CpPropertyEntity >> inModelView [
-
-	"Answer a new ModelView bound to the receiver"
-
-	^ self preferredViewClass on: self
-]
-
-{ #category : #'*CodeParadise-Canyon-App' }
-CpPropertyEntity >> inNewPage [
-
-	"Answer a new Page bound to the receiver"
-
-	^ self pageClass withModel: self
-]
-
-{ #category : #'*CodeParadise-Canyon-App' }
 CpPropertyEntity class >> labelFor: propertySymbol selection: selectionSymbol [
 
 	"Answer the label for the specified selection of the specified property"
@@ -47,53 +31,17 @@ CpPropertyEntity >> labelFor: propertySymbol selection: selectionSymbol [
 { #category : #'*CodeParadise-Canyon-App' }
 CpPropertyEntity >> pageClass [
 
-	"Answer the page class for the receiver.
+	"Answer the page class for the receiver"
 
-	Implementation:
-	The implementation is a bit convoluted, because it tries to find a class based on
-	the Model's class name. For CpAccount and subclasses, this will always map to a
-	class with the Cp prefix. For any apps build with CodeParadise it is wiser to use
-	a specific prefix. This method first tries the Model's default prefix and if no
-	class is found, will use the registered view class prefix.
-	If you do create a CpCanyonLoginAccountPage or CpCanyonLoginAccountView class, it
-	will be harder to have multiple applications in the same repository because of a
-	name class. Even if you would like to share a common class between apps, please
-	use a different prefix (and possibly override this method as an extension in your
-	package answering the specific class required)."
-
-	<ignoreReference: #CpCanyonAppMainView>
-
-	^ (Smalltalk classNamed: self class name, #Page) ifNil: [
-		| prefix |
-		prefix := CpCanyonAppMainView viewClassPrefix.
-		(Smalltalk classNamed: prefix, (self class nameWithoutPrefix withoutPrefix: 'Canyon'), #Page)
-			ifNil: [ self error: 'No page class can be found for ', self class name, ' please create one or provide explicit reference to it' ] ]
+	^ CpCanyonAppPage classForModel: self
 ]
 
 { #category : #'*CodeParadise-Canyon-App' }
 CpPropertyEntity >> preferredViewClass [
 
-	"Answer the preferred view class for the receiver.
+	"Answer the preferred view class for the receiver"
 
-	Implementation:
-	The implementation is a bit convoluted, because it tries to find a class based on
-	the Model's class name. For CpAccount and subclasses, this will always map to a
-	class with the Cp prefix. For any apps build with CodeParadise it is wiser to use
-	a specific prefix. This method first tries the Model's default prefix and if no
-	class is found, will use the registered view class prefix.
-	If you do create a CpCanyonLoginAccountPage or CpCanyonLoginAccountView class, it
-	will be harder to have multiple applications in the same repository because of a
-	name class. Even if you would like to share a common class between apps, please
-	use a different prefix (and possibly override this method as an extension in your
-	package answering the specific class required)."
-
-	<ignoreReference: #CpCanyonAppMainView>
-
-	^ (Smalltalk classNamed: self class name, #View) ifNil: [
-		| prefix |
-		prefix := CpCanyonAppMainView viewClassPrefix.
-		(Smalltalk classNamed: (prefix, (self class nameWithoutPrefix withoutPrefix: 'Canyon'), #View) asSymbol)
-			ifNil: [ self error: 'No view class can be found for ', self class name, ' please create one or provide explicit reference to it' ] ]
+	^ CpPropertyModelView classForModel: self
 ]
 
 { #category : #'*CodeParadise-Canyon-App' }

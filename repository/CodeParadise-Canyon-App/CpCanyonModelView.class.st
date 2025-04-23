@@ -11,8 +11,30 @@ Class {
 		'model',
 		'bindingSubscriptions'
 	],
+	#classVars : [
+		'Mapping'
+	],
 	#category : #'CodeParadise-Canyon-App-View'
 }
+
+{ #category : #accessing }
+CpCanyonModelView class >> classForModel: aModel [
+
+	"Answer the most appropriate/specific class for the specified Model"
+
+	| modelClass |
+
+	modelClass := aModel class.
+
+	"Use explicitly mapped Class first"
+	Mapping at: modelClass ifPresent: [ :viewClass | ^ viewClass ].
+
+	"Use class with same/similar name second"
+	(Smalltalk classNamed: modelClass name, #View) ifNotNil: [ :viewClass |
+		^ viewClass ].
+
+	self error: 'No View class found for Model ', modelClass name
+]
 
 { #category : #'instance creation' }
 CpCanyonModelView class >> new [
@@ -27,6 +49,37 @@ CpCanyonModelView class >> on: aModel [
 		initialize ;
 		model: aModel ;
 		yourself
+]
+
+{ #category : #'class initialization' }
+CpCanyonModelView class >> postInstall [
+
+	super postInstall.
+
+	self registerClassMapping
+]
+
+{ #category : #'class initialization' }
+CpCanyonModelView class >> postInstallOnce [
+
+	Mapping := Dictionary new
+]
+
+{ #category : #'class initialization' }
+CpCanyonModelView class >> registerClass: aModelClass for: aViewClass [
+
+	Mapping at: aModelClass ifPresent: [ :viewClass |
+		self warnCr: 'View class ', viewClass name, ' already registered for handling ', aModelClass name, ', overriding with ', aViewClass name ].
+
+	Mapping at: aModelClass put: aViewClass
+]
+
+{ #category : #'class initialization' }
+CpCanyonModelView class >> registerClassMapping [
+
+	"Add class mappings to the receiver.
+	Subclasses should override but NOT call the super implementation.
+	Otherwise additional mappings will be created."
 ]
 
 { #category : #'web resources' }

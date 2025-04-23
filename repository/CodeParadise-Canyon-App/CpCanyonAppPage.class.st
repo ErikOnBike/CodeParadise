@@ -17,6 +17,9 @@ the existing page to remain available while the user logs in.
 Class {
 	#name : #CpCanyonAppPage,
 	#superclass : #CpTemplateComponent,
+	#classVars : [
+		'Mapping'
+	],
 	#category : #'CodeParadise-Canyon-App-View'
 }
 
@@ -26,6 +29,25 @@ CpCanyonAppPage class >> app [
 	"Convenience method to access the app (instance)"
 
 	^ CpCanyonAppMainView current
+]
+
+{ #category : #accessing }
+CpCanyonAppPage class >> classForModel: aModel [
+
+	"Answer the most appropriate/specific class for the specified Model"
+
+	| modelClass |
+
+	modelClass := aModel class.
+
+	"Use explicitly mapped Class first"
+	Mapping at: modelClass ifPresent: [ :pageClass | ^ pageClass ].
+
+	"Use class with same/similar name second"
+	(Smalltalk classNamed: modelClass name, #Page) ifNotNil: [ :pageClass |
+		^ pageClass ].
+
+	self error: 'No Page class found for Model ', modelClass name
 ]
 
 { #category : #tags }
@@ -75,6 +97,37 @@ CpCanyonAppPage class >> pageName [
 	"Answer the name of the receiver"
 
 	^ self nameWithoutPrefix withoutSuffix: #Page
+]
+
+{ #category : #'class initialization' }
+CpCanyonAppPage class >> postInstall [
+
+	super postInstall.
+
+	self registerClassMapping
+]
+
+{ #category : #'class initialization' }
+CpCanyonAppPage class >> postInstallOnce [
+
+	Mapping := Dictionary new
+]
+
+{ #category : #'class initialization' }
+CpCanyonAppPage class >> registerClass: aModelClass for: aPageClass [
+
+	Mapping at: aModelClass ifPresent: [ :pageClass |
+		self warnCr: 'Page class ', pageClass name, ' already registered for handling ', aModelClass name, ', overriding with ', aPageClass name ].
+
+	Mapping at: aModelClass put: aPageClass
+]
+
+{ #category : #'class initialization' }
+CpCanyonAppPage class >> registerClassMapping [
+
+	"Add class mappings to the receiver.
+	Subclasses should override but NOT call the super implementation.
+	Otherwise additional mappings will be created."
 ]
 
 { #category : #'web resources' }
@@ -411,14 +464,17 @@ CpCanyonAppPage >> updateTitle: aString [
 ]
 
 { #category : #accessing }
+CpCanyonAppPage >> viewClassForModel: aModel [
+
+	"Answer a the preferred View class for the specified Model"
+
+	^ aModel preferredViewClass
+]
+
+{ #category : #accessing }
 CpCanyonAppPage >> viewForModel: aModel [
 
-	"Answer a new View for the specified Model"
+	"Answer a new View instance for (and on) the specified Model"
 
-	"Use the View with matching name, if available"
-	(Smalltalk classNamed: ((self class name withoutSuffix: #Page), #View) asSymbol) ifNotNil: [ :viewClass |
-		^ viewClass on: aModel ].
-
-	"Use default preferred View"
-	^ aModel inModelView
+	^ (self viewClassForModel: aModel) on: aModel
 ]
