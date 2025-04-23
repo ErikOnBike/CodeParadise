@@ -39,6 +39,9 @@ CpViewInspectorRequest >> extractSourceCode: aCompiledMethod [
 	sourceCode := methodSourceCode copyFrom: sourceCodeNode start + 1 to: sourceCodeNode stop - 1.
 	suffix := methodSourceCode copyFrom: sourceCodeNode stop to: methodSourceCode size.
 
+	"Remove escaped quotes"
+	sourceCode := sourceCode unescapeCharacter: $'.
+
 	^ Dictionary new
 		at: #prefix put: prefix ;
 		at: #sourceCode put: sourceCode ;
