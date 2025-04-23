@@ -259,7 +259,9 @@ CpCanyonAppPage >> model: aModel [
 	self firstChild ifNotNil: [ :firstChild |
 		firstChild model: nil ].
 
-	self replaceAllChildrenWith: (childView := aModel inModelView).
+	"Create a child view and replace the previous child in the receiver"
+	childView := self viewForModel: aModel.
+	self replaceAllChildrenWith: childView.
 
 	childView initializeInPage
 ]
@@ -406,4 +408,17 @@ CpCanyonAppPage >> updateTitle: aString [
 	"Set the title of the page as the browser title (for desktop)"
 	CpBrowserDocument current
 		title: aString
+]
+
+{ #category : #accessing }
+CpCanyonAppPage >> viewForModel: aModel [
+
+	"Answer a new View for the specified Model"
+
+	"Use the View with matching name, if available"
+	(Smalltalk classNamed: ((self class name withoutSuffix: #Page), #View) asSymbol) ifNotNil: [ :viewClass |
+		^ viewClass on: aModel ].
+
+	"Use default preferred View"
+	^ aModel inModelView
 ]

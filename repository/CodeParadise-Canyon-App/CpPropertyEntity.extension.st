@@ -248,10 +248,18 @@ CpPropertyEntity >> restWrite [
 { #category : #'*CodeParadise-Canyon-App' }
 CpPropertyEntity >> show [
 
-	"Show the receiver in its own Page (with its preferred View)"
+	"Show the receiver in its own/preferred Page (with its preferred View)"
+
+	self showInPage: self pageClass
+]
+
+{ #category : #'*CodeParadise-Canyon-App' }
+CpPropertyEntity >> showInPage: aClass [
+
+	"Show the receiver using the specified Page class (with its preferred View)"
 
 	CpCanyonAppMainView current
-		navigateTo: self pageClass withModel: self
+		navigateTo: aClass withModel: self
 ]
 
 { #category : #'*CodeParadise-Canyon-App' }
