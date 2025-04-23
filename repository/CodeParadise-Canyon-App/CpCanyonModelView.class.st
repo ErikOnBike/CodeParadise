@@ -124,6 +124,13 @@ CpCanyonModelView >> canNavigateBack [
 ]
 
 { #category : #view }
+CpCanyonModelView >> closePage [
+
+	self page
+		close
+]
+
+{ #category : #view }
 CpCanyonModelView >> do: aBlock whileShowing: aString [
 
 	"Evaluate the specified Block while showing a message.

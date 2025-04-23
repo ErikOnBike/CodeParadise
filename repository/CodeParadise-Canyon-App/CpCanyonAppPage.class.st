@@ -199,6 +199,15 @@ CpCanyonAppPage >> canNavigateBack [
 	^ true
 ]
 
+{ #category : #actions }
+CpCanyonAppPage >> close [
+
+	"Assume the receiver is the current/top page"
+
+	self app
+		closePage
+]
+
 { #category : #'event handling' }
 CpCanyonAppPage >> handleNavigateBack: aClickEvent [
 
@@ -320,7 +329,7 @@ CpCanyonAppPage >> navigateBack [
 	self isHome
 		ifTrue: [ ^ self ].
 
-	self app closePage
+	self close
 ]
 
 { #category : #actions }
