@@ -107,6 +107,9 @@ CpCanyonAppMainView class >> defaultAppTexts [
 		at: #'app.label.account.email' put: 'email' ;
 		at: #'app.label.account.password' put: 'password' ;
 		at: #'app.label.account.token' put: 'code' ;
+		at: #'app.selection.loginAccount.expires.usage' put: 'After usage' ;
+		at: #'app.selection.loginAccount.expires.day' put: 'The next day' ;
+		at: #'app.selection.loginAccount.expires.never' put: 'Never' ;			
 		yourself
 ]
 

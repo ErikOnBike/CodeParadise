@@ -10,7 +10,7 @@ CpPropertyEntity class >> labelFor: propertySymbol selection: selectionSymbol [
 	"Create label key"
 	labelKey := String streamContents: [ :stream |
 		stream
-			nextPutAll: 'app.' ;
+			nextPutAll: 'app.selection.' ;
 			nextPutAll: (self nameWithoutPrefix withoutPrefix: #Canyon) uncapitalized ;
 			nextPut: $. ;
 			nextPutAll: propertySymbol ;
