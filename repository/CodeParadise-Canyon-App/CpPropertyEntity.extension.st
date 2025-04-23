@@ -31,17 +31,14 @@ CpPropertyEntity >> labelFor: propertySymbol selection: selectionSymbol [
 { #category : #'*CodeParadise-Canyon-App' }
 CpPropertyEntity >> pageClass [
 
-	"Answer the page class for the receiver"
+	"Answer the page class for the receiver.
 
-	^ CpCanyonAppPage classForModel: self
-]
+	Implementation:
+	Either use the specifically mapped name or otherwise the class with matching name."
 
-{ #category : #'*CodeParadise-Canyon-App' }
-CpPropertyEntity >> preferredViewClass [
-
-	"Answer the preferred view class for the receiver"
-
-	^ CpPropertyModelView classForModel: self
+	^ (CpCanyonAppPage classForModel: self) ifNil: [
+		(Smalltalk classNamed: self class name, #Page)
+			ifNil: [ self error: 'No Page class found for Model ', self class name ] ]
 ]
 
 { #category : #'*CodeParadise-Canyon-App' }

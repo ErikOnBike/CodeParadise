@@ -36,18 +36,7 @@ CpCanyonAppPage class >> classForModel: aModel [
 
 	"Answer the most appropriate/specific class for the specified Model"
 
-	| modelClass |
-
-	modelClass := aModel class.
-
-	"Use explicitly mapped Class first"
-	Mapping at: modelClass ifPresent: [ :pageClass | ^ pageClass ].
-
-	"Use class with same/similar name second"
-	(Smalltalk classNamed: modelClass name, #Page) ifNotNil: [ :pageClass |
-		^ pageClass ].
-
-	self error: 'No Page class found for Model ', modelClass name
+	^ Mapping at: aModel class ifAbsent: [ nil ]
 ]
 
 { #category : #tags }
@@ -466,9 +455,17 @@ CpCanyonAppPage >> updateTitle: aString [
 { #category : #accessing }
 CpCanyonAppPage >> viewClassForModel: aModel [
 
-	"Answer a the preferred View class for the specified Model"
+	"Answer a the preferred View class for the specified Model.
 
-	^ aModel preferredViewClass
+	Implementation:
+	Either use the specifically mapped name or otherwise the class with matching name.
+	A matching name is first based on the receiver (Page) and otherwise on the Model."
+
+	^ (CpCanyonModelView classForModel: aModel) ifNil: [
+		(Smalltalk classNamed: (self class name withoutSuffix: #Page), #View)
+			ifNil: [
+				(Smalltalk classNamed: aModel class name, #View)
+					ifNil: [ self error: 'No View class found for Model ', self class name ] ] ]
 ]
 
 { #category : #accessing }

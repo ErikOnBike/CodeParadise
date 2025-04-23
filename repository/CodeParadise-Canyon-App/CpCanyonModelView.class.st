@@ -22,18 +22,7 @@ CpCanyonModelView class >> classForModel: aModel [
 
 	"Answer the most appropriate/specific class for the specified Model"
 
-	| modelClass |
-
-	modelClass := aModel class.
-
-	"Use explicitly mapped Class first"
-	Mapping at: modelClass ifPresent: [ :viewClass | ^ viewClass ].
-
-	"Use class with same/similar name second"
-	(Smalltalk classNamed: modelClass name, #View) ifNotNil: [ :viewClass |
-		^ viewClass ].
-
-	self error: 'No View class found for Model ', modelClass name
+	^ Mapping at: aModel class ifAbsent: [ nil ]
 ]
 
 { #category : #'instance creation' }
