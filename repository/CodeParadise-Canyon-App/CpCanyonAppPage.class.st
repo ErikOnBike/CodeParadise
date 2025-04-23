@@ -361,7 +361,8 @@ CpCanyonAppPage >> updateBeforeNavigate [
 self traceCr: 'Update before in ', self printString.
 	self updateScreenWidth.
 
-	self updateTitle: self title.
+	self title ifNotNil: [ :title |
+		self updateTitle: title ].
 
 	"Let the PropertyModelView update itself (if present)"
 	self firstChild
