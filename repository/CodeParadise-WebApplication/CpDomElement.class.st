@@ -903,7 +903,7 @@ CpDomElement >> printOn: aStream [
 { #category : #properties }
 CpDomElement >> propertyAt: nameString [
 
-	"Answer the value (String, Number, Boolean or nil) of the specified property of the receiver"
+	"Answer the value of the specified property of the receiver"
 
 	<primitive: 'primitiveDomElementPropertyAt:' module: 'CpDOMPlugin'>
 	self primitiveFailed
@@ -913,7 +913,7 @@ CpDomElement >> propertyAt: nameString [
 { #category : #properties }
 CpDomElement >> propertyAt: nameString put: anObject [
 
-	"Set the value (String, Number, Boolean, nil or Dictionary) of the specified property of the receiver"
+	"Set the value of the specified property of the receiver"
 
 	<primitive: 'primitiveDomElementPropertyAt:put:' module: 'CpDOMPlugin'>
 	self primitiveFailed
