@@ -41,6 +41,16 @@ CpWebComponent class >> basicNew [
 	^ self basicNewWithTag: self tagName
 ]
 
+{ #category : #'instance creation' }
+CpWebComponent class >> content: anElement [
+
+	"Answer a new instance of the receiver with the specified DOM element content"
+
+	^ self new
+		appendChild: anElement ;
+		yourself
+]
+
 { #category : #accessing }
 CpWebComponent class >> first [
 
@@ -84,6 +94,16 @@ CpWebComponent class >> last [
 	^ self all
 		ifNotEmpty: [ :matches | matches last ]
 		ifEmpty: [ nil ]
+]
+
+{ #category : #'instance creation' }
+CpWebComponent class >> markupContent: aString [
+
+	"Answer a new instance of the receiver with the specified markup content"
+
+	^ self new
+		markupContent: aString ;
+		yourself
 ]
 
 { #category : #'instance creation' }
@@ -150,6 +170,16 @@ CpWebComponent class >> tagName [
 	<primitive: 'primitiveWebComponentTagName' module: 'CpDOMPlugin'>
 
 	^ (self name withoutSuffix: #View) asKebabCase
+]
+
+{ #category : #'instance creation' }
+CpWebComponent class >> textContent: aString [
+
+	"Answer a new instance of the receiver with the specified text content"
+
+	^ self new
+		textContent: aString ;
+		yourself
 ]
 
 { #category : #accessing }
