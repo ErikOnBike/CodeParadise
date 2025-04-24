@@ -284,6 +284,12 @@ CpPropertyModel >> at: aSymbol ifAbsent: aBlock [
 	^ self propertyAt: aSymbol
 ]
 
+{ #category : #'accessing - dictionary access' }
+CpPropertyModel >> at: aSymbol ifPresent: aBlock [
+
+	^ aBlock value: (self at: aSymbol ifAbsent: [ ^ nil ])
+]
+
 { #category : #accessing }
 CpPropertyModel >> clientPostCopy [
 
