@@ -15,7 +15,7 @@ CpTokenPropertyConstraint >> normalize: aString [
 	^ aString trim asLowercase
 ]
 
-{ #category : #accessing }
+{ #category : #validating }
 CpTokenPropertyConstraint >> violationsIn: aString do: aBlock [
 
 	"Validate the provided String as token"

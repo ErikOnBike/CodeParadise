@@ -45,7 +45,7 @@ CpSelectionPropertyConstraint >> selection [
 	^ selection
 ]
 
-{ #category : #accessing }
+{ #category : #validating }
 CpSelectionPropertyConstraint >> violationsIn: aString do: aBlock [
 
 	"Validate the provided String is part of the selection"

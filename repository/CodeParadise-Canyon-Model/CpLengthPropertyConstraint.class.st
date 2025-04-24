@@ -71,7 +71,7 @@ CpLengthPropertyConstraint >> normalize: aString [
 	^ aString trim select: [ :each | each asciiValue >= 32 ]
 ]
 
-{ #category : #accessing }
+{ #category : #validating }
 CpLengthPropertyConstraint >> violationsIn: aString do: aBlock [
 
 	"Validate the provided String is within the receiver's length boundaries"

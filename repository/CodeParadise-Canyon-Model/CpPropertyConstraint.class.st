@@ -114,7 +114,7 @@ CpPropertyConstraint >> violationsForProperty: aSymbol in: aModel do: aBlock [
 			self ]
 ]
 
-{ #category : #accessing }
+{ #category : #validating }
 CpPropertyConstraint >> violationsIn: anObject do: aBlock [
 
 	"Evaluate the specified Block for each violation in the specified value.

@@ -15,7 +15,7 @@ CpEmailPropertyConstraint >> normalize: aString [
 	^ aString trim
 ]
 
-{ #category : #accessing }
+{ #category : #validating }
 CpEmailPropertyConstraint >> violationsIn: aString do: aBlock [
 
 	"Validate the provided String as email"

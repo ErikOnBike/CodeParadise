@@ -10,7 +10,7 @@ CpPasswordPropertyConstraint >> minimumLength [
 	^ self configAt: #minimumLength ifAbsent: [ 8 ]
 ]
 
-{ #category : #accessing }
+{ #category : #validating }
 CpPasswordPropertyConstraint >> violationsIn: aString do: aBlock [
 
 	"Validate the provided String as password"
