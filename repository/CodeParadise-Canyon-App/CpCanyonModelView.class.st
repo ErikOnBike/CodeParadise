@@ -218,9 +218,14 @@ CpCanyonModelView >> page [
 
 	page := self parent.
 	[ page isNotNil ] whileTrue: [
+
+		"Answer if we found the page"
 		page isPage
 			ifTrue: [ ^ page ].
-		page := page parent ].
+
+		"Try parent or otherwise the host (if element is in shadow DOM)"
+		page := page parent
+			ifNil: [ page host ] ].
 
 	^ nil
 ]
