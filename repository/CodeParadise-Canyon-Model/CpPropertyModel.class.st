@@ -434,7 +434,7 @@ CpPropertyModel >> keysDo: aBlock [
 CpPropertyModel >> merge: anObject [
 
 	"Merge the specified Object into the receiver.
-	Assuming the Object is Dictionary-like (like MaEntity but also a JSON Object).
+	Assuming the Object is Dictionary-like (like the receiver but also a JSON Object).
 	Answer the Object merged into the receiver."
 
 	anObject keysAndValuesDo: [ :key :value |
