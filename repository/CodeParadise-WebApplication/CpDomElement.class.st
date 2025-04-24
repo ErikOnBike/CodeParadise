@@ -605,6 +605,16 @@ CpDomElement >> hasStyleAt: nameString [
 	^ (self styleAt: nameString) notNil
 ]
 
+{ #category : #querying }
+CpDomElement >> host [
+
+	"Answer the host element of the receiver.
+	Only elements inside a Shadow DOM have a host, all other elements will answer nil."
+
+	<primitive: 'primitiveDomElementHost' module: 'CpDOMPlugin'>
+	self primitiveFailed
+]
+
 { #category : #'tag/id/classes' }
 CpDomElement >> id [
 
