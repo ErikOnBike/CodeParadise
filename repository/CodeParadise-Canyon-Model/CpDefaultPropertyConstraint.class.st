@@ -48,6 +48,16 @@ CpDefaultPropertyConstraint class >> default [
 		at: self ifAbsentPut: [ self basicNew initialize ; yourself ]
 ]
 
+{ #category : #validating }
+CpDefaultPropertyConstraint class >> isValid: anObject [
+
+	"Answer whether the specified value is valid using the default instance.
+	The specified value is normalized before validation."
+
+	^ self default
+		isValid: anObject
+]
+
 { #category : #'instance creation' }
 CpDefaultPropertyConstraint class >> new [
 
@@ -60,6 +70,16 @@ CpDefaultPropertyConstraint class >> reset [
 	<script>
 
 	Defaults := nil
+]
+
+{ #category : #validating }
+CpDefaultPropertyConstraint class >> violationsIn: anObject do: aBlock [
+
+	"Validate the provided value using the default instance and
+	evaluate the specified Block for each violation"
+
+	self default
+		violationsIn: anObject do: aBlock
 ]
 
 { #category : #accessing }

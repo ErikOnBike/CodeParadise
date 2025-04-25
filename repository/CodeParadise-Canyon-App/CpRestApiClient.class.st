@@ -279,7 +279,7 @@ CpRestApiClient >> setAccessToken: aString [
 	It might be nil to indicating the previous value has expired."
 
 	"Validate the access token is usable (might be empty to specify it is expired)"
-	(aString isNotNil and: [ (CpTokenPropertyConstraint default isValid: aString) not ])
+	(aString isNotNil and: [ (CpTokenPropertyConstraint isValid: aString) not ])
 		ifTrue: [
 			self warnCr: 'Received invalid acccess token from the server (ignoring it): ', aString.
 			^ self ].

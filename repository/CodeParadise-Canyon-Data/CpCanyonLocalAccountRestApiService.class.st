@@ -457,7 +457,7 @@ CpCanyonLocalAccountRestApiService >> validateAuthorizedRequest: aRestRequest [
 		ifNotNil: [ :header | header withoutPrefix: 'Bearer ' ]
 		ifNil: [ CpNodeJSRestForbiddenError signal ].
 
-	(CpTokenPropertyConstraint default isValid: accessToken)
+	(CpTokenPropertyConstraint isValid: accessToken)
 		ifFalse: [ CpNodeJSRestForbiddenError signal ].
 
 	"Find the session for this access token (which has an active account attached)"
