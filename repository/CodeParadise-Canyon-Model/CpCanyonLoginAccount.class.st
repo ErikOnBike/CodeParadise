@@ -18,7 +18,6 @@ CpCanyonLoginAccount class >> propertyConstraints [
 	constraints := super propertyConstraints.
 
 	self for: #password addConstraint: CpPasswordPropertyConstraint default to: constraints. 
-
 	self for: #expires addConstraint: (CpSelectionPropertyConstraint selection: #(usage day never)) to: constraints.
 
 	^ constraints

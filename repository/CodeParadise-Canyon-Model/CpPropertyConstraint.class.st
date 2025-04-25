@@ -57,7 +57,7 @@ CpPropertyConstraint >> isValid: anObject [
 	since it requires access to the whole model instead of only
 	a specific property value. Calling it will raise an error."
 
-	self violationsIn: anObject do: [ :each |
+	self violationsIn: (self normalize: anObject) do: [ :each |
 		"Ignore the actual violation, we know the property is not valid here"
 		^ false ].
 
