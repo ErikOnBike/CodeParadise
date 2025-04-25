@@ -8,12 +8,12 @@ CpPropertyModel class >> labelAt: aSymbol [
 	| labelKey labelValue |
 
 	"Create label key"
-	labelKey := String streamContents: [ :stream |
+	labelKey := (String streamContents: [ :stream |
 		stream
 			nextPutAll: 'app.label.' ;
 			nextPutAll: (self nameWithoutPrefix withoutPrefix: #Canyon) uncapitalized ;
 			nextPut: $. ;
-			nextPutAll: aSymbol ].
+			nextPutAll: aSymbol ]) asSymbol.
 
 	"Retrieve label value"
 	labelValue := self text: labelKey.

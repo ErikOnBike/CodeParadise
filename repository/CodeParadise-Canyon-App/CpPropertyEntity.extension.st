@@ -8,14 +8,14 @@ CpPropertyEntity class >> labelFor: propertySymbol selection: selectionSymbol [
 	| labelKey labelValue |
 
 	"Create label key"
-	labelKey := String streamContents: [ :stream |
+	labelKey := (String streamContents: [ :stream |
 		stream
 			nextPutAll: 'app.selection.' ;
 			nextPutAll: (self nameWithoutPrefix withoutPrefix: #Canyon) uncapitalized ;
 			nextPut: $. ;
 			nextPutAll: propertySymbol ;
 			nextPut: $. ;
-			nextPutAll: selectionSymbol ].
+			nextPutAll: selectionSymbol ]) asSymbol.
 
 	"Retrieve label value"
 	labelValue := self text: labelKey.
