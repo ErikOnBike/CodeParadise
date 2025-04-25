@@ -90,9 +90,9 @@ CpListPropertyConstraint >> violationsIn: aString do: aBlock [
 		ifTrue: [ ^ self ].
 
 	"Test some special cases"
-	(aString beginsWith: $,)
+	(aString beginsWith: ',')
 		ifTrue: [ ^ aBlock value: #'constraint.list.separator.begin' ].
-	(aString endsWith: $,)
+	(aString endsWith: ',')
 		ifTrue: [ ^ aBlock value: #'constraint.list.separator.end' ].
 	(aString includesSubstring: ',,')
 		ifTrue: [ ^ aBlock value: #'constraint.list.separator.double' ].
