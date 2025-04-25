@@ -359,7 +359,6 @@ CpCanyonAppPage >> restoreButtonLabels [
 
 	(self shadowedAllDescendantsMatching: IonButton asCssSelector) do: [ :each |
 		(self attributeAt: 'button-', each id) ifNotNil: [ :label |
-self traceCr: 'Restore label ', label.
 			each textContent: label ] ]
 ]
 
