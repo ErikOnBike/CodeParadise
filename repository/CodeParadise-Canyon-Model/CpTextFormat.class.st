@@ -71,7 +71,7 @@ CpTextFormat >> at: keyObject [
 	result
 		ifNotNil: [
 			"Not a nice check. Update if subclasses of CpParamText are required or even more generic mechanisms.
-			Don't want to polute the Object class with more #isParamText messages."
+			Don't want to pollute the Object class with more #isParamText messages."
 			result class == CpParamText
 				ifTrue: [ result := text lang: language key: result textKey format: result format ] ]
 		ifNil: [

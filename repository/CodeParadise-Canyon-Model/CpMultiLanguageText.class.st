@@ -195,18 +195,17 @@ CpMultiLanguageText >> lang: aLanguage count: anInteger key: aSymbolOrParamText 
 	Consider using only 0 and positive counts, since for non-developers/non-tech people, '-5 persons' is probably
 	not a very valuable text."
 
+	| count |
+
+	count := #count -> anInteger.
+
 	^ (self lang: aLanguage lookup: (CpCardinalTextLookup key: aSymbolOrParamText textKey count: anInteger))
 		ifNotNil: [ :text |
 			self
 				formatText: text
 				language: aLanguage
-				using: (self formatDict: aDictionary with: #count -> anInteger lang: aLanguage key: aSymbolOrParamText) ]
-		ifNil: [
-			String streamContents: [ :stream |
-				stream
-					nextPutAll: aSymbolOrParamText textKey ;
-					nextPut: $: ;
-					print: anInteger ] ]
+				using: (self formatDict: aDictionary with: count lang: aLanguage key: aSymbolOrParamText) ]
+		ifNil: [ self missingText: aSymbolOrParamText formatDict: aDictionary with: count lang: aLanguage ]
 ]
 
 { #category : #'accessing - specific lang' }
@@ -231,18 +230,17 @@ CpMultiLanguageText >> lang: aLanguage index: anInteger key: aSymbolOrParamText 
 
 	The index 0 should not be used (i.e. has no logical meaning)."
 
+	| index |
+
+	index := #index -> anInteger.
+
 	^ (self lang: aLanguage lookup: (CpOrdinalTextLookup key: aSymbolOrParamText textKey index: anInteger))
 		ifNotNil: [ :text |
 			self
 				formatText: text
 				language: aLanguage
-				using: (self formatDict: aDictionary with: #index -> anInteger lang: aLanguage key: aSymbolOrParamText) ]
-		ifNil: [
-			String streamContents: [ :stream |
-				stream
-					nextPutAll: aSymbolOrParamText textKey ;
-					nextPut: $: ;
-					print: anInteger ] ]
+				using: (self formatDict: aDictionary with: index lang: aLanguage key: aSymbolOrParamText) ]
+		ifNil: [ self missingText: aSymbolOrParamText formatDict: aDictionary with: index lang: aLanguage ]
 ]
 
 { #category : #'accessing - specific lang' }
@@ -264,7 +262,7 @@ CpMultiLanguageText >> lang: aLanguage key: aSymbolOrParamText format: aDictiona
 				formatText: text
 				language: aLanguage
 				using: (self formatDict: aDictionary with: nil lang: aLanguage key: aSymbolOrParamText) ]
-		ifNil: [ aSymbolOrParamText textKey ]
+		ifNil: [ self missingText: aSymbolOrParamText formatDict: aDictionary with: nil lang: aLanguage ]
 ]
 
 { #category : #private }
@@ -292,6 +290,33 @@ CpMultiLanguageText >> locale: localeSymbol lookup: aTextLookup [
 
 	^ (dictionaries at: localeSymbol ifAbsent: [ ^ nil ])
 		lookup: aTextLookup
+]
+
+{ #category : #private }
+CpMultiLanguageText >> missingText: aSymbolOrParamText formatDict: aDictionary with: anAssocation lang: aLanguage [
+
+	^ String streamContents: [ :stream |
+		aSymbolOrParamText isString
+			ifTrue: [ stream nextPutAll: aSymbolOrParamText ]
+			ifFalse: [ stream print: aSymbolOrParamText ].
+		aDictionary isEmptyOrNil
+			ifFalse: [
+				| first |
+				stream nextPut: $[.
+				first := true.
+				aDictionary keysAndValuesDo: [ :key :value |
+					first
+						ifTrue: [ first := false ]
+						ifFalse: [ stream nextPut: $, ].
+					stream
+						nextPutAll: key ;
+						nextPut: $= ;
+						print: value ].
+				stream nextPut: $] ].
+		anAssocation ifNotNil: [
+			stream
+				nextPut: $: ;
+				print: anAssocation ] ]
 ]
 
 { #category : #validating }

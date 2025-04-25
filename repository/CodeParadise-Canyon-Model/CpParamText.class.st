@@ -99,6 +99,31 @@ CpParamText >> initializeWithKey: aSymbol format: aDictionary [
 	format := aDictionary
 ]
 
+{ #category : #printing }
+CpParamText >> printOn: aStream [
+
+	| first |
+
+	aStream nextPutAll: key.
+
+	format isEmptyOrNil
+		ifTrue: [ ^ self ].
+
+	aStream nextPut: $[.
+
+	first := true.
+	format keysAndValuesDo: [ :formatKey :formatValue |
+		first
+			ifTrue: [ first := false ]
+			ifFalse: [ aStream nextPut: $, ].
+		aStream
+			nextPutAll: formatKey ;
+			nextPut: $= ;
+			print: formatValue ].
+
+	aStream nextPut: $]
+]
+
 { #category : #accessing }
 CpParamText >> textKey [
 
