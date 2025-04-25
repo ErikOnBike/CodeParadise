@@ -7,3 +7,11 @@ UndefinedObject >> cpEncodeWith: anEncoder [
 
 	anEncoder encodeNil
 ]
+
+{ #category : #'*CodeParadise-RemoteEnvironment' }
+UndefinedObject >> ifEmptyOrNil: aBlock [
+
+	<clientEnvironment>
+
+	^ aBlock value
+]
