@@ -23,9 +23,14 @@ CpLengthPropertyConstraint class >> min: anInteger [
 { #category : #'instance creation' }
 CpLengthPropertyConstraint class >> min: minInteger max: maxInteger [
 
-	minInteger ifNil: [
-		maxInteger ifNil: [
-			self error: 'Length constraint without actual length' ] ].
+	(minInteger isNil and: [ maxInteger isNil ])
+		ifTrue: [ self error: 'Length constraint without actual length' ].
+	(minInteger isNotNil and: [ minInteger < 0 ])
+		ifTrue: [ self error: 'Length constraint with negative min' ].
+	(maxInteger isNotNil and: [ maxInteger < 0 ])
+		ifTrue: [ self error: 'Length constraint with negative max' ].
+	(minInteger isNotNil and: [ maxInteger isNotNil and: [ minInteger > maxInteger ] ])
+		ifTrue: [ self error: 'Length constraint where min is bigger than max' ].
 
 	^ self basicNew
 		initializeWithMin: minInteger max: maxInteger ;
@@ -35,7 +40,7 @@ CpLengthPropertyConstraint class >> min: minInteger max: maxInteger [
 { #category : #'instance creation' }
 CpLengthPropertyConstraint class >> new [
 
-	self errorNewReplacedBy: (' or ' join: { #min: . #max: . #min:max: })
+	self errorNewReplacedBy: #min:max:
 ]
 
 { #category : #initialization }
