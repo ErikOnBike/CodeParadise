@@ -106,8 +106,7 @@ CpParamText >> printOn: aStream [
 
 	aStream nextPutAll: key.
 
-	format isEmptyOrNil
-		ifTrue: [ ^ self ].
+	format ifEmptyOrNil: [ ^ self ].
 
 	aStream nextPut: $[.
 

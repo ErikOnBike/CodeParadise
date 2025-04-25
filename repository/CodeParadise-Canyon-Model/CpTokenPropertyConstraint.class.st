@@ -20,8 +20,7 @@ CpTokenPropertyConstraint >> violationsIn: aString do: aBlock [
 
 	"Validate the provided String as token"
 
-	aString isEmptyOrNil
-		ifTrue: [ ^ aBlock value: #'constraint.empty' ].
+	aString ifEmptyOrNil: [ ^ aBlock value: #'constraint.empty' ].
 
 	aString size = 32
 		ifFalse: [ ^ aBlock value: #'constraint.token.length' ].

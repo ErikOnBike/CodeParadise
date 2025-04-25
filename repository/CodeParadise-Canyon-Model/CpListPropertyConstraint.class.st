@@ -86,8 +86,7 @@ CpListPropertyConstraint >> violationsIn: aString do: aBlock [
 			ifTrue: [ ^ aBlock value: (CpParamText key: #'constraint.list.max' with: max with: size) ] ].
 
 	"Done if we checked for size and input is empty"
-	aString isEmptyOrNil
-		ifTrue: [ ^ self ].
+	aString ifEmptyOrNil: [ ^ self ].
 
 	"Test some special cases"
 	(aString beginsWith: ',')

@@ -61,7 +61,5 @@ CpNodeJSRestError >> restResponseCode [
 { #category : #accessing }
 CpNodeJSRestError >> restResponseString [
 
-	^ messageText isEmptyOrNil
-		ifTrue: [ self class responseString ]
-		ifFalse: [ messageText ]
+	^ messageText ifEmptyOrNil: [ self class responseString ]
 ]

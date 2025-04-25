@@ -17,8 +17,7 @@ CpPasswordPropertyConstraint >> violationsIn: aString do: aBlock [
 
 	| minimumLength |
 
-	aString isEmptyOrNil
-		ifTrue: [ ^ aBlock value: #'constraint.empty' ].
+	aString ifEmptyOrNil: [ ^ aBlock value: #'constraint.empty' ].
 
 	aString size < (minimumLength := self minimumLength)
 		ifTrue: [ ^ aBlock value: (CpParamText key: #'constraint.password.length' with: minimumLength) ]

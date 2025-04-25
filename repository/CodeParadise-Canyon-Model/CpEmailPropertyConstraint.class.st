@@ -23,8 +23,7 @@ CpEmailPropertyConstraint >> violationsIn: aString do: aBlock [
 	| validNameCharacters validDomainCharacters parts domainName domainParts |
 
 	"If empty a single violation is given"
-	aString isEmptyOrNil
-		ifTrue: [ ^ aBlock value: #'constraint.empty' ].
+	aString ifEmptyOrNil: [ ^ aBlock value: #'constraint.empty' ].
 
 	"See https://html.spec.whatwg.org/multipage/input.html#email-state-(type=email)"
 	validNameCharacters := 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-.!#$%&''*+/=?^_`{|}~@'.
