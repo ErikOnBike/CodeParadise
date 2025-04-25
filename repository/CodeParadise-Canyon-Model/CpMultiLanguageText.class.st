@@ -88,20 +88,37 @@ CpMultiLanguageText >> count: anInteger key: aSymbolOrParamText format: aDiction
 ]
 
 { #category : #private }
-CpMultiLanguageText >> formatDict: aDictionary with: anAssociation [
+CpMultiLanguageText >> formatDict: aDictionary with: anAssociation lang: aLanguage key: aSymbolOrParamText [
 
-	"Answer a new Dictionary containing the values from the (optional)
-	Dictionary specified and the additional Association"
+	"Answer a new formatting Dictionary containing the values from the ParamText (if applicable),
+	from the (optional) Dictionary specified and from the (optional) Association.
+	Any ParamTexts in the specified key are resolved to a text using the specified Language.
+	IF no formatting Dictionary is needed (i.e. is empty), answer nil."
 
-	^ (aDictionary ifNotNil: [ aDictionary copy ] ifNil: [ Dictionary new ])
-		add: anAssociation ;
-		yourself
+	| baseDictionary |
+
+	(aDictionary isNil and: [ anAssociation isNil and: [ aSymbolOrParamText isString or: [ aSymbolOrParamText hasEmptyFormat ] ] ])
+		ifTrue: [ ^ nil ].
+
+	baseDictionary := aSymbolOrParamText isString
+		ifTrue: [
+			aDictionary
+				ifNotNil: [ aDictionary copy ]
+				ifNil: [ Dictionary new ] ]
+		ifFalse: [ aSymbolOrParamText formatWithAll: aDictionary ].
+
+	anAssociation ifNotNil: [
+		baseDictionary add: anAssociation ].
+
+	^ baseDictionary ifEmpty: [ nil ]
 ]
 
 { #category : #private }
 CpMultiLanguageText >> formatText: aString language: aLanguage using: aDictionary [
 
 	"Answer the specified text in the specified language, formatted using the specified Dictionary"
+
+	aDictionary ifNil: [ ^ aString ].
 
 	^ aString format: (CpTextFormat multiLanguageText: self language: aLanguage format: aDictionary)
 ]
@@ -178,16 +195,18 @@ CpMultiLanguageText >> lang: aLanguage count: anInteger key: aSymbolOrParamText 
 	Consider using only 0 and positive counts, since for non-developers/non-tech people, '-5 persons' is probably
 	not a very valuable text."
 
-	"Unwrap if a ParamText is supplied"
-	aSymbolOrParamText isString
-		ifFalse: [ ^ self lang: aLanguage count: anInteger key: aSymbolOrParamText key format: (aSymbolOrParamText formatWithAll: aDictionary) ].
-
-	^ (self lang: aLanguage lookup: (CpCardinalTextLookup key: aSymbolOrParamText count: anInteger))
+	^ (self lang: aLanguage lookup: (CpCardinalTextLookup key: aSymbolOrParamText textKey count: anInteger))
 		ifNotNil: [ :text |
 			self
 				formatText: text
 				language: aLanguage
-				using: (self formatDict: aDictionary with: #count -> anInteger) ]
+				using: (self formatDict: aDictionary with: #count -> anInteger lang: aLanguage key: aSymbolOrParamText) ]
+		ifNil: [
+			String streamContents: [ :stream |
+				stream
+					nextPutAll: aSymbolOrParamText textKey ;
+					nextPut: $: ;
+					print: anInteger ] ]
 ]
 
 { #category : #'accessing - specific lang' }
@@ -212,16 +231,18 @@ CpMultiLanguageText >> lang: aLanguage index: anInteger key: aSymbolOrParamText 
 
 	The index 0 should not be used (i.e. has no logical meaning)."
 
-	"Unwrap if a ParamText is supplied"
-	aSymbolOrParamText isString
-		ifFalse: [ ^ self lang: aLanguage index: anInteger key: aSymbolOrParamText key format: (aSymbolOrParamText formatWithAll: aDictionary) ].
-
-	^ (self lang: aLanguage lookup: (CpOrdinalTextLookup key: aSymbolOrParamText index: anInteger))
+	^ (self lang: aLanguage lookup: (CpOrdinalTextLookup key: aSymbolOrParamText textKey index: anInteger))
 		ifNotNil: [ :text |
 			self
 				formatText: text
 				language: aLanguage
-				using: (self formatDict: aDictionary with: #index -> anInteger) ]
+				using: (self formatDict: aDictionary with: #index -> anInteger lang: aLanguage key: aSymbolOrParamText) ]
+		ifNil: [
+			String streamContents: [ :stream |
+				stream
+					nextPutAll: aSymbolOrParamText textKey ;
+					nextPut: $: ;
+					print: anInteger ] ]
 ]
 
 { #category : #'accessing - specific lang' }
@@ -237,13 +258,13 @@ CpMultiLanguageText >> lang: aLanguage key: aSymbolOrParamText format: aDictiona
 
 	"Answer the specified text for the given language and use the (optional) Dictionary to format the text"
 
-	"Unwrap if a ParamText is supplied"
-	aSymbolOrParamText isString
-		ifFalse: [ ^ self lang: aLanguage key: aSymbolOrParamText key format: (aSymbolOrParamText formatWithAll: aDictionary) ].
-
-	^ (self lang: aLanguage lookup: (CpTextLookup key: aSymbolOrParamText))
-		ifNotNil: [ :text | self formatText: text language: aLanguage using: aDictionary ]
-		ifNil: [ aSymbolOrParamText ]
+	^ (self lang: aLanguage lookup: (CpTextLookup key: aSymbolOrParamText textKey))
+		ifNotNil: [ :text |
+			self
+				formatText: text
+				language: aLanguage
+				using: (self formatDict: aDictionary with: nil lang: aLanguage key: aSymbolOrParamText) ]
+		ifNil: [ aSymbolOrParamText textKey ]
 ]
 
 { #category : #private }

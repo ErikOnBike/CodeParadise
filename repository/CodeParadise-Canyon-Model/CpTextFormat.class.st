@@ -68,9 +68,17 @@ CpTextFormat >> at: keyObject [
 	"First retrieve 'local' result"
 	result := format ifNotNil: [ format at: keyObject ifAbsent: [ nil ] ].
 
-	^ (result isNil and: [ keyObject isString and: [ keyObject beginsWith: '#' ] ])
-		ifTrue: [ text lang: language key: (keyObject allButFirst: 1) asSymbol format: format ]
-		ifFalse: [ result ]
+	result
+		ifNotNil: [
+			"Not a nice check. Update if subclasses of CpParamText are required or even more generic mechanisms.
+			Don't want to polute the Object class with more #isParamText messages."
+			result class == CpParamText
+				ifTrue: [ result := text lang: language key: result textKey format: result format ] ]
+		ifNil: [
+			(keyObject isString and: [ keyObject beginsWith: '#'])
+				ifTrue: [ result := text lang: language key: (keyObject allButFirst: 1) asSymbol format: format ] ].
+
+	^ result
 ]
 
 { #category : #initialization }
