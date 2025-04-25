@@ -72,7 +72,7 @@ BaselineOfCodeParadise >> baseline: spec [
 
 			group: 'Development' with: #( 'CodeParadise-WebApplication-Development' 'CodeParadise-WebApplication-Debugger' );
 
-			group: 'NodeJS-Applications' with: #( 'CodeParadise-NodeJS-REST' 'CodeParadise-NodeJS-Sqlite3' 'CodeParadise-NodeJS-Nodemailer' );
+			group: 'NodeJS-Applications' with: #( 'CodeParadise-NodeJS-REST' 'CodeParadise-NodeJS-Sqlite3' 'CodeParadise-NodeJS-Nodemailer' 'CodeParadise-NodeJS-Sharp');
 
 			group: 'CI' with: #( 'Tests' ) ].
 
