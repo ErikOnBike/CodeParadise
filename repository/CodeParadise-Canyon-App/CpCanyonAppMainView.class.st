@@ -280,6 +280,8 @@ CpCanyonAppMainView >> closePage [
 
 	"Close the current page"
 
+	| currentPage |
+
 	"Do not close the home page"
 	self isHome
 		ifTrue: [ ^ self ].
@@ -288,8 +290,14 @@ CpCanyonAppMainView >> closePage [
 	self previousPage updateBeforeNavigate.
 
 	"Remove current page and update the new current page"
+	currentPage := self currentPage.
 	navigation pop await.
-	self updateAfterNavigate
+	self updateAfterNavigate.
+
+	"Destroy the old page, removing any dependencies"
+	currentPage isConnected
+		ifTrue: [ self warnCr: 'Current page is NOT disconnected after closing it?!' ]
+		ifFalse: [ currentPage destroy ]
 ]
 
 { #category : #accessing }
