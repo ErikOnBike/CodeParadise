@@ -1,7 +1,7 @@
 "
 I am a PropertyConstraint, a special kind of PropertyDefinition.
 I can validate whether a value matches (my rules) and I can answer
-which violations (Collection of Strings) a value has.
+which violations (Collection of Symbols) a value has.
 I also allow value normalization which can be useful to be more
 forgiving towards a user providing values for a Property.
 
