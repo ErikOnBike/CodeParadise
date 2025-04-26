@@ -250,6 +250,21 @@ CpViewInspectorView >> codeElement [
 	^ self firstChild
 ]
 
+{ #category : #accessing }
+CpViewInspectorView >> ensureInstanceOf: aClass [
+
+	"Answer an instanece of the specified class"
+	aClass first ifNotNil: [ :instance | ^ instance ].
+
+	"Do a full DOM tree search (includes shadow DOMS)"
+	CpHtmlElement documentBody allElementsDo: [ :each |
+		each class == aClass
+			ifTrue: [ ^ each ] ].
+
+	"Finally try to instantiate one (can fail)"
+	^ self newInstanceFor: aClass
+]
+
 { #category : #'event handling' }
 CpViewInspectorView >> handleBrowse: aKeyEvent [
 
@@ -435,7 +450,7 @@ CpViewInspectorView >> makeTopView [
 	self parent appendChild: self remove
 ]
 
-{ #category : #'instance creation' }
+{ #category : #accessing }
 CpViewInspectorView >> newInstanceFor: aClass [
 
 	"Answer a new instance of the specified TemplateComponent class.
@@ -445,7 +460,7 @@ CpViewInspectorView >> newInstanceFor: aClass [
 
 	| instance |
 
-	instance := [ aClass new ] on: Error do: [ nil ].
+	instance := [ aClass basicNew initialize ; yourself ] on: Error do: [ nil ].
 
 	instance
 		ifNotNil: [ self class showAlert: 'WebComponent ', aClass name, ' is not present in the current page/DOM, a new instance is created' ]
@@ -502,7 +517,7 @@ CpViewInspectorView >> showCodeForClassNamed: aString [
 		each name = aString
 			ifTrue: [
 				self hideInput.
-				self showCodeFor: (each first ifNil: [ self newInstanceFor: each ]).
+				self showCodeFor: (self ensureInstanceOf: each).
 				^ self ] ].
 
 	self class showErrorAlert: 'Class not found: ', aString printString
