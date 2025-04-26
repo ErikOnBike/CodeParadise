@@ -173,6 +173,12 @@ CpCanyonModelView >> initializeShadowRoot [
 			addBindings ]
 ]
 
+{ #category : #testing }
+CpCanyonModelView >> isCanyonModelView [
+
+	^ true
+]
+
 { #category : #accessing }
 CpCanyonModelView >> loadingTimeout [
 
@@ -295,7 +301,8 @@ CpCanyonModelView >> removeBindings [
 { #category : #accessing }
 CpCanyonModelView >> title [
 
-	"Answer the title for the receiver"
+	"Answer the title for the receiver.
+	Answering nil means no custom title is present/to be used."
 
 	^ nil
 ]
