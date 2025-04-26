@@ -103,13 +103,15 @@ CpCanyonAppMainView class >> defaultAppTexts [
 	"Answer Dictionary with default app texts"
 
 	^ Dictionary new
+		at: #'app.ok' put: 'OK' ;
+		at: #'app.cancel' put: 'Cancel' ;
 		at: #'app.menu.title' put: 'Menu' ;
 		at: #'app.label.account.email' put: 'email' ;
 		at: #'app.label.account.password' put: 'password' ;
 		at: #'app.label.account.token' put: 'code' ;
 		at: #'app.selection.loginAccount.expires.usage' put: 'After usage' ;
 		at: #'app.selection.loginAccount.expires.day' put: 'The next day' ;
-		at: #'app.selection.loginAccount.expires.never' put: 'Never' ;			
+		at: #'app.selection.loginAccount.expires.never' put: 'Never' ;
 		yourself
 ]
 
