@@ -186,7 +186,8 @@ CpViewCodeInspectorView >> applyStyle [
 	styleType = #style
 		ifTrue: [
 			element class
-				installStyle: self styleContent ]
+				installStyle: self styleContent ;
+				updateAllInstances ]
 		ifFalse: [
 			element class
 				updateGlobalStyleUsing: self styleContent ]
@@ -199,7 +200,8 @@ CpViewCodeInspectorView >> applyTemplate [
 		ifFalse: [ ^ self ].
 
 	element class
-		installTemplate: self templateContent
+		installTemplate: self templateContent ;
+		updateAllInstances
 ]
 
 { #category : #rendering }
@@ -430,7 +432,8 @@ CpViewCodeInspectorView >> handleApplyStyle: anEvent [
 		stopPropagation ;
 		preventDefault.
 
-	self applyStyle
+	"Update in forked process because of possible awaits being used in #initializeShadowRoot"
+	[ self applyStyle ] fork
 ]
 
 { #category : #'event handling' }
@@ -440,7 +443,8 @@ CpViewCodeInspectorView >> handleApplyTemplate: anEvent [
 		stopPropagation ;
 		preventDefault.
 
-	self applyTemplate
+	"Update in forked process because of possible awaits being used in #initializeShadowRoot"
+	[ self applyTemplate ] fork
 ]
 
 { #category : #'event handling' }
