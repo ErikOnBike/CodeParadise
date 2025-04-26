@@ -684,10 +684,7 @@ CpCanyonAppMainView >> previousPage [
 CpCanyonAppMainView >> selectAction: aString from: aCollection [
 
 	"Show the receiver's ActionSheet and answer the action selected.
-	The answered value is a Dictionary with #data and #role. The field
-	#data contains the data of the selected ActionSheetButton (see below).
-	Idem for the #role field, unless the ActionSheet is cancelled in which
-	case it receives the role 'cancel'.
+	The answered value is the element from the specified Collection.
 
 	Actions are specified using the ActionSheetButton interface:
 		```
@@ -707,11 +704,26 @@ CpCanyonAppMainView >> selectAction: aString from: aCollection [
 		https://ionicframework.com/docs/api/action-sheet#actionsheetbutton
 	"
 
-	^ (actionSheet
+	| buttons result resultIndex |
+
+	buttons := Array new: aCollection size.
+	aCollection withIndexDo: [ :each :index |
+		buttons at: index put: (each asRelaxedJsonObjectValue
+			at: #data put: index ;
+			yourself) ].
+
+	result := (actionSheet
 		header: aString ;
-		buttons: aCollection asRelaxedJsonObjectValue ;
+		buttons: buttons ;
 		present ;
-		onDidDismiss) await
+		onDidDismiss) await.
+
+	result ifNil: [ ^ nil ].
+	resultIndex := result at: #data ifAbsent: [ ^ nil ].
+	resultIndex isInteger
+		ifFalse: [ ^ nil ].
+
+	^ aCollection at: resultIndex
 ]
 
 { #category : #actions }
