@@ -1,8 +1,7 @@
 "
 I am a generic Model View. I am responsible for setting up and tearing down
-bindings between the model and the view. I know the page I live in and I can
-update the page's title when I see necessary. I will be updated after navigation
-has occurred.
+bindings between the model and the view. I know the page I live in. I will be
+updated before and after navigation occurs.
 "
 Class {
 	#name : #CpCanyonModelView,
@@ -311,21 +310,4 @@ CpCanyonModelView >> updateAfterNavigate [
 CpCanyonModelView >> updateBeforeNavigate [
 
 	"Update the receiver just before presenting itself after a navigation has been performed"
-]
-
-{ #category : #view }
-CpCanyonModelView >> updateTitle [
-
-	"Update the receiver's title"
-
-	self updateTitle: self title
-]
-
-{ #category : #view }
-CpCanyonModelView >> updateTitle: aString [
-
-	"Update the receiver's title"
-
-	self page
-		updateTitle: aString
 ]
