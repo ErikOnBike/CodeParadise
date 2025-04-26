@@ -104,7 +104,7 @@ CpJsonObject class >> wrap: aDictionary [
 		yourself
 ]
 
-{ #category : #adding }
+{ #category : #'accessing - dictionary access' }
 CpJsonObject >> add: anAssociation [
 
 	"Add a new key/value pair, maintaining the JSON structure"
@@ -379,4 +379,16 @@ CpJsonObject >> printOn: aStream [
 	Dictionary for this purpose."
 
 	aStream nextPutAll: (CpJavaScriptJSON stringify: dict)
+]
+
+{ #category : #'accessing - dictionary access' }
+CpJsonObject >> removeKey: aSymbol [
+
+	^ dict removeKey: aSymbol ifAbsent: [ nil ]
+]
+
+{ #category : #'accessing - dictionary access' }
+CpJsonObject >> removeKey: aSymbol ifAbsent: aBlock [
+
+	^ dict removeKey: aSymbol ifAbsent: aBlock
 ]
