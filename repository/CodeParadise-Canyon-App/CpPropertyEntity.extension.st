@@ -177,10 +177,13 @@ CpPropertyEntity >> restReadTimeoutPeriod [
 { #category : #'*CodeParadise-Canyon-App' }
 CpPropertyEntity class >> restReadUsingUri: aString timeoutPeriod: anInteger [
 
-	"Read (all) the resources of the receiver's 'type' using the specified URI"
+	"Read (all) the resources of the receiver's 'type' using the specified URI.
 
-	^ (self restApiClient getUri: aString timeoutPeriod: anInteger) collect: [ :each |
-		self fromDictionary: each ]
+	If the session has expired this will answer an empty collection."
+
+	^ (self restApiClient getUri: aString timeoutPeriod: anInteger)
+		ifNotNil: [ :array | array collect: [ :each | self fromDictionary: each ] ]
+		ifNil: [ #() ]
 ]
 
 { #category : #'*CodeParadise-Canyon-App' }
