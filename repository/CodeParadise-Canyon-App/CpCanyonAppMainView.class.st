@@ -714,6 +714,123 @@ CpCanyonAppMainView >> selectAction: aString from: aCollection [
 		onDidDismiss) await
 ]
 
+{ #category : #actions }
+CpCanyonAppMainView >> selectOption: aString from: aCollection [
+
+	^ self selectOption: aString message: nil from: aCollection
+]
+
+{ #category : #actions }
+CpCanyonAppMainView >> selectOption: titleString message: messageString from: aCollection [
+
+	"Show an Alert with options as radio 'type' and answer the value of the
+	option selected. The options are either a Collection of Strings or a
+	Collection of IonAlertInput objects (or a similar Dictionary like structure).
+	The answered value is either the String selected (if only Strings are supplied)
+	or otherwise the value of the input object selected. If no value is present for
+	that particular option, the index of the option in its Collection is answered.
+	When the user cancelled the selection, nil is answered.
+	Please DO NOT use nil as an input value because the distinction could not be
+	made by the caller. This method will then answer the selected index.
+
+	The message is optional.
+
+	Options are specified using the AlertInput interface:
+		```
+		interface AlertInput {
+			type?: TextFieldTypes | 'checkbox' | 'radio' | 'textarea';
+			name?: string;
+			placeholder?: string;
+			value?: any;
+			/**
+			 * The label text to display next to the input, if the input type is `radio` or `checkbox`.
+			 */
+			label?: string;
+			checked?: boolean;
+			disabled?: boolean;
+			id?: string;
+			handler?: (input: AlertInput) => void;
+			min?: string | number;
+			max?: string | number;
+			cssClass?: string | string[];
+			attributes?: { [key: string]: any };
+			tabindex?: number;
+		}
+		```
+
+	See also:
+		https://ionicframework.com/docs/api/alert#alertinput
+
+	Implementation:
+	To allow input values to be different types (even some non-supported by JavaScript) the code
+	below replaces the supplied input value with the input's index. After successfully receiving
+	a selection, this index is used to retrieve the original input value and answer it. IF no
+	specific value is present, the index will be answered of the input.
+	Using Symbols for values in the input objects will result in a Symbol being answered, instead
+	of a String (since JS can't tell the difference)."
+
+	| optionAlert inputs result resultIndex |
+
+	optionAlert := self appendChild: (IonAlert new
+		header: titleString ;
+		buttons: {
+			{
+				#text -> (CpPropertyEntity text: #'app.cancel').
+				#role -> #cancel } asDictionary.
+			{
+				#text -> (CpPropertyEntity text: #'app.ok').
+				#role -> #confirm } asDictionary } ;
+		yourself).
+
+	messageString ifNotNil: [ optionAlert message: messageString ].
+
+	"Create correct inputs field"
+	inputs := Array new: aCollection size.
+	aCollection withIndexDo: [ :each :index |
+		inputs at: index put: (each isString
+			ifTrue: [
+				{
+					#value -> index.
+					#label -> each.
+					#type -> #radio } asDictionary ]
+			ifFalse: [
+				"Update the input to have a known value (my index)"
+				each asRelaxedJsonObjectValue
+					at: #value put: index ;
+					at: #type ifAbsentPut: [ #radio ] ;
+					yourself ]) ].
+	optionAlert inputs: inputs.
+
+	"Show input and wait on closing (dismissal)"
+	result := (optionAlert
+		present ;
+		onDidDismiss) await.
+
+	"Validate the user confirmed a selection"
+	result ifNil: [ ^ nil ].
+	(result at: #role ifAbsent: [ ^ nil ]) = #confirm
+		ifFalse: [ ^ nil ].
+
+	"Extract the selected input value (the input index)"
+	resultIndex := (result at: #data ifAbsent: [ ^ nil ])
+		at: #values ifAbsent: [ ^ nil ].
+	resultIndex isInteger
+		ifFalse: [ ^ nil ].
+
+	"Remove the alert (does not happen automagically)"
+	optionAlert remove.
+
+	"Retrieve the result value (using the index) into the original input value"
+	result := aCollection at: resultIndex ifAbsent: [ ^ nil ].
+
+	^ result isString
+		ifTrue: [ result ]
+		ifFalse: [
+			"Result will be an IonAlertInput or something similar"
+			(result at: #value)
+				ifNil: [ resultIndex ] ]
+]
+
 { #category : #'event handling' }
 CpCanyonAppMainView >> sessionExpired [
 
