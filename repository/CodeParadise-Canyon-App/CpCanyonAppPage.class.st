@@ -370,6 +370,7 @@ CpCanyonAppPage >> screenWidth [
 
 	^ (CpClientEnvironment current
 			persistentVariableAt: #SCREEN_WIDTH)
+				ifNotNil: [ :value | value asSymbol ]
 				ifNil: [ #auto ]
 ]
 
