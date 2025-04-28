@@ -23,8 +23,8 @@ String >> formatKnown: aCollection [
 							replacement := index
 								ifNotNil: [ aCollection at: index ifAbsent: [ nil ] ]
 								ifNil: [
+									"SequenceableCollection has numeric indices and we have a name here (will result in 'nil' for SequenceableCollection)"
 									(aCollection isKindOf: SequenceableCollection)
-										ifTrue: [ nil ] "SequenceableCollection has numeric indices and we have a name here"
 										ifFalse: [ aCollection at: expression ifAbsent: [ nil ] ] ].
 							replacement
 								ifNotNil: [ result nextPutAll: replacement asString ]

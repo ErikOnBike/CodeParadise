@@ -300,8 +300,8 @@ CpViewInspectorView >> handleInput [
 	input := (self shadowedElementWithId: #'name-input') value.
 
 	selectedClassName := (completionIndex > 0
-		ifTrue: [ (self childrenAtSlotNamed: #completion) at: completionIndex ifAbsent: [ nil ] ]
-		ifFalse: [ nil ]) ifNotNil: [ :selection | selection textContent ].
+		ifTrue: [ (self childrenAtSlotNamed: #completion) at: completionIndex ifAbsent: [ nil ] ])
+			ifNotNil: [ :selection | selection textContent ].
 
 	self removeChildrenAtSlotNamed: #completion.
 	completionIndex := 0.

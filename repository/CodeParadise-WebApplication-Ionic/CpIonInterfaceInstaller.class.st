@@ -105,7 +105,6 @@ CpIonInterfaceInstaller >> installClass [
 	stream skipSeparators.
 
 	componentClass := (componentName includesSubstring: 'Legacy')
-		ifTrue: [ nil ]
 		ifFalse: [
 			(Smalltalk classNamed: componentName)
 				ifNil: [
@@ -369,14 +368,12 @@ CpIonInterfaceInstaller >> resultTypeFromTypeString: aString [
 	resultType := self typeFromTypeString: aString.
 
 	^ (#('String' 'Number' 'Boolean') includes: resultType)
-		ifTrue: [ nil ]
 		ifFalse: [
 			resultType = 'Promise'
 				ifTrue: [ CpJavaScriptPromise name ]
 				ifFalse: [
 					(Smalltalk classNamed: resultType) isNotNil
-						ifTrue: [ resultType ]
-						ifFalse: [ nil ] ] ]
+						ifTrue: [ resultType ] ] ]
 ]
 
 { #category : #accessing }

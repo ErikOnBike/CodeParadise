@@ -33,7 +33,6 @@ CpUnhandledRejection >> asJavaScriptError [
 
 	^ reason isErrorObject
 		ifTrue: [ reason ]
-		ifFalse: [ nil ]
 ]
 
 { #category : #accessing }

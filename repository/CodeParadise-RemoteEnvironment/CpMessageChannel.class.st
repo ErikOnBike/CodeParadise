@@ -59,8 +59,7 @@ CpMessageChannel class >> environmentImplementation [
 					"If a single subclass exists use that, otherwise answer nil to denote 'undecided'"
 					implementationClasses := self allSubclasses.
 					implementationClasses size = 1
-						ifTrue: [ implementationClasses asArray first ]
-						ifFalse: [ nil ] ]
+						ifTrue: [ implementationClasses asArray first ] ]
 				ifFalse: [ self ] ]
 ]
 

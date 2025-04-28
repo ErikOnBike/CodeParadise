@@ -103,5 +103,4 @@ CpFieldChanged >> value [
 
 	^ self hasValue
 		ifTrue: [ value ]
-		ifFalse: [ nil ]
 ]

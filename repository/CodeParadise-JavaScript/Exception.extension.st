@@ -9,7 +9,6 @@ Exception >> asJavaScriptError [
 
 	^ (tag isErrorObject and: [ tag isJavaScriptObject ])
 		ifTrue: [ tag ]
-		ifFalse: [ nil ]
 ]
 
 { #category : #'*CodeParadise-JavaScript' }
@@ -22,7 +21,6 @@ Exception >> cause [
 
 	^ tag isErrorObject
 		ifTrue: [ tag ]
-		ifFalse: [ nil ]
 ]
 
 { #category : #'*CodeParadise-JavaScript' }

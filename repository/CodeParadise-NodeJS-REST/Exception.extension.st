@@ -37,7 +37,6 @@ Exception >> restResponseString [
 			(error cause
 				ifNotNil: [ :cause |
 					cause isErrorObject
-						ifTrue: [ error := cause ]
-						ifFalse: [ nil ] ]) isNotNil
+						ifTrue: [ error := cause ] ]) isNotNil
 		] whileTrue ]
 ]
