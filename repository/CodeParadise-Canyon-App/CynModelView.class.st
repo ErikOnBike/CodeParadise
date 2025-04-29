@@ -272,19 +272,6 @@ CynModelView >> handleTabsWillChange: anEvent [
 ]
 
 { #category : #initialization }
-CynModelView >> initializeInPage [
-
-	"Perform any page specific initialization.
-
-	Typically event handlers for tools in the toolbar can be installed here using
-	#whenClickedOnTool:forkedSend:to: or #whenClickedOnTool:forkedDo:for:
-
-	Notice how both are forked event handlers. Ionic is using a lot of Promises and
-	only the forked variant will work here (otherwise you might end up with events
-	which will signal an error because the event handler can't (a)wait."
-]
-
-{ #category : #initialization }
 CynModelView >> initializeShadowRoot [
 
 	super initializeShadowRoot.

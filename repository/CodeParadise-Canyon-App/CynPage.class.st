@@ -20,14 +20,6 @@ Class {
 	#category : #'CodeParadise-Canyon-App-View'
 }
 
-{ #category : #accessing }
-CynPage class >> app [
-
-	"Convenience method to access the app (instance)"
-
-	^ CynApp current
-]
-
 { #category : #tags }
 CynPage class >> isAbstractTag [
 
