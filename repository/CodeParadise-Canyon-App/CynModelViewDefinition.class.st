@@ -72,8 +72,7 @@ CynModelViewDefinition class >> model: modelObject view: viewObject slotName: aS
 		model: modelObject
 		view: [ :model |
 			(aBlock cull: model)
-				ifTrue: [ viewObject cull: model ]
-				ifFalse: [ nil ] ]
+				ifTrue: [ viewObject cull: model ] ]
 		slotName: aString
 ]
 
