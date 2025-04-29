@@ -249,8 +249,11 @@ CynModelView >> handleTabsDidChange: anEvent [
 		"Store the selected tab"
 		self keepSelectedTab: tab.
 
-		self activeChildViewsInTab: tab do: [ :each |
-			each updateAfterNavigate ] ]
+		"Only update if not already updating because of navigation"
+		(self isClassed: #navigating)
+			ifFalse: [
+				self activeChildViewsInTab: tab do: [ :each |
+					each updateAfterNavigate ] ] ]
 ]
 
 { #category : #'event handling' }
@@ -259,8 +262,12 @@ CynModelView >> handleTabsWillChange: anEvent [
 	"A tab in the receiver is going to change, update the tabs content"
 
 	(self tabFromTabChangeEvent: anEvent) ifNotNil: [ :tab |
-		self activeChildViewsInTab: tab do: [ :each |
-			each updateBeforeNavigate ] ]
+
+		"Only update if not already updating because of navigation"
+		(self isClassed: #navigating)
+			ifFalse: [
+				self activeChildViewsInTab: tab do: [ :each |
+					each updateBeforeNavigate ] ] ]
 ]
 
 { #category : #initialization }
@@ -535,7 +542,10 @@ CynModelView >> updateAfterNavigate [
 self traceCr: 'Update after in ', self printString.
 
 	self activeChildViewsDo: [ :each |
-		each updateAfterNavigate ]
+		each updateAfterNavigate ].
+
+	"Remove the mark that we are navigating, navigation is done"
+	self removeClass: #navigating
 ]
 
 { #category : #'view - customization' }
@@ -545,6 +555,9 @@ CynModelView >> updateBeforeNavigate [
 	Be aware the receiver might not be connected to the document yet. If needed
 	it can be checked by sending #isConnected"
 self traceCr: 'Update before in ', self printString.
+
+	"Mark the receiver we're navigating"
+	self addClass: #navigating.
 
 	self activeChildViewsDo: [ :each |
 		each updateBeforeNavigate ]
