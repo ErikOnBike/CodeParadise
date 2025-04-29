@@ -32,7 +32,7 @@ CpPropertySlot class >> postInstall [
 { #category : #'code generation' }
 CpPropertySlot >> emitStore: methodBuilder [
 
-	"Generate bytecode for 'rcvr instVarNamed: self name put: <stackTop>'"
+	"Generate bytecode for 'rcvr propertyAt: self name put: <stackTop>'"
 
 	| tempName |
 
@@ -51,7 +51,7 @@ CpPropertySlot >> emitStore: methodBuilder [
 { #category : #'code generation' }
 CpPropertySlot >> emitValue: methodBuilder [
 
-	"Generate bytecode for 'rcvr instVarNamed: self name'"
+	"Generate bytecode for 'rcvr propertyAt: self name'"
 
 	methodBuilder
 		pushReceiver ;
@@ -64,7 +64,7 @@ CpPropertySlot >> isAccessedIn: aCompiledMethod [
 
 	"Return whether the receiver is accessed in the specified Method.
 
-	Pay attention that the compiler is free to remove unused variable. The access is only garanteed for used
+	Pay attention that the compiler is free to remove unused variable. The access is only guaranteed for used
 	instance variables e.g. part of return, expression, assignment..."
 
 	^ aCompiledMethod ast instanceVariableNodes

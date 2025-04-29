@@ -1,7 +1,9 @@
 Extension { #name : #CpWebComponent }
 
 { #category : #'*CodeParadise-Canyon-App' }
-CpWebComponent >> isCanyonModelView [
+CpWebComponent class >> cull: aModel [
 
-	^ false
+	"Answer the receiver when requesting for a ViewClass"
+
+	^ self
 ]

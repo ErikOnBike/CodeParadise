@@ -3,7 +3,7 @@ Extension { #name : #String }
 { #category : #'*CodeParadise-Canyon-Model' }
 String >> formatKnown: aCollection [
 
-	<canyonApplicationExtension>
+	<canyonModelExtension>
 
 	"Format the receiver by interpolating elements from the collection specified.
 	In contrast with #format: any unknown elements are left intact (instead of

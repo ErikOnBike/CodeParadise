@@ -1,9 +1,14 @@
 Extension { #name : #CpDomElement }
 
 { #category : #'*CodeParadise-Canyon-App' }
-CpDomElement >> isPage [
+CpDomElement >> canyonPage [
 
-	"Answer whether the receiver is a Canyon Page"
+	"Answer the page where the receiver is positioned in.
+	To prevent any name class with other frameworks this method is named specifically."
 
-	^ false
+	^ self parent
+		ifNotNil: [ :parent | parent canyonPage]
+		ifNil: [
+			"We reached the root, check our host (we might be in Shadow DOM)"
+			self host ifNotNil: [ :host | host canyonPage ] ]
 ]

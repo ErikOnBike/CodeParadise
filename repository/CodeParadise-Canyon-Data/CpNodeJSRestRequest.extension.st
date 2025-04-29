@@ -5,8 +5,6 @@ CpNodeJSRestRequest >> accountId [
 
 	"Answer the custom property #accountId (signal an error if this value is not present)"
 
-	<canyonApplicationExtension>
-
 	^ (self propertyAt: #accountId)
 		ifNil: [ self error: 'No accountId present in the REST Request' ]
 ]

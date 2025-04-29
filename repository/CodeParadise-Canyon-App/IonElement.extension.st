@@ -4,6 +4,4 @@ Extension { #name : #IonElement }
 IonElement >> initializeForModel: aModel property: aSymbol [
 
 	"Initialize the receiver for handling the specified Model and property"
-
-	<canyonApplicationExtension>
 ]

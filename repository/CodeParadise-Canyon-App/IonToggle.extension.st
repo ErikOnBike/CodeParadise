@@ -5,8 +5,6 @@ IonToggle >> valueForModel [
 
 	"Convenience method used in binding Elements to a Model"
 
-	<canyonApplicationExtension>
-
 	^ self checked
 ]
 
@@ -14,8 +12,6 @@ IonToggle >> valueForModel [
 IonToggle >> valueFromModel: anObject [
 
 	"Convenience method used in binding Elements to a Model"
-
-	<canyonApplicationExtension>
 
 	| newValue |
 
@@ -30,8 +26,6 @@ IonToggle >> valueFromModel: anObject [
 IonToggle >> whenChangedDo: aBlock for: anObject [
 
 	"Convenience method used in binding Elements to a Model"
-
-	<canyonApplicationExtension>
 
 	^ self when: IonChangeEvent do: aBlock for: anObject
 ]

@@ -5,7 +5,5 @@ CpBrowserDOMException >> statusCode [
 
 	"Answer generic status code"
 
-	<canyonApplicationExtension>
-
 	^ 500
 ]

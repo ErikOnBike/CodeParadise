@@ -6,8 +6,6 @@ IonSelect >> initializeForModel: aModel property: aSymbol [
 	"Initialize the receiver for handling the specified Model and property.
 	Assume the receiver has a selection constraint."
 
-	<canyonApplicationExtension>
-
 	| selection |
 
 	super initializeForModel: aModel property: aSymbol.
@@ -34,8 +32,6 @@ IonSelect >> valueForModel [
 
 	"Convenience method used in binding Elements to a Model"
 
-	<canyonApplicationExtension>
-
 	^ self value
 ]
 
@@ -43,8 +39,6 @@ IonSelect >> valueForModel [
 IonSelect >> valueFromModel: anObject [
 
 	"Convenience method used in binding Elements to a Model"
-
-	<canyonApplicationExtension>
 
 	"Only update if changed (to prevent ping-pong between Element and Model)"
 	self valueForModel = anObject
@@ -55,8 +49,6 @@ IonSelect >> valueFromModel: anObject [
 IonSelect >> whenChangedDo: aBlock for: anObject [
 
 	"Convenience method used in binding Elements to a Model"
-
-	<canyonApplicationExtension>
 
 	^ self when: IonChangeEvent do: aBlock for: anObject
 ]
