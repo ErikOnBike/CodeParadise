@@ -46,6 +46,9 @@ CynModelView class >> style [
 	flex-direction: column;
 	height: 100%;
 }
+:host > :not(style) {
+	flex-grow: 1;
+}
 div.empty {
 	display: none;
 }'
