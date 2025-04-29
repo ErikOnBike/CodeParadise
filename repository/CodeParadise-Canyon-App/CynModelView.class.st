@@ -332,7 +332,7 @@ CynModelView >> isActiveChildView: anElement [
 			self warnCr: 'ChildView in unknown slot ', slotName printString.
 			^ false ].
 
-	tab := slot firstAncestorMatching: #IonTab.
+	tab := slot firstAncestorMatching: IonTab asCssSelector.
 
 	"Child view is outside tab and therefore (always) active"
 	tab ifNil: [ ^ true ].
