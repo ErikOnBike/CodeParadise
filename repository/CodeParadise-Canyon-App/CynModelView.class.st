@@ -562,6 +562,53 @@ self traceCr: 'Update before in ', self printString.
 ]
 
 { #category : #private }
+CynModelView >> updateChildView: aView atSlotNamed: aString usingDefinition: aModelViewDefinition [
+
+	"Update the existing View at the specified slot using the specified View definition"
+
+	"Check if a View is required or an empty child slot is needed"
+	(aModelViewDefinition viewClassForModel: model)
+		ifNotNil: [ :viewClass |
+			self
+				updateChildView: aView
+				atSlotNamed: aString
+				withViewClass: viewClass
+				on: (aModelViewDefinition modelFromModel: model) ]
+		ifNil: [
+			self
+				updateToEmptyChildView: aView
+				atSlotNamed: aString ]
+]
+
+{ #category : #private }
+CynModelView >> updateChildView: aView atSlotNamed: aString withViewClass: aClass on: aModel [
+
+	"Update the existing View in the specified slot with the specified View Class and Model"
+
+	"Check if a View is present"
+	aView ifNil: [
+
+		"No View exists, append a new one (opened on the required Model).
+		Since child Views are handled one-by-one we know appending a child
+		will put it in the right location."
+		self appendChild: (aClass on: aModel) atSlotNamed: aString.
+
+		^ self ].
+
+	"Check if the existing View matches the required View Class"
+	aView class = aClass
+		ifTrue: [
+			"A correct View already present, only update the model"
+			aView model: aModel ]
+		ifFalse: [
+			"Replace existing View, because it is incompatible"
+			self replaceChild: aView with: (aClass on: aModel) atSlotNamed: aString.
+
+			"Remove any dependencies in the old view"
+			aView destroy ]
+]
+
+{ #category : #private }
 CynModelView >> updateChildViews [
 
 	"Update all the child views based on the receiver's definitions"
@@ -576,67 +623,53 @@ CynModelView >> updateChildViews [
 				ifAbsentPut: [ OrderedCollection with: each ] ] ].
 
 	childViewDefinitionsBySlotName keysAndValuesDo: [ :slotName :definitions |
-		self updateChildViews: definitions atSlotNamed: slotName ]
+		self updateChildViewsAtSlotNamed: slotName usingDefinitions: definitions ]
 ]
 
 { #category : #private }
-CynModelView >> updateChildViews: definitions atSlotNamed: aString [
+CynModelView >> updateChildViewsAtSlotNamed: aString usingDefinitions: aCollection [
 
-	"Update the child view in the specified slot.
-
-	Implementation:
-	This method is a bit more complex than usual, but not too hard if you take
-	the time to read it. The reason for this bigger method is to prevent having
-	to retrieve child elements repeatedly from DOM."
+	"Update the child Views in the specified slot using the specified ModelViewDefinitions"
 
 	| existingViews |
 
 	existingViews := self childrenAtSlotNamed: aString.
 
-	definitions withIndexDo: [ :each :index |
-
-		"Check if a View is required"
-		(each viewClassForModel: model)
-			ifNotNil: [ :viewClass |
-
-				"Check if the required View is the same as the existing, otherwise replace"
-				(existingViews at: index ifAbsent: [ nil ])
-					ifNotNil: [ :view |
-
-						"A View exists check if it matches the required View Class"						
-						view class = viewClass
-							ifTrue: [
-								"A correct View already present, only update the model"
-								view model: (each modelFromModel: model) ]
-							ifFalse: [
-								"Replace existing View, because it is incompatible"
-								self replaceChild: view with: (viewClass on: (each modelFromModel: model)) atSlotNamed: aString.
-
-								"Remove any dependencies in the old view"
-								view destroy ] ]
-					ifNil: [
-
-						"No View exists, append a new one (opened on the required Model)"
-						self appendChild: (viewClass on: (each modelFromModel: model)) atSlotNamed: aString ] ]
-			ifNil: [
-
-				"The required View is empty, ensure an empty slot element is present at the current position"
-				(existingViews at: index ifAbsent: [ nil ])
-					ifNotNil: [ :view |
-
-						"A View exists, check if it is an empty slot, otherwise replace it"
-						(self isEmptyChildSlot: view)
-							ifFalse: [
-								self replaceChild: view with: self newEmptyChildSlot atSlotNamed: aString.
-
-								"Remove any dependencies in the old view"
-								view destroy ] ]
-					ifNil: [
-
-						"No View exists, append an empty slot"
-						self appendChild: self newEmptyChildSlot atSlotNamed: aString ] ] ].
+	aCollection withIndexDo: [ :each :index |
+		"We handle the children one-by-one. At some point not enough existing
+		Views might be present. These will be added by the methods invoked."
+		self
+			updateChildView: (existingViews at: index ifAbsent: [ nil ])
+			atSlotNamed: aString
+			usingDefinition: each ].
 
 	"As a sanity action remove superfluous elements"
-	definitions size + 1 to: existingViews size do: [ :index |
+	aCollection size + 1 to: existingViews size do: [ :index |
 		(existingViews at: index) destroy ]
+]
+
+{ #category : #private }
+CynModelView >> updateToEmptyChildView: aView atSlotNamed: aString [
+
+	"Update the existing View with an empty child slot"
+
+	"Check if a View is present"
+	aView ifNil: [
+
+		"No View exists, append an empty child slot.
+		Since child Views are handled one-by-one we know appending a child
+		will put it in the right location."
+		self appendChild: self newEmptyChildSlot atSlotNamed: aString.
+
+		^ self ].
+
+	"A View exists, check if it is an empty slot (in which case we're done)"
+	(self isEmptyChildSlot: aView)
+		ifTrue: [ ^ self ].
+
+	"View needs to be replaced with a new empty slot"
+	self replaceChild: aView with: self newEmptyChildSlot atSlotNamed: aString.
+
+	"Remove any dependencies in the old view"
+	aView destroy
 ]
