@@ -5,7 +5,7 @@ Symbol >> asParamText [
 
 	"Answer a ParamText instance for the receiver"
 
-	<applicationExtension>
+	<canyonApplicationExtension>
 
 	^ CpParamText key: self format: Dictionary new
 ]
@@ -16,7 +16,7 @@ Symbol >> textKey [
 	"Answer the receiver's key.
 	This method is to allow for a single access protocol for both the receiver class and Symbol."
 
-	<applicationExtension>
+	<canyonApplicationExtension>
 
 	^ self
 ]

@@ -22,6 +22,15 @@ CpCanyonMobileWebApplication class >> allowedPackages [
 		CpRestApiClient package }
 ]
 
+{ #category : #installing }
+CpCanyonMobileWebApplication >> extensionMethodCategories [
+
+	"Answer the collection of extension method categories needed for the receiver"
+
+	^ super extensionMethodCategories,
+		#(canyonApplicationExtension)
+]
+
 { #category : #actions }
 CpCanyonMobileWebApplication >> load [
 

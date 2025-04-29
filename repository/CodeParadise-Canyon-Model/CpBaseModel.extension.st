@@ -7,5 +7,7 @@ CpBaseModel class >> errorUndefinedProperty: aSymbol [
 
 	This method is a (temporary) hack. See the comment in CpPropertyModel class >> #errorUndefinedProperty:"
 
+	<canyonApplicationExtension>
+
 	self error: 'Undefined property ', aSymbol, ' in a ', self name
 ]

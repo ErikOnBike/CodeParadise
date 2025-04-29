@@ -7,7 +7,7 @@ Class >> allInstVarNamesBelow: aClass do: aBlock [
 	The super class' instance variables are evaluated before the receiver's variables.
 	Only instance variables of subclasses of the specified Class are handled."
 
-	<applicationExtension>
+	<canyonApplicationExtension>
 
 	self superclass
 		ifNotNil: [ :sup |

@@ -5,6 +5,8 @@ IonTextarea >> valueForModel [
 
 	"Convenience method used in binding Elements to a Model"
 
+	<canyonApplicationExtension>
+
 	^ self value
 ]
 
@@ -12,6 +14,8 @@ IonTextarea >> valueForModel [
 IonTextarea >> valueFromModel: anObject [
 
 	"Convenience method used in binding Elements to a Model"
+
+	<canyonApplicationExtension>
 
 	| newValue |
 
@@ -26,6 +30,8 @@ IonTextarea >> valueFromModel: anObject [
 IonTextarea >> whenChangedDo: aBlock for: anObject [
 
 	"Convenience method used in binding Elements to a Model"
+
+	<canyonApplicationExtension>
 
 	^ self when: IonInputEvent do: aBlock for: anObject
 ]

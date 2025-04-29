@@ -5,7 +5,7 @@ Exception >> statusCode [
 
 	"Answer generic status code"
 
-	<applicationExtension>
+	<canyonApplicationExtension>
 
 	^ 500
 ]
