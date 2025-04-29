@@ -391,7 +391,13 @@ CynModelView >> model [
 CynModelView >> model: aModel [
 
 	model = aModel
-		ifTrue: [ ^ self ].
+		ifTrue: [
+
+			"Special case when called the first time on a nil Model (i.e. pages without an explicit Model)"
+			childViewDefinitionsBySlotName ifNil: [
+				self updateChildViews ].
+
+			^ self ].
 
 	self removeBindings.
 	model := aModel.
