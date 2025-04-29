@@ -149,7 +149,7 @@ CynModelView >> childViewsDo: aBlock [
 
 	"Evaluate the specified Block for all child views (created from my childViewsDefinitions)"
 
-	childViewDefinitionsBySlotName ifNil: [ self traceCr: 'Callled childViews without child definition from ', self printString. self traceCr: thisContext printString. ^ self ].
+	childViewDefinitionsBySlotName ifNil: [ self warnCr: 'Callled childViews without child definition from ', self printString. ^ self ].
 
 	childViewDefinitionsBySlotName keysDo: [ :slotName |
 		(self childrenAtSlotNamed: slotName) do: [ :each |
