@@ -247,7 +247,7 @@ CynModelView >> handleTabsDidChange: anEvent [
 
 	(self tabFromTabChangeEvent: anEvent) ifNotNil: [ :tab |
 
-		"Store the selected tab"
+		"Store the selected tab (so it can be restored when the view is updated, only valuable for during development)"
 		self keepSelectedTab: tab.
 
 		"Only update if not already updating because of navigation"
@@ -522,7 +522,11 @@ CynModelView >> tabNamed: aString from: aTabs [
 CynModelView >> title [
 
 	"Answer the title for the receiver.
-	Answering nil means no custom title is present/to be used."
+	Answering nil means no custom title is present/to be used.
+
+	This is mainly useful in Pages (one of my subclasses), but
+	can be delegated to their active child view.
+	See CynPage >> #updateTitle:"
 
 	^ nil
 ]
