@@ -81,9 +81,10 @@ CynModelView >> activeChildViewsInTab: aTab do: aBlock [
 
 	"Evaluate the specified Block for all active child views in the specified tab"
 
-	aTab children do: [ :each |
-		(self isActiveChildView: each)
-			ifTrue: [ aBlock value: each ] ]
+	(aTab allDescendantsMatching: #slot) do: [ :eachSlot |
+		(self childrenAtSlotNamed: (eachSlot attributeAt: #name)) do: [ :each |
+			(self isActiveChildView: each)
+				ifTrue: [ aBlock value: each ] ] ]
 ]
 
 { #category : #binding }
