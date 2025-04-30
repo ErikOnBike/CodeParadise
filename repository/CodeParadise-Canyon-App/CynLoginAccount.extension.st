@@ -22,6 +22,14 @@ CynLoginAccount >> addClientChangeHandlers [
 ]
 
 { #category : #'*CodeParadise-Canyon-App' }
+CynLoginAccount >> handleSessionExpired [
+
+	"The REST API session expired, I'm no longer logged in"
+
+	success := false
+]
+
+{ #category : #'*CodeParadise-Canyon-App' }
 CynLoginAccount >> initializeClientProperties [
 
 	<environment: #browser>
@@ -32,7 +40,7 @@ CynLoginAccount >> initializeClientProperties [
 		ifTrue: [ success := true ].
 
 	CynPropertyEntity restApiClient
-		when: CynSessionExpired send: #sessionExpired to: self
+		when: CynSessionExpired send: #handleSessionExpired to: self
 ]
 
 { #category : #'*CodeParadise-Canyon-App' }
@@ -80,14 +88,6 @@ CynLoginAccount >> logout [
 	"Logout by resetting the REST API Client and setting the success status field"
 
 	self restApiClient reset.
-	success := false
-]
-
-{ #category : #'*CodeParadise-Canyon-App' }
-CynLoginAccount >> sessionExpired [
-
-	"The REST API session expired, I'm no longer logged in"
-
 	success := false
 ]
 

@@ -8,6 +8,12 @@ Class {
 }
 
 { #category : #'accessing - status codes' }
+CynRestResponseError class >> codeBadGateway [
+
+	^ 502
+]
+
+{ #category : #'accessing - status codes' }
 CynRestResponseError class >> codeBadRequest [
 
 	^ 400
@@ -96,6 +102,26 @@ CynRestResponseError >> initializeWithStatusCode: anInteger [
 	statusCode := anInteger
 ]
 
+{ #category : #accessing }
+CynRestResponseError >> isHandled [
+
+	"Answer whether the receiver is already handled"
+
+	^ statusCode < 0
+]
+
+{ #category : #accessing }
+CynRestResponseError >> markHandled [
+
+	"Mark the receiver as being handled.
+	This is useful since the REST API Client announces any failures as well as
+	signals any errors. For both situations the same Exception instance (like me)
+	is used. Marking it handled allows to propagate this info."
+
+	statusCode > 0
+		ifTrue: [ statusCode := 0 - statusCode ]
+]
+
 { #category : #printing }
 CynRestResponseError >> printOn: aStream [
 
@@ -110,5 +136,5 @@ CynRestResponseError >> printOn: aStream [
 { #category : #accessing }
 CynRestResponseError >> statusCode [
 
-	^ statusCode
+	^ statusCode abs
 ]

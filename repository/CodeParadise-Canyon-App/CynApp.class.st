@@ -1,6 +1,7 @@
 "
-I am the Canyon app main view. I also represent the app's main access point and will therefore be
-referenced (e.g. from a CpCanyonAppPage) as the 'app'.
+I am the Canyon App. I represent the app's main access point and will therefore be referenced
+(e.g. from a CynModelView) as the 'app'. I am also the main view in the application (that is,
+I'm a WebComponent).
 I am responsible for maintaining a number of visual components (in order):
 - menu
 - pages (through a navigation component)
@@ -22,9 +23,9 @@ As mentioned above, I represent the app's access point and therefore represent t
 I keep track of the current instance to allow a single app to be accessed easily and fast
 (and not requiring every page to know its app explicitly, for example).
 
-For a nice tag in the browser, my subclasses could be named something like SpecialAppView
+For a nice tag in the browser, my subclasses could be named something like SpecialApp
 resulting in the tag <special-app> which also describes my 'app' role. The prefix-less name
-should probably be okay for this name (you want a unique app name in any case ;-).
+should probably be okay for this Class (you want a unique app name in any case ;-).
 "
 Class {
 	#name : #CynApp,
@@ -105,6 +106,12 @@ CynApp class >> defaultAppTexts [
 	^ Dictionary new
 		at: #'app.ok' put: 'OK' ;
 		at: #'app.cancel' put: 'Cancel' ;
+		at: #'app.server.internalError.title' put: 'We have a problem' ;
+		at: #'app.server.internalError.message' put: 'The computer where the data is stored is not working correctly. The maintainer is informed. You could try it again shortly, just in case. We''l try to fix this as soon as possible.' ;
+		at: #'app.server.unavailable.title' put: 'We have a problem' ;
+		at: #'app.server.unavailable.message' put: 'The computer where the data is stored is not available at the moment. It should quickly be up again. Please try again in a minute.' ;
+		at: #'app.server.forbidden.title' put: 'We have a problem' ;
+		at: #'app.server.forbidden.message' put: 'The computer where the data is stored is says you''re not allowed to use or update the data. The maintainer is informed. We''ll try to fix this as soon as possible.' ;
 		at: #'app.menu.title' put: 'Menu' ;
 		at: #'app.label.account.email' put: 'email' ;
 		at: #'app.label.account.password' put: 'password' ;
@@ -194,11 +201,28 @@ body {
 }'
 ]
 
+{ #category : #testing }
+CynApp class >> ifDevelopment: aBlock [
+
+	self isSealed
+		ifTrue: [ ^ self ].
+
+	aBlock value
+]
+
 { #category : #tags }
 CynApp class >> isAbstractTag [
 
 	"The method is present to indicate the receiver is abstract.
 	This method will NOT be evaluated to decide if the receiver is abstract."
+]
+
+{ #category : #testing }
+CynApp class >> isSealed [
+
+	"Answer whether the receiver is sealed"
+
+	^ (Smalltalk at: #Sealed) == true
 ]
 
 { #category : #'instance creation' }
@@ -232,9 +256,29 @@ CynApp class >> postInstallOnce [
 
 	"Reset the default behavior to prevent the context menu.
 	This is not relevant for mobile apps where a context menu
-	is not present."
+	is not present.
+	Also replace the default handling of unhandled errors and
+	let the receiver be responsible for handling these errors."
 
 	CpSecondaryClickEvent resetDefaultContextMenu.
+
+	"Little hackery to install different #unhandledError: method"
+	Process methodDictionary ifNotNil: [ :methodDictionary |
+		(methodDictionary includesKey: #specialHandleError:)
+			ifTrue: [
+				methodDictionary
+					at: #handleError: put: (methodDictionary at: #specialHandleError:).
+
+				"Flush the #handleError: method just in case (should not have been called yet ;-)"
+				#handleError: flushCache ] ]
+]
+
+{ #category : #'class initialization' }
+CynApp class >> preSnapshotOnce [
+
+	"When the receiver is made into snapshot, mark it as 'sealed'"
+
+	Smalltalk at: #Sealed put: true
 ]
 
 { #category : #'class initialization' }
@@ -318,6 +362,33 @@ CynApp >> defaultToastDuration [
 	^ 3000
 ]
 
+{ #category : #'error handling' }
+CynApp >> errorForbidden [
+
+	self
+		showAlertTitle: (CynPropertyEntity text: #'app.server.forbidden.title')
+		message: (CynPropertyEntity text: #'app.server.forbidden.message')
+]
+
+{ #category : #'error handling' }
+CynApp >> errorInternalServerError: anError [
+
+	self
+		showAlertTitle: (CynPropertyEntity text: #'app.server.internalError.title')
+		message: (CynPropertyEntity text: #'app.server.internalError.message').
+
+	self class
+		ifDevelopment: [ self errorCr: anError printString ]
+]
+
+{ #category : #'error handling' }
+CynApp >> errorServerNotAvailable [
+
+	self
+		showAlertTitle: (CynPropertyEntity text: #'app.server.unavailable.title')
+		message: (CynPropertyEntity text: #'app.server.unavailable.message')
+]
+
 { #category : #'event handling' }
 CynApp >> handleDidDismissActionSheet [
 
@@ -366,6 +437,58 @@ CynApp >> handleOnline [
 	self removeClass: #offline
 ]
 
+{ #category : #'event handling' }
+CynApp >> handleRestApiClientFailed: aRestApiClientFailed [
+
+	self errorCr: 'Failed to perform REST API call. Error: ', aRestApiClientFailed exception printString
+]
+
+{ #category : #'event handling' }
+CynApp >> handleSessionExpired [
+
+	"The session expired.
+	See also class comment with respect to session expiration."
+
+]
+
+{ #category : #'event handling' }
+CynApp >> handleUnhandledError: anError [
+
+	"An Error is signaled which is not handled elsewhere.
+
+	This can typically happen when using a #when:forkedSend:to or #when:forkedDo:for:
+	and an Error is signaled during the forked Process. There is no active context
+	anymore to handle the error in a normal flow. The signaling context is available
+	to retrieve information from.
+	A few special cases can be handled here (in a generic way). Others might indicate
+	an issue in the code and proper error handling should be added to the relevant
+	piece of code."
+
+	"Check if the receiver is an already handled/processed REST API Client error"
+	((anError isKindOf: CynRestResponseError) and: [ anError isHandled ])
+		ifTrue: [ ^ self ].
+
+	"Assuming the REST API is behind some proxy (like nginx)"
+	anError statusCode = CynRestResponseError codeBadGateway
+		ifTrue: [ ^ self errorServerNotAvailable ].
+
+	"Forbidden means an authorization issue, should have been prevented"
+	anError statusCode = CynRestResponseError codeForbidden
+		ifTrue: [ ^ self errorForbidden ].
+
+	"Ouch...probably programming error"
+	anError statusCode = CynRestResponseError codeInternalServerError
+		ifTrue: [ ^ self errorInternalServerError: anError ].
+
+	self errorCr: 'Unhandled Error in App'.
+	(self locationFromSignalerContext: anError signalerContext) ifNotNil: [ :origin |
+		self traceCr: 'Origin seems to be: ', origin method printString ].
+
+	self class ifDevelopment: [
+		self traceCr: anError printString.
+		self traceCr: anError signalerContext printString ]
+]
+
 { #category : #actions }
 CynApp >> hideLoading [
 
@@ -407,8 +530,8 @@ CynApp >> initialize [
 	"Create the REST API client"
 	restApiClient := CynRestApiClient baseUrl: self apiBaseUrl.
 	restApiClient
-		when: CynSessionExpired send: #sessionExpired to: self ;
-		when: CynRestApiClientFailed send: #restApiClientFailed: to: self.
+		when: CynSessionExpired send: #handleSessionExpired to: self ;
+		when: CynRestApiClientFailed send: #handleRestApiClientFailed: to: self.
 
 	"Attach the REST API Client to the models"
 	CynPropertyEntity restApiClient: restApiClient
@@ -593,6 +716,36 @@ CynApp >> loadMenu [
 	is up to the subclass to decide."
 ]
 
+{ #category : #'error handling' }
+CynApp >> locationFromSignalerContext: aContext [
+
+	^ self locationFromSignalerContext: aContext startingWith: nil
+]
+
+{ #category : #'error handling' }
+CynApp >> locationFromSignalerContext: aContext startingWith: anObject [
+
+	"Answer the best outer location (for logging) where the specified Context
+	originated, using the specified Object as current best.
+	The answer will either be a Context or the specified initial value (if no
+	useful Context is found).
+
+	Implementation:
+	Since this is a mobile app and this method is used in the context of finding
+	an unhandled error (probably originated from an event), find the WebComponent
+	deepest down the call chain and use that context."
+
+	^ aContext sender
+		ifNotNil: [ :sender |
+			self
+				locationFromSignalerContext: sender
+				startingWith: ((aContext receiver ifNotNil: [ :receiver |
+					(receiver isKindOf: CpWebComponent)
+						ifTrue: [ aContext ] ])
+							ifNil: [ anObject ]) ]
+		ifNil: [ anObject ]
+]
+
 { #category : #actions }
 CynApp >> menuClose [
 
@@ -635,12 +788,6 @@ CynApp >> navigateTo: aPageClass withModel: aModel [
 
 	self currentPage
 		navigateTo: aPageClass withModel: aModel
-]
-
-{ #category : #'event handling' }
-CynApp >> restApiClientFailed: aRestApiClientFailed [
-
-	self errorCr: 'Failed to perform REST API call. Error: ', aRestApiClientFailed exception printString
 ]
 
 { #category : #actions }
@@ -805,14 +952,6 @@ CynApp >> selectOption: titleString message: messageString from: aCollection [
 			"Result will be an IonAlertInput or something similar"
 			(result at: #value ifAbsent: [ nil ])
 				ifNil: [ resultIndex ] ]
-]
-
-{ #category : #'event handling' }
-CynApp >> sessionExpired [
-
-	"The session expired.
-	See also class comment with respect to session expiration."
-
 ]
 
 { #category : #actions }
