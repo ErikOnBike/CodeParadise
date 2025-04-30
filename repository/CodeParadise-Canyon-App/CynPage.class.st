@@ -31,13 +31,9 @@ CynPage class >> isAbstractTag [
 CynPage class >> isPublic [
 
 	"Answer whether the receiver is a public page (i.e. does not require an authenticated user).
+	A page is non-public by default."
 
-	Implementation:
-	The presence of the method #isPublicTag on a subclass indicates that the page is public.
-	It therefore has to be set explicitly on all public pages. Everything else is non-public
-	by default."
-
-	^ self classSide includesSelector: #isPublicTag
+	^ true
 ]
 
 { #category : #'web resources' }
