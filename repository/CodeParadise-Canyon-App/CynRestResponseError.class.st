@@ -56,6 +56,16 @@ CynRestResponseError class >> codeUnauthorized [
 ]
 
 { #category : #'instance creation' }
+CynRestResponseError class >> messageText: aString statusCode: anInteger [
+
+	"Answer an instance of the receiver with the specified text and status code"
+
+	^ (self statusCode: anInteger)
+		messageText: aString ;
+		yourself
+]
+
+{ #category : #'instance creation' }
 CynRestResponseError class >> new [
 
 	self errorNewReplacedBy: #statusCode:
@@ -70,6 +80,8 @@ CynRestResponseError class >> signal: aString withStatusCode: anInteger [
 
 { #category : #'instance creation' }
 CynRestResponseError class >> statusCode: anInteger [
+
+	"Answer an instance of the receiver with the specified status code"
 
 	^ self basicNew
 		initializeWithStatusCode: anInteger ;

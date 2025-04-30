@@ -75,8 +75,10 @@ CynRestApiClient >> getUri: aString timeoutPeriod: anInteger [
 { #category : #'response handling' }
 CynRestApiClient >> handleErrorResponse: aResponse [
 
-	"Handle the error response by signaling an MaRestError (to be handled higher up).
+	"Handle the error response by signaling an CynRestResponseError (to be handled higher up).
 	In case an expired session, simply answer nil and do not signal an Error."
+
+	| errorDescription exception |
 
 	"Check for an expired session"
 	(aResponse status = CynRestResponseError codeUnauthorized and: [ accessToken isNotNil ])
@@ -88,12 +90,22 @@ CynRestApiClient >> handleErrorResponse: aResponse [
 			self announce: CynSessionExpired.
 			^ nil ].
 
-	^ [
-		| errorDescription |
-		errorDescription := aResponse text await.
-		errorDescription ifEmpty: [ errorDescription := aResponse statusText ifEmpty: [ 'Unspecified error' ] ].
-		CynRestResponseError signal: errorDescription withStatusCode: aResponse status
-	] on: Error do: [ :error | CynRestResponseError signal: error description withStatusCode: aResponse status ]
+	"Extract error description from response"
+	errorDescription := [
+		aResponse text await
+			ifEmpty: [
+				aResponse statusText
+					ifEmpty: [ 'Unspecified error' ] ]
+	] on: Error do: [ :error |
+		self warnCr: 'Internal error extracting error description: ', error printString.
+		'Unspecified error' ].
+
+	"Create exception, announce it and signal it (to allow cleanup in call stack)"
+	exception := CynRestResponseError messageText: errorDescription statusCode: aResponse status.
+
+	self announce: (CynRestApiClientFailed exception: exception).
+
+	exception signal
 ]
 
 { #category : #'response handling' }
