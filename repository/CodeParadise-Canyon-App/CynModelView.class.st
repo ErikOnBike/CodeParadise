@@ -271,8 +271,19 @@ CynModelView >> handleTabsWillChange: anEvent [
 					each updateBeforeNavigate ] ] ]
 ]
 
+{ #category : #testing }
+CynModelView >> hasTabs [
+
+	"Answer whether the receiver has tabs which are page level.
+	See #initializeShadowRoot:"
+
+	^ self isClassed: #tabs
+]
+
 { #category : #initialization }
 CynModelView >> initializeShadowRoot [
+
+	| hasTabs |
 
 	super initializeShadowRoot.
 
@@ -281,17 +292,23 @@ CynModelView >> initializeShadowRoot [
 		each when: CpClickEvent forkedSend: #handleNavigateBack: to: self ].
 
 	"In case the receiver has tabs, set event handler on tab changes"
+	hasTabs := false.
 	(self shadowedAllDescendantsMatching: IonTabs asCssSelector) do: [ :each |
 
 		"Only tabs with an id can be referenced and therefore used here.
 		Also check this IonTabs instance is marked to be ignored."
 		(each id isNotNil and: [ (each isClassed: #ignoreTabChanges) not ]) ifTrue: [
+			hasTabs := true.
 			each
 				when: IonTabsWillChangeEvent forkedSend: #handleTabsWillChange: to: self ;
 				when: IonTabsDidChangeEvent forkedSend: #handleTabsDidChange: to: self ] ].
 
+	"Mark if the receiver has tabs"
+	self classed: #tabs if: hasTabs.
+
 	"Restore any previously selected tabs"
-	self selectKeptTabs.
+	hasTabs
+		ifTrue: [ self selectKeptTabs ].
 
 	"If a model is present, reset the bindings"
 	model ifNotNil: [
@@ -319,6 +336,10 @@ CynModelView >> isActiveChildView: anElement [
 		ifNone: [
 			self warnCr: 'ChildView in unknown slot ', slotName printString.
 			^ false ].
+
+	"No tabs, so all child views are active"
+	self hasTabs
+		ifFalse: [ ^ true ].
 
 	tab := slot firstAncestorMatching: IonTab asCssSelector.
 
