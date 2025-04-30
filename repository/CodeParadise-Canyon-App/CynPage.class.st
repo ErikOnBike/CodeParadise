@@ -33,7 +33,7 @@ CynPage class >> isPublic [
 	"Answer whether the receiver is a public page (i.e. does not require an authenticated user).
 	A page is non-public by default."
 
-	^ true
+	^ false
 ]
 
 { #category : #'web resources' }

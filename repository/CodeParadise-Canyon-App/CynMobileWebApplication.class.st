@@ -1,3 +1,13 @@
+"
+I am the server side part of a Canyon Application.
+Only during development am I needed. Once an Application is ready for deployment,
+a running (clean) image should be snapshotted into a distributable standalone image.
+This standalone image can then be put onto a web server together with an appropriate
+html file to fire it up.
+
+The client side of a Canyon Application is typically created by subclassing the CynApp
+class. This is a WebComponent and therefore present in the View (sub)package.
+"
 Class {
 	#name : #CynMobileWebApplication,
 	#superclass : #CpWebApplication,
