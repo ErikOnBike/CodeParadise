@@ -407,7 +407,8 @@ CynApp >> initialize [
 	"Create the REST API client"
 	restApiClient := CynRestApiClient baseUrl: self apiBaseUrl.
 	restApiClient
-		when: CynSessionExpired send: #sessionExpired to: self.
+		when: CynSessionExpired send: #sessionExpired to: self ;
+		when: CynRestApiClientFailed send: #restApiClientFailed: to: self.
 
 	"Attach the REST API Client to the models"
 	CynPropertyEntity restApiClient: restApiClient
@@ -634,6 +635,12 @@ CynApp >> navigateTo: aPageClass withModel: aModel [
 
 	self currentPage
 		navigateTo: aPageClass withModel: aModel
+]
+
+{ #category : #'event handling' }
+CynApp >> restApiClientFailed: aRestApiClientFailed [
+
+	self errorCr: 'Failed to perform REST API call. Error: ', aRestApiClientFailed exception printString
 ]
 
 { #category : #actions }
