@@ -204,10 +204,10 @@ body {
 { #category : #testing }
 CynApp class >> ifDevelopment: aBlock [
 
-	self isSealed
-		ifTrue: [ ^ self ].
+	"Evaluate the specified Block during development"
 
-	aBlock value
+	(CpClientEnvironment current variableAt: #'CANYON_ENV') = 'dev'
+		ifTrue: [ aBlock value ]
 ]
 
 { #category : #tags }
@@ -215,14 +215,6 @@ CynApp class >> isAbstractTag [
 
 	"The method is present to indicate the receiver is abstract.
 	This method will NOT be evaluated to decide if the receiver is abstract."
-]
-
-{ #category : #testing }
-CynApp class >> isSealed [
-
-	"Answer whether the receiver is sealed"
-
-	^ (Smalltalk at: #Sealed) == true
 ]
 
 { #category : #'instance creation' }
@@ -271,14 +263,6 @@ CynApp class >> postInstallOnce [
 
 				"Flush the #handleError: method just in case (should not have been called yet ;-)"
 				#handleError: flushCache ] ]
-]
-
-{ #category : #'class initialization' }
-CynApp class >> preSnapshotOnce [
-
-	"When the receiver is made into snapshot, mark it as 'sealed'"
-
-	Smalltalk at: #Sealed put: true
 ]
 
 { #category : #'class initialization' }
