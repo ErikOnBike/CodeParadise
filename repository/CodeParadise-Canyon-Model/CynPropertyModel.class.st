@@ -476,7 +476,9 @@ CynPropertyModel >> normalizePropertyAt: aSymbol [
 { #category : #copying }
 CynPropertyModel >> postCopy [
 
-	"After my instance and data are copied, add the required change handlers"
+	"After my instance and data are copied, add the required change handlers.
+	This copy is a shallow copy. If the receiver has relations to other Objects,
+	these related Objects will be shared."
 
 	super postCopy.
 
