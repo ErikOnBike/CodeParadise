@@ -104,14 +104,7 @@ CynPropertyConstraint >> violationsForProperty: aSymbol in: aModel do: aBlock [
 
 	self
 		violationsIn: (self normalize: (aModel propertyAt: aSymbol))
-		do: [ :violation |
-			aBlock value: violation.
-			
-			"Use self as the result of evaluating this block.
-			This allows subclasses to implement #violationsIn:do:
-			with code like `^ aBlock value: #error` and still
-			answer the receiver."
-			self ]
+		do: [ :violation | aBlock value: violation ]
 ]
 
 { #category : #validating }
