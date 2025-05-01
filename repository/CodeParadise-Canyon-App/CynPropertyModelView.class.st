@@ -9,6 +9,9 @@ and show a friendly message to the user about the validation results.
 Class {
 	#name : #CynPropertyModelView,
 	#superclass : #CynModelView,
+	#instVars : [
+		'originalModel'
+	],
 	#category : #'CodeParadise-Canyon-App-View'
 }
 
@@ -29,32 +32,6 @@ CynPropertyModelView >> addPropertyBindings [
 
 	self boundProperties do: [ :each |
 		self bindProperty: each ]
-]
-
-{ #category : #'validating - private' }
-CynPropertyModelView >> addViolationsForProperty: aSymbol to: aCollection [
-
-	"Add a collection of Strings representing violation messages for the specified property of
-	the receiver's model to the specified Collection.
-
-	Implementation:
-	The violation messages have been made specific by adding the respective label of the properties."
-
-	| labelDict |
-
-	"Create a Dictionary for formatting the label"
-	labelDict := Dictionary with: #label -> (model labelAt: aSymbol).
-
-	"Check all constraints"
-	model propertyConstraintsAt: aSymbol do: [ :each |
-
-		"Per constraint evaluate all violations. Use the 'long' form with
-		the model, since conditional constraints require access to the model.
-		Do NOT use #violationsIn:do: here."
-		each violationsForProperty: aSymbol in: model do: [ :eachViolation |
-
-			"Add the text representing the violation and format with label"
-			aCollection add: (model class text: eachViolation format: labelDict) ] ]
 ]
 
 { #category : #binding }
@@ -104,6 +81,31 @@ CynPropertyModelView >> boundProperties [
 	^ #()
 ]
 
+{ #category : #testing }
+CynPropertyModelView >> isDirtyModel [
+
+	"Answer whether the receiver's model has changed"
+
+	^ originalModel ~= model
+]
+
+{ #category : #testing }
+CynPropertyModelView >> isDirtyProperty: aSymbol [
+
+	"Answer whether the specified property has changed"
+
+	^ (originalModel propertyAt: aSymbol) ~= (model propertyAt: aSymbol)
+]
+
+{ #category : #accessing }
+CynPropertyModelView >> model: aModel [
+
+	super model: aModel.
+
+	"Keep a copy of the specified Model to be able to recognize changes"
+	originalModel := aModel copy
+]
+
 { #category : #'validating - private' }
 CynPropertyModelView >> modelViolations [
 
@@ -111,10 +113,14 @@ CynPropertyModelView >> modelViolations [
 
 	| violations |
 
-	violations := OrderedCollection new.
+	violations := Dictionary new.
 
 	self propertiesForValidation do: [ :each |
-		self addViolationsForProperty: each to: violations ].
+		self withViolationsForProperty: each do: [ :violation |
+			violations
+				at: each
+				ifPresent: [ :collection | collection add: violation ]
+				ifAbsentPut: [ OrderedCollection with: violation ] ] ].
 
 	^ violations
 ]
@@ -156,7 +162,7 @@ CynPropertyModelView >> validateModelIfValid: aBlock [
 	"Validate the receiver's Model.
 	If there are issues, show them.
 	Otherwise (if valid) evaluate the specified block."
-
+self traceCr: self modelViolations printString.
 	self validationMessage
 		ifNotNil: [ :message | self showIssue: message ]
 		ifNil: [ aBlock value ]
@@ -165,9 +171,20 @@ CynPropertyModelView >> validateModelIfValid: aBlock [
 { #category : #validating }
 CynPropertyModelView >> validateProperty: aSymbol [
 
-	"Validate the specified Property of the receiver's Model"
+	"Validate the specified Property of the receiver's Model.
+	Handle any issues encountered."
 
-	self validateProperty: aSymbol ifValid: [ "Do nothing" ]
+	| violations |
+
+	violations := self violationsForProperty: aSymbol.
+
+	(self shadowedElementWithId: aSymbol)
+		errorText: (violations
+			ifNotEmpty: [ self validationMessageFrom: (Dictionary with: aSymbol -> violations) ]
+			ifEmpty: [ nil ]) ;
+		classed: #'ion-invalid' if: violations isNotEmpty ;
+		classed: #'ion-valid' if: violations isEmpty ;
+		classed: #'ion-touched' if: (self isDirtyProperty: aSymbol)
 ]
 
 { #category : #validating }
@@ -199,26 +216,24 @@ CynPropertyModelView >> validationMessageForProperty: aSymbol [
 	of the receiver's model or nil if the property's value is valid.
 	By default only the property's constraint violations are considered."
 
-	^ self validationMessageFrom: (self violationsForProperty: aSymbol)
+	^ self validationMessageFrom: (Dictionary with: aSymbol -> (self violationsForProperty: aSymbol))
 ]
 
 { #category : #'validating - private' }
-CynPropertyModelView >> validationMessageFrom: aCollection [
+CynPropertyModelView >> validationMessageFrom: aDictionary [
 
 	"Answer a single String representing the validation issue(s) specified in the Collection
 	or nil if no issues are present"
 
-	^ aCollection
+	^ aDictionary
 		ifNotEmpty: [
-			aCollection size = 1
-				ifTrue: [ aCollection first ]
-				ifFalse: [
-					String streamContents: [ :stream |
-						stream nextPutAll: self multipleViolationsIntroText.
-						aCollection do: [ :each |
-							stream
-								space ;
-								nextPutAll: each ] ] ] ]
+			String streamContents: [ :stream |
+				stream nextPutAll: self multipleViolationsIntroText.
+				aDictionary keysAndValuesDo: [ :property :violations |
+					violations do: [ :each |
+						stream
+							space ;
+							nextPutAll: (CynPropertyEntity text: each format: (Dictionary with: #label -> (model labelAt: property))) ] ] ] ]
 		ifEmpty: [ nil ]
 ]
 
@@ -231,7 +246,22 @@ CynPropertyModelView >> violationsForProperty: aSymbol [
 
 	violations := OrderedCollection new.
 
-	self addViolationsForProperty: aSymbol to: violations.
+	self withViolationsForProperty: aSymbol do: [ :violation |
+		violations add: violation ].
 
 	^ violations
+]
+
+{ #category : #'validating - private' }
+CynPropertyModelView >> withViolationsForProperty: aSymbol do: aBlock [
+
+	"Evaluate the specified Block for all violations in the model for the specified property"
+
+	"Check all constraints"
+	model propertyConstraintsAt: aSymbol do: [ :each |
+
+		"Per constraint evaluate all violations. Use the 'long' form with
+		the model, since conditional constraints require access to the model.
+		Do NOT use #violationsIn:do: here."
+		each violationsForProperty: aSymbol in: model do: aBlock ]
 ]
