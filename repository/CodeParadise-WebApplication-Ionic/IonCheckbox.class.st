@@ -85,6 +85,46 @@ IonCheckbox >> disabled: aBoolean [
 ]
 
 { #category : #api }
+IonCheckbox >> errorText [
+
+	"Text that is placed under the checkbox label and displayed when an error is detected.
+	
+	Type: string"
+
+	^ self propertyAt: #errorText
+]
+
+{ #category : #api }
+IonCheckbox >> errorText: aString [
+
+	"Text that is placed under the checkbox label and displayed when an error is detected.
+	
+	Type: string"
+
+	self propertyAt: #errorText put: aString
+]
+
+{ #category : #api }
+IonCheckbox >> helperText [
+
+	"Text that is placed under the checkbox label and displayed when no error is detected.
+	
+	Type: string"
+
+	^ self propertyAt: #helperText
+]
+
+{ #category : #api }
+IonCheckbox >> helperText: aString [
+
+	"Text that is placed under the checkbox label and displayed when no error is detected.
+	
+	Type: string"
+
+	self propertyAt: #helperText put: aString
+]
+
+{ #category : #api }
 IonCheckbox >> indeterminate [
 
 	"If 'true', the checkbox will visually appear as indeterminate.
@@ -182,6 +222,26 @@ IonCheckbox >> name: aString [
 	Type: string"
 
 	self propertyAt: #name put: aString
+]
+
+{ #category : #api }
+IonCheckbox >> required [
+
+	"If true, screen readers will announce it as a required field. This property works only for accessibility purposes, it will not prevent the form from submitting if the value is invalid.
+	
+	Type: boolean"
+
+	^ self propertyAt: #required
+]
+
+{ #category : #api }
+IonCheckbox >> required: aBoolean [
+
+	"If true, screen readers will announce it as a required field. This property works only for accessibility purposes, it will not prevent the form from submitting if the value is invalid.
+	
+	Type: boolean"
+
+	self propertyAt: #required put: aBoolean
 ]
 
 { #category : #api }

@@ -105,6 +105,46 @@ IonToggle >> enableOnOffLabels: anObject [
 ]
 
 { #category : #api }
+IonToggle >> errorText [
+
+	"Text that is placed under the toggle label and displayed when an error is detected.
+	
+	Type: string"
+
+	^ self propertyAt: #errorText
+]
+
+{ #category : #api }
+IonToggle >> errorText: aString [
+
+	"Text that is placed under the toggle label and displayed when an error is detected.
+	
+	Type: string"
+
+	self propertyAt: #errorText put: aString
+]
+
+{ #category : #api }
+IonToggle >> helperText [
+
+	"Text that is placed under the toggle label and displayed when no error is detected.
+	
+	Type: string"
+
+	^ self propertyAt: #helperText
+]
+
+{ #category : #api }
+IonToggle >> helperText: aString [
+
+	"Text that is placed under the toggle label and displayed when no error is detected.
+	
+	Type: string"
+
+	self propertyAt: #helperText put: aString
+]
+
+{ #category : #api }
 IonToggle >> justify [
 
 	"How to pack the label and toggle within a line. ''start'': The label and toggle will appear on the left in LTR and on the right in RTL. ''end'': The label and toggle will appear on the right in LTR and on the left in RTL. ''space-between'': The label and toggle will appear on opposite ends of the line with space between the two elements. Setting this property will change the toggle 'display' to 'block'.
@@ -182,6 +222,26 @@ IonToggle >> name: aString [
 	Type: string"
 
 	self propertyAt: #name put: aString
+]
+
+{ #category : #api }
+IonToggle >> required [
+
+	"If true, screen readers will announce it as a required field. This property works only for accessibility purposes, it will not prevent the form from submitting if the value is invalid.
+	
+	Type: boolean"
+
+	^ self propertyAt: #required
+]
+
+{ #category : #api }
+IonToggle >> required: aBoolean [
+
+	"If true, screen readers will announce it as a required field. This property works only for accessibility purposes, it will not prevent the form from submitting if the value is invalid.
+	
+	Type: boolean"
+
+	self propertyAt: #required put: aBoolean
 ]
 
 { #category : #api }
