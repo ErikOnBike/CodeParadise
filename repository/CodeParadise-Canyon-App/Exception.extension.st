@@ -3,9 +3,9 @@ Extension { #name : #Exception }
 { #category : #'*CodeParadise-Canyon-App' }
 Exception >> statusCode [
 
-	"Answer generic status code"
+	"Answer internal error status code"
 
 	<canyonApplicationExtension>
 
-	^ 500
+	^ 0
 ]

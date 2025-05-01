@@ -3,7 +3,7 @@ Extension { #name : #CpBrowserDOMException }
 { #category : #'*CodeParadise-Canyon-App' }
 CpBrowserDOMException >> statusCode [
 
-	"Answer generic status code"
+	"Answer internal error status code"
 
-	^ 500
+	^ 0
 ]

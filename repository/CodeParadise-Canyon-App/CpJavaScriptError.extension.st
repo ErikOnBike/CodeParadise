@@ -3,7 +3,7 @@ Extension { #name : #CpJavaScriptError }
 { #category : #'*CodeParadise-Canyon-App' }
 CpJavaScriptError >> statusCode [
 
-	"Answer generic status code"
+	"Answer internal error status code"
 
-	^ 500
+	^ 0
 ]
