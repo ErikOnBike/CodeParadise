@@ -1,42 +1,6 @@
 Extension { #name : #CynPropertyEntity }
 
 { #category : #'*CodeParadise-Canyon-App' }
-CynPropertyEntity class >> labelFor: propertySymbol selection: selectionSymbol [
-
-	"Answer the label for the specified selection of the specified property"
-
-	| labelKey labelValue |
-
-	"Create label key"
-	labelKey := (String streamContents: [ :stream |
-		stream
-			nextPutAll: 'app.selection.' ;
-			nextPutAll: (self nameWithoutPrefix withoutPrefix: #Canyon) uncapitalized ;
-			nextPut: $. ;
-			nextPutAll: propertySymbol ;
-			nextPut: $. ;
-			nextPutAll: selectionSymbol ]) asSymbol.
-
-	"Retrieve label value"
-	labelValue := self text: labelKey.
-
-	"If no label value is found and not yet at root, try superclass"
-	(labelValue == labelKey and: [ self ~~ CynPropertyEntity ])
-		ifTrue: [ labelValue := self superclass labelFor: propertySymbol selection: selectionSymbol ].
-
-	^ labelValue
-]
-
-{ #category : #'*CodeParadise-Canyon-App' }
-CynPropertyEntity >> labelFor: propertySymbol selection: selectionSymbol [
-
-	"Answer the label for the specified selection of the specified property"
-
-	^ self class
-		labelFor: propertySymbol selection: selectionSymbol
-]
-
-{ #category : #'*CodeParadise-Canyon-App' }
 CynPropertyEntity class >> restApiClient [
 
 	"Use the REST API Client stored in my configuration"
