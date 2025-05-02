@@ -115,8 +115,16 @@ CynPropertyModelView >> modelViolations [
 
 	violations := Dictionary new.
 
+	"Add model violations"
+	model modelViolationsDo: [ :violation |
+		violations
+			at: nil
+			ifPresent: [ :collection | collection add: violation ]
+			ifAbsentPut: [ OrderedCollection with: violation ] ].
+
+	"Add property violations"
 	self propertiesForValidation do: [ :each |
-		self withViolationsForProperty: each do: [ :violation |
+		model propertyViolationsAt: each do: [ :violation |
 			violations
 				at: each
 				ifPresent: [ :collection | collection add: violation ]
@@ -141,82 +149,48 @@ CynPropertyModelView >> propertiesForValidation [
 	^ self boundProperties
 ]
 
-{ #category : #actions }
-CynPropertyModelView >> showIssue: aString [
-
-	self app
-		showAlertTitle: 'FIX ME' message: aString
-]
-
 { #category : #validating }
-CynPropertyModelView >> validateModel [
+CynPropertyModelView >> validateModelIfValid: validBlock ifInvalid: invalidBlock [
 
-	"Validate the receiver's Model"
+	"Validate the receiver's Model and evaluate the appropriate Block.
+	If the Model is invalid the invalidBlock will be evaluated (culled) with
+	a Dictionary. The Dictionary will contain the property name (a Symbol)
+	as key and a collection of violation keys (Symbol or CynTextReference)
+	specifying the issues encountered for that partical property. If a nil
+	key is present, it refers to a collection of violations on the Model which
+	is not related to one specific property (like the Model's integrity
+	violations).
+	If the Model is valid the validBlock is evaluated without parameters.
 
-	self validateModelIfValid: [ "Do nothing" ]
-]
+	Both validBlock and/or invalidBlock can be nil, in which case no evaluation
+	is performed for that particular situation. This means that if invalidBlock
+	is nil and the receiver's Model is invalid, nothing will happen: there is
+	no fallback mechanism in such case to indicate the Model is invalid."
 
-{ #category : #validating }
-CynPropertyModelView >> validateModelIfValid: aBlock [
-
-	"Validate the receiver's Model.
-	If there are issues, show them.
-	Otherwise (if valid) evaluate the specified block."
-self traceCr: self modelViolations printString.
-	self validationMessage
-		ifNotNil: [ :message | self showIssue: message ]
-		ifNil: [ aBlock value ]
+	self modelViolations
+		ifNotEmpty: [ :violations |
+			invalidBlock ifNil: [ ^ self ].
+			invalidBlock cull: violations ]
+		ifEmpty: [
+			validBlock ifNil: [ ^ self ].
+			validBlock value ]
 ]
 
 { #category : #validating }
 CynPropertyModelView >> validateProperty: aSymbol [
 
-	"Validate the specified Property of the receiver's Model.
-	Handle any issues encountered."
+	"Validate the specified Property of the receiver's Model and
+	update the input element to indicate the validity"
 
-	| violations |
+	| errorText |
 
-	violations := self violationsForProperty: aSymbol.
+	errorText := model errorTextForPropertyAt: aSymbol.
 
 	(self shadowedElementWithId: aSymbol)
-		errorText: (violations
-			ifNotEmpty: [ self validationMessageFrom: (Dictionary with: aSymbol -> violations) ]
-			ifEmpty: [ nil ]) ;
-		classed: #'ion-invalid' if: violations isNotEmpty ;
-		classed: #'ion-valid' if: violations isEmpty ;
+		errorText: errorText ;
+		classed: #'ion-invalid' if: errorText isNotNil ;
+		classed: #'ion-valid' if: errorText isNil ;
 		classed: #'ion-touched' if: (self isDirtyProperty: aSymbol)
-]
-
-{ #category : #validating }
-CynPropertyModelView >> validateProperty: aSymbol ifValid: aBlock [
-
-	"Validate the specified Property of the receiver's Model.
-	If there are issues, show them.
-	Otherwise (if valid) evaluate the specified block."
-
-	(self validationMessageForProperty: aSymbol)
-		ifNotNil: [ :message | self app showToast: message ]
-		ifNil: [ aBlock value ]
-]
-
-{ #category : #validating }
-CynPropertyModelView >> validationMessage [
-
-	"Answer a single String representing the validation issue(s) found for the receiver's model
-	or nil if the model is valid.
-	By default only the model's constraint violations are considered."
-
-	^ self validationMessageFrom: self modelViolations
-]
-
-{ #category : #validating }
-CynPropertyModelView >> validationMessageForProperty: aSymbol [
-
-	"Answer a single String representing the validation issue(s) found for the specified property
-	of the receiver's model or nil if the property's value is valid.
-	By default only the property's constraint violations are considered."
-
-	^ self validationMessageFrom: (Dictionary with: aSymbol -> (self violationsForProperty: aSymbol))
 ]
 
 { #category : #'validating - private' }
@@ -240,28 +214,16 @@ CynPropertyModelView >> validationMessageFrom: aDictionary [
 { #category : #'validating - private' }
 CynPropertyModelView >> violationsForProperty: aSymbol [
 
-	"Answer a Collection of Strings representing the constraint violations in the specified property of the model"
+	"Answer a Collection of keys (Symbols or CynTextReferences) representing the
+	constraint violations in the specified property of the receiver's model"
 
 	| violations |
 
 	violations := OrderedCollection new.
 
-	self withViolationsForProperty: aSymbol do: [ :violation |
-		violations add: violation ].
+	model
+		propertyViolationsAt: aSymbol
+		do: [ :violation | violations add: violation ].
 
 	^ violations
-]
-
-{ #category : #'validating - private' }
-CynPropertyModelView >> withViolationsForProperty: aSymbol do: aBlock [
-
-	"Evaluate the specified Block for all violations in the model for the specified property"
-
-	"Check all constraints"
-	model propertyConstraintsAt: aSymbol do: [ :each |
-
-		"Per constraint evaluate all violations. Use the 'long' form with
-		the model, since conditional constraints require access to the model.
-		Do NOT use #violationsIn:do: here."
-		each violationsForProperty: aSymbol in: model do: aBlock ]
 ]

@@ -100,7 +100,7 @@ CynPropertyConstraint >> normalizeProperty: aSymbol in: aModel [
 CynPropertyConstraint >> violationsForProperty: aSymbol in: aModel do: aBlock [
 
 	"Evaluate the specified Block for each violation in the specified value.
-	The Block will receive a Symbol or CpParamText representing the violation."
+	The Block will receive a Symbol or CynTextReference representing the violation."
 
 	self
 		violationsIn: (self normalize: (aModel propertyAt: aSymbol))
@@ -112,7 +112,7 @@ CynPropertyConstraint >> violationsIn: anObject do: aBlock [
 
 	"Evaluate the specified Block for each violation in the specified value.
 	The specified value is assumed to be normalized.
-	The Block will receive a Symbol or CpParamText representing the violation.
+	The Block will receive a Symbol or CynTextReference representing the violation.
 
 	Normally subclasses need to implement this method instead of #violationsForProperty:in:do:
 	The conditional property constraints are an exception."

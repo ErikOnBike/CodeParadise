@@ -1,6 +1,41 @@
 Extension { #name : #CynPropertyModel }
 
 { #category : #'*CodeParadise-Canyon-App' }
+CynPropertyModel >> errorTextForPropertyAt: aSymbol [
+
+	"Answer an error text for the specified property.
+	The error text represents violations the user should 'fix'.
+	If no errors are encountered, answer nil."
+
+	| errorTextStream |
+
+	self
+		propertyViolationsAt: aSymbol
+		do: [ :violation |
+
+			"Add a space as separater between individual error texts"
+			 errorTextStream
+				ifNotNil: [ errorTextStream space ]
+				ifNil: [ errorTextStream := WriteStream on: (String new: 80) ].
+
+			"Add the error text for the current violation"
+			errorTextStream nextPutAll: (self errorTextForViolation: violation) ].
+
+	^ errorTextStream ifNotNil: [ errorTextStream contents ]
+]
+
+{ #category : #'*CodeParadise-Canyon-App' }
+CynPropertyModel >> errorTextForViolation: aSymbolOrTextReference [
+
+	"Answer an error text for the specified violation.
+	The violation is represented by a Symbol or a CynTextReference.
+	By default, the violation is looked up as text value."
+
+	^ self class
+		text: aSymbolOrTextReference
+]
+
+{ #category : #'*CodeParadise-Canyon-App' }
 CynPropertyModel class >> labelAt: aSymbol [
 
 	"Answer the label of the specified property.

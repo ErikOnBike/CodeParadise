@@ -31,8 +31,12 @@ CynEmailPropertyConstraint >> violationsIn: aString do: aBlock [
 
 	"Chop email in name and domain part"
 	parts := aString findTokens: '@'.
-	(parts size ~= 2 or: [ (aString occurrencesOf: $@) ~= 1 ])
+	(parts size > 2 or: [ (aString occurrencesOf: $@) ~= 1 ])
 		ifTrue: [ ^ aBlock value: #'constraint.email.format' ].
+
+	"Make sure there are no empty parts"
+	((aString beginsWith: '@') or: [ aString endsWith: '@' ])
+		ifTrue: [ ^ aBlock value: #'constraint.email.at' ].
 
 	"If invalid characters a single violation is given, because description is rich"
 	(parts first allSatisfy: [ :each | validNameCharacters includes: each ])
@@ -40,13 +44,15 @@ CynEmailPropertyConstraint >> violationsIn: aString do: aBlock [
 	(parts second allSatisfy: [ :each | validDomainCharacters includes: each ])
 		ifFalse: [ ^ aBlock value: #'constraint.email.domain' ].
 
-	"From here on, multiple violations can be processed. Do not return from this method until everything is checked."
-	((aString beginsWith: '@') or: [ aString endsWith: '@' ])
-		ifTrue: [ aBlock value: #'constraint.email.at' ].
+	"Make sure domain has at least one dot"
 	domainName := parts second.
+	(domainName includes: $.)
+		ifFalse: [ ^ aBlock value: #'constraint.email.domain.dot.missing' ].
+
+	"From here on, multiple violations can be processed. Do not return from this method until everything is checked."
 	((domainName beginsWith: '.') or: [ (domainName endsWith: '.') or: [ domainName includesSubstring: '..' ] ])
-		ifTrue: [ aBlock value: #'constraint.email.dot' ].
+		ifTrue: [ aBlock value: #'constraint.email.domain.dot.position' ].
 	domainParts := domainName findTokens: '.'.
 	(domainParts anySatisfy: [ :name | (name beginsWith: '-') or: [ name endsWith: '-' ] ])
-		ifTrue: [ aBlock value: #'constraint.email.dash' ]
+		ifTrue: [ aBlock value: #'constraint.email.domain.dash' ]
 ]

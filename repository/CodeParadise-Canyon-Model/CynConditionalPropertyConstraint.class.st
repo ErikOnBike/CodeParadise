@@ -68,7 +68,7 @@ CynConditionalPropertyConstraint >> normalizeProperty: aSymbol in: aModel [
 CynConditionalPropertyConstraint >> violationsForProperty: aSymbol in: aModel do: aBlock [
 
 	"Evaluate the specified Block for each violation in the specified value.
-	The Block will receive a Symbol or CpParamText representing the violation."
+	The Block will receive a Symbol or CynTextReference representing the violation."
 
 	(condition value: aModel)
 		ifTrue: [ constraint violationsForProperty: aSymbol in: aModel do: aBlock ]

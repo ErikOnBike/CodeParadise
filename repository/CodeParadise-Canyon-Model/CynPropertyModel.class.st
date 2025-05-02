@@ -443,6 +443,19 @@ CynPropertyModel >> merge: anObject [
 	^ anObject
 ]
 
+{ #category : #constraints }
+CynPropertyModel >> modelViolationsDo: aBlock [
+
+	"Evaluate the specified Block for each (integrity) violation in the receiver.
+	The Block will be evaluated with a key (a Symbol or CynTextReference)
+	representing the violation.
+
+	In contrast with #propertyViolationsAt:do: the Block should NOT be evaluated
+	for property specific (constraint based) violations.
+
+	Subclasses should implement this."
+]
+
 { #category : #normalizing }
 CynPropertyModel >> normalize [
 
@@ -547,7 +560,7 @@ CynPropertyModel >> propertyAt: aSymbol put: anObject [
 	^ anObject
 ]
 
-{ #category : #normalizing }
+{ #category : #constraints }
 CynPropertyModel >> propertyConstraintsAt: aSymbol do: aBlock [
 
 	"Evaluate the specified Block for each of the constraints of the specified property"
@@ -611,6 +624,22 @@ CynPropertyModel >> propertyValuesDo: aBlock [
 	"Evaluate the specified Block for the property values of the receiver"
 
 	^ self propertyNamesDo: [ :name | aBlock value: (self propertyAt: name) ]
+]
+
+{ #category : #constraints }
+CynPropertyModel >> propertyViolationsAt: aSymbol do: aBlock [
+
+	"Evaluate the specified Block for each violation in the specified
+	property of the receiver.
+	The Block will be evaluated with a key (a Symbol or CynTextReference)
+	representing the violation."
+
+	self propertyConstraintsAt: aSymbol do: [ :each |
+
+		"Per constraint evaluate all violations. Use the 'long' form with
+		the model, since conditional constraints require access to the model.
+		Do NOT use #violationsIn:do: here."
+		each violationsForProperty: aSymbol in: self do: aBlock ]
 ]
 
 { #category : #'accessing - dictionary access' }

@@ -2,7 +2,7 @@
 I am a parameterized text reference.
 I have a key referencing a text and formatting values as parameters.
 Tyically I am used in a constraint class to specify some violation
-with some paramters. For example in a length constraint one could
+with some parameters. For example in a length constraint one could
 use one of the following instances to specify a minimum length is not
 reached. The two parameters specify the required minimum and the actual
 size. In the first instance the parameters need to be retrieved
@@ -85,16 +85,16 @@ CynTextReference >> formatWithAll: aDictionary [
 	"Answer a new formatting Dictionary containing the values from the receiver and
 	the (optional) Dictionary specified"
 
-	| baseDictionary |
+	| dictionary |
 
-	baseDictionary := format
+	dictionary := format
 		ifNotNil: [ format copy ]
 		ifNil: [ Dictionary new ].
 
 	aDictionary ifNotNil: [
-		baseDictionary addAll: aDictionary ].
+		dictionary addAll: aDictionary ].
 
-	^ aDictionary
+	^ dictionary
 ]
 
 { #category : #testing }
@@ -131,7 +131,7 @@ CynTextReference >> printOn: aStream [
 			ifTrue: [ first := false ]
 			ifFalse: [ aStream nextPut: $, ].
 		aStream
-			nextPutAll: formatKey ;
+			nextPutAll: formatKey asString ;
 			nextPut: $= ;
 			print: formatValue ].
 

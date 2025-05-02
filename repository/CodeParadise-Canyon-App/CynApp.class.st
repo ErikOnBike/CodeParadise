@@ -71,22 +71,22 @@ CynApp class >> constraintTexts [
 	"Answer Dictionary with constraint texts"
 
 	^ Dictionary new
-		at: #'constraint.multi.violations' put: 'I''m sorry, I don''t understand your input:' ;
-		at: #'constraint.empty' put: 'Please provide some input for ''{label}''.' ;
-		at: #'constraint.required' put: 'Please provide some input for ''{label}'', so I can operate correctly.' ;
-		at: #'constraint.email.name' put: 'I don''t understand this email address. For the @-symbol only letters, digits and the following symbols are allowed: {1}' ;
-		at: #'constraint.email.domain' put: 'I don''t understand this email address. After the @-symbol only letters, digits and dashes are allowed.' ;
-		at: #'constraint.email.format' put: 'I don''t understand this email address, it should contain exactly one @-symbol.' ;
-		at: #'constraint.email.at' put: 'I don''t understand this email address, it should match the pattern "name@example.org".' ;
-		at: #'constraint.email.dot' put: 'I don''t understand this email address, it should only have dots between the domain name parts (like "name@some.example.org").' ;
-		at: #'constraint.email.dash' put: 'I don''t understand this email address, it should only have dashes inside domain name parts (like "name@some.sub-example.org").' ;
+		at: #'constraint.empty' put: 'Input should not be empty.' ;
+		at: #'constraint.required' put: 'Input is required to operate correctly.' ;
+		at: #'constraint.email.at' put: 'An email address should match the pattern "name@domain.org".' ;
+		at: #'constraint.email.format' put: 'An email address should contain exactly one @-symbol (like "name@funnyfruits.org").' ;
+		at: #'constraint.email.name' put: 'The name before the @-symbol only allows letters, digits and the following symbols: {1}' ;
+		at: #'constraint.email.domain' put: 'The domain name after the @-symbol only allows letters, digits, dots and dashes.' ;
+		at: #'constraint.email.domain.dot.missing' put: 'The domain name after the @-symbol should have at least 1 dot (like "name@funnyfruits.org").' ;
+		at: #'constraint.email.domain.dot.position' put: 'An email address should only have dots between the domain name parts (like "name@funny.fruits.org").' ;
+		at: #'constraint.email.domain.dash' put: 'An email address should only have dashes inside domain name parts (like "name@funny-fruits.org").' ;
 		at: #'constraint.password.length' put: 'The password should be at least {1} characters long.' ;
 		at: #'constraint.token.length' put: 'The code should be exactly 32 characters long. Maybe it is not copied correctly from the mail?' ;
-		at: #'constraint.token.content' put: 'The code should only contain digits and the letters ''a'' until ''f''. Maybe it is not copied correctly from the mail?' ;
-		at: #'constraint.length.min' put: 'The input for ''{label}'' should be at least {1} characters long and is only {2} characters long.' ;
-		at: #'constraint.length.min.zero' put: 'The input for ''{label}'' should be at least {1} characters long and is currently still empty.' ;
-		at: #'constraint.length.max' put: 'The input for ''{label}'' should have at most {1} characters and is {2} characters long.' ;
-		at: #'constraint.selection.unknown' put: 'The value ''{1}'' is not allowed at the input for ''{label}''.' ;
+		at: #'constraint.token.content' put: 'The code should only contain digits and the letters "a" until "f". Maybe it is not copied correctly from the mail?' ;
+		at: #'constraint.length.min' put: 'The input should be at least {1} characters long and is only {2} characters long.' ;
+		at: #'constraint.length.min.zero' put: 'The input should be at least {1} characters long and is currently still empty.' ;
+		at: #'constraint.length.max' put: 'The input should have at most {1} characters and is {2} characters long.' ;
+		at: #'constraint.selection.unknown' put: 'The value "{1}" is not allowed.' ;
 		yourself
 ]
 
@@ -106,12 +106,12 @@ CynApp class >> defaultAppTexts [
 	^ Dictionary new
 		at: #'app.ok' put: 'OK' ;
 		at: #'app.cancel' put: 'Cancel' ;
-		at: #'app.server.internalError.title' put: 'We have a problem' ;
-		at: #'app.server.internalError.message' put: 'The computer where the data is stored is not working correctly. The maintainer is informed. You could try it again shortly, just in case. We''l try to fix this as soon as possible.' ;
-		at: #'app.server.unavailable.title' put: 'We have a problem' ;
-		at: #'app.server.unavailable.message' put: 'The computer where the data is stored is not available at the moment. It should quickly be up again. Please try again in a minute.' ;
-		at: #'app.server.forbidden.title' put: 'We have a problem' ;
-		at: #'app.server.forbidden.message' put: 'The computer where the data is stored is says you''re not allowed to use or update the data. The maintainer is informed. We''ll try to fix this as soon as possible.' ;
+		at: #'app.server.internalError.title' put: 'Oops, something went wrong' ;
+		at: #'app.server.internalError.message' put: 'The computer where the data is stored, is not working correctly. The maintainer is informed. You could try it again shortly, just in case. We''ll try to fix this as soon as possible.' ;
+		at: #'app.server.unavailable.title' put: 'Oops, something went wrong' ;
+		at: #'app.server.unavailable.message' put: 'The computer where the data is stored, is not available at the moment. It should quickly be up again. Please try again in a minute.' ;
+		at: #'app.server.forbidden.title' put: 'Oops, something went wrong' ;
+		at: #'app.server.forbidden.message' put: 'The computer where the data is stored, says you''re not allowed to use or update the data. The maintainer is informed. We''ll try to fix this as soon as possible.' ;
 		at: #'app.menu.title' put: 'Menu' ;
 		at: #'app.label.account.email' put: 'email' ;
 		at: #'app.label.account.password' put: 'password' ;
