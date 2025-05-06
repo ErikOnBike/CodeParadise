@@ -36,6 +36,14 @@ Class {
 }
 
 { #category : #testing }
+CynPropertyConstraint >> isLength [
+
+	"Answer whether the receiver is a length based constraint"
+
+	^ false
+]
+
+{ #category : #testing }
 CynPropertyConstraint >> isPropertyConstraint [
 
 	^ true

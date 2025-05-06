@@ -52,6 +52,12 @@ CynLengthPropertyConstraint >> initializeWithMin: minInteger max: maxInteger [
 	max := maxInteger
 ]
 
+{ #category : #testing }
+CynLengthPropertyConstraint >> isLength [
+
+	^ true
+]
+
 { #category : #accessing }
 CynLengthPropertyConstraint >> max [
 
