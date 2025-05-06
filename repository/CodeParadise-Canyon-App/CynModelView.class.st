@@ -232,11 +232,6 @@ CynModelView >> handleNavigateBack: aClickEvent [
 
 	"Handle the 'back' button click"
 
-	"Prevent default handling"
-	aClickEvent
-		stopPropagation ;
-		preventDefault.
-
 	self page navigateBack
 ]
 
@@ -289,7 +284,9 @@ CynModelView >> initializeShadowRoot [
 
 	"Make any back button in the receiver work"
 	(self shadowedAllDescendantsMatching: IonBackButton asCssSelector) do: [ :each |
-		each when: CpClickEvent forkedSend: #handleNavigateBack: to: self ].
+		each
+			when: CpClickEvent forkedSend: #handleNavigateBack: to: self ;
+			when: CpClickEvent send: #preventDefault: to: self ].
 
 	"In case the receiver has tabs, set event handler on tab changes"
 	hasTabs := false.
