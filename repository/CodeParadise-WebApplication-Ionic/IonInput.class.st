@@ -185,6 +185,16 @@ IonInput >> counter: aBoolean [
 ]
 
 { #category : #api }
+IonInput >> counterFormatter: aBlock [
+
+	"A callback used to format the counter text. By default the counter text is set to 'itemLength / maxLength'.  See https://ionicframework.com/docs/troubleshooting/runtime#accessing-this if you need to access 'this' from within the callback.
+	
+	Type: (inputLength: number, maxLength: number) => string"
+
+	^ self propertyAt: #counterFormatter put: aBlock asJavaScriptFunction
+]
+
+{ #category : #api }
 IonInput >> counterFormatter: inputLength maxLength: maxLength [
 
 	"A callback used to format the counter text. By default the counter text is set to 'itemLength / maxLength'.  See https://ionicframework.com/docs/troubleshooting/runtime#accessing-this if you need to access 'this' from within the callback.
