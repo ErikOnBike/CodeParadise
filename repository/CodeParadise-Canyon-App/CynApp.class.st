@@ -465,12 +465,13 @@ CynApp >> handleUnhandledError: anError [
 		ifTrue: [ ^ self errorInternalServerError: anError ].
 
 	self errorCr: 'Unhandled Error in App'.
-	(self locationFromSignalerContext: anError signalerContext) ifNotNil: [ :origin |
-		self traceCr: 'Origin seems to be: ', origin method printString ].
-
 	self class ifDevelopment: [
+		(self locationFromSignalerContext: anError signalerContext) ifNotNil: [ :origin |
+			self traceCr: 'Origin seems to be: ', origin method printString ].
 		self traceCr: anError printString.
-		self traceCr: anError signalerContext printString ]
+		self traceCr: anError signalerContext printString.
+		^ self ].
+	self traceCr: anError description asString
 ]
 
 { #category : #actions }
