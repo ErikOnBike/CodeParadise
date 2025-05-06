@@ -1,6 +1,6 @@
 "
-I am the Load event which triggers when the document and all its resources has loaded.
-I can also be used on these individual resources (like images, stylehsheets or scripts).
+I am the Load event which triggers when the document and all its resources have loaded.
+I can also be used on individual resources (like images, stylehsheets or scripts).
 "
 Class {
 	#name : #CpLoadEvent,
