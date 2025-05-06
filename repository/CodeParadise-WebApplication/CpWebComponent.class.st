@@ -203,7 +203,7 @@ CpWebComponent class >> whenDefinedAll: aCollection do: aBlock [
 	registry := CpBrowserCustomElementRegistry current.
 
 	"Perform Promise.all on the collection of Promises per WebComponent (class)"
-	(CpJavaScriptPromise all: (aCollection collect: [ :each | registry whenDefined: each tagName ]))
+	(CpJavaScriptPromise allSettled: (aCollection collect: [ :each | registry whenDefined: each tagName ]))
 		then: aBlock
 ]
 

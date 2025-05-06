@@ -511,7 +511,7 @@ CynModelView >> selectKeptTabs [
 	selections ifEmpty: [ ^ self ].
 
 	"Wait for the selection to complete (to prevent using a tab which is not ready yet)"
-	(CpJavaScriptPromise all: selections asArray) await
+	(CpJavaScriptPromise allSettled: selections asArray) await
 ]
 
 { #category : #private }
