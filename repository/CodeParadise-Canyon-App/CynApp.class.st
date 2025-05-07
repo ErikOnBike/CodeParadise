@@ -986,7 +986,7 @@ CynApp >> showModal: aViewClass withModel: aModel [
 		yourself.
 
 	"Let the view assign dismiss events (after it had time to fully initialize)"
-	view makeDismissableIn: modal.
+	view openedInModal: modal.
 
 	view updateBeforeNavigate.
 	self appendChild: modal.
@@ -994,7 +994,7 @@ CynApp >> showModal: aViewClass withModel: aModel [
 	view updateAfterNavigate.
 
 	"Wait for it to close"
-	result := modal onWillDismiss await.
+	result := modal onDidDismiss await.
 
 	"Explicitly destroy the view (to allow it to release dependencies)"
 	view destroy.

@@ -388,6 +388,14 @@ CynModelView >> loadingTimeout [
 ]
 
 { #category : #accessing }
+CynModelView >> modal [
+
+	"Answer the modal the receiver is shown in"
+
+	^ self canyonModal
+]
+
+{ #category : #accessing }
 CynModelView >> model [
 
 	^ model
@@ -454,6 +462,13 @@ CynModelView >> newEmptyChildSlot [
 	^ (CpHtmlElement newWithTag: #div)
 		addClass: #empty ;
 		yourself
+]
+
+{ #category : #'event handling' }
+CynModelView >> openedInModal: aModal [
+
+	"The receiver is opened in an IonModal view.
+	Attach any handlers to the receiver which close the Modal view."
 ]
 
 { #category : #accessing }
