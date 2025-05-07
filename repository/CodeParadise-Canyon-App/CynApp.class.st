@@ -290,6 +290,16 @@ CynApp class >> style [
 ]
 
 { #category : #accessing }
+CynApp >> activePage [
+
+	"Answer the currently active page.
+
+	During navigation, there is a transition which might make this value unreliable (at that moment)."
+
+	^ navigation lastChild
+]
+
+{ #category : #accessing }
 CynApp >> apiBaseUrl [
 
 	"Answer the base URL for the REST API"
@@ -302,10 +312,10 @@ CynApp >> closePage: aPage [
 
 	"Close the specified page"
 
-	aPage isCurrent
+	aPage isActive
 		ifTrue: [
 
-			"Closing the current page, prepare for navigation to previous page (if available)"
+			"Closing the active page, prepare for navigation to previous page (if available)"
 			aPage previousPage
 				ifNotNil: [ :previousPage |
 					previousPage updateBeforeNavigate.
@@ -326,16 +336,6 @@ CynApp >> closePage: aPage [
 	aPage isConnected
 		ifTrue: [ self warnCr: 'A page is NOT disconnected after closing it?! ', aPage printString ]
 		ifFalse: [ aPage destroy ]
-]
-
-{ #category : #accessing }
-CynApp >> currentPage [
-
-	"Answer the current page.
-
-	During navigation, there is a transition which might make this value unreliable (at that moment)."
-
-	^ navigation lastChild
 ]
 
 { #category : #accessing }
@@ -767,11 +767,10 @@ CynApp >> navigateTo: aPageClass [
 CynApp >> navigateTo: aPageClass withModel: aModel [
 
 	"Navigate to another page using the (optional) specified Model.
-	The current page is responsible for deciding whether navigation
-	is possible. There might be unsaved changes for example.
-	Or the user needs to login first."
+	The currently active page is responsible for deciding whether navigation
+	is possible. There might be unsaved changes for example."
 
-	self currentPage
+	self activePage
 		navigateTo: aPageClass withModel: aModel
 ]
 

@@ -115,7 +115,7 @@ CynPage >> initialize [
 ]
 
 { #category : #testing }
-CynPage >> isCurrent [
+CynPage >> isActive [
 
 	"Answer whether the receiver is the current (aka top) page"
 
@@ -145,8 +145,8 @@ CynPage >> navigateBack [
 
 	"Navigate to the previous page"
 
-	"Only navigate back from the current/top page (otherwise #close should have been used)"
-	self isCurrent
+	"Only navigate back from the active page (otherwise #close should have been used)"
+	self isActive
 		ifFalse: [ ^ self ].
 
 	self canNavigateBack
