@@ -188,6 +188,13 @@ CynPage >> screenWidth [
 ]
 
 { #category : #'view - customization' }
+CynPage >> title [
+
+	^ self activeChildView
+		ifNotNil: [ :activeChildView | activeChildView title ]
+]
+
+{ #category : #'view - customization' }
 CynPage >> updateBeforeNavigate [
 
 	"Update the receiver just before being shown (again) because of a navigation.
