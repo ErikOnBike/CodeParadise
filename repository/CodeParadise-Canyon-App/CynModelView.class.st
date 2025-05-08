@@ -108,6 +108,24 @@ CynModelView >> addBindings [
 	self addBinding: (model whenChangedSend: #modelChanged: to: self)
 ]
 
+{ #category : #private }
+CynModelView >> allBackButtons [
+
+	^ self shadowedAllDescendantsMatching: IonBackButton asCssSelector
+]
+
+{ #category : #private }
+CynModelView >> allSlots [
+
+	^ self shadowedAllDescendantsMatching: #slot
+]
+
+{ #category : #private }
+CynModelView >> allTabs [
+
+	^ self shadowedAllDescendantsMatching: IonTabs asCssSelector
+]
+
 { #category : #accessing }
 CynModelView >> app [
 
@@ -275,6 +293,32 @@ CynModelView >> hasTabs [
 	^ self isClassed: #tabs
 ]
 
+{ #category : #accessing }
+CynModelView >> header [
+
+	"Answer the IonHeader element of the receiver (nil if none is present)"
+
+	^ self shadowedFirstDescendantMatching: IonHeader asCssSelector
+]
+
+{ #category : #accessing }
+CynModelView >> headerTitle [
+
+	"Answer the IonTitle element of the receiver's header (nil if none is present)"
+
+	^ self header ifNotNil: [ :header |
+		header firstDescendantMatching: IonTitle asCssSelector ]
+]
+
+{ #category : #accessing }
+CynModelView >> headerToolbar [
+
+	"Answer the IonToolbar element of the receiver's header (nil if none is present)"
+
+	^ self header ifNotNil: [ :header |
+		header firstDescendantMatching: IonToolbar asCssSelector ]
+]
+
 { #category : #initialization }
 CynModelView >> initializeShadowRoot [
 
@@ -283,14 +327,14 @@ CynModelView >> initializeShadowRoot [
 	super initializeShadowRoot.
 
 	"Make any back button in the receiver work"
-	(self shadowedAllDescendantsMatching: IonBackButton asCssSelector) do: [ :each |
+	self allBackButtons do: [ :each |
 		each
 			when: CpClickEvent forkedSend: #handleNavigateBack: to: self ;
 			when: CpClickEvent send: #preventDefault: to: self ].
 
 	"In case the receiver has tabs, set event handler on tab changes"
 	hasTabs := false.
-	(self shadowedAllDescendantsMatching: IonTabs asCssSelector) do: [ :each |
+	self allTabs do: [ :each |
 
 		"Only tabs with an id can be referenced and therefore used here.
 		Also check this IonTabs instance is marked to be ignored."
@@ -326,13 +370,13 @@ CynModelView >> isActiveChildView: anElement [
 
 	| slotName slot tab |
 
-	slotName := anElement slot.	"Might be nil for the default (unnamed) slot"
-
-	slot := (self shadowedAllDescendantsMatching: #slot)
-		detect: [ :each | (each attributeAt: #name) = slotName ]
-		ifNone: [
-			self warnCr: 'ChildView in unknown slot ', slotName printString.
-			^ false ].
+	"Find the slot for the element.
+	The slotName can be be nil for the default (unnamed) slot, but that is okay/handled."
+	slotName := anElement slot.	
+	slot := self slotNamed: slotName.
+	slot ifNil: [
+		self warnCr: 'ChildView in unknown slot ', slotName printString.
+		^ false ].
 
 	"No tabs, so all child views are active"
 	self hasTabs
@@ -512,7 +556,7 @@ CynModelView >> selectKeptTabs [
 	selections := OrderedCollection new.
 
 	"Iterate over the tabs, otherwise we have to search for id AND also check if it is an IonTabs"
-	(self shadowedAllDescendantsMatching: IonTabs asCssSelector) do: [ :each |
+	self allTabs do: [ :each |
 		each id ifNotNil: [ :tabsId |
 			selectedTabNames
 				at: tabsId
@@ -524,6 +568,14 @@ CynModelView >> selectKeptTabs [
 
 	"Wait for the selection to complete (to prevent using a tab which is not ready yet)"
 	(CpJavaScriptPromise allSettled: selections asArray) await
+]
+
+{ #category : #private }
+CynModelView >> slotNamed: aString [
+
+	^ self allSlots
+		detect: [ :each | (each attributeAt: #name) = aString ]
+		ifNone: [ nil ]
 ]
 
 { #category : #private }

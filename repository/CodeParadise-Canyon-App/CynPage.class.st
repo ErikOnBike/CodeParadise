@@ -232,20 +232,23 @@ CynPage >> updateScreenWidth [
 { #category : #view }
 CynPage >> updateTitle: aString [
 
-	"Update the title of the receiver and on desktops the browser title as well"
+	"Update the title of the receiver and on desktops the browser title as well.
+
+	Implementation:
+	If a nil title is specified or the header title is readonly, use the current
+	Page's title as the title to show in the browser title."
 
 	| titleString |
 
 	titleString := aString.
 
-	"Set the title in the <ion-title> of the <ion-header>, if available and not marked 'readonly'"
-	(self shadowedFirstDescendantMatching: IonHeader asCssSelector) ifNotNil: [ :header |
-		(header firstDescendantMatching: IonTitle asCssSelector) ifNotNil: [ :title |
+	"Set the title in the header title, if available and not marked 'readonly'"
+	self headerTitle ifNotNil: [ :title |
 
-			"Only set the title if it is not marked 'readonly' and an actual title is provided"
-			(titleString isNil or: [ title isClassed: #readonly ])
-				ifTrue: [ titleString := title textContent ]
-				ifFalse: [ title textContent: titleString ] ] ].
+		"Only set the title if it is not marked 'readonly' and an actual title is provided"
+		(titleString isNil or: [ title isClassed: #readonly ])
+			ifTrue: [ titleString := title textContent ]
+			ifFalse: [ title textContent: titleString ] ].
 
 	"Set the title of the page as the browser title (for desktop)"
 	CpBrowserDocument current
