@@ -3,13 +3,10 @@ Extension { #name : #ClyClassReferencesQuery }
 { #category : #'*CodeParadise-WebApplication-Development' }
 ClyClassReferencesQuery >> decorateResultMethodEditor: aMethodEditor [
 
-	"When searching for WebComponents search for the tag name in html web resource
-	methods and highlight the first occurrence. Otherwise use default behavior.
-
-	Implementation:
-	This method replaces the superclass' implementation with a check for tag names
-	on WebComponent if (and only if) a html web resource method is decorated and a
-	WebComponent is searched for."
+	"Decorate the specified method editor using the receiver's query result.
+	When searching for WebComponents it can be found as tag name in HTML web resource
+	methods (of TemplateComponents). If found, highlight the first occurrence.
+	Otherwise use default decoration behavior."
 
 	<serverEnvironment>
 
@@ -31,6 +28,6 @@ ClyClassReferencesQuery >> decorateResultMethodEditor: aMethodEditor [
 						aMethodEditor textMorph setSelection: selection.
 						^ self ] ] ] ].
 
-	"Fall back to regular implementation"
+	"Fall back to default behavior"
 	super decorateResultMethodEditor: aMethodEditor
 ]

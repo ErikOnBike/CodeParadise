@@ -30,37 +30,20 @@ CompiledMethod >> firstLocationOfWebResourceReference: aSymbol [
 
 					"Make sure the reference is not a sub or partial reference"
 					((index = 1 or: [ (string at: index - 1) isAllowedInWebResourceId not ]) and: [ (index + aSymbol size - 1) = string size or: [ (string at: index + aSymbol size) isAllowedInWebResourceId not ] ])
-						ifTrue: [ ^ Interval from: each start + index to: each start + index + aSymbol size - 1 ].
+						ifTrue: [
+							| start |
+							"Add the number of single quote occurrences (before our found position), since they influence the position in the source code"
+							start := each start + index.
+							1 to: index do: [ :quoteIndex |
+								(string at: quoteIndex) = $'
+									ifTrue: [ start := start + 1 ] ].
+							^ Interval from: start to: start + aSymbol size - 1 ].
 
 					"Find next occcurrence"				
 					index := string findString: aSymbol startingAt: index + 1 ] ] ].
 
 	"Not found, answer empty Interval"
 	^ Interval from: 0 to: -1
-]
-
-{ #category : #'*CodeParadise-WebApplication-Development' }
-CompiledMethod >> hasSelector: aSymbol [
-
-	"Answer a Boolean stating whether the receiver contains a reference to the specified Symbol.
-
-	Implementation:
-	This method adds behavior specific for CodeParadise to search for Class references in html
-	web resources (like the #template method of CpTemplateComponent)."
-
-	<serverEnvironment>
-
-	"Only search in html web resources"
-	self isHtmlWebResourceMethod
-		ifTrue: [
-			"Only search for classes"
-			(Smalltalk classNamed: aSymbol) ifNotNil: [ :class |
-				"Check if the receiver refers to the class' tag name"
-				(class isWebComponent and: [ self webResourceRefersTo: class tagName ])
-					ifTrue: [ ^ true ] ] ].
-
-	"Fall back to default behavior"
-	^ super hasSelector: aSymbol
 ]
 
 { #category : #'*CodeParadise-WebApplication-Development' }
