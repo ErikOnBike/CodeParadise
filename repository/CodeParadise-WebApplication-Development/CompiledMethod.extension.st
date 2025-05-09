@@ -32,11 +32,15 @@ CompiledMethod >> firstLocationOfWebResourceReference: aSymbol [
 					((index = 1 or: [ (string at: index - 1) isAllowedInWebResourceId not ]) and: [ (index + aSymbol size - 1) = string size or: [ (string at: index + aSymbol size) isAllowedInWebResourceId not ] ])
 						ifTrue: [
 							| start |
-							"Add the number of single quote occurrences (before our found position), since they influence the position in the source code"
+
+							"Start seems off by 1, because the literal String requires an initial quote which should be added (therefore no -1 in following line)"
 							start := each start + index.
+
+							"Add the number of single quote occurrences (before our found position), since they are escaped and thereby influence the position in the source code"
 							1 to: index do: [ :quoteIndex |
 								(string at: quoteIndex) = $'
 									ifTrue: [ start := start + 1 ] ].
+
 							^ Interval from: start to: start + aSymbol size - 1 ].
 
 					"Find next occcurrence"				
