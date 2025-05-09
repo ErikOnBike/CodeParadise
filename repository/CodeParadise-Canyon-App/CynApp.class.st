@@ -586,13 +586,16 @@ CynApp >> load [
 			IonFooter.
 			IonMenu.
 			IonToolbar.
+			IonButtons.
 			IonTitle.
 			IonContent.
+			IonList.
 			IonItem.
 			IonLoading.
 			IonToast.
 			IonAlert.
-			IonButton }
+			IonButton.
+			IonInput }
 		do: [ self loadApp ]
 ]
 
