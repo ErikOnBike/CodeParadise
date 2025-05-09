@@ -5,7 +5,6 @@ I'm a WebComponent).
 I am responsible for maintaining a number of visual components (in order):
 - menu
 - pages (through a navigation component)
-- action sheet (allowing the user to selection some action)
 - loading (showing a message while performing some operation)
 - toast
 - alert
@@ -33,7 +32,6 @@ Class {
 	#instVars : [
 		'navigation',
 		'menu',
-		'actionSheet',
 		'loading',
 		'toast',
 		'alert'
@@ -374,14 +372,6 @@ CynApp >> errorServerNotAvailable [
 ]
 
 { #category : #'event handling' }
-CynApp >> handleDidDismissActionSheet [
-
-	"This is an async call, but no use awaiting it, because we're not using the result"
-
-	actionSheet isOpen: false
-]
-
-{ #category : #'event handling' }
 CynApp >> handleDidDismissAlert [
 
 	"This is an async call, but no use awaiting it, because we're not using the result"
@@ -608,7 +598,6 @@ CynApp >> loadApp [
 	The general structure of the app consists of:
 		menu
 		placeholder for page content (incl. navigation control)
-		action sheet (for allowing the user to select an action)
 		loading (for showing a message while performing some task)
 		toast
 		alert
@@ -651,11 +640,6 @@ CynApp >> loadApp [
 			appendChild: ((CpHtmlElement newWithTag: #div)
 				id: #app ;
 				appendChild: (navigation := IonNav new) ;
-				yourself) ;
-
-			"Add a (global) action sheet"
-			appendChild: (actionSheet := IonActionSheet new
-				when: IonActionSheetDidDismissEvent send: #handleDidDismissActionSheet to: self ;
 				yourself) ;
 
 			"Add a (global) loading"
@@ -801,20 +785,29 @@ CynApp >> selectAction: aString from: aCollection [
 		https://ionicframework.com/docs/api/action-sheet#actionsheetbutton
 	"
 
-	| buttons result resultIndex |
+	| buttons actionSheet result resultIndex |
 
+	"Create collection of input buttons (with their index as data)"
 	buttons := Array new: aCollection size.
 	aCollection withIndexDo: [ :each :index |
 		buttons at: index put: (each asRelaxedJsonObjectValue
 			at: #data put: index ;
 			yourself) ].
 
-	result := (actionSheet
+	"Create and show an ActionSheet"
+	actionSheet := self appendChild: (IonActionSheet new
 		header: aString ;
 		buttons: buttons ;
+		yourself).
+
+	result := (actionSheet
 		present ;
 		onDidDismiss) await.
 
+	"Remove the action sheet (does not happen automagically)"
+	actionSheet remove.
+
+	"Extract the selected index (stored in data above) to answer the actual input (not a JS variant)"
 	result ifNil: [ ^ nil ].
 	resultIndex := result at: #data ifAbsent: [ ^ nil ].
 	resultIndex isInteger
@@ -916,6 +909,9 @@ CynApp >> selectOption: titleString message: messageString from: aCollection [
 		present ;
 		onDidDismiss) await.
 
+	"Remove the alert (does not happen automagically)"
+	optionAlert remove.
+
 	"Validate the user confirmed a selection"
 	result ifNil: [ ^ nil ].
 	(result at: #role ifAbsent: [ ^ nil ]) = #confirm
@@ -926,9 +922,6 @@ CynApp >> selectOption: titleString message: messageString from: aCollection [
 		at: #values ifAbsent: [ ^ nil ].
 	resultIndex isInteger
 		ifFalse: [ ^ nil ].
-
-	"Remove the alert (does not happen automagically)"
-	optionAlert remove.
 
 	"Retrieve the result value (using the index) into the original input value"
 	result := aCollection at: resultIndex ifAbsent: [ ^ nil ].
