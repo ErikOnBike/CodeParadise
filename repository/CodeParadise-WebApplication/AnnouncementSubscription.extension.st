@@ -1,6 +1,6 @@
 Extension { #name : #AnnouncementSubscription }
 
-{ #category : #'*CodeParadise-WebApplication-MVP' }
+{ #category : #'*CodeParadise-WebApplication' }
 AnnouncementSubscription >> unsubscribe [
 
 	"Remove the receiver from its Announcer"
