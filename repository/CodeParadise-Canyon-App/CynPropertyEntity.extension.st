@@ -1,6 +1,51 @@
 Extension { #name : #CynPropertyEntity }
 
 { #category : #'*CodeParadise-Canyon-App' }
+CynPropertyEntity class >> addVolume: aVolume locale: aSymbol [
+
+	self languageText
+		addVolume: aVolume locale: aSymbol
+]
+
+{ #category : #'*CodeParadise-Canyon-App' }
+CynPropertyEntity class >> count: anInteger text: aSymbolOrTextReference [
+
+	^ self count: anInteger text: aSymbolOrTextReference format: nil
+]
+
+{ #category : #'*CodeParadise-Canyon-App' }
+CynPropertyEntity class >> count: anInteger text: aSymbolOrTextReference format: aDictionary [
+
+	^ self languageText
+		count: anInteger key: aSymbolOrTextReference format: aDictionary
+]
+
+{ #category : #'*CodeParadise-Canyon-App' }
+CynPropertyEntity class >> index: anInteger text: aSymbolOrTextReference [
+
+	^ self index: anInteger text: aSymbolOrTextReference format: nil
+]
+
+{ #category : #'*CodeParadise-Canyon-App' }
+CynPropertyEntity class >> index: anInteger text: aSymbolOrTextReference format: aDictionary [
+
+	^ self languageText
+		index: anInteger key: aSymbolOrTextReference format: aDictionary
+]
+
+{ #category : #'*CodeParadise-Canyon-App' }
+CynPropertyEntity class >> languageText [
+
+	^ self configAt: #languageText ifAbsent: [ self error: 'No languageText is set by default, please fix this' ]
+]
+
+{ #category : #'*CodeParadise-Canyon-App' }
+CynPropertyEntity class >> languageText: aLanguageText [
+
+	self configAt: #languageText put: aLanguageText
+]
+
+{ #category : #'*CodeParadise-Canyon-App' }
 CynPropertyEntity class >> restApiClient [
 
 	"Use the REST API Client stored in my configuration"
@@ -178,6 +223,19 @@ CynPropertyEntity >> restWrite [
 			self
 				restUpdateUsingUri: self uri
 				timeoutPeriod: self restUpdateTimeoutPeriod ]
+]
+
+{ #category : #'*CodeParadise-Canyon-App' }
+CynPropertyEntity class >> text: aSymbolOrParamText [
+
+	^ self text: aSymbolOrParamText format: nil
+]
+
+{ #category : #'*CodeParadise-Canyon-App' }
+CynPropertyEntity class >> text: aSymbolOrTextReference format: aDictionary [
+
+	^ self languageText
+		key: aSymbolOrTextReference format: aDictionary
 ]
 
 { #category : #'*CodeParadise-Canyon-App' }

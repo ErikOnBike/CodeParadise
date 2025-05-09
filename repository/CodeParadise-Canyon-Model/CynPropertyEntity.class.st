@@ -29,13 +29,6 @@ Class {
 	#category : #'CodeParadise-Canyon-Model-Core'
 }
 
-{ #category : #'accessing - language' }
-CynPropertyEntity class >> addVolume: aVolume locale: aSymbol [
-
-	self languageText
-		addVolume: aVolume locale: aSymbol
-]
-
 { #category : #'accessing - configuration' }
 CynPropertyEntity class >> configAt: aSymbol [
 
@@ -79,19 +72,6 @@ CynPropertyEntity class >> configAt: aSymbol put: anObject [
 		at: aSymbol put: anObject
 ]
 
-{ #category : #'accessing - language' }
-CynPropertyEntity class >> count: anInteger text: aSymbolOrTextReference [
-
-	^ self count: anInteger text: aSymbolOrTextReference format: nil
-]
-
-{ #category : #'accessing - language' }
-CynPropertyEntity class >> count: anInteger text: aSymbolOrTextReference format: aDictionary [
-
-	^ self languageText
-		count: anInteger key: aSymbolOrTextReference format: aDictionary
-]
-
 { #category : #accessing }
 CynPropertyEntity class >> definePropertyConstraints [
 
@@ -111,31 +91,6 @@ CynPropertyEntity class >> for: aSymbol addConstraint: aPropertyConstraint to: a
 
 	(aDictionary at: aSymbol ifAbsentPut: [ Set new ])
 		add: aPropertyConstraint
-]
-
-{ #category : #'accessing - language' }
-CynPropertyEntity class >> index: anInteger text: aSymbolOrTextReference [
-
-	^ self index: anInteger text: aSymbolOrTextReference format: nil
-]
-
-{ #category : #'accessing - language' }
-CynPropertyEntity class >> index: anInteger text: aSymbolOrTextReference format: aDictionary [
-
-	^ self languageText
-		index: anInteger key: aSymbolOrTextReference format: aDictionary
-]
-
-{ #category : #'accessing - language' }
-CynPropertyEntity class >> languageText [
-
-	^ self configAt: #languageText ifAbsent: [ self error: 'No languageText is set by default, please fix this' ]
-]
-
-{ #category : #'accessing - language' }
-CynPropertyEntity class >> languageText: aLanguageText [
-
-	self configAt: #languageText put: aLanguageText
 ]
 
 { #category : #'class initialization' }
@@ -163,19 +118,6 @@ CynPropertyEntity class >> removeConfigAt: aSymbol [
 	config ifNil: [ ^ nil ].
 
 	^ config removeKey: aSymbol ifAbsent: [ nil ]
-]
-
-{ #category : #'accessing - language' }
-CynPropertyEntity class >> text: aSymbolOrParamText [
-
-	^ self text: aSymbolOrParamText format: nil
-]
-
-{ #category : #'accessing - language' }
-CynPropertyEntity class >> text: aSymbolOrTextReference format: aDictionary [
-
-	^ self languageText
-		key: aSymbolOrTextReference format: aDictionary
 ]
 
 { #category : #resources }
