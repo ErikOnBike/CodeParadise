@@ -3,6 +3,8 @@ Extension { #name : #String }
 { #category : #'*CodeParadise-RemoteEnvironment' }
 String >> asNumberOrNil [
 
+	<clientEnvironment>
+
 	^ [ self asNumber ] on: Error do: [ nil ]
 ]
 
