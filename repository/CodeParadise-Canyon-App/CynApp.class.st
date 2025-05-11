@@ -68,6 +68,8 @@ CynApp class >> constraintTexts [
 
 	"Answer Dictionary with constraint texts"
 
+	<languageResource>
+
 	^ Dictionary new
 		at: #'constraint.empty' put: 'Input should not be empty.' ;
 		at: #'constraint.required' put: 'Input is required to operate correctly.' ;
@@ -100,6 +102,8 @@ CynApp class >> current [
 CynApp class >> defaultAppTexts [
 
 	"Answer Dictionary with default app texts"
+
+	<languageResource>
 
 	^ Dictionary new
 		at: #'app.ok' put: 'OK' ;
