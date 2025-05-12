@@ -163,7 +163,15 @@ CpNodeJSRestRequestProcess >> run [
 
 	"Try to handle the request and produce a matching response"
 
-	CpGlobalThis defer: ([
+	CpGlobalThis defer: [ self runInternal ]
+]
+
+{ #category : #'as yet unclassified' }
+CpNodeJSRestRequestProcess >> runInternal [
+
+	"Run the receiver with Error checking"
+
+	[
 		process := Processor activeProcess.
 		timer := CpGlobalThis setTimeout: 4000 thenDo: [ self abort ].
 
@@ -181,7 +189,7 @@ CpNodeJSRestRequestProcess >> run [
 		timer := nil.
 		process := nil.
 
-		self respondError: error ])
+		self respondError: error ]
 ]
 
 { #category : #running }
