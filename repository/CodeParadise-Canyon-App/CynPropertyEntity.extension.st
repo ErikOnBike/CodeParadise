@@ -93,13 +93,18 @@ CynPropertyEntity class >> restBodyForDeleteAll: aCollection [
 
 	first := true.
 	^ String streamContents: [ :stream |
+		stream nextPut: $[.
 		aCollection do: [ :each |
 			each class = self
 				ifFalse: [ self error: ('Deleting elements: element has incompatible type {1}, expecting {2}' format: { each class name . self name }) ].
 			first
 				ifTrue: [ first := false ]
 				ifFalse: [ stream nextPut: $, ].
-			stream nextPutAll: each id ] ]
+			stream
+				nextPut: $" ;
+				nextPutAll: each id ;	"Ids don't contain double quotes, no escaping needed"
+				nextPut: $" ].
+		stream nextPut: $] ]
 ]
 
 { #category : #'*CodeParadise-Canyon-App' }
