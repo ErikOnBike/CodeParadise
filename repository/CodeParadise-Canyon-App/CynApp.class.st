@@ -789,7 +789,7 @@ CynApp >> selectAction: aString from: aCollection [
 		https://ionicframework.com/docs/api/action-sheet#actionsheetbutton
 	"
 
-	| buttons actionSheet result resultIndex |
+	| buttons actionSheet didDismiss result resultIndex |
 
 	"Create collection of input buttons (with their index as data)"
 	buttons := Array new: aCollection size.
@@ -804,12 +804,16 @@ CynApp >> selectAction: aString from: aCollection [
 		buttons: buttons ;
 		yourself).
 
-	result := (actionSheet
-		present ;
-		onDidDismiss) await.
+	"Register interest in dismiss, present and wait for result"
+	didDismiss := actionSheet onDidDismiss.
+	actionSheet present.
+	result := actionSheet onWillDismiss await.
 
-	"Remove the action sheet (does not happen automagically)"
-	actionSheet remove.
+	"Remove the action sheet (does not happen automagically) once it actually dismissed,
+	otherwise it will not be removed correctly (Ionic does some magic with 'portals')."
+	CpGlobalThis defer: [
+		didDismiss await.
+		actionSheet remove ].
 
 	"Extract the selected index (stored in data above) to answer the actual input (not a JS variant)"
 	result ifNil: [ ^ nil ].
@@ -876,7 +880,7 @@ CynApp >> selectOption: titleString message: messageString from: aCollection [
 	Using Symbols for values in the input objects will result in a Symbol being answered, instead
 	of a String (since JS can't tell the difference)."
 
-	| optionAlert inputs result resultIndex |
+	| optionAlert didDismiss inputs result resultIndex |
 
 	optionAlert := self appendChild: (IonAlert new
 		header: titleString ;
@@ -909,12 +913,15 @@ CynApp >> selectOption: titleString message: messageString from: aCollection [
 	optionAlert inputs: inputs.
 
 	"Show input and wait on closing (dismissal)"
-	result := (optionAlert
-		present ;
-		onDidDismiss) await.
+	didDismiss := optionAlert onDidDismiss.
+	optionAlert present.
+	result := optionAlert onWillDismiss await.
 
-	"Remove the alert (does not happen automagically)"
-	optionAlert remove.
+	"Remove the action sheet (does not happen automagically) once it actually dismissed,
+	otherwise it will not be removed correctly (Ionic does some magic with 'portals')."
+	CpGlobalThis defer: [
+		didDismiss await.
+		optionAlert remove ].
 
 	"Validate the user confirmed a selection"
 	result ifNil: [ ^ nil ].
