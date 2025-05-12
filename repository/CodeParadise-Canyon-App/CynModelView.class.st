@@ -329,7 +329,7 @@ CynModelView >> initializeShadowRoot [
 	"Make any back button in the receiver work"
 	self allBackButtons do: [ :each |
 		each
-			when: CpClickEvent forkedSend: #handleNavigateBack: to: self ;
+			when: CpClickEvent deferSend: #handleNavigateBack: to: self ;
 			when: CpClickEvent send: #preventDefault: to: self ].
 
 	"In case the receiver has tabs, set event handler on tab changes"
@@ -341,8 +341,8 @@ CynModelView >> initializeShadowRoot [
 		(each id isNotNil and: [ (each isClassed: #ignoreTabChanges) not ]) ifTrue: [
 			hasTabs := true.
 			each
-				when: IonTabsWillChangeEvent forkedSend: #handleTabsWillChange: to: self ;
-				when: IonTabsDidChangeEvent forkedSend: #handleTabsDidChange: to: self ] ].
+				when: IonTabsWillChangeEvent deferSend: #handleTabsWillChange: to: self ;
+				when: IonTabsDidChangeEvent deferSend: #handleTabsDidChange: to: self ] ].
 
 	"Mark if the receiver has tabs"
 	self classed: #tabs if: hasTabs.
