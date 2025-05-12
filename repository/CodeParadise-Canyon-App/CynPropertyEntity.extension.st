@@ -21,6 +21,14 @@ CynPropertyEntity class >> count: anInteger text: aSymbolOrTextReference format:
 ]
 
 { #category : #'*CodeParadise-Canyon-App' }
+CynPropertyEntity class >> deleteAllUri [
+
+	"Answer the URI where the receiver is located for performing a 'delete all' operation"
+
+	^ self uri, ':deleteAll'
+]
+
+{ #category : #'*CodeParadise-Canyon-App' }
 CynPropertyEntity class >> index: anInteger text: aSymbolOrTextReference [
 
 	^ self index: anInteger text: aSymbolOrTextReference format: nil
@@ -79,6 +87,22 @@ CynPropertyEntity >> restBodyContent [
 ]
 
 { #category : #'*CodeParadise-Canyon-App' }
+CynPropertyEntity class >> restBodyForDeleteAll: aCollection [
+
+	| first |
+
+	first := true.
+	^ String streamContents: [ :stream |
+		aCollection do: [ :each |
+			each class = self
+				ifFalse: [ self error: ('Deleting elements: element has incompatible type {1}, expecting {2}' format: { each class name . self name }) ].
+			first
+				ifTrue: [ first := false ]
+				ifFalse: [ stream nextPut: $, ].
+			stream nextPutAll: each id ] ]
+]
+
+{ #category : #'*CodeParadise-Canyon-App' }
 CynPropertyEntity >> restCreateTimeoutPeriod [
 
 	"Answer the create timeout period in milliseconds"
@@ -108,6 +132,41 @@ CynPropertyEntity >> restDelete [
 	self
 		restDeleteUsingUri: self uri
 		timeoutPeriod: self restDeleteTimeoutPeriod
+]
+
+{ #category : #'*CodeParadise-Canyon-App' }
+CynPropertyEntity class >> restDeleteAll: aCollection [
+
+	"Delete (all) the resources (assumed same 'type' as receiver) in the specified Collection.
+	This operation will fail if the resources are not instances of the receiver.
+	This method does not answer any specific value. On failure an Error will be signalled."
+
+	self
+		restDeleteAll: aCollection
+		usingUri: self deleteAllUri
+		timeoutPeriod: self restDeleteAllTimeoutPeriod
+]
+
+{ #category : #'*CodeParadise-Canyon-App' }
+CynPropertyEntity class >> restDeleteAll: aCollection usingUri: aString timeoutPeriod: anInteger [
+
+	"Delete all the resources in the specified Collection (assuming all have the receiver's 'type')
+	using the specified URI.
+	This method does not answer any specific value. On failure an Error will be signalled."
+
+	self restApiClient
+		postUri: aString
+		body: (self restBodyForDeleteAll: aCollection)
+		timeoutPeriod: anInteger
+]
+
+{ #category : #'*CodeParadise-Canyon-App' }
+CynPropertyEntity class >> restDeleteAllTimeoutPeriod [
+
+	"Answer the delete all timeout period in milliseconds"
+
+	^ self restApiClient
+		requestTimeoutPeriod
 ]
 
 { #category : #'*CodeParadise-Canyon-App' }
