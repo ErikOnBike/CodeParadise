@@ -432,8 +432,8 @@ CpViewCodeInspectorView >> handleApplyStyle: anEvent [
 		stopPropagation ;
 		preventDefault.
 
-	"Update in forked process because of possible awaits being used in #initializeShadowRoot"
-	[ self applyStyle ] fork
+	"Update deferred, because of possible awaits being used in #initializeShadowRoot"
+	self defer: [ self applyStyle ]
 ]
 
 { #category : #'event handling' }
@@ -443,8 +443,8 @@ CpViewCodeInspectorView >> handleApplyTemplate: anEvent [
 		stopPropagation ;
 		preventDefault.
 
-	"Update in forked process because of possible awaits being used in #initializeShadowRoot"
-	[ self applyTemplate ] fork
+	"Update deferred, because of possible awaits being used in #initializeShadowRoot"
+	self defer: [ self applyTemplate ]
 ]
 
 { #category : #'event handling' }
