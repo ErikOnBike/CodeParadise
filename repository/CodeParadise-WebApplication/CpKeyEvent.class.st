@@ -313,7 +313,7 @@ CpKeyEvent class >> fromString: aString [
 		"Add modifier if found, otherwise signal error"
 		(CpModifierKeyDownCondition fromCharacter: keyString first)
 			ifNotNil: [ :modifierCondition | modifiers := modifiers + modifierCondition ]
-			ifNil: [ self error: 'Unknown modifier ', keyString first asString, ' in ', aString, ' for KeyEvent' ].
+			ifNil: [ self error: ('Unknown modifier {1} in {2} for KeyEvent' format: { keyString first asString . aString }) ].
 
 		keyString := keyString allButFirst: 2 ].
 

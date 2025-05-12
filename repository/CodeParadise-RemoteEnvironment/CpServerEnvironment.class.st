@@ -215,7 +215,7 @@ CpServerEnvironment >> addMethod: aCompiledMethod [
 		"Check the CompiledMethod may be installed"
 		installationChecker ifNotNil: [
 			(installationChecker isMethodAllowed: aCompiledMethod)
-				ifFalse: [ self error: 'Trying to install ', aCompiledMethod printString, ' from ', aCompiledMethod package name, ' which is not allowed by the installation checker' ] ].
+				ifFalse: [ self error: ('Trying to install {1} from {2} which is not allowed by the installation checker' format: { aCompiledMethod . aCompiledMethod package name }) ] ].
 
 		"Keep CompiledMethod for re-installation on reload"
 		(self hasInstalledClass: aCompiledMethod methodClass instanceSide)
@@ -840,7 +840,7 @@ CpServerEnvironment >> withAllRequiredClassesFromClass: aClass do: aBlock [
 	during a class update, it might leave such a class obsolete. Installing an obsolete class is of
 	course useless."
 	aClass isObsolete
-		ifTrue: [ self error: 'Obsolete class ', aClass name, ' is referenced, please manually remove references. Application(s) might have become unstable.' ].
+		ifTrue: [ self error: ('Obsolete class {1} is referenced, please manually remove references. Application(s) might have become unstable.' format: { aClass name }) ].
 
 	"Only add unknown Classes (i.e. Classes which are not already present in the default tiny image or have been installed)"
 	(self clientKnowsClass: aClass)

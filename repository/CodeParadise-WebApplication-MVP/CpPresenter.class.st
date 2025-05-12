@@ -68,7 +68,7 @@ CpPresenter class >> defaultViewClass [
 	"If no View class is found, raise an error to indicate the class should be created
 	or the subclass should implement #defaultViewClass"
 	viewClass
-		ifNil: [ self error: 'The View class ', className , ' does not exist. Either create it or implement ' , self class name , ' >> #defaultViewClass to answer a specific class' ].
+		ifNil: [ self error: ('The View class {1} does not exist. Either create it or implement {2} >> #defaultViewClass to answer a specific class' format: { className . self class name }) ].
 
 	^ viewClass
 ]
