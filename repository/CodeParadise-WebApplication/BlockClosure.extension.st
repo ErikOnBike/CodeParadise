@@ -10,9 +10,9 @@ BlockClosure >> asTransition [
 ]
 
 { #category : #'*CodeParadise-WebApplication' }
-BlockClosure >> forked [
+BlockClosure >> deferred [
 
-	"Answer a forked version of the receiver.
+	"Answer a deferred version of the receiver.
 	I am only needed to allow awaiting Promises in an event handler.
 	Please read the class comment for CpForkedMessage for more details."
 
@@ -20,11 +20,11 @@ BlockClosure >> forked [
 
 	^ [ :event |
 		numArgs = 0
-			ifTrue: [ self fork ]
+			ifTrue: [ CpGlobalThis defer: self ]
 			ifFalse: [
 				| copyEvent |
 
 				"Because events change while bubbling, create a (stopped) copy"
 				copyEvent := event copy.
-				[ self value: copyEvent ] fork ] ]
+				CpGlobalThis defer: [ self value: copyEvent ] ] ]
 ]

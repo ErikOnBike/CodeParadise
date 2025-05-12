@@ -1,13 +1,13 @@
 Extension { #name : #MessageSend }
 
 { #category : #'*CodeParadise-WebApplication' }
-MessageSend >> forked [
+MessageSend >> deferred [
 
-	"Answer a forked version of the receiver"
+	"Answer a deferred version of the receiver"
 
 	<webApplicationExtension>
 
-	^ CpForkedMessageSend
+	^ CpDeferredMessageSend
 		receiver: receiver
 		selector: selector
 		arguments: arguments

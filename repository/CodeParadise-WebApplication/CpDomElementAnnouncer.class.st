@@ -107,6 +107,42 @@ CpDomElementAnnouncer >> unsubscribe: anObject [
 	announcer unsubscribe: anObject
 ]
 
+{ #category : #subscription }
+CpDomElementAnnouncer >> when: anAnnouncementClass deferDo: aBlock for: anObject [
+
+	"Subscribe the specified Announcement Class.
+	This particular variant forkes the message send in a separate Process.
+	This is useful in combination with using CpJavaScriptPromise >> #await
+	which temporarily suspends execution. Normally execution can't stop in
+	an event handler. Having a handler which forks of a separate Process
+	allows execution to continu.
+	Be aware that the event handling should not rely on some ordering or
+	timing. These become unpredictable because of awaiting results."
+
+	^ self
+		when: anAnnouncementClass
+		do: aBlock deferred
+		for: anObject
+]
+
+{ #category : #subscription }
+CpDomElementAnnouncer >> when: anAnnouncementClass deferSend: aSymbol to: anObject [
+
+	"Subscribe the specified Announcement Class.
+	In this particular variant the message send is deferred.
+	This is useful in combination with using CpJavaScriptPromise >> #await
+	which temporarily suspends execution. Normally execution can't stop in
+	an event handler. Having a handler which defers execution allows the
+	'normal' execution to continu and will not stop the event handler.
+	Be aware that the event handling should not rely on some ordering or
+	timing. These become unpredictable because of awaiting results."
+
+	^ self
+		when: anAnnouncementClass
+		do: (CpDeferredMessageSend receiver: anObject selector: aSymbol)
+		for: anObject
+]
+
 { #category : #deprecated }
 CpDomElementAnnouncer >> when: anAnnouncementClass do: aBlock [
 
@@ -125,42 +161,6 @@ CpDomElementAnnouncer >> when: anAnnouncementClass do: aBlock for: anObject [
 	anAnnouncementClass addListenerTo: self element.
 
 	^ announcer when: anAnnouncementClass do: aBlock for: anObject
-]
-
-{ #category : #subscription }
-CpDomElementAnnouncer >> when: anAnnouncementClass forkedDo: aBlock for: anObject [
-
-	"Subscribe the specified Announcement Class.
-	This particular variant forkes the message send in a separate Process.
-	This is useful in combination with using CpJavaScriptPromise >> #await
-	which temporarily suspends execution. Normally execution can't stop in
-	an event handler. Having a handler which forks of a separate Process
-	allows execution to continu.
-	Be aware that the event handling should not rely on some ordering or
-	timing. These become unpredictable because of awaiting results."
-
-	^ self
-		when: anAnnouncementClass
-		do: aBlock forked
-		for: anObject
-]
-
-{ #category : #subscription }
-CpDomElementAnnouncer >> when: anAnnouncementClass forkedSend: aSymbol to: anObject [
-
-	"Subscribe the specified Announcement Class.
-	This particular variant forkes the message send in a separate Process.
-	This is useful in combination with using CpJavaScriptPromise >> #await
-	which temporarily suspends execution. Normally execution can't stop in
-	an event handler. Having a handler which forks of a separate Process
-	allows execution to continu.
-	Be aware that the event handling should not rely on some ordering or
-	timing. These become unpredictable because of awaiting results."
-
-	^ self
-		when: anAnnouncementClass
-		do: (CpForkedMessageSend receiver: anObject selector: aSymbol)
-		for: anObject
 ]
 
 { #category : #subscription }

@@ -163,7 +163,7 @@ CpNodeJSRestRequestProcess >> run [
 
 	"Try to handle the request and produce a matching response"
 
-	[
+	CpGlobalThis defer: ([
 		process := Processor activeProcess.
 		timer := CpGlobalThis setTimeout: 4000 thenDo: [ self abort ].
 
@@ -174,14 +174,14 @@ CpNodeJSRestRequestProcess >> run [
 		CpGlobalThis clearTimeout: timer.
 		timer := nil.
 		process := nil
-	] forkedOnErrorDo: [ :error |
+	] on: Error do: [ :error |
 		endedAt := CpNodeJSRestHttpServer timestampNow.
 
 		CpGlobalThis clearTimeout: timer.
 		timer := nil.
 		process := nil.
 
-		self respondError: error ]
+		self respondError: error ])
 ]
 
 { #category : #running }

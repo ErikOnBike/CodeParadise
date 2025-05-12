@@ -13,30 +13,30 @@ Typically I am used in the form:
 	someElement when: CpClickEvent forkedSend: #handleClick: to: self
 "
 Class {
-	#name : #CpForkedMessageSend,
+	#name : #CpDeferredMessageSend,
 	#superclass : #MessageSend,
 	#category : #'CodeParadise-WebApplication-Support'
 }
 
 { #category : #evaluating }
-CpForkedMessageSend >> cull: anEvent [
+CpDeferredMessageSend >> cull: anEvent [
 
 	"Evaluate the receiver in a separate Process"
 
 	self selector numArgs = 0
-		ifTrue: [ [ super value ] fork ]
+		ifTrue: [ CpGlobalThis defer: [ super value ] ]
 		ifFalse: [
 			| copyEvent |
 
 			"Because events change while bubbling, create a (stopped) copy"
 			copyEvent := anEvent copy.
-			[ super value: copyEvent ] fork ]
+			CpGlobalThis defer: [ super value: copyEvent ] ]
 ]
 
 { #category : #support }
-CpForkedMessageSend >> forked [
+CpDeferredMessageSend >> deferred [
 
-	"Answer a forked version of the receiver"
+	"Answer a deferred version of the receiver"
 
 	^ self
 ]

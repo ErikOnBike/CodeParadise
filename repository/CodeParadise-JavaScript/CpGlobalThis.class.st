@@ -89,9 +89,24 @@ CpGlobalThis class >> decodeURIComponent: aString [
 { #category : #'deferred message' }
 CpGlobalThis class >> defer: aBlock [
 
-	"Evaluate the specified Block with a small delay (at least on the next tick)"
+	"Evaluate the specified Block with the smallest delay (at least one tick).
 
-	self setTimeout: 10 thenDo: aBlock
+	Implementation:
+	Since execution of Blocks is handled synchronously when used as JavaScript
+	function, the Block will be executed synchronously here. If you prefer a
+	more relaxed execution please use `[ ... ] fork`."
+
+	self setTimeout: 0 thenDo: aBlock
+]
+
+{ #category : #'deferred message' }
+CpGlobalThis class >> deferLongRunning: aBlock [
+
+	"Evaluate the specified Block with the smallest delay.
+	Assuming the Block is long running, perform it in its own Process.
+	See also #defer:"
+
+	aBlock fork
 ]
 
 { #category : #operations }
