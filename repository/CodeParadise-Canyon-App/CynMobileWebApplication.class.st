@@ -40,6 +40,16 @@ CynMobileWebApplication class >> isAbstractTag [
 ]
 
 { #category : #installing }
+CynMobileWebApplication >> addInstallationChecker [
+
+	super addInstallationChecker.
+
+	self environment ifDevelopment: [
+		environment addInstallationChecker: (CpPackageInstallationChecker
+			package: (CynMobileWebApplication >> #updateMultiLanguageText) package) ]
+]
+
+{ #category : #installing }
 CynMobileWebApplication >> extensionMethodCategories [
 
 	"Answer the collection of extension method categories needed for the receiver"

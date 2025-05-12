@@ -8,5 +8,7 @@ CynApp class >> updateMultiLanguageText [
 	Implementation:
 	Simply re-initialize the multi language text."
 
+	self traceCr: 'Update multi language text'.
+
 	Current ifNotNil: [ Current initializeLanguageText ]
 ]
