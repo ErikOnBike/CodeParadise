@@ -81,6 +81,9 @@ CynApp class >> constraintTexts [
 		at: #'constraint.email.domain.dot.position' put: 'An email address should only have dots between the domain name parts (like "name@funny.fruits.org").' ;
 		at: #'constraint.email.domain.dash' put: 'An email address should only have dashes inside domain name parts (like "name@funny-fruits.org").' ;
 		at: #'constraint.password.length' put: 'The password should be at least {1} characters long.' ;
+		at: #'constraint.id.length' put: 'The id should be exactly 36 characters long (formatted xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx)' ;
+		at: #'constraint.id.dash' put: 'The id should contain dashes at fixed locations (formatted xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx)' ;
+		at: #'constraint.id.content' put: 'The id should only contain digits, the letters "a" until "f" and dashes (formatted xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx)' ;
 		at: #'constraint.token.length' put: 'The code should be exactly 32 characters long. Maybe it is not copied correctly from the mail?' ;
 		at: #'constraint.token.content' put: 'The code should only contain digits and the letters "a" until "f". Maybe it is not copied correctly from the mail?' ;
 		at: #'constraint.length.min' put: 'The input should be at least {1} characters long and is only {2} characters long.' ;

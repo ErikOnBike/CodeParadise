@@ -248,9 +248,27 @@ CynBaseRestApiService >> errorInconsistentInput [
 ]
 
 { #category : #errors }
+CynBaseRestApiService >> errorInvalidCollection [
+
+	CpNodeJSRestBadRequestError signal: 'Invalid format of collection in REST request'
+]
+
+{ #category : #errors }
+CynBaseRestApiService >> errorInvalidIdCollection [
+
+	CpNodeJSRestBadRequestError signal: 'Invalid format of id in collection in REST request'
+]
+
+{ #category : #errors }
 CynBaseRestApiService >> errorInvalidInput [
 
 	CpNodeJSRestBadRequestError signal: 'Invalid field values in REST request'
+]
+
+{ #category : #errors }
+CynBaseRestApiService >> errorInvalidObject [
+
+	CpNodeJSRestBadRequestError signal: 'Invalid format of object in REST request'
 ]
 
 { #category : #errors }
@@ -278,6 +296,23 @@ CynBaseRestApiService >> errorUnexpectedInput: aString [
 ]
 
 { #category : #'API - support' }
+CynBaseRestApiService >> extractIdsFromBody: aCollection [
+
+	| idConstraint |
+
+	"Validate we received a Collection"
+	aCollection isCollection
+		ifFalse: [ self errorInvalidCollection ].
+
+	"Validate only ids are present"
+	idConstraint := CynIdPropertyConstraint default.
+	(aCollection allSatisfy: [ : each | idConstraint isValid: each ])
+		ifFalse: [ self errorInvalidIdCollection ].
+
+	^ aCollection
+]
+
+{ #category : #'API - support' }
 CynBaseRestApiService >> extractNewObject: aClass fromBody: aDictionary [
 
 	| instance |
@@ -295,6 +330,10 @@ CynBaseRestApiService >> extractNewObject: aClass fromBody: aDictionary [
 CynBaseRestApiService >> extractObject: aClass fromBody: aDictionary [
 
 	| instance |
+
+	"Validate we received a Dictionary"
+	aDictionary isDictionary
+		ifFalse: [ self errorInvalidObject ].
 
 	"Validate only defined properties are present"
 	aDictionary keysDo: [ :each |
