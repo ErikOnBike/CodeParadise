@@ -205,7 +205,7 @@ CpMyFirstAppPresentationWebApplication >> addToDoItemPresenters3Slide [
 
 	self view renderDescription: toDoItem description' methodClass: #MyToDoItemDonePresenter classified: #rendering.
 			}.
-			CpTextContent text: 'If you watched closely you''ll see that the above two methods are present on MyToDoItemView and Presenter as well. You could consider sharing this behaviour using inheritance, but be careful using inheritance for re-use convenience only. Using Traits is currently not supported in the browser image (i.e. in the Views), so for now that is not an option.'.
+			CpTextContent text: 'If you watched closely you''ll see that the above two methods are present on MyToDoItemView and Presenter as well. You could consider sharing this behaviour using inheritance, but be careful using inheritance for re-use convenience only. Using Traits is also an option (since the Trait implementation currently installs methods in a Class), but not thoroughly tested.'.
 		}) ;
 		yourself
 ]
