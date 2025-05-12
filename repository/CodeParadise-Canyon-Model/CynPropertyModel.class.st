@@ -281,7 +281,7 @@ CynPropertyModel >> at: aSymbol ifAbsent: aBlock [
 	(self hasPropertyAt: aSymbol)
 		ifFalse: [ ^ aBlock value ].
 
-	^ self propertyAt: aSymbol
+	^ self rawAt: aSymbol
 ]
 
 { #category : #'accessing - dictionary access' }
@@ -523,7 +523,7 @@ CynPropertyModel >> propertyAt: aSymbol [
 	(self class hasPropertyNamed: aSymbol)
 		ifFalse: [ self class errorUndefinedProperty: aSymbol ].
 
-	^ data at: aSymbol ifAbsent: [ nil ]
+	^ self rawAt: aSymbol
 ]
 
 { #category : #accessing }
@@ -581,7 +581,7 @@ CynPropertyModel >> propertyNamesAndValuesDo: aBlock [
 
 	"Evaluate the specified Block for the property names and values of the receiver"
 
-	^ self propertyNamesDo: [ :name | aBlock value: name value: (self propertyAt: name) ]
+	^ self propertyNamesDo: [ :name | aBlock value: name value: (self rawPropertyAt: name) ]
 ]
 
 { #category : #accessing }
@@ -623,7 +623,7 @@ CynPropertyModel >> propertyValuesDo: aBlock [
 
 	"Evaluate the specified Block for the property values of the receiver"
 
-	^ self propertyNamesDo: [ :name | aBlock value: (self propertyAt: name) ]
+	^ self propertyNamesDo: [ :name | aBlock value: (self rawAt: name) ]
 ]
 
 { #category : #constraints }
@@ -640,6 +640,15 @@ CynPropertyModel >> propertyViolationsAt: aSymbol do: aBlock [
 		the model, since conditional constraints require access to the model.
 		Do NOT use #violationsIn:do: here."
 		each violationsForProperty: aSymbol in: self do: aBlock ]
+]
+
+{ #category : #private }
+CynPropertyModel >> rawAt: aSymbol [
+
+	"Answer the value of the specified property without explicit check for property existence.
+	Use with caution."
+
+	^ data at: aSymbol ifAbsent: [ nil ]
 ]
 
 { #category : #private }
@@ -703,7 +712,7 @@ CynPropertyModel >> removePropertyAt: aSymbol ifAbsent: aBlock [
 
 	^ (self propertyAt: aSymbol)
 		ifNotNil: [ :value |
-			self propertyAt: aSymbol put: nil.
+			self rawAt: aSymbol put: nil.
 			value ]
 		ifNil: [ aBlock value ]
 ]
@@ -733,7 +742,7 @@ CynPropertyModel >> reset [
 
 	"Announce the receiver's value(s) changed"
 	oldData keysAndValuesDo: [ :key :value |
-		self announce: (CynPropertyChanged name: key oldValue: value newValue: (self propertyAt: key)) ]
+		self announce: (CynPropertyChanged name: key oldValue: value newValue: (self rawAt: key)) ]
 ]
 
 { #category : #'accessing - dictionary access' }

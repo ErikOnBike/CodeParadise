@@ -101,7 +101,7 @@ CynPropertyConstraint >> normalizeProperty: aSymbol in: aModel [
 	The PropertyModel will do nothing if the same value is stored 'over' the
 	old value (therefore no checks here if old and new value are equal)."
 
-	aModel propertyAt: aSymbol put: (self normalize: (aModel propertyAt: aSymbol))
+	aModel rawAt: aSymbol put: (self normalize: (aModel rawAt: aSymbol))
 ]
 
 { #category : #accessing }
@@ -111,7 +111,7 @@ CynPropertyConstraint >> violationsForProperty: aSymbol in: aModel do: aBlock [
 	The Block will receive a Symbol or CynTextReference representing the violation."
 
 	self
-		violationsIn: (self normalize: (aModel propertyAt: aSymbol))
+		violationsIn: (self normalize: (aModel rawAt: aSymbol))
 		do: [ :violation | aBlock value: violation ]
 ]
 

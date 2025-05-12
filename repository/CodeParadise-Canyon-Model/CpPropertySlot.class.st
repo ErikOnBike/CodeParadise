@@ -77,7 +77,7 @@ CpPropertySlot >> read: anObject [
 
 	"Delegate reading to property getter"
 
-	^ anObject propertyAt: self name
+	^ anObject rawAt: self name
 ]
 
 { #category : #'meta-object-protocol' }
@@ -85,5 +85,5 @@ CpPropertySlot >> write: aValue to: anObject [
 
 	"Delegate writing to property setter"
 
-	^ anObject propertyAt: self name put: aValue
+	^ anObject rawAt: self name put: aValue
 ]
