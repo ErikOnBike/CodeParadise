@@ -581,7 +581,7 @@ CynPropertyModel >> propertyNamesAndValuesDo: aBlock [
 
 	"Evaluate the specified Block for the property names and values of the receiver"
 
-	^ self propertyNamesDo: [ :name | aBlock value: name value: (self rawPropertyAt: name) ]
+	^ self propertyNamesDo: [ :name | aBlock value: name value: (self rawAt: name) ]
 ]
 
 { #category : #accessing }
