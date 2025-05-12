@@ -1,7 +1,7 @@
 Class {
 	#name : #CpNodeApplication,
 	#superclass : #CpServerApplication,
-	#category : #'CodeParadise-NodeJS-Support'
+	#category : #'CodeParadise-NodeJS-Support-Application'
 }
 
 { #category : #accessing }
