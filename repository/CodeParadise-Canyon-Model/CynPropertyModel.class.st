@@ -642,6 +642,38 @@ CynPropertyModel >> propertyViolationsAt: aSymbol do: aBlock [
 		each violationsForProperty: aSymbol in: self do: aBlock ]
 ]
 
+{ #category : #private }
+CynPropertyModel >> rawAt: aSymbol put: anObject [
+
+	"Set the specified property to the specified value without explicit check for property existence.
+	Use with caution.
+
+	Implementation:
+	If a property receives nil as value, it is removed from the data collection."
+
+	| oldValue |
+
+	"Retrieve the old value"
+	oldValue := data at: aSymbol ifAbsent: [ nil ].
+
+	anObject
+		ifNotNil: [
+
+			"Update the value in the data collection only if new value is different"
+			oldValue = anObject
+				ifFalse: [
+					data at: aSymbol put: anObject.
+					self announce: (CynPropertyChanged name: aSymbol oldValue: oldValue newValue: anObject) ] ]
+		ifNil: [
+
+			"Update (i.e. remove) the value from the data collection only if some value was present"
+			oldValue ifNotNil: [
+				data removeKey: aSymbol ifAbsent: [ "ignore" ].
+				self announce: (CynPropertyChanged name: aSymbol oldValue: oldValue newValue: nil) ] ].
+
+	^ anObject
+]
+
 { #category : #'accessing - dictionary access' }
 CynPropertyModel >> removeKey: aSymbol [
 

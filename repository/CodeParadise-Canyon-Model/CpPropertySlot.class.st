@@ -32,7 +32,7 @@ CpPropertySlot class >> postInstall [
 { #category : #'code generation' }
 CpPropertySlot >> emitStore: methodBuilder [
 
-	"Generate bytecode for 'data at: self name put: <stackTop>'"
+	"Generate bytecode for 'rcvr rawAt: self name put: <stackTop>'"
 
 	| tempName |
 
@@ -42,10 +42,10 @@ CpPropertySlot >> emitStore: methodBuilder [
 		addTemp: tempName ;
 		storeTemp: tempName ;
 		popTop ;
-		pushInstVar: (self owningClass instVarIndexFor: #data) ;
+		pushReceiver ;
 		pushLiteral: self name ;
 		pushTemp: tempName ;
-		send: #at:put:
+		send: #rawAt:put:
 ]
 
 { #category : #'code generation' }
