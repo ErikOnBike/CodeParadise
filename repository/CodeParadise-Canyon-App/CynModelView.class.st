@@ -246,7 +246,7 @@ CynModelView >> doWriteWhileShowing: aString [
 ]
 
 { #category : #'event handling' }
-CynModelView >> handleNavigateBack: aClickEvent [
+CynModelView >> handleNavigateBack [
 
 	"Handle the 'back' button click"
 
@@ -329,7 +329,7 @@ CynModelView >> initializeShadowRoot [
 	"Make any back button in the receiver work"
 	self allBackButtons do: [ :each |
 		each
-			when: CpClickEvent deferSend: #handleNavigateBack: to: self ;
+			when: CpClickEvent deferSend: #handleNavigateBack to: self ;
 			when: CpClickEvent send: #preventDefault: to: self ].
 
 	"In case the receiver has tabs, set event handler on tab changes"
