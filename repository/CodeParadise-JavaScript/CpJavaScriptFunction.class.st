@@ -136,6 +136,20 @@ CpJavaScriptFunction >> call: anObject withArguments: anArray resultAs: aClass [
 ]
 
 { #category : #private }
+CpJavaScriptFunction >> handleValueError [
+
+	"Check if an exception was thrown"
+	(self primLastExceptionAs: self exceptionClass)
+		ifNotNil: [ :exception | ^ exception signal ].
+
+	"Log (generic) error"
+	self errorCr: 'Error when evaluating function'.
+	self consoleError.
+
+	self primitiveFailed
+]
+
+{ #category : #private }
 CpJavaScriptFunction >> setBlock: aBlock [
 
 	"Set the Block which was used to create the receiver (using class side #wrap:)"
@@ -151,4 +165,49 @@ CpJavaScriptFunction >> setResult: anObject [
 
 	<primitive: 'primitiveJavaScriptFunctionSetResult:' module: 'CpSystemPlugin'>
 	self primitiveFailed
+]
+
+{ #category : #operations }
+CpJavaScriptFunction >> value [
+
+	"Evaluate the receiver without any arguments"
+
+	<primitive: 'primitiveJavaScriptFunctionValue' module: 'CpSystemPlugin'>
+	self handleValueError
+]
+
+{ #category : #operations }
+CpJavaScriptFunction >> value: anObject [
+
+	"Evaluate the receiver with a single argument"
+
+	<primitive: 'primitiveJavaScriptFunctionValue:' module: 'CpSystemPlugin'>
+	self handleValueError
+]
+
+{ #category : #operations }
+CpJavaScriptFunction >> value: arg1Object value: arg2Object [
+
+	"Evaluate the receiver with two arguments"
+
+	<primitive: 'primitiveJavaScriptFunctionValue:value:' module: 'CpSystemPlugin'>
+	self handleValueError
+]
+
+{ #category : #operations }
+CpJavaScriptFunction >> value: arg1Object value: arg2Object value: arg3Object [
+
+	"Evaluate the receiver with two arguments"
+
+	<primitive: 'primitiveJavaScriptFunctionValue:value:value:' module: 'CpSystemPlugin'>
+	self handleValueError
+]
+
+{ #category : #operations }
+CpJavaScriptFunction >> valueWithArguments: anArray [
+
+	"Evaluate the receiver with the specified arguments"
+
+	<primitive: 'primitiveJavaScriptFunctionValueWithArguments:' module: 'CpSystemPlugin'>
+	self handleValueError
 ]
