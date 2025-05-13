@@ -244,14 +244,6 @@ CynRestApiClient >> performOperation: aSymbol uri: uriString queryParams: aDicti
 		ifFalse: [ self handleErrorResponse: response ]
 ]
 
-{ #category : #accessing }
-CynRestApiClient >> performTimeoutPeriod [
-
-	"Answer the number of milliseconds before a request should time out"
-
-	^ 8000
-]
-
 { #category : #operations }
 CynRestApiClient >> ping [
 
