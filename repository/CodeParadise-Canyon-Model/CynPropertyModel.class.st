@@ -511,8 +511,16 @@ CynPropertyModel >> printOn: aStream [
 
 	aStream
 		nextPutAll: self class name ;
-		nextPutAll: ': '.
-	data printOn: aStream
+		nextPut: $:.
+	data
+		ifNotEmpty: [
+			data associationsDo: [ :each |
+				aStream
+					space ;
+					nextPutAll: each key ;
+					nextPutAll: '->' ;
+					print: each value ] ]
+		ifEmpty: [ aStream nextPutAll: '<empty>' ]
 ]
 
 { #category : #accessing }
