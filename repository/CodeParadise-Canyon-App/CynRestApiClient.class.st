@@ -253,6 +253,28 @@ CynRestApiClient >> performTimeoutPeriod [
 ]
 
 { #category : #operations }
+CynRestApiClient >> ping [
+
+	"Answer a Boolean stating whether the server could be pinged successfully"
+
+	| response |
+
+	response := [
+		self getUri: '/ping/hello' timeoutPeriod: self pingTimeoutPeriod
+	] on: Error do: [ :err | ^ false ].
+
+	^ response = #world
+]
+
+{ #category : #accessing }
+CynRestApiClient >> pingTimeoutPeriod [
+
+	"Answer the number of milliseconds before a ping request should time out"
+
+	^ 2000
+]
+
+{ #category : #operations }
 CynRestApiClient >> postUri: uriString body: anObject timeoutPeriod: anInteger [
 
 	"Perform the POST operation with the URI and body and answer the response content"
