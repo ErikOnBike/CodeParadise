@@ -177,6 +177,15 @@ CynModelView >> childViewsDo: aBlock [
 ]
 
 { #category : #view }
+CynModelView >> closeAndNavigateTo: aPageClass withModel: aModel [
+
+	"Close the receiver and navigate to the specified Page Class with the specified Model"
+
+	self page
+		closeAndNavigateTo: aPageClass withModel: aModel
+]
+
+{ #category : #view }
 CynModelView >> closePage [
 
 	self page
@@ -498,12 +507,12 @@ CynModelView >> modelWrite [
 ]
 
 { #category : #view }
-CynModelView >> navigateTo: aClass withModel: aModel [
+CynModelView >> navigateTo: aPageClass withModel: aModel [
 
 	"Navigate to the specified Page Class with the specified Model"
 
 	self page
-		navigateTo: aClass withModel: aModel
+		navigateTo: aPageClass withModel: aModel
 ]
 
 { #category : #private }

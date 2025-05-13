@@ -107,6 +107,22 @@ CynPage >> close [
 ]
 
 { #category : #view }
+CynPage >> closeAndNavigateTo: aPageClass withModel: aModel [
+
+	"Close the receiver and navigate to the specified Page Class with the specified Model"
+
+	self canNavigate
+		ifFalse: [ ^ self ].
+
+	self modal
+		ifNotNil: [ :modal |
+			self
+				close ;
+				showPage: aPageClass withModel: aModel inModal: modal ]
+		ifNil: [ self app showPage: aPageClass withModel: aModel ]
+]
+
+{ #category : #view }
 CynPage >> closeModalPage [
 
 	"Close the receiver.
@@ -196,9 +212,9 @@ CynPage >> navigateTo: aPageClass withModel: aModel [
 	self canNavigate
 		ifFalse: [ ^ self ].
 
-	self isShownInModal
-		ifTrue: [ self showModalPage: aPageClass withModel: aModel ]
-		ifFalse: [ self app showPage: aPageClass withModel: aModel ]
+	self modal
+		ifNotNil: [ :modal | self showPage: aPageClass withModel: aModel inModal: modal ]
+		ifNil: [ self app showPage: aPageClass withModel: aModel ]
 ]
 
 { #category : #accessing }
@@ -222,14 +238,13 @@ CynPage >> screenWidth [
 ]
 
 { #category : #view }
-CynPage >> showModalPage: aPageClass withModel: aModel [
+CynPage >> showPage: aPageClass withModel: aModel inModal: aModal [
 
-	"Show the specified Model in the page Class provided"
+	"Show the Model modal in the page Class specified"
 
-	| modal nav page |
+	| nav page |
 
-	modal := self modal.
-	nav := modal firstChild.
+	nav := aModal firstChild.
 	nav class = IonNav
 		ifFalse: [ ^ self ].
 
