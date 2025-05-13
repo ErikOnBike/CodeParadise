@@ -50,6 +50,66 @@ CynDatabase >> initializeWithDatabaseFile: aString [
 ]
 
 { #category : #database }
+CynDatabase >> performInTransaction: aBlock [
+
+	"Perform the specified Block in a transaction
+	and answer the result of evaluating the Block.
+
+	Implementation:
+	Create a transaction function based on the specified Block and execute it."
+
+	^ (database transaction: aBlock) value
+]
+
+{ #category : #database }
+CynDatabase >> performInTransaction: aBlock with: anObject [
+
+	"Perform the specified Block in a transaction with the specified argument
+	and answer the result of evaluating the Block.
+
+	Implementation:
+	Create a transaction function based on the specified Block and execute it."
+
+	^ (database transaction: aBlock) value: anObject
+]
+
+{ #category : #database }
+CynDatabase >> performInTransaction: aBlock with: arg1Object with: arg2Object [
+
+	"Perform the specified Block in a transaction with the specified arguments
+	and answer the result of evaluating the Block.
+
+	Implementation:
+	Create a transaction function based on the specified Block and execute it."
+
+	^ (database transaction: aBlock) value: arg1Object value: arg2Object
+]
+
+{ #category : #database }
+CynDatabase >> performInTransaction: aBlock with: arg1Object with: arg2Object with: arg3Object [
+
+	"Perform the specified Block in a transaction with the specified arguments
+	and answer the result of evaluating the Block.
+
+	Implementation:
+	Create a transaction function based on the specified Block and execute it."
+
+	^ (database transaction: aBlock) value: arg1Object value: arg2Object value: arg3Object
+]
+
+{ #category : #database }
+CynDatabase >> performInTransaction: aBlock withArguments: anArray [
+
+	"Perform the specified Block in a transaction with the specified arguments
+	and answer the result of evaluating the Block.
+
+	Implementation:
+	Create a transaction function based on the specified Block and execute it."
+
+	^ (database transaction: aBlock) valueWithArguments: anArray
+]
+
+{ #category : #database }
 CynDatabase >> performMulti: aSymbol statement: aString bind: aDictionary [
 
 	"Update (possibly) multiple rows in the database.
