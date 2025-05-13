@@ -109,6 +109,14 @@ CpNodeJSRestRequest >> contentType [
 	^ self headerAt: 'content-type'
 ]
 
+{ #category : #testing }
+CpNodeJSRestRequest >> hasHeaderAt: aSymbol [
+
+	"Answer a Boolean stating whether the receiver has the specified header"
+
+	^ (self headerAt: aSymbol) isNotNil
+]
+
 { #category : #accessing }
 CpNodeJSRestRequest >> headerAt: aSymbol [
 

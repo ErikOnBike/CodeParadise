@@ -435,6 +435,21 @@ CynLocalAccountRestApiService >> matchPassword: plainTextPassword withHash: hash
 	^ hashedPassword = hash
 ]
 
+{ #category : #API }
+CynLocalAccountRestApiService >> ping: aRestRequest response: aServerResponse [
+
+	"Ping to check on liveness"
+
+	<get: '/api/ping/hello'>
+	<public>
+
+	"Validate the access token (if supplied)"
+	(aRestRequest hasHeaderAt: #authorization)
+		ifTrue: [ self validateAuthorizedRequest: aRestRequest ].
+
+	super ping: aRestRequest response: aServerResponse
+]
+
 { #category : #accessing }
 CynLocalAccountRestApiService >> sessionExpirationDuration [
 
