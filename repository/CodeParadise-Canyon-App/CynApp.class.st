@@ -548,7 +548,7 @@ CynApp >> isOnline [
 	to ensure there is in fact a working internet connection. The ping is only
 	performed if there has not been a successful response in the last few seconds."
 
-	| restApiClient response |
+	| restApiClient |
 
 	(self isClassed: #offline)
 		ifTrue: [ ^ false ].
@@ -558,15 +558,11 @@ CynApp >> isOnline [
 
 	restApiClient := CynPropertyEntity restApiClient.
 
-	"Used REST API successfully within last 5 seconds"
+	"Used REST API successfully within last 5 seconds?"
 	restApiClient lastSuccessResponseTimestamp >= (CynRestApiClient timestampNow - 5000)
 		ifTrue: [ ^ true ].
 
-	response := [
-		restApiClient getUri: '/ping/hello' timeoutPeriod: 2000
-	] on: Error do: [ :err | ^ false ].
-
-	^ response = 'world'
+	^ restApiClient ping
 ]
 
 { #category : #initialization }
