@@ -523,7 +523,7 @@ CpBrowserSupportExamplesWebClientBehavior >> exampleJavaScriptFunction [
 	[
 		self showInfo: 'Result on error ', (jsFunc4 call: nil withArguments: nil) printString
 	] on: Error do: [ :err |
-		self showInfo: '(Expected) Error during JavaScriptFunction: ', err rootCause printString
+		self showInfo: '(Expected) Error during JavaScriptFunction: ', err rootException printString
 	].
 	self showInfo: 'After the Error incident (glad that is over ;-)'
 ]
@@ -790,7 +790,7 @@ CpBrowserSupportExamplesWebClientBehavior >> promiseRunError [
 				then: [ :value | self error: 'Error as expected' ]) await
 		] on: Error do: [ :error |
 			outputElement appendChild: ((CpHtmlElement newWithTag: #p)
-				textContent: 'Error is caught, because of await on Promise: ', error rootCause printString ;
+				textContent: 'Error is caught, because of await on Promise: ', error rootException printString ;
 				yourself) ].
 
 		outputElement appendChild: ((CpHtmlElement newWithTag: #p)
@@ -807,7 +807,7 @@ CpBrowserSupportExamplesWebClientBehavior >> promiseRunError [
 				then: [ :value | self error: 'Error as expected' ]
 		] on: Error do: [ :error |
 			outputElement appendChild: ((CpHtmlElement newWithTag: #p)
-				textContent: 'Error is never caught, because of async nature of Promises: ', error rootCause printString ;
+				textContent: 'Error is never caught, because of async nature of Promises: ', error rootException printString ;
 				yourself) ].
 	] fork
 ]

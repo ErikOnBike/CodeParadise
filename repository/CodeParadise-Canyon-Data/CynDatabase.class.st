@@ -263,14 +263,14 @@ CynDatabase >> signalSqliteError: error [
 	"Inspect the specified Sqlite Error and signal a more specific Error (if applicable),
 	otherwise (re)signal the Error specified"
 
-	| rootCause |
+	| rootException |
 
-	rootCause := error rootCause.
-	rootCause isSqliteError
+	rootException := error rootException.
+	rootException isSqliteError
 		ifTrue: [
 
 			"Curently only the unique constraint violation is detected"
-			rootCause code = #SQLITE_CONSTRAINT_UNIQUE
+			rootException code = #SQLITE_CONSTRAINT_UNIQUE
 				ifTrue: [ CynDatabaseUniqueConstraintViolation signal ] ].
 
 	error pass

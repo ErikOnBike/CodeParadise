@@ -39,7 +39,7 @@ CpUnhandledRejection >> asJavaScriptError [
 CpUnhandledRejection >> cause [
 
 	"Answer the rejection reason if it's an Error,
-	otherwise answer nil"
+	otherwise answer the reason itself"
 
 	^ reason isErrorObject
 		ifTrue: [ reason cause ]
@@ -74,6 +74,7 @@ CpUnhandledRejection >> log [
 	"Log the receiver (showing the incriminating code origin and cause)"
 
 	self errorCr: 'Unhandled rejection from: ', promiseCompiledCode printString.
+	self errorCr: 'Exception: ', self rootException printString.
 	self errorCr: 'Reason: ', self rootCause printString
 ]
 
@@ -85,6 +86,16 @@ CpUnhandledRejection >> rootCause [
 	^ reason isErrorObject
 		ifTrue: [ reason rootCause ]
 		ifFalse: [ reason ]
+]
+
+{ #category : #accessing }
+CpUnhandledRejection >> rootException [
+
+	"Answer the Exception causing (or wrapped in) the receiver"
+
+	^ reason isErrorObject
+		ifTrue: [ reason rootException ]
+		ifFalse: [ self ]
 ]
 
 { #category : #signaling }

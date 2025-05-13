@@ -44,7 +44,7 @@ CpUncaughtException >> defaultAction [
 
 	"Log issue as default action"
 
-	self errorCr: 'Uncaught exception: ', self rootCause printString.
+	self errorCr: 'Uncaught exception: ', self rootException printString.
 
 	^ nil
 ]
@@ -63,4 +63,12 @@ CpUncaughtException >> rootCause [
 	"Answer the root cause of the JavaScript Exception as root cause"
 
 	^ exception rootCause
+]
+
+{ #category : #accessing }
+CpUncaughtException >> rootException [
+
+	"Answer the Exception causing (or wrapped in) the receiver"
+
+	^ exception rootException
 ]

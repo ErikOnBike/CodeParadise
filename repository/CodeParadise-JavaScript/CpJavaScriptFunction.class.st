@@ -140,7 +140,7 @@ CpJavaScriptFunction >> handleValueError [
 
 	"Check if an exception was thrown"
 	(self primLastExceptionAs: self exceptionClass)
-		ifNotNil: [ :exception | ^ exception signal ].
+		ifNotNil: [ :exception | ^ exception rootException signal ].
 
 	"Log (generic) error"
 	self errorCr: 'Error when evaluating function'.

@@ -56,3 +56,17 @@ Exception >> rootCause [
 		ifTrue: [ tag rootCause ]
 		ifFalse: [ self ]
 ]
+
+{ #category : #'*CodeParadise-JavaScript' }
+Exception >> rootException [
+
+	"Answer the Exception causing (or wrapped in) the receiver. The root exception
+	is the 'lowest' exception found in the chain of Exceptions. If an Exception does
+	not have a lower cause, the Exception itself is the root exception."
+
+	<applicationExtension>
+
+	^ tag isErrorObject
+		ifTrue: [ tag rootException ]
+		ifFalse: [ self ]
+]

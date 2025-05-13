@@ -582,7 +582,7 @@ CpJavaScriptObject >> primApply: aSymbol withArguments: anArray resultAs: aProxy
 
 	"Check if an exception was thrown"
 	(self primLastExceptionAs: self exceptionClass)
-		ifNotNil: [ :exception | ^ exception signal ].
+		ifNotNil: [ :exception | ^ exception rootException signal ].
 
 	"Check if selector exists by using #getSelectorType: (if that fails, do not do a DNU)"
 	[ type := self getSelectorType: aSymbol ] on: Error do: [ #skipDNU ].

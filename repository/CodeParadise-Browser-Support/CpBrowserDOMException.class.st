@@ -7,7 +7,9 @@ Class {
 { #category : #accessing }
 CpBrowserDOMException >> cause [
 
-	^ self
+	"A DOM Exception does not know an underlying cause"
+
+	^ nil
 ]
 
 { #category : #testing }
@@ -38,6 +40,14 @@ CpBrowserDOMException >> name [
 CpBrowserDOMException >> rootCause [
 
 	"Answer the 'lowest' cause (an Error object) of the receiver"
+
+	^ self
+]
+
+{ #category : #accessing }
+CpBrowserDOMException >> rootException [
+
+	"Answer the 'lowest' exception of the receiver"
 
 	^ self
 ]

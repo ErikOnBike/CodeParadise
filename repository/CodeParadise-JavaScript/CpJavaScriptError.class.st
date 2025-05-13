@@ -151,6 +151,19 @@ CpJavaScriptError >> rootCause [
 		ifNil: [ self ]
 ]
 
+{ #category : #accessing }
+CpJavaScriptError >> rootException [
+
+	"Answer the Exception causing (or wrapped in) the receiver"
+
+	^ self cause
+		ifNotNil: [ :cause |
+			cause isErrorObject
+				ifTrue: [ cause rootException ]
+				ifFalse: [ self ] ]
+		ifNil: [ self ]
+]
+
 { #category : #signalling }
 CpJavaScriptError >> signal [
 
