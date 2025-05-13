@@ -408,6 +408,14 @@ CynModelView >> isEmptyChildSlot: anElement [
 	^ anElement tagName = #div and: [ anElement isClassed: #empty ]
 ]
 
+{ #category : #testing }
+CynModelView >> isShownInModal [
+
+	"Answer whether the receiver is shown in a Modal view"
+
+	^ self modal isNotNil
+]
+
 { #category : #private }
 CynModelView >> keepSelectedTab: aTab [
 
