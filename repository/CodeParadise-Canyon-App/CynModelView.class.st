@@ -434,7 +434,7 @@ CynModelView >> loadingTimeout [
 { #category : #accessing }
 CynModelView >> modal [
 
-	"Answer the modal the receiver is shown in"
+	"Answer the modal of the receiver (or nil if not shown in Modal view)"
 
 	^ self canyonModal
 ]
@@ -696,7 +696,12 @@ CynModelView >> updateChildView: aView atSlotNamed: aString withViewClass: aClas
 { #category : #private }
 CynModelView >> updateChildViews [
 
-	"Update all the child views based on the receiver's definitions"
+	"Update all the child views based on the receiver's definitions.
+
+	This method is invoked when the receiver might not be connected
+	to the document's DOM. IF connection to the DOM is required, please
+	use CpConnectedEvent to check for this event and update those parts
+	in the appropriate event handler."
 
 	"Cache the child view definitions"
 	childViewDefinitionsBySlotName ifNil: [
