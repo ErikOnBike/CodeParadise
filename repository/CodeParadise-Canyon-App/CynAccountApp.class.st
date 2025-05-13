@@ -31,6 +31,11 @@ CynAccountApp >> initialize [
 
 	super initialize.
 
+	"Ping the server to make sure any potential access token is checked
+	(and thereby the state of the login will be set correctly during its
+	initialization in the following lines)"
+	CynPropertyEntity restApiClient ping.
+
 	account := CynLoginAccount new.
 	account
 		when: CynAccountLoggedIn send: #handleUserLoggedIn to: self ;
