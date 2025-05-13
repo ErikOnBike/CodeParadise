@@ -235,6 +235,18 @@ CynPropertyEntity >> restReadTimeoutPeriod [
 ]
 
 { #category : #'*CodeParadise-Canyon-App' }
+CynPropertyEntity class >> restReadUsingUri: aString queryParams: aDictionary timeoutPeriod: anInteger [
+
+	"Read (all) the resources of the receiver's 'type' using the specified URI and query parameters.
+
+	If the session has expired this will answer an empty collection."
+
+	^ (self restApiClient getUri: aString queryParams: aDictionary timeoutPeriod: anInteger)
+		ifNotNil: [ :array | array collect: [ :each | self fromDictionary: each ] ]
+		ifNil: [ #() ]
+]
+
+{ #category : #'*CodeParadise-Canyon-App' }
 CynPropertyEntity class >> restReadUsingUri: aString timeoutPeriod: anInteger [
 
 	"Read (all) the resources of the receiver's 'type' using the specified URI.
@@ -253,6 +265,17 @@ CynPropertyEntity >> restReadUsingUri: aString timeoutPeriod: anInteger [
 
 	(self restApiClient getUri: aString timeoutPeriod: anInteger)
 		ifNotNil: [ :content | self merge: content ]
+]
+
+{ #category : #'*CodeParadise-Canyon-App' }
+CynPropertyEntity class >> restReadWithQueryParams: aDictionary [
+
+	"Read (all) the resources of the receiver's 'type' using the specified query parameters"
+
+	^ self
+		restReadUsingUri: self uri
+		queryParams: aDictionary
+		timeoutPeriod: self restReadTimeoutPeriod
 ]
 
 { #category : #'*CodeParadise-Canyon-App' }

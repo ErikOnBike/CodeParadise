@@ -65,6 +65,14 @@ CynRestApiClient >> deleteUri: aString timeoutPeriod: anInteger [
 ]
 
 { #category : #operations }
+CynRestApiClient >> getUri: aString queryParams: aDictionary timeoutPeriod: anInteger [
+
+	"Perform the GET operation with the URI and query parameters and answer the response content"
+
+	^ self performOperation: #GET uri: aString queryParams: aDictionary body: nil timeoutPeriod: anInteger
+]
+
+{ #category : #operations }
 CynRestApiClient >> getUri: aString timeoutPeriod: anInteger [
 
 	"Perform the GET operation with the URI and answer the response content"
