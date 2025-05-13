@@ -988,7 +988,9 @@ CynApp >> showModal: aViewClass withModel: aModel [
 
 	"Create modal View"
 	modal := IonModal new
-		component: (view := aViewClass on: aModel) ;
+		component: (IonNav new
+			root: (view := aViewClass on: aModel) ;
+			yourself) ;
 		yourself.
 
 	"Let the view assign dismiss events (after it had time to fully initialize)"

@@ -13,6 +13,13 @@ It does not become part of the navigation mechanism between pages.
 It is also possible to show a page modal. This can be useful when for example during execution
 the user session timed out and the user needs to login first. Showing the login modal allows
 the existing page to remain available while the user logs in.
+
+Implementation:
+Since Pages are opened using a reference to their class (allowing a centralized mechanism to
+create Page instances and connect them to their Model), opening a Page in a Modal view requires
+some specific handling. Therefore a few methods (#navigateTo:withModel: and #close) have an
+implementation which needs to check which situation is appropriate. Not the cleanest solution,
+but works for now.
 "
 Class {
 	#name : #CynPage,
@@ -92,8 +99,34 @@ CynPage >> canyonPage [
 { #category : #view }
 CynPage >> close [
 
-	self app
-		closePage: self
+	"Close the receiver"
+
+	self isShownInModal
+		ifTrue: [ self closeModalPage ]
+		ifFalse: [ self app closePage: self ]
+]
+
+{ #category : #view }
+CynPage >> closeModalPage [
+
+	"Close the receiver.
+	Assume it is shown in a Modal view and is the active view."
+
+	| modal nav |
+
+	modal := self modal.
+	nav := modal firstChild.
+	nav class = IonNav
+		ifFalse: [ ^ self ].
+
+	"Can only close the last page"
+	nav lastChild = self
+		ifFalse: [ ^ self ].
+
+	"Close the page if more pages available, otherwise close the Modal"
+	nav children size > 1
+		ifTrue: [ nav pop await ]
+		ifFalse: [ modal dismiss await ]
 ]
 
 { #category : #'view - customization' }
@@ -163,8 +196,9 @@ CynPage >> navigateTo: aPageClass withModel: aModel [
 	self canNavigate
 		ifFalse: [ ^ self ].
 
-	self app
-		showPage: aPageClass withModel: aModel
+	self isShownInModal
+		ifTrue: [ self showModalPage: aPageClass withModel: aModel ]
+		ifFalse: [ self app showPage: aPageClass withModel: aModel ]
 ]
 
 { #category : #accessing }
@@ -185,6 +219,25 @@ CynPage >> screenWidth [
 			persistentVariableAt: #SCREEN_WIDTH)
 				ifNotNil: [ :value | value asSymbol ]
 				ifNil: [ #auto ]
+]
+
+{ #category : #view }
+CynPage >> showModalPage: aPageClass withModel: aModel [
+
+	"Show the specified Model in the page Class provided"
+
+	| modal nav page |
+
+	modal := self modal.
+	nav := modal firstChild.
+	nav class = IonNav
+		ifFalse: [ ^ self ].
+
+	page := aPageClass on: aModel.
+
+	page updateBeforeNavigate.
+	(nav push: page) await.
+	page updateAfterNavigate
 ]
 
 { #category : #'view - customization' }
