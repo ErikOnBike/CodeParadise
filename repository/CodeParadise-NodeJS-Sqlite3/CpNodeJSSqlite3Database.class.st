@@ -113,3 +113,11 @@ CpNodeJSSqlite3Database >> readonly [
 
 	^ self propertyAt: #readonly
 ]
+
+{ #category : #operations }
+CpNodeJSSqlite3Database >> transaction: aBlock [
+
+	"Creates a function that always runs inside a transaction. When the function is invoked, it will begin a new transaction. When the function returns, the transaction will be committed. If an exception is thrown, the transaction will be rolled back (and the exception will propagate as usual)."
+
+	^ self apply: #transaction withArguments: { aBlock asJavaScriptFunction } resultAs: CpJavaScriptFunction
+]

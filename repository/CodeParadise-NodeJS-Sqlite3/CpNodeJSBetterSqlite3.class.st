@@ -3,8 +3,8 @@ I am the module for BetterSqlite3.
 
 Do not forget to include 'better-sqlite3' in your package dependencies.
 
-I support the basic Database and Statement classes, but currently
-do not support Transactions nor iterators.
+I support the basic Database and Statement classes and transactions,
+but currently not iterators.
 
 See https://github.com/WiseLibs/better-sqlite3
 
