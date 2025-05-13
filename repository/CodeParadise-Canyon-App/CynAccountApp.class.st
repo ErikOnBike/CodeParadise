@@ -1,3 +1,13 @@
+"
+I am a Canyon App for Apps where an account is required for the
+user. My (additional) responsibility is limited to maintaining the
+login account and handling user/account login/logout events.
+
+Since the actual login and logout actions can be implemented
+in many ways, there is no default mechanism present. Please
+let your subclass handle this in a friendly way for the user.
+
+"
 Class {
 	#name : #CynAccountApp,
 	#superclass : #CynApp,
