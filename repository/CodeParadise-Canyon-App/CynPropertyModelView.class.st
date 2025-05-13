@@ -134,14 +134,6 @@ CynPropertyModelView >> modelViolations [
 ]
 
 { #category : #validating }
-CynPropertyModelView >> multipleViolationsIntroText [
-
-	"Answer a short introduction text describing the fact that input contains multiple violations"
-
-	^ CynPropertyEntity text: #'constraint.multi.violations'
-]
-
-{ #category : #validating }
 CynPropertyModelView >> propertiesForValidation [
 
 	"Answer the collection of properties which should be considered during validation of the receiver's model"
@@ -191,24 +183,6 @@ CynPropertyModelView >> validateProperty: aSymbol [
 		classed: #'ion-invalid' if: errorText isNotNil ;
 		classed: #'ion-valid' if: errorText isNil ;
 		classed: #'ion-touched' if: (self isDirtyProperty: aSymbol)
-]
-
-{ #category : #'validating - private' }
-CynPropertyModelView >> validationMessageFrom: aDictionary [
-
-	"Answer a single String representing the validation issue(s) specified in the Collection
-	or nil if no issues are present"
-
-	^ aDictionary
-		ifNotEmpty: [
-			String streamContents: [ :stream |
-				stream nextPutAll: self multipleViolationsIntroText.
-				aDictionary keysAndValuesDo: [ :property :violations |
-					violations do: [ :each |
-						stream
-							space ;
-							nextPutAll: (CynPropertyEntity text: each format: (Dictionary with: #label -> (model labelAt: property))) ] ] ] ]
-		ifEmpty: [ nil ]
 ]
 
 { #category : #'validating - private' }
