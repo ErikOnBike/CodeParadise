@@ -286,7 +286,8 @@ CynApp class >> style [
 
 	<webResource: #css>
 
-	^ '*, *:before, *:after {
+	^ '@import url("https://cdn.jsdelivr.net/npm/@ionic/core/css/ionic.bundle.css");
+*, *:before, *:after {
 	box-sizing: border-box;
 }
 :host {

@@ -37,6 +37,8 @@ CynModelView class >> style [
 
 	<webResource: #css>
 
+	"Subclasses however should probably call this style and append additional styling."
+
 	^ '@import url("https://cdn.jsdelivr.net/npm/@ionic/core/css/ionic.bundle.css");
 *, *:before, *:after {
 	box-sizing: border-box;

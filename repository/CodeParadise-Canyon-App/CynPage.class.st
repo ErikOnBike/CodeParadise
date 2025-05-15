@@ -48,8 +48,8 @@ CynPage class >> style [
 
 	<webResource: #css>
 
-	"Hide buttons by transitioning them to a 0 width and 0 opacity. Specificity is important, therefore long CSS selector.
-	Icon within buttons keep their original size (assuming default size for now) during the transition."
+	"This method fully overrides the superclass' implementation.
+	Subclasses however should probably call this style and append additional styling."
 
 	^ '@import url("https://cdn.jsdelivr.net/npm/@ionic/core/css/ionic.bundle.css");
 *, *:before, *:after {
