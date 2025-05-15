@@ -1089,6 +1089,15 @@ CpDomElement >> replaceChildAtIndex: anInteger with: replacementElement [
 	self replaceChild: childElement with: replacementElement
 ]
 
+{ #category : #'adding/removing' }
+CpDomElement >> replaceWith: anElement [
+
+	"Replace the receiver (within its parent) with the specified Element"
+
+	^ self parent
+		replaceChild: self with: anElement
+]
+
 { #category : #'event handling' }
 CpDomElement >> stopImmediatePropagation: anEvent [
 
