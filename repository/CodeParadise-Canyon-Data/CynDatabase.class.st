@@ -110,6 +110,12 @@ CynDatabase >> performInTransaction: aBlock withArguments: anArray [
 ]
 
 { #category : #database }
+CynDatabase >> performMulti: aSymbol statement: aString [
+
+	^ self performMulti: aSymbol statement: aString bind: nil
+]
+
+{ #category : #database }
 CynDatabase >> performMulti: aSymbol statement: aString bind: aDictionary [
 
 	"Update (possibly) multiple rows in the database.
@@ -127,6 +133,12 @@ CynDatabase >> performMulti: aSymbol statement: aString bind: aDictionary [
 	] on: Error do: [ :error | self signalSqliteError: error ].
 
 	^ resultInfo at: #changes
+]
+
+{ #category : #database }
+CynDatabase >> performOne: aSymbol statement: aString [
+
+	^ self performOne: aSymbol statement: aString bind: nil
 ]
 
 { #category : #database }
@@ -208,6 +220,12 @@ CynDatabase >> prepare: aSymbol statement: aString [
 ]
 
 { #category : #database }
+CynDatabase >> selectCount: aSymbol statement: aString [
+
+	^ self selectCount: aSymbol statement: aString bind: nil
+]
+
+{ #category : #database }
 CynDatabase >> selectCount: aSymbol statement: aString bind: aDictionary [
 
 	"Answer the count of a count query.
@@ -216,6 +234,12 @@ CynDatabase >> selectCount: aSymbol statement: aString bind: aDictionary [
 
 	^ (self selectOne: aSymbol statement: aString bind: aDictionary)
 		at: #'COUNT(*)'
+]
+
+{ #category : #database }
+CynDatabase >> selectMany: aSymbol statement: aString [
+
+	^ self selectMany: aSymbol statement: aString bind: nil
 ]
 
 { #category : #database }
@@ -238,6 +262,12 @@ CynDatabase >> selectMany: aSymbol statement: aString bind: aDictionary [
 		rows do: [ :row | row at: each put: (row at: each) = 1 ] ].
 
 	^ rows
+]
+
+{ #category : #database }
+CynDatabase >> selectOne: aSymbol statement: aString [
+
+	^ self selectOne: aSymbol statement: aString bind: nil
 ]
 
 { #category : #database }
