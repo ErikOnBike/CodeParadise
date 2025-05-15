@@ -32,6 +32,14 @@ CynMobileWebApplication class >> allowedPackages [
 		CynRestApiClient package }
 ]
 
+{ #category : #accessing }
+CynMobileWebApplication class >> app [
+
+	"Answer the receiver unique name (used in URL to access the application as well)"
+
+	^ ((self nameWithoutPrefix withoutSuffix: #WebApplication) withoutSuffix: #Mobile) asKebabCase asSymbol
+]
+
 { #category : #tags }
 CynMobileWebApplication class >> isAbstractTag [
 
