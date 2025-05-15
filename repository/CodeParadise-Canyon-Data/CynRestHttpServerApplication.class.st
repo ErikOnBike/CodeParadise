@@ -14,7 +14,6 @@ CynRestHttpServerApplication class >> allowedPackages [
 		CpNodeJSRestHttpServer package .
 		CpNodeJSSqlite3Database package .
 		CpNodeJSNodemailerMessage package .
-		CpNodeJSSharpModule package .
 		CpNodeJSCrypto package .
 		CynDatabase package .
 		ValueChanged package .
