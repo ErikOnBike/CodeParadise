@@ -38,6 +38,13 @@ Class {
 	#category : #'CodeParadise-Canyon-Data-Service'
 }
 
+{ #category : #testing }
+CynLocalAccountRestApiService class >> isAbstractTag [
+
+	"The method is present to indicate the receiver is abstract.
+	This method will NOT be evaluated to decide if the receiver is abstract."
+]
+
 { #category : #'API - accounts' }
 CynLocalAccountRestApiService >> activateAccount: anActivateAccount [
 

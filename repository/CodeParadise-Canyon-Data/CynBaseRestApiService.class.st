@@ -23,6 +23,14 @@ CynBaseRestApiService class >> defaultPort [
 	^ 8181
 ]
 
+{ #category : #testing }
+CynBaseRestApiService class >> hasAbstractTag [
+
+	"Answer whether the receiver has the 'isAbstract' tag set"
+
+	^ self classSide includesSelector: #isAbstractTag
+]
+
 { #category : #accessing }
 CynBaseRestApiService class >> installInstanceMethod: aCompiledMethod [
 
@@ -50,6 +58,13 @@ CynBaseRestApiService class >> installInstanceMethod: aCompiledMethod [
 	CpNodeJSRestEndpointOperation registerOperation: operation.
 
 	self traceCr: 'Updated endpoint operation: ', operation printString
+]
+
+{ #category : #testing }
+CynBaseRestApiService class >> isAbstractTag [
+
+	"The method is present to indicate the receiver is abstract.
+	This method will NOT be evaluated to decide if the receiver is abstract."
 ]
 
 { #category : #testing }
@@ -99,6 +114,17 @@ CynBaseRestApiService class >> operationFor: aCompiledMethod [
 		ifNotNil: [ ^ operation ].
 
 	self error: 'Not implemented yet'
+]
+
+{ #category : #'class initialization' }
+CynBaseRestApiService class >> postInstall [
+
+	"Start the server once installed"
+
+	super postInstall.
+
+	self hasAbstractTag
+		ifFalse: [ CpGlobalThis defer: [ self startServer ] ]
 ]
 
 { #category : #'class initialization' }
