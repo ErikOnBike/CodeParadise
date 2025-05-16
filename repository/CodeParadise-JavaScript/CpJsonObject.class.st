@@ -328,16 +328,11 @@ CpJsonObject >> initializeWithWrappedDictionary: aDictionary [
 CpJsonObject >> isStructuralElement: anObject [
 
 	"Answer whether the specified Object is a structural element
-	which can contain other elements.
+	which can contain other elements"
 
-	Implementation:
-	Because the tiny image lacks different methods like #isCollection
-	and #isDictionary, an old fashioned match on class is performed."
-
-	^ anObject class = CpJsonObject or: [
-		anObject isArray or: [
-			anObject class = Dictionary or: [
-				anObject class = OrderedDictionary ] ] ]
+	^ anObject class = CpJsonObject
+		or: [ anObject isArray
+			or: [ anObject isDictionary ] ]
 ]
 
 { #category : #private }
