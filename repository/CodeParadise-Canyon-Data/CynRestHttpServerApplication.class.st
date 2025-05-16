@@ -26,7 +26,7 @@ CynRestHttpServerApplication >> extensionMethodCategories [
 	"Answer the collection of extension method categories needed for the receiver"
 
 	^ super extensionMethodCategories,
-		#(canyonModelExtension)
+		#(restApplicationExtension canyonModelExtension)
 ]
 
 { #category : #actions }
