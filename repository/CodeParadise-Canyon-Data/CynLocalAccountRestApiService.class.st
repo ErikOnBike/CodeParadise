@@ -120,32 +120,6 @@ CynLocalAccountRestApiService >> activationTokenMailMessageWith: aString [
 		yourself
 ]
 
-{ #category : #API }
-CynLocalAccountRestApiService >> addAccount: aRestRequest response: aServerResponse [
-
-	"Add a new Account to the Accounts collection.
-
-	Implementation:
-	Always answer empty result, so wrong-doer can't conclude account exists based on result."
-
-	<post: '/api/accounts'>
-	<public>
-
-	| body account |
-
-	body := (aRestRequest jsonBody) ifNil: [ self errorNoBody ].
-	account := self extractNewObject: CynRegisterAccount fromBody: body.
-
-	"If this Account exists, but is not activated, send new activation token,
-	otherwise try to create new account (could fail if on exists, but that is
-	handled in #newAccount:)."
-	(self isNonActivatedAccount: account)
-		ifTrue: [ self addActivationTokenToAccount: account ]
-		ifFalse: [ self createAccount: account ].
-
-	self sendEmptyResponse: aServerResponse
-]
-
 { #category : #'API - accounts' }
 CynLocalAccountRestApiService >> addActivationTokenToAccount: anAccount [
 
@@ -205,6 +179,32 @@ CynLocalAccountRestApiService >> createAccount: account [
 		^ self ].
 
 	self createActivationTokenForAccount: account
+]
+
+{ #category : #API }
+CynLocalAccountRestApiService >> createAccount: aRestRequest response: aServerResponse [
+
+	"Add a new Account to the Accounts collection.
+
+	Implementation:
+	Always answer empty result, so wrong-doer can't conclude account exists based on result."
+
+	<post: '/api/accounts'>
+	<public>
+
+	| body account |
+
+	body := (aRestRequest jsonBody) ifNil: [ self errorNoBody ].
+	account := self extractNewObject: CynRegisterAccount fromBody: body.
+
+	"If this Account exists, but is not activated, send new activation token,
+	otherwise try to create new account (could fail if on exists, but that is
+	handled in #newAccount:)."
+	(self isNonActivatedAccount: account)
+		ifTrue: [ self addActivationTokenToAccount: account ]
+		ifFalse: [ self createAccount: account ].
+
+	self sendEmptyResponse: aServerResponse
 ]
 
 { #category : #'API - accounts' }
