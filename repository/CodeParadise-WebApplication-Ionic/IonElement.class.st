@@ -34,6 +34,21 @@ IonElement class >> importThemesPath [
 	^ self importBasePath, '/css/ionic.bundle.css'
 ]
 
+{ #category : #testing }
+IonElement class >> isAbstractTag [
+
+	"The method is present to indicate the receiver is abstract.
+	This method will NOT be evaluated to decide if the receiver is abstract."
+]
+
+{ #category : #testing }
+IonElement class >> isThirdPartyElement [
+
+	"Answer the fact that the receiver is a third party WebComponent"
+
+	^ true
+]
+
 { #category : #'class initialization' }
 IonElement class >> loadLibrary [
 

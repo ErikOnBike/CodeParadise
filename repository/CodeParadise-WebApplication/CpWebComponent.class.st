@@ -85,6 +85,16 @@ CpWebComponent class >> isRegistered: aString [
 
 ]
 
+{ #category : #testing }
+CpWebComponent class >> isThirdPartyElement [
+
+	"Answer whether the receiver is a third party WebComponent.
+
+	Third party elements don't need a JS constructor (they are provided by the third party library)."
+
+	^ false
+]
+
 { #category : #accessing }
 CpWebComponent class >> last [
 
@@ -129,23 +139,47 @@ CpWebComponent class >> postInstall [
 	"Register the receiver as a WebComponent in the web browser.
 
 	Implementation:
+	During registration a Boolean is provided to indicate whether a
+	specific #initialize method is present. This is done to prevent too
+	many calls to an 'empty' initialize method. This initialization is
+	used when creating instances explicitly in a template or when using
+	#markupContent: to create instances through HTML code.
+	For third party elements, this mechanism can't be installed because
+	we lack access to the elements internals (in general).
 	First perform the registration, then proceed with calling super's
 	implementation. This ensures that when #postInstallOnce is executed
 	the receiver is already registered."
 
-	self register.
+	| hasInitialize |
+
+	self hasAbstractTag
+		ifFalse: [
+
+			"The #initialize method is first present on the Object class in the tiny image"
+			hasInitialize := (self instanceSide lookupSelector: #initialize) methodClass ~= Object.
+
+			self registerWithInitialize: hasInitialize thirdParty: self isThirdPartyElement ].
 
 	super postInstall
 ]
 
 { #category : #primitives }
-CpWebComponent class >> register [
+CpWebComponent class >> registerWithInitialize: initializeBoolean thirdParty: thirdPartyBoolean [
 
-	"Register the receiver as a WebComponent class"
+	"Register the receiver as a WebComponent class
+	with a Boolean indicating whether the receiver (instances)
+	require initialization. This is 'needed' to prevent too many
+	calls to an initialization method which does nothing (i.e. the
+	default Object >> #initialize).
+	The second Boolean provided indicates whether the receiver is from
+	a third party library, in which case JS WebComponents do NOT need
+	be created, because it is done by the library itself. Also there is
+	no generic way to handle #initialize on such objects. It will be
+	called when instantiating component specifically, but not when they
+	are part of a template."
 
-	<primitive: 'primitiveWebComponentRegister' module: 'CpDOMPlugin'>
+	<primitive: 'primitiveWebComponentRegisterWithInitialize:thirdParty:' module: 'CpDOMPlugin'>
 	self primitiveFailed
-
 ]
 
 { #category : #accessing }

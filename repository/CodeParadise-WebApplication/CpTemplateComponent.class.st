@@ -75,22 +75,6 @@ CpTemplateComponent class >> isAbstractTag [
 	This method will NOT be evaluated to decide if the receiver is abstract."
 ]
 
-{ #category : #'class initialization' }
-CpTemplateComponent class >> register [
-
-
-	"Register the receiver as a WebComponent class (with own style and template)
-	and then install style and template"
-
-	super register.
-
-	self registerStyleAndTemplate.
-
-	self
-		installStyle: self style andTemplate: self template ;
-		installGlobalStyle
-]
-
 { #category : #primitives }
 CpTemplateComponent class >> registerStyleAndTemplate [
 
@@ -99,6 +83,19 @@ CpTemplateComponent class >> registerStyleAndTemplate [
 	<primitive: 'primitiveTemplateComponentRegisterStyleAndTemplate' module: 'CpDOMPlugin'>
 	self primitiveFailed
 
+]
+
+{ #category : #'class initialization' }
+CpTemplateComponent class >> registerWithInitialize: initializeBoolean thirdParty: thirdPartyBoolean [
+
+	"Register the receiver as a WebComponent class (with own style and template)
+	and then install style and template"
+
+	super registerWithInitialize: initializeBoolean thirdParty: thirdPartyBoolean.
+
+	self
+		installStyle: self style andTemplate: self template ;
+		installGlobalStyle
 ]
 
 { #category : #updating }

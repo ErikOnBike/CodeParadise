@@ -105,6 +105,14 @@ SlElement class >> isAbstractTag [
 	This method will NOT be evaluated to decide if the receiver is abstract."
 ]
 
+{ #category : #testing }
+SlElement class >> isThirdPartyElement [
+
+	"Answer the fact that the receiver is a third party WebComponent"
+
+	^ true
+]
+
 { #category : #'class initialization' }
 SlElement class >> loadComponent [
 
