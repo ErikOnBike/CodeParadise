@@ -166,25 +166,6 @@ html {
 	width: 100%;
 	height: 100%;
 }
-body {
-	width: 100%;
-	max-width: 100%;
-	height: 100%;
-	max-height: 100%;
-	transform: translateZ(0);
-	margin: 0;
-	padding: 0;
-	overflow: hidden;
-	overscroll-behavior-y: none;
-	-webkit-font-smoothing: antialiased;
-	text-rendering: optimizeLegibility;
-	text-size-adjust: none;
-	-webkit-text-size-adjust: none;
-	-moz-text-size-adjust: none;
-	touch-action: manipulation;
-	-webkit-user-drag: none;
-	-ms-content-zooming: none;
-}
 #app {
 	height: 100%;
 }
