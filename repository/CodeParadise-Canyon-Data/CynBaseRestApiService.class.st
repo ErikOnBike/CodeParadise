@@ -316,6 +316,12 @@ CynBaseRestApiService >> errorNoBody [
 ]
 
 { #category : #errors }
+CynBaseRestApiService >> errorUnauthorized [
+
+	CpNodeJSRestForbiddenError signal: 'Unauthorized operation in REST request'
+]
+
+{ #category : #errors }
 CynBaseRestApiService >> errorUnexpectedInput: aString [
 
 	CpNodeJSRestBadRequestError signal: 'Unexpected field in REST request: ', aString

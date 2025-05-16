@@ -400,7 +400,7 @@ CynLocalAccountRestApiService >> login: aRestRequest response: aServerResponse [
 	aServerResponse appendHeaderWithName: #'cp-access-token' value: accessToken.
 
 	"Send response to indicate success"
-	self send: { #success -> true . #settings -> (storedAccount at: #settings) } asDictionary response: aServerResponse
+	self send: { #success -> true . #settings -> (CpJavaScriptJSON parse: (storedAccount at: #settings)) } asDictionary response: aServerResponse
 ]
 
 { #category : #'API - support' }
@@ -465,6 +465,66 @@ CynLocalAccountRestApiService >> sessionExpirationDuration [
 	By default this is 30 minutes."
 
 	^ (config at: #sessionExpirationDuration) ifNil: [ 1800 ]
+]
+
+{ #category : #'API - settings' }
+CynLocalAccountRestApiService >> updateSettings: aDictionary forAccountId: aString [
+
+	| settings |
+
+	modelDatabase performInTransaction: [
+		| accountInfo |
+
+		"Read settings"
+		accountInfo := modelDatabase
+			selectOne: #getSettings
+			statement: 'SELECT settings, updatedAt FROM accounts WHERE accountId=:accountId'
+			bind: {
+				#accountId -> aString } asDictionary.
+
+		settings := [ CpJavaScriptJSON parse: (accountInfo at: #settings) ] on: Error do: [ :error |
+			self errorCr: 'Failed to parse account settings ', error printString.
+			self traceCr: 'Settings: ', (accountInfo at: #settings) printString.
+
+			"Start with empty settings"
+			Dictionary new ].
+
+		"Update settings"
+		aDictionary keysAndValuesDo: [ :key :value |
+			value
+				ifNotNil: [ settings at: key put: value ]
+				ifNil: [ settings removeKey: key ifAbsent: [ "ignore" ] ] ].
+
+		"Write settings"
+		modelDatabase
+			performOne: #updateSettings
+			statement: 'UPDATE accounts SET settings=:settings WHERE accountId=:accountId AND updatedAt=:updatedAt'
+			bind: {
+				#settings -> (CpJavaScriptJSON stringify: settings).
+				#accountId -> aString.
+				#updatedAt -> (accountInfo at: #updatedAt) } asDictionary ].
+
+	^ settings
+]
+
+{ #category : #API }
+CynLocalAccountRestApiService >> updateSettings: aRestRequest response: aServerResponse [
+
+	"Patch the settings using the following mechanism:
+		fields which are non-nil are set to their specified value.
+		fields which are nil are removed."
+
+	<patch: '/api/account/:id/settings'>
+
+	| settings accountId |
+
+	settings := (aRestRequest jsonBody) ifNil: [ self errorNoBody ].
+	accountId := aRestRequest pathParameterAt: #id.
+
+	(accountId = aRestRequest accountId or: [ self isAdminAccount: aRestRequest accountId ])
+		ifFalse: [ ^ self errorUnauthorized ].
+
+	self send: (self updateSettings: settings forAccountId: accountId) response: aServerResponse
 ]
 
 { #category : #'API - authorization' }
