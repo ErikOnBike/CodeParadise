@@ -1092,10 +1092,17 @@ CpDomElement >> replaceChildAtIndex: anInteger with: replacementElement [
 { #category : #'adding/removing' }
 CpDomElement >> replaceWith: anElement [
 
-	"Replace the receiver (within its parent) with the specified Element"
+	"Replace the receiver (within its parent) with the specified Element.
 
-	^ self parent
-		replaceChild: self with: anElement
+	In contrast with using #replaceChild:with: this method will keep
+	any text elements surrounding the receiver and can therefore be
+	used in variants like <p>My text <b>replace me!</b> more text</p>.
+	CodeParadise works on Elements (not Nodes) and therefore can't
+	handle the mentioned situation in most cases. This method makes it
+	possible to work with both."
+
+	<primitive: 'primitiveDomElementReplaceWith:' module: 'CpDOMPlugin'>
+	self primitiveFailed
 ]
 
 { #category : #'event handling' }
