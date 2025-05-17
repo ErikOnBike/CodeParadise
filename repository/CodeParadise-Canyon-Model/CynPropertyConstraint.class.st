@@ -85,7 +85,7 @@ CynPropertyConstraint >> isValidValue: anObject [
 	If this condition (a Block) does NOT take a nil model into
 	account, calling it will raise an error."
 
-	self isValidValue: anObject in: nil
+	^ self isValidValue: anObject in: nil
 ]
 
 { #category : #testing }
