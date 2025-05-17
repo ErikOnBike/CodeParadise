@@ -400,6 +400,19 @@ CynPropertyModel >> isValidPropertyAt: aSymbol [
 	^ true
 ]
 
+{ #category : #testing }
+CynPropertyModel >> isValidValue: anObject forPropertyAt: aSymbol [
+
+	"Answer whether the specified value would be valid for the property specified.
+	This method will IGNORE any conditional constraints."
+
+	self propertyConstraintsAt: aSymbol do: [ :each |
+		(each isValidValue: anObject in: self)
+			ifFalse: [ ^ false ] ].
+
+	^ true
+]
+
 { #category : #'accessing - dictionary access' }
 CynPropertyModel >> keys [
 
