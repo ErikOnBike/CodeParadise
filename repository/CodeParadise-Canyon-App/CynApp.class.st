@@ -337,16 +337,16 @@ CynApp >> defaultToastDuration [
 CynApp >> errorForbidden [
 
 	self
-		showAlertTitle: (CynPropertyEntity text: #'app.server.forbidden.title')
-		message: (CynPropertyEntity text: #'app.server.forbidden.message')
+		showAlertTitle: #'app.server.forbidden.title' langText
+		message: #'app.server.forbidden.message' langText
 ]
 
 { #category : #'error handling' }
 CynApp >> errorInternalServerError: anError [
 
 	self
-		showAlertTitle: (CynPropertyEntity text: #'app.server.internalError.title')
-		message: (CynPropertyEntity text: #'app.server.internalError.message').
+		showAlertTitle: #'app.server.internalError.title' langText
+		message: #'app.server.internalError.message' langText.
 
 	self class
 		ifDevelopment: [ self errorCr: anError printString ]
@@ -356,8 +356,8 @@ CynApp >> errorInternalServerError: anError [
 CynApp >> errorServerNotAvailable [
 
 	self
-		showAlertTitle: (CynPropertyEntity text: #'app.server.unavailable.title')
-		message: (CynPropertyEntity text: #'app.server.unavailable.message')
+		showAlertTitle: #'app.server.unavailable.title' langText
+		message: #'app.server.unavailable.message' langText
 ]
 
 { #category : #'event handling' }
@@ -724,7 +724,7 @@ CynApp >> menuTitle [
 
 	"Answer the title of the menu (from the language resource)"
 
-	^ CynPropertyEntity text: #'app.menu.title'
+	^ #'app.menu.title' langText
 ]
 
 { #category : #actions }
@@ -867,10 +867,10 @@ CynApp >> selectOption: titleString message: messageString from: aCollection [
 		header: titleString ;
 		buttons: {
 			{
-				#text -> (CynPropertyEntity text: #'app.cancel').
+				#text -> #'app.cancel' langText.
 				#role -> #cancel } asDictionary.
 			{
-				#text -> (CynPropertyEntity text: #'app.ok').
+				#text -> #'app.ok' langText.
 				#role -> #confirm } asDictionary } ;
 		yourself).
 

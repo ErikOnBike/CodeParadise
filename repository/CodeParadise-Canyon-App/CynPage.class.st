@@ -128,7 +128,7 @@ CynPage >> closeModalPage [
 	"Close the receiver.
 	Assume it is shown in a Modal view and is the active view."
 
-	| modal nav |
+	| modal nav previousPage |
 
 	modal := self modal.
 	nav := modal firstChild.
@@ -140,9 +140,13 @@ CynPage >> closeModalPage [
 		ifFalse: [ ^ self ].
 
 	"Close the page if more pages available, otherwise close the Modal"
+	(previousPage := self previousPage)
+		ifNotNil: [ previousPage updateBeforeNavigate ].
 	nav children size > 1
 		ifTrue: [ nav pop await ]
-		ifFalse: [ modal dismiss await ]
+		ifFalse: [ modal dismiss await ].
+	previousPage ifNotNil: [
+		previousPage updateAfterNavigate ]
 ]
 
 { #category : #'view - customization' }
