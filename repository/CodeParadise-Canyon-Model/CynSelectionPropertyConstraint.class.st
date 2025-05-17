@@ -46,7 +46,7 @@ CynSelectionPropertyConstraint >> selection [
 ]
 
 { #category : #validating }
-CynSelectionPropertyConstraint >> violationsIn: aString do: aBlock [
+CynSelectionPropertyConstraint >> violationsForValue: aString in: aModel do: aBlock [
 
 	"Validate the provided String is part of the selection"
 

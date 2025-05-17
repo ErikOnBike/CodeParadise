@@ -16,7 +16,7 @@ CynEmailPropertyConstraint >> normalize: aString [
 ]
 
 { #category : #validating }
-CynEmailPropertyConstraint >> violationsIn: aString do: aBlock [
+CynEmailPropertyConstraint >> violationsForValue: aString in: aModel do: aBlock [
 
 	"Validate the provided String as email"
 

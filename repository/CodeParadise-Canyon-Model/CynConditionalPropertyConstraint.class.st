@@ -45,10 +45,16 @@ CynConditionalPropertyConstraint >> initializeWithCondition: aBlock constraint: 
 	constraint := aPropertyConstraint
 ]
 
-{ #category : #exceptions }
-CynConditionalPropertyConstraint >> isValid: anObject [
+{ #category : #testing }
+CynConditionalPropertyConstraint >> isConditional [
 
-	self error: 'Do not use #isValid: on a conditional constraint'
+	^ true
+]
+
+{ #category : #validating }
+CynConditionalPropertyConstraint >> isValidValue: anObject [
+
+	self error: 'Do not use #isValidValue: on a conditional constraint, please use #isValidValue:in:'
 ]
 
 { #category : #accessing }
@@ -64,18 +70,9 @@ CynConditionalPropertyConstraint >> normalizeProperty: aSymbol in: aModel [
 		ifTrue: [ constraint normalizeProperty: aSymbol in: aModel ]
 ]
 
-{ #category : #accessing }
-CynConditionalPropertyConstraint >> violationsForProperty: aSymbol in: aModel do: aBlock [
-
-	"Evaluate the specified Block for each violation in the specified value.
-	The Block will receive a Symbol or CynTextReference representing the violation."
+{ #category : #validating }
+CynConditionalPropertyConstraint >> violationsForValue: anObject in: aModel do: aBlock [
 
 	(condition value: aModel)
-		ifTrue: [ constraint violationsForProperty: aSymbol in: aModel do: aBlock ]
-]
-
-{ #category : #exceptions }
-CynConditionalPropertyConstraint >> violationsIn: anObject do: aBlock [
-
-	self error: 'Do not use #violationsIn:do: on a conditional constraint'
+		ifTrue: [ constraint violationsForValue: anObject in: aModel do: aBlock ]
 ]

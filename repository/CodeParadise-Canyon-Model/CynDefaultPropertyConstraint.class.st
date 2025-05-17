@@ -49,13 +49,23 @@ CynDefaultPropertyConstraint class >> default [
 ]
 
 { #category : #validating }
-CynDefaultPropertyConstraint class >> isValid: anObject [
+CynDefaultPropertyConstraint class >> isValidValue: anObject [
 
 	"Answer whether the specified value is valid using the default instance.
 	The specified value is normalized before validation."
 
 	^ self default
-		isValid: anObject
+		isValidValue: anObject
+]
+
+{ #category : #validating }
+CynDefaultPropertyConstraint class >> isValidValue: anObject in: aModel [
+
+	"Answer whether the specified value is valid using the default instance.
+	The specified value is normalized before validation."
+
+	^ self default
+		isValidValue: anObject in: aModel
 ]
 
 { #category : #'instance creation' }
@@ -73,13 +83,13 @@ CynDefaultPropertyConstraint class >> reset [
 ]
 
 { #category : #validating }
-CynDefaultPropertyConstraint class >> violationsIn: anObject do: aBlock [
+CynDefaultPropertyConstraint class >> violationsForValue: anObject in: aModel do: aBlock [
 
 	"Validate the provided value using the default instance and
 	evaluate the specified Block for each violation"
 
 	self default
-		violationsIn: anObject do: aBlock
+		violationsForValue: anObject in: aModel do: aBlock
 ]
 
 { #category : #accessing }

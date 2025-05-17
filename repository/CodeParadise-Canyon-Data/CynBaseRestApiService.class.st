@@ -338,7 +338,7 @@ CynBaseRestApiService >> extractIdsFromBody: aCollection [
 
 	"Validate only ids are present"
 	idConstraint := CynIdPropertyConstraint default.
-	(aCollection allSatisfy: [ : each | idConstraint isValid: each ])
+	(aCollection allSatisfy: [ : each | idConstraint isValidValue: each ])
 		ifFalse: [ self errorInvalidIdCollection ].
 
 	^ aCollection

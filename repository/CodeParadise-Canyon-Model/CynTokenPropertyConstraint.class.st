@@ -16,7 +16,7 @@ CynTokenPropertyConstraint >> normalize: aString [
 ]
 
 { #category : #validating }
-CynTokenPropertyConstraint >> violationsIn: aString do: aBlock [
+CynTokenPropertyConstraint >> violationsForValue: aString in: aModel do: aBlock [
 
 	"Validate the provided String as token"
 

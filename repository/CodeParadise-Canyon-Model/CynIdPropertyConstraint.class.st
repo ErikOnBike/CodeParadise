@@ -5,7 +5,7 @@ Class {
 }
 
 { #category : #validating }
-CynIdPropertyConstraint >> violationsIn: aString do: aBlock [
+CynIdPropertyConstraint >> violationsForValue: aString in: aModel do: aBlock [
 
 	"Validate the provided String as token"
 

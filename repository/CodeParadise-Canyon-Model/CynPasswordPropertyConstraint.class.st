@@ -11,7 +11,7 @@ CynPasswordPropertyConstraint >> minimumLength [
 ]
 
 { #category : #validating }
-CynPasswordPropertyConstraint >> violationsIn: aString do: aBlock [
+CynPasswordPropertyConstraint >> violationsForValue: aString in: aModel do: aBlock [
 
 	"Validate the provided String as password"
 

@@ -83,7 +83,7 @@ CynLengthPropertyConstraint >> normalize: aString [
 ]
 
 { #category : #validating }
-CynLengthPropertyConstraint >> violationsIn: aString do: aBlock [
+CynLengthPropertyConstraint >> violationsForValue: aString in: aModel do: aBlock [
 
 	"Validate the provided String is within the receiver's length boundaries"
 

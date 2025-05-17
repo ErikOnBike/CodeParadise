@@ -539,7 +539,7 @@ CynLocalAccountRestApiService >> validateAuthorizedRequest: aRestRequest [
 		ifNotNil: [ :header | header withoutPrefix: 'Bearer ' ]
 		ifNil: [ CpNodeJSRestForbiddenError signal ].
 
-	(CynTokenPropertyConstraint isValid: accessToken)
+	(CynTokenPropertyConstraint isValidValue: accessToken)
 		ifFalse: [ CpNodeJSRestForbiddenError signal ].
 
 	"Find the session for this access token (which has an active account attached)"

@@ -313,7 +313,7 @@ CynRestApiClient >> setAccessToken: aString [
 	It might be nil to indicating the previous value has expired."
 
 	"Validate the access token is usable (might be empty to specify it is expired)"
-	(aString isNotNil and: [ (CynTokenPropertyConstraint isValid: aString) not ])
+	(aString isNotNil and: [ (CynTokenPropertyConstraint isValidValue: aString) not ])
 		ifTrue: [
 			self warnCr: 'Received invalid acccess token from the server (ignoring it): ', aString.
 			^ self ].

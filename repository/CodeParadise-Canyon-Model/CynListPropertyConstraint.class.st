@@ -61,7 +61,7 @@ CynListPropertyConstraint >> initializeWithPropertyConstraint: aPropertyConstrai
 ]
 
 { #category : #validating }
-CynListPropertyConstraint >> violationsIn: aString do: aBlock [
+CynListPropertyConstraint >> violationsForValue: aString in: aModel do: aBlock [
 
 	"Validate the provided String is a list and each element validates against the receiver's elementPropertyConstraint"
 
@@ -97,7 +97,7 @@ CynListPropertyConstraint >> violationsIn: aString do: aBlock [
 		ifTrue: [ ^ aBlock value: #'constraint.list.separator.double' ].
 
 	(aString findTokens: ',') withIndexDo: [ :each :index |
-		elementPropertyConstraint violationsIn: each do: [ :violation |
+		elementPropertyConstraint violationsForValue: each in: aModel do: [ :violation |
 			aBlock value: (CynTextReference key: #'constraint.list.element' format: {
 				#index -> index.
 				#violation -> violation asTextReference } asDictionary) ] ]
