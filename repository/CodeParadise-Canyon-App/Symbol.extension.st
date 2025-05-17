@@ -5,5 +5,7 @@ Symbol >> langText [
 
 	"Answer the language specific text for the receiver"
 
+	<canyonApplicationExtension>
+
 	^ CynPropertyEntity text: self
 ]
