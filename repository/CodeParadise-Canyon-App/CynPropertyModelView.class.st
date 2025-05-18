@@ -100,10 +100,13 @@ CynPropertyModelView >> isDirtyProperty: aSymbol [
 { #category : #accessing }
 CynPropertyModelView >> model: aModel [
 
-	super model: aModel.
+	"Work with a copy of the specified Model.
+	This allows to recognize changes and prevents updating the 'original'
+	until done."
 
-	"Keep a copy of the specified Model to be able to recognize changes"
-	originalModel := aModel copy
+	originalModel := aModel.
+
+	super model: aModel copy
 ]
 
 { #category : #'validating - private' }
@@ -139,6 +142,14 @@ CynPropertyModelView >> propertiesForValidation [
 	"Answer the collection of properties which should be considered during validation of the receiver's model"
 
 	^ self boundProperties
+]
+
+{ #category : #accessing }
+CynPropertyModelView >> updateModel [
+
+	"Merge the copied model into the original"
+
+	originalModel merge: model
 ]
 
 { #category : #validating }
