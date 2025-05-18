@@ -58,6 +58,16 @@ CynPropertyModel >> labelFor: propertySymbol selection: selectionSymbol [
 ]
 
 { #category : #'*CodeParadise-Canyon-App' }
+CynPropertyModel class >> shortName [
+
+	"Answer the short name for the receiver.
+
+	This short name is used (among others) in multi language keys."
+
+	^ self nameWithoutPrefix uncapitalized
+]
+
+{ #category : #'*CodeParadise-Canyon-App' }
 CynPropertyModel class >> text: aSymbol [
 
 	"Answer the text for the specified Symbol.
@@ -89,7 +99,7 @@ CynPropertyModel class >> textAspect: aString at: aSymbol [
 			nextPutAll: 'app.' ;
 			nextPutAll: aString ;
 			nextPut: $. ;
-			nextPutAll: (self nameWithoutPrefix uncapitalized) ;
+			nextPutAll: self shortName ;
 			nextPut: $. ;
 			nextPutAll: aSymbol ]) asSymbol.
 
