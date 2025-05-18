@@ -87,7 +87,8 @@ CynPage >> canNavigateBack [
 		each canNavigateBack
 			ifFalse: [ ^ false ] ].
 
-	^ true
+	"We cannot navigate before the root element in a regular page (but always in a Modal)"
+	^ self isShownInModal or: [ self hasPreviousPage ]
 ]
 
 { #category : #accessing }
@@ -157,6 +158,12 @@ CynPage >> documentTitleFrom: aString [
 	might add some pre- or postfix for a more meaningful name."
 
 	^ aString
+]
+
+{ #category : #testing }
+CynPage >> hasPreviousPage [
+
+	^ self previousPage isNotNil
 ]
 
 { #category : #initialization }
