@@ -1070,7 +1070,7 @@ modal previousSibling ifNotNil: [ :anotherModal |
 			ifTrue: [
 				anotherNav firstChild ifNotNil: [ :anotherView |
 					anotherView class = view class
-						ifTrue: [ anotherModal destroy. self warnCr: 'Got ya!'  ] ] ] ] ] ].
+						ifTrue: [ anotherModal destroy. self warnCr: 'Got ya! Removing duplicate Modal. Temporary fix.'  ] ] ] ] ] ].
 
 	"Wait for it to close"
 	result := modal onDidDismiss await.
