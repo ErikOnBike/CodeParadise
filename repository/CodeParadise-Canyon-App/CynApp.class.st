@@ -325,6 +325,74 @@ CynApp >> closePage: aPage [
 		ifFalse: [ aPage destroy ]
 ]
 
+{ #category : #actions }
+CynApp >> confirm: titleString action: actionString [
+
+	^ self
+		confirm: titleString
+		action: actionString
+		cancel: #'app.action.button.cancel' langText
+		onConfirm: nil
+]
+
+{ #category : #actions }
+CynApp >> confirm: titleString action: actionString cancel: cancelString [
+
+	^ self
+		confirm: titleString
+		action: actionString
+		cancel: cancelString
+		onConfirm: nil
+]
+
+{ #category : #actions }
+CynApp >> confirm: titleString action: actionString cancel: cancelString onConfirm: aBlock [
+
+	"Ask the user for confirmation.
+	A title, an action and a cancel option are shown.
+	An optional confirmation Block can be specified which will be evaluated before answering
+	(leaving the confirmation visible)."
+
+	| action |
+
+	action := self
+		selectAction: titleString from: {
+			IonActionSheetButton new
+				text: actionString ;
+				yourself.
+			IonActionSheetButton new
+				text: cancelString ;
+				role: #cancel ;
+				yourself }.
+
+	"Cancelled by either cancel or backdrop"
+	action role = #cancel
+		ifTrue: [ ^ false ].
+
+	"Evaluate the confirmation Block (if present).
+	If an error occurs within the confirmation Block, the confirmation will
+	answer false."
+	aBlock ifNotNil: [
+		[
+			[ aBlock value ] on: CynCancelOperation do: [ ^ false ]
+		] on: Error do: [ :error |
+			self errorCr: 'Failure during confirmation operation: ', error printString.
+			^ false
+		] ].
+
+	^ true
+]
+
+{ #category : #actions }
+CynApp >> confirm: titleString action: actionString onConfirm: aBlock [
+
+	^ self
+		confirm: titleString
+		action: actionString
+		cancel: #'app.action.button.cancel' langText
+		onConfirm: aBlock
+]
+
 { #category : #accessing }
 CynApp >> defaultToastDuration [
 
