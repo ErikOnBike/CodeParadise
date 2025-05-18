@@ -49,10 +49,14 @@ CynApp class >> beLoaded [
 	(This is not a complete list, other classes are referenced in the code directly)"
 
 	CpBrowserCustomElementRegistry beLoaded.
+	IonButton beLoaded.
+	IonButtons beLoaded.
 	IonInput beLoaded.
 	IonInputPasswordToggle beLoaded.
+	IonItem beLoaded.
 	IonList beLoaded.
 	IonMenuButton beLoaded.
+	IonModal beLoaded.
 	IonSearchbar beLoaded.
 	IonSelect beLoaded.
 	IonSelectOption beLoaded.
@@ -60,7 +64,8 @@ CynApp class >> beLoaded [
 	IonTabBar beLoaded.
 	IonTabs beLoaded.
 	IonTextarea beLoaded.
-	IonToggle beLoaded
+	IonToggle beLoaded.
+	IonToolbar beLoaded
 ]
 
 { #category : #'accessing - text' }
