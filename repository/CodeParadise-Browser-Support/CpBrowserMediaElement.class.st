@@ -17,6 +17,38 @@ CpBrowserMediaElement class >> domElement: aDomElement [
 	^ self wrap: aDomElement
 ]
 
+{ #category : #accessing }
+CpBrowserMediaElement >> currentTime [
+
+	"A double-precision floating-point value indicating the current playback time in seconds; if the media has not started to play and has not been seeked, this value is the media's initial playback time. Setting this value seeks the media to the new time. The time is specified relative to the media's timeline."
+
+	^ self propertyAt: #currentTime
+]
+
+{ #category : #accessing }
+CpBrowserMediaElement >> duration [
+
+	"A read-only double-precision floating-point value indicating the total duration of the media in seconds. If no media data is available, the returned value is NaN. If the media is of indefinite length (such as streamed live media, a WebRTC call's media, or similar), the value is +Infinity."
+
+	^ self propertyAt: #duration
+]
+
+{ #category : #accessing }
+CpBrowserMediaElement >> loop [
+
+	"A boolean that reflects the loop HTML attribute, which indicates whether the media element should start over when it reaches the end."
+
+	^ self propertyAt: #loop
+]
+
+{ #category : #accessing }
+CpBrowserMediaElement >> loop: aBoolean [
+
+	"A boolean that reflects the loop HTML attribute, which indicates whether the media element should start over when it reaches the end."
+
+	self propertyAt: #loop put: aBoolean
+]
+
 { #category : #'event handling' }
 CpBrowserMediaElement >> onPlayDo: aBlock [
 
@@ -29,11 +61,19 @@ CpBrowserMediaElement >> onPlayDo: aBlock [
 ]
 
 { #category : #operations }
-CpBrowserMediaElement >> plause [
+CpBrowserMediaElement >> pause [
 
 	"Pauses the media playback."
 
 	self apply: #pause
+]
+
+{ #category : #accessing }
+CpBrowserMediaElement >> paused [
+
+	"Returns a boolean that indicates whether the media element is paused."
+
+	^ self propertyAt: #paused
 ]
 
 { #category : #operations }
