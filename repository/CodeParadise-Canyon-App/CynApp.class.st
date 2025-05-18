@@ -112,18 +112,22 @@ CynApp class >> defaultAppTexts [
 		at: #'app.ok' put: 'OK' ;
 		at: #'app.cancel' put: 'Cancel' ;
 		at: #'app.server.internalError.title' put: 'Oops, something went wrong' ;
-		at: #'app.server.internalError.message' put: 'The computer where the data is stored, is not working correctly. The maintainer is informed. You could try it again shortly, just in case. We''ll try to fix this as soon as possible.' ;
+		at: #'app.server.internalError.message' put: 'The computer where the entry is stored, is not working correctly. The maintainer is informed. You could try it again shortly, just in case. We''ll try to fix this as soon as possible.' ;
 		at: #'app.server.unavailable.title' put: 'Oops, something went wrong' ;
 		at: #'app.server.unavailable.message' put: 'The computer where the data is stored, is not available at the moment. It should quickly be up again. Please try again in a minute.' ;
 		at: #'app.server.forbidden.title' put: 'Oops, something went wrong' ;
-		at: #'app.server.forbidden.message' put: 'The computer where the data is stored, says you''re not allowed to use or update the data. The maintainer is informed. We''ll try to fix this as soon as possible.' ;
+		at: #'app.server.forbidden.message' put: 'The computer where the data is stored, says you''re not allowed to use or update the entry. The maintainer is informed. We''ll try to fix this as soon as possible.' ;
 		at: #'app.menu.title' put: 'Menu' ;
-		at: #'app.label.account.email' put: 'email' ;
-		at: #'app.label.account.password' put: 'password' ;
-		at: #'app.label.account.token' put: 'code' ;
+		at: #'app.label.account.email' put: 'E-mail' ;
+		at: #'app.label.account.password' put: 'Password' ;
+		at: #'app.label.account.token' put: 'Code' ;
 		at: #'app.selection.loginAccount.expires.usage' put: 'After usage' ;
 		at: #'app.selection.loginAccount.expires.day' put: 'The next day' ;
 		at: #'app.selection.loginAccount.expires.never' put: 'Never' ;
+		at: #'app.loading.generic.new' put: 'Creating new entry...' ;
+		at: #'app.loading.generic.update' put: 'Storing changes...' ;
+		at: #'app.loading.generic.delete' put: 'Removing entry...' ;
+		at: #'app.loading.generic.read' put: 'Reading entry...' ;
 		yourself
 ]
 

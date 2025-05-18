@@ -230,12 +230,36 @@ CynModelView >> do: aBlock whileShowing: aString [
 ]
 
 { #category : #operations }
+CynModelView >> doDelete [
+
+	"Perform the write operation and answer the result.
+	In case of an error the receiver's error handler is called
+	and its result is answered."
+
+	^ [
+		self doDeleteWhileShowing: self loadingDeleteText
+	] on: Error do: [ :error | self handleError: error ]
+]
+
+{ #category : #operations }
 CynModelView >> doDeleteWhileShowing: aString [
 
 	"Delete the receiver's model while showing a message.
 	Answer the result of the delete request."
 
 	^ self do: [ self modelDelete ] whileShowing: aString
+]
+
+{ #category : #operations }
+CynModelView >> doRead [
+
+	"Perform the write operation and answer the result.
+	In case of an error the receiver's error handler is called
+	and its result is answered."
+
+	^ [
+		self doReadWhileShowing: self loadingReadText
+	] on: Error do: [ :error | self handleError: error ]
 ]
 
 { #category : #operations }
@@ -248,12 +272,38 @@ CynModelView >> doReadWhileShowing: aString [
 ]
 
 { #category : #operations }
+CynModelView >> doWrite [
+
+	"Perform the write operation and answer the result.
+	In case of an error the receiver's error handler is called
+	and its result is answered."
+
+	^ [
+		self doWriteWhileShowing: self loadingWriteText
+	] on: Error do: [ :error | self handleError: error ]
+]
+
+{ #category : #operations }
 CynModelView >> doWriteWhileShowing: aString [
 
 	"Write the receiver's model while showing a message.
 	Answer the result of the write request."
 
 	^ self do: [ self modelWrite ] whileShowing: aString
+]
+
+{ #category : #'event handling' }
+CynModelView >> handleError: anError [
+
+	"Handle the specified Error.
+	By default the Error is answered, but subclasses might override this behavior
+	if a different result of one of the doRead/Write/Delete operations is required.
+
+	Subclasses should handle specific errors, all else will be handled by the app."
+
+	self app handleUnhandledError: anError.
+
+	^ anError
 ]
 
 { #category : #'event handling' }
@@ -441,6 +491,22 @@ CynModelView >> keepSelectedTab: aTab [
 ]
 
 { #category : #accessing }
+CynModelView >> loadingDeleteText [
+
+	"Answer the text to be shown during (longer) delete operation"
+
+	^ #'app.loading.generic.delete' langText
+]
+
+{ #category : #accessing }
+CynModelView >> loadingReadText [
+
+	"Answer the text to be shown during (longer) read operation"
+
+	^ #'app.loading.generic.read' langText
+]
+
+{ #category : #accessing }
 CynModelView >> loadingTimeout [
 
 	"Answer the time (in milliseconds) the receiver waits before showing a loading
@@ -448,6 +514,16 @@ CynModelView >> loadingTimeout [
 	result in a quick succession of a loading message appearing and disappearing."
 
 	^ 750
+]
+
+{ #category : #accessing }
+CynModelView >> loadingWriteText [
+
+	"Answer the text to be shown during (longer) write operation"
+
+	^ (model isNew
+		ifTrue: [ #'app.loading.generic.new' ]
+		ifFalse: [ #'app.loading.generic.update' ]) langText
 ]
 
 { #category : #accessing }
