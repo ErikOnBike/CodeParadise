@@ -459,6 +459,13 @@ CynModelView >> modal [
 ]
 
 { #category : #accessing }
+CynModelView >> modalResult: anObject [
+
+	self page
+		modalResult: anObject
+]
+
+{ #category : #accessing }
 CynModelView >> model [
 
 	^ model

@@ -1000,6 +1000,16 @@ CynApp >> showModal: aViewClass withModel: aModel [
 ]
 
 { #category : #actions }
+CynApp >> showModal: aViewClass withModel: aModel onConfirm: aBlock [
+
+	"Show a Modal with the specified Model and perform the specified
+	Block (culled with the data from the Modal) on confirmed closing."
+
+	(self showModal: aViewClass withModel: aModel)
+		ifNotNil: [ :data | aBlock cull: data ]
+]
+
+{ #category : #actions }
 CynApp >> showPage: aPageClass withModel: aModel [
 
 	"Show the specified Page with the (optional) Model.

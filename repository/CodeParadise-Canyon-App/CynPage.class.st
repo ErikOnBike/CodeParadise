@@ -145,7 +145,10 @@ CynPage >> closeModalPage [
 		ifNotNil: [ previousPage updateBeforeNavigate ].
 	nav children size > 1
 		ifTrue: [ nav pop await ]
-		ifFalse: [ modal dismiss await ].
+		ifFalse: [
+			self modalResult
+				ifNotNil: [ :result | (modal dismiss: result role: #confirm) await ]
+				ifNil: [ modal dismiss await ] ].
 	previousPage ifNotNil: [
 		previousPage updateAfterNavigate ]
 ]
@@ -198,6 +201,24 @@ CynPage >> isWidePreferred [
 	This is only relevant on wide displays (i.e. laptops or desktops)."
 
 	^ true
+]
+
+{ #category : #accessing }
+CynPage >> modalResult [
+
+	"Answer the result of a Modal operation (or nil if no result is set yet).
+	This is used to provide a result when the receiver is closed from a Modal."
+
+	^ self propertyAt: #modalResult
+]
+
+{ #category : #accessing }
+CynPage >> modalResult: anObject [
+
+	"Store the result of a Modal operation.
+	This is used to provide a result when the receiver is closed from a Modal."
+
+	self propertyAt: #modalResult put: anObject
 ]
 
 { #category : #view }
