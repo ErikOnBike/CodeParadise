@@ -251,6 +251,20 @@ CynModelView >> doDeleteWhileShowing: aString [
 ]
 
 { #category : #operations }
+CynModelView >> doOperation: aBlock [
+
+	"Perform the operation and answer the result.
+	In case of an error the receiver's error handler is called
+	and its result is answered.
+	This is a convenience method for pages/views with a single
+	specific operation."
+
+	^ [
+		self do: aBlock whileShowing: self loadingOperationText
+	] on: Error do: [ :error | self handleError: error ]
+]
+
+{ #category : #operations }
 CynModelView >> doRead [
 
 	"Perform the write operation and answer the result.
@@ -496,6 +510,14 @@ CynModelView >> loadingDeleteText [
 	"Answer the text to be shown during (longer) delete operation"
 
 	^ #'app.loading.generic.delete' langText
+]
+
+{ #category : #accessing }
+CynModelView >> loadingOperationText [
+
+	"Answer the text to be shown during (longer) operation"
+
+	^ #'app.loading.generic.operation' langText
 ]
 
 { #category : #accessing }

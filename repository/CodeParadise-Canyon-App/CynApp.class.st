@@ -128,6 +128,7 @@ CynApp class >> defaultAppTexts [
 		at: #'app.loading.generic.update' put: 'Storing changes...' ;
 		at: #'app.loading.generic.delete' put: 'Removing entry...' ;
 		at: #'app.loading.generic.read' put: 'Reading entry...' ;
+		at: #'app.loading.generic.operation' put: 'Performing operation...' ;
 		yourself
 ]
 
