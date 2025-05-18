@@ -109,6 +109,20 @@ CynPropertyModelView >> model: aModel [
 	super model: aModel copy
 ]
 
+{ #category : #operations }
+CynPropertyModelView >> modelDelete [
+
+	"Delete the receiver's model.
+	Reset the copied model to the original (to prevent being seen as dirty)
+	and set the original as modal result"
+
+	super modelDelete.
+
+	model := originalModel copy.
+
+	self modalResult: originalModel
+]
+
 { #category : #'validating - private' }
 CynPropertyModelView >> modelViolations [
 
@@ -136,20 +150,26 @@ CynPropertyModelView >> modelViolations [
 	^ violations
 ]
 
+{ #category : #operations }
+CynPropertyModelView >> modelWrite [
+
+	"Write the receiver's model.
+	Merge the copied model into the original and set it as modal result"
+
+	super modelWrite.
+
+	originalModel merge: model.
+
+	"Set positive result"
+	self modalResult: originalModel
+]
+
 { #category : #validating }
 CynPropertyModelView >> propertiesForValidation [
 
 	"Answer the collection of properties which should be considered during validation of the receiver's model"
 
 	^ self boundProperties
-]
-
-{ #category : #accessing }
-CynPropertyModelView >> updateModel [
-
-	"Merge the copied model into the original"
-
-	originalModel merge: model
 ]
 
 { #category : #validating }
