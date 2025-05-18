@@ -1061,6 +1061,17 @@ CynApp >> showModal: aViewClass withModel: aModel [
 	modal present.
 	view updateAfterNavigate.
 
+"TEMPORARY FIX for issue (seemingly in Ionic)"
+"Check if two Modals are opened, close the one that is not visible."
+CpGlobalThis setTimeout: 500 thenDo: [
+modal previousSibling ifNotNil: [ :anotherModal |
+	anotherModal firstChild ifNotNil: [ :anotherNav |
+		anotherNav class = IonNav
+			ifTrue: [
+				anotherNav firstChild ifNotNil: [ :anotherView |
+					anotherView class = view class
+						ifTrue: [ anotherModal destroy. self warnCr: 'Got ya!'  ] ] ] ] ] ].
+
 	"Wait for it to close"
 	result := modal onDidDismiss await.
 
