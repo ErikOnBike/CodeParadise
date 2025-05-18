@@ -183,6 +183,10 @@ CpNodeJSRestRequestProcess >> runInternal [
 		timer := nil.
 		process := nil
 	] on: Error do: [ :error |
+
+		CpClientEnvironment current
+			ifDevelopment: [ self errorCr: 'Error during REST request: ', error printString ].
+		
 		endedAt := CpNodeJSRestHttpServer timestampNow.
 
 		CpGlobalThis clearTimeout: timer.
