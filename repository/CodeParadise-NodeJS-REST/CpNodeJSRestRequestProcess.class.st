@@ -166,7 +166,7 @@ CpNodeJSRestRequestProcess >> run [
 	CpGlobalThis defer: [ self runInternal ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #running }
 CpNodeJSRestRequestProcess >> runInternal [
 
 	"Run the receiver with Error checking"
