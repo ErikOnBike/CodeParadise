@@ -106,6 +106,18 @@ CpNodeJSRestEndpointOperation class >> new [
 	self errorNewReplacedBy: #method:path:queryParams:operation:
 ]
 
+{ #category : #'class initialization' }
+CpNodeJSRestEndpointOperation class >> postInstallOnce [
+
+	CpNodeJSSnapshot registerSnapshotClass: self
+]
+
+{ #category : #'class initialization' }
+CpNodeJSRestEndpointOperation class >> preSnapshotOnce [
+
+	Operations := nil
+]
+
 { #category : #registration }
 CpNodeJSRestEndpointOperation class >> registerOperation: anEndPointOperation [
 

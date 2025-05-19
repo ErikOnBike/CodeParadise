@@ -59,6 +59,7 @@ CpNodeJSSnapshot class >> snapshotImage [
 		each preSnapshot ].
 	CpJavaScriptObject withAllSubclassesDo: [ :each |
 		each preSnapshot ].
+	CpGlobalThis preSnapshotOnce.
 
 	"Snapshot image"	
 	self traceCr: 'About to save image'.
@@ -87,7 +88,7 @@ CpNodeJSSnapshot class >> snapshotImage [
 		each postSnapshot ].
 	CpNodeJSModule allSubclassesDo: [ :each | each postSnapshot ].
 	SnapshotClasses ifNotNil: [
-		SnapshotClasses do: [ :each | each postSnapshot ] ].
+		SnapshotClasses do: [ :each | self traceCr: 'post ', each printString. each postSnapshot ] ].
 
 	self traceCr: 'Image restored, continuing execution'
 ]

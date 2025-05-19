@@ -169,6 +169,7 @@ CpBrowserSnapshot class >> snapshotImage [
 	CpEvent allSubclassesDo: [ :each | each preSnapshot ].
 	CpJavaScriptObject withAllSubclassesDo: [ :each |
 		each preSnapshot ].
+	CpGlobalThis preSnapshotOnce.
 
 	"Save application content"
 	content := CpHtmlElement documentBody markupContent.

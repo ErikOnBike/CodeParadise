@@ -20,6 +20,12 @@ CpBrowserIntl class >> namespace [
 			getClassRefFrom: self getClassName resultAs: self ]
 ]
 
+{ #category : #'class initialization' }
+CpBrowserIntl class >> preSnapshotOnce [
+
+	Namespace := nil
+]
+
 { #category : #accessing }
 CpBrowserIntl >> getClass: aClass [
 

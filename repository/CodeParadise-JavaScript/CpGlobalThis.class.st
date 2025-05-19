@@ -211,6 +211,12 @@ CpGlobalThis class >> globalThis [
 	^ GlobalThis ifNil: [ GlobalThis := CpJavaScriptObject global ]
 ]
 
+{ #category : #'class initialization' }
+CpGlobalThis class >> preSnapshotOnce [
+
+	GlobalThis := nil
+]
+
 { #category : #accessing }
 CpGlobalThis class >> propertyAt: aSymbol [
 

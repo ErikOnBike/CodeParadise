@@ -13,6 +13,14 @@ CpNodeJSModule class >> forName: aString [
 		apply: #require withArguments: { aString } resultAs: self
 ]
 
+{ #category : #testing }
+CpNodeJSModule class >> hasAbstractTag [
+
+	"Answer whether the receiver has the 'isAbstract' tag set"
+
+	^ self classSide includesSelector: #isAbstractTag
+]
+
 { #category : #accessing }
 CpNodeJSModule class >> moduleName [
 
@@ -26,11 +34,14 @@ CpNodeJSModule class >> moduleName [
 ]
 
 { #category : #'class initialization' }
-CpNodeJSModule class >> postSnapshotOnce [
+CpNodeJSModule class >> postSnapshot [
 
 	"After snapshot (when image is loaded from disk) perform #require again
 	to load the module. When module is already loaded (after snapshot has completed,
 	not when loading from disk) the additional #require does not have any effect."
+
+	self hasAbstractTag
+		ifTrue: [ ^ self ].
 
 	self require
 ]

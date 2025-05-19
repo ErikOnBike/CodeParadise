@@ -128,13 +128,23 @@ CynBaseRestApiService class >> postInstall [
 ]
 
 { #category : #'class initialization' }
+CynBaseRestApiService class >> postInstallOnce [
+
+	CpNodeJSSnapshot registerSnapshotClass: self
+]
+
+{ #category : #'class initialization' }
 CynBaseRestApiService class >> postSnapshotOnce [
+
+	self traceCr: 'Starting server after snapshot'.
 
 	self startServer
 ]
 
 { #category : #'class initialization' }
 CynBaseRestApiService class >> preSnapshotOnce [
+
+	self traceCr: 'Stopping server before snapshot'.
 
 	self stopServer
 ]
@@ -163,11 +173,9 @@ self traceCr: 'Register in ', self name.
 { #category : #accessing }
 CynBaseRestApiService class >> registerServiceClass: aClass [
 
-	"Register the specified Class as main service and for snapshot"
+	"Register the specified Class as main service"
 
-	ServiceClass := aClass.
-
-	CpNodeJSSnapshot registerSnapshotClass: aClass
+	ServiceClass := aClass
 ]
 
 { #category : #accessing }
@@ -451,13 +459,16 @@ CynBaseRestApiService >> snapshot: aRestRequest response: aServerResponse [
 	<get: '/snapshot'>
 	<public>
 
-	self traceCr: 'Here?!!!!'.
-		Smalltalk at: #Sealed ifAbsent: [
-			Smalltalk at: #Sealed put: true.
+	self sendEmptyResponse: aServerResponse.
+
+	Smalltalk at: #Sealed ifAbsent: [
+		Smalltalk at: #Sealed put: true.
+
+		CpGlobalThis setTimeout: 1000 thenDo: [
 			self traceCr: 'About to save..'.
 			CpNodeJSSnapshot saveSnapshot.
-			self traceCr: 'After save?' ].
-	self traceCr: 'Sealed?'
+			
+			self traceCr: 'After save' ] ]
 ]
 
 { #category : #'API - resources' }
