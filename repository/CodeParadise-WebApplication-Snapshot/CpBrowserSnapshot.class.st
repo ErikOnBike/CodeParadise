@@ -51,10 +51,8 @@ Squeak.flushAllFiles = function() {};
 
 // Add default download operation to the filePut method
 Squeak.filePut = function(name, buffer) {
-	if(name === "./client-environment.image") {
-		console.log("Saving image");
-		globalThis.cpDownload(buffer, "application/octet-stream", "snapshot.image");
-	}
+	console.log("Saving image");
+	globalThis.cpDownload(buffer, "application/octet-stream", name.endsWith(".image") ? name : name + ".image");
 };'
 ]
 
