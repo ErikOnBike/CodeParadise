@@ -295,5 +295,5 @@ CpGlobalThis class >> setTimeout: anInteger thenDo: aBlock [
 	An integer is answered to identify this timeout. It can be
 	used to stop the timeout using #clearTimeout."
 
-	^ self apply: #setTimeout withArguments: { aBlock . anInteger }
+	^ self apply: #setTimeout withArguments: { aBlock asJavaScriptFunction . anInteger }
 ]
