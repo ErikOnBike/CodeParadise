@@ -79,12 +79,12 @@ CynApp class >> constraintTexts [
 		at: #'constraint.empty' put: 'Input should not be empty.' ;
 		at: #'constraint.required' put: 'Input is required to operate correctly.' ;
 		at: #'constraint.email.at' put: 'An email address should match the pattern "name@domain.org".' ;
-		at: #'constraint.email.format' put: 'An email address should contain exactly one @-symbol (like "name@funnyfruits.org").' ;
+		at: #'constraint.email.format' put: 'An email address should contain exactly one @-symbol (like "name@domain.org").' ;
 		at: #'constraint.email.name' put: 'The name before the @-symbol only allows letters, digits and the following symbols: {1}' ;
 		at: #'constraint.email.domain' put: 'The domain name after the @-symbol only allows letters, digits, dots and dashes.' ;
-		at: #'constraint.email.domain.dot.missing' put: 'The domain name after the @-symbol should have at least 1 dot (like "name@funnyfruits.org").' ;
-		at: #'constraint.email.domain.dot.position' put: 'An email address should only have dots between the domain name parts (like "name@funny.fruits.org").' ;
-		at: #'constraint.email.domain.dash' put: 'An email address should only have dashes inside domain name parts (like "name@funny-fruits.org").' ;
+		at: #'constraint.email.domain.dot.missing' put: 'The domain name after the @-symbol should have at least 1 dot (like "name@domain.org").' ;
+		at: #'constraint.email.domain.dot.position' put: 'An email address should only have dots between the domain name parts (like "name@first.domain.org").' ;
+		at: #'constraint.email.domain.dash' put: 'An email address should only have dashes inside domain name parts (like "name@first-domain.org").' ;
 		at: #'constraint.password.length' put: 'The password should be at least {1} characters long.' ;
 		at: #'constraint.id.length' put: 'The id should be exactly 36 characters long (formatted xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx)' ;
 		at: #'constraint.id.dash' put: 'The id should contain dashes at fixed locations (formatted xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx)' ;
