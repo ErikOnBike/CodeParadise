@@ -26,6 +26,14 @@ CpBrowserMediaElement >> currentTime [
 ]
 
 { #category : #accessing }
+CpBrowserMediaElement >> currentTime: aFloat [
+
+	"A double-precision floating-point value indicating the current playback time in seconds; if the media has not started to play and has not been seeked, this value is the media's initial playback time. Setting this value seeks the media to the new time. The time is specified relative to the media's timeline."
+
+	self propertyAt: #currentTime put: aFloat
+]
+
+{ #category : #accessing }
 CpBrowserMediaElement >> duration [
 
 	"A read-only double-precision floating-point value indicating the total duration of the media in seconds. If no media data is available, the returned value is NaN. If the media is of indefinite length (such as streamed live media, a WebRTC call's media, or similar), the value is +Infinity."
