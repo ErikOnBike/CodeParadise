@@ -29,7 +29,8 @@ CynMobileWebApplication class >> allowedPackages [
 		CynPropertyModel package .
 		IonElement package .
 		ValueChanged package .
-		CynRestApiClient package }
+		CynRestApiClient package .
+		CpBrowserSnapshot package }
 ]
 
 { #category : #accessing }
