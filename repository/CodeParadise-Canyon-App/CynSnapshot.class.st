@@ -1,6 +1,6 @@
 Class {
 	#name : #CynSnapshot,
-	#superclass : #Object,
+	#superclass : #CpEvent,
 	#category : #'CodeParadise-Canyon-App-Support'
 }
 
@@ -11,11 +11,20 @@ CynSnapshot class >> beLoaded [
 ]
 
 { #category : #'class initialization' }
-CynSnapshot class >> postInstallOnce [
+CynSnapshot class >> postSnapshotOnce [
 
-	self traceCr: 'Removing content'.
-	CpHtmlElement documentBody removeChildren.
+	self traceCr: 'Canyon post snapshot'.
 
-	self traceCr: 'Performing snapshot'.
-	CpBrowserSnapshot saveSnapshot
+	"HACK!"
+	Smalltalk at: #CpTransition put: CynApp
+]
+
+{ #category : #'class initialization' }
+CynSnapshot class >> preSnapshotOnce [
+
+	self traceCr: 'Canyon pre snapshot'.
+
+	CpHtmlElement documentBody removeChildren. 
+
+	CynApp preSnapshotOnce
 ]

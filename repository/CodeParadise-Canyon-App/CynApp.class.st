@@ -246,6 +246,29 @@ CynApp class >> postInstallOnce [
 ]
 
 { #category : #'class initialization' }
+CynApp class >> postSnapshotOnce [
+
+	| appClass |
+
+	appClass := CpClientEnvironment current objectRegistry
+		objectWithId: CynApp name.
+
+	self traceCr: 'Starting up ', appClass printString.
+
+	appClass
+		ifNotNil: [ appClass start ]
+		ifNil: [ self errorCr: 'No app registered!' ]
+]
+
+{ #category : #'class initialization' }
+CynApp class >> preSnapshotOnce [
+
+	self traceCr: 'Removing current app'.
+
+	Current := nil
+]
+
+{ #category : #'class initialization' }
 CynApp class >> start [
 
 	"Start an instance of the receiver in the browser"

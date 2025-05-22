@@ -36,6 +36,12 @@ CpJavaScriptFunction class >> postInstallOnce [
 			instance perform: selector asSymbol withArguments: arguments ])
 ]
 
+{ #category : #'class initialization' }
+CpJavaScriptFunction class >> postSnapshotOnce [
+
+	self postInstallOnce
+]
+
 { #category : #converting }
 CpJavaScriptFunction class >> wrap: aBlock [
 

@@ -25,7 +25,7 @@ Class {
 { #category : #'class initialization' }
 CpLoadResource class >> postInstallOnce [
 
-	Resources := Dictionary new
+	Resources ifNil: [ Resources := Dictionary new ]
 ]
 
 { #category : #private }

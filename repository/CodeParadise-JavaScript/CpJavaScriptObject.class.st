@@ -264,9 +264,9 @@ CpJavaScriptObject class >> postSnapshot [
 
 	"Re-register class after snapshot (has no effect if already registered)"
 
-	super postSnapshot.
+	self registerProxyClass.
 
-	self registerProxyClass
+	super postSnapshot
 ]
 
 { #category : #accessing }
