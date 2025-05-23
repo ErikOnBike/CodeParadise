@@ -107,7 +107,7 @@ IonSearchbar >> cancelButtonIcon: aString [
 { #category : #api }
 IonSearchbar >> cancelButtonText [
 
-	"Set the the cancel button text. Only applies to 'ios' mode.
+	"Set the cancel button text. Only applies to 'ios' mode.
 	
 	Type: string"
 
@@ -117,7 +117,7 @@ IonSearchbar >> cancelButtonText [
 { #category : #api }
 IonSearchbar >> cancelButtonText: aString [
 
-	"Set the the cancel button text. Only applies to 'ios' mode.
+	"Set the cancel button text. Only applies to 'ios' mode.
 	
 	Type: string"
 
