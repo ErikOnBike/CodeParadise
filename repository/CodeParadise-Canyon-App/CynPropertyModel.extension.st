@@ -58,6 +58,16 @@ CynPropertyModel >> labelFor: propertySymbol selection: selectionSymbol [
 ]
 
 { #category : #'*CodeParadise-Canyon-App' }
+CynPropertyModel >> shortLabelAt: aSymbol [
+
+	"Answer the short label of the specified property
+	or the regular if no short label is provided"
+
+	^ (self textAspect: #shortLabel at: aSymbol)
+		ifNil: [ (self textAspect: #label at: aSymbol) ]
+]
+
+{ #category : #'*CodeParadise-Canyon-App' }
 CynPropertyModel class >> shortName [
 
 	"Answer the short name for the receiver.
