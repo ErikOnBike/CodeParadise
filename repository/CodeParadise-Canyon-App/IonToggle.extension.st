@@ -1,6 +1,22 @@
 Extension { #name : #IonToggle }
 
 { #category : #'*CodeParadise-Canyon-App' }
+IonToggle >> label [
+
+	"Convenience method for consistent protocol"
+
+	^ self textContent
+]
+
+{ #category : #'*CodeParadise-Canyon-App' }
+IonToggle >> label: aString [
+
+	"Convenience method for consistent protocol"
+
+	self textContent: aString
+]
+
+{ #category : #'*CodeParadise-Canyon-App' }
 IonToggle >> valueForModel [
 
 	"Convenience method used in binding Elements to a Model"
