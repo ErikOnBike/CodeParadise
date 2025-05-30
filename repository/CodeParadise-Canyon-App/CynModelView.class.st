@@ -232,13 +232,16 @@ CynModelView >> do: aBlock whileShowing: aString [
 { #category : #operations }
 CynModelView >> doDelete [
 
-	"Perform the write operation and answer the result.
-	In case of an error the receiver's error handler is called
-	and its result is answered."
+	"Perform the operation and answer whether the operation performed successfully.
+	In case of an error the receiver's error handler is called and its result is
+	answered (allowing the error handler to 'fix' the situation).
+	This is a convenience method for pages/views with a single specific operation."
 
-	^ [
-		self doDeleteWhileShowing: self loadingDeleteText
-	] on: Error do: [ :error | self handleError: error ]
+	[
+		self doDeleteWhileShowing: self loadingDeleteText.
+	] on: Error do: [ :error | ^ self handleError: error ].
+
+	^ true
 ]
 
 { #category : #operations }
@@ -253,27 +256,31 @@ CynModelView >> doDeleteWhileShowing: aString [
 { #category : #operations }
 CynModelView >> doOperation: aBlock [
 
-	"Perform the operation and answer the result.
-	In case of an error the receiver's error handler is called
-	and its result is answered.
-	This is a convenience method for pages/views with a single
-	specific operation."
+	"Perform the operation and answer whether the operation performed successfully.
+	In case of an error the receiver's error handler is called and its result is
+	answered (allowing the error handler to 'fix' the situation).
+	This is a convenience method for pages/views with a single specific operation."
 
-	^ [
-		self do: aBlock whileShowing: self loadingOperationText
-	] on: Error do: [ :error | self handleError: error ]
+	[
+		self do: aBlock whileShowing: self loadingOperationText.
+	] on: Error do: [ :error | ^ self handleError: error ].
+
+	^ true
 ]
 
 { #category : #operations }
 CynModelView >> doRead [
 
-	"Perform the write operation and answer the result.
-	In case of an error the receiver's error handler is called
-	and its result is answered."
+	"Perform the operation and answer whether the operation performed successfully.
+	In case of an error the receiver's error handler is called and its result is
+	answered (allowing the error handler to 'fix' the situation).
+	This is a convenience method for pages/views with a single specific operation."
 
-	^ [
+	[
 		self doReadWhileShowing: self loadingReadText
-	] on: Error do: [ :error | self handleError: error ]
+	] on: Error do: [ :error | ^ self handleError: error ].
+
+	^ true
 ]
 
 { #category : #operations }
@@ -288,13 +295,16 @@ CynModelView >> doReadWhileShowing: aString [
 { #category : #operations }
 CynModelView >> doWrite [
 
-	"Perform the write operation and answer the result.
-	In case of an error the receiver's error handler is called
-	and its result is answered."
+	"Perform the operation and answer whether the operation performed successfully.
+	In case of an error the receiver's error handler is called and its result is
+	answered (allowing the error handler to 'fix' the situation).
+	This is a convenience method for pages/views with a single specific operation."
 
-	^ [
+	[
 		self doWriteWhileShowing: self loadingWriteText
-	] on: Error do: [ :error | self handleError: error ]
+	] on: Error do: [ :error | ^ self handleError: error ].
+
+	^ true
 ]
 
 { #category : #operations }
@@ -309,15 +319,11 @@ CynModelView >> doWriteWhileShowing: aString [
 { #category : #'event handling' }
 CynModelView >> handleError: anError [
 
-	"Handle the specified Error.
-	By default the Error is answered, but subclasses might override this behavior
-	if a different result of one of the doRead/Write/Delete operations is required.
+	"Handle the specified Error and answer a Boolean stating whether it was handled.
 
 	Subclasses should handle specific errors, all else will be handled by the app."
 
-	self app handleUnhandledError: anError.
-
-	^ anError
+	^ self app handleUnhandledError: anError
 ]
 
 { #category : #'event handling' }
