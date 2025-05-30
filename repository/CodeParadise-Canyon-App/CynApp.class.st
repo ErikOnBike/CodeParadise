@@ -418,33 +418,6 @@ CynApp >> defaultToastDuration [
 	^ 3000
 ]
 
-{ #category : #'error handling' }
-CynApp >> errorForbidden [
-
-	self
-		showAlertTitle: #'app.server.forbidden.title' langText
-		message: #'app.server.forbidden.message' langText
-]
-
-{ #category : #'error handling' }
-CynApp >> errorInternalServerError: anError [
-
-	self
-		showAlertTitle: #'app.server.internalError.title' langText
-		message: #'app.server.internalError.message' langText.
-
-	self class
-		ifDevelopment: [ self errorCr: anError printString ]
-]
-
-{ #category : #'error handling' }
-CynApp >> errorServerNotAvailable [
-
-	self
-		showAlertTitle: #'app.server.unavailable.title' langText
-		message: #'app.server.unavailable.message' langText
-]
-
 { #category : #'event handling' }
 CynApp >> handleDidDismissAlert [
 
@@ -499,11 +472,14 @@ CynApp >> handleSessionExpired [
 
 ]
 
-{ #category : #'event handling' }
+{ #category : #'error handling' }
 CynApp >> handleUnhandledError: anError [
 
-	"An Error is signaled which is not handled elsewhere.
+	"An Error is signaled which is not handled elsewhere. Handle it here.
+	Answer a Boolean indicating whether the error is sufficiently handled to
+	consider it 'fixed'.
 
+	Unhandled Errors are Errors which have not 'seen' an error handler.
 	This can typically happen when using a #when:forkedSend:to or #when:forkedDo:for:
 	and an Error is signaled during the forked Process. There is no active context
 	anymore to handle the error in a normal flow. The signaling context is available
@@ -514,19 +490,25 @@ CynApp >> handleUnhandledError: anError [
 
 	"Check if the receiver is an already handled/processed REST API Client error"
 	((anError isKindOf: CynRestResponseError) and: [ anError isHandled ])
-		ifTrue: [ ^ self ].
+		ifTrue: [ ^ true ].
 
 	"Assuming the REST API is behind some proxy (like nginx)"
 	anError statusCode = CynRestResponseError codeBadGateway
-		ifTrue: [ ^ self errorServerNotAvailable ].
+		ifTrue: [
+			self showErrorServerNotAvailable.
+			^ false ].
 
 	"Forbidden means an authorization issue, should have been prevented"
 	anError statusCode = CynRestResponseError codeForbidden
-		ifTrue: [ ^ self errorForbidden ].
+		ifTrue: [
+			self showErrorForbidden.
+			^ false ].
 
 	"Ouch...probably programming error"
 	anError statusCode = CynRestResponseError codeInternalServerError
-		ifTrue: [ ^ self errorInternalServerError: anError ].
+		ifTrue: [
+			self showErrorInternalServerError: anError.
+			^ false ].
 
 	self errorCr: 'Unhandled Error in App'.
 	self class ifDevelopment: [
@@ -534,8 +516,10 @@ CynApp >> handleUnhandledError: anError [
 			self traceCr: 'Origin seems to be: ', origin method printString ].
 		self traceCr: anError printString.
 		self traceCr: anError signalerContext printString.
-		^ self ].
-	self traceCr: anError description asString
+		^ false ].
+	self traceCr: anError description asString.
+
+	^ false
 ]
 
 { #category : #actions }
@@ -1022,6 +1006,33 @@ CynApp >> showAlertTitle: titleString message: messageString [
 		buttons: { 'Okay' } ;
 		present ;
 		onDidDismiss) await
+]
+
+{ #category : #'error handling' }
+CynApp >> showErrorForbidden [
+
+	self
+		showAlertTitle: #'app.server.forbidden.title' langText
+		message: #'app.server.forbidden.message' langText
+]
+
+{ #category : #'error handling' }
+CynApp >> showErrorInternalServerError: anError [
+
+	self
+		showAlertTitle: #'app.server.internalError.title' langText
+		message: #'app.server.internalError.message' langText.
+
+	self class
+		ifDevelopment: [ self errorCr: anError printString ]
+]
+
+{ #category : #'error handling' }
+CynApp >> showErrorServerNotAvailable [
+
+	self
+		showAlertTitle: #'app.server.unavailable.title' langText
+		message: #'app.server.unavailable.message' langText
 ]
 
 { #category : #actions }
