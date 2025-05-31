@@ -56,19 +56,36 @@ CpNodeJSRestRequestProcess >> abort [
 	This method will be called from a separate Process (the timeout handler set in the
 	method #run) and can therefore terminate the Process without terminating itself."
 
+	"Already ended, ignore abort"
 	endedAt ifNotNil: [ ^ self ].
 
+	"Mark end"
 	endedAt := CpNodeJSRestHttpServer timestampNow.
 
+	"Kill the process (will not kill the active Process of this context)"
 	process ifNotNil: [
 		process terminate.
 		process := nil ].
 
+	"Clean up"
 	timer ifNotNil: [
 		CpGlobalThis clearTimeout: timer.
 		timer := nil ].
 
+	"Answer the failure"
 	self respondTimedout
+]
+
+{ #category : #accessing }
+CpNodeJSRestRequestProcess >> defaultTimeoutPeriod [
+
+	"Answer the default timeout period in ms before a request is aborted.
+	
+	This value should be low by default and set explicitly on endpoints which
+	require a longer processing time. Use pragma #timeout: on an endpoint
+	operation (method)."
+
+	^ 2000
 ]
 
 { #category : #initialization }
@@ -81,6 +98,21 @@ CpNodeJSRestRequestProcess >> initializeWithRequest: aRequest response: aServerR
 
 	"See method #unhandled"
 	isUnhandled := false
+]
+
+{ #category : #performing }
+CpNodeJSRestRequestProcess >> performEndpointOperation: anEndpointOperation [
+
+	"Perform the specified endpoint operation"
+
+	| timeoutPeriod |
+
+	timeoutPeriod := (anEndpointOperation timeout)
+		ifNil: [ self defaultTimeoutPeriod ].
+
+	timer := CpGlobalThis setTimeout: timeoutPeriod thenDo: [ self abort ].
+
+	anEndpointOperation handleRequest: request response: response
 ]
 
 { #category : #printing }
@@ -101,19 +133,12 @@ CpNodeJSRestRequestProcess >> printOn: aStream [
 
 	response writableEnded
 		ifTrue: [
-			endedAt ifNil: [ endedAt := CpNodeJSRestHttpServer timestampNow ].
 			aStream
 				nextPutAll: ' ended with status ' ;
 				print: response statusCode ;
 				nextPutAll: ' at ' ;
-				nextPutAll: (CpNodeJSRestHttpServer timeStringAt: endedAt) ]
+				nextPutAll: (CpNodeJSRestHttpServer timeStringAt: (endedAt ifNil: [ CpNodeJSRestHttpServer timestampNow ])) ]
 		ifFalse: [ aStream nextPutAll: ' not ended yet' ]
-]
-
-{ #category : #accessing }
-CpNodeJSRestRequestProcess >> request [
-
-	^ request
 ]
 
 { #category : #responding }
@@ -152,12 +177,6 @@ CpNodeJSRestRequestProcess >> respondUnhandled [
 		ifFalse: [ CpNodeJSRestBadRequestError ])
 ]
 
-{ #category : #accessing }
-CpNodeJSRestRequestProcess >> response [
-
-	^ response
-]
-
 { #category : #running }
 CpNodeJSRestRequestProcess >> run [
 
@@ -171,29 +190,47 @@ CpNodeJSRestRequestProcess >> runInternal [
 
 	"Run the receiver with Error checking"
 
-	[
+	| errorInstance endpointOperation |
+
+	errorInstance := [
+
+		"Keep track of Process"
 		process := Processor activeProcess.
-		timer := CpGlobalThis setTimeout: 4000 thenDo: [ self abort ].
 
+		"Mark start"
 		startedAt := CpNodeJSRestHttpServer timestampNow.
-		CpNodeJSRestEndpointOperation handleRequestIn: self.
-		endedAt := CpNodeJSRestHttpServer timestampNow.
 
+		"Log the call in development"
+		CpJavaScriptObject isDevelopmentEnvironment
+			ifTrue: [ self traceCr: self printString ].
+
+		"Try to handle the request (unhandled requests are 'business as usual')"
+		endpointOperation := CpNodeJSRestEndpointOperation matchingRequest: request.
+		endpointOperation
+			ifNotNil: [ self performEndpointOperation: endpointOperation ]
+			ifNil: [ self unhandled ].
+	
+		"No error"
+		nil
+	] on: Error do: [ :error | error ].
+
+	"Mark end"
+	endedAt := CpNodeJSRestHttpServer timestampNow.
+
+	"Clean up"
+	timer ifNotNil: [
 		CpGlobalThis clearTimeout: timer.
-		timer := nil.
-		process := nil
-	] on: Error do: [ :error |
+		timer := nil ].
+	process := nil.
 
-		CpClientEnvironment current
-			ifDevelopment: [ self errorCr: 'Error during REST request: ', error printString ].
-		
-		endedAt := CpNodeJSRestHttpServer timestampNow.
+	"Log the call in development"
+	CpJavaScriptObject isDevelopmentEnvironment
+		ifTrue: [ self traceCr: self printString ].
 
-		CpGlobalThis clearTimeout: timer.
-		timer := nil.
-		process := nil.
+	"Respond with error if present"
+	errorInstance ifNil: [ ^ self ].
 
-		self respondError: error ]
+	self respondError: errorInstance
 ]
 
 { #category : #running }

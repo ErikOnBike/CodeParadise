@@ -50,7 +50,7 @@ Class {
 }
 
 { #category : #request }
-CpNodeJSRestEndpointOperation class >> handleRequestIn: aRequestProcess [
+CpNodeJSRestEndpointOperation class >> matchingRequest: aRequest [
 
 	"Handle the REST Request in the specified RequestProcess or notify it is unhandled.
 
@@ -64,32 +64,20 @@ CpNodeJSRestEndpointOperation class >> handleRequestIn: aRequestProcess [
 		'/products/:id/photos/latest' is more accurate than '/products/:productId/photos/:photoId'
 		but '/products/current/photos/:id' equals '/products/:id/photos/latest' (i.e. undefined which will be selected)"
 
-	| request response matches |
+	| matches |
 
-	Operations ifNil: [
-		aRequestProcess unhandled.
-		^ self ].
+	Operations ifNil: [ ^ nil ].
 
-	"Log the call in development"
-	CpJavaScriptObject isDevelopmentEnvironment
-		ifTrue: [ self traceCr: aRequestProcess printString ].
-
-	request := aRequestProcess request.
-	response := aRequestProcess response.
-
-	"Find matching operations and select most specific one"
+	"Find matching operations"
 	matches := SortedCollection sortBlock: [ :a :b | a isMoreSpecificThan: b ].
 	Operations valuesDo: [ :operation |
-		(operation canHandleRequest: request)
+		(operation canHandleRequest: aRequest)
 			ifTrue: [ matches add: operation ] ].
 
-	matches
-		ifNotEmpty: [ matches first handleRequest: request response: response ]
-		ifEmpty: [ aRequestProcess unhandled ].
-
-	"Log the call in development"
-	CpJavaScriptObject isDevelopmentEnvironment
-		ifTrue: [ self traceCr: aRequestProcess printString ]
+	"Select most specific operation (first one because of sorting)"
+	^ matches
+		ifNotEmpty: [ matches first ]
+		ifEmpty: [ nil ]
 ]
 
 { #category : #'instance creation' }
@@ -378,6 +366,15 @@ CpNodeJSRestEndpointOperation >> queryParametersMatch: aDictionary [
 			ifFalse: [ ^ false ] ].
 
 	^ true
+]
+
+{ #category : #accessing }
+CpNodeJSRestEndpointOperation >> timeout [
+
+	"Answer the timeout defined in the operation (as milliseconds)"
+
+	^ (self operationMethod pragmaAt: #timeout:)
+		ifNotNil: [ :pragma | pragma argumentAt: 1 ]
 ]
 
 { #category : #testing }

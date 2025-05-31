@@ -77,7 +77,11 @@ CpNodeJSRestHttpServer >> handleRequest: anIncomingMessage response: aServerResp
 
 		"Handle actual request and write appropriate response"
 		CpNodeJSRestRequestProcess runRequest: request response: aServerResponse
-	] on: Error do: [ :error | aServerResponse writeError: error]
+	] on: Error do: [ :error |
+
+		"Handle any error occurring in the 'outer' request handling.
+		If anything goes wrong within the request process it will be handled there."
+		aServerResponse writeError: error ]
 ]
 
 { #category : #initialization }
