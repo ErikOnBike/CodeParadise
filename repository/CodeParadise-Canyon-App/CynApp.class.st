@@ -875,6 +875,89 @@ CynApp >> selectAction: aString from: aCollection [
 ]
 
 { #category : #actions }
+CynApp >> selectInput: titleString from: aCollection [
+
+	^ self selectInput: titleString message: nil from: aCollection
+]
+
+{ #category : #actions }
+CynApp >> selectInput: titleString message: messageString from: aCollection [
+
+	"Show an Alert with input options and answer the value of the input selected.
+	The options are a Collection of IonAlertInput objects (or a similar Dictionary
+	like structure).
+	When the user cancelled the selection, nil is answered.
+
+	The message is optional.
+
+	Options are specified using the AlertInput interface:
+		```
+		interface AlertInput {
+			type?: TextFieldTypes | 'checkbox' | 'radio' | 'textarea';
+			name?: string;
+			placeholder?: string;
+			value?: any;
+			/**
+			 * The label text to display next to the input, if the input type is `radio` or `checkbox`.
+			 */
+			label?: string;
+			checked?: boolean;
+			disabled?: boolean;
+			id?: string;
+			handler?: (input: AlertInput) => void;
+			min?: string | number;
+			max?: string | number;
+			cssClass?: string | string[];
+			attributes?: { [key: string]: any };
+			tabindex?: number;
+		}
+		```
+
+	See also:
+		https://ionicframework.com/docs/api/alert#alertinput"
+
+	| inputAlert didDismiss result |
+
+	inputAlert := self appendChild: (IonAlert new
+		header: titleString ;
+		buttons: {
+			{
+				#text -> #'app.cancel' langText.
+				#role -> #cancel } asDictionary.
+			{
+				#text -> #'app.ok' langText.
+				#role -> #confirm } asDictionary } ;
+		yourself).
+
+	messageString ifNotNil: [ inputAlert message: messageString ].
+
+	"Add the inputs field"
+	inputAlert inputs: aCollection asRelaxedJsonObjectValue.
+
+	"Show input and wait on closing (dismissal)"
+	didDismiss := inputAlert onDidDismiss.
+	inputAlert present.
+	result := inputAlert onWillDismiss await.
+
+	"Remove the action sheet (does not happen automagically) once it actually dismissed,
+	otherwise it will not be removed correctly (Ionic does some magic with 'portals')."
+	CpGlobalThis defer: [
+		didDismiss await.
+		inputAlert remove ].
+
+	"Validate the user confirmed a selection"
+	result ifNil: [ ^ nil ].
+	(result at: #role ifAbsent: [ ^ nil ]) = #confirm
+		ifFalse: [ ^ nil ].
+
+	"Extract only the values part from the result"
+	result := (result at: #data ifAbsent: [ ^ nil ])
+		at: #values ifAbsent: [ ^ nil ].
+
+	^ result
+]
+
+{ #category : #actions }
 CynApp >> selectOption: aString from: aCollection [
 
 	^ self selectOption: aString message: nil from: aCollection
