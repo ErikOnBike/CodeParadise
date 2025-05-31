@@ -11,13 +11,13 @@ Symbol >> langText [
 ]
 
 { #category : #'*CodeParadise-Canyon-App' }
-Symbol >> langTextWith: aDictionaryOrAssociation [
+Symbol >> langTextFormat: aDictionaryOrAssociation [
 
 	"Answer the language specific text for the receiver"
 
 	<canyonApplicationExtension>
 
-	^ CynPropertyEntity text: self format: (aDictionaryOrAssociation class = Association
-		ifTrue: [ Dictionary with: aDictionaryOrAssociation ]
-		ifFalse: [ aDictionaryOrAssociation ])
+	^ CynPropertyEntity text: self format: (aDictionaryOrAssociation isDictionary
+		ifTrue: [ aDictionaryOrAssociation ]
+		ifFalse: [ Dictionary with: aDictionaryOrAssociation ])
 ]
