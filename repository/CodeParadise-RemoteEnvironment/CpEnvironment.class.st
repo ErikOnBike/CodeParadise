@@ -100,14 +100,6 @@ CpEnvironment >> ifDevelopment: aBlock [
 ]
 
 { #category : #testing }
-CpEnvironment >> ifProduction: aBlock [
-
-	"Evaluate the specified Block if running in a production environment"
-
-	self ifProduction: aBlock ifDevelopment: [ "intentionally empty" ]
-]
-
-{ #category : #testing }
 CpEnvironment >> ifProduction: prodBlock ifDevelopment: devBlock [
 
 	"Evaluate the appropriate Block depending on the environment status"
