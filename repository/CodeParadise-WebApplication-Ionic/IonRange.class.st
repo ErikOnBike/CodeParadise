@@ -255,13 +255,13 @@ IonRange >> pinFormatter [
 ]
 
 { #category : #api }
-IonRange >> pinFormatter: anObject [
+IonRange >> pinFormatter: aBlock [
 
 	"A callback used to format the pin text. By default the pin text is set to 'Math.round(value)'.  See https://ionicframework.com/docs/troubleshooting/runtime#accessing-this if you need to access 'this' from within the callback.
 	
 	Type: PinFormatter"
 
-	self propertyAt: #pinFormatter put: anObject
+	self propertyAt: #pinFormatter put: aBlock asJavaScriptFunction
 ]
 
 { #category : #api }
