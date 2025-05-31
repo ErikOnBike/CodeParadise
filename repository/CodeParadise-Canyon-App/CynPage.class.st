@@ -20,10 +20,18 @@ create Page instances and connect them to their Model), opening a Page in a Moda
 some specific handling. Therefore a few methods (#navigateTo:withModel: and #close) have an
 implementation which needs to check which situation is appropriate. Not the cleanest solution,
 but works for now.
+Also the behavior for supporting tabs could have been put in either a subclass or a trait.
+Subclassing would make it more work for users of Canyon to add (application) page specific
+behaviour, because then both CynPage and CynTabbedPage would need to be subclassed to add the
+(application) specific behavior. Traits would work better, but currently Canyon is Trait-less.
+This might change in a future version though.
 "
 Class {
 	#name : #CynPage,
 	#superclass : #CynModelView,
+	#instVars : [
+		'selectedTabNames'
+	],
 	#category : #'CodeParadise-Canyon-App-View'
 }
 
@@ -58,6 +66,23 @@ CynPage class >> style [
 :host {
 	height: 100%;
 }'
+]
+
+{ #category : #view }
+CynPage >> activeChildViewsInTab: aTab do: aBlock [
+
+	"Evaluate the specified Block for all active child views in the specified tab"
+
+	(aTab allDescendantsMatching: #slot) do: [ :eachSlot |
+		(self childrenAtSlotNamed: (eachSlot attributeAt: #name)) do: [ :each |
+			(self isActiveChildView: each)
+				ifTrue: [ aBlock value: each ] ] ]
+]
+
+{ #category : #private }
+CynPage >> allTabs [
+
+	^ self shadowedAllDescendantsMatching: IonTabs asCssSelector
 ]
 
 { #category : #'view - customization' }
@@ -163,10 +188,49 @@ CynPage >> documentTitleFrom: aString [
 	^ aString
 ]
 
+{ #category : #'event handling' }
+CynPage >> handleTabsDidChange: anEvent [
+
+	"A tab in the receiver is changed, update the tabs content"
+
+	(self tabFromTabChangeEvent: anEvent) ifNotNil: [ :tab |
+
+		"Store the selected tab (so it can be restored when the view is updated, only valuable for during development)"
+		self keepSelectedTab: tab.
+
+		"Only update if not already updating because of navigation"
+		(self isClassed: #navigating)
+			ifFalse: [
+				self activeChildViewsInTab: tab do: [ :each |
+					each updateAfterNavigate ] ] ]
+]
+
+{ #category : #'event handling' }
+CynPage >> handleTabsWillChange: anEvent [
+
+	"A tab in the receiver is going to change, update the tabs content"
+
+	(self tabFromTabChangeEvent: anEvent) ifNotNil: [ :tab |
+
+		"Only update if not already updating because of navigation"
+		(self isClassed: #navigating)
+			ifFalse: [
+				self activeChildViewsInTab: tab do: [ :each |
+					each updateBeforeNavigate ] ] ]
+]
+
 { #category : #testing }
 CynPage >> hasPreviousPage [
 
 	^ self previousPage isNotNil
+]
+
+{ #category : #testing }
+CynPage >> hasTabs [
+
+	"Answer whether the receiver is a tabbed page"
+
+	^ self isClassed: #tabs
 ]
 
 { #category : #initialization }
@@ -177,12 +241,67 @@ CynPage >> initialize [
 	self classed: #public if: self isPublic
 ]
 
+{ #category : #initialization }
+CynPage >> initializeShadowRoot [
+
+	| hasTabs |
+
+	super initializeShadowRoot.
+
+	"Set event handler on tab changes"
+	hasTabs := false.
+	self allTabs do: [ :each |
+
+		"Only tabs with an id can be referenced and therefore used here.
+		Also check this IonTabs instance is not marked to be ignored."
+		(each id isNotNil and: [ (each isClassed: #ignoreTabChanges) not ]) ifTrue: [
+			hasTabs := true.
+			each
+				when: IonTabsWillChangeEvent deferSend: #handleTabsWillChange: to: self ;
+				when: IonTabsDidChangeEvent deferSend: #handleTabsDidChange: to: self ] ].
+
+	self classed: #tabs if: hasTabs.
+
+	hasTabs ifFalse: [ ^ self ].
+
+	"Restore any previously selected tabs"
+	self selectKeptTabs
+]
+
 { #category : #testing }
 CynPage >> isActive [
 
 	"Answer whether the receiver is the current (aka top) page"
 
 	^ self nextSibling isNil
+]
+
+{ #category : #private }
+CynPage >> isActiveChildView: anElement [
+
+	| slot tab |
+
+	slot := (self slotOfChildView: anElement)
+		ifNil: [ ^ false ].
+
+	"If no tabs, then it is (always) active"
+	self hasTabs
+		ifFalse: [ ^ true ].
+
+	tab := slot firstAncestorMatching: IonTab asCssSelector.
+
+	"Child view is outside tab and therefore (always) active"
+	tab ifNil: [ ^ true ].
+
+	"Check if IonTab is already connected and initialized (Ionic waits
+	for the WebComponent to be connected to the document before initialization).
+	If the IonTab is not connected yet, the first tab is assumed to be active
+	(and all others not). To check for the first tab, see if there are no
+	previous siblings (assuming each IonTab is nicely positioned in IonTabs
+	without any additional wrappers)."
+	^ tab isConnected
+		ifTrue: [ tab active ]
+		ifFalse: [ tab previousSibling isNil ]
 ]
 
 { #category : #testing }
@@ -201,6 +320,19 @@ CynPage >> isWidePreferred [
 	This is only relevant on wide displays (i.e. laptops or desktops)."
 
 	^ true
+]
+
+{ #category : #private }
+CynPage >> keepSelectedTab: aTab [
+
+	| tabs |
+
+	tabs := (aTab firstAncestorMatching: IonTabs asCssSelector)
+		ifNil: [ ^ self ].
+
+	selectedTabNames ifNil: [ selectedTabNames := Dictionary new ].
+
+	selectedTabNames at: tabs id put: aTab tab
 ]
 
 { #category : #accessing }
@@ -269,6 +401,32 @@ CynPage >> screenWidth [
 				ifNil: [ #auto ]
 ]
 
+{ #category : #private }
+CynPage >> selectKeptTabs [
+
+	"Select the previous kept selected tabs"
+
+	| selections |
+
+	selectedTabNames ifNil: [ ^ self ].
+
+	selections := OrderedCollection new.
+
+	"Iterate over the tabs, otherwise we have to search for id AND also check if it is an IonTabs"
+	self allTabs do: [ :each |
+		each id ifNotNil: [ :tabsId |
+			selectedTabNames
+				at: tabsId
+				ifPresent: [ :tabName |
+					"Keep the Promise from the selection"
+					selections add: (each select: tabName) ] ] ].
+
+	selections ifEmpty: [ ^ self ].
+
+	"Wait for the selection to complete (to prevent using a tab which is not ready yet)"
+	(CpJavaScriptPromise allSettled: selections asArray) await
+]
+
 { #category : #view }
 CynPage >> showPage: aPageClass withModel: aModel inModal: aModal [
 
@@ -285,6 +443,23 @@ CynPage >> showPage: aPageClass withModel: aModel inModal: aModal [
 	page updateBeforeNavigate.
 	(nav push: page) await.
 	page updateAfterNavigate
+]
+
+{ #category : #private }
+CynPage >> tabFromTabChangeEvent: aTabChangeEvent [
+
+	"Answer the tab from the specified event"
+
+	| tabName tabs |
+
+	tabName := aTabChangeEvent tab
+		ifNil: [ ^ nil ].
+	tabs := aTabChangeEvent currentTarget
+		ifNil: [ ^ nil ].
+
+	^ (tabs allDescendantsMatching: IonTab asCssSelector)
+		detect: [ :each | each tab = tabName ]
+		ifNone: [ nil ]
 ]
 
 { #category : #'view - customization' }

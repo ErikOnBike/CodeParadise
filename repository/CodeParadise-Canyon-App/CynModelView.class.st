@@ -9,8 +9,7 @@ Class {
 	#instVars : [
 		'model',
 		'bindingSubscriptions',
-		'childViewDefinitionsBySlotName',
-		'selectedTabNames'
+		'childViewDefinitionsBySlotName'
 	],
 	#category : #'CodeParadise-Canyon-App-View'
 }
@@ -78,17 +77,6 @@ CynModelView >> activeChildViewsDo: aBlock [
 			ifTrue: [ aBlock value: each ] ]
 ]
 
-{ #category : #view }
-CynModelView >> activeChildViewsInTab: aTab do: aBlock [
-
-	"Evaluate the specified Block for all active child views in the specified tab"
-
-	(aTab allDescendantsMatching: #slot) do: [ :eachSlot |
-		(self childrenAtSlotNamed: (eachSlot attributeAt: #name)) do: [ :each |
-			(self isActiveChildView: each)
-				ifTrue: [ aBlock value: each ] ] ]
-]
-
 { #category : #binding }
 CynModelView >> addBinding: aSubscription [
 
@@ -114,18 +102,6 @@ CynModelView >> addBindings [
 CynModelView >> allBackButtons [
 
 	^ self shadowedAllDescendantsMatching: IonBackButton asCssSelector
-]
-
-{ #category : #private }
-CynModelView >> allSlots [
-
-	^ self shadowedAllDescendantsMatching: #slot
-]
-
-{ #category : #private }
-CynModelView >> allTabs [
-
-	^ self shadowedAllDescendantsMatching: IonTabs asCssSelector
 ]
 
 { #category : #accessing }
@@ -157,6 +133,8 @@ CynModelView >> childViewDefinitions [
 
 	"Answer the child view definitions for the receiver (Collection of CynModelViewDefinition instances).
 	The order of the definitions is important if multiple child views are present in the same slot.
+
+	These child view definitions are typically used in a TabbedPage where each tab is defined.
 
 	These child view definitions are cached locally. So please answer a static structure. To have a child
 	view be conditional, make use of the conditional definitions (see the instance creation methods of
@@ -334,46 +312,6 @@ CynModelView >> handleNavigateBack [
 	self page navigateBack
 ]
 
-{ #category : #'event handling' }
-CynModelView >> handleTabsDidChange: anEvent [
-
-	"A tab in the receiver is changed, update the tabs content"
-
-	(self tabFromTabChangeEvent: anEvent) ifNotNil: [ :tab |
-
-		"Store the selected tab (so it can be restored when the view is updated, only valuable for during development)"
-		self keepSelectedTab: tab.
-
-		"Only update if not already updating because of navigation"
-		(self isClassed: #navigating)
-			ifFalse: [
-				self activeChildViewsInTab: tab do: [ :each |
-					each updateAfterNavigate ] ] ]
-]
-
-{ #category : #'event handling' }
-CynModelView >> handleTabsWillChange: anEvent [
-
-	"A tab in the receiver is going to change, update the tabs content"
-
-	(self tabFromTabChangeEvent: anEvent) ifNotNil: [ :tab |
-
-		"Only update if not already updating because of navigation"
-		(self isClassed: #navigating)
-			ifFalse: [
-				self activeChildViewsInTab: tab do: [ :each |
-					each updateBeforeNavigate ] ] ]
-]
-
-{ #category : #testing }
-CynModelView >> hasTabs [
-
-	"Answer whether the receiver has tabs which are page level.
-	See #initializeShadowRoot:"
-
-	^ self isClassed: #tabs
-]
-
 { #category : #accessing }
 CynModelView >> header [
 
@@ -403,8 +341,6 @@ CynModelView >> headerToolbar [
 { #category : #initialization }
 CynModelView >> initializeShadowRoot [
 
-	| hasTabs |
-
 	super initializeShadowRoot.
 
 	"Make any back button in the receiver work"
@@ -412,25 +348,6 @@ CynModelView >> initializeShadowRoot [
 		each
 			when: CpClickEvent deferSend: #handleNavigateBack to: self ;
 			when: CpClickEvent send: #preventDefault: to: self ].
-
-	"In case the receiver has tabs, set event handler on tab changes"
-	hasTabs := false.
-	self allTabs do: [ :each |
-
-		"Only tabs with an id can be referenced and therefore used here.
-		Also check this IonTabs instance is marked to be ignored."
-		(each id isNotNil and: [ (each isClassed: #ignoreTabChanges) not ]) ifTrue: [
-			hasTabs := true.
-			each
-				when: IonTabsWillChangeEvent deferSend: #handleTabsWillChange: to: self ;
-				when: IonTabsDidChangeEvent deferSend: #handleTabsDidChange: to: self ] ].
-
-	"Mark if the receiver has tabs"
-	self classed: #tabs if: hasTabs.
-
-	"Restore any previously selected tabs"
-	hasTabs
-		ifTrue: [ self selectKeptTabs ].
 
 	"If a model is present, reset the bindings"
 	model ifNotNil: [
@@ -442,41 +359,9 @@ CynModelView >> initializeShadowRoot [
 { #category : #private }
 CynModelView >> isActiveChildView: anElement [
 
-	"Answer whether the specified element is an active child view.
-	A child view in an IonTab which is not selected is NOT considered active.
+	"Answer whether the specified element is an active child view"
 
-	Implementation:
-	The implementation of child views is based on views being present in the
-	receiver's slots."
-
-	| slotName slot tab |
-
-	"Find the slot for the element.
-	The slotName can be be nil for the default (unnamed) slot, but that is okay/handled."
-	slotName := anElement slot.	
-	slot := self slotNamed: slotName.
-	slot ifNil: [
-		self warnCr: 'ChildView in unknown slot ', slotName printString.
-		^ false ].
-
-	"No tabs, so all child views are active"
-	self hasTabs
-		ifFalse: [ ^ true ].
-
-	tab := slot firstAncestorMatching: IonTab asCssSelector.
-
-	"Child view is outside tab and therefore (always) active"
-	tab ifNil: [ ^ true ].
-
-	"Check if IonTab is already connected and initialized (Ionic waits
-	for the WebComponent to be connected to the document before initialization).
-	If the IonTab is not connected yet, the first tab is assumed to be active
-	(and all others not). To check for the first tab, see if there are no
-	previous siblings (assuming each IonTab is nicely positioned in IonTabs
-	without any additional wrappers)."
-	^ tab isConnected
-		ifTrue: [ tab active ]
-		ifFalse: [ tab previousSibling isNil ]
+	^ (self slotOfChildView: anElement) isNotNil
 ]
 
 { #category : #private }
@@ -495,19 +380,6 @@ CynModelView >> isShownInModal [
 	"Answer whether the receiver is shown in a Modal view"
 
 	^ self modal isNotNil
-]
-
-{ #category : #private }
-CynModelView >> keepSelectedTab: aTab [
-
-	| tabs |
-
-	tabs := (aTab firstAncestorMatching: IonTabs asCssSelector)
-		ifNil: [ ^ self ].
-
-	selectedTabNames ifNil: [ selectedTabNames := Dictionary new ].
-
-	selectedTabNames at: tabs id put: aTab tab
 ]
 
 { #category : #accessing }
@@ -675,61 +547,21 @@ CynModelView >> removeBindings [
 ]
 
 { #category : #private }
-CynModelView >> selectKeptTabs [
+CynModelView >> slotOfChildView: anElement [
 
-	"Select the previous kept selected tabs"
+	"Answer the slot for the specified child view
+	(or nil if it is not an actual child view).
 
-	| selections |
+	Implementation:
+	Find the slot for the element.
+	The slotName can be be nil for the default (unnamed) slot, but that is okay/handled."
 
-	selectedTabNames ifNil: [ ^ self ].
+	| slotName |
 
-	selections := OrderedCollection new.
-
-	"Iterate over the tabs, otherwise we have to search for id AND also check if it is an IonTabs"
-	self allTabs do: [ :each |
-		each id ifNotNil: [ :tabsId |
-			selectedTabNames
-				at: tabsId
-				ifPresent: [ :tabName |
-					"Keep the Promise from the selection"
-					selections add: (each select: tabName) ] ] ].
-
-	selections ifEmpty: [ ^ self ].
-
-	"Wait for the selection to complete (to prevent using a tab which is not ready yet)"
-	(CpJavaScriptPromise allSettled: selections asArray) await
-]
-
-{ #category : #private }
-CynModelView >> slotNamed: aString [
-
-	^ self allSlots
-		detect: [ :each | (each attributeAt: #name) = aString ]
-		ifNone: [ nil ]
-]
-
-{ #category : #private }
-CynModelView >> tabFromTabChangeEvent: aTabChangeEvent [
-
-	"Answer the tab from the specified event"
-
-	| tabName tabs |
-
-	tabName := aTabChangeEvent tab
-		ifNil: [ ^ nil ].
-	tabs := aTabChangeEvent currentTarget
-		ifNil: [ ^ nil ].
-
-	^ self tabNamed: tabName from: tabs
-]
-
-{ #category : #private }
-CynModelView >> tabNamed: aString from: aTabs [
-
-	"Answer the tab with the specified name from the specified IonTabs"
-
-	^ (aTabs allDescendantsMatching: IonTab asCssSelector)
-		detect: [ :each | each tab = aString ]
+	slotName := anElement slot.
+	
+	^ (self shadowedAllDescendantsMatching: #slot)
+		detect: [ :each | (each attributeAt: #name) = slotName ]
 		ifNone: [ nil ]
 ]
 
