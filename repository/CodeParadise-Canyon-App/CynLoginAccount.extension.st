@@ -50,7 +50,11 @@ CynLoginAccount >> initializeClientProperties [
 	super initializeClientProperties.
 
 	CynPropertyEntity restApiClient hasAccessToken
-		ifTrue: [ success := true ].
+		ifTrue: [
+			success := true.
+
+			"Load settings (async) by faking a removal of a setting"
+			self restSettingAt: #fakeReload put: nil ].
 
 	CynPropertyEntity restApiClient
 		when: CynSessionExpired send: #handleSessionExpired to: self
