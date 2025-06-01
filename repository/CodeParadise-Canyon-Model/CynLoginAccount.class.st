@@ -42,7 +42,8 @@ CynLoginAccount >> initializeProperties [
 
 	task := #login.
 	expires := #day.
-	success := false
+	success := false.
+	settings := Dictionary new
 ]
 
 { #category : #accessing }
@@ -55,4 +56,10 @@ CynLoginAccount >> password [
 CynLoginAccount >> resetPassword [
 
 	password := nil
+]
+
+{ #category : #accessing }
+CynLoginAccount >> settingAt: aSymbol [
+
+	^ settings at: aSymbol ifAbsent: [ nil ]
 ]
