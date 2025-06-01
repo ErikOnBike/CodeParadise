@@ -70,12 +70,10 @@ CynBaseRestApiService class >> isAbstractTag [
 { #category : #testing }
 CynBaseRestApiService class >> isEndpointOperation: aCompiledMethod [
 
-	"Only get, post put and delete are supported at the moment.
-
-	Patch is not supported, but might be added in the future."
+	"Only get, post put, patch and delete are supported at the moment"
 
 	aCompiledMethod pragmas
-		detect: [ :each | #(#get: #post: #put: #delete:) includes: each selector ] ifNone: [ ^ false ].
+		detect: [ :each | #(#get: #post: #put: #patch: #delete:) includes: each selector ] ifNone: [ ^ false ].
 
 	^ true
 ]
@@ -97,7 +95,7 @@ CynBaseRestApiService class >> operationFor: aCompiledMethod [
 	action := MessageSend receiver: serviceImplementation selector: aCompiledMethod selector.
 
 	pragma := aCompiledMethod pragmas
-		detect: [ :each | #(#get: #post: #put: #delete:) includes: each selector ] ifNone: [ ^ nil ].
+		detect: [ :each | #(#get: #post: #put: #patch: #delete:) includes: each selector ] ifNone: [ ^ nil ].
 
 	url := CpBrowserURL newUrl: pragma arguments first base: 'http://localhost'.
 
@@ -107,6 +105,8 @@ CynBaseRestApiService class >> operationFor: aCompiledMethod [
 		ifTrue: [ operation := CpNodeJSRestEndpointOperation uri: url postOperation: action ].
 	pragma selector == #put:
 		ifTrue: [ operation := CpNodeJSRestEndpointOperation uri: url putOperation: action ].
+	pragma selector == #patch:
+		ifTrue: [ operation := CpNodeJSRestEndpointOperation uri: url patchOperation: action ].
 	pragma selector == #delete:
 		ifTrue: [ operation := CpNodeJSRestEndpointOperation uri: url deleteOperation: action ].
 
