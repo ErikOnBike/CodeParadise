@@ -36,7 +36,7 @@ CynPropertyModel >> errorTextForViolation: aSymbolOrTextReference [
 ]
 
 { #category : #'*CodeParadise-Canyon-App' }
-CynPropertyModel >> labelAt: aSymbol [
+CynPropertyModel class >> labelAt: aSymbol [
 
 	"Answer the label of the specified property"
 
@@ -44,7 +44,16 @@ CynPropertyModel >> labelAt: aSymbol [
 ]
 
 { #category : #'*CodeParadise-Canyon-App' }
-CynPropertyModel >> labelFor: propertySymbol selection: selectionSymbol [
+CynPropertyModel >> labelAt: aSymbol [
+
+	"Answer the label of the specified property"
+
+	^ self class
+		labelAt: aSymbol
+]
+
+{ #category : #'*CodeParadise-Canyon-App' }
+CynPropertyModel class >> labelFor: propertySymbol selection: selectionSymbol [
 
 	"Answer the label for the specified selection of the specified property"
 
@@ -55,6 +64,15 @@ CynPropertyModel >> labelFor: propertySymbol selection: selectionSymbol [
 				nextPutAll: propertySymbol ;
 				nextPut: $. ;
 				nextPutAll: selectionSymbol ]) asSymbol
+]
+
+{ #category : #'*CodeParadise-Canyon-App' }
+CynPropertyModel >> labelFor: propertySymbol selection: selectionSymbol [
+
+	"Answer the label for the specified selection of the specified property"
+
+	^ self class
+		labelFor: propertySymbol selection: selectionSymbol
 ]
 
 { #category : #'*CodeParadise-Canyon-App' }
