@@ -478,7 +478,7 @@ CynLocalAccountRestApiService >> updateSettings: aDictionary forAccountId: aStri
 		"Read settings"
 		accountInfo := modelDatabase
 			selectOne: #getSettings
-			statement: 'SELECT settings, updatedAt FROM accounts WHERE accountId=:accountId'
+			statement: 'SELECT settings, updatedAt FROM accounts WHERE id=:accountId'
 			bind: {
 				#accountId -> aString } asDictionary.
 
@@ -498,7 +498,7 @@ CynLocalAccountRestApiService >> updateSettings: aDictionary forAccountId: aStri
 		"Write settings"
 		modelDatabase
 			performOne: #updateSettings
-			statement: 'UPDATE accounts SET settings=:settings WHERE accountId=:accountId AND updatedAt=:updatedAt'
+			statement: 'UPDATE accounts SET settings=:settings WHERE id=:accountId AND updatedAt=:updatedAt'
 			bind: {
 				#settings -> (CpJavaScriptJSON stringify: settings).
 				#accountId -> aString.
@@ -514,17 +514,13 @@ CynLocalAccountRestApiService >> updateSettings: aRestRequest response: aServerR
 		fields which are non-nil are set to their specified value.
 		fields which are nil are removed."
 
-	<patch: '/api/account/:id/settings'>
+	<patch: '/api/accounts/current/settings'>
 
-	| settings accountId |
+	| settings |
 
 	settings := (aRestRequest jsonBody) ifNil: [ self errorNoBody ].
-	accountId := aRestRequest pathParameterAt: #id.
 
-	(accountId = aRestRequest accountId or: [ self isAdminAccount: aRestRequest accountId ])
-		ifFalse: [ ^ self errorUnauthorized ].
-
-	self send: (self updateSettings: settings forAccountId: accountId) response: aServerResponse
+	self send: (self updateSettings: settings forAccountId: aRestRequest accountId) response: aServerResponse
 ]
 
 { #category : #'API - authorization' }

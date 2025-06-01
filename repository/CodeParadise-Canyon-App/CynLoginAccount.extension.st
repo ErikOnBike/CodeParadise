@@ -22,6 +22,19 @@ CynLoginAccount >> addClientChangeHandlers [
 ]
 
 { #category : #'*CodeParadise-Canyon-App' }
+CynLoginAccount >> addSetting: aSymbol value: anObject [
+
+	"Add the specified setting to the receiver.
+
+	Implementation:
+	This will be communicated to the server immediately, but we don't wait for the acknowledge."
+
+	settings at: aSymbol put: anObject.
+
+	self restSettingAt: aSymbol put: anObject
+]
+
+{ #category : #'*CodeParadise-Canyon-App' }
 CynLoginAccount >> handleSessionExpired [
 
 	"The REST API session expired, I'm no longer logged in"
@@ -89,6 +102,38 @@ CynLoginAccount >> logout [
 
 	self restApiClient reset.
 	success := false
+]
+
+{ #category : #'*CodeParadise-Canyon-App' }
+CynLoginAccount >> removeSetting: aSymbol [
+
+	"Remove the specified setting from the receiver.
+
+	Implementation:
+	This will be communicated to the server immediately, but we don't wait for the acknowledge."
+
+	settings removeKey: aSymbol ifAbsent: [ "ignore" ].
+
+	self restSettingAt: aSymbol put: nil
+]
+
+{ #category : #'*CodeParadise-Canyon-App' }
+CynLoginAccount >> restSettingAt: aSymbol put: anObject [
+
+	"Change the specified setting using the REST service.
+
+	Implementation:
+	This will be communicated to the server immediately, but we don't wait for the acknowledge."
+
+	CpGlobalThis defer: [
+		(self restApiClient patchUri: self settingsUri body: (CpJavaScriptJSON stringify: (Dictionary with: aSymbol -> anObject asJsonObjectValue)) timeoutPeriod: self restUpdateTimeoutPeriod)
+			ifNotNil: [ :content | settings := content ] ]
+]
+
+{ #category : #'*CodeParadise-Canyon-App' }
+CynLoginAccount >> settingsUri [
+
+	^ '{1}/current/settings' format: { CynAccount uri }
 ]
 
 { #category : #'*CodeParadise-Canyon-App' }
