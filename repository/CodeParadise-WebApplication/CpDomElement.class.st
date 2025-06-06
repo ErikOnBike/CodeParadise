@@ -397,6 +397,14 @@ CpDomElement >> attributeAt: nameString put: valueString [
 
 ]
 
+{ #category : #'text input' }
+CpDomElement >> blur [
+
+	"Remove the focus from the receiver"
+
+	self apply: #blur withArguments: #()
+]
+
 { #category : #sizing }
 CpDomElement >> boundingClientRectangle [
 
