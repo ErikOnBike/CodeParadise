@@ -153,6 +153,12 @@ CynClientPropertySlot >> name: aSymbol [
 	name := aSymbol
 ]
 
+{ #category : #accessing }
+CynClientPropertySlot >> nameAndValueIn: anObject do: aBlock [
+
+	aBlock value: name value: (self read: anObject)
+]
+
 { #category : #printing }
 CynClientPropertySlot >> printOn: aStream [
 
@@ -176,4 +182,26 @@ CynClientPropertySlot >> propertyValue: aSymbol ifAbsent: aBlock [
 		detect: [ :each | each isPropertyValue: aSymbol ]
 		ifFound: [ :property | property value ]
 		ifNone: aBlock
+]
+
+{ #category : #accessing }
+CynClientPropertySlot >> read: anObject [
+
+	"Delegate reading to property getter"
+
+	^ anObject rawAt: name
+]
+
+{ #category : #accessing }
+CynClientPropertySlot >> valueIn: anObject do: aBlock [
+
+	aBlock value: (self read: anObject)
+]
+
+{ #category : #accessing }
+CynClientPropertySlot >> write: aValue to: anObject [
+
+	"Delegate writing to property setter"
+
+	^ anObject rawAt: name put: aValue
 ]

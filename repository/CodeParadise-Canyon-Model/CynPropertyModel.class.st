@@ -125,6 +125,15 @@ CynPropertyModel class >> postInstall [
 ]
 
 { #category : #accessing }
+CynPropertyModel class >> propertyConstraintsAt: aSymbol do: aBlock [
+
+	"Evaluate the specified Block for each of the constraints of the specified property"
+
+	^ (self propertySlotAt: aSymbol)
+		constraintsDo: aBlock
+]
+
+{ #category : #accessing }
 CynPropertyModel class >> propertyCount [
 
 	"Answer the number of properties of the receiver"
@@ -154,6 +163,14 @@ CynPropertyModel class >> propertySlotAt: aSymbol [
 	"Answer a ClientPropertySlot containing the definition for the specified property name"
 
 	^ propertySlots at: aSymbol ifAbsent: [ self errorUndefinedProperty: aSymbol ]
+]
+
+{ #category : #accessing }
+CynPropertyModel class >> propertySlotAt: aSymbol ifAbsent: aBlock [
+
+	"Answer a ClientPropertySlot containing the definition for the specified property name"
+
+	^ propertySlots at: aSymbol ifAbsent: aBlock
 ]
 
 { #category : #accessing }
@@ -278,16 +295,21 @@ CynPropertyModel >> at: aSymbol [
 { #category : #'accessing - dictionary access' }
 CynPropertyModel >> at: aSymbol ifAbsent: aBlock [
 
-	(self hasPropertyAt: aSymbol)
-		ifFalse: [ ^ aBlock value ].
-
-	^ self rawAt: aSymbol
+	^ (self class propertySlotAt: aSymbol ifAbsent: [ ^ aBlock value ])
+		read: self
 ]
 
 { #category : #'accessing - dictionary access' }
 CynPropertyModel >> at: aSymbol ifPresent: aBlock [
 
 	^ aBlock value: (self at: aSymbol ifAbsent: [ ^ nil ])
+]
+
+{ #category : #'accessing - dictionary access' }
+CynPropertyModel >> at: aSymbol put: anObject [
+
+	^ (self class propertySlotAt: aSymbol)
+		write: anObject to: self
 ]
 
 { #category : #accessing }
@@ -393,7 +415,7 @@ CynPropertyModel >> isValidPropertyAt: aSymbol [
 	Do NOT retrieve the property value and use #isValid: since it will fail
 	on those conditional constraints."
 
-	self propertyConstraintsAt: aSymbol do: [ :each |
+	self class propertyConstraintsAt: aSymbol do: [ :each |
 		(each isValidProperty: aSymbol in: self)
 			ifFalse: [ ^ false ] ].
 
@@ -406,7 +428,7 @@ CynPropertyModel >> isValidValue: anObject forPropertyAt: aSymbol [
 	"Answer whether the specified value would be valid for the property specified.
 	This method will IGNORE any conditional constraints."
 
-	self propertyConstraintsAt: aSymbol do: [ :each |
+	self class propertyConstraintsAt: aSymbol do: [ :each |
 		(each isValidValue: anObject in: self)
 			ifFalse: [ ^ false ] ].
 
@@ -485,7 +507,7 @@ CynPropertyModel >> normalize [
 	Constrained properties have an optional normalization step.
 	Perform these for all constraints."
 
-	self propertySlotsDo: [ :each |
+	self class propertySlotsDo: [ :each |
 		each constraintsDo: [ :eachConstraint |
 			eachConstraint normalizeProperty: each name in: self ] ]
 ]
@@ -495,7 +517,7 @@ CynPropertyModel >> normalizePropertyAt: aSymbol [
 
 	"Normalize the specified property of the receiver"
 
-	self propertyConstraintsAt: aSymbol do: [ :each |
+	self class propertyConstraintsAt: aSymbol do: [ :each |
 		each normalizeProperty: aSymbol in: self ]
 ]
 
@@ -541,52 +563,17 @@ CynPropertyModel >> propertyAt: aSymbol [
 
 	"Answer the value of the specified property"
 
-	(self class hasPropertyNamed: aSymbol)
-		ifFalse: [ self class errorUndefinedProperty: aSymbol ].
-
-	^ self rawAt: aSymbol
+	^ (self class propertySlotAt: aSymbol)
+		read: self
 ]
 
 { #category : #accessing }
 CynPropertyModel >> propertyAt: aSymbol put: anObject [
 
-	"Set the specified property to the specified value.
+	"Set the specified property to the specified value"
 
-	Implementation:
-	If a property receives nil as value, it is removed from the data collection."
-
-	| oldValue |
-
-	(self class hasPropertyNamed: aSymbol)
-		ifFalse: [ self class errorUndefinedProperty: aSymbol ].
-
-	"Retrieve the old value"
-	oldValue := data at: aSymbol ifAbsent: [ nil ].
-
-	anObject
-		ifNotNil: [
-
-			"Update the value in the data collection only if new value is different"
-			oldValue = anObject
-				ifFalse: [
-					data at: aSymbol put: anObject.
-					self announce: (CynPropertyChanged name: aSymbol oldValue: oldValue newValue: anObject) ] ]
-		ifNil: [
-
-			"Update (i.e. remove) the value from the data collection only if some value was present"
-			oldValue ifNotNil: [
-				data removeKey: aSymbol ifAbsent: [ "ignore" ].
-				self announce: (CynPropertyChanged name: aSymbol oldValue: oldValue newValue: nil) ] ].
-
-	^ anObject
-]
-
-{ #category : #constraints }
-CynPropertyModel >> propertyConstraintsAt: aSymbol do: aBlock [
-
-	"Evaluate the specified Block for each of the constraints of the specified property"
-
-	^ (self propertySlotAt: aSymbol) constraintsDo: aBlock
+	^ (self class propertySlotAt: aSymbol)
+		write: anObject to: self
 ]
 
 { #category : #accessing }
@@ -602,7 +589,8 @@ CynPropertyModel >> propertyNamesAndValuesDo: aBlock [
 
 	"Evaluate the specified Block for the property names and values of the receiver"
 
-	^ self propertyNamesDo: [ :name | aBlock value: name value: (self rawAt: name) ]
+	^ self class propertySlotsDo: [ :propertySlot |
+		propertySlot nameAndValueIn: self do: aBlock ]
 ]
 
 { #category : #accessing }
@@ -611,22 +599,6 @@ CynPropertyModel >> propertyNamesDo: aBlock [
 	"Evaluate the specified Block for all property names of the receiver"
 
 	self class propertyNamesDo: aBlock
-]
-
-{ #category : #accessing }
-CynPropertyModel >> propertySlotAt: aSymbol [
-
-	"Answer a ClientPropertySlot containing the definition for the specified slot name"
-
-	^ self class propertySlotAt: aSymbol
-]
-
-{ #category : #accessing }
-CynPropertyModel >> propertySlotsDo: aBlock [
-
-	"Evaluate the specified Block for all property slots of the receiver"
-
-	self class propertySlotsDo: aBlock
 ]
 
 { #category : #accessing }
@@ -644,7 +616,8 @@ CynPropertyModel >> propertyValuesDo: aBlock [
 
 	"Evaluate the specified Block for the property values of the receiver"
 
-	^ self propertyNamesDo: [ :name | aBlock value: (self rawAt: name) ]
+	^ self class propertySlotsDo: [ :propertySlot |
+		propertySlot valueIn: self do: aBlock ]
 ]
 
 { #category : #constraints }
@@ -655,7 +628,7 @@ CynPropertyModel >> propertyViolationsAt: aSymbol do: aBlock [
 	The Block will be evaluated with a key (a Symbol or CynTextReference)
 	representing the violation."
 
-	self propertyConstraintsAt: aSymbol do: [ :each |
+	self class propertyConstraintsAt: aSymbol do: [ :each |
 
 		"Per constraint evaluate all violations. Use the 'long' form with
 		the model, since conditional constraints require access to the model.

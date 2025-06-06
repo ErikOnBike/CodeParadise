@@ -72,12 +72,24 @@ CpPropertySlot >> isAccessedIn: aCompiledMethod [
 		anySatisfy: [ :node | node binding == self ]
 ]
 
+{ #category : #accessing }
+CpPropertySlot >> nameAndValueIn: anObject do: aBlock [
+
+	aBlock value: name value: (self read: anObject)
+]
+
 { #category : #'meta-object-protocol' }
 CpPropertySlot >> read: anObject [
 
 	"Delegate reading to property getter"
 
-	^ anObject rawAt: self name
+	^ anObject rawAt: name
+]
+
+{ #category : #accessing }
+CpPropertySlot >> valueIn: anObject do: aBlock [
+
+	aBlock value: (self read: anObject)
 ]
 
 { #category : #'meta-object-protocol' }
@@ -85,5 +97,5 @@ CpPropertySlot >> write: aValue to: anObject [
 
 	"Delegate writing to property setter"
 
-	^ anObject rawAt: self name put: aValue
+	^ anObject rawAt: name put: aValue
 ]
