@@ -8,14 +8,14 @@ set of definitions without the need to create new subclasses.
 
 Be aware:
 This technique can be used inside CodeParadise's tiny image, only because the code generated for this
-type of slot is hardcoded to the specific superclass and does not require the elaborate SlotLayout
-mechanism which is used in Pharo for all slots. Every slot access (i.e. access through the variable
+type of slot is hardcoded to use instance methods of the CpPropertyModel and does not require the elaborate
+SlotLayout mechanism which is used in Pharo for all slots. Every slot access (i.e. access through the variable
 name inside methods) will generate this specific code and is therefore free of any other dependencies.
 
 "
 Class {
 	#name : #CpPropertySlot,
-	#superclass : #DerivedSlot,
+	#superclass : #Slot,
 	#category : #'CodeParadise-Canyon-Model-Core'
 }
 
@@ -58,18 +58,6 @@ CpPropertySlot >> emitValue: methodBuilder [
 		pushLiteral: self name ;
 		pushLiteral: nil ;
 		send: #at:ifAbsent:
-]
-
-{ #category : #testing }
-CpPropertySlot >> isAccessedIn: aCompiledMethod [
-
-	"Return whether the receiver is accessed in the specified Method.
-
-	Pay attention that the compiler is free to remove unused variable. The access is only guaranteed for used
-	instance variables e.g. part of return, expression, assignment..."
-
-	^ aCompiledMethod ast instanceVariableNodes
-		anySatisfy: [ :node | node binding == self ]
 ]
 
 { #category : #accessing }
