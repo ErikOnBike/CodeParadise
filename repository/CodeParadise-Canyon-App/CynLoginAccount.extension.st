@@ -131,7 +131,7 @@ CynLoginAccount >> restSettingAt: aSymbol put: anObject [
 
 	CpGlobalThis defer: [
 		(self restApiClient patchUri: self settingsUri body: (CpJavaScriptJSON stringify: (Dictionary with: aSymbol -> anObject asJsonObjectValue)) timeoutPeriod: self restUpdateTimeoutPeriod)
-			ifNotNil: [ :content | settings merge: content ] ]
+			ifNotNil: [ :content | content keysAndValuesDo: [ :key :value | settings at: key put: value] ] ]
 ]
 
 { #category : #'*CodeParadise-Canyon-App' }
