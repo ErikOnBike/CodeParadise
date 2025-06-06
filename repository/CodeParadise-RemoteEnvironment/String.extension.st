@@ -3,9 +3,18 @@ Extension { #name : #String }
 { #category : #'*CodeParadise-RemoteEnvironment' }
 String >> asNumberOrNil [
 
+	"Answer the specified number represented by the receiver
+	or nil if no such value exists.
+	The 'special' values 'NaN', 'Infinity' and '-Infinity' ARE supported.
+	In contrast with #asNumber, the (Smalltalk) radix is NOT supported.
+	For example: 16rff will not be accepted (i.e. will answer nil)."
+
 	<clientEnvironment>
 
-	^ [ self asNumber ] on: Error do: [ nil ]
+	^ [
+		(self includes: $r)
+			ifFalse: [ self asNumber ]
+	] on: Error do: [ nil ]
 ]
 
 { #category : #'*CodeParadise-RemoteEnvironment' }
