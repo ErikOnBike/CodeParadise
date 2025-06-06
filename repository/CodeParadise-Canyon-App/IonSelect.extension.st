@@ -12,11 +12,9 @@ IonSelect >> initializeForModel: aModel property: aSymbol [
 
 	selection := OrderedDictionary new.
 
-	aModel class propertyConstraintsAt: aSymbol do: [ :each |
-		each isSelection
-			ifTrue: [
-				each selection do: [ :value |
-					selection at: value put: (aModel labelFor: aSymbol selection: value) ] ] ].
+	aModel class propertySelectionConstraintsAt: aSymbol do: [ :each |
+		each selection do: [ :value |
+			selection at: value put: (aModel labelFor: aSymbol selection: value) ] ].
 
 	self removeChildren.
 

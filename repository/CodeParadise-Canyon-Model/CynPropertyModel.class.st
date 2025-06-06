@@ -158,6 +158,16 @@ CynPropertyModel class >> propertyNamesDo: aBlock [
 ]
 
 { #category : #accessing }
+CynPropertyModel class >> propertySelectionConstraintsAt: aSymbol do: aBlock [
+
+	"Evaluate the specified Block for each of the selection constraints of the specified property"
+
+	^ self propertyConstraintsAt: aSymbol do: [ :each |
+		each isSelection
+			ifTrue: [ aBlock value: each ] ]
+]
+
+{ #category : #accessing }
 CynPropertyModel class >> propertySlotAt: aSymbol [
 
 	"Answer a ClientPropertySlot containing the definition for the specified property name"
