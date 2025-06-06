@@ -193,7 +193,10 @@ CynRestApiClient >> patchUri: uriString body: anObject timeoutPeriod: anInteger 
 CynRestApiClient >> performOperation: aSymbol uri: uriString queryParams: aDictionary body: anObject timeoutPeriod: anInteger [
 
 	"Perform the specified operation with URI and body (can be nil) and answer the response content.
-	The body object can be a String, ArrayBuffer, Blob, File, FormData or a ReadableStream."
+	The body object can be a String, ArrayBuffer, Blob, File, FormData or a ReadableStream.
+	If the query parameter's Dictionary contains non-String values, these will be converted to
+	Strings. Exception is a nil value, which will NOT be used at all. To send such values to the
+	server, replace nil values with the desired String representation."
 
 	| headers url fetch response |
 
@@ -215,15 +218,16 @@ CynRestApiClient >> performOperation: aSymbol uri: uriString queryParams: aDicti
 
 			haveParams := uriString includes: $?.
 			aDictionary keysAndValuesDo: [ :key :value |
-				haveParams
-					ifTrue: [ stream nextPut: $& ]
-					ifFalse: [
-						stream nextPut: $?.
-						haveParams := true ].
-				stream
-					nextPutAll: (CpGlobalThis encodeURIComponent: key) ;
-					nextPut: $= ;
-					nextPutAll: (CpGlobalThis encodeURIComponent: value) ] ] ].
+				value ifNotNil: [
+					haveParams
+						ifTrue: [ stream nextPut: $& ]
+						ifFalse: [
+							stream nextPut: $?.
+							haveParams := true ].
+					stream
+						nextPutAll: (CpGlobalThis encodeURIComponent: key) ;
+						nextPut: $= ;
+						nextPutAll: (CpGlobalThis encodeURIComponent: value asString) ] ] ] ].
 
 	"Create request"
 	fetch := CpGlobalThis
