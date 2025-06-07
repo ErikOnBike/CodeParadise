@@ -75,6 +75,12 @@ CpPartialClass >> cpEncodeWith: anEncoder [
 	anEncoder encodePartialClass: self
 ]
 
+{ #category : #delegating }
+CpPartialClass >> cpInstVarNames [
+
+	^ theClass cpInstVarNames
+]
+
 { #category : #initialization }
 CpPartialClass >> initialize [
 

@@ -225,7 +225,7 @@ CpObjectEncoder >> encodeClass: aClass [
 	self writeSymbol: aClass superclass name.
 
 	"Write instance variable, class variable and class instance variable names (name collections might be Set or OrderedCollection)"
-	self writeArray: aClass instVarNames asArray.
+	self writeArray: aClass cpInstVarNames asArray.
 	self writeArray: aClass classVarNames asArray.
 	self writeArray: aClass class instVarNames asArray.
 
@@ -452,7 +452,7 @@ CpObjectEncoder >> encodePartialClass: aPartialClass [
 	self writeSymbol: aPartialClass superclass name.
 
 	"Write instance variable, class variable and class instance variable names (name collections might be Set or OrderedCollection)"
-	self writeArray: aPartialClass instVarNames asArray.
+	self writeArray: aPartialClass cpInstVarNames asArray.
 	self writeArray: aPartialClass classVarNames asArray.
 	self writeArray: aPartialClass classInstVarNames asArray.
 

@@ -43,6 +43,26 @@ Class >> cpEncodeWith: anEncoder [
 ]
 
 { #category : #'*CodeParadise-RemoteEnvironment' }
+Class >> cpInstVarNames [
+
+	"Answer the instance variable names for non-virtual slots.
+
+	Be aware: this is a temporary implementation.
+	When only using instance variable names of non-virtual slots, the size of the
+	instances in the tiny image will match the ones in the 'server' image.
+
+	Full support for slots is on the to-do list."
+
+	^ self instVarNames select: [ :each |
+
+		"Allow only non-virtual slots"
+		self
+			slotNamed: each
+			ifFound: [ :slot | slot isVirtual not ]
+			ifNone: [ true ] ]
+]
+
+{ #category : #'*CodeParadise-RemoteEnvironment' }
 Class >> errorNewReplacedBy: aString [
 
 	"Signal the receiver should not be instantiated using #new
