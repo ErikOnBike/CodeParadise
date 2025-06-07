@@ -45,6 +45,22 @@ Class {
 	#category : #'CodeParadise-Canyon-Model-Core'
 }
 
+{ #category : #'accessing - generated' }
+CynPropertyModel class >> allPropertyNames [
+
+	"Generated code. DO NOT EDIT"
+
+	^ #()
+]
+
+{ #category : #'accessing - generated' }
+CynPropertyModel class >> calculatedProperties [
+
+	"Generated code. DO NOT EDIT"
+
+	^ #()
+]
+
 { #category : #'event handling' }
 CynPropertyModel class >> classDefinitionChanged: aClassModifiedClassDefinition [
 
@@ -54,6 +70,7 @@ CynPropertyModel class >> classDefinitionChanged: aClassModifiedClassDefinition 
 		ifFalse: [ ^ self ].
 
 	aClassModifiedClassDefinition classAffected
+		updatePropertySelectors ;
 		updatePropertyDefinitions
 ]
 
@@ -68,6 +85,43 @@ CynPropertyModel class >> fromDictionary: aDictionary [
 		instance propertyAt: key put: value ].
 
 	^ instance
+]
+
+{ #category : #private }
+CynPropertyModel class >> generateGetPropertiesMethod: aSymbol with: aCollection [
+
+	| sourceCode firstSeen |
+
+	"Remove the method if no properties are present (it will have a fallback method answering an empty collection)"
+	aCollection ifEmpty: [
+
+		"Remove the class side method"
+		self class
+			compiledMethodAt: aSymbol
+			ifPresent: [ :method | self class removeSelector: aSymbol ].
+
+		^ self ].
+
+	sourceCode := String streamContents: [ :stream |
+		stream
+			nextPutAll: aSymbol ; cr ;
+			cr ;
+			tab ; nextPutAll: '"Generated code. DO NOT EDIT"' ; cr ;
+			cr ;
+			tab ; nextPutAll: '^ #('.
+
+		"Add the property names to the collection"
+		firstSeen := false.
+		aCollection do: [ :each |
+			firstSeen
+				ifTrue: [ stream space ]
+				ifFalse: [ firstSeen := true ].
+			stream nextPutAll: each value ].
+		
+		stream nextPut: $) ].
+
+	"Compile as class side method"
+	self class compile: sourceCode classified: 'accessing - generated'
 ]
 
 { #category : #testing }
@@ -114,6 +168,19 @@ CynPropertyModel class >> isRunningServerSide [
 	^ self isRunningClientSide not
 ]
 
+{ #category : #private }
+CynPropertyModel class >> newClientPropertySlotNamed: aSymbol [
+
+	| propertyNames |
+
+	CynClientPropertySlot allSubclassesDo: [ :each |
+		propertyNames := (self perform: each propertyCategory).
+		(propertyNames includes: aSymbol)
+			ifTrue: [ ^ each named: aSymbol ] ].
+
+	self error: ('Unknown property type for property {1} of {2}' format: { aSymbol . name })
+]
+
 { #category : #accessing }
 CynPropertyModel class >> postInstall [
 
@@ -146,7 +213,7 @@ CynPropertyModel class >> propertyNames [
 
 	"Answer the names of the properties of the receiver"
 
-	^ propertySlots keys
+	^ self allPropertyNames
 ]
 
 { #category : #accessing }
@@ -154,7 +221,7 @@ CynPropertyModel class >> propertyNamesDo: aBlock [
 
 	"Evaluate the specified Block for the names of the properties of the receiver"
 
-	^ propertySlots keysDo: aBlock
+	^ self allPropertyNames do: aBlock
 ]
 
 { #category : #accessing }
@@ -191,6 +258,14 @@ CynPropertyModel class >> propertySlotsDo: aBlock [
 	propertySlots valuesDo: aBlock
 ]
 
+{ #category : #'accessing - generated' }
+CynPropertyModel class >> readWriteProperties [
+
+	"Generated code. DO NOT EDIT"
+
+	^ #()
+]
+
 { #category : #initialization }
 CynPropertyModel class >> release [
 
@@ -214,6 +289,18 @@ CynPropertyModel class >> updateAllPropertyDefinitions [
 ]
 
 { #category : #private }
+CynPropertyModel class >> updateAllPropertySelectors [
+
+	"Update the property selectors for all subclasses of the receiver"
+
+	<script>
+	<serverEnvironment>
+
+	self allSubclassesDo: [ :each |
+		each updatePropertySelectors ]
+]
+
+{ #category : #private }
 CynPropertyModel class >> updatePropertyDefinitions [
 
 	"Update the property definitions for the receiver"
@@ -222,7 +309,8 @@ CynPropertyModel class >> updatePropertyDefinitions [
 
 	"The individual property definitions are stored in the (Client)PropertySlot"
 	propertySlots := OrderedDictionary new.
-	self allInstVarNamesBelow: CynPropertyModel do: [ :each | propertySlots at: each put: (CynClientPropertySlot named: each) ].
+	self allPropertyNames do: [ :each |
+		propertySlots at: each put: (self newClientPropertySlotNamed: each) ].
 
 	"Perform the methods to set the property definitions (based on presence of pragma <propertyDefinition>.
 	The order is not important here."
@@ -233,6 +321,28 @@ CynPropertyModel class >> updatePropertyDefinitions [
 				each selector = #propertyDefinition
 					ifTrue: [ self perform: selector ] ] ].
 		class := class superclass ]
+]
+
+{ #category : #private }
+CynPropertyModel class >> updatePropertySelectors [
+
+	"Update (re-generate) the property selectors for the receiver"
+
+	<serverEnvironment>
+
+	| selectors |
+
+	selectors := OrderedCollection new.
+
+	self classLayout
+		allSlotsDo: [ :slot | slot addPropertyTo: selectors ].
+
+	"Generate the #allPropertyNames method"
+	self generateGetPropertiesMethod: #allPropertyNames with: selectors.
+
+	"Generate a method per property category"
+	CynAbstractPropertySlot allSubclassesDo: [ :eachClass |
+		self generateGetPropertiesMethod: eachClass propertyCategory with: (selectors select: [ :each | each key = eachClass propertyCategory ]) ]
 ]
 
 { #category : #comparing }

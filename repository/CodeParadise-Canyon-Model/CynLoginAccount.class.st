@@ -2,13 +2,21 @@ Class {
 	#name : #CynLoginAccount,
 	#superclass : #CynAccount,
 	#instVars : [
-		'#password => CpPropertySlot',
-		'#expires => CpPropertySlot',
-		'#success => CpPropertySlot',
-		'#settings => CpPropertySlot'
+		'#password => CynPropertySlot',
+		'#expires => CynPropertySlot',
+		'#success => CynPropertySlot',
+		'#settings => CynPropertySlot'
 	],
 	#category : #'CodeParadise-Canyon-Model-Core'
 }
+
+{ #category : #'accessing - generated' }
+CynLoginAccount class >> allPropertyNames [
+
+	"Generated code. DO NOT EDIT"
+
+	^ #(id task email password expires success settings)
+]
 
 { #category : #accessing }
 CynLoginAccount class >> propertyConstraints [
@@ -21,6 +29,14 @@ CynLoginAccount class >> propertyConstraints [
 	self for: #expires addConstraint: (CynSelectionPropertyConstraint selection: #(usage day never)) to: constraints.
 
 	^ constraints
+]
+
+{ #category : #'accessing - generated' }
+CynLoginAccount class >> readWriteProperties [
+
+	"Generated code. DO NOT EDIT"
+
+	^ #(id task email password expires success settings)
 ]
 
 { #category : #accessing }

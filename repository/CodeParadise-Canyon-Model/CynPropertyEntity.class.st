@@ -21,13 +21,21 @@ Class {
 	#name : #CynPropertyEntity,
 	#superclass : #CynPropertyModel,
 	#instVars : [
-		'#id => CpPropertySlot'
+		'#id => CynPropertySlot'
 	],
 	#classInstVars : [
 		'#config'
 	],
 	#category : #'CodeParadise-Canyon-Model-Core'
 }
+
+{ #category : #'accessing - generated' }
+CynPropertyEntity class >> allPropertyNames [
+
+	"Generated code. DO NOT EDIT"
+
+	^ #(id)
+]
 
 { #category : #'accessing - configuration' }
 CynPropertyEntity class >> configAt: aSymbol [
@@ -106,6 +114,14 @@ CynPropertyEntity class >> propertyConstraints [
 	The keys are the property names and the value is a collection of PropertyConstraint instances."
 
 	^ Dictionary new
+]
+
+{ #category : #'accessing - generated' }
+CynPropertyEntity class >> readWriteProperties [
+
+	"Generated code. DO NOT EDIT"
+
+	^ #(id)
 ]
 
 { #category : #'accessing - configuration' }

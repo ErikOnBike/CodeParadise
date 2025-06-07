@@ -14,13 +14,13 @@ name inside methods) will generate this specific code and is therefore free of a
 
 "
 Class {
-	#name : #CpPropertySlot,
-	#superclass : #Slot,
+	#name : #CynPropertySlot,
+	#superclass : #CynAbstractPropertySlot,
 	#category : #'CodeParadise-Canyon-Model-Core'
 }
 
 { #category : #'class initialization' }
-CpPropertySlot class >> postInstall [
+CynPropertySlot class >> postInstall [
 
 	"This is a stop gap method to notice if the receiver is installed in a ClientEnvironment.
 	This should NOT happen. Since it is part of the slot-mechanism of Pharo which is not
@@ -29,10 +29,16 @@ CpPropertySlot class >> postInstall [
 	self error: 'I should not be installed in a ClientEnvironment!'
 ]
 
-{ #category : #'code generation' }
-CpPropertySlot >> emitStore: methodBuilder [
+{ #category : #accessing }
+CynPropertySlot class >> propertyCategory [
 
-	"Generate bytecode for 'rcvr rawAt: self name put: <stackTop>'"
+	^ CynClientReadWritePropertySlot propertyCategory
+]
+
+{ #category : #'code generation' }
+CynPropertySlot >> emitStore: methodBuilder [
+
+	"Generate bytecode for 'rcvr rawAt: name put: <stackTop>'"
 
 	| tempName |
 
@@ -49,9 +55,9 @@ CpPropertySlot >> emitStore: methodBuilder [
 ]
 
 { #category : #'code generation' }
-CpPropertySlot >> emitValue: methodBuilder [
+CynPropertySlot >> emitValue: methodBuilder [
 
-	"Generate bytecode for 'data at: self name ifAbsent: nil'"
+	"Generate bytecode for 'data at: name ifAbsent: nil'"
 
 	methodBuilder
 		pushInstVar: (self owningClass instVarIndexFor: #data) ;
@@ -60,28 +66,16 @@ CpPropertySlot >> emitValue: methodBuilder [
 		send: #at:ifAbsent:
 ]
 
-{ #category : #accessing }
-CpPropertySlot >> nameAndValueIn: anObject do: aBlock [
-
-	aBlock value: name value: (self read: anObject)
-]
-
 { #category : #'meta-object-protocol' }
-CpPropertySlot >> read: anObject [
+CynPropertySlot >> read: anObject [
 
 	"Delegate reading to property getter"
 
 	^ anObject rawAt: name
 ]
 
-{ #category : #accessing }
-CpPropertySlot >> valueIn: anObject do: aBlock [
-
-	aBlock value: (self read: anObject)
-]
-
 { #category : #'meta-object-protocol' }
-CpPropertySlot >> write: aValue to: anObject [
+CynPropertySlot >> write: aValue to: anObject [
 
 	"Delegate writing to property setter"
 

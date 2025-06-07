@@ -34,5 +34,9 @@ CynRestHttpServerApplication >> load [
 
 	super load.
 
+	"By default install all property slot (types)"
+	CynClientPropertySlot allSubclassesDo: [ :each |
+		self installClass: each ].
+
 	self installClass: CpNodeJSRestHttpServer
 ]

@@ -78,8 +78,8 @@ CynLengthPropertyConstraint >> normalize: aString [
 
 	aString ifNil: [ ^ nil ].
 
-	"Trim and remove control characters"
-	^ aString trim select: [ :each | each asciiValue >= 32 ]
+	"Trim and remove control characters (except for linefeed and tab)"
+	^ aString trim select: [ :each | each asciiValue >= 32 or: [ each asciiValue between: 9 and: 10 ] ]
 ]
 
 { #category : #validating }

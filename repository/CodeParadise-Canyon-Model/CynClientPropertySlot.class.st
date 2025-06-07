@@ -20,6 +20,16 @@ CynClientPropertySlot class >> named: aSymbol [
 		yourself
 ]
 
+{ #category : #accessing }
+CynClientPropertySlot class >> propertyCategory [
+
+	"Answer the property category.
+
+	BE AWARE: this will become a selector for a class side method in a PropertyModel."
+
+	self subclassResponsibility
+]
+
 { #category : #comparing }
 CynClientPropertySlot >> = anObject [ 
 
@@ -187,9 +197,7 @@ CynClientPropertySlot >> propertyValue: aSymbol ifAbsent: aBlock [
 { #category : #accessing }
 CynClientPropertySlot >> read: anObject [
 
-	"Delegate reading to property getter"
-
-	^ anObject rawAt: name
+	self subclassResponsibility
 ]
 
 { #category : #accessing }
@@ -201,7 +209,5 @@ CynClientPropertySlot >> valueIn: anObject do: aBlock [
 { #category : #accessing }
 CynClientPropertySlot >> write: aValue to: anObject [
 
-	"Delegate writing to property setter"
-
-	^ anObject rawAt: name put: aValue
+	self subclassResponsibility
 ]

@@ -13,11 +13,19 @@ Class {
 	#name : #CynAccount,
 	#superclass : #CynPropertyEntity,
 	#instVars : [
-		'#task => CpPropertySlot',
-		'#email => CpPropertySlot'
+		'#task => CynPropertySlot',
+		'#email => CynPropertySlot'
 	],
 	#category : #'CodeParadise-Canyon-Model-Core'
 }
+
+{ #category : #'accessing - generated' }
+CynAccount class >> allPropertyNames [
+
+	"Generated code. DO NOT EDIT"
+
+	^ #(id task email)
+]
 
 { #category : #accessing }
 CynAccount class >> propertyConstraints [
@@ -29,6 +37,14 @@ CynAccount class >> propertyConstraints [
 	self for: #email addConstraint: CynEmailPropertyConstraint default to: constraints.
 
 	^ constraints
+]
+
+{ #category : #'accessing - generated' }
+CynAccount class >> readWriteProperties [
+
+	"Generated code. DO NOT EDIT"
+
+	^ #(id task email)
 ]
 
 { #category : #accessing }

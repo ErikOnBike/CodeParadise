@@ -110,6 +110,18 @@ CynMobileWebApplication >> postReload [
 ]
 
 { #category : #actions }
+CynMobileWebApplication >> preLoad [
+
+	"Preload classes into the application"
+
+	super preLoad.
+
+	"By default install all property slot (types)"
+	CynClientPropertySlot allSubclassesDo: [ :each |
+		self installClass: each ]
+]
+
+{ #category : #actions }
 CynMobileWebApplication >> startInstance [
 
 	"Start instance of the receiver in the browser"
