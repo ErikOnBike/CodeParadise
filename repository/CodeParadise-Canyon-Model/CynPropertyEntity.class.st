@@ -101,6 +101,14 @@ CynPropertyEntity class >> for: aSymbol addConstraint: aPropertyConstraint to: a
 		add: aPropertyConstraint
 ]
 
+{ #category : #'instance creation' }
+CynPropertyEntity class >> id: aString [
+
+	^ self basicNew
+		initializeWithId: aString ;
+		yourself
+]
+
 { #category : #'class initialization' }
 CynPropertyEntity class >> postInstallOnce [
 
@@ -161,6 +169,15 @@ CynPropertyEntity >> id [
 	"Answer the (unique) id of the receiver"
 
 	^ id
+]
+
+{ #category : #initialization }
+CynPropertyEntity >> initializeWithId: aString [
+
+	self initialize.
+
+	"Set the id, do not perform any announcements or validation"
+	data at: #id put: aString
 ]
 
 { #category : #testing }
