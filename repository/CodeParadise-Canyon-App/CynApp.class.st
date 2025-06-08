@@ -385,7 +385,7 @@ CynApp >> confirm: titleString action: actionString cancel: cancelString onConfi
 				yourself }.
 
 	"Cancelled by either cancel or backdrop"
-	action role = #cancel
+	(action isNil or: [ action role = #cancel ])
 		ifTrue: [ ^ false ].
 
 	"Evaluate the confirmation Block (if present).
