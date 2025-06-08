@@ -1121,7 +1121,7 @@ CynApp >> showLoading: aString [
 	Do NOT perform an #await here to prevent any delay."
 
 	self hasInteraction
-		ifTrue: [ self traceCr: 'naah'. ^ self ].
+		ifTrue: [ ^ self ].
 
 	^ self main appendChild: (IonLoading new
 		message: aString ;
