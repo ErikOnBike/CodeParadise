@@ -132,11 +132,15 @@ CynPropertyEntity >> restDelete [
 
 	"If the resource is new, delete is a no-op"
 	self isNew
-		ifTrue: [ ^ self ].
+		ifTrue: [
+			self announce: (CynModelDeleted model: self).
+			^ self ].
 
 	self
 		restDeleteUsingUri: self uri
-		timeoutPeriod: self restDeleteTimeoutPeriod
+		timeoutPeriod: self restDeleteTimeoutPeriod.
+
+	self announce: (CynModelDeleted model: self)
 ]
 
 { #category : #'*CodeParadise-Canyon-App' }

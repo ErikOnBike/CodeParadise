@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'name'
 	],
-	#category : #'CodeParadise-Canyon-Model-Core'
+	#category : #'CodeParadise-Canyon-Model-Announcements'
 }
 
 { #category : #'instance creation' }

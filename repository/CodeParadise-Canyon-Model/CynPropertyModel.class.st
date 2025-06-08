@@ -797,6 +797,14 @@ CynPropertyModel >> rawAt: aSymbol put: anObject [
 	^ anObject
 ]
 
+{ #category : #initialization }
+CynPropertyModel >> release [
+
+	super release.
+
+	data := nil
+]
+
 { #category : #'accessing - dictionary access' }
 CynPropertyModel >> removeKey: aSymbol [
 
