@@ -186,6 +186,8 @@ CynModelView >> do: aBlock whileShowing: aString [
 
 	"Evaluate the specified Block while showing a message.
 	Answer the result of the evaluation.
+	
+	Be aware: There is no exception handling performed, callers should add any error handling required.
 
 	Implementation:
 	The loading message will not be shown until a loading time has passed. This is to
@@ -210,37 +212,45 @@ CynModelView >> do: aBlock whileShowing: aString [
 { #category : #operations }
 CynModelView >> doDelete [
 
-	"Perform the operation and answer whether the operation performed successfully.
-	In case of an error the receiver's error handler is called and its result is
-	answered (allowing the error handler to 'fix' the situation).
-	This is a convenience method for pages/views with a single specific operation."
+	^ self doDelete: model
+]
+
+{ #category : #operations }
+CynModelView >> doDelete: aModel [
+
+	"Perform the operation and answer whether the operation performed successfully"
+
+	^ self doDelete: aModel whileShowing: self loadingDeleteText
+]
+
+{ #category : #operations }
+CynModelView >> doDelete: aModel whileShowing: aString [
+
+	"Delete the specified model while showing a message.
+	Answer a Boolean stating the success of the delete operation."
 
 	[
-		self doDeleteWhileShowing: self loadingDeleteText.
+		self do: [ aModel restDelete ] whileShowing: aString
 	] on: Error do: [ :error | ^ self handleError: error ].
 
 	^ true
 ]
 
 { #category : #operations }
-CynModelView >> doDeleteWhileShowing: aString [
+CynModelView >> doOperation: aBlock [
 
-	"Delete the receiver's model while showing a message.
-	Answer the result of the delete request."
+	"Perform the operation and answer whether the operation performed successfully"
 
-	^ self do: [ self modelDelete ] whileShowing: aString
+	^ self doOperation: aBlock whileShowing: self loadingOperationText
 ]
 
 { #category : #operations }
-CynModelView >> doOperation: aBlock [
+CynModelView >> doOperation: aBlock whileShowing: aString [
 
-	"Perform the operation and answer whether the operation performed successfully.
-	In case of an error the receiver's error handler is called and its result is
-	answered (allowing the error handler to 'fix' the situation).
-	This is a convenience method for pages/views with a single specific operation."
+	"Perform the operation and answer whether the operation performed successfully"
 
 	[
-		self do: aBlock whileShowing: self loadingOperationText.
+		self do: aBlock whileShowing: aString.
 	] on: Error do: [ :error | ^ self handleError: error ].
 
 	^ true
@@ -249,49 +259,55 @@ CynModelView >> doOperation: aBlock [
 { #category : #operations }
 CynModelView >> doRead [
 
-	"Perform the operation and answer whether the operation performed successfully.
-	In case of an error the receiver's error handler is called and its result is
-	answered (allowing the error handler to 'fix' the situation).
-	This is a convenience method for pages/views with a single specific operation."
-
-	[
-		self doReadWhileShowing: self loadingReadText
-	] on: Error do: [ :error | ^ self handleError: error ].
-
-	^ true
+	^ self doRead: model
 ]
 
 { #category : #operations }
-CynModelView >> doReadWhileShowing: aString [
+CynModelView >> doRead: aModel [
 
-	"Read the receiver's model while showing a message.
-	Answer the result of the read request."
+	"Perform the operation and answer whether the operation performed successfully"
 
-	^ self do: [ self modelRead ] whileShowing: aString
+	^ self doRead: aModel whileShowing: self loadingReadText
+]
+
+{ #category : #operations }
+CynModelView >> doRead: aModel whileShowing: aString [
+
+	"Read the specified model while showing a message.
+	Answer a Boolean stating the success of the read operation."
+
+	[
+		self do: [ aModel restRead ] whileShowing: aString	
+	] on: Error do: [ :error | ^ self handleError: error ].
+
+	^ true
 ]
 
 { #category : #operations }
 CynModelView >> doWrite [
 
-	"Perform the operation and answer whether the operation performed successfully.
-	In case of an error the receiver's error handler is called and its result is
-	answered (allowing the error handler to 'fix' the situation).
-	This is a convenience method for pages/views with a single specific operation."
-
-	[
-		self doWriteWhileShowing: self loadingWriteText
-	] on: Error do: [ :error | ^ self handleError: error ].
-
-	^ true
+	^ self doWrite: model
 ]
 
 { #category : #operations }
-CynModelView >> doWriteWhileShowing: aString [
+CynModelView >> doWrite: aModel [
 
-	"Write the receiver's model while showing a message.
-	Answer the result of the write request."
+	"Perform the operation and answer whether the operation performed successfully"
 
-	^ self do: [ self modelWrite ] whileShowing: aString
+	^ self doWrite: aModel whileShowing: self loadingWriteText
+]
+
+{ #category : #operations }
+CynModelView >> doWrite: aModel whileShowing: aString [
+
+	"Write the specified model while showing a message.
+	Answer a Boolean stating the success of the write operation."
+
+	[
+		self do: [ aModel restWrite ] whileShowing: aString
+	] on: Error do: [ :error | ^ self handleError: error ].
+
+	^ true
 ]
 
 { #category : #'event handling' }
@@ -471,24 +487,6 @@ CynModelView >> model: aModel [
 CynModelView >> modelChanged: aPropertyChange [
 
 	"The model of the receiver changed"
-]
-
-{ #category : #operations }
-CynModelView >> modelDelete [
-
-	model restDelete
-]
-
-{ #category : #operations }
-CynModelView >> modelRead [
-
-	model restRead
-]
-
-{ #category : #operations }
-CynModelView >> modelWrite [
-
-	model restWrite
 ]
 
 { #category : #view }

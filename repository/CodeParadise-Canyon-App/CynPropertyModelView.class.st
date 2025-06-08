@@ -81,6 +81,43 @@ CynPropertyModelView >> boundProperties [
 	^ #()
 ]
 
+{ #category : #operations }
+CynPropertyModelView >> doDelete [
+
+	"Delete the receiver's model.
+
+	Implementation:
+	Reset the copied model to the original (to prevent being seen as dirty)
+	and set the original as modal result"
+
+	super doDelete
+		ifFalse: [ ^ false ].
+
+	model := originalModel copy.
+
+	self modalResult: originalModel.
+
+	^ true
+]
+
+{ #category : #operations }
+CynPropertyModelView >> doWrite [
+
+	"Write the receiver's model.
+
+	Implementation:
+	Merge the copied model into the original and set it as modal result"
+
+	super doWrite
+		ifFalse: [ ^ false ].
+
+	originalModel merge: model.
+
+	self modalResult: originalModel.
+
+	^ true
+]
+
 { #category : #testing }
 CynPropertyModelView >> isDirtyProperty: aSymbol [
 
@@ -109,20 +146,6 @@ CynPropertyModelView >> model: aModel [
 	super model: aModel copy
 ]
 
-{ #category : #operations }
-CynPropertyModelView >> modelDelete [
-
-	"Delete the receiver's model.
-	Reset the copied model to the original (to prevent being seen as dirty)
-	and set the original as modal result"
-
-	super modelDelete.
-
-	model := originalModel copy.
-
-	self modalResult: originalModel
-]
-
 { #category : #'validating - private' }
 CynPropertyModelView >> modelViolations [
 
@@ -148,20 +171,6 @@ CynPropertyModelView >> modelViolations [
 				ifAbsentPut: [ OrderedCollection with: violation ] ] ].
 
 	^ violations
-]
-
-{ #category : #operations }
-CynPropertyModelView >> modelWrite [
-
-	"Write the receiver's model.
-	Merge the copied model into the original and set it as modal result"
-
-	super modelWrite.
-
-	originalModel merge: model.
-
-	"Set positive result"
-	self modalResult: originalModel
 ]
 
 { #category : #validating }
