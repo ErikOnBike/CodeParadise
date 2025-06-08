@@ -1,8 +1,18 @@
 Class {
 	#name : #CynText,
-	#superclass : #CpWebComponent,
+	#superclass : #CpTemplateComponent,
 	#category : #'CodeParadise-Canyon-App-View'
 }
+
+{ #category : #'web resources' }
+CynText class >> style [
+
+	<webResource: #css>
+
+	^ ':host {
+	display: inline;
+}'
+]
 
 { #category : #initialization }
 CynText >> initialize [
@@ -11,15 +21,5 @@ CynText >> initialize [
 
 	"Set text if value provided as attribute"
 	(self attributeAt: #text)
-		ifNotNil: [ :text | self text: text ]
-]
-
-{ #category : #accessing }
-CynText >> text: text [
-
-	self replaceWith: ((CpHtmlElement newWithTag: #span)
-		addClass: #'lang-text' ;
-		attributeAt: #'lang-text' put: text ;
-		textContent: (CynPropertyEntity text: text asSymbol) ;
-		yourself)
+		ifNotNil: [ :text | self textContent: (CynPropertyEntity text: text asSymbol) ]
 ]
