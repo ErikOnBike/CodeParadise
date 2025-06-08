@@ -82,19 +82,19 @@ CynPropertyModelView >> boundProperties [
 ]
 
 { #category : #testing }
-CynPropertyModelView >> isDirtyModel [
-
-	"Answer whether the receiver's model has changed"
-
-	^ originalModel ~= model
-]
-
-{ #category : #testing }
 CynPropertyModelView >> isDirtyProperty: aSymbol [
 
 	"Answer whether the specified property has changed"
 
 	^ (originalModel propertyAt: aSymbol) ~= (model propertyAt: aSymbol)
+]
+
+{ #category : #testing }
+CynPropertyModelView >> isModelDirty [
+
+	"Answer whether the receiver's model has changed"
+
+	^ originalModel ~= model
 ]
 
 { #category : #accessing }
