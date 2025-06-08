@@ -2,12 +2,15 @@
 I am the Canyon App. I represent the app's main access point and will therefore be referenced
 (e.g. from a CynModelView) as the 'app'. I am also the main view in the application (that is,
 I'm a WebComponent).
-I am responsible for maintaining a number of visual components (in order):
+I am responsible for maintaining a number of visual components:
 - menu
 - pages (through a navigation component)
 - loading (showing a message while performing some operation)
-- toast
-- alert
+- toast (showing a temporary message/notification)
+- alert (showing a message requiring confirmation)
+- select action (showing a list of actions to choose from)
+- select options (showing a list of options to choose from)
+- select input (showing a list of input entries to fill in)
 I am responsible for navigation, although I delegate most behavior to my pages. Navigation from
 or to a page might not be acceptable and therefore the page itself should be responsible. For example
 there might be unsaved changes in page or the user needs to login first.
@@ -30,11 +33,10 @@ Class {
 	#name : #CynApp,
 	#superclass : #CpTemplateComponent,
 	#instVars : [
+		'main',
 		'navigation',
 		'menu',
-		'loading',
-		'toast',
-		'alert'
+		'toast'
 	],
 	#classVars : [
 		'Current'
@@ -419,22 +421,6 @@ CynApp >> defaultToastDuration [
 ]
 
 { #category : #'event handling' }
-CynApp >> handleDidDismissAlert [
-
-	"This is an async call, but no use awaiting it, because we're not using the result"
-
-	alert isOpen: false
-]
-
-{ #category : #'event handling' }
-CynApp >> handleDidDismissLoading [
-
-	"This is an async call, but no use awaiting it, because we're not using the result"
-
-	loading isOpen: false
-]
-
-{ #category : #'event handling' }
 CynApp >> handleDidDismissToast [
 
 	"This is an async call, but no use awaiting it, because we're not using the result"
@@ -522,10 +508,15 @@ CynApp >> handleUnhandledError: anError [
 	^ false
 ]
 
-{ #category : #actions }
-CynApp >> hideLoading [
+{ #category : #testing }
+CynApp >> hasInteraction [
 
-	loading dismiss await
+	"Answer whether a user interaction element is visible"
+
+	"Find last non-hidden element and see if it is marked as an interaction element"
+	^ (self main lastDescendantMatching: ':scope > :not(.overlay-hidden):not(.hidden)')
+		ifNotNil: [ :element | element isClassed: #interaction ]
+		ifNil: [ false ]
 ]
 
 { #category : #accessing }
@@ -579,12 +570,6 @@ CynApp >> initializeLanguageText [
 		languageText: (CynMultiLanguageText defaultLanguage: self class defaultLanguage) ;
 		addVolume: (CynLanguageVolume fromDictionary: self class defaultAppTexts) locale: self class defaultLocale ;
 		addVolume: (CynLanguageVolume fromDictionary: self class constraintTexts) locale: self class defaultLocale
-]
-
-{ #category : #testing }
-CynApp >> isLoading [
-
-	^ loading isOpen
 ]
 
 { #category : #testing }
@@ -650,15 +635,12 @@ CynApp >> loadApp [
 	be subject to Light DOM CSS.
 
 	The general structure of the app consists of:
-		menu
-		placeholder for page content (incl. navigation control)
-		loading (for showing a message while performing some task)
-		toast
-		alert
-
-	The order is relevant. Toast and alert should be last, because they should
-	overlay the other elements (visually). The alert is considered the most
-	important and is therefore added last.
+		ion-menu
+			ion-header
+				ion-toolbar
+					ion-title
+		div (placeholder for page content)
+			ion-nav
 
 	Each page is responsible for deciding whether a header and/or footer should
 	be present. Also having tabs and the navigation between these tabs is the
@@ -675,7 +657,7 @@ CynApp >> loadApp [
 
 	"Create the visual app structure"
 	self
-		appendChild: (IonApp new
+		appendChild: (main := IonApp new
 
 			"Add the menu"
 			appendChild: (menu := IonMenu new
@@ -694,23 +676,6 @@ CynApp >> loadApp [
 			appendChild: ((CpHtmlElement newWithTag: #div)
 				id: #app ;
 				appendChild: (navigation := IonNav new) ;
-				yourself) ;
-
-			"Add a (global) loading"
-			appendChild: (loading := IonLoading new
-				when: IonLoadingDidDismissEvent send: #handleDidDismissLoading to: self ;
-				yourself) ;
-
-			"Add a (global) toast"
-			appendChild: (toast := IonToast new
-				attributeAt: #position put: #bottom ;
-				attributeAt: #'swipe-gesture' put: #vertical ;
-				when: IonToastDidDismissEvent send: #handleDidDismissToast to: self ;
-				yourself) ;
-
-			"Add a (global) alert"
-			appendChild: (alert := IonAlert new
-				when: IonAlertDidDismissEvent send: #handleDidDismissAlert to: self ;
 				yourself) ;
 
 			yourself).
@@ -770,6 +735,12 @@ CynApp >> locationFromSignalerContext: aContext startingWith: anObject [
 						ifTrue: [ aContext ] ])
 							ifNil: [ anObject ]) ]
 		ifNil: [ anObject ]
+]
+
+{ #category : #accessing }
+CynApp >> main [
+
+	^ main ifNil: [ self ]
 ]
 
 { #category : #actions }
@@ -849,12 +820,13 @@ CynApp >> selectAction: aString from: aCollection [
 			yourself) ].
 
 	"Create and show an ActionSheet"
-	actionSheet := self appendChild: (IonActionSheet new
+	actionSheet := IonActionSheet new
 		header: aString ;
 		buttons: buttons ;
-		yourself).
+		yourself.
 
 	"Register interest in dismiss, present and wait for result"
+	self showInteraction: actionSheet.
 	didDismiss := actionSheet onDidDismiss.
 	actionSheet present.
 	result := actionSheet onWillDismiss await.
@@ -918,7 +890,7 @@ CynApp >> selectInput: titleString message: messageString from: aCollection [
 
 	| inputAlert didDismiss result |
 
-	inputAlert := self appendChild: (IonAlert new
+	inputAlert := IonAlert new
 		header: titleString ;
 		buttons: {
 			{
@@ -927,7 +899,7 @@ CynApp >> selectInput: titleString message: messageString from: aCollection [
 			{
 				#text -> #'app.ok' langText.
 				#role -> #confirm } asDictionary } ;
-		yourself).
+		yourself.
 
 	messageString ifNotNil: [ inputAlert message: messageString ].
 
@@ -935,6 +907,7 @@ CynApp >> selectInput: titleString message: messageString from: aCollection [
 	inputAlert inputs: aCollection asRelaxedJsonObjectValue.
 
 	"Show input and wait on closing (dismissal)"
+	self showInteraction: inputAlert.
 	didDismiss := inputAlert onDidDismiss.
 	inputAlert present.
 	result := inputAlert onWillDismiss await.
@@ -1015,7 +988,7 @@ CynApp >> selectOption: titleString message: messageString from: aCollection [
 
 	| optionAlert didDismiss inputs result resultIndex |
 
-	optionAlert := self appendChild: (IonAlert new
+	optionAlert := IonAlert new
 		header: titleString ;
 		buttons: {
 			{
@@ -1024,7 +997,7 @@ CynApp >> selectOption: titleString message: messageString from: aCollection [
 			{
 				#text -> #'app.ok' langText.
 				#role -> #confirm } asDictionary } ;
-		yourself).
+		yourself.
 
 	messageString ifNotNil: [ optionAlert message: messageString ].
 
@@ -1046,6 +1019,7 @@ CynApp >> selectOption: titleString message: messageString from: aCollection [
 	optionAlert inputs: inputs.
 
 	"Show input and wait on closing (dismissal)"
+	self showInteraction: optionAlert.
 	didDismiss := optionAlert onDidDismiss.
 	optionAlert present.
 	result := optionAlert onWillDismiss await.
@@ -1083,12 +1057,19 @@ CynApp >> showAlertTitle: titleString message: messageString [
 
 	"Show alert message and wait for user to confirm it"
 
-	(alert
+	| alert |
+
+	alert := IonAlert new
 		header: titleString ;
 		message: messageString ;
 		buttons: { 'Okay' } ;
-		present ;
-		onDidDismiss) await
+		yourself.
+
+	"Present and wait for result"
+	self showInteraction: alert.
+	alert present.
+	alert onDidDismiss await.
+	alert remove
 ]
 
 { #category : #'error handling' }
@@ -1119,16 +1100,33 @@ CynApp >> showErrorServerNotAvailable [
 ]
 
 { #category : #actions }
+CynApp >> showInteraction: anElement [
+
+	"Remove a loading message if present, since it would block the interaction"
+	self stopAllLoading.
+
+	^ self main appendChild: (anElement
+		addClass: #interaction ;
+		yourself)
+]
+
+{ #category : #actions }
 CynApp >> showLoading: aString [
 
-	"Show a loading message.
+	"Show a loading message and answer the element's instance.
 
 	Implementation:
+	Do NOT show loading message if a dialog is already shown,
+	otherwise no interaction is possible.
 	Do NOT perform an #await here to prevent any delay."
 
-	loading
+	self hasInteraction
+		ifTrue: [ self traceCr: 'naah'. ^ self ].
+
+	^ self main appendChild: (IonLoading new
 		message: aString ;
-		present
+		present ;
+		yourself)
 ]
 
 { #category : #actions }
@@ -1158,7 +1156,7 @@ CynApp >> showModal: aViewClass withModel: aModel [
 	view openedInModal: modal.
 
 	view updateBeforeNavigate.
-	self appendChild: modal.
+	self showInteraction: modal.
 	modal present.
 	view updateAfterNavigate.
 
@@ -1223,4 +1221,30 @@ CynApp >> showToast: aString duration: anInteger [
 		message: aString ;
 		duration: anInteger ;
 		present
+]
+
+{ #category : #actions }
+CynApp >> stopAllLoading [
+
+	"Remove any loading elements"
+
+	(self main allDescendantsMatching: IonLoading asCssSelector) do: [ :each |
+		self stopLoading: each ]
+]
+
+{ #category : #actions }
+CynApp >> stopLoading: aLoading [
+
+	"Stop the specified loading element.
+
+	Do not await the result."
+
+	"Additional check for convenience (see #do:whileShowing:)"
+	aLoading ifNil: [ ^ self ].
+
+	aLoading isOpen
+		ifTrue: [
+			aLoading dismiss
+				then: [ aLoading remove ] ]
+		ifFalse: [ aLoading remove ]
 ]

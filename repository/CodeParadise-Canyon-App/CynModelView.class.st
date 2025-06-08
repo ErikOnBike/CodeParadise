@@ -192,21 +192,30 @@ CynModelView >> do: aBlock whileShowing: aString [
 	Implementation:
 	The loading message will not be shown until a loading time has passed. This is to
 	prevent 'flickering' of a loading message on very short operations.
+	The #stopLoading: method is resilient against nil values, so no additional check here.
 	Because error handling is being performed before the ensure Block is performed, also
 	hide the loading message when an Error is signaled (hiding it twice will do no harm)."
 
-	| timer |
+	| timer loading |
 
-	timer := CpGlobalThis setTimeout: self loadingTimeout thenDo: [ self app showLoading: aString ].
-	^ [
-		aBlock ensure: [
+	timer := CpGlobalThis
+		setTimeout: self loadingTimeout
+		thenDo: [ loading := self app showLoading: aString ].
+
+	[
+		^ aBlock ensure: [
 			CpGlobalThis clearTimeout: timer.
-			self app hideLoading ]
+			self app stopLoading: loading ]
+
 	] on: Error do: [ :error |
-		"Hide the loading message and pass on the Error"
+
+		"Hide the loading message"
 		CpGlobalThis clearTimeout: timer.
-		self app hideLoading.
-		error pass ]
+		self app stopLoading: loading.
+	
+		"Pass the error to the caller"
+		error pass
+	]
 ]
 
 { #category : #operations }
