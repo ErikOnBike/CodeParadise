@@ -785,7 +785,7 @@ CynApp >> navigateTo: aPageClass withModel: aModel [
 CynApp >> performPeriodicEntry: aPeriodicSendEntry [
 
 	"Perform the message send and continu repeating if answer is true"
-	aPeriodicSendEntry sendAndRepeat
+	aPeriodicSendEntry doAndRepeat
 		ifTrue: [ ^ self preparePeriodicEntry: aPeriodicSendEntry ].
 
 	"Stop repeating period send"
@@ -795,25 +795,35 @@ CynApp >> performPeriodicEntry: aPeriodicSendEntry [
 ]
 
 { #category : #accessing }
-CynApp >> preparePeriodic: anInteger messageSend: aMessageSend [
+CynApp >> preparePeriodic: anInteger do: aBlock [
+
+	"Perform the specified periodic message send (with given interval in ms).
+	The message is not sent directly (for that use #startPeriodic:send:)."
+
+	self preparePeriodic: anInteger do: aBlock start: false
+]
+
+{ #category : #private }
+CynApp >> preparePeriodic: anInteger do: aBlock start: aBoolean [
 
 	"Perform the specified periodic message send (with given interval in ms).
 	The message is not sent directly (for that use #startPeriodic:send:)."
 
 	| entry |
 
-	entry := CynPeriodicSendEntry interval: anInteger messageSend: aMessageSend.
+	entry := CynPeriodicBlockEntry interval: anInteger do: aBlock.
+
+	"Perform periodic entry at start"
+	aBoolean
+		ifTrue: [
+			"If no repeat is requested, stop here"
+			entry doAndRepeat
+				ifFalse: [ ^ self ] ].
 
 	periodicSends add: entry.
 	self startVisibilityChangeListener.
 
 	self preparePeriodicEntry: entry
-]
-
-{ #category : #accessing }
-CynApp >> preparePeriodic: anInteger send: aSymbol to: anObject [
-
-	self preparePeriodic: anInteger messageSend: (MessageSend receiver: anObject selector: aSymbol)
 ]
 
 { #category : #private }
@@ -1282,19 +1292,12 @@ CynApp >> showToast: aString duration: anInteger [
 ]
 
 { #category : #accessing }
-CynApp >> startPeriodic: anInteger messageSend: aMessageSend [
+CynApp >> startPeriodic: anInteger do: aBlock [
 
 	"Add the specified periodic message send (with given interval in ms).
-	Perform the message send directly."
+	Perform the message send directly (if it should wait first, use #preparePeriodic:do:)."
 
-	aMessageSend value
-		ifTrue: [ self preparePeriodic: anInteger messageSend: aMessageSend ]
-]
-
-{ #category : #accessing }
-CynApp >> startPeriodic: anInteger send: aSymbol to: anObject [
-
-	self startPeriodic: anInteger messageSend: (MessageSend receiver: anObject selector: aSymbol)
+	self preparePeriodic: anInteger do: aBlock start: true
 ]
 
 { #category : #private }
