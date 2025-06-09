@@ -10,6 +10,12 @@ CynClientCalculatedPropertySlot class >> propertyCategory [
 	^ #calculatedProperties
 ]
 
+{ #category : #testing }
+CynClientCalculatedPropertySlot >> isWritable [
+
+	^ false
+]
+
 { #category : #accessing }
 CynClientCalculatedPropertySlot >> read: anObject [
 

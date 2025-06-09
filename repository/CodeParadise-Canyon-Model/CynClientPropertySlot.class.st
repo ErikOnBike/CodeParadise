@@ -151,6 +151,12 @@ CynClientPropertySlot >> initializeWithName: aSymbol [
 	name := aSymbol
 ]
 
+{ #category : #testing }
+CynClientPropertySlot >> isWritable [
+
+	self subclassResponsibility
+]
+
 { #category : #accessing }
 CynClientPropertySlot >> name [
 
