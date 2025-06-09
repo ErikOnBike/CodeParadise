@@ -35,7 +35,9 @@ Class {
 	#instVars : [
 		'main',
 		'navigation',
-		'menu'
+		'menu',
+		'periodicSends',
+		'visibilityStateListener'
 	],
 	#classVars : [
 		'Current'
@@ -534,6 +536,8 @@ CynApp >> initialize [
 
 	super initialize.
 
+	periodicSends := OrderedCollection new.
+
 	"Initialize the language text before anything else"
 	self initializeLanguageText.
 
@@ -775,6 +779,56 @@ CynApp >> navigateTo: aPageClass withModel: aModel [
 
 	self activePage
 		navigateTo: aPageClass withModel: aModel
+]
+
+{ #category : #private }
+CynApp >> performPeriodicEntry: aPeriodicSendEntry [
+
+	"Perform the message send and continu repeating if answer is true"
+	aPeriodicSendEntry sendAndRepeat
+		ifTrue: [ ^ self preparePeriodicEntry: aPeriodicSendEntry ].
+
+	"Stop repeating period send"
+	periodicSends remove: aPeriodicSendEntry ifAbsent: [ self warnCr: 'PeriodicSendEntry is not registered anymore' ].
+	periodicSends
+		ifEmpty: [ self stopVisibilityChangeListener ]
+]
+
+{ #category : #accessing }
+CynApp >> preparePeriodic: anInteger messageSend: aMessageSend [
+
+	"Perform the specified periodic message send (with given interval in ms).
+	The message is not sent directly (for that use #startPeriodic:send:)."
+
+	| entry |
+
+	entry := CynPeriodicSendEntry interval: anInteger messageSend: aMessageSend.
+
+	periodicSends add: entry.
+	self startVisibilityChangeListener.
+
+	self preparePeriodicEntry: entry
+]
+
+{ #category : #accessing }
+CynApp >> preparePeriodic: anInteger send: aSymbol to: anObject [
+
+	self preparePeriodic: anInteger messageSend: (MessageSend receiver: anObject selector: aSymbol)
+]
+
+{ #category : #private }
+CynApp >> preparePeriodicEntry: aPeriodicSendEntry [
+
+	"Prepare sending the specified entry (interval -> MessageSend)"
+
+	CpGlobalThis setTimeout: aPeriodicSendEntry interval thenDo: [
+		CpBrowserDocument current isVisible
+			ifTrue: [
+				"Perform the message send (it will repeat if so requested)"
+				self performPeriodicEntry: aPeriodicSendEntry ]
+			ifFalse: [
+				"Mark entry as needed to be run (asap when document becomes visible again)"
+				aPeriodicSendEntry setNeedsToRun ] ]
 ]
 
 { #category : #actions }
@@ -1227,6 +1281,41 @@ CynApp >> showToast: aString duration: anInteger [
 		toast remove ]
 ]
 
+{ #category : #accessing }
+CynApp >> startPeriodic: anInteger messageSend: aMessageSend [
+
+	"Add the specified periodic message send (with given interval in ms).
+	Perform the message send directly."
+
+	aMessageSend value
+		ifTrue: [ self preparePeriodic: anInteger messageSend: aMessageSend ]
+]
+
+{ #category : #accessing }
+CynApp >> startPeriodic: anInteger send: aSymbol to: anObject [
+
+	self startPeriodic: anInteger messageSend: (MessageSend receiver: anObject selector: aSymbol)
+]
+
+{ #category : #private }
+CynApp >> startVisibilityChangeListener [
+
+	| document |
+
+	visibilityStateListener ifNotNil: [ ^ self ].
+
+	document := CpBrowserDocument current.
+
+	visibilityStateListener := document
+		addEventListener: #visibilitychange handler: [
+			document isVisible
+				ifTrue: [
+					"Document has become visible again, perform outstanding periodic sends"
+					periodicSends shallowCopy do: [ :each |
+						each needsToRun
+							ifTrue: [ self performPeriodicEntry: each ] ] ] ]
+]
+
 { #category : #actions }
 CynApp >> stopAllLoading [
 
@@ -1251,4 +1340,15 @@ CynApp >> stopLoading: aLoading [
 			aLoading dismiss
 				then: [ aLoading remove ] ]
 		ifFalse: [ aLoading remove ]
+]
+
+{ #category : #private }
+CynApp >> stopVisibilityChangeListener [
+
+	visibilityStateListener ifNil: [ ^ self ].
+
+	CpBrowserDocument current
+		removeEventListener: visibilityStateListener.
+
+	visibilityStateListener := nil
 ]
