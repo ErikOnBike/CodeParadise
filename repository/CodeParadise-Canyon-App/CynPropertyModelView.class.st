@@ -150,7 +150,9 @@ CynPropertyModelView >> model: aModel [
 
 	originalModel := aModel.
 
-	super model: aModel copy
+	super model: (self workOnCopy
+		ifTrue: [ aModel copy ]
+		ifFalse: [ aModel ])
 ]
 
 { #category : #'validating - private' }
@@ -247,4 +249,13 @@ CynPropertyModelView >> violationsForProperty: aSymbol [
 		do: [ :violation | violations add: violation ].
 
 	^ violations
+]
+
+{ #category : #testing }
+CynPropertyModelView >> workOnCopy [
+
+	"Answer whether the receiver should work on a copy of the model.
+	Most forms work on a copy, but some views might work on the model directly."
+
+	^ true
 ]
