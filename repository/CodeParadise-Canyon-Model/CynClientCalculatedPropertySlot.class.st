@@ -11,9 +11,9 @@ CynClientCalculatedPropertySlot class >> propertyCategory [
 ]
 
 { #category : #testing }
-CynClientCalculatedPropertySlot >> isWritable [
+CynClientCalculatedPropertySlot >> isCalculated [
 
-	^ false
+	^ true
 ]
 
 { #category : #accessing }

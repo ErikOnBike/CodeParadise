@@ -182,6 +182,16 @@ CynPropertyModel class >> newClientPropertySlotNamed: aSymbol [
 ]
 
 { #category : #accessing }
+CynPropertyModel class >> nonCalculatedPropertySlotsDo: aBlock [
+
+	"Evaluate the specified Block for all non-calculated ClientPropertySlots of the receiver"
+
+	self propertySlotsDo: [ :each |
+		each isCalculated
+			ifFalse: [ aBlock value ] ]
+]
+
+{ #category : #accessing }
 CynPropertyModel class >> postInstall [
 
 	"Install the property definitions (class instance variable) on the receiver"
@@ -393,6 +403,7 @@ CynPropertyModel >> asJsonObjectValue [
 	"Answer a representation of the receiver to be used in a JSON Object.
 
 	Implementation:
+	Do not serialize calculated properties (they should be re-creatable).
 	Since values of the receiver's properties can be any value,
 	convert these to JSON Object values. Keys are already Strings."
 
@@ -400,8 +411,8 @@ CynPropertyModel >> asJsonObjectValue [
 
 	result := OrderedDictionary new.
 
-	self keysAndValuesDo: [ :key :value |
-		result at: key put: value asJsonObjectValue ].
+	self class nonCalculatedPropertySlotsDo: [ :each |
+		result at: each name put: (each read: self) asJsonObjectValue ].
 
 	^ result
 ]
@@ -592,10 +603,21 @@ CynPropertyModel >> merge: anObject [
 	Assuming the Object is Dictionary-like (like the receiver but also a JSON Object).
 	Answer the Object merged into the receiver."
 
-	anObject keysAndValuesDo: [ :key :value |
-		self propertyAt: key put: value ].
+	anObject mergeIntoPropertyModel: self.
 
 	^ anObject
+]
+
+{ #category : #merging }
+CynPropertyModel >> mergeIntoPropertyModel: aPropertyModel [
+
+	"Merge the receiver into the specified PropertyModel.
+
+	Implementation:
+	Do not try to store calculated properties."
+
+	self class nonCalculatedPropertySlotsDo: [ :each |
+		aPropertyModel propertyAt: each name put: (each read: self) ]
 ]
 
 { #category : #constraints }
@@ -624,10 +646,11 @@ CynPropertyModel >> normalize [
 	notice their input is silently replaced by something else.
 
 	Implementation:
+	Do not try to normalize calculated properties (has no effect).
 	Constrained properties have an optional normalization step.
 	Perform these for all constraints."
 
-	self class propertySlotsDo: [ :each |
+	self class nonCalculatedPropertySlotsDo: [ :each |
 		each constraintsDo: [ :eachConstraint |
 			eachConstraint normalizeProperty: each name in: self ] ]
 ]

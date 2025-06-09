@@ -10,12 +10,6 @@ CynClientReadWritePropertySlot class >> propertyCategory [
 	^ #readWriteProperties
 ]
 
-{ #category : #testing }
-CynClientReadWritePropertySlot >> isWritable [
-
-	^ true
-]
-
 { #category : #accessing }
 CynClientReadWritePropertySlot >> read: anObject [
 

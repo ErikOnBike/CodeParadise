@@ -152,9 +152,9 @@ CynClientPropertySlot >> initializeWithName: aSymbol [
 ]
 
 { #category : #testing }
-CynClientPropertySlot >> isWritable [
+CynClientPropertySlot >> isCalculated [
 
-	self subclassResponsibility
+	^ false
 ]
 
 { #category : #accessing }
