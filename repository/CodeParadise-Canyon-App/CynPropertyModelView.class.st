@@ -58,8 +58,15 @@ CynPropertyModelView >> bindProperty: aSymbol toElement: anElement [
 	"Set initial value based on receiver's model"
 	anElement valueFromModel: (model propertyAt: aSymbol).
 
+	"Add binding from model to element"
 	self addBinding: (model
 		when: (CynPropertyChanged name: aSymbol) do: [ :event | anElement valueFromModel: event newValue ] for: self).
+
+	"Done when readonly element"
+	anElement isReadonly
+		ifTrue: [ ^ self ].
+
+	"Add binding from element to model"
 	self addBinding: (anElement
 		whenChangedDo: [ model propertyAt: aSymbol put: anElement valueForModel ] for: self).
 
