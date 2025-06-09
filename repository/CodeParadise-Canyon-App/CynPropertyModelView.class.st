@@ -91,18 +91,12 @@ CynPropertyModelView >> boundProperties [
 { #category : #operations }
 CynPropertyModelView >> doDelete [
 
-	"Delete the receiver's model.
-
-	Implementation:
-	Reset the copied model to the original (to prevent being seen as dirty)
-	and set the original as modal result"
+	"Delete the receiver's model and keep the result"
 
 	super doDelete
 		ifFalse: [ ^ false ].
 
-	model := originalModel copy.
-
-	self modalResult: originalModel.
+	self keepResult.
 
 	^ true
 ]
@@ -110,17 +104,12 @@ CynPropertyModelView >> doDelete [
 { #category : #operations }
 CynPropertyModelView >> doWrite [
 
-	"Write the receiver's model.
-
-	Implementation:
-	Merge the copied model into the original and set it as modal result"
+	"Write the receiver's model and keep the result"
 
 	super doWrite
 		ifFalse: [ ^ false ].
 
-	originalModel merge: model.
-
-	self modalResult: originalModel.
+	self keepResult.
 
 	^ true
 ]
@@ -139,6 +128,19 @@ CynPropertyModelView >> isModelDirty [
 	"Answer whether the receiver's model has changed"
 
 	^ originalModel ~= model
+]
+
+{ #category : #operations }
+CynPropertyModelView >> keepResult [
+
+	"Keep the receiver's result.
+
+	Implementation:
+	Merge the copied model into the original and set it as modal result"
+
+	originalModel merge: model.
+
+	self modalResult: originalModel
 ]
 
 { #category : #accessing }
