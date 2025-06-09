@@ -38,8 +38,7 @@ CynModelView class >> style [
 
 	"Subclasses however should probably call this style and append additional styling."
 
-	^ '@import url("https://cdn.jsdelivr.net/npm/@ionic/core/css/ionic.bundle.css");
-*, *:before, *:after {
+	^ '*, *:before, *:after {
 	box-sizing: border-box;
 }
 :host {
@@ -360,6 +359,28 @@ CynModelView >> headerToolbar [
 
 	^ self header ifNotNil: [ :header |
 		header firstDescendantMatching: IonToolbar asCssSelector ]
+]
+
+{ #category : #initialization }
+CynModelView >> initialize [
+
+	"Add the Ionic style separately.
+
+	Implementation:
+	An issue in Ionic sometimes prevents adding styling correctly.
+	See https://github.com/ionic-team/ionic-framework/issues/25100"
+
+	| shadowRoot ionicStyle |
+
+	super initialize.
+
+	ionicStyle := (CpHtmlElement newWithTag: #style)
+		textContent: '@import url("https://cdn.jsdelivr.net/npm/@ionic/core/css/ionic.bundle.css");' ;
+		yourself.
+
+	(shadowRoot := self shadowRoot) firstChild
+		ifNotNil: [ :firstChild | shadowRoot insertChild: ionicStyle before: firstChild ]
+		ifNil: [ shadowRoot appendChild: ionicStyle ]
 ]
 
 { #category : #initialization }
