@@ -1124,8 +1124,7 @@ CynApp >> showLoading: aString [
 { #category : #actions }
 CynApp >> showModal: aViewClass [
 
-	"Show the specified View modal.
-	Evaluate the specified Block with the result from the View."
+	"Show the specified View modal and answer the modal's result"
 
 	^ self showModal: aViewClass withModel: nil
 ]
@@ -1133,7 +1132,9 @@ CynApp >> showModal: aViewClass [
 { #category : #actions }
 CynApp >> showModal: aViewClass withModel: aModel [
 
-	"Show the specified View modal with the (optional) Model"
+	"Show the specified View modal with the (optional) Model.
+	Answer the modal's result (or default true) if confirmed.
+	Answer nil if a cancelled."
 
 	| modal view result |
 
