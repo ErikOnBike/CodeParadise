@@ -185,7 +185,6 @@ CynModelView >> destroy [
 CynModelView >> do: aBlock whileShowing: aString [
 
 	"Evaluate the specified Block while showing a message.
-	Answer the result of the evaluation.
 	
 	Be aware: There is no exception handling performed, callers should add any error handling required.
 
@@ -203,7 +202,7 @@ CynModelView >> do: aBlock whileShowing: aString [
 		thenDo: [ loading := self app showLoading: aString ].
 
 	[
-		^ aBlock ensure: [
+		aBlock ensure: [
 			CpGlobalThis clearTimeout: timer.
 			self app stopLoading: loading ]
 
