@@ -1114,14 +1114,15 @@ CynApp >> showInteraction: anElement [
 CynApp >> showLoading: aString [
 
 	"Show a loading message and answer the element's instance.
+	If a dialog is already shown, the loading message will NOT be shown
+	and nil will be answered. This is done because, otherwise no
+	interaction is possible.
 
 	Implementation:
-	Do NOT show loading message if a dialog is already shown,
-	otherwise no interaction is possible.
 	Do NOT perform an #await here to prevent any delay."
 
 	self hasInteraction
-		ifTrue: [ ^ self ].
+		ifTrue: [ ^ nil ].
 
 	^ self main appendChild: (IonLoading new
 		message: aString ;
