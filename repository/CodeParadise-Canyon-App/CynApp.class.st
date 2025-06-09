@@ -35,8 +35,7 @@ Class {
 	#instVars : [
 		'main',
 		'navigation',
-		'menu',
-		'toast'
+		'menu'
 	],
 	#classVars : [
 		'Current'
@@ -418,14 +417,6 @@ CynApp >> defaultToastDuration [
 	"The default duration in ms that a toast is shown"
 
 	^ 3000
-]
-
-{ #category : #'event handling' }
-CynApp >> handleDidDismissToast [
-
-	"This is an async call, but no use awaiting it, because we're not using the result"
-
-	toast isOpen: false
 ]
 
 { #category : #'event handling' }
@@ -1218,10 +1209,21 @@ CynApp >> showToast: aString duration: anInteger [
 	Implementation:
 	Do NOT perform an #await here to prevent any delay."
 
-	toast
+	| toast didDismiss |
+
+	toast := IonToast new
 		message: aString ;
 		duration: anInteger ;
-		present
+		yourself.
+
+	didDismiss := toast onDidDismiss.
+	toast present.
+
+	"Remove the toast (does not happen automagically) once it actually dismissed,
+	otherwise it will not be removed correctly (Ionic does some magic with 'portals')."
+	CpGlobalThis defer: [
+		didDismiss await.
+		toast remove ]
 ]
 
 { #category : #actions }
