@@ -188,7 +188,7 @@ CynPropertyModel class >> nonCalculatedPropertySlotsDo: aBlock [
 
 	self propertySlotsDo: [ :each |
 		each isCalculated
-			ifFalse: [ aBlock value ] ]
+			ifFalse: [ aBlock value: each ] ]
 ]
 
 { #category : #accessing }
