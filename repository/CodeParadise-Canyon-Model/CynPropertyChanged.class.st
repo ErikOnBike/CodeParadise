@@ -18,6 +18,14 @@ CynPropertyChanged class >> name: aSymbol [
 ]
 
 { #category : #'instance creation' }
+CynPropertyChanged class >> name: aSymbol newValue: anObject [
+
+	"Answer a new instance of the receiver with the specified new value"
+
+	^ self name: aSymbol oldValue: nil newValue: anObject
+]
+
+{ #category : #'instance creation' }
 CynPropertyChanged class >> name: aSymbol oldValue: oldValue newValue: newValue [
 
 	"Answer a new instance of the receiver with the specified values"
