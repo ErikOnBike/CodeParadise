@@ -23,7 +23,7 @@ CpWebApplication class >> addWebResourcesDelegateTo: aServer [
 
 	packageName := self package name.
 	icePackage := IcePackage allInstances detect: [ :each | each package = packageName ] ifNone: [ ^ self ].
-	repository := icePackage workingCopy repository.
+	repository := icePackage repository.
 
 	resourcePath := repository location / self webResourceDirectory.
 	resourcePath ifAbsent: [ ^ self ].
