@@ -90,15 +90,17 @@ CynPropertyModel class >> fromDictionary: aDictionary [
 { #category : #private }
 CynPropertyModel class >> generateGetPropertiesMethod: aSymbol with: aCollection [
 
+	<serverEnvironment>
+
 	| sourceCode firstSeen |
 
 	"Remove the method if no properties are present (it will have a fallback method answering an empty collection)"
 	aCollection ifEmpty: [
 
 		"Remove the class side method"
-		self class
+		self classSide
 			compiledMethodAt: aSymbol
-			ifPresent: [ :method | self class removeSelector: aSymbol ].
+			ifPresent: [ :method | self classSide removeSelector: aSymbol ].
 
 		^ self ].
 
@@ -120,8 +122,15 @@ CynPropertyModel class >> generateGetPropertiesMethod: aSymbol with: aCollection
 		
 		stream nextPut: $) ].
 
+	"Check if anything changed"
+	self classSide
+		compiledMethodAt: aSymbol
+		ifPresent: [ :method |
+			method sourceCode = sourceCode
+				ifTrue: [ ^ self ] ].
+
 	"Compile as class side method"
-	self class compile: sourceCode classified: 'accessing - generated'
+	self classSide compile: sourceCode classified: 'accessing - generated'
 ]
 
 { #category : #testing }
