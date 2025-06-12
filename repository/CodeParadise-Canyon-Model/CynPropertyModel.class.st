@@ -161,6 +161,22 @@ CynPropertyModel class >> initializeSlots: anObject [
 	<serverEnvironment>
 ]
 
+{ #category : #accessing }
+CynPropertyModel class >> installClassMethod: aCompiledMethod [
+
+	"Install thw specified CompiledMethod in the receiver"
+
+	super installClassMethod: aCompiledMethod.
+
+	"Only if the propertySlots are already defined"
+	propertySlots ifNil: [ ^ self ].
+
+	aCompiledMethod selector = #allPropertyNames
+		ifFalse: [ ^ self ].
+
+	self updatePropertyDefinitions
+]
+
 { #category : #testing }
 CynPropertyModel class >> isRunningClientSide [
 
@@ -200,7 +216,7 @@ CynPropertyModel class >> nonCalculatedPropertySlotsDo: aBlock [
 			ifFalse: [ aBlock value: each ] ]
 ]
 
-{ #category : #accessing }
+{ #category : #initialization }
 CynPropertyModel class >> postInstall [
 
 	"Install the property definitions (class instance variable) on the receiver"
@@ -295,6 +311,22 @@ CynPropertyModel class >> release [
 		unsubscribe: self
 ]
 
+{ #category : #accessing }
+CynPropertyModel class >> removeClassMethod: aCompiledMethod [
+
+	"Remove thw specified CompiledMethod from the receiver"
+
+	super removeClassMethod: aCompiledMethod.
+
+	"Only if the propertySlots are already defined"
+	propertySlots ifNil: [ ^ self ].
+
+	aCompiledMethod selector = #allPropertyNames
+		ifFalse: [ ^ self ].
+
+	self updatePropertyDefinitions
+]
+
 { #category : #private }
 CynPropertyModel class >> updateAllPropertyDefinitions [
 
@@ -303,7 +335,8 @@ CynPropertyModel class >> updateAllPropertyDefinitions [
 	<script>
 	<serverEnvironment>
 
-	self allSubclassesDo: [ :each |
+	"This will recurse into all subclasses"
+	self subclassesDo: [ :each |
 		each updatePropertyDefinitions ]
 ]
 
@@ -339,7 +372,11 @@ CynPropertyModel class >> updatePropertyDefinitions [
 			method pragmas do: [ :each |
 				each selector = #propertyDefinition
 					ifTrue: [ self perform: selector ] ] ].
-		class := class superclass ]
+		class := class superclass ].
+
+	"Also update subclasses (will recurse into all subclasses)"
+	self subclassesDo: [ :each |
+		each updatePropertyDefinitions ]
 ]
 
 { #category : #private }
@@ -356,12 +393,12 @@ CynPropertyModel class >> updatePropertySelectors [
 	self classLayout
 		allSlotsDo: [ :slot | slot addPropertyTo: selectors ].
 
-	"Generate the #allPropertyNames method"
-	self generateGetPropertiesMethod: #allPropertyNames with: selectors.
-
 	"Generate a method per property category"
 	CynAbstractPropertySlot allSubclassesDo: [ :eachClass |
-		self generateGetPropertiesMethod: eachClass propertyCategory with: (selectors select: [ :each | each key = eachClass propertyCategory ]) ]
+		self generateGetPropertiesMethod: eachClass propertyCategory with: (selectors select: [ :each | each key = eachClass propertyCategory ]) ].
+
+	"Generate the #allPropertyNames method last (this is important, because it is used in #installClassMethod:)"
+	self generateGetPropertiesMethod: #allPropertyNames with: selectors
 ]
 
 { #category : #comparing }
