@@ -307,7 +307,7 @@ CynRestApiClient >> reset [
 
 	"Reset the receiver, removing the access token"
 
-	accessToken := nil
+	self setAccessToken: nil
 ]
 
 { #category : #private }
