@@ -287,8 +287,7 @@ CynApp class >> style [
 
 	<webResource: #css>
 
-	^ '@import url("https://cdn.jsdelivr.net/npm/@ionic/core/css/ionic.bundle.css");
-*, *:before, *:after {
+	^ '*, *:before, *:after {
 	box-sizing: border-box;
 }
 :host {
@@ -532,10 +531,27 @@ CynApp >> homePageModel [
 { #category : #initialization }
 CynApp >> initialize [
 
-	| restApiClient |
+	"Initialize the receiver.
+	Add the Ionic style separately.
+	Initialize language and REST API client.
+
+	Implementation:
+	An issue in Ionic sometimes prevents adding styling correctly.
+	See https://github.com/ionic-team/ionic-framework/issues/25100"
+
+	| restApiClient shadowRoot ionicStyle |
 
 	super initialize.
 
+	ionicStyle := (CpHtmlElement newWithTag: #style)
+		textContent: '@import url("https://cdn.jsdelivr.net/npm/@ionic/core/css/ionic.bundle.css");' ;
+		yourself.
+
+	(shadowRoot := self shadowRoot) firstChild
+		ifNotNil: [ :firstChild | shadowRoot insertChild: ionicStyle before: firstChild ]
+		ifNil: [ shadowRoot appendChild: ionicStyle ].
+
+	"Add registry for periodic sends"
 	periodicSends := OrderedCollection new.
 
 	"Initialize the language text before anything else"
