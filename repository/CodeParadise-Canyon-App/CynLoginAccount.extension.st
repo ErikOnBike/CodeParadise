@@ -39,7 +39,8 @@ CynLoginAccount >> handleSessionExpired [
 
 	"The REST API session expired, I'm no longer logged in"
 
-	success := false
+	success := false.
+	isExpired := true
 ]
 
 { #category : #'*CodeParadise-Canyon-App' }
@@ -58,6 +59,12 @@ CynLoginAccount >> initializeClientProperties [
 
 	CynPropertyEntity restApiClient
 		when: CynSessionExpired send: #handleSessionExpired to: self
+]
+
+{ #category : #'*CodeParadise-Canyon-App' }
+CynLoginAccount >> isExpired [
+
+	^ isExpired
 ]
 
 { #category : #'*CodeParadise-Canyon-App' }
@@ -93,6 +100,8 @@ CynLoginAccount >> login [
 
 { #category : #'*CodeParadise-Canyon-App' }
 CynLoginAccount >> loginChanged [
+
+	isExpired := false.
 
 	success
 		ifTrue: [ self loggedIn ]

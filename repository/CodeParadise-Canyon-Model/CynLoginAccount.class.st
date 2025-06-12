@@ -5,7 +5,8 @@ Class {
 		'#password => CynPropertySlot',
 		'#expires => CynPropertySlot',
 		'#success => CynPropertySlot',
-		'#settings => CynPropertySlot'
+		'#settings => CynPropertySlot',
+		'#isExpired'
 	],
 	#category : #'CodeParadise-Canyon-Model-Core'
 }
@@ -49,6 +50,17 @@ CynLoginAccount >> expires [
 CynLoginAccount >> hasPasswordValue [
 
 	^ password isEmptyOrNil not
+]
+
+{ #category : #initialization }
+CynLoginAccount >> initialize [
+
+	"Initialize the receiver"
+
+	super initialize.
+
+	"Only used in the browser to mark an expired login"
+	isExpired := false
 ]
 
 { #category : #initialization }
