@@ -3,6 +3,8 @@ Extension { #name : #CynPropertyModel }
 { #category : #'*CodeParadise-Development' }
 CynPropertyModel class >> generatePropertyGetterFor: aCompiledMethod [
 
+	<serverEnvironment>
+
 	| sourceCode protocolName |
 
 	sourceCode := String streamContents: [ :stream |
@@ -31,6 +33,8 @@ CynPropertyModel class >> generatePropertyGetterFor: aCompiledMethod [
 
 { #category : #'*CodeParadise-Development' }
 CynPropertyModel class >> generatePropertySetterFor: aCompiledMethod [
+
+	<serverEnvironment>
 
 	| comments type argument sourceCode protocolName |
 
