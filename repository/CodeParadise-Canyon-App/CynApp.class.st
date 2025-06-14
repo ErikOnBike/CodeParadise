@@ -117,6 +117,23 @@ CynApp class >> defaultAppTexts [
 	^ Dictionary new
 		at: #'app.ok' put: 'OK' ;
 		at: #'app.cancel' put: 'Cancel' ;
+		at: #'app.today' put: 'today' ;
+		at: #'app.yesterday' put: 'yesterday' ;
+		at: #'app.tomorrow' put: 'tomorrow' ;
+		at: #'app.date' put: '{month}/{day}/{year}' ;
+		at: #'app.month' put: {
+			1 -> 'January'.
+			2 -> 'February'.
+			3 -> 'March'.
+			4 -> 'April'.
+			5 -> 'May'.
+			6 -> 'June'.
+			7 -> 'July'.
+			8 -> 'August'.
+			9 -> 'September'.
+			10 -> 'October'.
+			11 -> 'November'.
+			12 -> 'December' } asDictionary ;
 		at: #'app.server.internalError.title' put: 'Oops, something went wrong' ;
 		at: #'app.server.internalError.message' put: 'The computer where the entry is stored, is not working correctly. The maintainer is informed. You could try it again shortly, just in case. We''ll try to fix this as soon as possible.' ;
 		at: #'app.server.unavailable.title' put: 'Oops, something went wrong' ;
