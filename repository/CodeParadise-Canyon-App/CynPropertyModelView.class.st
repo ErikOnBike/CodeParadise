@@ -236,23 +236,6 @@ CynPropertyModelView >> validateProperty: aSymbol [
 		classed: #'ion-touched' if: (self isDirtyProperty: aSymbol)
 ]
 
-{ #category : #'validating - private' }
-CynPropertyModelView >> violationsForProperty: aSymbol [
-
-	"Answer a Collection of keys (Symbols or CynTextReferences) representing the
-	constraint violations in the specified property of the receiver's model"
-
-	| violations |
-
-	violations := OrderedCollection new.
-
-	model
-		propertyViolationsAt: aSymbol
-		do: [ :violation | violations add: violation ].
-
-	^ violations
-]
-
 { #category : #testing }
 CynPropertyModelView >> workOnCopy [
 
