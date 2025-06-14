@@ -31,5 +31,13 @@ IonBadge >> valueFromModel: anObject [
 
 	"Only update if changed (to prevent ping-pong between Element and Model)"
 	self valueForModel = newValue
-		ifFalse: [ self textContent: newValue ]
+		ifTrue: [ ^ self ].
+
+	"Set new badge value"
+	self textContent: newValue.
+
+	"Hide if zero or empty"
+	(((self isClassed: #'hide-if-zero') and: [ newValue = '0' ]) or: [ (self isClassed: #'hide-if-empty') and: [ newValue = '' ] ])
+		ifTrue: [ self styleAt: #display put: #none ]
+		ifFalse: [ self removeStyleAt: #display ]
 ]
