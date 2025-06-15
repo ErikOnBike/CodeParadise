@@ -35,6 +35,12 @@ BaselineOfCodeParadise >> baseline: spec [
 			package: 'CodeParadise-WebApplication-Ionic' with: [ spec requires: #('CodeParadise-WebApplication') ];
 			package: 'CodeParadise-WebApplication-ChartJS' with: [ spec requires: #('CodeParadise-WebApplication') ];
 
+			"Canyon"
+			package: 'CodeParadise-Canyon-Model' with: [ spec requires: #('CodeParadise-RemoteEnvironment' 'CodeParadise-JavaScript') ];
+			package: 'CodeParadise-Canyon-Data' with: [ spec requires: #('CodeParadise-Canyon-Model' 'CodeParadise-NodeJS-REST') ];
+			package: 'CodeParadise-Canyon-View' with: [ spec requires: #('CodeParadise-Canyon-Model' 'CodeParadise-WebApplication-Ionic') ];
+			package: 'CodeParadise-Canyon-Development' with: [ spec requires: #('CodeParadise-Canyon-View') ];
+
 			"2022-06: No longer maintained"
 			package: 'CodeParadise-WebApplication-Fomantic' with: [ spec requires: #('CodeParadise-WebApplication') ];
 
@@ -59,6 +65,8 @@ BaselineOfCodeParadise >> baseline: spec [
 			group: 'Tests' with: #( 'CodeParadise-WebApplication-Tests' 'CodeParadise-RemoteEnvironment-Tests' );
 
 			group: 'MVP' with: #( 'CodeParadise-WebApplication-MVP' );
+
+			group: 'Canyon' with: #( 'CodeParadise-Canyon-Model' 'CodeParadise-Canyon-Data' 'CodeParadise-Canyon-View' 'CodeParadise-Canyon-Development' );
 
 			group: 'Shoelace' with: #( 'CodeParadise-WebApplication-Shoelace' );
 			group: 'Ionic' with: #( 'CodeParadise-WebApplication-Ionic' );
