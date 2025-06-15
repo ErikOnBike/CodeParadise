@@ -27,6 +27,7 @@ BaselineOfCodeParadise >> baseline: spec [
 			package: 'CodeParadise-NodeJS-REST' with: [ spec requires: #('CodeParadise-NodeJS-Support') ];
 			package: 'CodeParadise-NodeJS-Sqlite3' with: [ spec requires: #('CodeParadise-NodeJS-Support') ];
 			package: 'CodeParadise-NodeJS-Nodemailer' with: [ spec requires: #('CodeParadise-NodeJS-Support') ];
+			package: 'CodeParadise-NodeJS-Sharp' with: [ spec requires: #('CodeParadise-NodeJS-Support') ];
 
 			package: 'CodeParadise-WebApplication-MVP' with: [ spec requires: #('CodeParadise-WebApplication') ];
 
