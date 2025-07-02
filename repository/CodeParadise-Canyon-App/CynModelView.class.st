@@ -9,7 +9,8 @@ Class {
 	#instVars : [
 		'model',
 		'bindingSubscriptions',
-		'childViewDefinitionsBySlotName'
+		'childViewDefinitionsBySlotName',
+		'originalModel'
 	],
 	#category : #'CodeParadise-Canyon-App-View'
 }
@@ -94,7 +95,18 @@ CynModelView >> addBindings [
 
 	model ifNil: [ ^ self ].
 
-	self addBinding: (model whenChangedSend: #modelChanged: to: self)
+	self addBinding: (model whenChangedSend: #modelChanged: to: self).
+
+	self addPropertyBindings
+]
+
+{ #category : #binding }
+CynModelView >> addPropertyBindings [
+
+	"Add any property bindings between the model and the receiver"
+
+	self boundProperties do: [ :each |
+		self bindProperty: each ]
 ]
 
 { #category : #private }
@@ -109,6 +121,60 @@ CynModelView >> app [
 	"Convenience method to access the app (instance)"
 
 	^ CynApp current
+]
+
+{ #category : #binding }
+CynModelView >> bindProperty: aSymbol [
+
+	"Add bindings (2x for two-way) for the specified property.
+	Assuming the element which the property is bound to has the
+	same identifier as the property name.
+	Otherwise use #bindProperty:toElement: directly"
+
+	self bindProperty: aSymbol toElement: (self shadowedElementWithId: aSymbol)
+]
+
+{ #category : #binding }
+CynModelView >> bindProperty: aSymbol toElement: anElement [
+
+	"Bind the specified property of the receiver's model to an Element and vice versa (two-way binding).
+	Also add binding to normalize the property after an input element has lost focus.
+	Keep track of the bindings created, so clean-up can be performed afterwards."
+
+	"Initialize the element"
+	anElement initializeForModel: model property: aSymbol.
+
+	"Set initial value based on receiver's model"
+	anElement valueFromModel: (model propertyAt: aSymbol).
+
+	"Add binding from model to element"
+	self addBinding: (model
+		when: (CynPropertyChanged name: aSymbol) do: [ :event | anElement valueFromModel: event newValue ] for: self).
+
+	"Done when readonly element"
+	anElement isReadonly
+		ifTrue: [ ^ self ].
+
+	"Add binding from element to model"
+	self addBinding: (anElement
+		whenChangedDo: [ model propertyAt: aSymbol put: anElement valueForModel ] for: self).
+
+	"When an input element loses focus, perform normalization and validation"
+	self addBinding: (anElement
+		when: IonBlurEvent
+		deferDo: [
+			model normalizePropertyAt: aSymbol.
+			self validateProperty: aSymbol ]
+		for: self)
+]
+
+{ #category : #binding }
+CynModelView >> boundProperties [
+
+	"Answer a collection of property names (Symbols) for the receiver's model,
+	which should be bound to the receiver's UI components"
+
+	^ #()
 ]
 
 { #category : #'view - customization' }
@@ -219,7 +285,12 @@ CynModelView >> do: aBlock whileShowing: aString [
 { #category : #operations }
 CynModelView >> doDelete [
 
-	^ self doDelete: model
+	(self doDelete: model)
+		ifFalse: [ ^ false ].
+
+	self keepResult.
+
+	^ true
 ]
 
 { #category : #operations }
@@ -293,7 +364,12 @@ CynModelView >> doRead: aModel whileShowing: aString [
 { #category : #operations }
 CynModelView >> doWrite [
 
-	^ self doWrite: model
+	(self doWrite: model)
+		ifFalse: [ ^ false ].
+
+	self keepResult.
+
+	^ true
 ]
 
 { #category : #operations }
@@ -409,6 +485,14 @@ CynModelView >> isActiveChildView: anElement [
 	^ (self slotOfChildView: anElement) isNotNil
 ]
 
+{ #category : #testing }
+CynModelView >> isDirtyProperty: aSymbol [
+
+	"Answer whether the specified property has changed"
+
+	^ (originalModel propertyAt: aSymbol) ~= (model propertyAt: aSymbol)
+]
+
 { #category : #private }
 CynModelView >> isEmptyChildSlot: anElement [
 
@@ -420,11 +504,33 @@ CynModelView >> isEmptyChildSlot: anElement [
 ]
 
 { #category : #testing }
+CynModelView >> isModelDirty [
+
+	"Answer whether the receiver's model has changed"
+
+	^ originalModel ~= model
+]
+
+{ #category : #testing }
 CynModelView >> isShownInModal [
 
 	"Answer whether the receiver is shown in a Modal view"
 
 	^ self modal isNotNil
+]
+
+{ #category : #operations }
+CynModelView >> keepResult [
+
+	"Keep the receiver's result.
+
+	Implementation:
+	Merge the copied model into the original (if we worked on a copy) and set it as modal result"
+
+	self workOnCopy
+		ifTrue: [ originalModel merge: model ].
+
+	self modalResult: originalModel
 ]
 
 { #category : #accessing }
@@ -504,8 +610,15 @@ CynModelView >> model: aModel [
 
 			^ self ].
 
+	"Keep original model"
+	originalModel := aModel.
+
+	"Work with a copy of the specified Model if so requested.
+	This allows to recognize changes and prevents updating the 'original' until done."
 	self removeBindings.
-	model := aModel.
+	model := self workOnCopy
+		ifTrue: [ aModel copy ]
+		ifFalse: [ aModel ].
 	self addBindings.
 
 	"Propagate model to child views"
@@ -516,6 +629,33 @@ CynModelView >> model: aModel [
 CynModelView >> modelChanged: aPropertyChange [
 
 	"The model of the receiver changed"
+]
+
+{ #category : #'validating - private' }
+CynModelView >> modelViolations [
+
+	"Answer a Collection of Strings representing the constraint violations in the properties of the model"
+
+	| violations |
+
+	violations := Dictionary new.
+
+	"Add model violations"
+	model modelViolationsDo: [ :violation |
+		violations
+			at: nil
+			ifPresent: [ :collection | collection add: violation ]
+			ifAbsentPut: [ OrderedCollection with: violation ] ].
+
+	"Add property violations"
+	self propertiesForValidation do: [ :each |
+		model propertyViolationsAt: each do: [ :violation |
+			violations
+				at: each
+				ifPresent: [ :collection | collection add: violation ]
+				ifAbsentPut: [ OrderedCollection with: violation ] ] ].
+
+	^ violations
 ]
 
 { #category : #view }
@@ -550,6 +690,14 @@ CynModelView >> page [
 	"Answer the page of the receiver"
 
 	^ self canyonPage
+]
+
+{ #category : #validating }
+CynModelView >> propertiesForValidation [
+
+	"Answer the collection of properties which should be considered during validation of the receiver's model"
+
+	^ self boundProperties
 ]
 
 { #category : #initialization }
@@ -751,4 +899,57 @@ CynModelView >> updateToEmptyChildView: aView atSlotNamed: aString [
 
 	"Remove any dependencies in the old view"
 	aView destroy
+]
+
+{ #category : #validating }
+CynModelView >> validateModelIfValid: validBlock ifInvalid: invalidBlock [
+
+	"Validate the receiver's Model and evaluate the appropriate Block.
+	If the Model is invalid the invalidBlock will be evaluated (culled) with
+	a Dictionary. The Dictionary will contain the property name (a Symbol)
+	as key and a collection of violation keys (Symbol or CynTextReference)
+	specifying the issues encountered for that partical property. If a nil
+	key is present, it refers to a collection of violations on the Model which
+	is not related to one specific property (like the Model's integrity
+	violations).
+	If the Model is valid the validBlock is evaluated without parameters.
+
+	Both validBlock and/or invalidBlock can be nil, in which case no evaluation
+	is performed for that particular situation. This means that if invalidBlock
+	is nil and the receiver's Model is invalid, nothing will happen: there is
+	no fallback mechanism in such case to indicate the Model is invalid."
+
+	self modelViolations
+		ifNotEmpty: [ :violations |
+			invalidBlock ifNil: [ ^ self ].
+			invalidBlock cull: violations ]
+		ifEmpty: [
+			validBlock ifNil: [ ^ self ].
+			validBlock value ]
+]
+
+{ #category : #validating }
+CynModelView >> validateProperty: aSymbol [
+
+	"Validate the specified Property of the receiver's Model and
+	update the input element to indicate the validity"
+
+	| errorText |
+
+	errorText := model errorTextForPropertyAt: aSymbol.
+
+	(self shadowedElementWithId: aSymbol)
+		errorText: errorText ;
+		classed: #'ion-invalid' if: errorText isNotNil ;
+		classed: #'ion-valid' if: errorText isNil ;
+		classed: #'ion-touched' if: (self isDirtyProperty: aSymbol)
+]
+
+{ #category : #testing }
+CynModelView >> workOnCopy [
+
+	"Answer whether the receiver should work on a copy of the model.
+	Most forms work on a copy, but some views might work on the model directly."
+
+	^ true
 ]

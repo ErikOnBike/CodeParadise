@@ -1244,10 +1244,10 @@ CynApp >> showToast: aString duration: anInteger [
 
 	| toast didDismiss |
 
-	toast := IonToast new
+	toast := self main appendChild: (IonToast new
 		message: aString ;
 		duration: anInteger ;
-		yourself.
+		yourself).
 
 	didDismiss := toast onDidDismiss.
 	toast present.
