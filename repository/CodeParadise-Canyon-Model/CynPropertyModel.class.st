@@ -171,7 +171,7 @@ CynPropertyModel class >> installClassMethod: aCompiledMethod [
 	"Only if the propertySlots are already defined"
 	propertySlots ifNil: [ ^ self ].
 
-	aCompiledMethod selector = #allPropertyNames
+	(#(allPropertyNames propertyConstraints) includes: aCompiledMethod selector)
 		ifFalse: [ ^ self ].
 
 	self updatePropertyDefinitions
