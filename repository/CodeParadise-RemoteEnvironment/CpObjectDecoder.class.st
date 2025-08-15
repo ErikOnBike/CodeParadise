@@ -301,7 +301,7 @@ CpObjectDecoder >> decodeClassVariable [
 
 	^ (Smalltalk at: #ClassVariable)
 		key: name
-		value: nil
+		value: #__ClassVariable
 ]
 
 { #category : #decoding }
