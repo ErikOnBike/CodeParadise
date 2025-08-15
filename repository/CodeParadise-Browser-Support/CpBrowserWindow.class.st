@@ -122,6 +122,24 @@ CpBrowserWindow >> getComputedStyle: anElement pseudoElement: aString [
 	^ self apply: #getComputedStyle withArguments: { anElement . aString }
 ]
 
+{ #category : #accessing }
+CpBrowserWindow >> open: aString [
+
+	"Opens a new window"
+
+	^ self apply: #open withArguments: { aString }
+]
+
+{ #category : #accessing }
+CpBrowserWindow >> open: urlString in: targetString [
+
+	"Opens a new window in the specified browsing context.
+	
+	Some standard browsing contexts: '_blank' (default), '_self', '_parent', '_top'"
+
+	^ self apply: #open withArguments: { urlString . targetString }
+]
+
 { #category : #operations }
 CpBrowserWindow >> print [
 
