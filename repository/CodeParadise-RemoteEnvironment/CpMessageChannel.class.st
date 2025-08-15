@@ -56,10 +56,13 @@ CpMessageChannel class >> environmentImplementation [
 				ifTrue: [
 					| implementationClasses |
 
-					"If a single subclass exists use that, otherwise answer nil to denote 'undecided'"
+					"If a single subclass exists use that"
 					implementationClasses := self allSubclasses.
 					implementationClasses size = 1
-						ifTrue: [ implementationClasses asArray first ] ]
+						ifTrue: [ implementationClasses first ].
+
+					"If Zinc message channel exists, use that one, otherwise answer nil to denote 'undecided'"
+					implementationClasses detect: [ :each | each name beginsWith: #Zinc ] ifNone: [ nil ] ]
 				ifFalse: [ self ] ]
 ]
 
