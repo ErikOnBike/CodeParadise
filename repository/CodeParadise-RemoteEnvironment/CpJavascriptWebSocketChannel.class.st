@@ -103,7 +103,7 @@ CpJavaScriptWebSocketChannel >> connectToUrl: urlString withEventSemaphore: sema
 ]
 
 { #category : #'message handling' }
-CpJavaScriptWebSocketChannel >> handleMessageHandlerError: anError [ 
+CpJavaScriptWebSocketChannel >> handleMessageHandlerError: anError [
 
 	"Announce the error (for debugger or otherwise)"
 	CpExceptionAnnouncer announceException: anError.
@@ -166,6 +166,7 @@ CpJavaScriptWebSocketChannel >> release [
 	Implementation: Reset the state to an 'unused' value so #isOpen will answer false."
 
 	eventSemaphore ifNotNil: [
+		eventSemaphore signal.
 		Smalltalk unregisterExternalObject: eventSemaphore.
 		eventSemaphore := nil ].
 	semaphoreIndex := nil.
