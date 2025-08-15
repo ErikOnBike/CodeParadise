@@ -752,7 +752,7 @@ CpServerEnvironment >> updateCommunicatorWith: aMessageChannel [
 	(this can happen in case a connection is reset or a session is resumed)."
 
 	self hasCommunicator
-		ifFalse: [ self communicator: self createCommunicator ].
+		ifFalse: [ self createCommunicator ].
 
 	self communicator messageChannel: aMessageChannel
 ]
