@@ -142,8 +142,6 @@ CpDevTools class >> start [
 
 	self traceCr: 'Starting CP...'.
 	
-	CpMessageChannel environmentImplementation: CpZincWebSocketChannel.
-
 	"Register the example applications"
 	self allApplications do: [ :app | app register ].
 
