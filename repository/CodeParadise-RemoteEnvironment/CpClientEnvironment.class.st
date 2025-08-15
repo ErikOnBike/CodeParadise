@@ -143,11 +143,14 @@ CpClientEnvironment class >> preInstalledClasses [
 			add: CpClientEnvironment ;
 			add: CpClientError ;
 			add: CpClientMessageSendFailed ;
+			add: CpClientReconnected ;
 			add: CpClientStarted ;
 			add: CpClientStopped ;
 			add: CpCommunicator ;
 			add: CpCommunicatorReconnectStrategy ;
 			add: CpEnvironment ;
+			add: CpExceptionAnnouncer ;
+			add: CpExceptionAnnouncement ;
 			add: CpJavaScriptWebSocketChannel ;
 			add: CpMessageChannel ;
 			add: CpObjectDecoder ;
