@@ -139,8 +139,10 @@ CynLoginAccount >> restSettingAt: aSymbol put: anObject [
 	This will be communicated to the server immediately, but we don't wait for the acknowledge."
 
 	CpGlobalThis defer: [
-		(self restApiClient patchUri: self settingsUri body: (CpJavaScriptJSON stringify: (Dictionary with: aSymbol -> anObject asJsonObjectValue)) timeoutPeriod: self restUpdateTimeoutPeriod)
-			ifNotNil: [ :content | content keysAndValuesDo: [ :key :value | settings at: key put: value] ] ]
+		[
+			(self restApiClient patchUri: self settingsUri body: (CpJavaScriptJSON stringify: (Dictionary with: aSymbol -> anObject asJsonObjectValue)) timeoutPeriod: self restUpdateTimeoutPeriod)
+				ifNotNil: [ :content | content keysAndValuesDo: [ :key :value | settings at: key put: value] ]
+		] on: Error do: [ :error | self errorCr: 'Failed to write new settings ', error printString ] ]
 ]
 
 { #category : #'*CodeParadise-Canyon-App' }
