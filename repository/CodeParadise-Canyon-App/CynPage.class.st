@@ -188,6 +188,22 @@ CynPage >> documentTitleFrom: aString [
 ]
 
 { #category : #'event handling' }
+CynPage >> handleConnected [
+
+	"Now we're connected update the toolbar buttons (allowing access to our owning element).
+
+	Implementation:
+	When a page is shown in a Modal Ionic 'teleports' such a component making it connected,
+	disconnected and connected again. Prevent multiple invocations of the code."
+
+	(self isClassed: #connected)
+		ifTrue: [ ^ self ].
+	self addClass: #connected.
+
+	self updateToolbarButtons
+]
+
+{ #category : #'event handling' }
 CynPage >> handleTabsDidChange: anEvent [
 
 	"A tab in the receiver is changed, update the tabs content"
@@ -237,7 +253,9 @@ CynPage >> initialize [
 
 	super initialize.
 
-	self classed: #public if: self isPublic
+	self classed: #public if: self isPublic.
+
+	self when: CpConnectedEvent deferSend: #handleConnected to: self
 ]
 
 { #category : #initialization }
@@ -261,10 +279,19 @@ CynPage >> initializeShadowRoot [
 
 	self classed: #tabs if: hasTabs.
 
-	hasTabs ifFalse: [ ^ self ].
-
 	"Restore any previously selected tabs"
-	self selectKeptTabs
+	hasTabs
+		ifTrue: [ self selectKeptTabs ].
+
+	"Make sure the toolbar is updated once the receiver is connected.
+	Ionic 'teleports' model pages. Updating the toolbar requires a (stable) parent,
+	therefore only update when/once connected. This is in effect only useful during
+	development, since an event handler is installed to handle this too. This event
+	handler however does not fire when (during development) the shadow root is
+	updated. This little extra check does not really hurt performance, so leave it
+	here as is (also in production, where #isConnected will always answer false)."
+	self isConnected
+		ifTrue: [ self updateToolbarButtons ]
 ]
 
 { #category : #testing }

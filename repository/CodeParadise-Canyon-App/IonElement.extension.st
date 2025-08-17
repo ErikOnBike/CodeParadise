@@ -11,3 +11,11 @@ IonElement >> isReadonly [
 
 	^ false
 ]
+
+{ #category : #'*CodeParadise-Canyon-App' }
+IonElement >> isTextBasedInput [
+
+	"Answer whether the receiver is a text based input"
+
+	^ false
+]

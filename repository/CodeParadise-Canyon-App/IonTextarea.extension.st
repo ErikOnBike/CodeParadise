@@ -1,6 +1,12 @@
 Extension { #name : #IonTextarea }
 
 { #category : #'*CodeParadise-Canyon-App' }
+IonTextarea >> isTextBasedInput [
+
+	^ true
+]
+
+{ #category : #'*CodeParadise-Canyon-App' }
 IonTextarea >> valueForModel [
 
 	"Convenience method used in binding Elements to a Model"

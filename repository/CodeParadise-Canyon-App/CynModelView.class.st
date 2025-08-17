@@ -100,6 +100,32 @@ CynModelView >> addBindings [
 	self addPropertyBindings
 ]
 
+{ #category : #view }
+CynModelView >> addCounterFormatterToTextInput: anElement [
+
+	| maxLength fillingThreshold |
+
+	"Set some big number as max length to activate Ionic's counter behavior"
+	anElement maxlength: 100000.
+
+	"Decide max length"
+	maxLength := 100000.
+	model class propertyConstraintsAt: anElement id do: [ :each |
+		(each isLength and: [ each max < maxLength ])
+			ifTrue: [ maxLength := each max ] ].
+
+	"Show counter on 80%"
+	fillingThreshold := (maxLength * 0.8) floor.
+
+	anElement counterFormatter: [ :input :ignore |
+		anElement classed: #filling if: anElement value size >= fillingThreshold.
+
+		"Answer counter String"
+		input > maxLength
+			ifTrue: [ (input - maxLength) countText: #'constraint.input.too.long' ]
+			ifFalse: [ input printString, ' / ', maxLength printString ] ]
+]
+
 { #category : #binding }
 CynModelView >> addPropertyBindings [
 
@@ -151,6 +177,13 @@ CynModelView >> bindProperty: aSymbol toElement: anElement [
 	self addBinding: (model
 		when: (CynPropertyChanged name: aSymbol) do: [ :event | anElement valueFromModel: event newValue ] for: self).
 
+	"Set the element's label"
+	anElement label: (model textAspect: #label at: aSymbol).
+
+	"Add the element's placeholder (if available)"
+	(model textAspect: #placeholder at: aSymbol) ifNotNil: [ :placeholder |
+		anElement placeholder: placeholder ].
+
 	"Done when readonly element"
 	anElement isReadonly
 		ifTrue: [ ^ self ].
@@ -165,7 +198,11 @@ CynModelView >> bindProperty: aSymbol toElement: anElement [
 		deferDo: [
 			model normalizePropertyAt: aSymbol.
 			self validateProperty: aSymbol ]
-		for: self)
+		for: self).
+
+	"Add counter for text based elements"
+	anElement isTextBasedInput
+		ifTrue: [ self addBinding: (anElement when: IonInputEvent deferSend: #handleTextInput: to: self) ]
 ]
 
 { #category : #binding }
@@ -177,12 +214,41 @@ CynModelView >> boundProperties [
 	^ #()
 ]
 
+{ #category : #testing }
+CynModelView >> canModalDismiss [
+
+	"Answer whether the receiver (in general) can be dismissed.
+	This is used to decide if a 'back' button should be shown."
+
+	^ true
+]
+
 { #category : #'view - customization' }
 CynModelView >> canNavigate [
 
 	"Answer whether it is allowed to navigating (away) from the receiver"
 
-	^ true
+	| allowNavigate |
+
+	(self hasEditableForm and: [ self isModelDirty ])
+		ifFalse: [ ^ true ].
+
+	allowNavigate := self app
+		selectAction: #'app.action.title.form.changes' langText from: {
+			IonActionSheetButton new
+				text: #'app.action.button.save' langText ;
+				data: [ self handleSubmitFormOnFailure: [ ^ false ] ] ;
+				yourself.
+			IonActionSheetButton new
+				text: #'app.action.button.ignore' langText ;
+				data: [ self app showToast: #'app.toast.changes.ignored' langText ] ;
+				yourself.
+			IonActionSheetButton new
+				text: #'app.action.button.cancel' langText ;
+				role: #cancel ;
+				yourself }.
+
+	^ allowNavigate isNotNil and: [ allowNavigate role ~= #cancel ]
 ]
 
 { #category : #'view - customization' }
@@ -200,12 +266,17 @@ CynModelView >> childViewDefinitions [
 	The order of the definitions is important if multiple child views are present in the same slot.
 
 	These child view definitions are typically used in a TabbedPage where each tab is defined.
+	Also a page can have a separate view (when the page will also be shown as a child view elsewhere).
 
 	These child view definitions are cached locally. So please answer a static structure. To have a child
 	view be conditional, make use of the conditional definitions (see the instance creation methods of
-	CynModelViewDefinition)."
+	CynModelViewDefinition).
 
-	^ #()
+	By default a similar named view will be used as child, if such a view exists."
+
+	^ (Smalltalk classNamed: (self class name withoutSuffix: #Page), #View)
+		ifNotNil: [ :viewClass | { CynModelViewDefinition model: #yourself view: viewClass } ]
+		ifNil: [ #() ]
 ]
 
 { #category : #private }
@@ -393,6 +464,15 @@ CynModelView >> doWrite: aModel whileShowing: aString [
 	^ true
 ]
 
+{ #category : #accessing }
+CynModelView >> form [
+
+	"Answer the form of the receiver.
+	If nil is answered, it is assumed there is no form (i.e. no editable content)."
+
+	^ self shadowedElementWithId: #form
+]
+
 { #category : #'event handling' }
 CynModelView >> handleError: anError [
 
@@ -404,11 +484,129 @@ CynModelView >> handleError: anError [
 ]
 
 { #category : #'event handling' }
+CynModelView >> handleFormSubmitted [
+
+	self closePage
+]
+
+{ #category : #validating }
+CynModelView >> handleInvalidModel: aDictionary [
+
+	"The receiver's Model is invalid. Handle the specified Dictionary of
+	violations. The violation keys are the property names of the Model
+	containing the actual violations. The violation values are (is a
+	Collection of) either Symbols or CynTextReferences which indicate
+	the individual violations.
+	A nil key refers to a collection of violations on the Model which
+	is not related to one specific property (like the Model's integrity
+	violations)."
+
+	(aDictionary includesKey: nil)
+		ifTrue: [
+			self app showToast: (String streamContents: [  :stream |
+				stream nextPutAll: #'app.form.violations' langText.
+				(aDictionary at: nil) do: [ :each |
+					stream
+						space ;
+						nextPutAll: each langText ] ]) ]
+		ifFalse: [
+			| propertieLabels |
+
+			"Make sure the labels are in the same order as the properties on screen.
+			Assume the bound properties collection is in that specific order."
+			propertieLabels := OrderedCollection new.
+			self boundProperties do: [ :each |
+				(aDictionary includesKey: each)
+					ifTrue: [ propertieLabels add: (self normalizedLabelAt: each) ] ].
+
+			self app showToast: (String streamContents: [ :stream |
+				stream nextPutAll: #'app.form.violations' langText.
+				propertieLabels size = 1
+					ifTrue: [
+						stream
+							space ;
+							nextPutAll: #'app.form.violations.check.fields' langText ;
+							space ;
+							nextPutAll: propertieLabels first ]
+					ifFalse: [
+						stream
+							space ;
+							nextPutAll: #'app.form.violations.check.fields' langText ;
+							space ;
+							nextPutAll: propertieLabels first.
+						2 to: propertieLabels size - 1 do: [ :index |
+							stream
+								nextPutAll: ', ' ;
+								nextPutAll: (propertieLabels at: index) ].
+						stream
+							space ;
+							nextPutAll: #'app.and' langText ;
+							space ;
+							nextPutAll: propertieLabels last ] ]) ]
+]
+
+{ #category : #'event handling' }
 CynModelView >> handleNavigateBack [
 
 	"Handle the 'back' button click"
 
-	self page navigateBack
+	self isShownInModal
+		ifTrue: [ self modal dismiss: nil role: #cancel ]
+		ifFalse: [ self page navigateBack ]
+]
+
+{ #category : #'event handling' }
+CynModelView >> handleSubmitForm [
+
+	self handleSubmitFormOnSuccess: [ self handleFormSubmitted ] onFailure: [ "Error will be shown to user, nothing to do here" ]
+]
+
+{ #category : #'event handling' }
+CynModelView >> handleSubmitFormOnFailure: aBlock [
+
+	self handleSubmitFormOnSuccess: [ self handleFormSubmitted ] onFailure: aBlock
+]
+
+{ #category : #'event handling' }
+CynModelView >> handleSubmitFormOnSuccess: successBlock onFailure: failureBlock [
+
+	self model normalize.
+
+	self validateModelIfValid: [
+		self doWrite
+			ifTrue: [ successBlock value ]
+			ifFalse: [ failureBlock value ] ]
+]
+
+{ #category : #'event handling' }
+CynModelView >> handleTextInput: anInputEvent [
+
+	| target |
+
+	target := anInputEvent currentTarget
+		ifNil: [ ^ self ].
+
+	"Remove the error text if the bound property becomes valid (once accepted)"
+	(model isValidValue: target value forPropertyAt: target id)
+		ifTrue: [ target errorText: nil ].
+
+	"Add counter formatter once"
+	(target counter == true and: [ target counterFormatter isNil ])
+		ifTrue: [ self addCounterFormatterToTextInput: target ]
+]
+
+{ #category : #testing }
+CynModelView >> hasEditableForm [
+
+	^ self form
+		ifNotNil: [ :form | (form isClassed: #readonly) not ]
+		ifNil: [ false ]
+]
+
+{ #category : #testing }
+CynModelView >> hasPreviousPage [
+
+	^ self page hasPreviousPage
 ]
 
 { #category : #accessing }
@@ -474,7 +672,13 @@ CynModelView >> initializeShadowRoot [
 	model ifNotNil: [
 		self
 			removeBindings ;
-			addBindings ]
+			addBindings ].
+
+	"If an editable form is present, allow submitting it"
+	self hasEditableForm ifTrue: [
+		self form
+			when: CpSubmitEvent deferSend: #handleSubmitForm to: self ;
+			when: CpSubmitEvent send: #preventDefault: to: self ]
 ]
 
 { #category : #private }
@@ -677,6 +881,29 @@ CynModelView >> newEmptyChildSlot [
 		yourself
 ]
 
+{ #category : #accessing }
+CynModelView >> normalizedLabelAt: aSymbol [
+
+	"Answer the label for the specified property of the receiver's model,
+	either as-is or wrapped in double quotes in case a space is present.
+	It is assumed (for readability) that no double quotes are present in the label."
+
+	| label |
+
+	label :=  model shortLabelAt: aSymbol.
+
+	^ (label includes: Character space)
+		ifTrue: [
+			String
+				new: label size + 2
+				streamContents: [ :stream |
+					stream
+						nextPut: $" ;
+						nextPutAll: label ;
+						nextPut: $" ] ]
+		ifFalse: [ label ]
+]
+
 { #category : #'event handling' }
 CynModelView >> openedInModal: aModal [
 
@@ -751,6 +978,59 @@ CynModelView >> title [
 	See CynPage >> #updateTitle:"
 
 	^ nil
+]
+
+{ #category : #'view - customization' }
+CynModelView >> toolbarEndButtonText [
+
+	^ #'app.button.label.generic.done' langText
+]
+
+{ #category : #'view - customization' }
+CynModelView >> toolbarEndButtons [
+
+	"Answer the toolbar buttons for the receiver.
+
+	Implementation:
+	Assume that by default a single button is present (if any)."
+
+	self hasEditableForm
+		ifFalse: [ ^ #() ].
+
+	^ Array with: (IonButton new
+		textContent: self toolbarEndButtonText ;
+		type: #submit ;
+		form: self form ;
+		yourself)
+]
+
+{ #category : #'view - customization' }
+CynModelView >> toolbarStartButtons [
+
+	"Answer the toolbar buttons for the receiver.
+	By default, show only back button if possible.
+
+	Implementation:
+	The IonBackButton receives an 'empty' href to make sure it is always visible.
+	Furthermore an explicit click handler is set. Normally the back button receives
+	click behavior (probably during the initialization of or connecting to the
+	IonToolbar). Since the click handler will not be installed automagically with
+	our current approach, it has to be done manually here."
+
+	self isShownInModal
+		ifTrue: [
+			self canModalDismiss
+				ifFalse: [ ^ #() ] ]
+		ifFalse: [
+			self hasPreviousPage
+				ifFalse: [ ^ #() ] ].
+
+	^ Array with: (IonBackButton new
+		id: #back ;
+		defaultHref: #'#' ;
+		when: CpClickEvent deferSend: #handleNavigateBack to: self ;
+		when: CpClickEvent send: #preventDefault: to: self ;
+		yourself)
 ]
 
 { #category : #'view - customization' }
@@ -901,6 +1181,25 @@ CynModelView >> updateToEmptyChildView: aView atSlotNamed: aString [
 	aView destroy
 ]
 
+{ #category : #view }
+CynModelView >> updateToolbarButtons [
+
+	"Update toolbar buttons for the receiver"
+
+	self headerToolbar ifNotNil: [ :toolbar |
+		toolbar
+			updateButtonsStart: self toolbarStartButtons
+			end: self toolbarEndButtons ]
+]
+
+{ #category : #validating }
+CynModelView >> validateModelIfValid: aBlock [
+
+	self
+		validateModelIfValid: aBlock
+		ifInvalid: [ :violations | self handleInvalidModel: violations ]
+]
+
 { #category : #validating }
 CynModelView >> validateModelIfValid: validBlock ifInvalid: invalidBlock [
 
@@ -949,7 +1248,8 @@ CynModelView >> validateProperty: aSymbol [
 CynModelView >> workOnCopy [
 
 	"Answer whether the receiver should work on a copy of the model.
-	Most forms work on a copy, but some views might work on the model directly."
+	Most forms work on a copy, but some views might work on the model directly.
+	For read only views there is no need to work on a copy."
 
-	^ true
+	^ self hasEditableForm
 ]

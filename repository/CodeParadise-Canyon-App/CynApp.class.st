@@ -117,6 +117,8 @@ CynApp class >> defaultAppTexts [
 	^ Dictionary new
 		at: #'app.ok' put: 'OK' ;
 		at: #'app.cancel' put: 'Cancel' ;
+		at: #'app.or' put: 'or' ;
+		at: #'app.and' put: 'and' ;
 		at: #'app.today' put: 'today' ;
 		at: #'app.yesterday' put: 'yesterday' ;
 		at: #'app.tomorrow' put: 'tomorrow' ;
@@ -141,12 +143,6 @@ CynApp class >> defaultAppTexts [
 		at: #'app.server.forbidden.title' put: 'Oops, something went wrong' ;
 		at: #'app.server.forbidden.message' put: 'The computer where the data is stored, says you''re not allowed to use or update the entry. The maintainer is informed. We''ll try to fix this as soon as possible.' ;
 		at: #'app.menu.title' put: 'Menu' ;
-		at: #'app.label.account.email' put: 'E-mail' ;
-		at: #'app.label.account.password' put: 'Password' ;
-		at: #'app.label.account.token' put: 'Code' ;
-		at: #'app.selection.loginAccount.expires.usage' put: 'After usage' ;
-		at: #'app.selection.loginAccount.expires.day' put: 'The next day' ;
-		at: #'app.selection.loginAccount.expires.never' put: 'Never' ;
 		at: #'app.loading.generic.new' put: 'Creating new entry...' ;
 		at: #'app.loading.generic.update' put: 'Storing changes...' ;
 		at: #'app.loading.generic.delete' put: 'Removing entry...' ;
@@ -511,6 +507,8 @@ CynApp >> handleUnhandledError: anError [
 		self traceCr: anError signalerContext printString.
 		^ false ].
 	self traceCr: anError description asString.
+
+	CpExceptionAnnouncer announceException: anError.
 
 	^ false
 ]
