@@ -99,7 +99,7 @@ CpGlobalThis class >> defer: aBlock [
 	function, the Block will be executed synchronously here. If you prefer a
 	more relaxed execution please use `[ ... ] fork`."
 
-	self setTimeout: 0 thenDo: ([ aBlock value ] on: Error do: [ :err | CpExceptionAnnouncer announceException: err ])
+	self setTimeout: 0 thenDo: [ [ aBlock value ] on: Error do: [ :err | CpExceptionAnnouncer announceException: err ] ]
 ]
 
 { #category : #'deferred message' }
