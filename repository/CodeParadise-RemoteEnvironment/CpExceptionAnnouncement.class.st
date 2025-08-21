@@ -2,7 +2,8 @@ Class {
 	#name : #CpExceptionAnnouncement,
 	#superclass : #Announcement,
 	#instVars : [
-		'exception'
+		'exception',
+		'announcerContext'
 	],
 	#category : #'CodeParadise-RemoteEnvironment-Core-Announcements'
 }
@@ -10,9 +11,21 @@ Class {
 { #category : #'instance creation' }
 CpExceptionAnnouncement class >> exception: anException [
 
+	^ self exception: anException context: nil
+]
+
+{ #category : #'instance creation' }
+CpExceptionAnnouncement class >> exception: anException context: aContext [
+
 	^ self basicNew
-		initializeWithException: anException ;
+		initializeWithException: anException announcerContext: aContext ;
 		yourself
+]
+
+{ #category : #accessing }
+CpExceptionAnnouncement >> announcerContext [
+
+	^ announcerContext
 ]
 
 { #category : #initialization }
@@ -22,9 +35,10 @@ CpExceptionAnnouncement >> exception [
 ]
 
 { #category : #initialization }
-CpExceptionAnnouncement >> initializeWithException: anException [
+CpExceptionAnnouncement >> initializeWithException: anException announcerContext: aContext [
 
 	self initialize.
 
-	exception := anException
+	exception := anException.
+	announcerContext := aContext
 ]
