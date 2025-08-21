@@ -433,7 +433,7 @@ CpViewCodeInspectorView >> handleApplyStyle: anEvent [
 		preventDefault.
 
 	"Update deferred, because of possible awaits being used in #initializeShadowRoot"
-	self defer: [ self applyStyle ]
+	CpGlobalThis defer: [ self applyStyle ]
 ]
 
 { #category : #'event handling' }
@@ -444,7 +444,7 @@ CpViewCodeInspectorView >> handleApplyTemplate: anEvent [
 		preventDefault.
 
 	"Update deferred, because of possible awaits being used in #initializeShadowRoot"
-	self defer: [ self applyTemplate ]
+	CpGlobalThis defer: [ self applyTemplate ]
 ]
 
 { #category : #'event handling' }

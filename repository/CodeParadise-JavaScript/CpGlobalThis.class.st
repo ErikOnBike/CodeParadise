@@ -90,13 +90,16 @@ CpGlobalThis class >> decodeURIComponent: aString [
 CpGlobalThis class >> defer: aBlock [
 
 	"Evaluate the specified Block with the smallest delay (at least one tick).
+	By default any Error signaled in the Block, will be caught and handled by
+	the global ExceptionAnnouncer. If you don't need to safeguard, please use
+	#unsafeDefer:
 
 	Implementation:
 	Since execution of Blocks is handled synchronously when used as JavaScript
 	function, the Block will be executed synchronously here. If you prefer a
 	more relaxed execution please use `[ ... ] fork`."
 
-	self setTimeout: 0 thenDo: aBlock
+	self setTimeout: 0 thenDo: ([ aBlock value ] on: Error do: [ :err | CpExceptionAnnouncer announceException: err ])
 ]
 
 { #category : #'deferred message' }
@@ -296,4 +299,17 @@ CpGlobalThis class >> setTimeout: anInteger thenDo: aBlock [
 	used to stop the timeout using #clearTimeout."
 
 	^ self apply: #setTimeout withArguments: { aBlock asJavaScriptFunction . anInteger }
+]
+
+{ #category : #'deferred message' }
+CpGlobalThis class >> unsafeDefer: aBlock [
+
+	"Evaluate the specified Block with the smallest delay (at least one tick).
+
+	Implementation:
+	Since execution of Blocks is handled synchronously when used as JavaScript
+	function, the Block will be executed synchronously here. If you prefer a
+	more relaxed execution please use `[ ... ] fork`."
+
+	self setTimeout: 0 thenDo: aBlock
 ]
