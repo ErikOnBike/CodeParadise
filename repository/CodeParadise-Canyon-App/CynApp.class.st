@@ -431,6 +431,50 @@ CynApp >> defaultToastDuration [
 	^ 3000
 ]
 
+{ #category : #'error handling' }
+CynApp >> handleExceptionAnnouncement: anExceptionAnnouncement [
+
+	"Handle the signaled Exception"
+
+	| exception |
+
+	"Ignore some UI and code installation related errors"
+	(self isRelevantException: anExceptionAnnouncement)
+		ifFalse: [ ^ self ].
+
+	exception := anExceptionAnnouncement exception.
+
+	"Check if the receiver is an already handled/processed REST API Client error"
+	((exception isKindOf: CynRestResponseError) and: [ exception isHandled ])
+		ifTrue: [ ^ self ].
+
+	"Assuming the REST API is behind some proxy (like nginx)"
+	exception statusCode = CynRestResponseError codeBadGateway
+		ifTrue: [
+			self showErrorServerNotAvailable.
+			^ self ].
+
+	"Forbidden means an authorization issue, should have been prevented"
+	exception statusCode = CynRestResponseError codeForbidden
+		ifTrue: [
+			self showErrorForbidden.
+			^ self ].
+
+	"Ouch...probably programming error"
+	exception statusCode = CynRestResponseError codeInternalServerError
+		ifTrue: [
+			self showErrorInternalServerError: exception.
+			^ self ].
+
+	self class ifDevelopment: [
+		| context |
+		context := anExceptionAnnouncement announcerContext ifNil: [ exception signalerContext ].
+		(self locationFromSignalerContext: context) ifNotNil: [ :origin |
+			self traceCr: 'Origin seems to be: ', origin method printString ].
+		self traceCr: exception printString.
+		self traceCr: context printString ]
+]
+
 { #category : #'event handling' }
 CynApp >> handleOffline [
 
@@ -508,8 +552,6 @@ CynApp >> handleUnhandledError: anError [
 		^ false ].
 	self traceCr: anError description asString.
 
-	CpExceptionAnnouncer announceException: anError.
-
 	^ false
 ]
 
@@ -555,6 +597,8 @@ CynApp >> initialize [
 	| restApiClient shadowRoot ionicStyle |
 
 	super initialize.
+
+	CpExceptionAnnouncer when: CpExceptionAnnouncement send: #handleExceptionAnnouncement: to: self.
 
 	ionicStyle := (CpHtmlElement newWithTag: #style)
 		textContent: '@import url("https://cdn.jsdelivr.net/npm/@ionic/core/css/ionic.bundle.css");' ;
@@ -620,6 +664,29 @@ CynApp >> isOnline [
 		ifTrue: [ ^ true ].
 
 	^ restApiClient ping
+]
+
+{ #category : #testing }
+CynApp >> isRelevantException: anExceptionAnnouncement [
+
+	| context method methodClass |
+
+	"If there is no Context, assume it is relevant (fail safe)"
+	context := anExceptionAnnouncement announcerContext
+		ifNil: [ ^ true ].
+
+	"If there is no CompiledMethod, assume it is relevant (fail safe)"
+	method := context method
+		ifNil: [ ^ true ].
+
+	"If there is no CompiledMethod class, assume it is relevant (fail safe)"
+	methodClass := method methodClass
+		ifNil: [ ^ true ].
+
+	methodClass := methodClass instanceSide.
+
+	"Ignore classes with the specified name (i.e. are not relevant from the App's perspective)"
+	^ (#(CpEvent CpTransition CpClientEnvironment CpJavaScriptWebSocketChannel CpUnhandledRejection) includes: methodClass name) not
 ]
 
 { #category : #initialization }
