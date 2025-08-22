@@ -1,3 +1,11 @@
+"
+I am an ExceptionAnnouncer for in the ClientEnvironment.
+When an Error is signaled during code execution, an CpExceptionAnnouncement is announced.
+This allows interested parties to respond (locally, in the ClientEnvironment) to
+handle the Error. Do NOT try to announce the exception to the server, since there is
+context in the exception which can't be serialized properly.
+
+"
 Class {
 	#name : #CpExceptionAnnouncer,
 	#superclass : #Announcer,
@@ -25,7 +33,7 @@ CpExceptionAnnouncer class >> announceException: anException [
 	self hasCurrent
 		ifFalse: [ ^ nil ].
 
-	^ self announce: (CpExceptionAnnouncement exception: anException)
+	^ self announce: (CpExceptionAnnouncement exception: anException context: thisContext sender)
 ]
 
 { #category : #accessing }
