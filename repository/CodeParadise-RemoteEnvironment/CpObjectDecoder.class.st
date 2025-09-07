@@ -305,6 +305,21 @@ CpObjectDecoder >> decodeClassVariable [
 ]
 
 { #category : #decoding }
+CpObjectDecoder >> decodeCleanBlockClosure [
+
+	| numArgs |
+
+	"Raise error if the receiver is not running in the ClientEnvironment"
+	CpClientEnvironment isRunning
+		ifFalse: [ ^ self error: 'ClientEnvironment sent CompiledBlock to ServerEnvironment' ].
+
+	"Read number of arguments"
+	numArgs := self readLength.
+
+	^ CleanBlockClosure numArgs: numArgs
+]
+
+{ #category : #decoding }
 CpObjectDecoder >> decodeCompiledBlock [
 
 	"Decode a CompiledBlock. It will have its outerCode set,
@@ -543,6 +558,7 @@ CpObjectDecoder >> decodeNext [
 		decodeMessage
 		decodePoint
 		decodeCompiledBlock
+		decodeCleanBlockClosure
 		decodeConstantBlockClosure
 		decodeByteArray
 		decodeWordArray

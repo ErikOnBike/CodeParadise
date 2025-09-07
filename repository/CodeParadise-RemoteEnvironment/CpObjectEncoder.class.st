@@ -194,7 +194,7 @@ CpObjectEncoder >> encodeByteArray: aByteArray [
 
 	"Encode the ByteArray by writing its length and encoding the individuel elements"
 
-	writeStream nextPut: 32.
+	writeStream nextPut: 33.
 	self writeLength: aByteArray size.
 	aByteArray do: [ :each | writeStream nextPut: each ]
 ]
@@ -248,6 +248,16 @@ CpObjectEncoder >> encodeClassVariable: aClassVariable [
 
 	writeStream nextPut: 23.
 	self writeSymbol: aClassVariable key
+]
+
+{ #category : #encoding }
+CpObjectEncoder >> encodeCleanBlockClosure: aCleanBlockClosure [
+
+	"Encode aCleanBlockClosure using its number of arguments"
+
+	writeStream nextPut: 31.
+
+	self writeLength: aCleanBlockClosure numArgs
 ]
 
 { #category : #encoding }
@@ -306,7 +316,7 @@ CpObjectEncoder >> encodeConstantBlockClosure: aConstantBlockClosure [
 	"Encode aConstantBlockClosure using its number of arguments
 	and the literal representing its constant value"
 
-	writeStream nextPut: 31.
+	writeStream nextPut: 32.
 
 	self writeLength: aConstantBlockClosure numArgs.
 
@@ -506,7 +516,7 @@ CpObjectEncoder >> encodeWordArray: aWordArray [
 
 	"Encode the WordArray by writing its length and encoding the individuel elements"
 
-	writeStream nextPut: 33.
+	writeStream nextPut: 34.
 	self writeLength: aWordArray size.
 	aWordArray do: [ :each | self writeUInt32: each ]
 ]
