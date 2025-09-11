@@ -454,6 +454,25 @@ CynPage >> selectKeptTabs [
 ]
 
 { #category : #view }
+CynPage >> showInitialTab [
+
+	"Select the initial (first) tab for all tabs"
+
+	| actions |
+
+	self hasTabs
+		ifFalse: [ ^ self ].
+
+	actions := OrderedCollection new.
+	self allTabs do: [ :each |
+		each firstChild ifNotNil: [ :tab |
+			self keepSelectedTab: tab.
+			actions add: (each select: tab) ] ].
+
+	(CpJavaScriptPromise allSettled: actions asArray) await
+]
+
+{ #category : #view }
 CynPage >> showPage: aPageClass withModel: aModel inModal: aModal [
 
 	"Show the Model modal in the page Class specified"
