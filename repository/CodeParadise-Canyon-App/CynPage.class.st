@@ -454,7 +454,7 @@ CynPage >> selectKeptTabs [
 ]
 
 { #category : #view }
-CynPage >> showInitialTab [
+CynPage >> showInitialTabs [
 
 	"Select the initial (first) tab for all tabs"
 
