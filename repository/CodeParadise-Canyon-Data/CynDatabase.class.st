@@ -304,7 +304,7 @@ CynDatabase >> selectValue: aSymbol statement: aString bind: aDictionary [
 	row := self selectOne: aSymbol statement: aString bind: aDictionary.
 	row ifNil: [ ^ nil ].
 
-	row keys > 1
+	row keys size > 1
 		ifTrue: [ CynDatabaseTooManyValues signal ].
 
 	^ row values first
