@@ -229,11 +229,9 @@ CynDatabase >> selectCount: aSymbol statement: aString [
 CynDatabase >> selectCount: aSymbol statement: aString bind: aDictionary [
 
 	"Answer the count of a count query.
-	It is assumed the statement uses 'COUNT(*)' as result.
-	This is case sensitive."
+	It is assumed the statement uses a single 'COUNT(...)' value a no other values are selected."
 
-	^ (self selectOne: aSymbol statement: aString bind: aDictionary)
-		at: #'COUNT(*)'
+	^ self selectValue: aSymbol statement: aString bind: aDictionary
 ]
 
 { #category : #database }
@@ -285,6 +283,31 @@ CynDatabase >> selectOne: aSymbol statement: aString bind: aDictionary [
 	^ rows
 		ifNotEmpty: [ rows first ]
 		ifEmpty: [ nil ]
+]
+
+{ #category : #database }
+CynDatabase >> selectValue: aSymbol statement: aString [
+
+	^ self selectValue: aSymbol statement: aString bind: nil
+]
+
+{ #category : #database }
+CynDatabase >> selectValue: aSymbol statement: aString bind: aDictionary [
+
+	"Select a single value from a single row from the database and answer the object found.
+	It is assumed only a single value is selected.
+	This query will fail if too many rows or to many values (columns) are selected.
+	If no row is found, nil is answered."
+
+	| row |
+
+	row := self selectOne: aSymbol statement: aString bind: aDictionary.
+	row ifNil: [ ^ nil ].
+
+	row keys > 1
+		ifTrue: [ CynDatabaseTooManyValues signal ].
+
+	^ row values first
 ]
 
 { #category : #errors }
