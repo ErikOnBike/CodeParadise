@@ -481,6 +481,7 @@ CynLocalAccountRestApiService >> updateSettings: aDictionary forAccountId: aStri
 			statement: 'SELECT settings, updatedAt FROM accounts WHERE id=:accountId'
 			bind: {
 				#accountId -> aString } asDictionary.
+		accountInfo ifNil: [ CpNodeJSRestBadRequestError signal ].
 
 		settings := [ CpJavaScriptJSON parse: (accountInfo at: #settings) ] on: Error do: [ :error |
 			self errorCr: 'Failed to parse account settings ', error printString.
