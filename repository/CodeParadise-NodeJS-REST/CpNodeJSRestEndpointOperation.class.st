@@ -327,7 +327,7 @@ CpNodeJSRestEndpointOperation >> performOperationRequest: aRestRequest response:
 
 	[ operation valueWithArguments: { aRestRequest . aServerResponse } ]
 		on: Error
-		do: [ :error | aServerResponse writeError: error]
+		do: [ :error | self writeError: error request: aRestRequest response: aServerResponse ]
 ]
 
 { #category : #printing }
@@ -384,4 +384,12 @@ CpNodeJSRestEndpointOperation >> validateAuthorizedRequest: aRestRequest [
 
 	self authorizationOperation
 		value: aRestRequest
+]
+
+{ #category : #performing }
+CpNodeJSRestEndpointOperation >> writeError: anError request: aRestRequest response: aServerResponse [
+
+	"Write the specified Error as a response to the server"
+
+	aServerResponse writeError: anError
 ]
