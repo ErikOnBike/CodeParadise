@@ -122,6 +122,7 @@ CynPeriodicOperation >> perform [
 		timer := nil ].
 
 	"Perform the receiver's Block"
+	needsToRun := false.
 	block cull: self.
 
 	"Did the receiver get stopped during performing the last run"
