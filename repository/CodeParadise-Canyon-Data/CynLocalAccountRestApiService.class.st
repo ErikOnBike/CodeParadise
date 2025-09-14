@@ -278,6 +278,26 @@ CynLocalAccountRestApiService >> errorTokenExpired [
 	CpNodeJSRestGoneError signal: 'Token is expired'
 ]
 
+{ #category : #'API - authorization' }
+CynLocalAccountRestApiService >> getSessionForRequest: aRestRequest [
+
+	| accessToken |
+
+	"Retrieve access token from the request, otherwise request is not authorized"
+	accessToken := (aRestRequest headerAt: #authorization)
+		ifNotNil: [ :header | header withoutPrefix: 'Bearer ' ]
+		ifNil: [ ^ nil ].
+
+	(CynTokenPropertyConstraint isValidValue: accessToken)
+		ifFalse: [ ^ nil ].
+
+	"Find the session for this access token (which has an active account attached)"
+	^ modelDatabase
+		selectOne: #getSessionByAccessToken
+		statement: 'SELECT id, accountId, createdAt, updatedAt, expires FROM sessions WHERE accessToken=:accessToken AND EXISTS (SELECT id FROM accounts WHERE id=accountId AND activatedAt IS NOT NULL AND deletedAt IS NULL)'
+		bind: { #accessToken -> accessToken } asDictionary
+]
+
 { #category : #'API - password' }
 CynLocalAccountRestApiService >> hashPassword: plainTextPassword usingSalt: saltString [
 
@@ -301,6 +321,12 @@ CynLocalAccountRestApiService >> initialize [
 	mailer verify: [ :error :success |
 		error ifNotNil: [ self errorCr: ('Startup error mailer: {1}' format: { error }) ].
 		success ifNotNil: [ self traceCr: ('Startup mailer successful: {1}' format: { success }) ] ]
+]
+
+{ #category : #logging }
+CynLocalAccountRestApiService >> insertLogStatement [
+
+	^ 'INSERT INTO logs (timestamp, level, message, accountId, sessionId, stack, context) VALUES (:timestamp, :level, :message, :accountId, :sessionId, :stack, :context)'
 ]
 
 { #category : #'API - authorization' }
@@ -363,6 +389,19 @@ CynLocalAccountRestApiService >> isNonActivatedAccount: anAccount [
 		bind: { #email -> anAccount email } asDictionary.
 
 	^ activations isNotEmpty
+]
+
+{ #category : #logging }
+CynLocalAccountRestApiService >> logRecordFromError: anError request: aRestRequest [
+
+	| session |
+
+	session := self getSessionForRequest: aRestRequest.
+
+	^ (super logRecordFromError: anError request: aRestRequest)
+		at: #sessionId put: (session ifNotNil: [ session at: #sessionId ifAbsent: [ nil ] ]) ;
+		at: #accountId put: (session ifNotNil: [ session at: #accountId ifAbsent: [ nil ] ]) ;
+		yourself
 ]
 
 { #category : #API }
@@ -529,22 +568,9 @@ CynLocalAccountRestApiService >> validateAuthorizedRequest: aRestRequest [
 
 	"Default authorization handler for non-public endpoints"
 
-	| accessToken session |
+	| session |
 
-	"Retrieve access token from the request, otherwise request is not authorized"
-	accessToken := (aRestRequest headerAt: #authorization)
-		ifNotNil: [ :header | header withoutPrefix: 'Bearer ' ]
-		ifNil: [ CpNodeJSRestForbiddenError signal ].
-
-	(CynTokenPropertyConstraint isValidValue: accessToken)
-		ifFalse: [ CpNodeJSRestForbiddenError signal ].
-
-	"Find the session for this access token (which has an active account attached)"
-	session := modelDatabase
-		selectOne: #getSessionByAccessToken
-		statement: 'SELECT id, accountId, createdAt, updatedAt, expires FROM sessions WHERE accessToken=:accessToken AND EXISTS (SELECT id FROM accounts WHERE id=accountId AND activatedAt IS NOT NULL AND deletedAt IS NULL)'
-		bind: { #accessToken -> accessToken } asDictionary.
-
+	session := self getSessionForRequest: aRestRequest.
 	session ifNil: [ CpNodeJSRestForbiddenError signal ].
 
 	"Check for expiration (if expired, signal Unauthorized!)"

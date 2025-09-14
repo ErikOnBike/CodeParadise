@@ -413,6 +413,80 @@ CynBaseRestApiService >> initializeWithConfig: aDictionary [
 	self initialize
 ]
 
+{ #category : #logging }
+CynBaseRestApiService >> insertLogStatement [
+
+	"Answer the insert statement.
+	This statement should match the record created in #logRecordFromRequest: (except for timestamp, level and message which
+	are always added)."
+
+	^ 'INSERT INTO logs (timestamp, level, message, stack, context) VALUES (:timestamp, :level, :message, :stack, :context)'
+]
+
+{ #category : #logging }
+CynBaseRestApiService >> log: aSymbol message: aString error: anError request: aRestRequest [
+
+	| logRecord |
+
+	logRecord := self logRecordFromError: anError request: aRestRequest.
+
+	"Add fixed/required log record entries"
+	logRecord
+		at: #timestamp put: self timestampNow ;
+		at: #level put: aSymbol ;
+		at: #message put: aString.
+
+	[
+		logDatabase
+			performOne: #insertLogRecord
+			statement: self insertLogStatement
+			bind: logRecord
+	] on: Error do: [ :error |
+		self warnCr: 'Failed to log record ', logRecord printString.
+		self warnCr: 'Error: ', error printString ]
+]
+
+{ #category : #logging }
+CynBaseRestApiService >> logError: anError request: aRestRequest [
+
+	self log: #error message: anError description error: anError request: aRestRequest
+]
+
+{ #category : #logging }
+CynBaseRestApiService >> logErrorMessage: aString request: aRestRequest [
+
+	self log: #error message: aString error: nil request: aRestRequest
+]
+
+{ #category : #logging }
+CynBaseRestApiService >> logInfoMessage: aString request: aRestRequest [
+
+	self log: #info message: aString error: nil request: aRestRequest
+]
+
+{ #category : #logging }
+CynBaseRestApiService >> logRecordFromError: anError request: aRestRequest [
+
+	"Subclasses should add/overwrite any relevant data.
+	This should match the insert statment in #insertLogStatement"
+
+	| stackContext senderContext |
+
+	stackContext := anError ifNotNil: [ anError signalerContext ].
+	senderContext := stackContext ifNotNil: [ stackContext sender ].
+
+	^ Dictionary new
+		at: #stack put: (stackContext ifNotNil: [ stackContext printString ]) ;
+		at: #context put: (senderContext ifNotNil: [ senderContext method ifNotNil: [ :method | method printString ] ]) ;
+		yourself
+]
+
+{ #category : #logging }
+CynBaseRestApiService >> logWarnMessage: aString request: aRestRequest [
+
+	self log: #warn message: aString error: nil request: aRestRequest
+]
+
 { #category : #'API - resources' }
 CynBaseRestApiService >> newId [
 
