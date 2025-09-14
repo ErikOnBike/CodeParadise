@@ -100,15 +100,15 @@ CynBaseRestApiService class >> operationFor: aCompiledMethod [
 	url := CpBrowserURL newUrl: pragma arguments first base: 'http://localhost'.
 
 	pragma selector == #get:
-		ifTrue: [ operation := CpNodeJSRestEndpointOperation uri: url getOperation: action ].
+		ifTrue: [ operation := self restEndpointOperationClass uri: url getOperation: action ].
 	pragma selector == #post:
-		ifTrue: [ operation := CpNodeJSRestEndpointOperation uri: url postOperation: action ].
+		ifTrue: [ operation := self restEndpointOperationClass uri: url postOperation: action ].
 	pragma selector == #put:
-		ifTrue: [ operation := CpNodeJSRestEndpointOperation uri: url putOperation: action ].
+		ifTrue: [ operation := self restEndpointOperationClass uri: url putOperation: action ].
 	pragma selector == #patch:
-		ifTrue: [ operation := CpNodeJSRestEndpointOperation uri: url patchOperation: action ].
+		ifTrue: [ operation := self restEndpointOperationClass uri: url patchOperation: action ].
 	pragma selector == #delete:
-		ifTrue: [ operation := CpNodeJSRestEndpointOperation uri: url deleteOperation: action ].
+		ifTrue: [ operation := self restEndpointOperationClass uri: url deleteOperation: action ].
 
 	operation
 		ifNotNil: [ ^ operation ].
@@ -193,6 +193,12 @@ CynBaseRestApiService class >> removeInstanceMethod: aCompiledMethod [
 	operation ifNil: [ ^ self ].
 
 	self traceCr: 'Removed endpoint operation: ', operation printString
+]
+
+{ #category : #accessing }
+CynBaseRestApiService class >> restEndpointOperationClass [
+
+	^ CpNodeJSRestEndpointOperation
 ]
 
 { #category : #accessing }
