@@ -212,7 +212,15 @@ CpNodeJSRestRequestProcess >> runInternal [
 	
 		"No error"
 		nil
-	] on: Error do: [ :error | error ].
+	] on: Error do: [ :error |
+		"Log the error in development (here it still has context)"
+		CpJavaScriptObject isDevelopmentEnvironment
+			ifTrue: [
+				self warnCr: error printString.
+				self warnCr: error signalerContext printString ].
+
+		"We have an error"
+		error ].
 
 	"Mark end"
 	endedAt := CpNodeJSRestHttpServer timestampNow.
