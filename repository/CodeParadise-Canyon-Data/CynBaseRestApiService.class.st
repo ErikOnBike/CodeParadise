@@ -428,15 +428,15 @@ CynBaseRestApiService >> log: aSymbol message: aString error: anError request: a
 
 	| logRecord |
 
-	logRecord := self logRecordFromError: anError request: aRestRequest.
-
-	"Add fixed/required log record entries"
-	logRecord
-		at: #timestamp put: self timestampNow ;
-		at: #level put: aSymbol ;
-		at: #message put: aString.
-
 	[
+		logRecord := self logRecordFromError: anError request: aRestRequest.
+
+		"Add fixed/required log record entries"
+		logRecord
+			at: #timestamp put: self timestampNow ;
+			at: #level put: aSymbol ;
+			at: #message put: aString.
+
 		logDatabase
 			performOne: #insertLogRecord
 			statement: self insertLogStatement
@@ -470,14 +470,13 @@ CynBaseRestApiService >> logRecordFromError: anError request: aRestRequest [
 	"Subclasses should add/overwrite any relevant data.
 	This should match the insert statment in #insertLogStatement"
 
-	| stackContext senderContext |
+	| stackContext |
 
 	stackContext := anError ifNotNil: [ anError signalerContext ].
-	senderContext := stackContext ifNotNil: [ stackContext sender ].
 
 	^ Dictionary new
 		at: #stack put: (stackContext ifNotNil: [ stackContext printString ]) ;
-		at: #context put: (senderContext ifNotNil: [ senderContext method ifNotNil: [ :method | method printString ] ]) ;
+		at: #context put: aRestRequest printString ;
 		yourself
 ]
 
