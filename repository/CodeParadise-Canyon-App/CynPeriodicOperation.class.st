@@ -42,6 +42,9 @@ CynPeriodicOperation class >> interval: anInteger do: aBlock [
 { #category : #'instance creation' }
 CynPeriodicOperation class >> prepareInterval: anInteger do: aBlock [
 
+	"Answer an instance that waits the specified interval
+	before performing the first operation"
+
 	^ (self interval: anInteger do: aBlock)
 		prepare ;
 		yourself
@@ -49,6 +52,9 @@ CynPeriodicOperation class >> prepareInterval: anInteger do: aBlock [
 
 { #category : #'instance creation' }
 CynPeriodicOperation class >> startInterval: anInteger do: aBlock [
+
+	"Answer an instance that immediately performs the operation
+	and continues using the specified interval"
 
 	^ (self interval: anInteger do: aBlock)
 		perform ;
@@ -58,11 +64,18 @@ CynPeriodicOperation class >> startInterval: anInteger do: aBlock [
 { #category : #accessing }
 CynPeriodicOperation >> block: aBlock [
 
-	"Update the Block allowing to change the behavior of the periodic block"
+	"Update the Block allowing to change the behavior of the receiver.
+	If the receiver should be stopped, use #stop instead."
 
-	aBlock ifNil: [ self error: 'PeriodicBlock requires actual Block' ].
+	aBlock ifNil: [ self error: self class name, ' requires an actual Block' ].
 
 	block := aBlock
+]
+
+{ #category : #accessing }
+CynPeriodicOperation >> doubleInterval [
+
+	interval := interval * 2
 ]
 
 { #category : #initialization }
@@ -103,9 +116,21 @@ CynPeriodicOperation >> interval [
 { #category : #accessing }
 CynPeriodicOperation >> interval: anInteger [
 
-	"Update the interval of the receiver (can be changed from within the Block)"
+	"Update the interval of the receiver.
+	When changed from within the execution of the receiver's Block,
+	it will mean the next run will be started after the new interval.
+	If this is called while already waiting for the next run, it
+	will NOT change it. To change a running interval, use #prepare:"
 
 	interval := anInteger
+]
+
+{ #category : #testing }
+CynPeriodicOperation >> isPending [
+
+	"Answer whether a timer is running/a perform is pending"
+
+	^ timer isNotNil
 ]
 
 { #category : #actions }
@@ -117,25 +142,27 @@ CynPeriodicOperation >> perform [
 	block ifNil: [ ^ self ].
 
 	"Reset the timer"
-	timer ifNotNil: [
-		CpGlobalThis clearTimeout: timer.
-		timer := nil ].
+	self reset.
 
 	"Perform the receiver's Block"
 	needsToRun := false.
 	block cull: self.
 
-	"Did the receiver get stopped during performing the last run"
-	block ifNil: [ ^ self ].
-
-	"Prepare for next run"
+	"Prepare for next run (if the receiver hasn't stopped)"
 	self prepare
 ]
 
-{ #category : #private }
+{ #category : #actions }
 CynPeriodicOperation >> prepare [
 
-	"Prepare performing the receiver"
+	"Prepare performing the receiver for a next run.
+	This will skip any pending runs until the regular interval is passed.
+	It can therefore also be regarded as a 'postpone' to next run."
+
+	self reset.
+
+	"Sanity check"
+	block ifNil: [ ^ self ].
 
 	timer := CpGlobalThis setTimeout: self interval thenDo: [
 		CpBrowserDocument current isVisible
@@ -176,9 +203,7 @@ CynPeriodicOperation >> release [
 
 	block := nil.
 
-	timer ifNotNil: [
-		CpGlobalThis clearTimeout: timer.
-		timer := nil ].
+	self reset.
 
 	visibilityChangeListener ifNotNil: [
 		CpBrowserDocument current
@@ -188,8 +213,20 @@ CynPeriodicOperation >> release [
 	super release
 ]
 
+{ #category : #private }
+CynPeriodicOperation >> reset [
+
+	"Reset the timer"
+
+	timer ifNotNil: [
+		CpGlobalThis clearTimeout: timer.
+		timer := nil ]
+]
+
 { #category : #actions }
 CynPeriodicOperation >> stop [
+
+	"Stop the receiver. It can't be restarted again."
 
 	self release
 ]
