@@ -571,8 +571,8 @@ CynBaseRestApiService >> mail: aMessage to: aString [
 	aMessage to: aString.
 
 	mailer sendMail: aMessage thenDo: [ :error :info |
-		error ifNotNil: [ self errorCr: ('sendMail error: {1}' format: { error }) ].
-		info ifNotNil: [ self traceCr: ('sendMail: {1}' format: { info }) ] ]
+		error ifNotNil: [ self logError: error ].
+		info ifNotNil: [ self logInfoMessage: 'Send mail: ', aMessage restApiLogInfo ] ]
 ]
 
 { #category : #'API - resources' }
