@@ -63,6 +63,14 @@ CpGlobalThis class >> apply: aSymbol withArguments: anArray resultAs: aProxyClas
 ]
 
 { #category : #operations }
+CpGlobalThis class >> clearInterval: anInteger [
+
+	"Clear a previously set interval"
+
+	^ self apply: #clearInterval withArguments: { anInteger }
+]
+
+{ #category : #operations }
 CpGlobalThis class >> clearTimeout: anInteger [
 
 	"Clear a previously set timeout"
@@ -289,6 +297,16 @@ CpGlobalThis class >> rawPropertyAt: aSymbol put: anObject [
 
 	self globalThis
 		rawPropertyAt: aSymbol put: anObject
+]
+
+{ #category : #operations }
+CpGlobalThis class >> setInterval: anInteger thenDo: aBlock [
+
+	"Based on a timeout (in milliseconds) repeatedly performi the specified Block.
+	An integer is answered to identify this interval. It can be
+	used to stop the timeout using #clearInterval."
+
+	^ self apply: #setInterval withArguments: { aBlock asJavaScriptFunction . anInteger }
 ]
 
 { #category : #operations }
