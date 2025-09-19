@@ -28,19 +28,19 @@ CpNodeJSRestRequestProcess class >> new [
 ]
 
 { #category : #'instance creation' }
-CpNodeJSRestRequestProcess class >> request: aRequest response: aServerResponse [
+CpNodeJSRestRequestProcess class >> request: aRequest response: aRestResponse [
 
 	^ self basicNew
-		initializeWithRequest: aRequest response: aServerResponse ;
+		initializeWithRequest: aRequest response: aRestResponse ;
 		yourself
 ]
 
 { #category : #running }
-CpNodeJSRestRequestProcess class >> runRequest: aRequest response: aServerResponse [
+CpNodeJSRestRequestProcess class >> runRequest: aRequest response: aRestResponse [
 
 	"Create an instance of the receiver for the specified Request and Response and start running it"
 
-	^ (self request: aRequest response: aServerResponse)
+	^ (self request: aRequest response: aRestResponse)
 		run ;
 		yourself
 ]
@@ -89,12 +89,12 @@ CpNodeJSRestRequestProcess >> defaultTimeoutPeriod [
 ]
 
 { #category : #initialization }
-CpNodeJSRestRequestProcess >> initializeWithRequest: aRequest response: aServerResponse [
+CpNodeJSRestRequestProcess >> initializeWithRequest: aRequest response: aRestResponse [
 
 	self initialize.
 
 	request := aRequest.
-	response := aServerResponse.
+	response := aRestResponse.
 
 	"See method #unhandled"
 	isUnhandled := false

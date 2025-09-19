@@ -213,7 +213,7 @@ CpNodeJSRestEndpointOperation >> canHandleRequest: aRestRequest [
 ]
 
 { #category : #performing }
-CpNodeJSRestEndpointOperation >> handleRequest: aRestRequest response: aServerResponse [
+CpNodeJSRestEndpointOperation >> handleRequest: aRestRequest response: aRestResponse [
 
 	"Handle the specified REST request"
 
@@ -228,7 +228,7 @@ CpNodeJSRestEndpointOperation >> handleRequest: aRestRequest response: aServerRe
 	self validateAuthorizedRequest: aRestRequest.
 
 	"Perform the operation"
-	self performOperationRequest: aRestRequest response: aServerResponse
+	self performOperationRequest: aRestRequest response: aRestResponse
 ]
 
 { #category : #private }
@@ -321,13 +321,13 @@ CpNodeJSRestEndpointOperation >> pathParameterCount [
 ]
 
 { #category : #performing }
-CpNodeJSRestEndpointOperation >> performOperationRequest: aRestRequest response: aServerResponse [
+CpNodeJSRestEndpointOperation >> performOperationRequest: aRestRequest response: aRestResponse [
 
-	"Perform the receiver's operation using the specified REST Request and Server Response"
+	"Perform the receiver's operation using the specified REST Request and REST Response"
 
-	[ operation valueWithArguments: { aRestRequest . aServerResponse } ]
+	[ operation valueWithArguments: { aRestRequest . aRestResponse } ]
 		on: Error
-		do: [ :error | self writeError: error request: aRestRequest response: aServerResponse ]
+		do: [ :error | self writeError: error response: aRestResponse ]
 ]
 
 { #category : #printing }
@@ -387,9 +387,9 @@ CpNodeJSRestEndpointOperation >> validateAuthorizedRequest: aRestRequest [
 ]
 
 { #category : #performing }
-CpNodeJSRestEndpointOperation >> writeError: anError request: aRestRequest response: aServerResponse [
+CpNodeJSRestEndpointOperation >> writeError: anError response: aRestResponse [
 
 	"Write the specified Error as a response to the server"
 
-	aServerResponse writeError: anError
+	aRestResponse writeError: anError
 ]

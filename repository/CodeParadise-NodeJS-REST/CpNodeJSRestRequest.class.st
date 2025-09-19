@@ -36,6 +36,12 @@ CpNodeJSRestRequest class >> maxBodySize [
 	^ 65536
 ]
 
+{ #category : #'instance creation' }
+CpNodeJSRestRequest class >> new [
+
+	self errorNewReplacedBy: #fromIncomingMessage:
+]
+
 { #category : #accessing }
 CpNodeJSRestRequest >> body [
 
@@ -200,6 +206,9 @@ CpNodeJSRestRequest >> pathParameters [
 { #category : #printing }
 CpNodeJSRestRequest >> printOn: aStream [
 
+	"Print the receiver on the specified Stream.
+	Do not show the Authentication header content."
+
 	aStream
 		nextPutAll: self class name ;
 		nextPutAll:  ' HTTP' ;
@@ -214,7 +223,7 @@ CpNodeJSRestRequest >> printOn: aStream [
 			nextPutAll: ' (' ;
 			print: key ;
 			nextPutAll: ' -> ' ;
-			print: ((#(#Authorization #password) includes: key)
+			print: ((#(#Authorization #authorization) includes: key)
 				ifTrue: [ '***' ]
 				ifFalse: [ value ]) ;
 			nextPut: $) ]

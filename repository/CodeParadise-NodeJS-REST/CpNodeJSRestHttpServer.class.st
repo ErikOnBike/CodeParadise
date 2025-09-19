@@ -78,13 +78,16 @@ CpNodeJSRestHttpServer >> handleRequest: anIncomingMessage response: aServerResp
 
 	"Extract request from incoming message"
 	[
-		| request |
+		| request response |
 
 		"Extract request from incoming message"
 		request := CpNodeJSRestRequest fromIncomingMessage: anIncomingMessage.
 
+		"Create a response around a server response"
+		response := CpNodeJSRestResponse request: request response: aServerResponse.
+
 		"Handle actual request and write appropriate response"
-		CpNodeJSRestRequestProcess runRequest: request response: aServerResponse
+		CpNodeJSRestRequestProcess runRequest: request response: response
 	] on: Error do: [ :error |
 
 		"Handle any error occurring in the 'outer' request handling.
