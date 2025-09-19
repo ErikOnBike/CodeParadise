@@ -90,7 +90,7 @@ CynLocalAccountRestApiService >> activateAccount: anActivateAccount [
 ]
 
 { #category : #API }
-CynLocalAccountRestApiService >> activateAccount: aRestRequest response: aServerResponse [
+CynLocalAccountRestApiService >> activateAccount: aRestRequest response: aRestResponse [
 
 	"Activate Account within Accounts collection"
 
@@ -107,7 +107,7 @@ CynLocalAccountRestApiService >> activateAccount: aRestRequest response: aServer
 
 	self activateAccount: account.
 
-	self sendEmptyResponse: aServerResponse
+	self sendEmptyResponse: aRestResponse
 ]
 
 { #category : #'API - accounts' }
@@ -182,7 +182,7 @@ CynLocalAccountRestApiService >> createAccount: account [
 ]
 
 { #category : #API }
-CynLocalAccountRestApiService >> createAccount: aRestRequest response: aServerResponse [
+CynLocalAccountRestApiService >> createAccount: aRestRequest response: aRestResponse [
 
 	"Add a new Account to the Accounts collection.
 
@@ -204,7 +204,7 @@ CynLocalAccountRestApiService >> createAccount: aRestRequest response: aServerRe
 		ifTrue: [ self addActivationTokenToAccount: account ]
 		ifFalse: [ self createAccount: account ].
 
-	self sendEmptyResponse: aServerResponse
+	self sendEmptyResponse: aRestResponse
 ]
 
 { #category : #'API - accounts' }
@@ -418,7 +418,7 @@ CynLocalAccountRestApiService >> logRecordFromRequest: aRestRequest [
 ]
 
 { #category : #API }
-CynLocalAccountRestApiService >> login: aRestRequest response: aServerResponse [
+CynLocalAccountRestApiService >> login: aRestRequest response: aRestResponse [
 
 	<post: '/api/accounts?action=login'>
 	<public>
@@ -449,10 +449,10 @@ CynLocalAccountRestApiService >> login: aRestRequest response: aServerResponse [
 
 	"Create session and store access token in response header"
 	accessToken := self createSessionForAccount: account.
-	aServerResponse appendHeaderWithName: #'cp-access-token' value: accessToken.
+	aRestResponse setHeaderWithName: #'cp-access-token' value: accessToken.
 
 	"Send response to indicate success"
-	self send: { #success -> true . #settings -> (CpJavaScriptJSON parse: (storedAccount at: #settings)) } asDictionary response: aServerResponse
+	self send: { #success -> true . #settings -> (CpJavaScriptJSON parse: (storedAccount at: #settings)) } asDictionary response: aRestResponse
 ]
 
 { #category : #'API - support' }
@@ -495,7 +495,7 @@ CynLocalAccountRestApiService >> matchPassword: plainTextPassword withHash: hash
 ]
 
 { #category : #API }
-CynLocalAccountRestApiService >> ping: aRestRequest response: aServerResponse [
+CynLocalAccountRestApiService >> ping: aRestRequest response: aRestResponse [
 
 	"Ping to check on liveness"
 
@@ -506,7 +506,7 @@ CynLocalAccountRestApiService >> ping: aRestRequest response: aServerResponse [
 	(aRestRequest hasHeaderAt: #authorization)
 		ifTrue: [ self validateAuthorizedRequest: aRestRequest ].
 
-	super ping: aRestRequest response: aServerResponse
+	super ping: aRestRequest response: aRestResponse
 ]
 
 { #category : #accessing }
@@ -561,7 +561,7 @@ CynLocalAccountRestApiService >> updateSettings: aDictionary forAccountId: aStri
 ]
 
 { #category : #API }
-CynLocalAccountRestApiService >> updateSettings: aRestRequest response: aServerResponse [
+CynLocalAccountRestApiService >> updateSettings: aRestRequest response: aRestResponse [
 
 	"Patch the settings using the following mechanism:
 		fields which are non-nil are set to their specified value.
@@ -573,7 +573,7 @@ CynLocalAccountRestApiService >> updateSettings: aRestRequest response: aServerR
 
 	settings := (aRestRequest jsonBody) ifNil: [ self errorNoBody ].
 
-	self send: (self updateSettings: settings forAccountId: aRestRequest accountId) response: aServerResponse
+	self send: (self updateSettings: settings forAccountId: aRestRequest accountId) response: aRestResponse
 ]
 
 { #category : #'API - authorization' }

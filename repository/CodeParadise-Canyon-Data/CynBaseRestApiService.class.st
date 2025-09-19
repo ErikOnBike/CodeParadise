@@ -41,20 +41,20 @@ CynBaseRestApiService class >> installInstanceMethod: aCompiledMethod [
 	"First unregister (any possible) existing operation"
 	(self methodDictionary at: aCompiledMethod selector ifAbsent: [ nil ])
 		ifNotNil: [ :prevMethod |
-			(self isEndpointOperation: prevMethod)
+			(self serviceImplementation isEndpointOperation: prevMethod)
 				ifTrue: [
 					"Operation created below is same for old and new method"
-					operation := self operationFor: aCompiledMethod.
+					operation := self serviceImplementation operationFor: aCompiledMethod.
 					CpNodeJSRestEndpointOperation unregisterOperation: operation ] ].
 
 	super installInstanceMethod: aCompiledMethod.
 
 	"If new method is not an endpoint operation, we're done"
-	(self isEndpointOperation: aCompiledMethod)
+	(self serviceImplementation isEndpointOperation: aCompiledMethod)
 		ifFalse: [ ^ self ].
 
 	"Register operation, use previously created operation or create new one"
-	operation ifNil: [ operation := self operationFor: aCompiledMethod ].
+	operation ifNil: [ operation := self serviceImplementation operationFor: aCompiledMethod ].
 	CpNodeJSRestEndpointOperation registerOperation: operation.
 
 	self traceCr: 'Updated endpoint operation: ', operation printString
@@ -67,53 +67,10 @@ CynBaseRestApiService class >> isAbstractTag [
 	This method will NOT be evaluated to decide if the receiver is abstract."
 ]
 
-{ #category : #testing }
-CynBaseRestApiService class >> isEndpointOperation: aCompiledMethod [
-
-	"Only get, post put, patch and delete are supported at the moment"
-
-	aCompiledMethod pragmas
-		detect: [ :each | #(#get: #post: #put: #patch: #delete:) includes: each selector ] ifNone: [ ^ false ].
-
-	^ true
-]
-
 { #category : #'instance creation' }
 CynBaseRestApiService class >> new [
 
 	self errorNewReplacedBy: #startServer
-]
-
-{ #category : #accessing }
-CynBaseRestApiService class >> operationFor: aCompiledMethod [
-
-	"Answer a MessageSend (used in CpNodeJSRestEndpointOperation) for the receiver and the specified Compiled Method"
-
-	| serviceImplementation action pragma url operation |
-
-	serviceImplementation := self serviceImplementation.
-	action := MessageSend receiver: serviceImplementation selector: aCompiledMethod selector.
-
-	pragma := aCompiledMethod pragmas
-		detect: [ :each | #(#get: #post: #put: #patch: #delete:) includes: each selector ] ifNone: [ ^ nil ].
-
-	url := CpBrowserURL newUrl: pragma arguments first base: 'http://localhost'.
-
-	pragma selector == #get:
-		ifTrue: [ operation := self restEndpointOperationClass uri: url getOperation: action ].
-	pragma selector == #post:
-		ifTrue: [ operation := self restEndpointOperationClass uri: url postOperation: action ].
-	pragma selector == #put:
-		ifTrue: [ operation := self restEndpointOperationClass uri: url putOperation: action ].
-	pragma selector == #patch:
-		ifTrue: [ operation := self restEndpointOperationClass uri: url patchOperation: action ].
-	pragma selector == #delete:
-		ifTrue: [ operation := self restEndpointOperationClass uri: url deleteOperation: action ].
-
-	operation
-		ifNotNil: [ ^ operation ].
-
-	self error: 'Not implemented yet'
 ]
 
 { #category : #'class initialization' }
@@ -153,17 +110,17 @@ CynBaseRestApiService class >> preSnapshotOnce [
 CynBaseRestApiService class >> registerService: aBoolean [
 
 	"Register or unregister the endpoint operations based on the specified Boolean"
-self traceCr: 'Register in ', self name.
+
 	"First register the superclass"
 	self == CynBaseRestApiService
 		ifFalse: [ self superclass registerService: aBoolean ].
 
 	self methodDictionary do: [ :each |
-		(self isEndpointOperation: each)
+		(self serviceImplementation isEndpointOperation: each)
 			ifTrue: [
 				| operation |
 
-				operation := self operationFor: each.
+				operation := self serviceImplementation operationFor: each.
 				aBoolean
 					ifTrue: [ CpNodeJSRestEndpointOperation registerOperation: operation ]
 					ifFalse: [ CpNodeJSRestEndpointOperation unregisterOperation: operation ].
@@ -185,8 +142,8 @@ CynBaseRestApiService class >> removeInstanceMethod: aCompiledMethod [
 
 	| operation |
 
-	(self isEndpointOperation: aCompiledMethod)
-		ifTrue: [ CpNodeJSRestEndpointOperation unregisterOperation: (operation := self operationFor: aCompiledMethod) ].
+	(self serviceImplementation isEndpointOperation: aCompiledMethod)
+		ifTrue: [ CpNodeJSRestEndpointOperation unregisterOperation: (operation := self serviceImplementation operationFor: aCompiledMethod) ].
 
 	super removeInstanceMethod: aCompiledMethod.
 
@@ -198,7 +155,7 @@ CynBaseRestApiService class >> removeInstanceMethod: aCompiledMethod [
 { #category : #accessing }
 CynBaseRestApiService class >> restEndpointOperationClass [
 
-	^ CpNodeJSRestEndpointOperation
+	^ CynRestEndpointOperation
 ]
 
 { #category : #accessing }
@@ -275,12 +232,27 @@ CynBaseRestApiService class >> stopService [
 	self registerService: false
 ]
 
-{ #category : #'API - resources' }
-CynBaseRestApiService class >> timerNow [
+{ #category : #logging }
+CynBaseRestApiService >> bodyFromRequest: aRestRequest [
 
-	"Answer a reference time (in milliseconds) to be used to determine a duration"
+	"Convenience method to retrieve the body from the specified request.
+	It tries to read the JSON and remove protected fields.
+	This method should under no circumstance fail."
 
-	^ CpNodeJSRestHttpServer timerNow
+	^ [
+		| body content |
+		body := aRestRequest body.
+		content := [
+			| object |
+			"Remove the password field content if present"
+			object := CpJavaScriptJSON parse: body toString.
+			object at: #password ifPresent: [ object at: #password put: '***' ].
+			CpJavaScriptJSON stringify: object
+		] on: Error do: [
+			body length < 4000
+				ifTrue: [ body toString ]
+				ifFalse: [ '<large binary object>' ] ]
+	] on: Error do: [ :error | '<unable to retrieve body content>' ]
 ]
 
 { #category : #accessing }
@@ -441,6 +413,17 @@ CynBaseRestApiService >> insertLogStatement [
 	^ 'INSERT INTO logs (timestamp, level, message) VALUES (:timestamp, :level, :message)'
 ]
 
+{ #category : #'API - support' }
+CynBaseRestApiService >> isEndpointOperation: aCompiledMethod [
+
+	"Only get, post put, patch and delete are supported at the moment"
+
+	aCompiledMethod pragmas
+		detect: [ :each | #(#get: #post: #put: #patch: #delete:) includes: each selector ] ifNone: [ ^ false ].
+
+	^ true
+]
+
 { #category : #logging }
 CynBaseRestApiService >> log: aSymbol message: aString request: aRestRequest [
 
@@ -521,7 +504,7 @@ CynBaseRestApiService >> logRecordFromError: anError request: aRestRequest [
 		at: #statusCode put: anError restResponseCode ;
 		at: #stack put: (anError signalerContext ifNotNil: [ :stackContext | stackContext printString ]) ;
 		at: #request put: aRestRequest printString ;
-		at: #body put: ([ aRestRequest body ] on: Error do: [ :error | '<body content not readable>' ]) ;
+		at: #body put: (self bodyFromRequest: aRestRequest) ;
 		yourself
 ]
 
@@ -557,6 +540,37 @@ CynBaseRestApiService >> newToken [
 	"Answer a new random token value"
 
 	^ (self crypto randomBytes: 16) toStringEncoding: 'hex'
+]
+
+{ #category : #'API - support' }
+CynBaseRestApiService >> operationFor: aCompiledMethod [
+
+	"Answer a MessageSend (used in CpNodeJSRestEndpointOperation) for the receiver and the specified Compiled Method"
+
+	| action pragma url operation |
+
+	action := MessageSend receiver: self selector: aCompiledMethod selector.
+
+	pragma := aCompiledMethod pragmas
+		detect: [ :each | #(#get: #post: #put: #patch: #delete:) includes: each selector ] ifNone: [ ^ nil ].
+
+	url := CpBrowserURL newUrl: pragma arguments first base: 'http://localhost'.
+
+	pragma selector == #get:
+		ifTrue: [ operation := self class restEndpointOperationClass uri: url getOperation: action ].
+	pragma selector == #post:
+		ifTrue: [ operation := self class restEndpointOperationClass uri: url postOperation: action ].
+	pragma selector == #put:
+		ifTrue: [ operation := self class restEndpointOperationClass uri: url putOperation: action ].
+	pragma selector == #patch:
+		ifTrue: [ operation := self class restEndpointOperationClass uri: url patchOperation: action ].
+	pragma selector == #delete:
+		ifTrue: [ operation := self class restEndpointOperationClass uri: url deleteOperation: action ].
+
+	operation
+		ifNotNil: [ ^ operation ].
+
+	self error: 'Not implemented yet'
 ]
 
 { #category : #API }
@@ -616,20 +630,21 @@ CynBaseRestApiService >> timestampNow [
 ]
 
 { #category : #logging }
-CynBaseRestApiService >> updateLogError: anError request: aRestRequest [
+CynBaseRestApiService >> updateLogError: anError response: aRestResponse [
 
 	"Update the log entry with error result.
 	This should only update the error specific fields.
 	The statusCode and duration will be updated regularly using the
 	#updateLogRequest:statusCode: method which is always called."
 
-	| rowId |
+	| request rowId |
 
-	rowId := aRestRequest propertyAt: #rowId.
+	request := aRestResponse request.
+	rowId := request propertyAt: #rowId.
 
 	"In case the writing of the initial log entry failed, try the simple error log anyway"
 	rowId ifNil: [
-		self log: #error message: anError description request: aRestRequest.
+		self log: #error message: anError description request: request.
 		^ self ].
 
 	"Update the existing entry"
@@ -639,28 +654,30 @@ CynBaseRestApiService >> updateLogError: anError request: aRestRequest [
 			statement: 'UPDATE logs SET stack=:stack, body=:body WHERE rowid=:rowId'
 			bind: {
 				#stack -> (anError signalerContext ifNotNil: [ :stackContext | stackContext printString ]).
-				#request -> aRestRequest printString.
-				#body -> ([ aRestRequest body ] on: Error do: [ :error | '<body content not readable>' ]).
+				#request -> request printString.
+				#body -> (self bodyFromRequest: request).
 				#rowId -> rowId } asDictionary
 	] on: Error do: [ :error | self warnCr: 'Failed to write error log: ', error printString ]
 ]
 
 { #category : #logging }
-CynBaseRestApiService >> updateLogRequest: aRestRequest statusCode: anInteger [
+CynBaseRestApiService >> updateLogResponse: aRestResponse [
 
-	| rowId stop |
+	| request rowId stop duration |
 
-	rowId := (aRestRequest propertyAt: #rowId)
+	request := aRestResponse request.
+	rowId := (request propertyAt: #rowId)
 		ifNil: [ ^ self ].
-	stop := MaMoesAppRestApiService timerNow.
+	stop := CpNodeJSRestHttpServer timerNow.
+	duration := (stop - (request propertyAt: #start)) floor.
 
 	[
 		logDatabase
 			performOne: #updateLogRecord
 			statement: 'UPDATE logs SET statusCode=:statusCode, duration=:duration WHERE rowid=:rowId'
 			bind: {
-				#statusCode -> anInteger.
-				#duration -> (stop - (aRestRequest propertyAt: #start)) floor.
+				#statusCode -> aRestResponse statusCode.
+				#duration -> duration.
 				#rowId -> rowId } asDictionary
 	] on: Error do: [ :error | self warnCr: 'Failed to update log record: ', error printString ]
 ]
