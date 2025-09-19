@@ -49,6 +49,14 @@ CpNodeJSRestHttpServer class >> timeStringAt: anInteger [
 ]
 
 { #category : #resources }
+CpNodeJSRestHttpServer class >> timerNow [
+
+	"Answer a reference time (in milliseconds) to be used to determine a duration"
+
+	^ (CpGlobalThis propertyAt: #performance) apply: #now
+]
+
+{ #category : #resources }
 CpNodeJSRestHttpServer class >> timestampNow [
 
 	"Answer the current timestamp as seconds since Unix epoch (midnight Jan 1, 1970, UTC)"

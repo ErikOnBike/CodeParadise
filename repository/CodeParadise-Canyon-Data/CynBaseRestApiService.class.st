@@ -275,6 +275,14 @@ CynBaseRestApiService class >> stopService [
 	self registerService: false
 ]
 
+{ #category : #'API - resources' }
+CynBaseRestApiService class >> timerNow [
+
+	"Answer a reference time (in milliseconds) to be used to determine a duration"
+
+	^ CpNodeJSRestHttpServer timerNow
+]
+
 { #category : #accessing }
 CynBaseRestApiService >> crypto [
 
