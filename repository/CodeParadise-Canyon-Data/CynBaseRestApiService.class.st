@@ -422,13 +422,23 @@ CynBaseRestApiService >> initializeWithConfig: aDictionary [
 ]
 
 { #category : #logging }
+CynBaseRestApiService >> insertErrorLogStatement [
+
+	"Answer the insert statement.
+	This statement should match the record created in #logRecordFromError:request:
+	(except for timestamp, level and message which are always added)."
+
+	^ 'INSERT INTO logs (timestamp, level, message, statusCode, stack, request, body) VALUES (:timestamp, :level, :message, :statusCode, :stack, :request, :body)'
+]
+
+{ #category : #logging }
 CynBaseRestApiService >> insertLogStatement [
 
 	"Answer the insert statement.
-	This statement should match the record created in #logRecordFromRequest: (except for timestamp, level and message which
-	are always added)."
+	This statement should match the record created in #logRecordFromRequest:
+	(except for timestamp, level and message which are always added)."
 
-	^ 'INSERT INTO logs (timestamp, level, message, stack, context) VALUES (:timestamp, :level, :message, :stack, :context)'
+	^ 'INSERT INTO logs (timestamp, level, message) VALUES (:timestamp, :level, :message)'
 ]
 
 { #category : #logging }
@@ -460,7 +470,27 @@ CynBaseRestApiService >> log: aSymbol message: aString request: aRestRequest [
 { #category : #logging }
 CynBaseRestApiService >> logError: anError request: aRestRequest [
 
-	self log: #error message: anError description error: anError request: aRestRequest
+	"Log the specified Error for the specified REST request.
+	Answer the rowId of the added log row."
+
+	| logRecord |
+
+	[
+		logRecord := self logRecordFromError: anError request: aRestRequest.
+
+		"Add fixed/required log record entries"
+		logRecord
+			at: #timestamp put: self timestampNow ;
+			at: #level put: #error ;
+			at: #message put: anError description.
+
+		^ logDatabase
+			performOne: #insertErrorLogRecord
+			statement: self insertErrorLogStatement
+			bind: logRecord
+	] on: Error do: [ :error |
+		self warnCr: 'Failed to write error log record: ', error printString.
+		^ nil ]
 ]
 
 { #category : #logging }
@@ -485,15 +515,13 @@ CynBaseRestApiService >> logInfoMessage: aString request: aRestRequest [
 CynBaseRestApiService >> logRecordFromError: anError request: aRestRequest [
 
 	"Subclasses should add/overwrite any relevant data.
-	This should match the insert statment in #insertLogStatement"
-
-	| stackContext |
-
-	stackContext := anError ifNotNil: [ anError signalerContext ].
+	This should match the insert statment in #insertErrorLogStatement"
 
 	^ Dictionary new
-		at: #stack put: (stackContext ifNotNil: [ stackContext printString ]) ;
-		at: #context put: aRestRequest printString ;
+		at: #statusCode put: anError restResponseCode ;
+		at: #stack put: (anError signalerContext ifNotNil: [ :stackContext | stackContext printString ]) ;
+		at: #request put: aRestRequest printString ;
+		at: #body put: ([ aRestRequest body ] on: Error do: [ :error | '<body content not readable>' ]) ;
 		yourself
 ]
 
@@ -585,6 +613,36 @@ CynBaseRestApiService >> timestampNow [
 	"Answer the current timestamp as seconds since Unix epoch (midnight Jan 1, 1970, UTC)"
 
 	^ CpNodeJSRestHttpServer timestampNow
+]
+
+{ #category : #logging }
+CynBaseRestApiService >> updateLogError: anError request: aRestRequest [
+
+	"Update the log entry with error result.
+	This should only update the error specific fields.
+	The statusCode and duration will be updated regularly using the
+	#updateLogRequest:statusCode: method which is always called."
+
+	| rowId |
+
+	rowId := aRestRequest propertyAt: #rowId.
+
+	"In case the writing of the initial log entry failed, try the simple error log anyway"
+	rowId ifNil: [
+		self log: #error message: anError description request: aRestRequest.
+		^ self ].
+
+	"Update the existing entry"
+	[
+		logDatabase
+			performOne: #updateLogRecord
+			statement: 'UPDATE logs SET stack=:stack, body=:body WHERE rowid=:rowId'
+			bind: {
+				#stack -> (anError signalerContext ifNotNil: [ :stackContext | stackContext printString ]).
+				#request -> aRestRequest printString.
+				#body -> ([ aRestRequest body ] on: Error do: [ :error | '<body content not readable>' ]).
+				#rowId -> rowId } asDictionary
+	] on: Error do: [ :error | self warnCr: 'Failed to write error log: ', error printString ]
 ]
 
 { #category : #logging }
