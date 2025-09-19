@@ -35,7 +35,8 @@ Class {
 	#instVars : [
 		'main',
 		'navigation',
-		'menu'
+		'menu',
+		'recentErrors'
 	],
 	#classVars : [
 		'Current'
@@ -192,6 +193,12 @@ html {
 }
 #app {
 	height: 100%;
+}
+ion-alert.stoppable .alert-checkbox-group {
+	border: 0;
+}
+ion-alert.stoppable .alert-checkbox-icon.sc-ion-alert-ios {
+	border-radius: 3px;
 }'
 ]
 
@@ -324,6 +331,30 @@ CynApp >> apiBaseUrl [
 	^ '/api'
 ]
 
+{ #category : #'error handling' }
+CynApp >> beNotShowingError: aSymbol [
+
+	recentErrors at: #show, aSymbol put: false
+]
+
+{ #category : #'error handling' }
+CynApp >> beNotStopShowingError: aSymbol [
+
+	recentErrors at: #stop, aSymbol put: false
+]
+
+{ #category : #'error handling' }
+CynApp >> beShowingError: aSymbol [
+
+	recentErrors at: #show, aSymbol put: true
+]
+
+{ #category : #'error handling' }
+CynApp >> beStopShowingError: aSymbol [
+
+	recentErrors at: #stop, aSymbol put: true
+]
+
 { #category : #actions }
 CynApp >> closePage: aPage [
 
@@ -429,6 +460,17 @@ CynApp >> defaultToastDuration [
 	"The default duration in ms that a toast is shown"
 
 	^ 3000
+]
+
+{ #category : #'error handling' }
+CynApp >> errorCountBeforeStoppable [
+
+	"Answer the amount of times an error is allowed to be shown,
+	before offering to 'stop' showing it. It will therefore at least
+	be shown one time more (the one time it will be shown with option
+	to stop)."
+
+	^ 2
 ]
 
 { #category : #'error handling' }
@@ -583,6 +625,57 @@ CynApp >> homePageModel [
 	^ nil
 ]
 
+{ #category : #'error handling' }
+CynApp >> howToShowNextError: aSymbol [
+
+	"Answer how to show the next error (of specified type).
+	Either:
+		#none -> do not show
+		#alert -> regular show
+		#stoppableAlert -> show with option to stop showing
+
+	Implementation:
+	We keep track of the timestamps of error type occurrences. If a specific type
+	occurs more than a certain count in the last minute, it will be shown with the
+	option to stop showing (similar) future errors. The idea is that it probably in
+	some kind of loop, or the server is down and many errors are occurring. The
+	decision to stop showing it is at the user's discretion.
+	A collection of timestamps is kept. This collection has (at most) one timestamp
+	more than the threshold, so we can detect if the threshold is passed. This
+	prevents the collection to grow indefinitely.
+	Also, since some errors might be the result of some background process. IF the
+	same type of error is already showing, do not show it again."
+
+	| now maxCount |
+
+	(self isShowingError: aSymbol)
+		ifTrue: [ ^ #none ].
+
+	now := CynPropertyEntity timestampNow.
+	maxCount := self errorCountBeforeStoppable.
+
+	recentErrors
+		at: aSymbol
+		ifPresent: [ :times |
+			| count |
+			count := times inject: 0 into: [ :result :each | now - each < 60 ifTrue: [ result + 1 ] ifFalse: [ result ] ].
+			times add: now.
+			times size > (maxCount + 1)
+				ifTrue: [ times removeFirst ].
+			count < maxCount
+				ifTrue: [
+					self beNotStopShowingError: aSymbol.
+					^ #alert ]
+				ifFalse: [
+					(self isStopShowingError: aSymbol)
+						ifTrue: [ ^ #none ].
+					^ #stoppableAlert ] ]
+		ifAbsentPut: [
+			OrderedCollection with: now ].
+
+	^ #alert
+]
+
 { #category : #initialization }
 CynApp >> initialize [
 
@@ -597,6 +690,8 @@ CynApp >> initialize [
 	| restApiClient shadowRoot ionicStyle |
 
 	super initialize.
+
+	recentErrors := Dictionary new.
 
 	CpExceptionAnnouncer when: CpExceptionAnnouncement send: #handleExceptionAnnouncement: to: self.
 
@@ -617,7 +712,7 @@ CynApp >> initialize [
 		addEventListener: #offline handler: [ self handleOffline ].
 
 	"Create the REST API client"
-	restApiClient := CynRestApiClient baseUrl: self apiBaseUrl.
+	restApiClient := self restApiClientClass baseUrl: self apiBaseUrl.
 	restApiClient
 		when: CynSessionExpired send: #handleSessionExpired to: self ;
 		when: CynRestApiClientFailed send: #handleRestApiClientFailed: to: self.
@@ -687,6 +782,18 @@ CynApp >> isRelevantException: anExceptionAnnouncement [
 
 	"Ignore classes with the specified name (i.e. are not relevant from the App's perspective)"
 	^ (#(CpEvent CpTransition CpClientEnvironment CpJavaScriptWebSocketChannel CpUnhandledRejection) includes: methodClass name) not
+]
+
+{ #category : #'error handling' }
+CynApp >> isShowingError: aSymbol [
+
+	^ recentErrors at: #show, aSymbol ifAbsent: [ false ]
+]
+
+{ #category : #'error handling' }
+CynApp >> isStopShowingError: aSymbol [
+
+	^ recentErrors at: #stop, aSymbol ifAbsent: [ false ]
 ]
 
 { #category : #initialization }
@@ -872,6 +979,12 @@ CynApp >> navigateTo: aPageClass withModel: aModel [
 
 	self activePage
 		navigateTo: aPageClass withModel: aModel
+]
+
+{ #category : #accessing }
+CynApp >> restApiClientClass [
+
+	^ CynRestApiClient
 ]
 
 { #category : #actions }
@@ -1161,10 +1274,62 @@ CynApp >> showAlertTitle: titleString message: messageString [
 ]
 
 { #category : #'error handling' }
+CynApp >> showError: aSymbol title: titleString message: messageString [
+
+	"Show alert message and wait for user to confirm it.
+	If aBoolean is true, show a checkbox which allows the user to
+	not show future alerts (of the same kind).
+	Answer a Boolean indicating whether the user requested the
+	alerts to be stopped (and always false if aBoolean is false)."
+
+	| show stoppable alert result |
+
+	(show := self howToShowNextError: aSymbol) = #none
+		ifTrue: [ ^ self ].
+	stoppable := show = #stoppableAlert.
+
+	alert := IonAlert new
+		header: titleString ;
+		message: messageString ;
+		buttons: { 'Okay' } ;
+		addClass: #stoppable ;	"Just a marker for CSS in relation to bugfix described below"
+		yourself.
+
+	stoppable ifTrue: [
+		alert inputs: {
+			{
+				#type -> #checkbox.
+				#value -> #stop.
+				#label -> 'Toon niet meer'
+			} asDictionary } ].
+
+	"Present and wait for result (fix l&f in iOS)"
+	self beShowingError: aSymbol.
+	self showInteraction: alert.
+	alert present.
+	stoppable ifTrue: [
+		"Fix iOS circle checkbox in Ionic: make it square"
+		(alert firstDescendantMatching: IonCheckbox asCssSelector) ifNotNil: [ :checkbox |
+			checkbox addClass: 'checkbox-square' ] ].
+	result := alert onDidDismiss await.
+	alert remove.
+	self beNotShowingError: aSymbol.
+
+	"Remember decision to stop showing error"
+	stoppable ifFalse: [ ^ self ].
+	result ifNil: [ ^ self ].
+	(result at: #data ifAbsent: [ ^ self ]) ifNotNil: [ :data |
+		(data at: #values ifAbsent: [ ^ self ]) ifNotNil: [ :values |
+			(values includes: #stop)
+				ifTrue: [ self beStopShowingError: aSymbol ] ] ]
+]
+
+{ #category : #'error handling' }
 CynApp >> showErrorForbidden [
 
 	self
-		showAlertTitle: #'app.server.forbidden.title' langText
+		showError: #forbidden
+		title: #'app.server.forbidden.title' langText
 		message: #'app.server.forbidden.message' langText
 ]
 
@@ -1172,7 +1337,8 @@ CynApp >> showErrorForbidden [
 CynApp >> showErrorInternalServerError: anError [
 
 	self
-		showAlertTitle: #'app.server.internalError.title' langText
+		showError: #internal
+		title: #'app.server.internalError.title' langText
 		message: #'app.server.internalError.message' langText.
 
 	self class
@@ -1183,7 +1349,8 @@ CynApp >> showErrorInternalServerError: anError [
 CynApp >> showErrorServerNotAvailable [
 
 	self
-		showAlertTitle: #'app.server.unavailable.title' langText
+		showError: #unavailable
+		title: #'app.server.unavailable.title' langText
 		message: #'app.server.unavailable.message' langText
 ]
 
