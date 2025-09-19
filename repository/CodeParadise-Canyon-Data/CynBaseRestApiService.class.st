@@ -432,12 +432,15 @@ CynBaseRestApiService >> insertLogStatement [
 ]
 
 { #category : #logging }
-CynBaseRestApiService >> log: aSymbol message: aString error: anError request: aRestRequest [
+CynBaseRestApiService >> log: aSymbol message: aString request: aRestRequest [
+
+	"Log the specified message with the given log level.
+	Answer the rowId of the added log row."
 
 	| logRecord |
 
 	[
-		logRecord := self logRecordFromError: anError request: aRestRequest.
+		logRecord := self logRecordFromRequest: aRestRequest.
 
 		"Add fixed/required log record entries"
 		logRecord
@@ -445,13 +448,13 @@ CynBaseRestApiService >> log: aSymbol message: aString error: anError request: a
 			at: #level put: aSymbol ;
 			at: #message put: aString.
 
-		logDatabase
+		^ logDatabase
 			performOne: #insertLogRecord
 			statement: self insertLogStatement
 			bind: logRecord
 	] on: Error do: [ :error |
-		self warnCr: 'Failed to log record ', logRecord printString.
-		self warnCr: 'Error: ', error printString ]
+		self warnCr: 'Failed to write log record: ', error printString.
+		^ nil ]
 ]
 
 { #category : #logging }
@@ -463,13 +466,19 @@ CynBaseRestApiService >> logError: anError request: aRestRequest [
 { #category : #logging }
 CynBaseRestApiService >> logErrorMessage: aString request: aRestRequest [
 
-	self log: #error message: aString error: nil request: aRestRequest
+	"Log the specified message for the specified REST request.
+	Answer the rowId of the added log row."
+
+	^ self log: #error message: aString request: aRestRequest
 ]
 
 { #category : #logging }
 CynBaseRestApiService >> logInfoMessage: aString request: aRestRequest [
 
-	self log: #info message: aString error: nil request: aRestRequest
+	"Log the specified message for the specified REST request.
+	Answer the rowId of the added log row."
+
+	^ self log: #info message: aString request: aRestRequest
 ]
 
 { #category : #logging }
@@ -489,9 +498,21 @@ CynBaseRestApiService >> logRecordFromError: anError request: aRestRequest [
 ]
 
 { #category : #logging }
+CynBaseRestApiService >> logRecordFromRequest: aRestRequest [
+
+	"Subclasses should add/overwrite any relevant data.
+	This should match the insert statment in #insertLogStatement"
+
+	^ Dictionary new
+]
+
+{ #category : #logging }
 CynBaseRestApiService >> logWarnMessage: aString request: aRestRequest [
 
-	self log: #warn message: aString error: nil request: aRestRequest
+	"Log the specified message for the specified REST request.
+	Answer the rowId of the added log row."
+
+	^ self log: #warn message: aString request: aRestRequest
 ]
 
 { #category : #'API - resources' }
@@ -564,6 +585,26 @@ CynBaseRestApiService >> timestampNow [
 	"Answer the current timestamp as seconds since Unix epoch (midnight Jan 1, 1970, UTC)"
 
 	^ CpNodeJSRestHttpServer timestampNow
+]
+
+{ #category : #logging }
+CynBaseRestApiService >> updateLogRequest: aRestRequest statusCode: anInteger [
+
+	| rowId stop |
+
+	rowId := (aRestRequest propertyAt: #rowId)
+		ifNil: [ ^ self ].
+	stop := MaMoesAppRestApiService timerNow.
+
+	[
+		logDatabase
+			performOne: #updateLogRecord
+			statement: 'UPDATE logs SET statusCode=:statusCode, duration=:duration WHERE rowid=:rowId'
+			bind: {
+				#statusCode -> anInteger.
+				#duration -> (stop - (aRestRequest propertyAt: #start)) floor.
+				#rowId -> rowId } asDictionary
+	] on: Error do: [ :error | self warnCr: 'Failed to update log record: ', error printString ]
 ]
 
 { #category : #'API - authorization' }

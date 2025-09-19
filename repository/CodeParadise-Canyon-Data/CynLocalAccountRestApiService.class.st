@@ -326,7 +326,7 @@ CynLocalAccountRestApiService >> initialize [
 { #category : #logging }
 CynLocalAccountRestApiService >> insertLogStatement [
 
-	^ 'INSERT INTO logs (timestamp, level, message, accountId, sessionId, stack, context) VALUES (:timestamp, :level, :message, :accountId, :sessionId, :stack, :context)'
+	^ 'INSERT INTO logs (timestamp, level, message, accountId, sessionId) VALUES (:timestamp, :level, :message, :accountId, :sessionId)'
 ]
 
 { #category : #'API - authorization' }
@@ -399,6 +399,19 @@ CynLocalAccountRestApiService >> logRecordFromError: anError request: aRestReque
 	session := self getSessionForRequest: aRestRequest.
 
 	^ (super logRecordFromError: anError request: aRestRequest)
+		at: #sessionId put: (session ifNotNil: [ session at: #sessionId ifAbsent: [ nil ] ]) ;
+		at: #accountId put: (session ifNotNil: [ session at: #accountId ifAbsent: [ nil ] ]) ;
+		yourself
+]
+
+{ #category : #logging }
+CynLocalAccountRestApiService >> logRecordFromRequest: aRestRequest [
+
+	| session |
+
+	session := self getSessionForRequest: aRestRequest.
+
+	^ (super logRecordFromRequest: aRestRequest)
 		at: #sessionId put: (session ifNotNil: [ session at: #sessionId ifAbsent: [ nil ] ]) ;
 		at: #accountId put: (session ifNotNil: [ session at: #accountId ifAbsent: [ nil ] ]) ;
 		yourself
