@@ -110,7 +110,7 @@ CynLocalAccountRestApiService >> activateAccount: aRestRequest response: aRestRe
 { #category : #'API - accounts' }
 CynLocalAccountRestApiService >> activationTokenMailMessageWith: aString [
 
-	^ CpNodeJSNodemailerMessage new
+	^ self newMailMessage
 		subject: 'Activation code' ;
 		text: ('Your activation code is: {1}' format: { aString }) ;
 		html: ('Your <i>activation code</i> is <code>{1}</code>' format: { aString }) ;
@@ -140,14 +140,6 @@ CynLocalAccountRestApiService >> addActivationTokenToAccount: anAccount [
 			#updatedAt -> updatedAt } asDictionary.
 
 	self createActivationTokenForAccount: anAccount
-]
-
-{ #category : #accessing }
-CynLocalAccountRestApiService >> configMailer [
-
-	"Answer the mailer configuration"
-
-	^ config at: #mailer
 ]
 
 { #category : #'API - accounts' }
@@ -309,17 +301,6 @@ CynLocalAccountRestApiService >> hashPassword: plainTextPassword usingSalt: salt
 		digest: #sha512) toStringEncoding: #hex)
 ]
 
-{ #category : #initialization }
-CynLocalAccountRestApiService >> initialize [
-
-	super initialize.
-
-	mailer := CpNodeJSNodemailerTransporter createTransport: (config at: #mailer) withDefaults: (config at: #'mailer-defaults').
-	mailer verify: [ :error :success |
-		error ifNotNil: [ self errorCr: ('Startup error mailer: {1}' format: { error }) ].
-		success ifNotNil: [ self traceCr: ('Startup mailer successful: {1}' format: { success }) ] ]
-]
-
 { #category : #logging }
 CynLocalAccountRestApiService >> insertLogStatement [
 
@@ -450,19 +431,6 @@ CynLocalAccountRestApiService >> login: aRestRequest response: aRestResponse [
 
 	"Send response to indicate success"
 	self send: { #success -> true . #settings -> (CpJavaScriptJSON parse: (storedAccount at: #settings)) } asDictionary response: aRestResponse
-]
-
-{ #category : #'API - support' }
-CynLocalAccountRestApiService >> mail: aMessage to: aString [
-
-	"Send the specified Message to the specified recipient"
-
-	"Update message with to fields"
-	aMessage to: aString.
-
-	mailer sendMail: aMessage thenDo: [ :error :info |
-		error ifNotNil: [ self errorCr: ('sendMail error: {1}' format: { error }) ].
-		info ifNotNil: [ self traceCr: ('sendMail: {1}' format: { info }) ] ]
 ]
 
 { #category : #'API - accounts' }

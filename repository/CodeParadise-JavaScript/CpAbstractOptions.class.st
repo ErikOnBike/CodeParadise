@@ -16,6 +16,16 @@ Class {
 	#category : #'CodeParadise-JavaScript-Support'
 }
 
+{ #category : #'instance creation' }
+CpAbstractOptions class >> fromDictionary: aDictionary [
+
+	"Answer an instance of the receiver using the specified Dictionary with initial values"
+
+	^ self new
+		merge: aDictionary ;
+		yourself
+]
+
 { #category : #converting }
 CpAbstractOptions >> asDictionary [
 

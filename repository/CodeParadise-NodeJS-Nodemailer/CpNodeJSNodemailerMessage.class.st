@@ -184,6 +184,24 @@ CpNodeJSNodemailerMessage >> dkim: aDKIM [
 	options at: #dkim put: aDKIM
 ]
 
+{ #category : #'accessing - dsn' }
+CpNodeJSNodemailerMessage >> dsn [
+
+	"Answer the SMTP DSN definition of the receiver"
+
+	^ options at: #dsn
+]
+
+{ #category : #'accessing - dsn' }
+CpNodeJSNodemailerMessage >> dsn: aSmtpDSN [
+
+	"Set the SMTP DSN definition for the receiver.
+
+	See also: class CpNodeJSNodemailerSmtpDSN"
+
+	options at: #dsn put: aSmtpDSN
+]
+
 { #category : #'accessing - content' }
 CpNodeJSNodemailerMessage >> encoding [
 

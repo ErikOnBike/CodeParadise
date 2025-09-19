@@ -383,7 +383,16 @@ CynBaseRestApiService >> initialize [
 	super initialize.
 
 	modelDatabase := CynDatabase on: 'data/database.db'.
-	logDatabase := CynDatabase on: 'data/log.db'
+	logDatabase := CynDatabase on: 'data/log.db'.
+
+	"Configure the mailer"
+	config at: #mailer ifPresent: [ :mailerConfig |
+
+		"If mailer is preent, 'mailer-default' and 'mailer-dsn' are assumed to be present too"
+		mailer := CpNodeJSNodemailerTransporter createTransport: mailerConfig withDefaults: (config at: #'mailer-defaults').
+		mailer verify: [ :error :success |
+			error ifNotNil: [ self errorCr: ('Startup error mailer: {1}' format: { error }) ].
+			success ifNotNil: [ self traceCr: ('Startup mailer successful: {1}' format: { success }) ] ] ]
 ]
 
 { #category : #initialization }
@@ -553,12 +562,41 @@ CynBaseRestApiService >> logWarnMessage: aString request: aRestRequest [
 	^ self log: #warn message: aString request: aRestRequest
 ]
 
+{ #category : #'API - support' }
+CynBaseRestApiService >> mail: aMessage to: aString [
+
+	"Send the specified Message to the specified recipient"
+
+	"Update message with to fields"
+	aMessage to: aString.
+
+	mailer sendMail: aMessage thenDo: [ :error :info |
+		error ifNotNil: [ self errorCr: ('sendMail error: {1}' format: { error }) ].
+		info ifNotNil: [ self traceCr: ('sendMail: {1}' format: { info }) ] ]
+]
+
 { #category : #'API - resources' }
 CynBaseRestApiService >> newId [
 
 	"Answer a new random ID (for a row)"
 
 	^ self crypto randomUUID
+]
+
+{ #category : #'API - support' }
+CynBaseRestApiService >> newMailMessage [
+
+	"Answer a new mail message"
+
+	| message |
+
+	message := CpNodeJSNodemailerMessage new.
+
+	"Add Delivery Status Notification (if requested)"
+	config at: #'mailer-dsn' ifPresent: [ :dsn |
+		message dsn: (CpNodeJSNodemailerSmtpDSN fromDictionary: dsn) ].
+
+	^ message
 ]
 
 { #category : #'API - resources' }
