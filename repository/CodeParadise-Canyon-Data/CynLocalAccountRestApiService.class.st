@@ -32,9 +32,6 @@ CREATE TABLE IF NOT EXISTS sessions (
 Class {
 	#name : #CynLocalAccountRestApiService,
 	#superclass : #CynBaseRestApiService,
-	#instVars : [
-		'mailer'
-	],
 	#category : #'CodeParadise-Canyon-Data-Service'
 }
 
@@ -396,7 +393,7 @@ CynLocalAccountRestApiService >> logRecordFromError: anError request: aRestReque
 
 	| session |
 
-	session := self getSessionForRequest: aRestRequest.
+	session := aRestRequest ifNotNil: [ self getSessionForRequest: aRestRequest ].
 
 	^ (super logRecordFromError: anError request: aRestRequest)
 		at: #sessionId put: (session ifNotNil: [ session at: #sessionId ifAbsent: [ nil ] ]) ;
@@ -409,7 +406,7 @@ CynLocalAccountRestApiService >> logRecordFromRequest: aRestRequest [
 
 	| session |
 
-	session := self getSessionForRequest: aRestRequest.
+	session := aRestRequest ifNotNil: [ self getSessionForRequest: aRestRequest ].
 
 	^ (super logRecordFromRequest: aRestRequest)
 		at: #sessionId put: (session ifNotNil: [ session at: #sessionId ifAbsent: [ nil ] ]) ;

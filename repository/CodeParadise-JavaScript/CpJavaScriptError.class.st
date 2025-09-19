@@ -172,6 +172,12 @@ CpJavaScriptError >> signal [
 	Error signal: 'Error in JavaScript' withTag: self
 ]
 
+{ #category : #signalling }
+CpJavaScriptError >> signalerContext [
+
+	^ nil
+]
+
 { #category : #operations }
 CpJavaScriptError >> toString [
 

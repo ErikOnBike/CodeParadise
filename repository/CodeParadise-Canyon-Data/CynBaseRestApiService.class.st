@@ -5,7 +5,8 @@ Class {
 		'config',
 		'modelDatabase',
 		'logDatabase',
-		'crypto'
+		'crypto',
+		'mailer'
 	],
 	#classVars : [
 		'Server',
@@ -451,6 +452,12 @@ CynBaseRestApiService >> log: aSymbol message: aString request: aRestRequest [
 ]
 
 { #category : #logging }
+CynBaseRestApiService >> logError: anError [
+
+	^ self logError: anError request: nil
+]
+
+{ #category : #logging }
 CynBaseRestApiService >> logError: anError request: aRestRequest [
 
 	"Log the specified Error for the specified REST request.
@@ -477,12 +484,24 @@ CynBaseRestApiService >> logError: anError request: aRestRequest [
 ]
 
 { #category : #logging }
+CynBaseRestApiService >> logErrorMessage: aString [
+
+	^ self logErrorMessage: aString request: nil
+]
+
+{ #category : #logging }
 CynBaseRestApiService >> logErrorMessage: aString request: aRestRequest [
 
 	"Log the specified message for the specified REST request.
 	Answer the rowId of the added log row."
 
 	^ self log: #error message: aString request: aRestRequest
+]
+
+{ #category : #logging }
+CynBaseRestApiService >> logInfoMessage: aString [
+
+	^ self logInfoMessage: aString request: nil
 ]
 
 { #category : #logging }
@@ -498,13 +517,14 @@ CynBaseRestApiService >> logInfoMessage: aString request: aRestRequest [
 CynBaseRestApiService >> logRecordFromError: anError request: aRestRequest [
 
 	"Subclasses should add/overwrite any relevant data.
-	This should match the insert statment in #insertErrorLogStatement"
+	This should match the insert statment in #insertErrorLogStatement.
+	The specified REST request might be nil."
 
 	^ Dictionary new
 		at: #statusCode put: anError restResponseCode ;
 		at: #stack put: (anError signalerContext ifNotNil: [ :stackContext | stackContext printString ]) ;
-		at: #request put: aRestRequest printString ;
-		at: #body put: (self bodyFromRequest: aRestRequest) ;
+		at: #request put: (aRestRequest ifNotNil: [ aRestRequest printString ]);
+		at: #body put: (aRestRequest ifNotNil: [ self bodyFromRequest: aRestRequest ]) ;
 		yourself
 ]
 
@@ -512,9 +532,16 @@ CynBaseRestApiService >> logRecordFromError: anError request: aRestRequest [
 CynBaseRestApiService >> logRecordFromRequest: aRestRequest [
 
 	"Subclasses should add/overwrite any relevant data.
-	This should match the insert statment in #insertLogStatement"
+	This should match the insert statment in #insertLogStatement.
+	The specified REST request might be nil."
 
 	^ Dictionary new
+]
+
+{ #category : #logging }
+CynBaseRestApiService >> logWarnMessage: aString [
+
+	^ self logWarnMessage: aString request: nil
 ]
 
 { #category : #logging }
