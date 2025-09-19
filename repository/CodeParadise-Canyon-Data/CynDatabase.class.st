@@ -119,18 +119,11 @@ CynDatabase >> performMulti: aSymbol statement: aString [
 CynDatabase >> performMulti: aSymbol statement: aString bind: aDictionary [
 
 	"Update (possibly) multiple rows in the database.
-	Answer the number of rows updated.
-
-	Implementation:
-	If an Error is signaled, a more accurate Error is signaled (if available),
-	otherwise the Error is (re)signaled."
+	Answer the number of rows updated"
 
 	| resultInfo |
 
-	[
-		resultInfo := (self prepare: aSymbol statement: aString)
-			runWithBindings: (self sqliteBinding: aDictionary)
-	] on: Error do: [ :error | self signalSqliteError: error ].
+	resultInfo := self rawPerformMulti: aSymbol statement: aString bind: aDictionary.
 
 	^ resultInfo at: #changes
 ]
@@ -144,17 +137,21 @@ CynDatabase >> performOne: aSymbol statement: aString [
 { #category : #database }
 CynDatabase >> performOne: aSymbol statement: aString bind: aDictionary [
 
-	"Update a row in the database.
+	"Update a row in the database and answer the last row id if a row is inserted.
+	Be aware: The last row id is NOT always the same as the PK of the table!
 	Signal an Error if no or multiple rows are updated."
 
-	| changeCount |
+	| resultInfo changeCount |
 
-	changeCount := self performMulti: aSymbol statement: aString bind: aDictionary.
+	resultInfo := self rawPerformMulti: aSymbol statement: aString bind: aDictionary.
+	changeCount := resultInfo at: #changes.
 
 	changeCount == 0
 		ifTrue: [ CynDatabaseNoUpdate signal ].
 	changeCount > 1
-		ifTrue: [ CynDatabaseTooManyUpdates signal ]
+		ifTrue: [ CynDatabaseTooManyUpdates signal ].
+
+	^ resultInfo at: #lastInsertRowid
 ]
 
 { #category : #private }
@@ -217,6 +214,22 @@ CynDatabase >> prepare: aSymbol statement: aString [
 				ifTrue: [ statement ]
 				ifFalse: [ preparedStatements at: aSymbol put: (database prepare: aString) ] ]
 		ifAbsentPut: [ database prepare: aString ]
+]
+
+{ #category : #database }
+CynDatabase >> rawPerformMulti: aSymbol statement: aString bind: aDictionary [
+
+	"Update (possibly) multiple rows in the database.
+	Answer an info structure with changes and lastInsertRowid.
+
+	Implementation:
+	If an Error is signaled, a more accurate Error is signaled (if available),
+	otherwise the Error is (re)signaled."
+
+	[
+		^ (self prepare: aSymbol statement: aString)
+			runWithBindings: (self sqliteBinding: aDictionary)
+	] on: Error do: [ :error | self signalSqliteError: error ]
 ]
 
 { #category : #database }
