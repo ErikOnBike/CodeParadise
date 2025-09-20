@@ -358,6 +358,73 @@ CpDomExamplesWebClientBehavior >> exampleDebugger [
 ]
 
 { #category : #examples }
+CpDomExamplesWebClientBehavior >> exampleDomUpdater [
+
+	<example: 'DOM Updater' order: 850>
+
+	| outputElement parent template1 template2 input domUpdater position |
+
+	template1 := '<template><h1 title="{{title}}">Example header</h1></template'.
+	template2 := '<template>
+	<p>{{text}}</p>
+	<p>Second paragraph with a <a href="#">link</a> in it.</p>
+	<ul>
+		<li classed-bold="{{isBold}}"">First</li>
+		<li style-display="{{styleDisplay}}">Second</li>
+		<li>Third</li>
+	</ul>
+	<input id="accept" type="checkbox" property-checked="{{isChecked}}"><label for="accept">Do you accept?</label>
+</template>' replaceAll: Character cr with: Character lf.
+
+	self clearOutput.
+	outputElement := self outputElement.
+
+	outputElement appendChild: ('DOM Updater' inHtmlTag: #h1).
+	outputElement appendChild: ('The DOM Updater allows the HTML <template> to be used to render DOM subtrees by combining the template with a data object. Below are two templates:' inHtmlTag: #p).
+	outputElement appendChild: (parent := CpHtmlElement newWithTag: #div).
+	parent appendChild: ((CpHtmlElement newWithTag: #pre) textContent: template1).
+	parent appendChild: ((CpHtmlElement newWithTag: #pre) textContent: template2).
+
+	"Create the actual template (will not be visible!) and replace the temp vars with the actual element"
+	template1 := (parent appendChild: ((CpHtmlElement newWithTag: #div) markupContent: template1)) firstChild.
+	template2 := (parent appendChild: ((CpHtmlElement newWithTag: #div) markupContent: template2)) firstChild.
+
+	"Describe following result"
+	outputElement appendChild: ('Generated result' inHtmlTag: #h1).
+	outputElement appendChild: ('The DOM Updater generated the following DOM subtree for the first template (hover the header to see a title), using object: { "title": "I have a title!" }' inHtmlTag: #p).
+
+	domUpdater := CpTemplateBasedDomUpdater on: template1.
+
+	position := (outputElement appendChild: (CpHtmlElement newWithTag: #div))
+		styleAt: #'background-color' put: 'rgba(0, 0, 255, .1)' ;
+		yourself.
+	domUpdater createDomFor: { #title -> 'I have a title!' } asDictionary in: position before: nil.
+
+	"Describe following result"
+	input := '{ "text": "Hello world", "isBold": false, "styleDisplay": "auto", "isChecked": false }'.
+	outputElement appendChild: ('Generated result' inHtmlTag: #h1).
+	outputElement appendChild: (('The DOM Updater generated the following DOM subtree for the second template using object: ', input) inHtmlTag: #p).
+
+	domUpdater := CpTemplateBasedDomUpdater on: template2.
+
+	position := (outputElement appendChild: (CpHtmlElement newWithTag: #div))
+		styleAt: #'background-color' put: 'rgba(0, 0, 255, .1)' ;
+		yourself.
+	domUpdater createDomFor: (CpJavaScriptJSON parse: input) in: position before: nil.
+
+	"Describe following result"
+	input := '{ "text": "Something different", "isBold": true, "styleDisplay": "none", "isChecked": true }'.
+	outputElement appendChild: ('Generated result' inHtmlTag: #h1).
+	outputElement appendChild: (('The DOM Updater generated the following DOM subtree for the second template using object: ', input) inHtmlTag: #p).
+
+	position := (outputElement appendChild: (CpHtmlElement newWithTag: #div))
+		styleAt: #'background-color' put: 'rgba(0, 0, 255, .1)' ;
+		yourself.
+	domUpdater createDomFor: (CpJavaScriptJSON parse: input) in: position before: nil.
+
+]
+
+{ #category : #examples }
 CpDomExamplesWebClientBehavior >> exampleEventMultipleHandlers [
 
 	<example: 'Event multiple handlers' order: 920>
@@ -904,6 +971,9 @@ CpDomExamplesWebClientBehavior >> showIndex [
 			position: relative;
 			width: 100%;
 			height: 100%;
+		}
+		.bold {
+			font-weight: bold;
 		}'.
 	body := CpHtmlElement documentBody.
 	body markupContent: '<h1>DOM Examples</h1>
