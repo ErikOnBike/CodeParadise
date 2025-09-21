@@ -944,7 +944,8 @@ CpDomElement >> release [
 { #category : #removing }
 CpDomElement >> remove [
 
-	"Remove the receiver from its parent"
+	"Remove the receiver from its parent.
+	Answer the removed element (i.e. the receiver, which is default)."
 
 	self parent ifNotNil: [ :parent | parent removeChild: self ]
 ]
