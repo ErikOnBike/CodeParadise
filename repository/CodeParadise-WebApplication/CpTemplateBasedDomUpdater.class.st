@@ -1,13 +1,13 @@
 "
 I am a DOM Updater based on a HTML Template.
-I am responsible for creating or updating DOM subtrees based on a HTML template (i.e. <template>)
-and some data provided in a Dictionary like object. The data object only needs to understand the
-message: #at:ifAbsent:
+I am responsible for creating or updating DOM subtrees based on a HTML template (by default a HTML
+ <template> element, but other HTML elements are accepted as well) and some data provided in a
+Dictionary like object. The data object only needs to understand the message: #at:ifAbsent:
 
 IMPORTANT: Do NOT update the result of the DOM Updater manually. It will likely change the position
 of Nodes in the created DOM subtree and therefore make the updater incorrectly update other parts of
-the DOM.
-Also be careful not to use any libraries which do this.
+the DOM (or worse crash, because no error checking is performed).
+Also be careful not to use any libraries which do automagic DOM manipulation on those DOM subtrees.
 
 Currently a limited set of data updates is possible:
 - textContent: replace textContent inside the DOM subtree with the text from the data
@@ -16,16 +16,18 @@ Currently a limited set of data updates is possible:
 - set style: set a value from the data as style in a HTML element
 - set property: set a value from the data as property of a HTML element
 
-Examples of the above (in order):
-<template><h1>{{text}}</h1></template>
-<template><h1 title=""{{title}}"">My header</h1></template>
-<template><h1 classed-hide=""{{isHidden}}"">My header</h1></template>
-<template><h1 style-display=""{{styleDisplay}}"">My header</h1></template>
-<template><input id=""accept"" type=""checkbox"" property-checked=""{{isChecked}}""><label for=""accept"">Accept consequences?</label></template>
+Examples of the above (in same order):
+ <template><h1>{{text}}</h1></template>
+ <template><h1 title=""{{title}}"">My header</h1></template>
+ <template><h1 classed-hide=""{{isHidden}}"">My header</h1></template>
+ <template><h1 style-display=""{{styleDisplay}}"">My header</h1></template>
+ <template><input id=""accept"" type=""checkbox"" property-checked=""{{isChecked}}""><label for=""accept"">Accept consequences?</label></template>
 
 In the last 3 items, the attribute name consists of a 'type' and a reference to some class, style,
 property respectively. ""style-display"" refers to the ""display"" style. ""property-checked"" refers
 to the ""checked"" property. Etc.
+
+See also example in: CpDomExamplesWebClientBehavior >> #exampleDomUpdater
 
 Implementation:
 The DomUpdater does not use the standard CpDomElement methods to iterate over templates and elements.
@@ -38,9 +40,10 @@ both). This stricter model is easier to navigate and update. In HTML there is a 
 Elements to allow this less strict form to be implemented. In XML this less strict form is called the
 ""Mixed Content"" mode.
 
-The DomUpdater will scan the provided template element in create an internal mapping of keys to Nodes.
-When creating or updating a DOM subtree (using some provided data) this mapping will be used to update
-only relevant parts of the DOM subree and not fully recreate everything.
+The DomUpdater will scan the provided template element and create a collection of data points (data keys
+and locations of the Node within the DOM subtree). When creating or updating a DOM subtree (using some
+provided data) these data points will be used to update only relevant parts of the DOM subree and not
+fully recreate everything.
 "
 Class {
 	#name : #CpTemplateBasedDomUpdater,
@@ -48,7 +51,7 @@ Class {
 	#instVars : [
 		'element',
 		'template',
-		'mapping'
+		'dataPoints'
 	],
 	#category : #'CodeParadise-WebApplication-Support'
 }
@@ -75,9 +78,11 @@ CpTemplateBasedDomUpdater >> childNodesOf: aNode [
 	"Answer a collection of child Nodes for the specified Node.
 	In contrast with default Node behaviour, include attribute Nodes
 	as well.
+
+	Implementation:
 	Do NOT change the order in which Nodes are added. It is relied
-	upon by the render methods: first attributes, then children.
-	This is relevant for the #firstChildNodeOf: method."
+	upon by the render methods: first attributes, then regular children.
+	This is relevant for the #firstChildNodeOf: and #sibling:of: methods."
 
 	| nodeCollection attributes attr childNodes childNode index |
 
@@ -103,12 +108,23 @@ CpTemplateBasedDomUpdater >> childNodesOf: aNode [
 ]
 
 { #category : #rendering }
+CpTemplateBasedDomUpdater >> createDomFor: aDictionary in: aNode [
+
+	^ self createDomFor: aDictionary in: aNode before: nil
+]
+
+{ #category : #rendering }
 CpTemplateBasedDomUpdater >> createDomFor: aDictionary in: aNode before: aChildNode [
 
 	"Create a new DOM subtree for the specified (Dictionary like) object.
 	The subtree will be inserted in the specified Node at the specified
 	location (before the child Node or at the end if nil is provided as
-	the child Node's value)."
+	the child Node's value).
+	Answer the first child Node created, this is the reference point
+	for updating the subtree later on using #updateDomFor:in:
+	When the subtree is created in a known location, the answered Node
+	does not need to be used. A regular reference to a CpDomElement can
+	be used during updating as well."
 
 	| subtree newNode refNode prevNode |
 
@@ -132,14 +148,17 @@ CpTemplateBasedDomUpdater >> createDomFor: aDictionary in: aNode before: aChildN
 		prevNode := newNode propertyAt: #previousSibling.
 		aNode apply: #insertBefore withArguments: { newNode . refNode }.
 		refNode := newNode.
-		newNode := prevNode ]
+		newNode := prevNode ].
+
+	^ refNode
 ]
 
 { #category : #private }
 CpTemplateBasedDomUpdater >> createTemplate [
 
-	"Create a new DOM subtree with the template element's content.
-	All content is wrapped in a single <div> element for convenience.
+	"Create a new DOM subtree with the template element's content (or
+	the element itself if it ain't a <template> but regular element).
+	All subtree content is wrapped in a single <div> element for convenience.
 	This allows a template with multiple children to be respresented
 	by a single element."
 
@@ -149,11 +168,11 @@ CpTemplateBasedDomUpdater >> createTemplate [
 	template := CpHtmlElement newWithTag: #div.
 
 	"Copy Nodes child by child"
-	childNodes := (element propertyAt: #content) propertyAt: #childNodes.
+	childNodes := ((element propertyAt: #content) ifNil: [ element ]) propertyAt: #childNodes.
 	index := 0.
 	[ (childNode := childNodes apply: #item withArguments: { index }) isNotNil ] whileTrue: [
 
-		"Deep clone child node"
+		"Deep clone child node (so we don't have to recurse ourselves)"
 		template apply: #appendChild withArguments: { childNode apply: #cloneNode withArguments: { true } }.
 		index := index + 1 ]
 ]
@@ -162,8 +181,7 @@ CpTemplateBasedDomUpdater >> createTemplate [
 CpTemplateBasedDomUpdater >> firstChildNodeOf: aNode [
 
 	"Answer the first child Node of the specified Node.
-	In contrast with default Node behaviour, include attribute Nodes
-	as well.
+	In contrast with default Node behaviour, include attribute Nodes as well.
 	See also #childNodesOf:"
 
 	| attributes attr childNodes |
@@ -196,7 +214,7 @@ CpTemplateBasedDomUpdater >> nodeIn: aNode atPath: anArray [
 	See #scanTree:accessPath: for an explanation of the reason
 	why searching starts in siblings and not in children (short:
 	because the specified Node is the first child of the DOM
-	subtree and not its parent)."
+	subtree and not its parent, it's an anchor point)."
 
 	| nextNode |
 
@@ -219,36 +237,28 @@ CpTemplateBasedDomUpdater >> prepare [
 	"Prepare the receiver for creating and updating DOM subtree.
 
 	Implementation:
-	Create a mapping which allows a Dictionary like object to be quickly
-	rendered inside the DOM subtree."
+	Create a collection of data points (data key and a Node access path) which later allows
+	the data to be quickly rendered inside the DOM subtree."
 
-	mapping ifNotNil: [ ^ self ].
+	dataPoints ifNotNil: [ ^ self ].
 
-	"Create a DOM subtree as a template (which can be changed without touching element)"
+	"Create a DOM subtree as a template (which can then be changed without touching the original element)"
 	self createTemplate.
 
-	"Walk the template and find mappable elements"
-	mapping := OrderedCollection new.
-
+	"Walk the template and store the data points (with key and access path)"
+	dataPoints := OrderedCollection new.
 	self scanTree: template accessPath: ByteArray new
 ]
 
 { #category : #private }
 CpTemplateBasedDomUpdater >> renderData: aDictionary on: aNode [
 
-	"Render the specified data onto the DOM subtree specified
-	by the given reference Node. The Node is the first Node of
-	the subtree.
+	"Render the specified data onto the DOM subtree specified by the
+	given reference Node. The Node MUST be the first Node of the subtree.
+	A data point has a key into the data object and an access path to
+	select the Node within the DOM subtree."
 
-	Implementation:
-	The specified reference Node might have (next) siblings which are
-	part of the subtree (but we don't actually know the shape of the
-	subtree, it might be part of the larger DOM when updating).
-	The actual shape is however not needed, because we already know
-	the location of the items we need to render (as long as it has
-	not been updated by some other mechanism!)."
-
-	mapping do: [ :each |
+	dataPoints do: [ :each |
 		self
 			renderValue: (aDictionary at: each key ifAbsent: [ nil ])
 			in: (self nodeIn: aNode atPath: each value) ]
@@ -256,6 +266,10 @@ CpTemplateBasedDomUpdater >> renderData: aDictionary on: aNode [
 
 { #category : #private }
 CpTemplateBasedDomUpdater >> renderValue: anObject in: aNode [
+
+	"Render the specified value in the given Node.
+	For attribute based Nodes, handle the rendering specifically.
+	See class comment for an explanation and a few example templates."
 
 	| nodeType name |
 
@@ -277,7 +291,7 @@ CpTemplateBasedDomUpdater >> renderValue: anObject in: aNode [
 
 			"Style"
 			(name beginsWith: 'style-')
-				ifTrue: [ (aNode propertyAt: #ownerElement) styleAt: (name allButFirst: 6) put: anObject ]
+				ifTrue: [ (aNode propertyAt: #ownerElement) styleAt: (name allButFirst: 6) put: anObject asString ]
 				ifFalse: [
 
 			"Regular content (I'm in the #ifFalse: branch here!)"
@@ -292,18 +306,20 @@ CpTemplateBasedDomUpdater >> renderValue: anObject in: aNode [
 { #category : #private }
 CpTemplateBasedDomUpdater >> scanTree: aNode accessPath: anArray [
 
-	"Scan the specified subtree and add any mappings of data references found.
-	A list of indices is kept to find the correct node within the DOM subtree.
+	"Scan the specified subtree and add data points for data references found.
+	The data point consists of a data key and an access path. The access path
+	is a list of indices to find the correct node within the DOM subtree.
 	The indices are 0-based because of using JS functions.
 
 	Implementation:
 	The scanning starts with the parent for the template content. This parent
 	itself will never become part of the actual document DOM. When rendering
-	the data we will need to refer to the first node in the DOM subtree,
-	because we might be rendered in a list and this will not be the first child.
-	Instead of using the parent we use the first child as anchor point when
-	rendering. As a result the method #nodeIn:atPath: will work from that anchor
-	and therefore first start iterating in siblings, instead of children."
+	the data we will need to refer to the first node in the DOM subtree (i.e.
+	we will not refer to the parent), because we might be rendered in a list
+	and this will not be the first child. Instead of using the parent we use
+	the first child as anchor point when rendering. As a result the method
+	#nodeIn:atPath: will work from that anchor and will therefore first start
+	iterating in siblings, instead of children."
 
 	| nodeType key |
 
@@ -313,7 +329,7 @@ CpTemplateBasedDomUpdater >> scanTree: aNode accessPath: anArray [
 		"Element node"
 		nodeType = 1
 			ifTrue: [
-				"Scan children (adding next index to access path)"
+				"Scan children (adding next index to access path, 0-based)"
 				self scanTree: each accessPath: (anArray copyWith: index - 1) ]
 			ifFalse: [
 
@@ -324,25 +340,58 @@ CpTemplateBasedDomUpdater >> scanTree: aNode accessPath: anArray [
 				key := (each propertyAt: #nodeValue) trim.
 				((key beginsWith: '{{') and: [ key endsWith: '}}' ])
 					ifTrue: [
+						"Store data point (key referenced and access path, 0-based)"
 						key := key copyFrom: 3 to: key size - 2.
-						mapping add: key -> (anArray copyWith: index - 1) ] ] ] ]
+						dataPoints add: key -> (anArray copyWith: index - 1) ] ] ] ]
 ]
 
 { #category : #private }
 CpTemplateBasedDomUpdater >> sibling: anInteger of: aNode [
 
-	| nextNode |
+	"Answer the n-th sibling (0-based indexing) of the specified Node.
+	Assume the n-th sibling exists and aNode is the first Node (itself is sibling at index 0).
+	In contrast with default Node behaviour, include attribute Nodes as well.
+	See also #childNodesOf:"
+
+	| remainingIndex nextNode attributes length |
 
 	anInteger = 0
 		ifTrue: [ ^ aNode ].
 
-	"Handle attributes specifically"
+	"Handle attributes first"
 	(aNode propertyAt: #nodeType) = 2
-		ifTrue: [ ^ ((aNode propertyAt: #ownerElement) propertyAt: #attributes) apply: #item withArguments: { anInteger } ].
+		ifTrue: [
+			attributes := (aNode propertyAt: #ownerElement) propertyAt: #attributes.
+			length := attributes propertyAt: #length.
+			anInteger < length
+				ifTrue: [ ^ attributes apply: #item withArguments: { anInteger } ].
+			remainingIndex := anInteger - length.
+			nextNode := (aNode propertyAt: #ownerElement) propertyAt: #firstChild ]
+		ifFalse: [
+			remainingIndex := anInteger.
+			nextNode := aNode ].
 
-	"Default way iterating the siblings"
-	nextNode := aNode.
-	anInteger timesRepeat: [ nextNode := nextNode propertyAt: #nextSibling ].
+	"Regular Node (with parent)"
+	(nextNode propertyAt: #parentNode)
+		ifNotNil: [ :parentNode | ^ (parentNode propertyAt: #childNodes) apply: #item withArguments: { remainingIndex } ].
+
+	"Regular Node (without parent)"
+	remainingIndex timesRepeat: [ nextNode := nextNode propertyAt: #nextSibling ].
 
 	^ nextNode
+]
+
+{ #category : #rendering }
+CpTemplateBasedDomUpdater >> updateDomFor: aDictionary in: aNode [
+
+	"Update the existing DOM subtree for the specified (Dictionary like) object.
+	Make sure the DOM subtree has NOT been altered 'manually' or by some other
+	tool/library, because updating will refer to Nodes in the subtree using a
+	'known' location derived during creation of the initial creation of the
+	DOM subtree."
+
+	self prepare.
+
+	"Render data onto the subtree"
+	self renderData: aDictionary on: aNode
 ]
