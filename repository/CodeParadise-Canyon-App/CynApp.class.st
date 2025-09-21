@@ -585,14 +585,13 @@ CynApp >> handleUnhandledError: anError [
 			self showErrorInternalServerError: anError.
 			^ false ].
 
+	"Log the error"
 	self errorCr: 'Unhandled Error in App'.
-	self class ifDevelopment: [
-		(self locationFromSignalerContext: anError signalerContext) ifNotNil: [ :origin |
-			self traceCr: 'Origin seems to be: ', origin method printString ].
-		self traceCr: anError printString.
-		self traceCr: anError signalerContext printString.
-		^ false ].
 	self traceCr: anError description asString.
+
+	"In development, announce the Error (for debugging)"
+	self class ifDevelopment: [
+		CpExceptionAnnouncer announceException: anError ].
 
 	^ false
 ]
