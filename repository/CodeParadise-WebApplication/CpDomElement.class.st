@@ -900,10 +900,11 @@ CpDomElement >> printOn: aStream [
 		nextPutAll: self tagName.
 
 	self id ifNotNil: [ :id |
-		aStream
-			nextPutAll: ' id="' ;
-			nextPutAll: id ;
-			nextPut: $" ].
+		id ifNotEmpty: [
+			aStream
+				nextPutAll: ' id="' ;
+				nextPutAll: id ;
+				nextPut: $" ] ].
 
 	aStream
 		nextPutAll: '>)'
