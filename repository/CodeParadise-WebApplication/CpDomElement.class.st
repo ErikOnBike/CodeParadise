@@ -397,6 +397,14 @@ CpDomElement >> attributeAt: nameString put: valueString [
 
 ]
 
+{ #category : #attributes }
+CpDomElement >> attributeNames [
+
+	"Answer an Array with the attribute names of the receiver"
+
+	^ self apply: #getAttributeNames
+]
+
 { #category : #'text input' }
 CpDomElement >> blur [
 
