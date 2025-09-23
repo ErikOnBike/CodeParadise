@@ -11,6 +11,8 @@ Class {
 { #category : #accessing }
 CpWebClientBehavior class >> clientId [
 
+	<serverEnvironment>
+
 	"Answer my identifier inside the ClientEnvironment"
 
 	^ #client
@@ -18,6 +20,8 @@ CpWebClientBehavior class >> clientId [
 
 { #category : #initialization }
 CpWebClientBehavior class >> createIn: aServerEnvironment [
+
+	<serverEnvironment>
 
 	"Create an instance of the receiver in the specified ServerEnvironment"
 
@@ -27,6 +31,8 @@ CpWebClientBehavior class >> createIn: aServerEnvironment [
 { #category : #initialization }
 CpWebClientBehavior class >> installIn: aServerEnvironment [
 
+	<serverEnvironment>
+
 	"Install the receiver in the specified ServerEnvironment"
 
 	aServerEnvironment addClass: self
@@ -34,6 +40,8 @@ CpWebClientBehavior class >> installIn: aServerEnvironment [
 
 { #category : #updating }
 CpWebClientBehavior class >> updateStyleViewClass: aViewClass in: aServerEnvironment [
+
+	<serverEnvironment>
 
 	"Update the style of the specified View in the ClientEnvironment belonging to the specified ServerEnvironment"
 
@@ -46,6 +54,8 @@ CpWebClientBehavior class >> updateStyleViewClass: aViewClass in: aServerEnviron
 
 { #category : #updating }
 CpWebClientBehavior class >> updateTemplateViewClass: aViewClass in: aServerEnvironment [
+
+	<serverEnvironment>
 
 	"Update the template of the specified View in the ClientEnvironment belonging to the specified ServerEnvironment"
 
