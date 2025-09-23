@@ -75,16 +75,6 @@ CpTemplateComponent class >> isAbstractTag [
 	This method will NOT be evaluated to decide if the receiver is abstract."
 ]
 
-{ #category : #primitives }
-CpTemplateComponent class >> registerStyleAndTemplate [
-
-	"Register the receiver's style and template"
-
-	<primitive: 'primitiveTemplateComponentRegisterStyleAndTemplate' module: 'CpDOMPlugin'>
-	self primitiveFailed
-
-]
-
 { #category : #'class initialization' }
 CpTemplateComponent class >> registerWithInitialize: initializeBoolean thirdParty: thirdPartyBoolean [
 
