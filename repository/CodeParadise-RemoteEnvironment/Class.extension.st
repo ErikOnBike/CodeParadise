@@ -215,6 +215,22 @@ Class >> removeMethod: aCompiledMethod [
 ]
 
 { #category : #'*CodeParadise-RemoteEnvironment' }
+Class >> requiredClasses [
+
+	"Answer a Collection of required Classes for the receiver.
+	These classes will be installed in a ClientEnvironment before
+	the receiver gets installed.
+	Use this method only if the required Classes are not already
+	recognized by the references in the receiver's (class and
+	instance) methods.
+	This is for example relevant when there is only a reference
+	to some base class, but subclasses are not specifically
+	referenced and are therefore not installed automatically."
+
+	^ #()
+]
+
+{ #category : #'*CodeParadise-RemoteEnvironment' }
 Class >> subclass: className instanceVariableNames: instVarNames classVariableNames: classVarNames classInstanceVariableNames: classInstVarNames [
 
 	"Placeholder for method in tiny image, to prevent Pharo from complaining about missing method"
