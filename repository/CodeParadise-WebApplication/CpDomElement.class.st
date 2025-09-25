@@ -22,7 +22,7 @@ Replace all 'span' tags classed 'icon' with a copy of an image (without creating
 	]]]
 
 Implementation:
-Almost all my methods are implemented using primitives, because I am the glue layer between the Smalltalk code and the browser DOM.
+Many of my methods are implemented using primitives, because I am the glue layer between the Smalltalk code and the browser DOM.
 "
 Class {
 	#name : #CpDomElement,
