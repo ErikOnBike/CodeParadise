@@ -58,6 +58,15 @@ Class {
 	#category : #'CodeParadise-WebApplication-Support'
 }
 
+{ #category : #'class initialization' }
+CpTemplateBasedDomUpdater class >> beLoaded [
+
+	"Load the base DataUpdaters. Applications should load their specific variants."
+
+	CpAttributeDataUpdater beLoaded.
+	CpTextDataUpdater beLoaded
+]
+
 { #category : #'instance creation' }
 CpTemplateBasedDomUpdater class >> new [
 
