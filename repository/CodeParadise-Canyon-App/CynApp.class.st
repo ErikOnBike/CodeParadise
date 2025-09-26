@@ -1457,13 +1457,14 @@ CynApp >> showToast: aString [
 
 	"Show the specified toast message with the default duration"
 
-	self showToast: aString duration: self defaultToastDuration
+	^ self showToast: aString duration: self defaultToastDuration
 ]
 
 { #category : #actions }
 CynApp >> showToast: aString duration: anInteger [
 
 	"Show the specified toast message and dismiss after the specified time (milliseconds).
+	Answer the toast, so the caller can dismiss before the timeout is reached.
 
 	Implementation:
 	Do NOT perform an #await here to prevent any delay."
@@ -1482,7 +1483,9 @@ CynApp >> showToast: aString duration: anInteger [
 	otherwise it will not be removed correctly (Ionic does some magic with 'portals')."
 	CpGlobalThis defer: [
 		didDismiss await.
-		toast remove ]
+		toast remove ].
+
+	^ toast
 ]
 
 { #category : #actions }
