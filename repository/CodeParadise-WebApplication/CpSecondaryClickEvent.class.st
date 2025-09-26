@@ -1,8 +1,21 @@
 Class {
 	#name : #CpSecondaryClickEvent,
 	#superclass : #CpAnyClickEvent,
+	#classVars : [
+		'ContextMenuSubscription',
+		'PreventDefaultContextMenu'
+	],
 	#category : #'CodeParadise-WebApplication-Events-Custom'
 }
+
+{ #category : #announcing }
+CpSecondaryClickEvent class >> addListenerTo: anElement [
+
+	PreventDefaultContextMenu = #lazy
+		ifTrue: [ self preventDefaultContextMenu ].
+
+	^ super addListenerTo: anElement
+]
 
 { #category : #initialization }
 CpSecondaryClickEvent class >> beLoaded [
@@ -21,45 +34,58 @@ CpSecondaryClickEvent class >> handlesClickEvent: aClickEvent [
 	^ aClickEvent isSecondaryButtonPressed
 ]
 
+{ #category : #actions }
+CpSecondaryClickEvent class >> lazyPreventDefaultContextMenu [
+
+	"Prevent default handling of ContextMenu in the browser only if the receiver is added as listener to a DOM element.
+	The default handling might iterfere with the receiver.
+	If the handler is already installed, it will remain installed."
+
+	PreventDefaultContextMenu = #on
+		ifTrue: [ ^ self ].
+
+	PreventDefaultContextMenu := #lazy
+]
+
 { #category : #'class initialization' }
 CpSecondaryClickEvent class >> postInstallOnce [
 
-	"Prevent default handling of ContextMenu by default (because it interferes with secondary click).
-	This behavior can be reset using #resetDefaultContextMenu"
+	"Prevent default handling of ContextMenu lazily, meaning it will be installed when the receiver
+	is first added as listener to a DOM element. The context menu needs to be prevented, because it
+	interferes with secondary click handling (showing a context menu).
+	This behavior can be set using #preventDefaultContextMenu or reset using #resetDefaultContextMenu."
 
-	self preventDefaultContextMenu
+	self lazyPreventDefaultContextMenu
 ]
 
 { #category : #actions }
 CpSecondaryClickEvent class >> preventDefaultContextMenu [
 
-	"Prevent default handling of ContextMenu by default (because it can interfere with secondary click)"
+	"Prevent default handling of ContextMenu in the browser (might interfere with the receiver)"
 
 	| documentBody |
 
-	self resetDefaultContextMenu.
+	"Do not prevent the context menu if already on"
+	PreventDefaultContextMenu = #on
+		ifTrue: [ ^ self ].
 
 	documentBody := CpHtmlElement documentBody.
+	ContextMenuSubscription := documentBody when: CpContextMenuEvent send: #preventDefault: to: documentBody.
 
-	Smalltalk at: #PreventDefaultContextMenu put: (documentBody
-		when: CpContextMenuEvent send: #preventDefault: to: documentBody)
+	PreventDefaultContextMenu := #on
 ]
 
 { #category : #actions }
 CpSecondaryClickEvent class >> resetDefaultContextMenu [
 
-	"Reset the default handling of ContextMenu"
-
-	| subscription |
-
-	subscription := (Smalltalk at: #PreventDefaultContextMenu)
-		ifNil: [ ^ self ].
+	"Allow default handling of ContextMenu in the browser (might interfere with the receiver)"
 
 	"Unsubscribe event listener"
-	subscription unsubscribe.
+	ContextMenuSubscription ifNotNil: [
+		ContextMenuSubscription unsubscribe.
+		ContextMenuSubscription := nil ].
 
-	"Reset the global value"
-	Smalltalk at: #PreventDefaultContextMenu put: nil
+	PreventDefaultContextMenu := #off
 ]
 
 { #category : #testing }
