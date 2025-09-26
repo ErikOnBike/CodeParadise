@@ -204,7 +204,9 @@ CpEvent >> copy [
 { #category : #accessing }
 CpEvent >> currentTarget [
 
-	"Answer the current targetted DOM element (might be different from #target which could be a descendant)"
+	"Answer the current targetted DOM element.
+	This is the element to which the event handler is attached.
+	This might be different from #target which could be a descendant when the event bubbles up."
 
 	^ self propertyAt: #currentTarget
 ]
