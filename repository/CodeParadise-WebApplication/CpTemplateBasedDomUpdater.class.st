@@ -83,6 +83,9 @@ CpTemplateBasedDomUpdater class >> requiredClasses [
 { #category : #private }
 CpTemplateBasedDomUpdater >> addAttributeDataUpdaterNamed: aString for: anElement [
 
+	"Add an attribute based DataUpdater if present in the specified Element.
+	Remove the data point reference once added."
+
 	| key |
 
 	key := self keyFrom: (anElement attributeAt: aString).
@@ -90,7 +93,9 @@ CpTemplateBasedDomUpdater >> addAttributeDataUpdaterNamed: aString for: anElemen
 
 	self
 		addDataUpdater: (CpAttributeDataUpdater key: key matchingName: aString)
-		for: anElement
+		for: anElement.
+
+	anElement removeAttributeAt: aString
 ]
 
 { #category : #private }
@@ -127,14 +132,19 @@ CpTemplateBasedDomUpdater >> addDataUpdaterIndex: anInteger to: anElement [
 { #category : #private }
 CpTemplateBasedDomUpdater >> addTextDataUpdaterFor: anElement [
 
+	"Add a text based DataUpdater if present in the specified Element.
+	Remove the data point reference once added."
+
 	| key |
 
-	key := self keyFrom: anElement textContent.
+	key := self keyFrom: anElement localTextContent.
 	key ifNil: [ ^ self ].
 
 	self
 		addDataUpdater: (CpTextDataUpdater key: key)
-		for: anElement
+		for: anElement.
+
+	anElement textContent: ''
 ]
 
 { #category : #private }
