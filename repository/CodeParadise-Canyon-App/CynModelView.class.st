@@ -1155,6 +1155,43 @@ CynModelView >> updateChildViewsAtSlotNamed: aString usingDefinitions: aCollecti
 		(existingViews at: index) destroy ]
 ]
 
+{ #category : #view }
+CynModelView >> updateGrid: aGridElement wide: anInteger with: aCollection using: aDomUpdater [
+
+	"Convenience method to create and update <ion-grid> elements with rows and cols.
+	Update the specified grid with the collection of data using the DOMUpdater.
+	The specified number of columns is used to fill the rows. The responsive design
+	might however make the rows smaller, by wrapping elements. The generated columns
+	can have size specifiers to influence this.
+	It is assumed that the grid initially is an empty element and only the
+	generated elements of the DOMUpdater are (or will become) children.
+	It is the responsibility of the DOMUpdater to produce <ion-col> elements.
+	See: https://ionicframework.com/docs/api/grid"
+
+	| columns |
+
+	aCollection withIndexDo: [ :each :index |
+		| row column |
+		row := aGridElement children
+			at: ((index - 1) // anInteger) + 1
+			ifAbsent: [ aGridElement appendChild: IonRow new ].
+		column := row children
+			at: ((index - 1) \\ anInteger) + 1
+			ifAbsent: [ nil ].
+		column
+			ifNotNil: [ aDomUpdater updateDomIn: column with: each ]
+			ifNil: [ aDomUpdater createDomIn: row with: each ] ].
+
+	"Remove remaining columns  (if the data has shrunk)"
+	columns := aGridElement allDescendantsMatching: IonCol asCssSelector.
+	columns size to: aCollection size + 1 by: -1 do: [ :index |
+		(columns at: index) destroy ].
+
+	"Remove (what now have become) empty rows"
+	(aGridElement allDescendantsMatching: IonRow asCssSelector) do: [ :each |
+		each ifEmpty: [ each destroy ] ]
+]
+
 { #category : #private }
 CynModelView >> updateToEmptyChildView: aView atSlotNamed: aString [
 
