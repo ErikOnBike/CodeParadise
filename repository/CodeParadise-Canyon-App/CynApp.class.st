@@ -247,13 +247,8 @@ CynApp class >> postInstall [
 { #category : #'class initialization' }
 CynApp class >> postInstallOnce [
 
-	"Reset the default behavior to prevent the context menu.
-	This is not relevant for mobile apps where a context menu
-	is not present.
-	Also replace the default handling of unhandled errors and
+	"Replace the default handling of unhandled errors and
 	let the receiver be responsible for handling these errors."
-
-	CpSecondaryClickEvent resetDefaultContextMenu.
 
 	"Little hackery to install different #unhandledError: method"
 	Process methodDictionary ifNotNil: [ :methodDictionary |
