@@ -362,7 +362,12 @@ CpDomExamplesWebClientBehavior >> exampleDomUpdater [
 
 	<example: 'DOM Updater' order: 850>
 
-	| outputElement parent template1 template2 input domUpdater position |
+	| outputElement parent template1 template2 data1 data2 domUpdater position comment eventLog |
+
+	CpClassedAttributeDataUpdater beLoaded.
+	CpPropertyAttributeDataUpdater beLoaded.
+	CpStyleAttributeDataUpdater beLoaded.
+	CpEventAttributeDataUpdater beLoaded.
 
 	template1 := '<template><h1 title="{{title}}">Example header</h1></template'.
 	template2 := '<template>
@@ -373,7 +378,8 @@ CpDomExamplesWebClientBehavior >> exampleDomUpdater [
 		<li style-display="{{styleDisplay}}">Second</li>
 		<li>Third</li>
 	</ul>
-	<input id="accept" type="checkbox" property-checked="{{isChecked}}"><label for="accept">Do you accept?</label>
+	<div><input id="accept" type="checkbox" property-checked="{{isChecked}}"><label for="accept">Do you accept?</label></div>
+	<div><button event-click="{{click}}" property-data="{{yourself}}">Click me!</button></div>
 </template>' replaceAll: Character cr with: Character lf.
 
 	self clearOutput.
@@ -401,27 +407,40 @@ CpDomExamplesWebClientBehavior >> exampleDomUpdater [
 	domUpdater createDomIn: position with: { #title -> 'I have a title!' } asDictionary.
 
 	"Describe following result"
-	input := '{ "text": "Hello world", "isBold": false, "styleDisplay": "auto", "isChecked": false }'.
+	data1 := '{ "text": "Hello world", "isBold": false, "styleDisplay": "list-item", "isChecked": false, "click": null }'.
+	data2 := '{ "text": "Something different", "isBold": true, "styleDisplay": "none", "isChecked": true, "click": "show event" }'.
 	outputElement appendChild: ('Generated result' inHtmlTag: #h1).
-	outputElement appendChild: (('The DOM Updater generated the following DOM subtree for the second template using object: ', input) inHtmlTag: #p).
 
 	domUpdater := CpTemplateBasedDomUpdater on: template2.
 
 	position := (outputElement appendChild: (CpHtmlElement newWithTag: #div))
 		styleAt: #'background-color' put: 'rgba(0, 0, 255, .1)' ;
 		yourself.
-	domUpdater createDomIn: position with: (CpJavaScriptJSON parse: input).
+	domUpdater createDomIn: position with: (CpJavaScriptJSON parse: data1).
 
-	"Describe following result"
-	input := '{ "text": "Something different", "isBold": true, "styleDisplay": "none", "isChecked": true }'.
-	outputElement appendChild: ('Generated result' inHtmlTag: #h1).
-	outputElement appendChild: (('The DOM Updater generated the following DOM subtree for the second template using object: ', input) inHtmlTag: #p).
-
-	position := (outputElement appendChild: (CpHtmlElement newWithTag: #div))
-		styleAt: #'background-color' put: 'rgba(0, 0, 255, .1)' ;
-		yourself.
-	domUpdater createDomIn: position with: (CpJavaScriptJSON parse: input).
-
+	comment := nil. "To keep compiler quiet"
+	outputElement appendChild: ('Use the buttons below to update the template above' inHtmlTag: #p).
+	outputElement appendChild: ('The data2 entry will have an actual Block installed for the event handler, but it will not show here because functions are not allowed in JSON.' inHtmlTag: #p).
+	outputElement appendChild: ((CpHtmlElement newWithTag: #button)
+		textContent: 'Show data1' ;
+		when: CpClickEvent do: [
+			domUpdater updateDomIn: position with: (CpJavaScriptJSON parse: data1).
+			comment textContent: data1 ] for: self ;
+		yourself).
+	outputElement appendChild: (' ' inHtmlTag: #span).
+	outputElement appendChild: ((CpHtmlElement newWithTag: #button)
+		textContent: 'Show data2' ;
+		when: CpClickEvent do: [
+			domUpdater updateDomIn: position with: ((CpJavaScriptJSON parse: data2)
+				at: #click put: [ :event | eventLog appendChild: (event printString inHtmlTag: #div) ; appendChild: ((event currentTarget propertyAt: #data) printString inHtmlTag: #div) ] ;
+				yourself).
+			comment textContent: data2 ] for: self ;
+		yourself).
+	comment := outputElement appendChild: ((CpHtmlElement newWithTag: #pre) textContent: '<data will show up after clicking update button>' ; yourself).
+	eventLog := outputElement appendChild: ((CpHtmlElement newWithTag: #div)
+		styleAt: 'max-height' put: '6em' ;
+		styleAt: 'overflow-y' put: 'scroll' ;
+		yourself).
 ]
 
 { #category : #examples }
