@@ -284,7 +284,7 @@ CynModelView >> childViewsDo: aBlock [
 
 	"Evaluate the specified Block for all child views (created from my childViewsDefinitions)"
 
-	childViewDefinitionsBySlotName ifNil: [ self warnCr: 'Callled childViews without child definition from ', self printString. ^ self ].
+	childViewDefinitionsBySlotName ifNil: [ ^ self ].
 
 	childViewDefinitionsBySlotName keysDo: [ :slotName |
 		(self childrenAtSlotNamed: slotName) do: [ :each |
@@ -1039,7 +1039,6 @@ CynModelView >> updateAfterNavigate [
 	"Update the receiver when being shown (again) after a navigation.
 	This might also be after a top page is closed and the receiver is
 	part of the new current/top page."
-self traceCr: 'Update after in ', self printString.
 
 	self activeChildViewsDo: [ :each |
 		each updateAfterNavigate ].
@@ -1054,7 +1053,6 @@ CynModelView >> updateBeforeNavigate [
 	"Update the receiver just before being shown (again) because of a navigation.
 	Be aware the receiver might not be connected to the document yet. If needed
 	it can be checked by sending #isConnected"
-self traceCr: 'Update before in ', self printString.
 
 	"Mark the receiver we're navigating"
 	self addClass: #navigating.
