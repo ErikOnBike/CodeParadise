@@ -308,15 +308,6 @@ CynModelView >> closePage [
 		close
 ]
 
-{ #category : #initialization }
-CynModelView >> destroy [
-
-	self traceCr: 'Destroying ', self printString.
-
-	super destroy.
-
-]
-
 { #category : #view }
 CynModelView >> do: aBlock whileShowing: aString [
 
