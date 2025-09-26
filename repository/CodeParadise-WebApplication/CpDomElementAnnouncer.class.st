@@ -102,7 +102,7 @@ CpDomElementAnnouncer >> unsubscribe: anObject [
 	"Unsubscribe all subscriptions of anObject from the receiver"
 	
 	self subscriptionsOf: anObject do: [ :each |
-		each announcementClass removeListenerFrom: each subscriber ].
+		each announcementClass removeListenerFrom: element ].
 
 	announcer unsubscribe: anObject
 ]
