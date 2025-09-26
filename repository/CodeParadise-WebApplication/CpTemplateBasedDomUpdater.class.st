@@ -420,8 +420,8 @@ CpTemplateBasedDomUpdater >> updateChildrenOf: anElement with: aSequenceableColl
 				ifFalse: [ self createDomIn: anElement with: each ] ].
 
 	"Remove any remaining children (if the data has shrunk)"
-	aSequenceableCollection size + 1 to: children size do: [ :index |
-	(children at: index) destroy ]
+	children size to: aSequenceableCollection size + 1 by: -1 do: [ :index |
+		(children at: index) destroy ]
 ]
 
 { #category : #rendering }
