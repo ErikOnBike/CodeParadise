@@ -1161,44 +1161,6 @@ CynModelView >> updateChildViewsAtSlotNamed: aString usingDefinitions: aCollecti
 		(existingViews at: index) destroy ]
 ]
 
-{ #category : #view }
-CynModelView >> updateList: aListElement with: aCollection using: aDomUpdater [
-
-	"Update the specified list with the collection of data using the DOMUpdater.
-	The list element does not have to be an <ion-list>, any container element is
-	acceptable. It is assumed that it initially is an empty element and only the
-	generated elements of the DOMUpdater are (or will become) children."
-
-	aDomUpdater
-		updateChildrenOf: aListElement
-		with: (aCollection collect: [ :each | CynDomUpdaterPropertyModel on: each ])
-]
-
-{ #category : #view }
-CynModelView >> updateList: aListElement with: aCollection using: aDomUpdater onClickSend: aSymbol [
-
-	"Update the specified list with the collection of data using the DOMUpdater.
-	When the list item is clicked, the specified message is sent to the receiver.
-	The click event handler needs to be installed on the list item to activate it.
-	The click handler can be installed using the 'event-click' data point like in
-	the example below:
-		<template>
-			<ion-item event-click=""{{click}}"">
-				<!-- Item content here -->
-			</ion-item>
-		</template>
-	The list element does not have to be an <ion-list>, any container element is
-	acceptable. It is assumed that it initially is an empty element and only the
-	generated elements of the DOMUpdater are (or will become) children."
-
-	aDomUpdater
-		updateChildrenOf: aListElement
-		with: (aCollection collect: [ :each |
-			CynDomUpdaterPropertyModel
-				on: each
-				overrides: (Dictionary with: #click -> (CpDeferredMessageSend receiver: self selector: aSymbol)) ])
-]
-
 { #category : #private }
 CynModelView >> updateToEmptyChildView: aView atSlotNamed: aString [
 
