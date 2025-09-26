@@ -14,13 +14,13 @@ can receive the drag events.
 Implementation:
 The combination of a PointerDown followed by a number of PointerMove and finishing off with a
 PointerUp event is used to 'detect' a drag (and drop) is made. This is handled in the #dragStart:,
-#dragMove and #dragEnd: methods. As soon as a PointerDown is announced the appropriate drag event
+ #dragMove and #dragEnd: methods. As soon as a PointerDown is announced the appropriate drag event
 is already created and registered. If a matching PointerMove or PointerUp event is announced the
 registered drag event will announce itself. This means the drag event will announce itself
 repeatedly during the dragging (having different properties on every announcement representing
 the 'new' state). When a drag moves outside the browser area or is otherwise interupted, this
 will also be announced. A drag can also be stopped manually using #cancel, #stopPropagation or
-#stopImmediatePropagation. Only #cancel will result in the drag event being announced to the
+ #stopImmediatePropagation. Only #cancel will result in the drag event being announced to the
 different listeners. This allows them to restore any state that was changed because of the
 dragging. Since dragging does not actually bubble/propagate only a single listener will
 receive this state change announcement.
