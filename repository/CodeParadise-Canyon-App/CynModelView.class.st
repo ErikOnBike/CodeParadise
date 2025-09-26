@@ -15,6 +15,12 @@ Class {
 	#category : #'CodeParadise-Canyon-App-View'
 }
 
+{ #category : #'class initialization' }
+CynModelView class >> beLoaded [
+
+	CpEventAttributeDataUpdater beLoaded
+]
+
 { #category : #'instance creation' }
 CynModelView class >> new [
 
