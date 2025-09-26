@@ -26,16 +26,19 @@ Examples of the above (in same order):
  <template><h1 classed-hide=""\{\{isHidden\}\}"">My header</h1></template>
  <template><h1 style-display=""\{\{styleDisplay\}\}"">My header</h1></template>
  <template><input id=""accept"" type=""checkbox"" property-checked=""\{\{isChecked\}\}""><label for=""accept"">Accept consequences?</label></template>
- <template><button event-click=""{{handlerBlock}}"">Click me!</button></template>
+ <template><button event-click=""\{\{handlerBlock\}\}"">Click me!</button></template>
 
 In the last 4 items, the attribute name consists of a 'type' and a reference to some class, style,
 property or event respectively. ""style-display"" refers to the ""display"" style. ""property-checked"" refers
-to the ""checked"" property. Etc. The event name should be the kebabed-version of the class name.
-Be aware that this means you need to use 'mouse-over' and not the JS type 'mouseover'.
+to the ""checked"" property. Etc. The event name should be the kebabed-version of the class name. For 'native'
+events from CodeParadise, the cp- prefixed should be removed. Other prefixes should be present.
+Be aware that this means you need to use 'mouse-over' and not the JS type 'mouseover' for the native event.
+Since frameworks often override events, the IonChangeEvent becomes 'ion-change' and the SlChangeEvent becomes
+'sl-change'.
 The event is culled to the event handler. If you need to have access to the data object which was
 attached to the DOM subtree, consider using the following on your template (the 'yourself' data point is special
 (only) in a property data point and refers to the full data object):
- <template><div><button event-click=""{{click}}"" property-data=""{{yourself}}"">Click me</button></div></template>
+ <template><div><button event-click=""\{\{click\}\}"" property-data=""\{\{yourself\}\}"">Click me</button></div></template>
 The following Block could be used in this case to extract the data from the <button> element:
  [ :event | | data | date := event currentTarget propertyAt: #data. self traceCr: 'Data is ', data printString ] 
 
@@ -48,7 +51,7 @@ Implementation:
 The DomUpdater like the CpDomElement and children is focussed on Elements and ignores Nodes (mostly).
 This means that only text content inside an Element is allowed (as data point), if no other Elements
 are present as a child of that Element. The following is therefore not supported:
-	`<span>\{\{someData\}\}<a href=""#"">BROKEN LINK!</a></span>` BAD EXAMPLE!
+	`<span>{{someData}}<a href=""#"">BROKEN LINK!</a></span>` BAD EXAMPLE!
 The example above has text content AND an Element (the `<a>`) inside the `<span>` element, which is
 NOT allowed in a template.
 

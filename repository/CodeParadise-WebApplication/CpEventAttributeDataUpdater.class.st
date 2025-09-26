@@ -18,9 +18,10 @@ CpEventAttributeDataUpdater >> initializeWithKey: keyString name: nameString [
 
 	super initializeWithKey: keyString name: nameString.
 
-	"Find the Event class for the receiver"
+	"Find the Event class for the receiver (see class comment of CpTemplateBasedDomUpdater for an explanation).
+	Only the Cp prefix is removed, other prefixes remain allowing events like ion-change or sl-change to be used too."
 	CpBaseEvent allSubclassesDo: [ :each |
-		(each nameWithoutPrefix withoutSuffix: #Event) asKebabCase = name
+		((each name withoutPrefix: #Cp) withoutSuffix: #Event) asKebabCase = name
 			ifTrue: [
 				eventClass := each.
 				^ self ] ].
