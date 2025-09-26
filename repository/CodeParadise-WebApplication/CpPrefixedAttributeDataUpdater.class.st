@@ -21,8 +21,10 @@ CpPrefixedAttributeDataUpdater class >> prefix [
 	self subclassResponsibility
 ]
 
-{ #category : #accessing }
-CpPrefixedAttributeDataUpdater >> name [
+{ #category : #initialization }
+CpPrefixedAttributeDataUpdater >> initializeWithKey: keyString name: nameString [
 
-	^ name withoutPrefix: self class prefix
+	self initializeWithKey: keyString.
+
+	name := nameString withoutPrefix: self class prefix
 ]
