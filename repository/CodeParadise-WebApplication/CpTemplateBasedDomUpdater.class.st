@@ -74,7 +74,7 @@ CpTemplateBasedDomUpdater class >> on: anElement [
 		yourself
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 CpTemplateBasedDomUpdater class >> requiredClasses [
 
 	^ super requiredClasses, CpAttributeDataUpdater allSubclasses
