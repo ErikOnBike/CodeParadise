@@ -326,7 +326,7 @@ CynPage >> isActiveChildView: anElement [
 	previous siblings (assuming each IonTab is nicely positioned in IonTabs
 	without any additional wrappers)."
 	^ tab isConnected
-		ifTrue: [ tab active ]
+		ifTrue: [ tab active = true ]
 		ifFalse: [ tab previousSibling isNil ]
 ]
 
