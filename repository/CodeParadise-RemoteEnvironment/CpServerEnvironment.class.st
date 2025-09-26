@@ -855,9 +855,6 @@ CpServerEnvironment >> withAllRequiredClassesFromClass: aClass do: aBlock [
 	"Secondly, handle the superclasses"
 	self withAllRequiredClassesFromClass: aClass superclass do: aBlock.
 
-	"Handle the specifically required classes"
-	aClass requiredClasses do: aBlock.
-
 	"Finally, handle the class itself"
 	aBlock value: aClass
 ]

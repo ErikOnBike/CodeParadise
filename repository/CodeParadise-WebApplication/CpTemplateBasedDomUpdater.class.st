@@ -74,12 +74,6 @@ CpTemplateBasedDomUpdater class >> on: anElement [
 		yourself
 ]
 
-{ #category : #accessing }
-CpTemplateBasedDomUpdater class >> requiredClasses [
-
-	^ super requiredClasses, CpAttributeDataUpdater allSubclasses
-]
-
 { #category : #private }
 CpTemplateBasedDomUpdater >> addAttributeDataUpdaterNamed: aString for: anElement [
 
