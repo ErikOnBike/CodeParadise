@@ -298,7 +298,7 @@ CpTemplateBasedDomUpdater >> keyFrom: aString [
 	((key beginsWith: '{{') and: [ key endsWith: '}}' ])
 		ifFalse: [ ^ nil ].
 
-	^ key copyFrom: 3 to: key size - 2
+	^ (key copyFrom: 3 to: key size - 2) trim
 ]
 
 { #category : #private }
