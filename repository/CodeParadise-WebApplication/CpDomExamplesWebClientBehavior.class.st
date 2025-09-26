@@ -398,7 +398,7 @@ CpDomExamplesWebClientBehavior >> exampleDomUpdater [
 	position := (outputElement appendChild: (CpHtmlElement newWithTag: #div))
 		styleAt: #'background-color' put: 'rgba(0, 0, 255, .1)' ;
 		yourself.
-	domUpdater createDomFor: { #title -> 'I have a title!' } asDictionary in: position before: nil.
+	domUpdater createDomIn: position with: { #title -> 'I have a title!' } asDictionary.
 
 	"Describe following result"
 	input := '{ "text": "Hello world", "isBold": false, "styleDisplay": "auto", "isChecked": false }'.
@@ -410,7 +410,7 @@ CpDomExamplesWebClientBehavior >> exampleDomUpdater [
 	position := (outputElement appendChild: (CpHtmlElement newWithTag: #div))
 		styleAt: #'background-color' put: 'rgba(0, 0, 255, .1)' ;
 		yourself.
-	domUpdater createDomFor: (CpJavaScriptJSON parse: input) in: position before: nil.
+	domUpdater createDomIn: position with: (CpJavaScriptJSON parse: input).
 
 	"Describe following result"
 	input := '{ "text": "Something different", "isBold": true, "styleDisplay": "none", "isChecked": true }'.
@@ -420,7 +420,7 @@ CpDomExamplesWebClientBehavior >> exampleDomUpdater [
 	position := (outputElement appendChild: (CpHtmlElement newWithTag: #div))
 		styleAt: #'background-color' put: 'rgba(0, 0, 255, .1)' ;
 		yourself.
-	domUpdater createDomFor: (CpJavaScriptJSON parse: input) in: position before: nil.
+	domUpdater createDomIn: position with: (CpJavaScriptJSON parse: input).
 
 ]
 

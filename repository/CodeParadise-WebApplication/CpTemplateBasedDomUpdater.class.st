@@ -150,13 +150,7 @@ CpTemplateBasedDomUpdater >> allMarkedElementsIn: anElement do: aBlock [
 ]
 
 { #category : #rendering }
-CpTemplateBasedDomUpdater >> createDomFor: aDictionary in: anElement [
-
-	^ self createDomFor: aDictionary in: anElement before: nil
-]
-
-{ #category : #rendering }
-CpTemplateBasedDomUpdater >> createDomFor: aDictionary in: anElement before: aChildElement [
+CpTemplateBasedDomUpdater >> createDomIn: anElement before: aChildElement with: aDictionary [
 
 	"Create a new DOM subtree for the specified (Dictionary like) object.
 	The subtree will be inserted in the specified Element at the specified
@@ -196,6 +190,12 @@ CpTemplateBasedDomUpdater >> createDomFor: aDictionary in: anElement before: aCh
 		newElement := prevElement ].
 
 	^ refElement
+]
+
+{ #category : #rendering }
+CpTemplateBasedDomUpdater >> createDomIn: anElement with: aDictionary [
+
+	^ self createDomIn: anElement before: nil with: aDictionary
 ]
 
 { #category : #private }
@@ -378,7 +378,7 @@ CpTemplateBasedDomUpdater >> scanTree: anElement [
 ]
 
 { #category : #rendering }
-CpTemplateBasedDomUpdater >> updateDomFor: aDictionary in: anElement [
+CpTemplateBasedDomUpdater >> updateDomIn: anElement with: aDictionary [
 
 	"Update the existing DOM subtree for the specified (Dictionary like) object.
 	Make sure the DOM subtree has NOT been altered 'manually' or by some other
