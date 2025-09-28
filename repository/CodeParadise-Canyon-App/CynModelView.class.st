@@ -542,7 +542,7 @@ CynModelView >> handleNavigateBack [
 	"Handle the 'back' button click"
 
 	self isShownInModal
-		ifTrue: [ self modal dismiss: nil role: #cancel ]
+		ifTrue: [ self page closeModalPage: #cancel ]
 		ifFalse: [ self page navigateBack ]
 ]
 

@@ -153,6 +153,15 @@ CynPage >> closeModalPage [
 	"Close the receiver.
 	Assume it is shown in a Modal view and is the active view."
 
+	self closeModalPage: #confirm
+]
+
+{ #category : #view }
+CynPage >> closeModalPage: aSymbol [
+
+	"Close the receiver with specified role.
+	Assume it is shown in a Modal view and is the active view."
+
 	| modal nav previousPage |
 
 	modal := self modal.
@@ -165,13 +174,13 @@ CynPage >> closeModalPage [
 		ifFalse: [ ^ self ].
 
 	"Close the page if more pages available, otherwise close the Modal"
-	(previousPage := self previousPage)
+	(previousPage := self previousPage ifNil: [ self app activePage ])
 		ifNotNil: [ previousPage updateBeforeNavigate ].
 	nav children size > 1
 		ifTrue: [ nav pop await ]
 		ifFalse: [
 			self modalResult
-				ifNotNil: [ :result | (modal dismiss: result role: #confirm) await ]
+				ifNotNil: [ :result | (modal dismiss: result role: aSymbol) await ]
 				ifNil: [ modal dismiss await ] ].
 	previousPage ifNotNil: [
 		previousPage updateAfterNavigate ]
