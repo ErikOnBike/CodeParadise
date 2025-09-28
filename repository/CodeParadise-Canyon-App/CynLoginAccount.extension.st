@@ -95,7 +95,10 @@ CynLoginAccount >> login [
 	Implementation:
 	Login is a POST call to the login endpoint."
 
-	self restWrite
+	self restWrite.
+
+	"Make sure we actually received a valid access token"
+	success := CynPropertyEntity restApiClient hasAccessToken
 ]
 
 { #category : #'*CodeParadise-Canyon-App' }
