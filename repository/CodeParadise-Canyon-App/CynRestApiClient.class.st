@@ -153,6 +153,9 @@ CynRestApiClient >> initialize [
 	"If an access token is persisted, retrieve it"
 	(CpClientEnvironment current variableAt: #ACCESS_TOKEN)
 		ifNotNil: [ :newAccessToken | self setAccessToken: newAccessToken ]
+		ifNil: [
+			(CpClientEnvironment current persistentVariableAt: #ACCESS_TOKEN)
+				ifNotNil: [ :newAccessToken | self setAccessToken: newAccessToken ] ]
 ]
 
 { #category : #initialization }
@@ -329,14 +332,16 @@ CynRestApiClient >> setAccessToken: aString [
 	"Update the access token"
 	accessToken := aString.
 
-	"Keep or remove access token in Session storage"
+	"Keep or remove access token in Session and Local storage (for PWA)"
 	accessToken
 		ifNotNil: [
 			CpClientEnvironment current
-				variableAt: #ACCESS_TOKEN put: accessToken ]
+				variableAt: #ACCESS_TOKEN put: accessToken ;
+				persistentVariableAt: #ACCESS_TOKEN put: accessToken ]
 		ifNil: [
 			CpClientEnvironment current
-				removeVariableAt: #ACCESS_TOKEN ].
+				removeVariableAt: #ACCESS_TOKEN ;
+				removePersistentVariableAt: #ACCESS_TOKEN ].
 
 	"Signal the updated status"
 	self announce: CynSessionUpdated
