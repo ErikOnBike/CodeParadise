@@ -359,14 +359,10 @@ CynLocalAccountRestApiService >> isNonActivatedAccount: anAccount [
 
 	"Answer whether the specified Account has pending activations (might be expired)"
 
-	| activations |
-
-	activations := modelDatabase
-		selectMany: #getOpenActivations
-		statement: 'SELECT id FROM activations WHERE email=:email UNION SELECT id FROM accounts WHERE email=:email AND activatedAt IS NULL'
-		bind: { #email -> anAccount email } asDictionary.
-
-	^ activations isNotEmpty
+	^ (modelDatabase
+		selectCount: #countOpenActivations
+		statement: 'SELECT COUNT(*) FROM activations WHERE email=:email UNION SELECT id FROM accounts WHERE email=:email AND activatedAt IS NULL'
+		bind: { #email -> anAccount email } asDictionary) > 0
 ]
 
 { #category : #logging }
