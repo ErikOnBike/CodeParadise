@@ -697,6 +697,10 @@ CynModelView >> isDirtyProperty: aSymbol [
 
 	"Answer whether the specified property has changed"
 
+	"If we're working on the original assume it is always dirty (used in validation)"
+	self workOnCopy
+		ifFalse: [ ^ true ].
+
 	^ (originalModel propertyAt: aSymbol) ~= (model propertyAt: aSymbol)
 ]
 
