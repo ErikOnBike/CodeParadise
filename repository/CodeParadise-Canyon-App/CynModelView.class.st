@@ -237,7 +237,13 @@ CynModelView >> canNavigate [
 		selectAction: #'app.action.title.form.changes' langText from: {
 			IonActionSheetButton new
 				text: #'app.action.button.save' langText ;
-				data: [ self handleSubmitFormOnFailure: [ ^ false ] ] ;
+				data: [
+					self
+						handleSubmitFormOnFailure: [ :violations |
+							violations
+								ifNotNil: [ self handleInvalidModel: violations ]
+								ifNil: [ self app showToast: #'app.toast.saveOnNavigate.failed' langText ].
+						^ false ] ] ;
 				yourself.
 			IonActionSheetButton new
 				text: #'app.action.button.ignore' langText ;
@@ -549,7 +555,9 @@ CynModelView >> handleNavigateBack [
 { #category : #'event handling' }
 CynModelView >> handleSubmitForm [
 
-	self handleSubmitFormOnSuccess: [ self handleFormSubmitted ] onFailure: [ "Error will be shown to user, nothing to do here" ]
+	self
+		handleSubmitFormOnSuccess: [ self handleFormSubmitted ]
+		onFailure: [ :violations | self handleInvalidModel: violations ]
 ]
 
 { #category : #'event handling' }
@@ -563,10 +571,12 @@ CynModelView >> handleSubmitFormOnSuccess: successBlock onFailure: failureBlock 
 
 	self model normalize.
 
-	self validateModelIfValid: [
-		self doWrite
-			ifTrue: [ successBlock value ]
-			ifFalse: [ failureBlock value ] ]
+	self
+		validateModelIfValid: [
+			self doWrite
+				ifTrue: [ successBlock value ]
+				ifFalse: [ failureBlock value: nil ] ]
+		ifInvalid: failureBlock
 ]
 
 { #category : #'event handling' }
@@ -838,7 +848,7 @@ CynModelView >> modelViolations [
 	"Add model violations"
 	model modelViolationsDo: [ :violation |
 		violations
-			at: nil
+			at: #yourself
 			ifPresent: [ :collection | collection add: violation ]
 			ifAbsentPut: [ OrderedCollection with: violation ] ].
 
