@@ -498,7 +498,7 @@ CynModelView >> handleInvalidModel: aDictionary [
 	is not related to one specific property (like the Model's integrity
 	violations)."
 
-	(aDictionary includesKey: nil)
+	(aDictionary includesKey: #yourself)
 		ifTrue: [
 			self app showToast: (String streamContents: [  :stream |
 				stream nextPutAll: #'app.form.violations' langText.
@@ -522,13 +522,14 @@ CynModelView >> handleInvalidModel: aDictionary [
 					ifTrue: [
 						stream
 							space ;
-							nextPutAll: #'app.form.violations.check.fields' langText ;
+							nextPutAll: (#'app.form.violations.check.fields' langCountText: 1) ;
 							space ;
-							nextPutAll: propertieLabels first ]
+							nextPutAll: propertieLabels first ;
+							nextPut: $. ]
 					ifFalse: [
 						stream
 							space ;
-							nextPutAll: #'app.form.violations.check.fields' langText ;
+							nextPutAll: (#'app.form.violations.check.fields' langCountText: propertieLabels size) ;
 							space ;
 							nextPutAll: propertieLabels first.
 						2 to: propertieLabels size - 1 do: [ :index |
@@ -539,7 +540,8 @@ CynModelView >> handleInvalidModel: aDictionary [
 							space ;
 							nextPutAll: #'app.and' langText ;
 							space ;
-							nextPutAll: propertieLabels last ] ]) ]
+							nextPutAll: propertieLabels last ;
+							nextPut: $. ] ]) ]
 ]
 
 { #category : #'event handling' }
