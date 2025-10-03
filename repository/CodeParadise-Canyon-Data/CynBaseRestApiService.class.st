@@ -716,7 +716,7 @@ CynBaseRestApiService >> updateLogError: anError response: aRestResponse [
 	[
 		logDatabase
 			performOne: #updateLogRecord
-			statement: 'UPDATE logs SET stack=:stack, body=:body WHERE rowid=:rowId'
+			statement: 'UPDATE logs SET stack=:stack, request=:request, body=:body WHERE rowid=:rowId'
 			bind: {
 				#stack -> (anError signalerContext ifNotNil: [ :stackContext | stackContext printString ]).
 				#request -> request printString.
