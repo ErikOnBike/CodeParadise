@@ -100,7 +100,7 @@ CynLocalAccountRestApiService >> activateAccount: aRestRequest response: aRestRe
 	account := self extractNewObject: CynActivateAccount fromBody: body.
 
 	(self isNonActivatedAccount: account)
-		ifFalse: [ ^ self errorActivationNotFound ].
+		ifFalse: [ ^ self errorTokenAndEmailNotFound ].
 
 	self activateAccount: account.
 
@@ -227,6 +227,29 @@ CynLocalAccountRestApiService >> createPasswordHashFrom: aString [
 	^ self hashPassword: aString usingSalt: ((self crypto randomBytes: 16) toStringEncoding: #hex)
 ]
 
+{ #category : #'API - accounts' }
+CynLocalAccountRestApiService >> createPasswordResetTokenForAccount: anAccount [
+
+	"Create an Forgotten record for the specified Account"
+
+	| id token expiresAt |
+
+	id := self newId.
+	token := self newToken.
+	expiresAt := self timestampNow + (30 * 60). "30 x 60 = 30 minutes"
+
+	modelDatabase
+		performOne: #createPasswordReset
+		statement: 'INSERT INTO resets (id, email, token, expiresAt) VALUES(:id, :email, :token, :expiresAt)'
+		bind: {
+			#id -> id.
+			#email -> anAccount email.
+			#token -> token.
+			#expiresAt -> expiresAt } asDictionary.
+
+	self mailPasswordResetToken: token to: anAccount email
+]
+
 { #category : #'API - sessions' }
 CynLocalAccountRestApiService >> createSessionForAccount: anAccount [
 
@@ -250,15 +273,15 @@ CynLocalAccountRestApiService >> createSessionForAccount: anAccount [
 ]
 
 { #category : #errors }
-CynLocalAccountRestApiService >> errorActivationNotFound [
-
-	CpNodeJSRestNotFoundError signal: 'Token and email combination not found'
-]
-
-{ #category : #errors }
 CynLocalAccountRestApiService >> errorInvalidLogin [
 
 	CpNodeJSRestUnauthorizedError signal: 'Credentials provided do not match an active account'
+]
+
+{ #category : #errors }
+CynLocalAccountRestApiService >> errorTokenAndEmailNotFound [
+
+	CpNodeJSRestNotFoundError signal: 'Token and email combination not found'
 ]
 
 { #category : #errors }
@@ -435,6 +458,12 @@ CynLocalAccountRestApiService >> mailActivationToken: tokenString to: emailStrin
 	self mail: (self activationTokenMailMessageWith: tokenString) to: emailString
 ]
 
+{ #category : #'API - accounts' }
+CynLocalAccountRestApiService >> mailPasswordResetToken: tokenString to: emailString [
+
+	self mail: (self passwordResetTokenMailMessageWith: tokenString) to: emailString
+]
+
 { #category : #'API - password' }
 CynLocalAccountRestApiService >> matchPassword: plainTextPassword withHash: hashedPassword [
 
@@ -456,6 +485,94 @@ CynLocalAccountRestApiService >> matchPassword: plainTextPassword withHash: hash
 ]
 
 { #category : #API }
+CynLocalAccountRestApiService >> passwordForgottenAccount: aRestRequest response: aRestResponse [
+
+	"Activate Account within Accounts collection"
+
+	<post: '/api/accounts?action=password-forgotten'>
+	<public>
+
+	| body account |
+
+	body := (aRestRequest jsonBody) ifNil: [ self errorNoBody ].
+	account := self extractNewObject: CynPasswordForgottenAccount fromBody: body.
+
+	self sendPasswordResetMailToAccount: account.
+
+	self sendEmptyResponse: aRestResponse
+]
+
+{ #category : #'API - accounts' }
+CynLocalAccountRestApiService >> passwordResetAccount: aPasswordResetAccount [
+
+	"Reset password for the specified Account"
+
+	| now updatedAt passwordHash resets |
+
+	now := self timestampNow.
+	updatedAt := self timestampNow.
+	passwordHash := self createPasswordHashFrom: aPasswordResetAccount password.
+
+	resets := modelDatabase
+		selectMany: #getResets
+		statement: 'SELECT id, expiresAt FROM resets WHERE token=:token AND email=:email ORDER BY expiresAt DESC'
+		bind: {
+			#token -> aPasswordResetAccount token.
+			#email -> aPasswordResetAccount email } asDictionary.
+
+	"No match for token and email"
+	resets ifEmpty: [ ^ self errorTokenAndEmailNotFound ].
+
+	"Token already expired (okay to provide answer, since token is secret value anyway and can't be guessed)"
+	(resets first at: #expiresAt) < now
+		ifTrue: [ ^ self errorTokenExpired ].
+
+	"Store the new password"
+	modelDatabase
+		performOne: #passwordResetAccount
+		statement: 'UPDATE accounts SET updatedAt=:now, password=:passwordHash WHERE email=:email AND deletedAt IS NULL'
+		bind: {
+			#now -> now.
+			#passwordHash -> passwordHash.
+			#email -> aPasswordResetAccount email } asDictionary.
+
+	"Remove resets (no longer needed)"
+	modelDatabase
+		performMulti: #removeResets
+		statement: 'DELETE FROM resets WHERE email=:email'
+		bind: {
+			#email -> aPasswordResetAccount email } asDictionary
+]
+
+{ #category : #API }
+CynLocalAccountRestApiService >> passwordResetAccount: aRestRequest response: aRestResponse [
+
+	"Reset password of Account within Accounts collection"
+
+	<post: '/api/accounts?action=password-reset'>
+	<public>
+
+	| body account |
+
+	body := (aRestRequest jsonBody) ifNil: [ self errorNoBody ].
+	account := self extractNewObject: CynPasswordResetAccount fromBody: body.
+
+	self passwordResetAccount: account.
+
+	self sendEmptyResponse: aRestResponse
+]
+
+{ #category : #'API - accounts' }
+CynLocalAccountRestApiService >> passwordResetTokenMailMessageWith: aString [
+
+	^ self newMailMessage
+		subject: 'Password reset code' ;
+		text: ('Your password reset code is: {1}' format: { aString }) ;
+		html: ('Your <i>password reset code</i> is <code>{1}</code>' format: { aString }) ;
+		yourself
+]
+
+{ #category : #API }
 CynLocalAccountRestApiService >> ping: aRestRequest response: aRestResponse [
 
 	"Ping to check on liveness"
@@ -468,6 +585,24 @@ CynLocalAccountRestApiService >> ping: aRestRequest response: aRestResponse [
 		ifTrue: [ self validateAuthorizedRequest: aRestRequest ].
 
 	super ping: aRestRequest response: aRestResponse
+]
+
+{ #category : #'API - accounts' }
+CynLocalAccountRestApiService >> sendPasswordResetMailToAccount: anAccount [
+
+	"Send a password reset mail the specified Account.
+
+	Implementation:
+	If account does not exist, ignore it. Do not let caller know whether
+	account exists or not."
+
+	(modelDatabase
+		selectCount: #countExistingAccounts
+		statement: 'SELECT COUNT(*) FROM accounts WHERE email=:email AND activatedAt IS NOT NULL AND deletedAt IS NULL'
+		bind: { #email -> anAccount email } asDictionary) = 0
+			ifTrue: [ ^ self ].
+
+	self createPasswordResetTokenForAccount: anAccount
 ]
 
 { #category : #accessing }
