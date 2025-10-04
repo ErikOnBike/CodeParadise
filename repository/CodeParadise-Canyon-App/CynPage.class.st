@@ -406,12 +406,13 @@ CynPage >> navigateBack [
 { #category : #view }
 CynPage >> navigateTo: aPageClass withModel: aModel [
 
-	"Navigate to another page"
+	"Navigate to another page.
+	Answer the page navigated to or nil if navigation did not succeed."
 
 	self canNavigate
-		ifFalse: [ ^ self ].
+		ifFalse: [ ^ nil ].
 
-	self modal
+	^ self modal
 		ifNotNil: [ :modal | self showPage: aPageClass withModel: aModel inModal: modal ]
 		ifNil: [ self app showPage: aPageClass withModel: aModel ]
 ]
@@ -484,19 +485,22 @@ CynPage >> showInitialTabs [
 { #category : #view }
 CynPage >> showPage: aPageClass withModel: aModel inModal: aModal [
 
-	"Show the Model modal in the page Class specified"
+	"Show the Model modal in the page Class specified.
+	Answer the page or nil if it can't be shown."
 
 	| nav page |
 
 	nav := aModal firstChild.
 	nav class = IonNav
-		ifFalse: [ ^ self ].
+		ifFalse: [ ^ nil ].
 
 	page := aPageClass on: aModel.
 
 	page updateBeforeNavigate.
 	(nav push: page) await.
-	page updateAfterNavigate
+	page updateAfterNavigate.
+
+	^ page
 ]
 
 { #category : #private }

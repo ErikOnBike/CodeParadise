@@ -872,9 +872,10 @@ CynModelView >> modelViolations [
 { #category : #view }
 CynModelView >> navigateTo: aPageClass withModel: aModel [
 
-	"Navigate to the specified Page Class with the specified Model"
+	"Navigate to the specified Page Class with the specified Model.
+	Answer the page navigated to or nil if navigation did not succeed."
 
-	self page
+	^ self page
 		navigateTo: aPageClass withModel: aModel
 ]
 

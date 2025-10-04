@@ -959,9 +959,10 @@ CynApp >> menuTitle [
 { #category : #actions }
 CynApp >> navigateTo: aPageClass [
 
-	"Navigate to another page"
+	"Navigate to another page.
+	Answer the page navigated to or nil if navigation did not succeed."
 
-	self navigateTo: aPageClass withModel: nil
+	^ self navigateTo: aPageClass withModel: nil
 ]
 
 { #category : #actions }
@@ -969,9 +970,10 @@ CynApp >> navigateTo: aPageClass withModel: aModel [
 
 	"Navigate to another page using the (optional) specified Model.
 	The currently active page is responsible for deciding whether navigation
-	is possible. There might be unsaved changes for example."
+	is possible. There might be unsaved changes for example.
+	Answer the page navigated to or nil if navigation did not succeed."
 
-	self activePage
+	^ self activePage
 		navigateTo: aPageClass withModel: aModel
 ]
 
@@ -1441,7 +1443,8 @@ CynApp >> showModal: aViewClass withModel: aModel onConfirm: aBlock [
 CynApp >> showPage: aPageClass withModel: aModel [
 
 	"Show the specified Page with the (optional) Model.
-	It is assumed, that all checks have already been performed with respect to navigation."
+	It is assumed, that all checks have already been performed with respect to navigation.
+	Answer the page shown."
 
 	| page |
 
@@ -1449,7 +1452,9 @@ CynApp >> showPage: aPageClass withModel: aModel [
 
 	page updateBeforeNavigate.
 	(navigation push: page) await.
-	page updateAfterNavigate
+	page updateAfterNavigate.
+
+	^ page
 ]
 
 { #category : #actions }
