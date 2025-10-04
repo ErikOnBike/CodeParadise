@@ -5,12 +5,12 @@ CpAbstractOptions class >> generatePropertyGetterFor: aCompiledMethod [
 
 	| sourceCode protocolName |
 
-	aCompiledMethod numArgs = 0
-		ifFalse: [ ^ self ].
+	aCompiledMethod numArgs > 1
+		ifTrue: [ ^ self ].
 
 	sourceCode := String streamContents: [ :stream |
 		stream
-			nextPutAll: aCompiledMethod selector ; cr.
+			nextPutAll: (aCompiledMethod selector withoutSuffix: ':') ; cr.
 		aCompiledMethod comments do: [ :each |
 			stream
 				cr ;
