@@ -1462,13 +1462,15 @@ CynApp >> showToast: aString [
 
 	"Show the specified toast message with the default duration"
 
-	^ self showToast: aString duration: self defaultToastDuration
+	^ self showToast: aString at: nil buttons: nil duration: self defaultToastDuration
 ]
 
 { #category : #actions }
-CynApp >> showToast: aString duration: anInteger [
+CynApp >> showToast: aString at: aSymbol buttons: aCollection duration: anInteger [
 
 	"Show the specified toast message and dismiss after the specified time (milliseconds).
+	If a position is specified it should be one of: #top, #bottom, #middle. (nil/default is bottom)
+	If buttons are specified it should consist of IonToastButton instances.
 	Answer the toast, so the caller can dismiss before the timeout is reached.
 
 	Implementation:
@@ -1481,6 +1483,11 @@ CynApp >> showToast: aString duration: anInteger [
 		duration: anInteger ;
 		yourself).
 
+	aSymbol ifNotNil: [
+		toast position: aSymbol ].
+	aCollection isEmptyOrNil
+		ifFalse: [ toast buttons: aCollection asRelaxedJsonObjectValue ].
+
 	didDismiss := toast onDidDismiss.
 	toast present.
 
@@ -1491,6 +1498,14 @@ CynApp >> showToast: aString duration: anInteger [
 		toast remove ].
 
 	^ toast
+]
+
+{ #category : #actions }
+CynApp >> showToast: aString duration: anInteger [
+
+	"Show the specified toast message and dismiss after the specified time (milliseconds)"
+
+	^ self showToast: aString at: nil buttons: nil duration: anInteger
 ]
 
 { #category : #actions }
