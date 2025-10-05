@@ -309,7 +309,7 @@ CynDatabase >> selectValue: aSymbol statement: aString bind: aDictionary [
 
 	"Select a single value from a single row from the database and answer the object found.
 	It is assumed only a single value is selected.
-	This query will fail if too many rows or to many values (columns) are selected.
+	This query will fail if too many rows or too many values (columns) are selected.
 	If no row is found, nil is answered."
 
 	| row |
@@ -321,6 +321,32 @@ CynDatabase >> selectValue: aSymbol statement: aString bind: aDictionary [
 		ifTrue: [ CynDatabaseTooManyValues signal ].
 
 	^ row values first
+]
+
+{ #category : #database }
+CynDatabase >> selectValues: aSymbol statement: aString [
+
+	^ self selectValues: aSymbol statement: aString bind: nil
+]
+
+{ #category : #database }
+CynDatabase >> selectValues: aSymbol statement: aString bind: aDictionary [
+
+	"Select a single value from multiple rows from the database and answer a collection of the objects found.
+	It is assumed only a single value is selected.
+	This query will fail if too many values (columns) are selected.
+	If no row is found, an empty collection is answered."
+
+	| rows |
+
+	rows := self selectMany: aSymbol statement: aString bind: aDictionary.
+	rows ifEmpty: [ ^ rows ].
+
+	"Validate the Objects have a single field"
+	rows first keys size > 1
+		ifTrue: [ CynDatabaseTooManyValues signal ].
+
+	^ rows collect: [ :each | each values first ]
 ]
 
 { #category : #errors }
