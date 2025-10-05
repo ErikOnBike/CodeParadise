@@ -559,7 +559,9 @@ CynModelView >> handleSubmitForm [
 
 	self
 		handleSubmitFormOnSuccess: [ self handleFormSubmitted ]
-		onFailure: [ :violations | self handleInvalidModel: violations ]
+		onFailure: [ :violations |
+			violations
+				ifNotNil: [ self handleInvalidModel: violations ] ]
 ]
 
 { #category : #'event handling' }
