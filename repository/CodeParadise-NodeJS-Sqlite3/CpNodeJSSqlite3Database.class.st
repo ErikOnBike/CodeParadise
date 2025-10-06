@@ -52,6 +52,14 @@ CpNodeJSSqlite3Database >> exec: aString [
 	self apply: #exec withArguments: { aString }
 ]
 
+{ #category : #operations }
+CpNodeJSSqlite3Database >> function: aFunction name: aString [
+
+	"Register a function with the specified name"
+
+	^ self apply: #function withArguments: { aString . aFunction }
+]
+
 { #category : #accessing }
 CpNodeJSSqlite3Database >> inTransaction [
 

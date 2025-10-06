@@ -465,7 +465,7 @@ CpBrowserSupportExamplesWebClientBehavior >> exampleJavaScriptFunction [
 
 	<example: 'Basic: Proxy for JavaScript functions' order: 1000>
 
-	| outputElement jsFunc1 jsFunc2 jsFunc3 jsFunc4 counter |
+	| outputElement jsFunc1 jsFunc2 jsFunc3 jsFunc4 jsFunc5 counter |
 
 	self clearOutput.
 	outputElement := self outputElement.
@@ -525,7 +525,10 @@ CpBrowserSupportExamplesWebClientBehavior >> exampleJavaScriptFunction [
 	] on: Error do: [ :err |
 		self showInfo: '(Expected) Error during JavaScriptFunction: ', err rootException printString
 	].
-	self showInfo: 'After the Error incident (glad that is over ;-)'
+	self showInfo: 'After the Error incident (glad that is over ;-)'.
+
+	jsFunc5 := CpJavaScriptFunction method: 'return a + b' arguments: { 'a' . 'b' }.
+	self showInfo: 'And compiled function finally: ', (jsFunc5 call: nil withArguments: { 3 . 4 }) printString
 ]
 
 { #category : #examples }
