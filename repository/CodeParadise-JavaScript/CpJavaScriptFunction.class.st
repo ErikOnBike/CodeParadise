@@ -22,6 +22,16 @@ Class {
 	#category : #'CodeParadise-JavaScript-Core'
 }
 
+{ #category : #'as yet unclassified' }
+CpJavaScriptFunction class >> method: aString arguments: anArray [
+
+	"Answer an instance of the receiver with the specified method and arguments.
+
+	E.g. CpJavaScriptFunction method: 'a + b' arguements: { 'a' . 'b' }"
+
+	^ self newInstanceWithArguments: (anArray copyWith: aString) resultAs: self
+]
+
 { #category : #'class initialization' }
 CpJavaScriptFunction class >> postInstallOnce [
 
