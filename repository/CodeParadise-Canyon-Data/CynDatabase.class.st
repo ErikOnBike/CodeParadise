@@ -233,6 +233,14 @@ CynDatabase >> rawPerformMulti: aSymbol statement: aString bind: aDictionary [
 ]
 
 { #category : #database }
+CynDatabase >> registerFunction: aFunction name: aString [
+
+	"Register the specified JS function under the specified name"
+
+	database function: aFunction name: aString
+]
+
+{ #category : #database }
 CynDatabase >> selectCount: aSymbol statement: aString [
 
 	^ self selectCount: aSymbol statement: aString bind: nil
