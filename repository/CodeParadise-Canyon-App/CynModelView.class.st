@@ -403,6 +403,17 @@ CynModelView >> doOperation: aBlock whileShowing: aString [
 ]
 
 { #category : #operations }
+CynModelView >> doOperation: aBlock whileShowing: aString ifFailed: failBlock [
+
+	"Perform the operation.
+	If the operation is successful answer nil.
+	If the operation is not successful evaluate the failBlock and answer the result."
+
+	^ (self doOperation: aBlock whileShowing: aString)
+		ifFalse: [ failBlock value ]
+]
+
+{ #category : #operations }
 CynModelView >> doRead [
 
 	^ self doRead: model
