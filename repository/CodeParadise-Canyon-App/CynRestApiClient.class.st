@@ -86,7 +86,7 @@ CynRestApiClient >> handleErrorResponse: aResponse [
 	"Handle the error response by signaling an CynRestResponseError (to be handled higher up).
 	In case an expired session, simply answer nil and do not signal an Error."
 
-	| errorDescription exception |
+	| errorDescription |
 
 	"Check for an expired session"
 	(aResponse status = CynRestResponseError codeUnauthorized and: [ accessToken isNotNil ])
@@ -108,12 +108,9 @@ CynRestApiClient >> handleErrorResponse: aResponse [
 		self warnCr: 'Internal error extracting error description: ', error printString.
 		'Unspecified error' ].
 
-	"Create exception, announce it and signal it (to allow cleanup in call stack)"
-	exception := CynRestResponseError messageText: errorDescription statusCode: aResponse status.
-
-	self announce: (CynRestApiClientFailed exception: exception).
-
-	exception signal
+	"Create exception and signal it (to allow cleanup in call stack)"
+	(CynRestResponseError messageText: errorDescription statusCode: aResponse status)
+		signal
 ]
 
 { #category : #'response handling' }
