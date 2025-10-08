@@ -287,7 +287,7 @@ CynLocalAccountRestApiService >> errorTokenAndEmailNotFound [
 { #category : #errors }
 CynLocalAccountRestApiService >> errorTokenExpired [
 
-	CpNodeJSRestGoneError signal: 'Token is expired'
+	CpNodeJSRestUnprocessableEntityError signal: 'Token is expired'
 ]
 
 { #category : #'API - authorization' }
