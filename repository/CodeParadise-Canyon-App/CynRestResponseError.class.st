@@ -61,6 +61,12 @@ CynRestResponseError class >> codeUnauthorized [
 	^ 401
 ]
 
+{ #category : #'accessing - status codes' }
+CynRestResponseError class >> codeUnprocessableEntity [
+
+	^ 422
+]
+
 { #category : #'instance creation' }
 CynRestResponseError class >> messageText: aString statusCode: anInteger [
 
