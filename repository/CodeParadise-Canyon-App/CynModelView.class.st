@@ -485,6 +485,8 @@ CynModelView >> form [
 CynModelView >> handleError: anError [
 
 	"Handle the specified Error and answer a Boolean stating whether it was handled.
+	Answering true means normal operation will continu (like merging results into
+	Entities after a successful write operation).
 
 	Subclasses should handle specific errors, all else will be handled by the app."
 
