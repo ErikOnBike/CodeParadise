@@ -141,7 +141,7 @@ CpJavaScriptError >> message: aString [
 { #category : #accessing }
 CpJavaScriptError >> rootCause [
 
-	"Answer the 'lowest' cause (an Error object) of the receiver"
+	"Answer the 'lowest' cause (typically an Error object, but can be something else) of the receiver"
 
 	^ self cause
 		ifNotNil: [ :cause |

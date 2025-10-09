@@ -189,19 +189,19 @@ CpJavaScriptPromise >> errorFromReason: anObject [
 	Check if the root cause is such a Smalltalk Error and use it if so. Otherwise use
 	the provided reason value."
 
-	| rootCause |
+	| rootException |
 
 	"If not an Error, just answer the original value"
 	anObject isErrorObject
 		ifFalse: [ ^ anObject ].
 
 	"Check for a non-JavaScript error, otherwise use original value"
-	rootCause := anObject rootCause.
-	rootCause isJavaScriptObject
+	rootException := anObject rootException.
+	rootException isJavaScriptObject
 		ifTrue: [ ^ anObject ].
 
 	"Root cause is a Smalltalk Error, answer it"
-	^ rootCause
+	^ rootException
 ]
 
 { #category : #operations }
