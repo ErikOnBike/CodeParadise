@@ -737,24 +737,25 @@ CynLocalAccountRestApiService >> writeClientLogFrom: aRestRequest [
 	"Write the client log from the request. The client send this log request using Beacon API.
 	Validate the body contains a accessToken (which may already be expired, but should be known).
 	Without an access token, ignore the log (otherwise there will be the opportunity to fill our
-	logging DB with trash)."
+	logging DB with trash).
+	Answer the id of the log row created (or nil if none is created)."
 
 	| body accessToken session level message logRecord |
 
 	body := (aRestRequest jsonBody)
-		ifNil: [ ^ self ].
+		ifNil: [ ^ nil ].
 
 	"Validate the access token exists (but may be expired)"
-	accessToken := body at: #accessToken ifAbsent: [ ^ self ].
+	accessToken := body at: #accessToken ifAbsent: [ ^ nil ].
 	(CynTokenPropertyConstraint isValidValue: accessToken)
-		ifFalse: [ ^ self ].
+		ifFalse: [ ^ nil ].
 	session := modelDatabase
 		selectOne: #sessionForLogging
 		statement: 'SELECT id, accountId FROM sessions WHERE accessToken=:accessToken'
 		bind: { #accessToken -> accessToken } asDictionary.
 
-	level := body at: #level ifAbsent: [ ^ self ].
-	message := body at: #message ifAbsent: [ ^ self ].
+	level := body at: #level ifAbsent: [ ^ nil ].
+	message := body at: #message ifAbsent: [ ^ nil ].
 
 	logRecord := {
 		#timestamp -> self timestampNow.
@@ -767,9 +768,11 @@ CynLocalAccountRestApiService >> writeClientLogFrom: aRestRequest [
 	} asDictionary.
 
 	[
-		logDatabase
+		^ logDatabase
 			performOne: #insertClientLogRecord
 			statement: 	'INSERT INTO logs (timestamp, level, message, accountId, sessionId, stack) VALUES (:timestamp, :level, :message, :accountId, :sessionId, :stack)'
 			bind: logRecord
-	] on: Error do: [ :error | self warnCr: 'Failed to write log record: ', error printString ]
+	] on: Error do: [ :error |
+		self warnCr: 'Failed to write log record: ', error printString.
+		^ nil ]
 ]
