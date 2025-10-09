@@ -245,23 +245,6 @@ CynApp class >> postInstall [
 ]
 
 { #category : #'class initialization' }
-CynApp class >> postInstallOnce [
-
-	"Replace the default handling of unhandled errors and
-	let the receiver be responsible for handling these errors."
-
-	"Little hackery to install different #unhandledError: method"
-	Process methodDictionary ifNotNil: [ :methodDictionary |
-		(methodDictionary includesKey: #specialHandleError:)
-			ifTrue: [
-				methodDictionary
-					at: #handleError: put: (methodDictionary at: #specialHandleError:).
-
-				"Flush the #handleError: method just in case (should not have been called yet ;-)"
-				#handleError: flushCache ] ]
-]
-
-{ #category : #'class initialization' }
 CynApp class >> postSnapshotOnce [
 
 	| appClass |
