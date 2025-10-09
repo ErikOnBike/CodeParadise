@@ -382,10 +382,10 @@ CynLocalAccountRestApiService >> isNonActivatedAccount: anAccount [
 
 	"Answer whether the specified Account has pending activations (might be expired)"
 
-	^ (modelDatabase
-		selectCount: #countOpenActivations
-		statement: 'SELECT COUNT(*) FROM activations WHERE email=:email UNION SELECT id FROM accounts WHERE email=:email AND activatedAt IS NULL'
-		bind: { #email -> anAccount email } asDictionary) > 0
+	^ modelDatabase
+		exists: #openActivationsExists
+		statement: 'SELECT id FROM activations WHERE email=:email UNION SELECT id FROM accounts WHERE email=:email AND activatedAt IS NULL'
+		bind: { #email -> anAccount email } asDictionary
 ]
 
 { #category : #logging }
@@ -596,11 +596,11 @@ CynLocalAccountRestApiService >> sendPasswordResetMailToAccount: anAccount [
 	If account does not exist, ignore it. Do not let caller know whether
 	account exists or not."
 
-	(modelDatabase
-		selectCount: #countExistingAccounts
-		statement: 'SELECT COUNT(*) FROM accounts WHERE email=:email AND activatedAt IS NOT NULL AND deletedAt IS NULL'
-		bind: { #email -> anAccount email } asDictionary) = 0
-			ifTrue: [ ^ self ].
+	modelDatabase
+		exists: #passwordResetAccountExists
+		statement: 'SELECT id FROM accounts WHERE email=:email AND activatedAt IS NOT NULL AND deletedAt IS NULL'
+		bind: { #email -> anAccount email } asDictionary
+		ifNot: [ ^ self ].
 
 	self createPasswordResetTokenForAccount: anAccount
 ]
