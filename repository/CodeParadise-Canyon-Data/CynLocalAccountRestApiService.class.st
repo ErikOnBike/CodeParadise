@@ -759,6 +759,7 @@ CynLocalAccountRestApiService >> writeClientLogFrom: aRestRequest [
 		#timestamp -> self timestampNow.
 		#level -> level.
 		#message -> ('Client log: ', message).
+		#statusCode -> 0.
 		#accountId -> (session ifNotNil: [ session at: #accountId ]).
 		#sessionId -> (session ifNotNil: [ session at: #id ]).
 		#stack -> (body at: #stack ifAbsent: [ nil ]).
