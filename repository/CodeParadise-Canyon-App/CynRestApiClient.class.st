@@ -56,12 +56,24 @@ CynRestApiClient class >> timestampNow [
 	self error: 'No Date or DateAndTime class available in the current environment'
 ]
 
+{ #category : #accessing }
+CynRestApiClient >> baseUrl [
+
+	^ baseUrl
+]
+
 { #category : #operations }
 CynRestApiClient >> deleteUri: aString timeoutPeriod: anInteger [
 
 	"Perform the DELETE operation with the URI and answer the response content"
 
 	^ self performOperation: #DELETE uri: aString queryParams: nil body: nil timeoutPeriod: anInteger
+]
+
+{ #category : #private }
+CynRestApiClient >> getAccessToken [
+
+	^ accessToken
 ]
 
 { #category : #operations }
