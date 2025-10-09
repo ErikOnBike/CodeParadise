@@ -39,6 +39,44 @@ CynDatabase class >> on: aString [
 		yourself
 ]
 
+{ #category : #database }
+CynDatabase >> exists: aSymbol statement: aString [
+
+	^ self exists: aSymbol statement: aString bind: nil
+]
+
+{ #category : #database }
+CynDatabase >> exists: aSymbol statement: aString bind: aDictionary [
+
+	"Answer a Boolean indicating whether a record exists for the specified query statement.
+	It is assumed only a single value is selected in the query (which can be a single
+	id field, don't use '*').
+
+	Implementation:
+	To allow sql NULL values to be present in the query field specified, perform a select
+	on multiple values and check on the amount of results answered."
+
+	^ (self selectValues: aSymbol statement: aString bind: aDictionary)
+		isNotEmpty
+]
+
+{ #category : #database }
+CynDatabase >> exists: aSymbol statement: aString bind: aDictionary ifNot: aBlock [
+
+	"Convenience method to test for non-existing records"
+
+	(self exists: aSymbol statement: aString bind: aDictionary)
+		ifFalse: [ aBlock value ]
+]
+
+{ #category : #database }
+CynDatabase >> exists: aSymbol statement: aString ifNot: aBlock [
+
+	"Convenience method to test for non-existing records"
+
+	self exists: aSymbol statement: aString bind: nil ifNot: aBlock
+]
+
 { #category : #initialization }
 CynDatabase >> initializeWithDatabaseFile: aString [
 
