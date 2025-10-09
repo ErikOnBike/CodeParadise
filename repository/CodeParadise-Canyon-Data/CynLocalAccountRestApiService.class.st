@@ -388,6 +388,38 @@ CynLocalAccountRestApiService >> isNonActivatedAccount: anAccount [
 		bind: { #email -> anAccount email } asDictionary
 ]
 
+{ #category : #API }
+CynLocalAccountRestApiService >> log: aRestRequest response: aRestResponse [
+
+	"Log the client message.
+	This endpoint is to be used for storing relevant client side events (including errors).
+
+	Implementation:
+	It is assumed this endpoint is called used the CpBrowserNavigator >> sendBeacon:data:
+	method. This mechanism does not offer any means to add authentication data to the
+	request header. Authentication is therefore done based on the body content.
+	Beacon requests do not expect a result, therefore silently ignore any errors."
+
+	<post: '/api/log'>
+	<public>
+
+	[ self writeClientLogFrom: aRestRequest ] on: Error do: [ :error | "ignore errors" ].
+
+	"Beacon requests do not expect a response"
+	super send: Dictionary new response: aRestResponse
+]
+
+{ #category : #logging }
+CynLocalAccountRestApiService >> logInfoMessage: aString request: aRestRequest [
+
+	"Do not log for logging API call"
+
+	aRestRequest path asString = '/api/log'
+		ifTrue: [ ^ nil ].
+
+	^ super logInfoMessage: aString request: aRestRequest
+]
+
 { #category : #logging }
 CynLocalAccountRestApiService >> logRecordFromError: anError request: aRestRequest [
 
@@ -696,4 +728,46 @@ CynLocalAccountRestApiService >> validateAuthorizedRequest: aRestRequest [
 
 	"Store the accountId for later usage"
 	aRestRequest propertyAt: #accountId put: (session at: #accountId)
+]
+
+{ #category : #'API - logging' }
+CynLocalAccountRestApiService >> writeClientLogFrom: aRestRequest [
+
+	"Write the client log from the request. The client send this log request using Beacon API.
+	Validate the body contains a accessToken (which may already be expired, but should be known).
+	Without an access token, ignore the log (otherwise there will be the opportunity to fill our
+	logging DB with trash)."
+
+	| body accessToken session level message logRecord |
+
+	body := (aRestRequest jsonBody)
+		ifNil: [ ^ self ].
+
+	"Validate the access token exists (but may be expired)"
+	accessToken := body at: #accessToken ifAbsent: [ ^ self ].
+	(CynTokenPropertyConstraint isValidValue: accessToken)
+		ifFalse: [ ^ self ].
+	session := modelDatabase
+		selectOne: #sessionForLogging
+		statement: 'SELECT id, accountId FROM sessions WHERE accessToken=:accessToken'
+		bind: { #accessToken -> accessToken } asDictionary.
+
+	level := body at: #level ifAbsent: [ ^ self ].
+	message := body at: #message ifAbsent: [ ^ self ].
+
+	logRecord := {
+		#timestamp -> self timestampNow.
+		#level -> level.
+		#message -> ('Client log: ', message).
+		#accountId -> (session ifNotNil: [ session at: #accountId ]).
+		#sessionId -> (session ifNotNil: [ session at: #id ]).
+		#stack -> (body at: #stack ifAbsent: [ nil ]).
+	} asDictionary.
+
+	[
+		logDatabase
+			performOne: #insertClientLogRecord
+			statement: 	'INSERT INTO logs (timestamp, level, message, accountId, sessionId, stack) VALUES (:timestamp, :level, :message, :accountId, :sessionId, :stack)'
+			bind: logRecord
+	] on: Error do: [ :error | self warnCr: 'Failed to write log record: ', error printString ]
 ]

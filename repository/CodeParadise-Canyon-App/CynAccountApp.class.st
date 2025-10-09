@@ -51,3 +51,45 @@ CynAccountApp >> initialize [
 		when: CynAccountLoggedIn send: #handleUserLoggedIn to: self ;
 		when: CynAccountLoggedOut send: #handleUserLoggedOut to: self
 ]
+
+{ #category : #logging }
+CynAccountApp >> sendClientLogFor: anError [
+
+	"Send client log message to server to store there using Beacon API (i.e. async)"
+
+	| logObject restApiClient accessToken stack |
+
+	"Without access token, logging will not work (accessToken may be expired though)"
+	restApiClient := CynPropertyEntity restApiClient ifNil: [ ^ self ].		
+	accessToken := restApiClient getAccessToken ifNil: [ ^ self ].
+
+	stack := String streamContents: [ :stream |
+		| context origin |
+		context := anError isAnnouncedException
+			ifTrue: [ anError announcerContext ifNil: [ anError exception signalContext ifNotNil: [ anError exception signalerContext ] ] ]
+			ifFalse: [ anError signalContext ifNotNil: [ anError signalerContext ] ].
+		origin := (self locationFromSignalerContext: context)
+			ifNotNil: [ :location | location method ]
+			ifNil: [ anError signaler ].
+		origin ifNotNil: [
+			stream
+				nextPutAll: '=== Origin seems to be ===' ; lf ;
+				print: origin ;
+				lf ].
+		stream
+			nextPutAll: '=== Error ===' ; lf ;
+			print: anError ;
+			lf ;
+			nextPutAll: '=== Stack trace ===' ; lf ;
+			print: context ;
+			lf ].
+
+	logObject := {
+		#accessToken -> accessToken.
+		#level -> #error.
+		#message -> anError description.
+		#stack -> (stack replaceAll: Character cr with: Character lf) } asDictionary.
+
+	CpBrowserNavigator current
+		sendBeacon: restApiClient baseUrl, '/log' data: (CpJavaScriptJSON stringify: logObject)
+]
