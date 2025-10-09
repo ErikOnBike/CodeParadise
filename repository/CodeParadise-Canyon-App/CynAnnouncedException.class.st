@@ -27,6 +27,12 @@ CynAnnouncedException >> announcerContext [
 ]
 
 { #category : #accessing }
+CynAnnouncedException >> description [
+
+	^ self exception description
+]
+
+{ #category : #accessing }
 CynAnnouncedException >> exception [
 
 	^ tag exception
