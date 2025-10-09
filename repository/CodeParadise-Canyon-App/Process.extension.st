@@ -5,8 +5,7 @@ Process >> specialHandleError: anError [
 
 	<canyonApplicationExtension>
 
-	CynApp current
-		handleUnhandledError: anError.
+	CpExceptionAnnouncer announceException: anError.
 
 	"This is CodeParadis specific and required"
 	self allowAwaitPromise
