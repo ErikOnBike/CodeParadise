@@ -207,8 +207,8 @@ CynApp class >> ifDevelopment: aBlock [
 
 	"Evaluate the specified Block during development"
 
-	(CpClientEnvironment current variableAt: #'CANYON_ENV') = 'dev'
-		ifTrue: [ aBlock value ]
+	CpClientEnvironment current
+		ifDevelopment: [ aBlock value ]
 ]
 
 { #category : #tags }

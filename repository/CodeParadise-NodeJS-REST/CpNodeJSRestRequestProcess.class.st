@@ -201,8 +201,8 @@ CpNodeJSRestRequestProcess >> runInternal [
 		startedAt := CpNodeJSRestHttpServer timestampNow.
 
 		"Log the call in development"
-		CpJavaScriptObject isDevelopmentEnvironment
-			ifTrue: [ self traceCr: self printString ].
+		CpClientEnvironment current
+			ifDevelopment: [ self traceCr: self printString ].
 
 		"Try to handle the request (unhandled requests are 'business as usual')"
 		endpointOperation := CpNodeJSRestEndpointOperation matchingRequest: request.
@@ -214,8 +214,8 @@ CpNodeJSRestRequestProcess >> runInternal [
 		nil
 	] on: Error do: [ :error |
 		"Log the error in development (here it still has context)"
-		CpJavaScriptObject isDevelopmentEnvironment
-			ifTrue: [
+		CpClientEnvironment current
+			ifDevelopment: [
 				self warnCr: error printString.
 				self warnCr: error signalerContext printString ].
 
@@ -232,8 +232,8 @@ CpNodeJSRestRequestProcess >> runInternal [
 	process := nil.
 
 	"Log the call in development"
-	CpJavaScriptObject isDevelopmentEnvironment
-		ifTrue: [ self traceCr: self printString ].
+	CpClientEnvironment current
+		ifDevelopment: [ self traceCr: self printString ].
 
 	"Respond with error if present"
 	errorInstance ifNil: [ ^ self ].

@@ -82,8 +82,8 @@ CpNodeJSRestResponse >> writeError: anError [
 	"Write the specified Error to the receiver.
 	The specified Error can be a CpNodeJSRestError (sub)class or a 'regular' Error instance."
 
-	CpJavaScriptObject isDevelopmentEnvironment
-		ifTrue: [
+	CpClientEnvironment current
+		ifDevelopment: [
 			self
 				traceCr: 'Error: ', anError printString ;
 				traceCr: 'Response: ', anError restResponseString ].

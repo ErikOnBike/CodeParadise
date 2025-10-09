@@ -1,12 +1,6 @@
 Extension { #name : #CpJavaScriptObject }
 
 { #category : #'*CodeParadise-NodeJS-Support' }
-CpJavaScriptObject class >> isDevelopmentEnvironment [
-
-	^ self nodeEnvironment = #development
-]
-
-{ #category : #'*CodeParadise-NodeJS-Support' }
 CpJavaScriptObject class >> isProductionEnvironment [
 
 	^ self nodeEnvironment = #production
