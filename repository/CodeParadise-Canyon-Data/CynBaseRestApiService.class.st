@@ -700,7 +700,8 @@ CynBaseRestApiService >> updateLogError: anError response: aRestResponse [
 	"Update the log entry with error result.
 	This should only update the error specific fields.
 	The statusCode and duration will be updated regularly using the
-	#updateLogRequest:statusCode: method which is always called."
+	#updateLogRequest:statusCode: method which is always called.
+	Answer the id of the log record (or nil if none is updated/added)."
 
 	| request rowId |
 
@@ -709,8 +710,7 @@ CynBaseRestApiService >> updateLogError: anError response: aRestResponse [
 
 	"In case the writing of the initial log entry failed, try the simple error log anyway"
 	rowId ifNil: [
-		self log: #error message: anError description request: request.
-		^ self ].
+		^ self log: #error message: anError description request: request ].
 
 	"Update the existing entry"
 	[
@@ -721,18 +721,24 @@ CynBaseRestApiService >> updateLogError: anError response: aRestResponse [
 				#stack -> (anError signalerContext ifNotNil: [ :stackContext | stackContext printString ]).
 				#request -> request printString.
 				#body -> (self bodyFromRequest: request).
-				#rowId -> rowId } asDictionary
-	] on: Error do: [ :error | self warnCr: 'Failed to write error log: ', error printString ]
+				#rowId -> rowId } asDictionary.
+		^ rowId
+	] on: Error do: [ :error |
+		self warnCr: 'Failed to write error log: ', error printString.
+		^ nil ]
 ]
 
 { #category : #logging }
 CynBaseRestApiService >> updateLogResponse: aRestResponse [
 
+	"Update the log with additional info.
+	Answer the id of the log record (or nil if none is updated/added)."
+
 	| request rowId stop duration |
 
 	request := aRestResponse request.
 	rowId := (request propertyAt: #rowId)
-		ifNil: [ ^ self ].
+		ifNil: [ ^ nil ].
 	stop := CpNodeJSRestHttpServer timerNow.
 	duration := (stop - (request propertyAt: #start)) floor.
 
@@ -743,8 +749,11 @@ CynBaseRestApiService >> updateLogResponse: aRestResponse [
 			bind: {
 				#statusCode -> aRestResponse statusCode.
 				#duration -> duration.
-				#rowId -> rowId } asDictionary
-	] on: Error do: [ :error | self warnCr: 'Failed to update log record: ', error printString ]
+				#rowId -> rowId } asDictionary.
+		^ rowId
+	] on: Error do: [ :error |
+		self warnCr: 'Failed to update log record: ', error printString.
+		^ nil ]
 ]
 
 { #category : #'API - authorization' }
