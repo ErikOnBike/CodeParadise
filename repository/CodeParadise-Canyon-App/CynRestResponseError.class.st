@@ -116,6 +116,12 @@ CynRestResponseError >> isHandled [
 	^ statusCode < 0
 ]
 
+{ #category : #testing }
+CynRestResponseError >> isRestResponseError [
+
+	^ true
+]
+
 { #category : #accessing }
 CynRestResponseError >> markHandled [
 
