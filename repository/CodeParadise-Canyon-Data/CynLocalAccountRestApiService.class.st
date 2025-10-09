@@ -664,6 +664,7 @@ CynLocalAccountRestApiService >> updateSettings: aDictionary forAccountId: aStri
 		accountInfo ifNil: [ CpNodeJSRestBadRequestError signal ].
 
 		settings := [ CpJavaScriptJSON parse: (accountInfo at: #settings) ] on: Error do: [ :error |
+			self logError: error.
 			self errorCr: 'Failed to parse account settings ', error printString.
 			self traceCr: 'Settings: ', (accountInfo at: #settings) printString.
 
