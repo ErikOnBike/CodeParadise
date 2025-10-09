@@ -278,6 +278,14 @@ CynLocalAccountRestApiService >> errorInvalidLogin [
 	CpNodeJSRestUnauthorizedError signal: 'Credentials provided do not match an active account'
 ]
 
+{ #category : #accessing }
+CynLocalAccountRestApiService >> errorNotificationMailAccount [
+
+	"Answer the mail account where notifications should be sent"
+
+	^ config at: #errorNotificationMailAccount
+]
+
 { #category : #errors }
 CynLocalAccountRestApiService >> errorTokenAndEmailNotFound [
 
@@ -403,10 +411,16 @@ CynLocalAccountRestApiService >> log: aRestRequest response: aRestResponse [
 	<post: '/api/log'>
 	<public>
 
-	[ self writeClientLogFrom: aRestRequest ] on: Error do: [ :error | "ignore errors" ].
+	[ self notifyLog: (self writeClientLogFrom: aRestRequest) ] on: Error do: [ :error | "ignore errors" ].
 
 	"Beacon requests do not expect a response"
 	super send: Dictionary new response: aRestResponse
+]
+
+{ #category : #logging }
+CynLocalAccountRestApiService >> logError: anError request: aRestRequest [
+
+	^ self notifyLog: (super logError: anError request: aRestRequest)
 ]
 
 { #category : #logging }
@@ -514,6 +528,89 @@ CynLocalAccountRestApiService >> matchPassword: plainTextPassword withHash: hash
 	hash := self hashPassword: plainTextPassword usingSalt: salt.
 
 	^ hashedPassword = hash
+]
+
+{ #category : #accessing }
+CynLocalAccountRestApiService >> notificationTimeout [
+
+	"Answer the timeout before sending the same/similar notification again (in seconds).
+
+	By default this is 30 minutes."
+
+	^ (config at: #notificationTimeout) ifNil: [ 1800 ]
+]
+
+{ #category : #notifying }
+CynLocalAccountRestApiService >> notify: messageString statusCode: statusCodeInteger stack: stackString forLogId: logIdInteger [
+
+	"Notify by sending a mail to the admin and then adding entry to the database"
+
+	| notificationMessage |
+
+	notificationMessage := self newMailMessage
+		to: self errorNotificationMailAccount ;
+		subject: 'Error in ', (self class nameWithoutPrefix withoutSuffix: 'RestApiService') ;
+		html: ('<h1>Error: {1}</h1><h3>Statuscode: {2}</h3><h3>Stack trace:</h3><pre>{3}</pre>' format: { messageString . statusCodeInteger printString . stackString }) ;
+		yourself.
+
+	mailer sendMail: notificationMessage thenDo: [ :error :info |
+		error ifNotNil: [ self errorCr: 'Failed to send notification: ', error printString ] ].
+
+	[ logDatabase
+		performOne: #addNotification
+		statement: 'INSERT INTO notifications (timestamp, logId, statusCode, message) VALUES(:now, :logId, :statusCode, :message)'
+		bind: {
+			#now -> self timestampNow.
+			#logId -> logIdInteger.
+			#statusCode -> statusCodeInteger.
+			#message -> messageString } asDictionary
+	] on: Error do: [ :error | self errorCr: 'Failed to store notification: ', error printString ]
+]
+
+{ #category : #notifying }
+CynLocalAccountRestApiService >> notifyLog: anInteger [
+
+	"Notify about the log entry.
+	Answer the log id provided."
+
+	| logRecord notified recently |
+
+	anInteger ifNil: [ ^ nil ].
+
+	self shouldNotify
+		ifFalse: [ ^ anInteger ].
+
+	"Retrieve log record"
+	logRecord := logDatabase
+		selectOne: #recentLogEntry
+		statement: 'SELECT statusCode, message, stack FROM logs WHERE id=:id'
+		bind: { #id -> anInteger } asDictionary.
+	logRecord ifNil: [ ^ anInteger ].
+
+	(self shouldNotifyStatusCode: (logRecord at: #statusCode))
+		ifFalse: [ ^ anInteger ].
+
+	"Check if a recent notification is made for a similar log entry"
+	recently := self timestampNow - self notificationTimeout.
+	notified := logDatabase
+		exists: #notificationExists
+		statement: 'SELECT id FROM notifications WHERE timestamp >= :recently AND statusCode=:statusCode AND message=:message'
+		bind: {
+			#recently -> recently.
+			#statusCode -> (logRecord at: #statusCode).
+			#message -> (logRecord at: #message) } asDictionary.
+
+	"If recently notified, do not notify again"
+	notified ifTrue: [ ^ anInteger ].
+
+	"Do notify"
+	self
+		notify: (logRecord at: #message)
+		statusCode: (logRecord at: #statusCode)
+		stack: (logRecord at: #stack)
+		forLogId: anInteger.
+
+	^ anInteger
 ]
 
 { #category : #API }
@@ -645,6 +742,29 @@ CynLocalAccountRestApiService >> sessionExpirationDuration [
 	By default this is 30 minutes."
 
 	^ (config at: #sessionExpirationDuration) ifNil: [ 1800 ]
+]
+
+{ #category : #notifying }
+CynLocalAccountRestApiService >> shouldNotify [
+
+	^ self errorNotificationMailAccount isNotNil
+]
+
+{ #category : #notifying }
+CynLocalAccountRestApiService >> shouldNotifyStatusCode: anInteger [
+
+	"Only notify internal server errors or client errors (statusCode = 0)"
+
+	^ anInteger >= 500 or: [ anInteger = 0 ]
+]
+
+{ #category : #logging }
+CynLocalAccountRestApiService >> updateLogResponse: aRestResponse [
+
+	"Update the log entry with status code.
+	Add notification for the entry."
+
+	^ self notifyLog: (super updateLogResponse: aRestResponse)
 ]
 
 { #category : #'API - settings' }
