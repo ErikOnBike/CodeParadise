@@ -189,7 +189,7 @@ CynDatabase >> performOne: aSymbol statement: aString bind: aDictionary [
 	changeCount > 1
 		ifTrue: [ CynDatabaseTooManyUpdates signal ].
 
-	^ resultInfo at: #lastInsertRowid
+	^ resultInfo at: #lastInsertRowid ifAbsent: [ nil ]
 ]
 
 { #category : #private }
