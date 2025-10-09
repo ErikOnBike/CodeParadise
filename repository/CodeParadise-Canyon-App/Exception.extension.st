@@ -1,6 +1,14 @@
 Extension { #name : #Exception }
 
 { #category : #'*CodeParadise-Canyon-App' }
+Exception >> isAnnouncedException [
+
+	<canyonApplicationExtension>
+
+	^ false
+]
+
+{ #category : #'*CodeParadise-Canyon-App' }
 Exception >> isRestResponseError [
 
 	<canyonApplicationExtension>

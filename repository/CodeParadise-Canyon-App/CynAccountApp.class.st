@@ -24,6 +24,30 @@ CynAccountApp class >> isAbstractTag [
 	This method will NOT be evaluated to decide if the receiver is abstract."
 ]
 
+{ #category : #'error handling' }
+CynAccountApp >> handleUnhandledError: anError [
+
+	"An Error is signaled which is not handled elsewhere. Handle it here.
+	Answer a Boolean indicating whether the error is sufficiently handled to
+	consider it 'fixed'.
+
+	Implementation:
+	Write log if an internal error (not being a 500 from server) occurred.
+	Server side errors will have been logged already."
+
+	(super handleUnhandledError: anError)
+		ifTrue: [ ^ true ].
+
+	"We are only interested in internal client errors (the others are already logged on the server itself)"
+	anError statusCode = 0
+		ifFalse: [ ^ false ].
+
+	[ self sendClientLogFor: anError ] on: Error do: [ :error |
+		self class ifDevelopment: [ self warnCr: 'Can''t send log to server: ', error printString ] ].
+
+	^ false
+]
+
 { #category : #'event handling' }
 CynAccountApp >> handleUserLoggedIn [
 

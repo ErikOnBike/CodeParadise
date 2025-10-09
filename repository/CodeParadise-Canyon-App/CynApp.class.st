@@ -469,6 +469,41 @@ CynApp >> errorCountBeforeStoppable [
 ]
 
 { #category : #'error handling' }
+CynApp >> handleException: exception [
+
+	"Handle the specified Exception and answer a Boolean indicating whether it was handled
+	successfully so execution can continu (or not). If nothing can be done for this Exception
+	answer nil.
+	Some generic error messages are shown. Still false is answered, because showing the
+	error message did not fix it and therefore execution can't continu in a normal way.
+	If the exception is unknown however, answer nil."
+
+	"Check if the receiver is an already handled/processed REST API Client error"
+	(exception isRestResponseError and: [ exception isHandled ])
+		ifTrue: [ ^ true ].
+
+	"Assuming the REST API is behind some proxy (like nginx)"
+	exception statusCode = CynRestResponseError codeBadGateway
+		ifTrue: [
+			self showErrorServerNotAvailable.
+			^ false ].
+
+	"Forbidden means an authorization issue, should have been prevented"
+	exception statusCode = CynRestResponseError codeForbidden
+		ifTrue: [
+			self showErrorForbidden.
+			^ false ].
+
+	"Ouch...probably programming error"
+	exception statusCode = CynRestResponseError codeInternalServerError
+		ifTrue: [
+			self showErrorInternalServerError: exception.
+			^ false ].
+
+	^ nil
+]
+
+{ #category : #'error handling' }
 CynApp >> handleExceptionAnnouncement: anExceptionAnnouncement [
 
 	"Handle the signaled Exception"
@@ -481,35 +516,10 @@ CynApp >> handleExceptionAnnouncement: anExceptionAnnouncement [
 
 	exception := anExceptionAnnouncement exception.
 
-	"Check if the receiver is an already handled/processed REST API Client error"
-	((exception isKindOf: CynRestResponseError) and: [ exception isHandled ])
-		ifTrue: [ ^ self ].
-
-	"Assuming the REST API is behind some proxy (like nginx)"
-	exception statusCode = CynRestResponseError codeBadGateway
-		ifTrue: [
-			self showErrorServerNotAvailable.
-			^ self ].
-
-	"Forbidden means an authorization issue, should have been prevented"
-	exception statusCode = CynRestResponseError codeForbidden
-		ifTrue: [
-			self showErrorForbidden.
-			^ self ].
-
-	"Ouch...probably programming error"
-	exception statusCode = CynRestResponseError codeInternalServerError
-		ifTrue: [
-			self showErrorInternalServerError: exception.
-			^ self ].
-
-	self class ifDevelopment: [
-		| context |
-		context := anExceptionAnnouncement announcerContext ifNil: [ exception signalerContext ].
-		(self locationFromSignalerContext: context) ifNotNil: [ :origin |
-			self traceCr: 'Origin seems to be: ', origin method printString ].
-		self traceCr: exception printString.
-		self traceCr: context printString ]
+	(self handleException: exception) ifNil: [
+		"The exception could not be handled, pass it to the unhandled error handler.
+		Wrap the exception in a specific class to allow it to be recognised."
+		self handleUnhandledError: (CynAnnouncedException exceptionAnnouncement: anExceptionAnnouncement) ]
 ]
 
 { #category : #'event handling' }
@@ -547,46 +557,40 @@ CynApp >> handleUnhandledError: anError [
 
 	"An Error is signaled which is not handled elsewhere. Handle it here.
 	Answer a Boolean indicating whether the error is sufficiently handled to
-	consider it 'fixed'.
+	consider it 'fixed' and regular operation can continu.
 
 	Unhandled Errors are Errors which have not 'seen' an error handler.
 	This can typically happen when using a #when:forkedSend:to or #when:forkedDo:for:
 	and an Error is signaled during the forked Process. There is no active context
 	anymore to handle the error in a normal flow. The signaling context is available
 	to retrieve information from.
-	A few special cases can be handled here (in a generic way). Others might indicate
-	an issue in the code and proper error handling should be added to the relevant
-	piece of code."
+	This method can also be called from #handleExceptionAnnouncement: when the
+	announced exception could not be handled."
 
-	"Check if the receiver is an already handled/processed REST API Client error"
-	((anError isKindOf: CynRestResponseError) and: [ anError isHandled ])
-		ifTrue: [ ^ true ].
+	"Announced exceptions have already gone through #handleException:"
+	anError isAnnouncedException
+		ifFalse: [
+			"Try to handle the exception and stop if 'some' handling is done.
+			This could include showing a message to the user."
+			(self handleException: anError) ifNotNil: [ :handled | ^ handled ] ].
 
-	"Assuming the REST API is behind some proxy (like nginx)"
-	anError statusCode = CynRestResponseError codeBadGateway
-		ifTrue: [
-			self showErrorServerNotAvailable.
-			^ false ].
-
-	"Forbidden means an authorization issue, should have been prevented"
-	anError statusCode = CynRestResponseError codeForbidden
-		ifTrue: [
-			self showErrorForbidden.
-			^ false ].
-
-	"Ouch...probably programming error"
-	anError statusCode = CynRestResponseError codeInternalServerError
-		ifTrue: [
-			self showErrorInternalServerError: anError.
-			^ false ].
-
-	"Log the error"
-	self errorCr: 'Unhandled Error in App'.
-	self traceCr: anError description asString.
-
-	"In development, announce the Error (for debugging)"
+	"Log the error as a 'last resort' in dev environment to help developer fix this"
 	self class ifDevelopment: [
-		CpExceptionAnnouncer announceException: anError ].
+		| context origin |
+		self errorCr: 'Unhandled Error in App'.
+		context := anError isAnnouncedException
+			ifTrue: [ anError announcerContext ifNil: [ anError exception signalContext ifNotNil: [ anError exception signalerContext ] ] ]
+			ifFalse: [ anError signalContext ifNotNil: [ anError signalerContext ] ].
+		origin := (self locationFromSignalerContext: context)
+			ifNotNil: [ :location | location method ]
+			ifNil: [ anError signaler ].
+		origin ifNotNil: [
+			self traceCr: 'Origin seems to be: ', origin printString ].
+		self
+			traceCr: '=== Error ===' ;
+			traceCr: anError printString ;
+			traceCr: '=== Stack trace ===' ;
+			traceCr: context printString ].
 
 	^ false
 ]
@@ -898,6 +902,8 @@ CynApp >> loadMenu [
 
 { #category : #'error handling' }
 CynApp >> locationFromSignalerContext: aContext [
+
+	aContext ifNil: [ ^ nil ].
 
 	^ self locationFromSignalerContext: aContext startingWith: nil
 ]
