@@ -128,7 +128,7 @@ CpNodeJSRestRequestProcess >> printOn: aStream [
 		ifNotNil: [
 			aStream
 				nextPutAll: ' started at: ' ;
-				nextPutAll: (CpNodeJSRestHttpServer timeStringAt: startedAt) ]
+				nextPutAll: (CpJavaScriptDate isoStringFromTimestamp: startedAt) ]
 		ifNil: [ aStream nextPutAll: ' not started yet' ].
 
 	response writableEnded
@@ -137,7 +137,7 @@ CpNodeJSRestRequestProcess >> printOn: aStream [
 				nextPutAll: ' ended with status ' ;
 				print: response statusCode ;
 				nextPutAll: ' at ' ;
-				nextPutAll: (CpNodeJSRestHttpServer timeStringAt: (endedAt ifNil: [ CpJavaScriptDate timestampNow ])) ]
+				nextPutAll: (CpJavaScriptDate isoStringFromTimestamp: (endedAt ifNil: [ CpJavaScriptDate timestampNow ])) ]
 		ifFalse: [ aStream nextPutAll: ' not ended yet' ]
 ]
 

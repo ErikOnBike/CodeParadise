@@ -41,14 +41,6 @@ CpNodeJSRestHttpServer class >> statusOK [
 ]
 
 { #category : #resources }
-CpNodeJSRestHttpServer class >> timeStringAt: anInteger [
-
-	"Answer the specified timestamp (seconds since Unix epoch) as a String in ISO8601 format"
-
-	^ ((CpJavaScriptClass forName: #Date) newInstanceWithArguments: { anInteger * 1000 }) apply: #toISOString
-]
-
-{ #category : #resources }
 CpNodeJSRestHttpServer class >> timerNow [
 
 	"Answer a reference time (in milliseconds) to be used to determine a duration"

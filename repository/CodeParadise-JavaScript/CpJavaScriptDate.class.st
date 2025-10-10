@@ -45,6 +45,15 @@ CpJavaScriptDate class >> fromString: aString [
 ]
 
 { #category : #accessing }
+CpJavaScriptDate class >> isoStringFromTimestamp: anInteger [
+
+	"Answer an ISO 8601 String representation of the specified timestamp (in seconds)"
+
+	^ (self fromSeconds: anInteger)
+		toISOString
+]
+
+{ #category : #accessing }
 CpJavaScriptDate class >> now [
 
 	"Returns the numeric value corresponding to the current time—the number of milliseconds since January 1, 1970 00:00:00 UTC, with leap seconds ignored."
@@ -341,6 +350,12 @@ CpJavaScriptDate >> timestamp [
 	"Answer the seconds since unix epoch (see class methods #timestamp and #now)"
 
 	^ self time // 1000
+]
+
+{ #category : #accessing }
+CpJavaScriptDate >> toISOString [
+
+	^ self apply: #toISOString
 ]
 
 { #category : #accessing }
