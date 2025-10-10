@@ -447,7 +447,7 @@ CynBaseRestApiService >> log: aSymbol message: aString request: aRestRequest [
 
 		"Add fixed/required log record entries"
 		logRecord
-			at: #timestamp put: self timestampNow ;
+			at: #timestamp put: CpJavaScriptDate timestampNow ;
 			at: #level put: aSymbol ;
 			at: #message put: aString.
 
@@ -479,7 +479,7 @@ CynBaseRestApiService >> logError: anError request: aRestRequest [
 
 		"Add fixed/required log record entries"
 		logRecord
-			at: #timestamp put: self timestampNow ;
+			at: #timestamp put: CpJavaScriptDate timestampNow ;
 			at: #level put: #error ;
 			at: #message put: anError description.
 
@@ -684,14 +684,6 @@ CynBaseRestApiService >> snapshot: aRestRequest response: aServerResponse [
 			CpNodeJSSnapshot saveSnapshot.
 			
 			self traceCr: 'After save' ] ]
-]
-
-{ #category : #'API - resources' }
-CynBaseRestApiService >> timestampNow [
-
-	"Answer the current timestamp as seconds since Unix epoch (midnight Jan 1, 1970, UTC)"
-
-	^ CpNodeJSRestHttpServer timestampNow
 ]
 
 { #category : #logging }

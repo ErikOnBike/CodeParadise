@@ -137,6 +137,14 @@ CynApp class >> defaultAppTexts [
 			10 -> 'October'.
 			11 -> 'November'.
 			12 -> 'December' } asDictionary ;
+		at: #'app.day' put: {
+			1 -> 'Monday'.
+			2 -> 'Tuesday'.
+			3 -> 'Wednesday'.
+			4 -> 'Thursday'.
+			5 -> 'Friday'.
+			6 -> 'Saturday'.
+			7 -> 'Sunday' } asDictionary ;
 		at: #'app.server.internalError.title' put: 'Oops, something went wrong' ;
 		at: #'app.server.internalError.message' put: 'The computer where the entry is stored, is not working correctly. The maintainer is informed. You could try it again shortly, just in case. We''ll try to fix this as soon as possible.' ;
 		at: #'app.server.unavailable.title' put: 'Oops, something went wrong' ;
@@ -632,7 +640,7 @@ CynApp >> howToShowNextError: aSymbol [
 	(self isShowingError: aSymbol)
 		ifTrue: [ ^ #none ].
 
-	now := CynPropertyEntity timestampNow.
+	now := CpJavaScriptDate timestampNow.
 	maxCount := self errorCountBeforeStoppable.
 
 	recentErrors
@@ -736,7 +744,7 @@ CynApp >> isOnline [
 	restApiClient := CynPropertyEntity restApiClient.
 
 	"Used REST API successfully within last 5 seconds?"
-	restApiClient lastSuccessResponseTimestamp >= (CynRestApiClient timestampNow - 5000)
+	restApiClient lastSuccessResponseTimestamp >= (CpJavaScriptDate timestampNow - 5000)
 		ifTrue: [ ^ true ].
 
 	^ restApiClient ping

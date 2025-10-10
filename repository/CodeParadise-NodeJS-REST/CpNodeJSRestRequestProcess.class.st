@@ -60,7 +60,7 @@ CpNodeJSRestRequestProcess >> abort [
 	endedAt ifNotNil: [ ^ self ].
 
 	"Mark end"
-	endedAt := CpNodeJSRestHttpServer timestampNow.
+	endedAt := CpJavaScriptDate timestampNow.
 
 	"Kill the process (will not kill the active Process of this context)"
 	process ifNotNil: [
@@ -137,7 +137,7 @@ CpNodeJSRestRequestProcess >> printOn: aStream [
 				nextPutAll: ' ended with status ' ;
 				print: response statusCode ;
 				nextPutAll: ' at ' ;
-				nextPutAll: (CpNodeJSRestHttpServer timeStringAt: (endedAt ifNil: [ CpNodeJSRestHttpServer timestampNow ])) ]
+				nextPutAll: (CpNodeJSRestHttpServer timeStringAt: (endedAt ifNil: [ CpJavaScriptDate timestampNow ])) ]
 		ifFalse: [ aStream nextPutAll: ' not ended yet' ]
 ]
 
@@ -198,7 +198,7 @@ CpNodeJSRestRequestProcess >> runInternal [
 		process := Processor activeProcess.
 
 		"Mark start"
-		startedAt := CpNodeJSRestHttpServer timestampNow.
+		startedAt := CpJavaScriptDate timestampNow.
 
 		"Log the call in development"
 		CpClientEnvironment current
@@ -223,7 +223,7 @@ CpNodeJSRestRequestProcess >> runInternal [
 		error ].
 
 	"Mark end"
-	endedAt := CpNodeJSRestHttpServer timestampNow.
+	endedAt := CpJavaScriptDate timestampNow.
 
 	"Clean up"
 	timer ifNotNil: [

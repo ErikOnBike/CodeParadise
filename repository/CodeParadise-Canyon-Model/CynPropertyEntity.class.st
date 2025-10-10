@@ -80,18 +80,6 @@ CynPropertyEntity class >> configAt: aSymbol put: anObject [
 		at: aSymbol put: anObject
 ]
 
-{ #category : #resources }
-CynPropertyEntity class >> dateValuesFrom: aJSDate [
-
-	"Answer array with year, month, day"
-
-	^ {
-		aJSDate apply: #getFullYear.
-		(aJSDate apply: #getMonth) + 1.
-		aJSDate apply: #getDate
-	}
-]
-
 { #category : #accessing }
 CynPropertyEntity class >> definePropertyConstraints [
 
@@ -142,45 +130,6 @@ CynPropertyEntity class >> readWriteProperties [
 	"Generated code. DO NOT EDIT"
 
 	^ #(id)
-]
-
-{ #category : #resources }
-CynPropertyEntity class >> relativeDate: anInteger [
-
-	"Answer a relative date (String) based on the provided timestamp.
-	Answer might be 'yesterday', 'tomorrow' or '2025-01-02'."
-
-	| now date dateValues compareDate compareValues | 
-
-	date := (CpJavaScriptClass forName: #Date) newInstanceWithArguments: { anInteger * 1000 }.
-	dateValues := self dateValuesFrom: date.
-
-	"Compare to today"
-	now := self timestampNow.
-	compareDate := (CpJavaScriptClass forName: #Date) newInstanceWithArguments: { now * 1000 }.
-	compareValues := self dateValuesFrom: compareDate.
-	dateValues = compareValues
-		ifTrue: [ ^ self text: #'app.today' ].
-
-	"Compare to yesterday"
-	compareDate := (CpJavaScriptClass forName: #Date) newInstanceWithArguments: { (now - 86400) * 1000 }.
-	compareValues := self dateValuesFrom: compareDate.
-	dateValues = compareValues
-		ifTrue: [ ^ self text: #'app.yesterday' ].
-
-	"Compare to tomorrow"
-	compareDate := (CpJavaScriptClass forName: #Date) newInstanceWithArguments: { (now + 86400) * 1000 }.
-	compareValues := self dateValuesFrom: compareDate.
-	dateValues = compareValues
-		ifTrue: [ ^ self text: #'app.tomorrow' ].
-
-	^ self
-		text: #'app.date'
-		format: {
-			#year -> dateValues first .
-			#month -> dateValues second .
-			#monthName -> (self index: dateValues second text: #'app.month').
-			#day -> dateValues third } asDictionary
 ]
 
 { #category : #'accessing - configuration' }

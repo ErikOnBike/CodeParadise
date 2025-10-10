@@ -29,7 +29,7 @@ CpJavaScriptFunction class >> method: aString arguments: anArray [
 
 	E.g. CpJavaScriptFunction method: 'a + b' arguements: { 'a' . 'b' }"
 
-	^ self newInstanceWithArguments: (anArray copyWith: aString) resultAs: self
+	^ self newInstanceWithArguments: (anArray copyWith: aString)
 ]
 
 { #category : #'class initialization' }

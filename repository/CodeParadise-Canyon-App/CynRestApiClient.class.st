@@ -37,25 +37,6 @@ CynRestApiClient class >> new [
 	self errorNewReplacedBy: #baseUrl:
 ]
 
-{ #category : #resources }
-CynRestApiClient class >> timestampNow [
-
-	"Answer the current timestamp as seconds since Unix epoch (midnight Jan 1, 1970, UTC).
-
-	Implementation:
-	Since currently the tiny image for CodeParadise does not support any Date and Time classes,
-	use a simple Unix timestamp. This value can be retrieved in both environments. It allows
-	easy comparison and storage."
-
-	(Smalltalk classNamed: #DateAndTime)
-		ifNotNil: [ :dateAndTimeClass | ^ dateAndTimeClass now asUnixTime ].
-
-	(Smalltalk classNamed: #CpJavaScriptClass)
-		ifNotNil: [ :jsClass | ^ ((jsClass forName: #Date) apply: #now) // 1000 ].
-
-	self error: 'No Date or DateAndTime class available in the current environment'
-]
-
 { #category : #accessing }
 CynRestApiClient >> baseUrl [
 
@@ -143,7 +124,7 @@ CynRestApiClient >> handleSuccessfulResponse: aResponse [
 	result == #unused
 		ifTrue: [ result := aResponse text await ].
 
-	lastSuccessResponseTimestamp := self class timestampNow.
+	lastSuccessResponseTimestamp := CpJavaScriptDate timestampNow.
 
 	^ result
 ]
@@ -252,11 +233,11 @@ CynRestApiClient >> performOperation: aSymbol uri: uriString queryParams: aDicti
 			#redirect -> #error.
 			#priority -> #high.
 			#signal -> (CpBrowserAbortSignal timeout: anInteger) } asDictionary.
-	lastUsedTimestamp := self class timestampNow.
+	lastUsedTimestamp := CpJavaScriptDate timestampNow.
 
 	"Retrieve response"
 	response := fetch await.
-	lastResponseTimestamp := self class timestampNow.
+	lastResponseTimestamp := CpJavaScriptDate timestampNow.
 
 	"Extract (new) access token"
 	self updateAccessTokenFromResponse: response.

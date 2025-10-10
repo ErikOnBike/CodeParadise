@@ -125,19 +125,18 @@ CynLocalAccountRestApiService >> addActivationTokenToAccount: anAccount [
 	and activation, but that will not result in access to the account.
 	At worst the account owner needs to reset his/her password."
 
-	| passwordHash updatedAt |
+	| passwordHash |
 
 	"Update password with the new value given (to prevent name clash use
 	statement identifier: #insertAccountPassword"
 	passwordHash := self createPasswordHashFrom: anAccount password.
-	updatedAt := self timestampNow.
 	modelDatabase
 		performOne: #insertAccountPassword
-		statement: 'UPDATE accounts SET password=:password, updatedAt=:updatedAt WHERE email=:email'
+		statement: 'UPDATE accounts SET password=:password, updatedAt=:now WHERE email=:email'
 		bind: {
 			#email -> anAccount email.
 			#password -> passwordHash.
-			#updatedAt -> updatedAt } asDictionary.
+			#now -> CpJavaScriptDate timestampNow } asDictionary.
 
 	self createActivationTokenForAccount: anAccount
 ]
@@ -145,20 +144,19 @@ CynLocalAccountRestApiService >> addActivationTokenToAccount: anAccount [
 { #category : #'API - accounts' }
 CynLocalAccountRestApiService >> createAccount: account [
 
-	| id createdAt passwordHash |
+	| id passwordHash |
 
 	"Try to create new Account (might fail if it exists, but we catch that)"
 	id := self newId.
-	createdAt := self timestampNow.
 	passwordHash := self createPasswordHashFrom: account password.
 
 	[
 		modelDatabase
 			performOne: #insertAccount
-			statement: 'INSERT INTO accounts (id, createdAt, email, password, settings) VALUES(:id, :createdAt, :email, :password, :settings)'
+			statement: 'INSERT INTO accounts (id, createdAt, email, password, settings) VALUES(:id, :now, :email, :password, :settings)'
 			bind: {
 				#id -> id.
-				#createdAt -> createdAt.
+				#now -> CpJavaScriptDate timestampNow.
 				#email -> account email.
 				#password -> passwordHash.
 				#settings -> '{}' } asDictionary
@@ -205,7 +203,7 @@ CynLocalAccountRestApiService >> createActivationTokenForAccount: anAccount [
 
 	id := self newId.
 	token := self newToken.
-	expiresAt := self timestampNow + (30 * 60). "30 x 60 = 30 minutes"
+	expiresAt := CpJavaScriptDate timestampNow + (30 * 60). "30 x 60 = 30 minutes"
 
 	modelDatabase
 		performOne: #createActivation
@@ -236,7 +234,7 @@ CynLocalAccountRestApiService >> createPasswordResetTokenForAccount: anAccount [
 
 	id := self newId.
 	token := self newToken.
-	expiresAt := self timestampNow + (30 * 60). "30 x 60 = 30 minutes"
+	expiresAt := CpJavaScriptDate timestampNow + (30 * 60). "30 x 60 = 30 minutes"
 
 	modelDatabase
 		performOne: #createPasswordReset
@@ -253,18 +251,17 @@ CynLocalAccountRestApiService >> createPasswordResetTokenForAccount: anAccount [
 { #category : #'API - sessions' }
 CynLocalAccountRestApiService >> createSessionForAccount: anAccount [
 
-	| id createdAt accessToken |
+	| id accessToken |
 
 	id := self newId.
-	createdAt := self timestampNow.
 	accessToken := self newToken.
 
 	modelDatabase
 		performOne: #createSession
-		statement: 'INSERT INTO sessions (id, createdAt, accountId, accessToken, expires) VALUES(:id, :createdAt, :accountId, :accessToken, :expires)'
+		statement: 'INSERT INTO sessions (id, createdAt, accountId, accessToken, expires) VALUES(:id, :now, :accountId, :accessToken, :expires)'
 		bind: {
 			#id -> id.
-			#createdAt -> createdAt.
+			#now -> CpJavaScriptDate timestampNow.
 			#accountId -> anAccount id.
 			#accessToken -> accessToken.
 			#expires -> anAccount expires } asDictionary.
@@ -368,7 +365,7 @@ CynLocalAccountRestApiService >> isExpiredSession: aSession [
 		ifTrue: [ ^ false ].
 
 	"Check for recent activity (both day and usage)"
-	now := self timestampNow.
+	now := CpJavaScriptDate timestampNow.
 	updatedAt := (aSession at: #updatedAt)
 		ifNil: [ aSession at: #createdAt ].
 	updatedAt + self sessionExpirationDuration > now
@@ -560,7 +557,7 @@ CynLocalAccountRestApiService >> notify: messageString statusCode: statusCodeInt
 		performOne: #addNotification
 		statement: 'INSERT INTO notifications (timestamp, logId, statusCode, message) VALUES(:now, :logId, :statusCode, :message)'
 		bind: {
-			#now -> self timestampNow.
+			#now -> CpJavaScriptDate timestampNow.
 			#logId -> logIdInteger.
 			#statusCode -> statusCodeInteger.
 			#message -> messageString } asDictionary
@@ -591,7 +588,7 @@ CynLocalAccountRestApiService >> notifyLog: anInteger [
 		ifFalse: [ ^ anInteger ].
 
 	"Check if a recent notification is made for a similar log entry"
-	recently := self timestampNow - self notificationTimeout.
+	recently := CpJavaScriptDate timestampNow - self notificationTimeout.
 	notified := logDatabase
 		exists: #notificationExists
 		statement: 'SELECT id FROM notifications WHERE timestamp >= :recently AND statusCode=:statusCode AND message=:message'
@@ -636,10 +633,9 @@ CynLocalAccountRestApiService >> passwordResetAccount: aPasswordResetAccount [
 
 	"Reset password for the specified Account"
 
-	| now updatedAt passwordHash resets |
+	| now passwordHash resets |
 
-	now := self timestampNow.
-	updatedAt := self timestampNow.
+	now := CpJavaScriptDate timestampNow.
 	passwordHash := self createPasswordHashFrom: aPasswordResetAccount password.
 
 	resets := modelDatabase
@@ -845,7 +841,7 @@ CynLocalAccountRestApiService >> validateAuthorizedRequest: aRestRequest [
 		statement: 'UPDATE sessions SET updatedAt=:now WHERE id=:id'
 		bind: {
 			#id -> (session at: #id).
-			#now -> self timestampNow } asDictionary.
+			#now -> CpJavaScriptDate timestampNow } asDictionary.
 
 	"Store the accountId for later usage"
 	aRestRequest propertyAt: #accountId put: (session at: #accountId)
@@ -878,7 +874,7 @@ CynLocalAccountRestApiService >> writeClientLogFrom: aRestRequest [
 	message := body at: #message ifAbsent: [ ^ nil ].
 
 	logRecord := {
-		#timestamp -> self timestampNow.
+		#timestamp -> CpJavaScriptDate timestampNow.
 		#level -> level.
 		#message -> ('Client log: ', message).
 		#statusCode -> 0.

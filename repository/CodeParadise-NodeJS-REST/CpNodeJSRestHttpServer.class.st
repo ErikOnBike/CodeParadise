@@ -56,14 +56,6 @@ CpNodeJSRestHttpServer class >> timerNow [
 	^ (CpGlobalThis propertyAt: #performance) apply: #now
 ]
 
-{ #category : #resources }
-CpNodeJSRestHttpServer class >> timestampNow [
-
-	"Answer the current timestamp as seconds since Unix epoch (midnight Jan 1, 1970, UTC)"
-
-	^ ((CpJavaScriptClass forName: #Date) apply: #now) // 1000
-]
-
 { #category : #server }
 CpNodeJSRestHttpServer >> createServer [
 

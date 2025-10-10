@@ -54,6 +54,44 @@ CynPropertyEntity class >> languageText: aLanguageText [
 ]
 
 { #category : #'*CodeParadise-Canyon-App' }
+CynPropertyEntity class >> relativeDate: anInteger [
+
+	"Answer a relative date (String) based on the provided timestamp.
+	Answer might be 'yesterday', 'tomorrow' or a full blown String.
+	Depending on application setting, it can include all of:
+		year
+		month
+		monthName
+		day
+		dayOfWeekName"
+
+	| date | 
+
+	date := CpJavaScriptDate fromSeconds: anInteger.
+
+	"Compare to today"
+	(date equalsDateOnly: CpJavaScriptDate today)
+		ifTrue: [ ^ self text: #'app.today' ].
+
+	"Compare to yesterday"
+	(date equalsDateOnly: CpJavaScriptDate yesterday)
+		ifTrue: [ ^ self text: #'app.yesterday' ].
+
+	"Compare to tomorrow"
+	(date equalsDateOnly: CpJavaScriptDate tomorrow)
+		ifTrue: [ ^ self text: #'app.tomorrow' ].
+
+	^ self
+		text: #'app.date'
+		format: {
+			#year -> date year .
+			#month -> date monthIndex .
+			#monthName -> (self index: date monthIndex text: #'app.month').
+			#day -> date dayIndex.
+			#dayOfWeekName -> (self index: date dayOfWeekIndex text: #'app.day') } asDictionary
+]
+
+{ #category : #'*CodeParadise-Canyon-App' }
 CynPropertyEntity class >> restApiClient [
 
 	"Use the REST API Client stored in my configuration"

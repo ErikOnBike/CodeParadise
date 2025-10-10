@@ -9,7 +9,7 @@ CpJavaScriptError class >> message: aString [
 
 	"Answer an instance of the receiver with the specified message"
 
-	^ self newInstanceWithArguments: { aString } resultAs: self
+	^ self newInstanceWithArguments: { aString }
 ]
 
 { #category : #'class initialization' }
