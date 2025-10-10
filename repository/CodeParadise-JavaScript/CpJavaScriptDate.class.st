@@ -204,6 +204,72 @@ CpJavaScriptDate >> equalsDateOnly: aDate [
 ]
 
 { #category : #accessing }
+CpJavaScriptDate >> hours [
+
+	^ self apply: #getHours
+]
+
+{ #category : #accessing }
+CpJavaScriptDate >> hours: hours [
+
+	self apply: #setHours withArguments: { hours }
+]
+
+{ #category : #accessing }
+CpJavaScriptDate >> hours: hours minutes: minutes [
+
+	self apply: #setHours withArguments: { hours . minutes }
+]
+
+{ #category : #accessing }
+CpJavaScriptDate >> hours: hours minutes: minutes seconds: seconds [
+
+	self apply: #setHours withArguments: { hours . minutes . seconds }
+]
+
+{ #category : #accessing }
+CpJavaScriptDate >> hours: hours minutes: minutes seconds: seconds milliseconds: milliseconds [
+
+	self apply: #setHours withArguments: { hours . minutes . seconds . milliseconds }
+]
+
+{ #category : #accessing }
+CpJavaScriptDate >> milliseconds [
+
+	^ self apply: #getMilliseconds
+]
+
+{ #category : #accessing }
+CpJavaScriptDate >> milliseconds: milliseconds [
+
+	self apply: #setMilliseconds withArguments: { milliseconds }
+]
+
+{ #category : #accessing }
+CpJavaScriptDate >> minutes [
+
+	^ self apply: #getMinutes
+]
+
+{ #category : #accessing }
+CpJavaScriptDate >> minutes: minutes [
+
+	self apply: #setMinutes withArguments: { minutes }
+]
+
+{ #category : #accessing }
+CpJavaScriptDate >> minutes: minutes seconds: seconds [
+
+	self apply: #setMinutes withArguments: { minutes . seconds }
+]
+
+{ #category : #accessing }
+CpJavaScriptDate >> minutes: minutes seconds: seconds milliseconds: milliseconds [
+
+	self apply: #setMinutes withArguments: { minutes . seconds . milliseconds }
+]
+
+{ #category : #accessing }
 CpJavaScriptDate >> month [
 
 	"Get the month (BE AWARE this is JavaScript style 0-based index)"
@@ -240,65 +306,23 @@ CpJavaScriptDate >> resetTime [
 
 	"Reset the time part of the receiver"
 
-	self setHours: 0 minutes: 0 seconds: 0 milliseconds: 0
+	self hours: 0 minutes: 0 seconds: 0 milliseconds: 0
 ]
 
 { #category : #accessing }
-CpJavaScriptDate >> setHours: hours [
+CpJavaScriptDate >> seconds [
 
-	self apply: #setHours withArguments: { hours }
+	^ self apply: #getSeconds
 ]
 
 { #category : #accessing }
-CpJavaScriptDate >> setHours: hours minutes: minutes [
-
-	self apply: #setHours withArguments: { hours . minutes }
-]
-
-{ #category : #accessing }
-CpJavaScriptDate >> setHours: hours minutes: minutes seconds: seconds [
-
-	self apply: #setHours withArguments: { hours . minutes . seconds }
-]
-
-{ #category : #accessing }
-CpJavaScriptDate >> setHours: hours minutes: minutes seconds: seconds milliseconds: milliseconds [
-
-	self apply: #setHours withArguments: { hours . minutes . seconds . milliseconds }
-]
-
-{ #category : #accessing }
-CpJavaScriptDate >> setMilliseconds: milliseconds [
-
-	self apply: #setMilliseconds withArguments: { milliseconds }
-]
-
-{ #category : #accessing }
-CpJavaScriptDate >> setMinutes: minutes [
-
-	self apply: #setMinutes withArguments: { minutes }
-]
-
-{ #category : #accessing }
-CpJavaScriptDate >> setMinutes: minutes seconds: seconds [
-
-	self apply: #setMinutes withArguments: { minutes . seconds }
-]
-
-{ #category : #accessing }
-CpJavaScriptDate >> setMinutes: minutes seconds: seconds milliseconds: milliseconds [
-
-	self apply: #setMinutes withArguments: { minutes . seconds . milliseconds }
-]
-
-{ #category : #accessing }
-CpJavaScriptDate >> setSeconds: seconds [
+CpJavaScriptDate >> seconds: seconds [
 
 	self apply: #setSeconds withArguments: { seconds }
 ]
 
 { #category : #accessing }
-CpJavaScriptDate >> setSeconds: seconds milliseconds: milliseconds [
+CpJavaScriptDate >> seconds: seconds milliseconds: milliseconds [
 
 	self apply: #setSeconds withArguments: { seconds . milliseconds }
 ]
