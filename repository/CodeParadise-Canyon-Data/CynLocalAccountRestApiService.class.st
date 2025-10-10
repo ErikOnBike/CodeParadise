@@ -54,7 +54,7 @@ CynLocalAccountRestApiService >> activateAccount: anActivateAccount [
 
 	| now activations |
 
-	now := self timestampNow.
+	now := CpJavaScriptDate timestampNow.
 
 	activations := modelDatabase
 		selectMany: #getActivations
@@ -64,7 +64,7 @@ CynLocalAccountRestApiService >> activateAccount: anActivateAccount [
 			#email -> anActivateAccount email } asDictionary.
 
 	"No match for token and email"
-	activations ifEmpty: [ ^ self errorActivationNotFound ].
+	activations ifEmpty: [ ^ self errorTokenAndEmailNotFound ].
 
 	"Token already expired (okay to provide answer, since token is secret value anyway and can't be guessed)"
 	(activations first at: #expiresAt) < now
