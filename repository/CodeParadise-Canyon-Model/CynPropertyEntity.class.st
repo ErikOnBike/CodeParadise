@@ -157,8 +157,8 @@ CynPropertyEntity class >> timestampNow [
 	(Smalltalk classNamed: #DateAndTime)
 		ifNotNil: [ :dateAndTimeClass | ^ dateAndTimeClass now asUnixTime ].
 
-	(Smalltalk classNamed: #CpJavaScriptClass)
-		ifNotNil: [ :jsClass | ^ ((jsClass forName: #Date) apply: #now) // 1000 ].
+	(Smalltalk classNamed: #CpJavaScriptDate)
+		ifNotNil: [ :dateClass | ^ dateClass timestampNow ].
 
 	self error: 'No Date or DateAndTime class available in the current environment'
 ]
