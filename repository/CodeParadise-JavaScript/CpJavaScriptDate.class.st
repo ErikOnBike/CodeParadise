@@ -163,6 +163,21 @@ CpJavaScriptDate >> copy [
 ]
 
 { #category : #accessing }
+CpJavaScriptDate >> dateString [
+
+	"Answer the date String of the receiver in the format: YYYY-MM-DD.
+	Assume year is between 1000 and 9999 (i.e. 4 digits long)."
+
+	^ String streamContents: [ :stream |
+		stream
+			print: self year ;
+			nextPut: $-.
+		self printPart: self monthIndex on: stream.
+		stream nextPut: $-.
+		self printPart: self dayIndex on: stream ]
+]
+
+{ #category : #accessing }
 CpJavaScriptDate >> dayIndex [
 
 	"Get the day index"
@@ -310,6 +325,14 @@ CpJavaScriptDate >> monthIndex: anInteger [
 	self month: anInteger - 1
 ]
 
+{ #category : #private }
+CpJavaScriptDate >> printPart: anInteger on: aStream [
+
+	anInteger < 10
+		ifTrue: [ aStream nextPut: $0 ].
+	aStream print: anInteger
+]
+
 { #category : #accessing }
 CpJavaScriptDate >> resetTime [
 
@@ -342,6 +365,19 @@ CpJavaScriptDate >> time [
 	"Answer the milliseconds since unix epoch (see class methods #timestamp and #now)"
 
 	^ self apply: #getTime
+]
+
+{ #category : #accessing }
+CpJavaScriptDate >> timeString [
+
+	"Answer the time String of the receiver in the format: HH:mm:ss"
+
+	^ String streamContents: [ :stream |
+		self printPart: self hours on: stream.
+		stream nextPut: $:.
+		self printPart: self minutes on: stream.
+		stream nextPut: $:.
+		self printPart: self seconds on: stream ]
 ]
 
 { #category : #accessing }
