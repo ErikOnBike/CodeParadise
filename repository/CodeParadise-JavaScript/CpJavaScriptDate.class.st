@@ -61,7 +61,7 @@ CpJavaScriptDate class >> now [
 	^ self apply: #now
 ]
 
-{ #category : #'instance creation' }
+{ #category : #accessing }
 CpJavaScriptDate class >> parse: aString [
 
 	"Parse the specified date String and answer a timestamp in milliseconds"
