@@ -537,6 +537,28 @@ CynLocalAccountRestApiService >> notificationTimeout [
 	^ (config at: #notificationTimeout) ifNil: [ 1800 ]
 ]
 
+{ #category : #accessing }
+CynLocalAccountRestApiService >> notificationWindow [
+
+	"Answer the time frame in which a certain amount of notifications can be sent (in seconds).
+	The amount is specified by #notificationWindowCount.
+
+	By default this is 2 hours."
+
+	^ (config at: #notificationWindow) ifNil: [ 7200 ]
+]
+
+{ #category : #accessing }
+CynLocalAccountRestApiService >> notificationWindowCount [
+
+	"Answer the amount of notifications which can be sent in a fixed time frame.
+	The time frame is specified by #notificationWindow.
+
+	By default this is 4."
+
+	^ (config at: #notificationWindowCount) ifNil: [ 4 ]
+]
+
 { #category : #notifying }
 CynLocalAccountRestApiService >> notify: messageString statusCode: statusCodeInteger stack: stackString forLogId: logIdInteger [
 
@@ -599,6 +621,17 @@ CynLocalAccountRestApiService >> notifyLog: anInteger [
 
 	"If recently notified, do not notify again"
 	notified ifTrue: [ ^ anInteger ].
+
+	"Check total amount of recent notifications"
+	recently := CpJavaScriptDate timestampNow - self notificationWindow.
+	notified := logDatabase
+		selectCount: #countRecentNotifications
+		statement: 'SELECT count(*) FROM notifications WHERE timestamp >= :recently AND (statusCode>=500 OR statusCode=0)'
+		bind: { #recently -> recently } asDictionary.
+
+	"If too many notifications, do not notify again"
+	notified > self notificationWindowCount
+		ifTrue: [ ^ anInteger ].
 
 	"Do notify"
 	self
