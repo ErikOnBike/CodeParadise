@@ -51,6 +51,27 @@ CynPage class >> isPublic [
 	^ false
 ]
 
+{ #category : #accessing }
+CynPage class >> pageClassNamed: aString [
+
+	"Answer the Page class for the specified name.
+	Convenience method if there is need to refer to pages by name."
+
+	self allSubclassesDo: [ :each |
+		each pageName = aString
+			ifTrue: [ ^ each ] ].
+
+	^ nil
+]
+
+{ #category : #initialization }
+CynPage class >> pageName [
+
+	"Answer the name of the receiver"
+
+	^ self nameWithoutPrefix withoutSuffix: #Page
+]
+
 { #category : #'web resources' }
 CynPage class >> style [
 
@@ -401,6 +422,17 @@ CynPage >> navigateBack [
 		ifFalse: [ ^ self ].
 
 	self close
+]
+
+{ #category : #actions }
+CynPage >> navigateLink: aSymbol [
+
+	"Navigate to the specified link"
+
+	self activeChildView
+		ifNotNil: [ :activeChildView | ^ activeChildView navigateLink: aSymbol ].
+
+	CynApp ifDevelopment: [ self warnCr: 'Unhandled link: ', aSymbol ]
 ]
 
 { #category : #view }

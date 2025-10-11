@@ -884,6 +884,15 @@ CynModelView >> modelViolations [
 	^ violations
 ]
 
+{ #category : #actions }
+CynModelView >> navigateLink: aSymbol [
+
+	"Navigate to the specified link.
+	Subclasses should override this."
+
+	CynApp ifDevelopment: [ self warnCr: 'Unhandled link: ', aSymbol ]
+]
+
 { #category : #view }
 CynModelView >> navigateTo: aPageClass withModel: aModel [
 
