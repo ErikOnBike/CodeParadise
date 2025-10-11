@@ -32,7 +32,7 @@ CynLink >> linkClicked [
 
 	(self attributeAt: #href) ifNotNil: [ :href |
 		(href beginsWith: '#')
-			ifTrue: [ CynApp current navigateLink: href allButFirst asSymbol ]
+			ifTrue: [ self canyonPage navigateLink: href allButFirst asSymbol ]
 			ifFalse: [
 				(CynPage pageClassNamed: href)
 					ifNotNil: [ :pageClass | CynApp current navigateTo: pageClass ] ] ]

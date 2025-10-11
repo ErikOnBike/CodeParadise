@@ -300,18 +300,6 @@ CynApp class >> style [
 ]
 
 { #category : #accessing }
-CynApp >> activeModalPage [
-
-	"Answer the currently active modal page.
-
-	During navigation, there is a transition which might make this value unreliable (at that moment)."
-
-	^ (self lastDescendantMatching: 'ion-app > ion-modal') ifNotNil: [ :modal |
-		(modal firstDescendantMatching: 'ion-nav ') ifNotNil: [ :modalNav |
-			modalNav lastChild ] ]
-]
-
-{ #category : #accessing }
 CynApp >> activePage [
 
 	"Answer the currently active page.
@@ -963,22 +951,6 @@ CynApp >> menuTitle [
 	"Answer the title of the menu (from the language resource)"
 
 	^ #'app.menu.title' langText
-]
-
-{ #category : #actions }
-CynApp >> navigateLink: aSymbol [
-
-	"Navigate to the specified link value.
-
-	Implementation:
-	Either navigate through the active modal or the active page."
-
-	self activeModalPage ifNotNil: [ :activeModalPage |
-		^ activeModalPage navigateLink: aSymbol ].
-	self activePage ifNotNil: [ :activePage |
-		^ activePage navigateLink: aSymbol ].
-
-	self class ifDevelopment: [ self warnCr: 'Unhandled link: ', aSymbol ]
 ]
 
 { #category : #actions }
