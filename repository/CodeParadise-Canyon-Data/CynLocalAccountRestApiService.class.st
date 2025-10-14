@@ -425,8 +425,9 @@ CynLocalAccountRestApiService >> logInfoMessage: aString request: aRestRequest [
 
 	"Do not log for logging API call"
 
-	aRestRequest path asString = '/api/log'
-		ifTrue: [ ^ nil ].
+	aRestRequest ifNotNil: [
+		aRestRequest path asString = '/api/log'
+			ifTrue: [ ^ nil ] ].
 
 	^ super logInfoMessage: aString request: aRestRequest
 ]
