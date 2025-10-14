@@ -19,6 +19,12 @@ Class {
 }
 
 { #category : #accessing }
+CynBaseRestApiService class >> configFile [
+
+	^ 'server-config.json'
+]
+
+{ #category : #accessing }
 CynBaseRestApiService class >> defaultPort [
 
 	"Answer the default port where the HTTP Server will run"
@@ -181,7 +187,7 @@ CynBaseRestApiService class >> startServer [
 			ifTrue: [ self error: 'Called #startServer without setting ServiceClass explicitly' ].
 		ServiceClass := self ].
 
-	config := CpJavaScriptJSON parse: (CpNodeJSFS require readFileSync: 'server-config.json' options: 'utf-8').
+	config := CpJavaScriptJSON parse: (CpNodeJSFS require readFileSync: self configFile options: 'utf-8').
 
 	"Start the server"
 	self startServerOn: (config at: #port ifAbsent: [ self defaultPort ]).
@@ -387,6 +393,16 @@ CynBaseRestApiService >> initialize [
 	modelDatabase := CynDatabase on: 'data/database.db'.
 	logDatabase := CynDatabase on: 'data/log.db'.
 
+	self initializeMailer
+]
+
+{ #category : #initialization }
+CynBaseRestApiService >> initializeMailer [
+
+	mailer ifNotNil: [
+		mailer close.
+		mailer := nil ].
+
 	"Configure the mailer"
 	config at: #mailer ifPresent: [ :mailerConfig |
 
@@ -402,7 +418,11 @@ CynBaseRestApiService >> initializeWithConfig: aDictionary [
 
 	config := aDictionary.
 
-	self initialize
+	self initialize.
+
+	(config at: #watch ifAbsent: [ false ])
+		ifTrue: [ self watchConfig ]
+		ifFalse: [ self stopWatchConfig ]
 ]
 
 { #category : #logging }
@@ -652,6 +672,24 @@ CynBaseRestApiService >> ping: aRestRequest response: aServerResponse [
 	self send: 'world' response: aServerResponse
 ]
 
+{ #category : #support }
+CynBaseRestApiService >> reReadConfig [
+
+	| oldConfig |
+
+	oldConfig := config.
+
+	[
+		config := CpJavaScriptJSON parse: (CpNodeJSFS require readFileSync: self class configFile options: 'utf-8').
+		(config at: #mailer) = (oldConfig at: #mailer)
+			ifFalse: [ self initializeMailer ].
+		self traceCr: 'Re-read config'
+	] on: Error do: [ :error |
+		self errorCr: 'Failed to re-read the config: ', error printString.
+		config := oldConfig.
+		self initializeMailer ]
+]
+
 { #category : #sending }
 CynBaseRestApiService >> send: anObject response: aServerResponse [
 
@@ -686,6 +724,14 @@ CynBaseRestApiService >> snapshot: aRestRequest response: aServerResponse [
 			CpNodeJSSnapshot saveSnapshot.
 			
 			self traceCr: 'After save' ] ]
+]
+
+{ #category : #support }
+CynBaseRestApiService >> stopWatchConfig [
+
+	configWatcher ifNotNil: [
+		configWatcher close.
+		configWatcher := nil ]
 ]
 
 { #category : #logging }
@@ -754,4 +800,24 @@ CynBaseRestApiService >> updateLogResponse: aRestResponse [
 CynBaseRestApiService >> validatePublicAuthorizedRequest: aRestRequest [
 
 	"Default authorization handler for public data"
+]
+
+{ #category : #support }
+CynBaseRestApiService >> watchConfig [
+
+	self stopWatchConfig.
+
+	configWatcher := CpNodeJSFS namespace
+		watch: self class configFile listener: [ :event :fileName |
+
+			"Ensure FS is stable again and update is performed only once!"
+			configUpdater ifNotNil: [ CpGlobalThis clearTimeout: configUpdater ].
+			configUpdater:= CpGlobalThis setTimeout: 1000 thenDo: [
+				self reReadConfig.
+
+				"Reset the watcher (needed on some OSses)"
+				self watchConfig.
+
+				"Reset the updater"
+				configUpdater := nil ] ]
 ]
