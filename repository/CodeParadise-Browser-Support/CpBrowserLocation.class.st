@@ -124,6 +124,14 @@ CpBrowserLocation >> protocol: aString [
 	self propertyAt: #protocol put: aString
 ]
 
+{ #category : #operations }
+CpBrowserLocation >> reload [
+
+	"Reloads the current URL, like the Refresh button"
+
+	self apply: #reload
+]
+
 { #category : #accessing }
 CpBrowserLocation >> search [
 
