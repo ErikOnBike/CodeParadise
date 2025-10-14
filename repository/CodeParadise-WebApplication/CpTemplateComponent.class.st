@@ -173,9 +173,7 @@ CpTemplateComponent class >> updateGlobalStyleUsing: aString [
 { #category : #updating }
 CpTemplateComponent class >> updateStyle [
 
-	self installStyle: self style.
-
-	self updateAllInstances
+	self installStyle: self style
 ]
 
 { #category : #updating }
