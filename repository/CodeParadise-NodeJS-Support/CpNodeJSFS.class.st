@@ -316,6 +316,44 @@ CpNodeJSFS >> unlinkSync: aString [
 ]
 
 { #category : #operations }
+CpNodeJSFS >> watch: aString listener: aBlock [
+
+	"Watch for changes on filename, where filename is either a file or a directory.
+
+	filename <string> | <Buffer> | <URL>
+	options <string> | <Object>
+		persistent <boolean> Indicates whether the process should continue to run as long as files are being watched. Default: true.
+		recursive <boolean> Indicates whether all subdirectories should be watched, or only the current directory. This applies when a directory is specified, and only on supported platforms (See caveats). Default: false.
+		encoding <string> Specifies the character encoding to be used for the filename passed to the listener. Default: 'utf8'.
+		signal <AbortSignal> allows closing the watcher with an AbortSignal.
+	listener <Function> | <undefined> Default: undefined
+		eventType <string>
+		filename <string> | <Buffer> | <null>
+	Returns: <fs.FSWatcher>"
+
+	^ self apply: #watch withArguments: { aString . aBlock asJavaScriptFunction } resultAs: CpNodeJSFSWatcher
+]
+
+{ #category : #operations }
+CpNodeJSFS >> watch: aString options: aDictionary listener: aBlock [
+
+	"Watch for changes on filename, where filename is either a file or a directory.
+
+	filename <string> | <Buffer> | <URL>
+	options <string> | <Object>
+		persistent <boolean> Indicates whether the process should continue to run as long as files are being watched. Default: true.
+		recursive <boolean> Indicates whether all subdirectories should be watched, or only the current directory. This applies when a directory is specified, and only on supported platforms (See caveats). Default: false.
+		encoding <string> Specifies the character encoding to be used for the filename passed to the listener. Default: 'utf8'.
+		signal <AbortSignal> allows closing the watcher with an AbortSignal.
+	listener <Function> | <undefined> Default: undefined
+		eventType <string>
+		filename <string> | <Buffer> | <null>
+	Returns: <fs.FSWatcher>"
+
+	^ self apply: #watch withArguments: { aString . aDictionary . aBlock asJavaScriptFunction } resultAs: CpNodeJSFSWatcher
+]
+
+{ #category : #operations }
 CpNodeJSFS >> writeFile: aString data: anObject options: aDictionary do: aBlock [
 
 	"Asynchronously write the specified data to the specified file using the options provided.

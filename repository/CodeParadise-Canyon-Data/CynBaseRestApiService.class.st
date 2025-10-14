@@ -6,7 +6,9 @@ Class {
 		'modelDatabase',
 		'logDatabase',
 		'crypto',
-		'mailer'
+		'mailer',
+		'configWatcher',
+		'configUpdater'
 	],
 	#classVars : [
 		'Server',
