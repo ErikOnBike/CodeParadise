@@ -8,7 +8,8 @@ Class {
 		'crypto',
 		'mailer',
 		'configWatcher',
-		'configUpdater'
+		'configUpdater',
+		'version'
 	],
 	#classVars : [
 		'Server',
@@ -675,11 +676,13 @@ CynBaseRestApiService >> ping: aRestRequest response: aServerResponse [
 { #category : #support }
 CynBaseRestApiService >> reReadConfig [
 
-	| oldConfig |
+	| oldConfig oldVersion |
 
 	oldConfig := config.
+	oldVersion := self version.
 
 	[
+		version := nil.
 		config := CpJavaScriptJSON parse: (CpNodeJSFS require readFileSync: self class configFile options: 'utf-8').
 		(config at: #mailer) = (oldConfig at: #mailer)
 			ifFalse: [ self initializeMailer ].
@@ -687,7 +690,9 @@ CynBaseRestApiService >> reReadConfig [
 	] on: Error do: [ :error |
 		self errorCr: 'Failed to re-read the config: ', error printString.
 		config := oldConfig.
-		self initializeMailer ]
+		self initializeMailer ].
+
+	self updateVersion: oldVersion to: self version
 ]
 
 { #category : #sending }
@@ -796,10 +801,22 @@ CynBaseRestApiService >> updateLogResponse: aRestResponse [
 		^ nil ]
 ]
 
+{ #category : #support }
+CynBaseRestApiService >> updateVersion: oldVersionString to: newVersionString [
+
+	"Subclasses might handle this specifically"
+]
+
 { #category : #'API - authorization' }
 CynBaseRestApiService >> validatePublicAuthorizedRequest: aRestRequest [
 
 	"Default authorization handler for public data"
+]
+
+{ #category : #accessing }
+CynBaseRestApiService >> version [
+
+	^ version ifNil: [ version := config at: #version ifAbsent: [ '' ] ]
 ]
 
 { #category : #support }

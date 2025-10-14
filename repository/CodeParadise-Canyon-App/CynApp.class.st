@@ -300,6 +300,14 @@ CynApp class >> style [
 ]
 
 { #category : #accessing }
+CynApp class >> version [
+
+	"Answer the version of the App"
+
+	self subclassResponsibility
+]
+
+{ #category : #accessing }
 CynApp >> activePage [
 
 	"Answer the currently active page.
