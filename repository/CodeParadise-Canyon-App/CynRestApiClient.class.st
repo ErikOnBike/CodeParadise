@@ -287,6 +287,18 @@ CynRestApiClient >> putUri: uriString body: anObject timeoutPeriod: anInteger [
 	^ self performOperation: #PUT uri: uriString queryParams: nil body: anObject timeoutPeriod: anInteger
 ]
 
+{ #category : #'initialize - release' }
+CynRestApiClient >> release [
+
+	baseUrl := nil.
+	accessToken := nil.
+	lastUsedTimestamp := nil.
+	lastResponseTimestamp := nil.
+	lastSuccessResponseTimestamp := nil.
+
+	super release
+]
+
 { #category : #accessing }
 CynRestApiClient >> requestTimeoutPeriod [
 

@@ -982,6 +982,30 @@ CynApp >> navigateTo: aPageClass withModel: aModel [
 		navigateTo: aPageClass withModel: aModel
 ]
 
+{ #category : #initialization }
+CynApp >> release [
+
+	CpExceptionAnnouncer unsubscribe: self.
+
+	CynPropertyEntity restApiClient ifNotNil: [ :restApiClient |
+		restApiClient release ].
+
+	CynPropertyEntity releaseRefs.
+
+	main ifNotNil: [
+		main destroy.
+		main := nil ].
+	navigation ifNotNil: [
+		navigation destroy.
+		navigation := nil ].
+	menu ifNotNil: [
+		menu destroy.
+		menu := nil ].
+	recentErrors := nil.
+
+	super release
+]
+
 { #category : #accessing }
 CynApp >> restApiClientClass [
 

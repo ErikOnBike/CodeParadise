@@ -132,6 +132,14 @@ CynPropertyEntity class >> readWriteProperties [
 	^ #(id)
 ]
 
+{ #category : #'as yet unclassified' }
+CynPropertyEntity class >> releaseRefs [
+
+	config := nil.
+
+	self subclassesDo: [ :each | each releaseRefs ]
+]
+
 { #category : #'accessing - configuration' }
 CynPropertyEntity class >> removeConfigAt: aSymbol [
 

@@ -76,6 +76,14 @@ CynAccountApp >> initialize [
 		when: CynAccountLoggedOut send: #handleUserLoggedOut to: self
 ]
 
+{ #category : #initialization }
+CynAccountApp >> release [
+
+	account := nil.
+
+	super release
+]
+
 { #category : #logging }
 CynAccountApp >> sendClientLogFor: anError [
 
