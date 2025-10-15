@@ -360,6 +360,17 @@ CpJavaScriptDate >> seconds: seconds milliseconds: milliseconds [
 ]
 
 { #category : #accessing }
+CpJavaScriptDate >> shortTimeString [
+
+	"Answer the time String of the receiver in the format: HH:mm"
+
+	^ String streamContents: [ :stream |
+		self printPart: self hours on: stream.
+		stream nextPut: $:.
+		self printPart: self minutes on: stream ]
+]
+
+{ #category : #accessing }
 CpJavaScriptDate >> time [
 
 	"Answer the milliseconds since unix epoch (see class methods #timestamp and #now)"
