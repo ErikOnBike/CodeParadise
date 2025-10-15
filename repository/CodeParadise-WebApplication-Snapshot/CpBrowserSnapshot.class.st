@@ -52,7 +52,7 @@ Squeak.flushAllFiles = function() {};
 // Add default download operation to the filePut method
 Squeak.filePut = function(name, buffer) {
 	console.log("Saving image");
-	if(name.beginsWith("_")) {
+	if(name.startsWith("_")) {
 		name = name.slice(1);
 	}
 	globalThis.cpDownload(buffer, "application/octet-stream", name.endsWith(".image") ? name : name + ".image");
