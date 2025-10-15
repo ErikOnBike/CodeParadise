@@ -244,6 +244,8 @@ CynApp class >> postInstall [
 
 	super postInstall.
 
+	self markForSnapshotting.
+
 	self hasAbstractTag
 		ifTrue: [ ^ self ].
 
@@ -260,7 +262,7 @@ CynApp class >> postSnapshotOnce [
 	appClass := CpClientEnvironment current objectRegistry
 		objectWithId: CynApp name.
 
-	self traceCr: 'Starting up ', appClass printString.
+	self traceCr: 'Starting up ', appClass printString, ' ', appClass version.
 
 	appClass
 		ifNotNil: [ appClass start ]
@@ -270,9 +272,15 @@ CynApp class >> postSnapshotOnce [
 { #category : #'class initialization' }
 CynApp class >> preSnapshotOnce [
 
-	self traceCr: 'Removing current app'.
+	self traceCr: 'Preparing app for snapshot'.
 
-	Current := nil
+	"Remove HTML content since app will be rebuild on post snapshot"
+	CpHtmlElement documentBody removeChildren.
+
+	"Remove current state"
+	Current ifNotNil: [
+		Current release.
+		Current := nil ]
 ]
 
 { #category : #'class initialization' }

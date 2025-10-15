@@ -52,6 +52,9 @@ Squeak.flushAllFiles = function() {};
 // Add default download operation to the filePut method
 Squeak.filePut = function(name, buffer) {
 	console.log("Saving image");
+	if(name.beginsWith("_")) {
+		name = name.slice(1);
+	}
 	globalThis.cpDownload(buffer, "application/octet-stream", name.endsWith(".image") ? name : name + ".image");
 };'
 ]
@@ -74,8 +77,11 @@ CpBrowserSnapshot class >> postInstall [
 	CpHtmlElement documentAddScript: self downloadImageScript.
 
 	"Install the keyboard handler to perform the snapshot operation"
-	CpBrowserWindow current
-		when: (CpKeyDownEvent fromString: 'X-S-s') send: #saveSnapshot: to: self
+"	CpBrowserWindow current
+		when: (CpKeyDownEvent fromString: 'X-S-s') send: #saveSnapshot: to: self"
+
+	"Invoke snapshot directly"
+	self saveSnapshot
 ]
 
 { #category : #'class initialization' }
@@ -169,8 +175,13 @@ CpBrowserSnapshot class >> snapshotImage [
 		each preSnapshot ].
 	CpGlobalThis preSnapshotOnce.
 
+	"Prepare marked classes"
+	Smalltalk globals at: #CpSnapshotClasses ifPresent: [ :classes |
+		classes do: [ :each | each preSnapshot ] ].
+
 	"Save application content"
 	content := CpHtmlElement documentBody markupContent.
+	self traceCr: 'Saving markup: ', content.
 
 	"Save components"
 	components := Dictionary new.
@@ -182,11 +193,13 @@ CpBrowserSnapshot class >> snapshotImage [
 		ifFalse: [
 			self traceCr: 'Saved image'.
 
-			"Prepare image for restart"
+			"Prepare image for restart/continuation"
 			CpJavaScriptObject withAllSubclassesDo: [ :each |
 				each postSnapshot ].
 			CpEvent allSubclassesDo: [ :each | each postSnapshot ].
 			CpEvent postSnapshot.
+			Smalltalk globals at: #CpSnapshotClasses ifPresent: [ :classes |
+				classes do: [ :each | each postSnapshot ] ].
 			(Smalltalk classNamed: #CpTransition)
 				ifNotNil: [ :cls | cls postSnapshot ].
 
@@ -218,7 +231,11 @@ CpBrowserSnapshot class >> snapshotImage [
 			privateAttachToId: id ;
 			initialize ].
 
-	"Restart transition process as last step in restart"
+	"Prepare marked classes"
+	Smalltalk globals at: #CpSnapshotClasses ifPresent: [ :classes |
+		classes do: [ :each | each postSnapshot ] ].
+
+	"Restart transition process as last step in restart (since DOM should be fully restored)"
 	(Smalltalk classNamed: #CpTransition)
 		ifNotNil: [ :cls | cls postSnapshot ].
 

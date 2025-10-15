@@ -87,6 +87,20 @@ Class >> installMethod: aCompiledMethod [
 ]
 
 { #category : #'*CodeParadise-RemoteEnvironment' }
+Class >> markForSnapshotting [
+
+	"Mark the receiver for being visited when performing a snapshot.
+	Both the pre and post 'visit' will be performed on the receiver,
+	once marked for snapshotting."
+
+	<applicationExtension>
+
+	(Smalltalk globals
+		at: #CpSnapshotClasses ifAbsentPut: Set new)
+			add: self
+]
+
+{ #category : #'*CodeParadise-RemoteEnvironment' }
 Class >> nameWithoutPrefix [
 
 	"Answer a String representing the receiver's name without any prefixes.
