@@ -785,7 +785,7 @@ CpServerEnvironment >> variableAt: nameString [
 	Case sensitivity is not defined, for compatibility best use all uppercase names."
 
 	^ OSEnvironment current
-		at: #nameString ifAbsent: [ nil ]
+		at: nameString ifAbsent: [ nil ]
 ]
 
 { #category : #accessing }
