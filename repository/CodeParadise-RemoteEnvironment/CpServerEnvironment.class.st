@@ -59,6 +59,24 @@ CpServerEnvironment class >> announcer [
 	^ ClassSideAnnouncer ifNil: [ ClassSideAnnouncer := Announcer new ]
 ]
 
+{ #category : #'as yet unclassified' }
+CpServerEnvironment class >> beDevelopmnt [
+
+	"Let the new server environments be development environments"
+
+	^ OSEnvironment current
+		at: #'CODE_PARADISE_ENV' put: 'development'
+]
+
+{ #category : #'as yet unclassified' }
+CpServerEnvironment class >> beProduction [
+
+	"Let the new server environments be production environments"
+
+	^ OSEnvironment current
+		at: #'CODE_PARADISE_ENV' put: 'production'
+]
+
 { #category : #accessing }
 CpServerEnvironment class >> clientClass [
 
