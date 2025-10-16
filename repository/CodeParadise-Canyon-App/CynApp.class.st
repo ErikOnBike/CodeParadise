@@ -1519,6 +1519,7 @@ CynApp >> showToast: aString at: aSymbol buttons: aCollection duration: anIntege
 	toast := self main appendChild: (IonToast new
 		message: aString ;
 		duration: anInteger ;
+		swipeGesture: #vertical ;
 		yourself).
 
 	aSymbol ifNotNil: [
