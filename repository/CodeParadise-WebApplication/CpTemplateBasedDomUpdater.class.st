@@ -341,6 +341,15 @@ CpTemplateBasedDomUpdater >> moveIndicesToPropertyIn: anElement [
 		each removeAttributeAt: self indexAttributeName ]
 ]
 
+{ #category : #dependencies }
+CpTemplateBasedDomUpdater >> release [
+
+	template := nil.
+	dataUpdaters := nil.
+
+	super release
+]
+
 { #category : #private }
 CpTemplateBasedDomUpdater >> renderData: aDictionary on: anElement [
 

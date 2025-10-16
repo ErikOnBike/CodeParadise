@@ -964,6 +964,10 @@ CynModelView >> release [
 
 	self removeBindings.
 
+	model := nil.
+	childViewDefinitionsBySlotName := nil.
+	originalModel := nil.
+
 	super release
 ]
 
