@@ -458,6 +458,14 @@ CynPage >> previousPage [
 	^ self previousSibling
 ]
 
+{ #category : #initialization }
+CynPage >> release [
+
+	selectedTabNames := nil.
+
+	super release
+]
+
 { #category : #accessing }
 CynPage >> screenWidth [
 
