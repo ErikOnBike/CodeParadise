@@ -816,6 +816,18 @@ CpDomElement >> localTextContent [
 	self primitiveFailed
 ]
 
+{ #category : #'adding/removing' }
+CpDomElement >> makeEmpty [
+
+	"Remove all content from the receiver.
+	This will ensure any child elements, text and even the invisible comment
+	or empty text nodes. This ensures the CSS :empty pseudo class will work
+	on the receiver"
+
+	<primitive: 'primitiveDomElementMakeEmpty' module: 'CpDOMPlugin'>
+	self primitiveFailed
+]
+
 { #category : #content }
 CpDomElement >> markupContent [
 
