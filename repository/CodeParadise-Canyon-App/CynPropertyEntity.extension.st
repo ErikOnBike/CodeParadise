@@ -56,6 +56,12 @@ CynPropertyEntity class >> languageText: aLanguageText [
 { #category : #'*CodeParadise-Canyon-App' }
 CynPropertyEntity class >> relativeDate: anInteger [
 
+	^ self relativeDate: anInteger usingText: #'app.date'
+]
+
+{ #category : #'*CodeParadise-Canyon-App' }
+CynPropertyEntity class >> relativeDate: anInteger usingText: aSymbol [
+
 	"Answer a relative date (String) based on the provided timestamp.
 	Answer might be 'yesterday', 'tomorrow' or a full blown String.
 	Depending on application setting, it can include all of:
@@ -82,13 +88,19 @@ CynPropertyEntity class >> relativeDate: anInteger [
 		ifTrue: [ ^ self text: #'app.tomorrow' ].
 
 	^ self
-		text: #'app.date'
+		text: aSymbol
 		format: {
 			#year -> date year .
 			#month -> date monthIndex .
 			#monthName -> (self index: date monthIndex text: #'app.month').
 			#day -> date dayIndex.
 			#dayOfWeekName -> (self index: date dayOfWeekIndex text: #'app.day') } asDictionary
+]
+
+{ #category : #'*CodeParadise-Canyon-App' }
+CynPropertyEntity class >> relativeShortDate: anInteger [
+
+	^ self relativeDate: anInteger usingText: #'app.short.date'
 ]
 
 { #category : #'*CodeParadise-Canyon-App' }
