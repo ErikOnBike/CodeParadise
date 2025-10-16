@@ -40,6 +40,14 @@ CynDatabase class >> on: aString [
 ]
 
 { #category : #database }
+CynDatabase >> close [
+
+	"Close the receiver, making it unusable from this point on"
+
+	self release
+]
+
+{ #category : #database }
 CynDatabase >> exists: aSymbol statement: aString [
 
 	^ self exists: aSymbol statement: aString bind: nil
@@ -276,6 +284,18 @@ CynDatabase >> registerFunction: aFunction name: aString [
 	"Register the specified JS function under the specified name"
 
 	database function: aFunction name: aString
+]
+
+{ #category : #initialization }
+CynDatabase >> release [
+
+	database ifNotNil: [
+		database close.
+		database := nil ].
+	preparedStatements := nil.
+	booleanColumns := nil.
+
+	super release
 ]
 
 { #category : #database }
