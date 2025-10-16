@@ -132,7 +132,7 @@ CynPropertyEntity class >> readWriteProperties [
 	^ #(id)
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #'class initialization' }
 CynPropertyEntity class >> releaseRefs [
 
 	config := nil.
