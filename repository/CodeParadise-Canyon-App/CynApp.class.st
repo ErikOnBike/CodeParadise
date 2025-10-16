@@ -124,6 +124,7 @@ CynApp class >> defaultAppTexts [
 		at: #'app.yesterday' put: 'yesterday' ;
 		at: #'app.tomorrow' put: 'tomorrow' ;
 		at: #'app.date' put: '{month}/{day}/{year}' ;
+		at: #'app.short.date' put: '{month}/{day}' ;
 		at: #'app.month' put: {
 			1 -> 'January'.
 			2 -> 'February'.
