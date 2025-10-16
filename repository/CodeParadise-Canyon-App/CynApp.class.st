@@ -946,6 +946,14 @@ CynApp >> main [
 	^ main ifNil: [ self ]
 ]
 
+{ #category : #accessing }
+CynApp >> menu [
+
+	"Answer the receiver's menu"
+
+	^ menu
+]
+
 { #category : #actions }
 CynApp >> menuClose [
 
