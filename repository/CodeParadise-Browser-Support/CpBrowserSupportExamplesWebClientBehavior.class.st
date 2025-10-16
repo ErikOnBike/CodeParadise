@@ -16,7 +16,7 @@ CpBrowserSupportExamplesWebClientBehavior class >> beLoaded [
 { #category : #accessing }
 CpBrowserSupportExamplesWebClientBehavior >> clearOutput [
 
-	self outputElement textContent: ''
+	self outputElement makeEmpty
 ]
 
 { #category : #examples }
@@ -1007,7 +1007,7 @@ CpBrowserSupportExamplesWebClientBehavior >> speechSpeak [
 
 		"Update the progress, showing word being spoken highlighted"
 		progress
-			removeChildren ;
+			makeEmpty ;
 			appendChild: prefix asHtmlElement ;
 			appendChild: (word asHtmlElement
 				styleAt: #'border-bottom' put: '4px solid blue' ;

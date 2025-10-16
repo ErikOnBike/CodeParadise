@@ -129,7 +129,7 @@ CpDomExamplesWebClientBehavior >> clearOutput [
 
 	transition ifNotNil: [ transition stop ].
 
-	self outputElement textContent: ''
+	self outputElement makeEmpty
 ]
 
 { #category : #examples }

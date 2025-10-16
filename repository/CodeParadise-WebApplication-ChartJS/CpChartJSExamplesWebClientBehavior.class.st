@@ -19,7 +19,7 @@ CpChartJSExamplesWebClientBehavior >> exampleBarChartRandom [
 
 	"Clear content"
 	outputElement := self outputElement.
-	outputElement textContent: ''.
+	outputElement makeEmpty.
 
 	outputElement appendChild: (chartElement := CpHtmlElement newWithTag: #canvas).
 
@@ -95,7 +95,7 @@ CpChartJSExamplesWebClientBehavior >> exampleDoughnutChartRandom [
 
 	"Clear content"
 	outputElement := self outputElement.
-	outputElement textContent: ''.
+	outputElement makeEmpty.
 
 	outputElement appendChild: (chartElement := CpHtmlElement newWithTag: #canvas).
 
@@ -159,7 +159,7 @@ CpChartJSExamplesWebClientBehavior >> exampleLineChart [
 
 	"Clear content"
 	outputElement := self outputElement.
-	outputElement textContent: ''.
+	outputElement makeEmpty.
 
 	outputElement appendChild: ('Use the range selector below to set the line tension' inHtmlTag: #p).
 
@@ -207,7 +207,7 @@ CpChartJSExamplesWebClientBehavior >> exampleLineChartRandom [
 
 	"Clear content"
 	outputElement := self outputElement.
-	outputElement textContent: ''.
+	outputElement makeEmpty.
 
 	outputElement appendChild: (chartElement := CpHtmlElement newWithTag: #canvas).
 
@@ -271,7 +271,7 @@ CpChartJSExamplesWebClientBehavior >> exampleMultiRandom [
 
 	"Clear content"
 	outputElement := self outputElement.
-	outputElement textContent: ''.
+	outputElement makeEmpty.
 
 	outputElement appendChild: ((CpHtmlElement newWithTag: #div)
 		addClass: #buttons ;
@@ -346,7 +346,7 @@ CpChartJSExamplesWebClientBehavior >> exampleStackedBarChartRandom [
 
 	"Clear content"
 	outputElement := self outputElement.
-	outputElement textContent: ''.
+	outputElement makeEmpty.
 
 	outputElement appendChild: (chartElement := CpHtmlElement newWithTag: #canvas).
 

@@ -276,7 +276,7 @@ CynApp class >> preSnapshotOnce [
 	self traceCr: 'Preparing app for snapshot'.
 
 	"Remove HTML content since app will be rebuild on post snapshot"
-	CpHtmlElement documentBody removeChildren.
+	CpHtmlElement documentBody makeEmpty.
 
 	"Remove current state"
 	Current ifNotNil: [

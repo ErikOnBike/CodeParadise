@@ -13,7 +13,7 @@ CpShoelaceExamplesWebClientBehavior >> exampleButton [
 
 	"Clear content"
 	outputElement := self outputElement.
-	outputElement textContent: ''.
+	outputElement makeEmpty.
 
 	outputElement appendChild: (SlButton label: 'Simple button').
  
@@ -77,7 +77,7 @@ CpShoelaceExamplesWebClientBehavior >> exampleButtonGroup [
 
 	"Clear content"
 	outputElement := self outputElement.
-	outputElement textContent: ''.
+	outputElement makeEmpty.
 
 	outputElement appendChild: (SlButtonGroup new
 		appendChild: (SlButton new label: 'First' ; yourself) ;
@@ -96,7 +96,7 @@ CpShoelaceExamplesWebClientBehavior >> exampleCheckbox [
 
 	"Clear content"
 	outputElement := self outputElement.
-	outputElement textContent: ''.
+	outputElement makeEmpty.
 
 	outputElement
 		appendChild: ((CpHtmlElement newWithTag: #div)
@@ -119,7 +119,7 @@ CpShoelaceExamplesWebClientBehavior >> exampleCode [
 
 	"Clear content"
 	outputElement := self outputElement.
-	outputElement textContent: ''.
+	outputElement makeEmpty.
 
 	outputElement
 		appendChild: ('Here is an example of HTML code containing WebComponents which can be queried using Smalltalk code' inHtmlTag: #p) ;
@@ -151,7 +151,7 @@ CpShoelaceExamplesWebClientBehavior >> exampleDialog [
 
 	"Clear content"
 	outputElement := self outputElement.
-	outputElement textContent: ''.
+	outputElement makeEmpty.
 
 	"Create a simple dialog with a paragraph of text"
 	regularDialog := SlDialog new
@@ -236,7 +236,7 @@ CpShoelaceExamplesWebClientBehavior >> exampleDrawer [
 
 	"Clear content"
 	outputElement := self outputElement.
-	outputElement textContent: ''.
+	outputElement makeEmpty.
 
 	"Create some simple drawers with a paragraph of text"
 	drawer1 := (SlDrawer label: 'First drawer')
@@ -282,7 +282,7 @@ CpShoelaceExamplesWebClientBehavior >> exampleIcon [
 
 	"Clear content"
 	outputElement := self outputElement.
-	outputElement textContent: ''.
+	outputElement makeEmpty.
 
 	outputElement
 		appendChild: (SlIcon named: 'emoji-smile') ;
@@ -301,7 +301,7 @@ CpShoelaceExamplesWebClientBehavior >> exampleInput [
 
 	"Clear content"
 	outputElement := self outputElement.
-	outputElement textContent: ''.
+	outputElement makeEmpty.
 
 	outputElement appendChild: (SlInput new label: 'Need your input' ; yourself).
 
@@ -348,7 +348,7 @@ CpShoelaceExamplesWebClientBehavior >> exampleRange [
 
 	"Clear content"
 	outputElement := self outputElement.
-	outputElement textContent: ''.
+	outputElement makeEmpty.
 
 	outputElement appendChild: ((CpHtmlElement newWithTag: #div)
 		styleAt: #width put: '30em' ;
@@ -383,7 +383,7 @@ CpShoelaceExamplesWebClientBehavior >> exampleSelect [
 
 	"Clear content"
 	outputElement := self outputElement.
-	outputElement textContent: ''.
+	outputElement makeEmpty.
 
 	outputElement
 		appendChild: ('Regular select' inHtmlTag: #p) ;
@@ -424,7 +424,7 @@ CpShoelaceExamplesWebClientBehavior >> exampleSwitch [
 
 	"Clear content"
 	outputElement := self outputElement.
-	outputElement textContent: ''.
+	outputElement makeEmpty.
 
 	outputElement
 		appendChild: ('Some switches' inHtmlTag: #p) ;
@@ -443,7 +443,7 @@ CpShoelaceExamplesWebClientBehavior >> exampleTabGroup [
 
 	"Clear content"
 	outputElement := self outputElement.
-	outputElement textContent: ''.
+	outputElement makeEmpty.
 
 	tab1 := SlTab panel: 'tab1' labelText: 'Tab 1'.
 	tab2 := SlTab panel: 'tab2' labelText: 'Tab 2'.
@@ -487,7 +487,7 @@ CpShoelaceExamplesWebClientBehavior >> exampleTextarea [
 
 	"Clear content"
 	outputElement := self outputElement.
-	outputElement textContent: ''.
+	outputElement makeEmpty.
 
 	outputElement appendChild: (SlTextarea new label: 'Need your input' ; yourself).
 
@@ -526,7 +526,7 @@ CpShoelaceExamplesWebClientBehavior >> exampleTooltip [
 
 	"Clear content"
 	outputElement := self outputElement.
-	outputElement textContent: ''.
+	outputElement makeEmpty.
 
 	outputElement
 		appendChild: (SlTooltip new contentText: 'This is one funny icon' ; appendChild: (SlIcon named: 'emoji-smile') ; yourself) ;

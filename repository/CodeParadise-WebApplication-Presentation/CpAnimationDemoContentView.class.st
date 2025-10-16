@@ -11,7 +11,7 @@ CpAnimationDemoContentView >> render [
 
 	| canvas element1 element2 |
 
-	self removeChildren.
+	self makeEmpty.
 	canvas := self appendChild: ((CpHtmlElement newWithTag: #div)
 		styleAt: #position put: 'absolute' ;
 		styleAt: #left put: '0' ;
@@ -58,7 +58,7 @@ CpAnimationDemoContentView >> renderMany [
 
 	| elements finalColors |
 
-	self removeChildren.
+	self makeEmpty.
 
 	elements := OrderedCollection new
 		add: (self appendChild: ((CpHtmlElement newWithTag: #div)

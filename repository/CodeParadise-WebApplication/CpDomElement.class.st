@@ -1086,7 +1086,7 @@ CpDomElement >> replaceAllChildrenWith: childElement [
 	Any existing children will be removed."
 
 	^ self
-		removeChildren ;
+		makeEmpty ;
 		appendChild: childElement
 ]
 

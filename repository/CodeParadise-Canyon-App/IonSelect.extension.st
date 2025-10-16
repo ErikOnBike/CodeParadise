@@ -16,7 +16,7 @@ IonSelect >> initializeForModel: aModel property: aSymbol [
 		each selection do: [ :value |
 			selection at: value put: (aModel labelFor: aSymbol selection: value) ] ].
 
-	self removeChildren.
+	self makeEmpty.
 
 	selection keysAndValuesDo: [ :value :label |
 		self appendChild: (IonSelectOption new
