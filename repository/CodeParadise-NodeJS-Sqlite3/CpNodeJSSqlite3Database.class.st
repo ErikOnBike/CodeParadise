@@ -45,6 +45,14 @@ CpNodeJSSqlite3Database class >> onPath: aString withOptions: aDictionary [
 ]
 
 { #category : #operations }
+CpNodeJSSqlite3Database >> close [
+
+	"Closes the database connection. After invoking this method, no statements can be created or executed."
+
+	^ self apply: #close
+]
+
+{ #category : #operations }
 CpNodeJSSqlite3Database >> exec: aString [
 
 	"Execute the specified SQL Statement"

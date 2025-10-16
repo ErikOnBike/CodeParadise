@@ -308,7 +308,9 @@ CynPropertyModel class >> release [
 	<serverEnvironment>
 
 	SystemAnnouncer uniqueInstance
-		unsubscribe: self
+		unsubscribe: self.
+
+	super release
 ]
 
 { #category : #accessing }

@@ -51,7 +51,9 @@ CpViewInspectorSupport class >> release [
 
 	<script>
 
-	CpServerEnvironment unsubscribe: self
+	CpServerEnvironment unsubscribe: self.
+
+	super release
 ]
 
 { #category : #initialization }

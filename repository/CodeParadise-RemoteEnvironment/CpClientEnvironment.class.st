@@ -219,7 +219,9 @@ CpClientEnvironment class >> release [
 	"Release the receiver, resetting all Class variables"
 
 	Current := nil.
-	PreInstalledClasses := nil
+	PreInstalledClasses := nil.
+
+	super release
 ]
 
 { #category : #constants }

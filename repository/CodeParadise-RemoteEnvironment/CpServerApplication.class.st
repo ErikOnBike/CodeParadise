@@ -157,7 +157,9 @@ CpServerApplication class >> release [
 
 	"Release any class side resource. Subclasses can override."
 
-	self unregister
+	self unregister.
+
+	super release
 ]
 
 { #category : #announcing }

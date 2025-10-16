@@ -226,11 +226,13 @@ CynBaseRestApiService class >> stopServer [
 
 	"Stop the previously started HTTP Server and service implementation"
 
-	Service := nil.
-	Server ifNil: [ ^ self ].
+	Service ifNotNil: [
+		Service release.
+		Service := nil ].
 
-	Server stopServer.
-	Server := nil
+	Server ifNotNil: [
+		Server stopServer.
+		Server := nil ]
 ]
 
 { #category : #running }
@@ -693,6 +695,30 @@ CynBaseRestApiService >> reReadConfig [
 		self initializeMailer ].
 
 	self updateVersion: oldVersion to: self version
+]
+
+{ #category : #dependencies }
+CynBaseRestApiService >> release [
+
+	config := nil.
+	modelDatabase ifNotNil: [
+		modelDatabase close.
+		modelDatabase := nil ].
+	logDatabase ifNotNil: [
+		logDatabase close.
+		logDatabase := nil].
+	crypto := nil.
+	mailer ifNotNil: [
+		mailer close.
+		mailer := nil ].
+	configUpdater ifNotNil: [
+		CpGlobalThis clearTimeout: configUpdater ].
+	configWatcher ifNotNil: [
+		configWatcher close.
+		configWatcher := nil ].
+	version := nil.
+
+	super release
 ]
 
 { #category : #sending }
