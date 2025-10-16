@@ -202,7 +202,8 @@ CynPage >> closeModalPage: aSymbol [
 		ifFalse: [
 			self modalResult
 				ifNotNil: [ :result | (modal dismiss: result role: aSymbol) await ]
-				ifNil: [ modal dismiss await ] ].
+				ifNil: [ modal dismiss await ].
+			modal destroy ].
 	previousPage ifNotNil: [
 		previousPage updateAfterNavigate ]
 ]
