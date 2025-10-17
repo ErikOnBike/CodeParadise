@@ -60,7 +60,7 @@ CpServerEnvironment class >> announcer [
 ]
 
 { #category : #'as yet unclassified' }
-CpServerEnvironment class >> beDevelopmnt [
+CpServerEnvironment class >> beDevelopment [
 
 	"Let the new server environments be development environments"
 

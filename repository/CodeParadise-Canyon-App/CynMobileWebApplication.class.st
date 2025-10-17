@@ -58,6 +58,16 @@ CynMobileWebApplication >> addInstallationChecker [
 			package: (CynMobileWebApplication >> #updateMultiLanguageText) package) ]
 ]
 
+{ #category : #'as yet unclassified' }
+CynMobileWebApplication >> createSnapshot [
+
+	"Create a snapshot of the client image"
+
+	self environment
+		ifProduction: [ self environment addClass: CpBrowserSnapshot ]
+		ifDevelopment: [ self error: 'Can''t create snapshot with development image' ]
+]
+
 { #category : #installing }
 CynMobileWebApplication >> extensionMethodCategories [
 
