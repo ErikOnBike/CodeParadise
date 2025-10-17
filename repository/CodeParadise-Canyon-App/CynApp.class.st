@@ -36,7 +36,8 @@ Class {
 		'main',
 		'navigation',
 		'menu',
-		'recentErrors'
+		'recentErrors',
+		'lastVersionUpdateRequest'
 	],
 	#classVars : [
 		'Current'
@@ -306,6 +307,20 @@ CynApp class >> style [
 :host {
 	height: 100%;
 }'
+]
+
+{ #category : #'actions - periodic' }
+CynApp class >> updateVersion: aString [
+
+	"Update the app version"
+
+	Current ifNil: [ ^ self ].
+	aString ifNil: [ ^ self ].
+
+	self version = aString
+		ifTrue: [ ^ self ].
+
+	Current updateVersion
 ]
 
 { #category : #accessing }
@@ -999,6 +1014,12 @@ CynApp >> navigateTo: aPageClass withModel: aModel [
 		navigateTo: aPageClass withModel: aModel
 ]
 
+{ #category : #actions }
+CynApp >> performUpdateVersion [
+
+	self subclassResponsibility
+]
+
 { #category : #initialization }
 CynApp >> release [
 
@@ -1019,6 +1040,7 @@ CynApp >> release [
 		menu destroy.
 		menu := nil ].
 	recentErrors := nil.
+	lastVersionUpdateRequest := nil.
 
 	super release
 ]
@@ -1579,4 +1601,30 @@ CynApp >> stopLoading: aLoading [
 			aLoading dismiss
 				then: [ aLoading remove ] ]
 		ifFalse: [ aLoading remove ]
+]
+
+{ #category : #actions }
+CynApp >> updateVersion [
+
+	"Update the version of the receiver.
+	The actual update is performed in #performUpdateVersion,
+	but this method could still ask the user to perform or postpone
+	the update."
+
+	lastVersionUpdateRequest ifNotNil: [
+		lastVersionUpdateRequest + self updateVersionTimeout > CpJavaScriptDate timestampNow
+			ifTrue: [ ^ self ] ].
+
+	lastVersionUpdateRequest := CpJavaScriptDate timestampNow.
+
+	self performUpdateVersion
+]
+
+{ #category : #accessing }
+CynApp >> updateVersionTimeout [
+
+	"Answer the time between consecutive request for version update (in seconds).
+	By default this is once per hour."
+
+	^ 3600
 ]
