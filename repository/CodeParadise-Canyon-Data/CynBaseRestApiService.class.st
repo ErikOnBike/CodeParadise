@@ -445,7 +445,7 @@ CynBaseRestApiService >> insertLogStatement [
 	This statement should match the record created in #logRecordFromRequest:
 	(except for timestamp, level and message which are always added)."
 
-	^ 'INSERT INTO logs (timestamp, level, message) VALUES (:timestamp, :level, :message)'
+	^ 'INSERT INTO logs (timestamp, level, message, statusCode) VALUES (:timestamp, :level, :message, 0)'
 ]
 
 { #category : #'API - support' }

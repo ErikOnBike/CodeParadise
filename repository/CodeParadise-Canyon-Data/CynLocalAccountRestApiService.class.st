@@ -332,7 +332,7 @@ CynLocalAccountRestApiService >> hashPassword: plainTextPassword usingSalt: salt
 { #category : #logging }
 CynLocalAccountRestApiService >> insertLogStatement [
 
-	^ 'INSERT INTO logs (timestamp, level, message, accountId, sessionId) VALUES (:timestamp, :level, :message, :accountId, :sessionId)'
+	^ 'INSERT INTO logs (timestamp, level, message, accountId, sessionId, statusCode) VALUES (:timestamp, :level, :message, :accountId, :sessionId, 0)'
 ]
 
 { #category : #'API - authorization' }
@@ -920,7 +920,7 @@ CynLocalAccountRestApiService >> writeClientLogFrom: aRestRequest [
 	[
 		^ logDatabase
 			performOne: #insertClientLogRecord
-			statement: 	'INSERT INTO logs (timestamp, level, message, accountId, sessionId, stack) VALUES (:timestamp, :level, :message, :accountId, :sessionId, :stack)'
+			statement: 	'INSERT INTO logs (timestamp, level, message, statusCode, accountId, sessionId, stack) VALUES (:timestamp, :level, :message, :statusCode, :accountId, :sessionId, :stack)'
 			bind: logRecord
 	] on: Error do: [ :error |
 		self warnCr: 'Failed to write log record: ', error printString.
