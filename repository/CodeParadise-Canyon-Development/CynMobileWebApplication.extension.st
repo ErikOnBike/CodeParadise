@@ -39,9 +39,10 @@ CynMobileWebApplication >> updateMultiLanguageText [
 
 	"Update the multi language text in the browser"
 
-	self environment
-		sendMessage: (MessageSend
-		receiver: CynApp name
-		selector: #updateMultiLanguageText
-		arguments: nil)
+	self environment ifDevelopment: [
+		self environment
+			sendMessage: (MessageSend
+			receiver: CynApp name
+			selector: #updateMultiLanguageText
+			arguments: nil) ]
 ]
