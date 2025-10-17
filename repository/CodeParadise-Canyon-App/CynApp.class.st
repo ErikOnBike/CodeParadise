@@ -314,6 +314,8 @@ CynApp class >> updateVersion: aString [
 
 	"Update the app version"
 
+	aString ifNil: [ ^ self ].
+
 	Current ifNil: [ ^ self ].
 	aString ifNil: [ ^ self ].
 
