@@ -1004,6 +1004,24 @@ CynModelView >> slotOfChildView: anElement [
 ]
 
 { #category : #'view - customization' }
+CynModelView >> submitToolbarEndButtonText [
+
+	^ #'app.button.label.generic.done' langText
+]
+
+{ #category : #'view - customization' }
+CynModelView >> submitToolbarEndButtons [
+
+	"Answer the default 'submit' toolbar buttons for the receiver"
+
+	^ Array with: (IonButton new
+		textContent: self submitToolbarEndButtonText ;
+		type: #submit ;
+		form: self form ;
+		yourself)
+]
+
+{ #category : #'view - customization' }
 CynModelView >> title [
 
 	"Answer the title for the receiver.
