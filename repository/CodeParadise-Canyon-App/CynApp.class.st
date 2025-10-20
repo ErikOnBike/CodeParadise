@@ -838,6 +838,7 @@ CynApp >> load [
 			IonContent.
 			IonList.
 			IonItem.
+			IonLabel.
 			IonLoading.
 			IonToast.
 			IonAlert.
@@ -1598,7 +1599,7 @@ CynApp >> stopLoading: aLoading [
 	"Additional check for convenience (see #do:whileShowing:)"
 	aLoading ifNil: [ ^ self ].
 
-	aLoading isOpen
+	aLoading isOpen == true
 		ifTrue: [
 			aLoading dismiss
 				then: [ aLoading remove ] ]
