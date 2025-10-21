@@ -979,6 +979,18 @@ CynModelView >> propertiesForValidation [
 	^ self boundProperties
 ]
 
+{ #category : #properties }
+CynModelView >> propertyAt: aSymbol put: anObject [
+
+	"Special override to allow the model of the receiver to be set
+	by using the property setter (using the CpTemplateBasedDomUpdater
+	mechanism)"
+
+	aSymbol = #model
+		ifTrue: [ self model: anObject ]
+		ifFalse: [ super propertyAt: aSymbol put: anObject ]
+]
+
 { #category : #initialization }
 CynModelView >> release [
 
