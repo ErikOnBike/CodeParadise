@@ -21,16 +21,27 @@ Class {
 { #category : #evaluating }
 CpDeferredMessageSend >> cull: anEvent [
 
-	"Evaluate the receiver in a separate Process"
+	"Evaluate the receiver in a separate Process.
+
+	Implementation:
+	Either use the 'fixed' argument set in the receiver
+	or if not present, use the event leading to this invocation.
+	In the latter case, copy the event, because it will change
+	while bubbling up and become unusable once the receiver is
+	sent (deferred)."
 
 	self selector numArgs = 0
 		ifTrue: [ CpGlobalThis defer: [ super value ] ]
 		ifFalse: [
-			| copyEvent |
+			| argument |
 
-			"Because events change while bubbling, create a (stopped) copy"
-			copyEvent := anEvent copy.
-			CpGlobalThis defer: [ super value: copyEvent ] ]
+			"Either use the 'fixed' argument, otherwise the even"
+			argument := self numArgs > 0
+				ifTrue: [ self arguments first ]
+				ifFalse: [
+					"Because events change while bubbling, create a (stopped) copy"
+					argument := anEvent copy ].
+			CpGlobalThis defer: [ super value: argument ] ]
 ]
 
 { #category : #support }
