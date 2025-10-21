@@ -594,6 +594,9 @@ CynPage >> tabFromTabChangeEvent: aTabChangeEvent [
 { #category : #'view - customization' }
 CynPage >> title [
 
+	self isModelPage
+		ifTrue: [ ^ super title ].
+
 	^ self activeChildView
 		ifNotNil: [ :activeChildView | activeChildView title ]
 ]

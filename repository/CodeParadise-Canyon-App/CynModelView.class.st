@@ -1083,13 +1083,25 @@ CynModelView >> submitToolbarEndButtons [
 CynModelView >> title [
 
 	"Answer the title for the receiver.
-	Answering nil means no custom title is present/to be used.
 
 	This is mainly useful in Pages (one of my subclasses), but
 	can be delegated to their active child view.
-	See CynPage >> #updateTitle:"
 
-	^ nil
+	Titles are conditionally set on a page. See CynPage >> #updateTitle:"
+
+	| titleKey |
+
+	model ifNil: [ ^ nil ].
+
+	titleKey := String streamContents: [ :stream |
+		stream
+			nextPutAll: 'app.page.title.' ;
+			nextPutAll: model class shortName ;
+			nextPutAll: (model isNew
+				ifTrue: [ '.new' ]
+				ifFalse: [ '.update' ]) ].
+
+	^ CynPropertyEntity text: titleKey asSymbol
 ]
 
 { #category : #'view - customization' }
