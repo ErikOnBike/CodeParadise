@@ -588,6 +588,24 @@ CynModelView >> handleNavigateBack [
 ]
 
 { #category : #'event handling' }
+CynModelView >> handleRefresh [
+
+	"Perform the refresh operation and signal completion afterwards"
+
+	[
+		self handleRefreshAction
+	] ensure: [
+		self refresher complete
+	]
+]
+
+{ #category : #'event handling' }
+CynModelView >> handleRefreshAction [
+
+	"Perform the refresh operation"
+]
+
+{ #category : #'event handling' }
 CynModelView >> handleSubmitForm [
 
 	self
@@ -716,7 +734,11 @@ CynModelView >> initializeShadowRoot [
 	self hasEditableForm ifTrue: [
 		self form
 			when: CpSubmitEvent deferSend: #handleSubmitForm to: self ;
-			when: CpSubmitEvent send: #preventDefault: to: self ]
+			when: CpSubmitEvent send: #preventDefault: to: self ].
+
+	"If a refresher is present, add event handling"
+	self refresher ifNotNil: [ :refresher |
+		refresher when: IonRefreshEvent deferSend: #handleRefresh to: self ]
 ]
 
 { #category : #private }
@@ -989,6 +1011,12 @@ CynModelView >> propertyAt: aSymbol put: anObject [
 	aSymbol = #model
 		ifTrue: [ self model: anObject ]
 		ifFalse: [ super propertyAt: aSymbol put: anObject ]
+]
+
+{ #category : #'event handling' }
+CynModelView >> refresher [
+
+	^ self shadowedElementWithId: #refresher
 ]
 
 { #category : #initialization }
