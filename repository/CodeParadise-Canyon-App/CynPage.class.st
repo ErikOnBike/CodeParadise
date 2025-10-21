@@ -43,6 +43,15 @@ CynPage class >> isAbstractTag [
 ]
 
 { #category : #testing }
+CynPage class >> isModelPage [
+
+	"Answer whether the receiver is a model page
+	(i.e. a page to edit a model)"
+
+	^ false
+]
+
+{ #category : #testing }
 CynPage class >> isPublic [
 
 	"Answer whether the receiver is a public page (i.e. does not require an authenticated user).
@@ -113,6 +122,9 @@ CynPage >> canNavigate [
 	This can be an alert or a toast, accessible through the #app accessor.
 	This method is only called when the user herself tries to navigate."
 
+	self isModelPage
+		ifTrue: [ ^ super canNavigate ].
+
 	self childViewsDo: [ :each |
 		each canNavigate
 			ifFalse: [ ^ false ] ].
@@ -127,6 +139,9 @@ CynPage >> canNavigateBack [
 	It is adviced to show the user a message when navigation is not possible.
 	This can be an alert or a toast, accessible through the #app accessor.
 	This method is only called when the user herself tries to navigate."
+
+	self isModelPage
+		ifTrue: [ ^ super canNavigateBack ].
 
 	self childViewsDo: [ :each |
 		each canNavigateBack
@@ -145,7 +160,16 @@ CynPage >> canyonPage [
 { #category : #view }
 CynPage >> close [
 
-	"Close the receiver"
+	"Close the receiver.
+
+	Implementation:
+	Prevent trying to close the page twice.
+	This happens when a form is submitted during a navigateBack for example."
+
+	(self isClassed: #closing)
+		ifTrue: [ ^ self ].
+
+	self addClass: #closing.
 
 	self isShownInModal
 		ifTrue: [ self closeModalPage ]
@@ -359,6 +383,12 @@ CynPage >> isActiveChildView: anElement [
 	^ tab isConnected
 		ifTrue: [ tab active = true ]
 		ifFalse: [ tab previousSibling isNil ]
+]
+
+{ #category : #testing }
+CynPage >> isModelPage [
+
+	^ self class isModelPage
 ]
 
 { #category : #testing }
