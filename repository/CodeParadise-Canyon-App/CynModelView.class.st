@@ -472,6 +472,26 @@ CynModelView >> doWrite: aModel whileShowing: aString [
 	^ true
 ]
 
+{ #category : #view }
+CynModelView >> extractTemplate: anElement [
+
+	"Extract the template from the specified element
+	for use with a CpTemplateBasedDomUpdater"
+
+	| template |
+
+	template := anElement firstDescendantMatching: #template.
+	template ifNil: [ ^ nil ].
+
+	"Extract the template from its parent"
+	template remove.
+
+	"Ensure element is empty after this operation"
+	anElement makeEmpty.
+
+	^ template
+]
+
 { #category : #accessing }
 CynModelView >> form [
 
