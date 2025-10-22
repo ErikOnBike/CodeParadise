@@ -33,10 +33,10 @@ CynSelectionPropertyConstraint >> initializeWithSelection: aCollection [
 	selection := aCollection
 ]
 
-{ #category : #testing }
-CynSelectionPropertyConstraint >> isSelection [
+{ #category : #accessing }
+CynSelectionPropertyConstraint >> possibleValues [
 
-	^ true
+	^ selection
 ]
 
 { #category : #accessing }

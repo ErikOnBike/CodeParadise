@@ -193,6 +193,22 @@ CynPropertyModel class >> isRunningServerSide [
 	^ self isRunningClientSide not
 ]
 
+{ #category : #testing }
+CynPropertyModel class >> isValidPropertyValue: anObject at: aSymbol [
+
+	"Answer whether the specified value is valid at the given property.
+	Be aware: this does NOT take any conditional properties into account,
+	because we lack a Model to perform the check on the condition on."
+
+	self propertyConstraintsAt: aSymbol do: [ :each |
+		each isConditional
+			ifFalse: [
+				(each isValidValue: anObject)
+					ifFalse: [ ^ false ] ] ].
+
+	^ true
+]
+
 { #category : #private }
 CynPropertyModel class >> newClientPropertySlotNamed: aSymbol [
 
@@ -214,6 +230,16 @@ CynPropertyModel class >> nonCalculatedPropertySlotsDo: aBlock [
 	self propertySlotsDo: [ :each |
 		each isCalculated
 			ifFalse: [ aBlock value: each ] ]
+]
+
+{ #category : #accessing }
+CynPropertyModel class >> possibleValuesFromPropertyConstraintsAt: aSymbol do: aBlock [
+
+	"Evaluate the specified Block for each of the possible values of the specified property"
+
+	^ self propertyConstraintsAt: aSymbol do: [ :each |
+		each possibleValues do: [ :value |
+			aBlock value: value ] ]
 ]
 
 { #category : #initialization }
@@ -257,16 +283,6 @@ CynPropertyModel class >> propertyNamesDo: aBlock [
 	"Evaluate the specified Block for the names of the properties of the receiver"
 
 	^ self allPropertyNames do: aBlock
-]
-
-{ #category : #accessing }
-CynPropertyModel class >> propertySelectionConstraintsAt: aSymbol do: aBlock [
-
-	"Evaluate the specified Block for each of the selection constraints of the specified property"
-
-	^ self propertyConstraintsAt: aSymbol do: [ :each |
-		each isSelection
-			ifTrue: [ aBlock value: each ] ]
 ]
 
 { #category : #accessing }

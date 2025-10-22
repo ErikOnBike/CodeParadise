@@ -35,6 +35,16 @@ Class {
 	#category : #'CodeParadise-Canyon-Model-Constraints'
 }
 
+{ #category : #converting }
+CynPropertyConstraint >> asClientConstraint [
+
+	"Answer a conditional constraint that only is validated in the client (browser)"
+
+	^ CynConditionalPropertyConstraint
+		condition: [ :object | (Smalltalk classNamed: #CpDomElement) isNotNil ]
+		constraint: self
+]
+
 { #category : #testing }
 CynPropertyConstraint >> isConditional [
 
@@ -53,12 +63,6 @@ CynPropertyConstraint >> isLength [
 CynPropertyConstraint >> isPropertyConstraint [
 
 	^ true
-]
-
-{ #category : #testing }
-CynPropertyConstraint >> isSelection [
-
-	^ false
 ]
 
 { #category : #testing }
@@ -122,6 +126,18 @@ CynPropertyConstraint >> normalizeProperty: aSymbol in: aModel [
 	old value (therefore no checks here if old and new value are equal)."
 
 	aModel rawAt: aSymbol put: (self normalize: (aModel rawAt: aSymbol))
+]
+
+{ #category : #accessing }
+CynPropertyConstraint >> possibleValues [
+
+	"Answer a Collection of (the limited set of) possible values for the receiver.
+
+	This method should only answer a Collection if it is actually has limited set
+	of values. Do NOT answer the full range of possible values for a String of 3
+	Characters for example."
+
+	^ #()
 ]
 
 { #category : #validating }
