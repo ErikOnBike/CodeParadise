@@ -440,6 +440,14 @@ CynPage >> modalResult: anObject [
 	self propertyAt: #modalResult put: anObject
 ]
 
+{ #category : #accessing }
+CynPage >> name [
+
+	"Answer the receiver's name"
+
+	^ self class pageName uncapitalized
+]
+
 { #category : #view }
 CynPage >> navigateBack [
 

@@ -1094,12 +1094,16 @@ CynModelView >> title [
 	model ifNil: [ ^ nil ].
 
 	titleKey := String streamContents: [ :stream |
-		stream
-			nextPutAll: 'app.page.title.' ;
-			nextPutAll: model class shortName ;
-			nextPutAll: (model isNew
-				ifTrue: [ '.new' ]
-				ifFalse: [ '.update' ]) ].
+		stream nextPutAll: 'app.page.title.'.
+		self hasEditableForm
+			ifTrue: [
+				stream
+					nextPutAll: model class shortName ;
+					nextPutAll: (model isNew
+						ifTrue: [ '.new' ]
+						ifFalse: [ '.update' ]) ]
+			ifFalse: [
+				stream nextPutAll: self page name ] ].
 
 	^ CynPropertyEntity text: titleKey asSymbol
 ]
