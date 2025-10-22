@@ -190,7 +190,7 @@ CpJavaScriptDate >> dayIndex: anInteger [
 
 	"Set the day index"
 
-	self apply: #getDate withArguments: { anInteger }
+	self apply: #setDate withArguments: { anInteger }
 ]
 
 { #category : #accessing }
