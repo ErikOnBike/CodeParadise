@@ -51,7 +51,8 @@ CpAttributeDataUpdater >> initializeWithKey: keyString name: nameString [
 
 	self initializeWithKey: keyString.
 
-	name := nameString
+	"Remove the optional 'attr-' prefix"
+	name := nameString withoutPrefix: 'attr-'
 ]
 
 { #category : #accessing }

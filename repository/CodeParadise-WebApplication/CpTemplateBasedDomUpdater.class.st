@@ -23,15 +23,19 @@ Currently a limited set of data updates is possible:
 Examples of the above (in same order):
  <template><h1>\{\{text\}\}</h1></template>
  <template><h1 title=""\{\{title\}\}"">My header</h1></template>
+ <template><h1 attr-title=""\{\{title\}\}"""">My header</h1></template>
  <template><h1 classed-hide=""\{\{isHidden\}\}"">My header</h1></template>
  <template><h1 style-display=""\{\{styleDisplay\}\}"">My header</h1></template>
  <template><input id=""accept"" type=""checkbox"" property-checked=""\{\{isChecked\}\}""><label for=""accept"">Accept consequences?</label></template>
  <template><button event-click=""\{\{handlerBlock\}\}"">Click me!</button></template>
 
-In the last 4 items, the attribute name consists of a 'type' and a reference to some class, style,
+In the last 5 items, the attribute name consists of a 'type' and a reference to some attribute, class, style,
 property or event respectively. ""style-display"" refers to the ""display"" style. ""property-checked"" refers
-to the ""checked"" property. Etc. The event name should be the kebabed-version of the class name. For 'native'
-events from CodeParadise, the cp- prefixed should be removed. Other prefixes should be present.
+to the ""checked"" property. Etc. The attribute variant is present for situations where the attribute value
+(being some identifier between curly braces) to be interpreted incorrectly and resulting in either errors in
+the console (rather harmless but not very professional) or a failing webcomponent (might lead to a failing
+application). The event name should be the kebabed-version of the class name. For 'native' events from
+CodeParadise, the cp- prefixed should be removed. Other prefixes should be present.
 Be aware that this means you need to use 'mouse-over' and not the JS type 'mouseover' for the native event.
 Since frameworks often override events, the IonChangeEvent becomes 'ion-change' and the SlChangeEvent becomes
 'sl-change'.
