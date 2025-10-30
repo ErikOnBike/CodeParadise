@@ -241,7 +241,7 @@ CpClientEnvironment class >> version [
 	Implementation:
 	Currently the version is implemented as a monotonic increasing counter."
 
-	^ '8'
+	^ '9'
 ]
 
 { #category : #'user interaction' }

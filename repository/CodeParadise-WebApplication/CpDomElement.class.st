@@ -501,13 +501,25 @@ CpDomElement >> defer: aBlock [
 { #category : #removing }
 CpDomElement >> destroy [
 
-	"Remove the receiver from the DOM tree and release any dependents"
+	"Remove the receiver from the DOM tree and release any dependents.
+
+	Implementation:
+	Subclasses should ensure this method can be called multiple times on the
+	same element. This is needed because children are destroyed recursively
+	and chances are one of these children is destroyed explicitly as well.
+	For example in the MVP pattern this can happen."
+	self traceCr: 'destroying elm ', self printString.
 
 	"Remove receiver from parent (take it out of visible DOM)"
 	self remove.
 
-	"Destroy all children explicitly as well"
-	self children do: [ :each | each destroy ].
+	"Destroy all touched (descanedant) elements explicitly as well.
+	This only needs to be performed once for a DOM (sub)tree.
+	Therefore apply a marker on the touched elements."
+	(self propertyAt: #__cp_touched) ifNil: [
+		self touchedElements do: [ :each |
+			each propertyAt: #__cp_touched put: true.
+			each destroy ] ].
 
 	self release
 ]
@@ -1268,6 +1280,18 @@ CpDomElement >> toggleClass: aString [
 		ifFalse: [
 			self addClass: aString.
 			^ true ]
+]
+
+{ #category : #private }
+CpDomElement >> touchedElements [
+
+	"Answer a Collection with all descendants of the receiver which have been used
+	inside the Smalltalk code. This includes descendants inside a Shadow DOM.
+
+	This is an internal method which allows proper clean-up of DOM Elements."
+
+	<primitive: 'primitiveDomElementTouchedElements' module: 'CpDOMPlugin'>
+	self primitiveFailed
 ]
 
 { #category : #announcing }
