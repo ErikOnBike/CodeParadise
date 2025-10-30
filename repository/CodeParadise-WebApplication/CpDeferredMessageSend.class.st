@@ -33,15 +33,15 @@ CpDeferredMessageSend >> cull: anEvent [
 	self selector numArgs = 0
 		ifTrue: [ CpGlobalThis defer: [ super value ] ]
 		ifFalse: [
-			| argument |
 
-			"Either use the 'fixed' argument, otherwise the even"
-			argument := self numArgs > 0
-				ifTrue: [ self arguments first ]
+			"Either use the 'fixed' argument(s) or otherwise the event"
+			self numArgs > 0
+				ifTrue: [ CpGlobalThis defer: [ self value ] ]
 				ifFalse: [
 					"Because events change while bubbling, create a (stopped) copy"
-					argument := anEvent copy ].
-			CpGlobalThis defer: [ super value: argument ] ]
+					| argument |
+					argument := anEvent copy.
+					CpGlobalThis defer: [ super value: argument ] ] ]
 ]
 
 { #category : #support }
