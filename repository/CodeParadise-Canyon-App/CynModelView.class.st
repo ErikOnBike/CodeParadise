@@ -197,7 +197,7 @@ CynModelView >> bindProperty: aSymbol toElement: anElement [
 		when: IonBlurEvent
 		deferDo: [
 			model normalizePropertyAt: aSymbol.
-			self validateProperty: aSymbol ]
+			self validateProperty: aSymbol inElement: anElement ]
 		for: self).
 
 	"Add counter for text based elements"
@@ -1391,7 +1391,7 @@ CynModelView >> validateModelIfValid: validBlock ifInvalid: invalidBlock [
 ]
 
 { #category : #validating }
-CynModelView >> validateProperty: aSymbol [
+CynModelView >> validateProperty: aSymbol inElement: anElement [
 
 	"Validate the specified Property of the receiver's Model and
 	update the input element to indicate the validity"
@@ -1400,7 +1400,7 @@ CynModelView >> validateProperty: aSymbol [
 
 	errorText := model errorTextForPropertyAt: aSymbol.
 
-	(self shadowedElementWithId: aSymbol)
+	anElement
 		errorText: errorText ;
 		classed: #'ion-invalid' if: errorText isNotNil ;
 		classed: #'ion-valid' if: errorText isNil ;
