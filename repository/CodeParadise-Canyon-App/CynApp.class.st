@@ -106,7 +106,7 @@ CynApp class >> current [
 
 	"Answer the singleton instance of the receiver"
 
-	^ Current ifNil: [ Current := self basicNew initialize ; yourself ]
+	^ Current ifNil: [ (Current := self basicNew) initialize ; yourself ]
 ]
 
 { #category : #'accessing - text' }
