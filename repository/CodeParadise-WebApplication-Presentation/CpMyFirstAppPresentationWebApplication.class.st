@@ -552,7 +552,7 @@ CpMyFirstAppPresentationWebApplication >> addToDoListViewEventHandler2Slide [
 
 	self newInputValue
 		ifNotNil: [ :value |
-			self crTrace: ''New to-do item text: '', value.
+			self traceCr: ''New to-do item text: '', value.
 			self serverAnnounce: (MyNewToDoItem description: value) ]' methodClass: #MyToDoListView classified: #'event handling'.
 			}.
 			CpTextContent text: 'This handler will announce (from the browser to the server) a new to-do item.'.
