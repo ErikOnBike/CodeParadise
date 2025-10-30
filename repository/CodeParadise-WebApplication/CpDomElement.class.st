@@ -508,7 +508,6 @@ CpDomElement >> destroy [
 	same element. This is needed because children are destroyed recursively
 	and chances are one of these children is destroyed explicitly as well.
 	For example in the MVP pattern this can happen."
-	self traceCr: 'destroying elm ', self printString.
 
 	"Remove receiver from parent (take it out of visible DOM)"
 	self remove.
