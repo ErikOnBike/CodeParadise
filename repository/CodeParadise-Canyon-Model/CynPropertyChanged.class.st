@@ -73,3 +73,17 @@ CynPropertyChanged >> name [
 
 	^ name
 ]
+
+{ #category : #printing }
+CynPropertyChanged >> printOn: aStream [
+
+	aStream
+		nextPutAll: self class name ;
+		nextPut: $( ;
+		nextPutAll: name ;
+		nextPutAll: ', ' ;
+		print: oldValue ;
+		nextPutAll: ' => ' ;
+		print: newValue ;
+		nextPut: $)
+]
