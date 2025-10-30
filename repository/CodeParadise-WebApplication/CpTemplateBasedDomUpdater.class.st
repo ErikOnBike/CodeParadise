@@ -19,6 +19,7 @@ Currently a limited set of data updates is possible:
 - set style: set a value from the data as style in a HTML element
 - set property: set a value from the data as property of a HTML element
 - add event hander: add an event handler (expecting data is BlockClosure or cullable)
+- add subscription: add a subscription (similar to the event handler and also expecting data is BlockClosure or cullable)
 
 Examples of the above (in same order):
  <template><h1>\{\{text\}\}</h1></template>
@@ -28,14 +29,16 @@ Examples of the above (in same order):
  <template><h1 style-display=""\{\{styleDisplay\}\}"">My header</h1></template>
  <template><input id=""accept"" type=""checkbox"" property-checked=""\{\{isChecked\}\}""><label for=""accept"">Accept consequences?</label></template>
  <template><button event-click=""\{\{handlerBlock\}\}"">Click me!</button></template>
+ <template><my-special-view announcement-custom-happening=""""\{\{handlerBlock\}\}"""">Hello world</my-special-view></template>
 
-In the last 5 items, the attribute name consists of a 'type' and a reference to some attribute, class, style,
-property or event respectively. ""style-display"" refers to the ""display"" style. ""property-checked"" refers
-to the ""checked"" property. Etc. The attribute variant is present for situations where the attribute value
+In the last 6 items, the attribute name consists of a 'type' and a reference to some attribute, class, style,
+property, event or announcement respectively. ""style-display"" refers to the ""display"" style. ""property-checked""
+refers to the ""checked"" property. Etc. The attribute variant is present for situations where the attribute value
 (being some identifier between curly braces) to be interpreted incorrectly and resulting in either errors in
 the console (rather harmless but not very professional) or a failing webcomponent (might lead to a failing
 application). The event name should be the kebabed-version of the class name. For 'native' events from
 CodeParadise, the cp- prefixed should be removed. Other prefixes should be present.
+Same for announcement name, only Cp prefix will be removed, others should be present.
 Be aware that this means you need to use 'mouse-over' and not the JS type 'mouseover' for the native event.
 Since frameworks often override events, the IonChangeEvent becomes 'ion-change' and the SlChangeEvent becomes
 'sl-change'.
