@@ -373,22 +373,30 @@ CpTemplateBasedDomUpdater >> scanTree: anElement [
 { #category : #rendering }
 CpTemplateBasedDomUpdater >> updateChildrenOf: anElement with: aSequenceableCollection [
 
+	self updateChildrenOf: anElement with: aSequenceableCollection thenDo: nil
+]
+
+{ #category : #rendering }
+CpTemplateBasedDomUpdater >> updateChildrenOf: anElement with: aSequenceableCollection thenDo: aBlock [
+
 	"Create and/or update the children of the specified Element using the Collection of data.
 	It is assumed the template of the receiver has a single element (and therefore each child
-	of the specified Element is an instance of the template)."
+	of the specified Element is an instance of the template). A future version might support
+	templates with multiple children."
 
 	| children |
-
-	template children size = 1 ifFalse: [
-		self error: 'Only single element templates are supported' ].
 
 	children := anElement children.
 
 	"Add or update children"
 	aSequenceableCollection withIndexDo: [ :each :index |
 			index <= children size
-				ifTrue: [ self updateDomIn: (children at: index) with: each ]
-				ifFalse: [ self createDomIn: anElement with: each ] ].
+				ifTrue: [
+					self updateDomIn: (children at: index) with: each.
+					aBlock ifNotNil: [ aBlock value: (children at: index) ] ]
+				ifFalse: [
+					self createDomIn: anElement with: each.
+					aBlock ifNotNil: [ aBlock value: anElement lastChild ] ] ].
 
 	"Remove any remaining children (if the data has shrunk)"
 	children size to: aSequenceableCollection size + 1 by: -1 do: [ :index |
