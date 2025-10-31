@@ -147,6 +147,14 @@ CynApp class >> defaultAppTexts [
 			5 -> 'Friday'.
 			6 -> 'Saturday'.
 			7 -> 'Sunday' } asDictionary ;
+		at: #'app.day.short' put: {
+			1 -> 'Mo'.
+			2 -> 'Tu'.
+			3 -> 'We'.
+			4 -> 'Th'.
+			5 -> 'Fr'.
+			6 -> 'Sa'.
+			7 -> 'Su' } asDictionary ;
 		at: #'app.server.internalError.title' put: 'Oops, something went wrong' ;
 		at: #'app.server.internalError.message' put: 'The computer where the entry is stored, is not working correctly. The maintainer is informed. You could try it again shortly, just in case. We''ll try to fix this as soon as possible.' ;
 		at: #'app.server.unavailable.title' put: 'Oops, something went wrong' ;
