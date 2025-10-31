@@ -213,35 +213,35 @@ CpTemplateBasedDomUpdater >> createTemplateFrom: anElement [
 	"Create a new DOM subtree with the template element's content (or
 	the element itself if it ain't a <template> but a regular element).
 	All subtree content is wrapped in a single <div> element for convenience.
-	This allows a template with multiple children to be respresented
-	by a single element. The DOM subtree can then be annotated with markers
-	for the update/render process. The markers will allow for fast updates,
-	because it does not require the full parsing of the original template
-	anymore.
+	This allows (in the future) a template with multiple children to be
+	respresented by a single element.
+	The DOM subtree can then be annotated with markers for the update/render
+	process. The markers will allow for fast updates, because it does not
+	require the full parsing of the original template anymore.
 
 	Implementation:
-	The annotation is a Collection of integer values. These integers are an
-	index into a Collection of DataUpdaters. When rendering data onto a DOM
-	subtree, the appropriate DataUpdaters are called for that particular
-	Element. At first the indices are stored as an attribute on the Element.
-	Once rendered in the (connected) document DOM, the indices will be
-	stored in a property of the Element. When creating a copy of the template
-	in the (connected) document DOM, properties are not copied. So we need
-	to keep it in an attribute so it will get copied (cloned)."
+	The annotation added to a DOM element is an integer index into a Collection
+	of DataUpdaters. When rendering data onto a DOM subtree, the appropriate
+	DataUpdaters are called for that particular Element. An element can have
+	more than 1 DataUpdater and therefore a collection of indices is kept. At
+	first the indices are stored as an attribute on the Element. Once rendered
+	in the (connected) document DOM, the indices will be stored in a property
+	of the Element. When creating a copy of the template in the (connected)
+	document DOM, properties are not copied. So we need to keep it in an
+	attribute so it will get copied (cloned)."
 
-	| childNodes index childNode |
+	| children |
 
 	"Start with empty <div>"
 	template := CpHtmlElement newWithTag: #div.
 
-	"Copy Nodes child by child"
-	childNodes := ((anElement propertyAt: #content) ifNil: [ anElement ]) propertyAt: #childNodes.
-	index := 0.
-	[ (childNode := childNodes apply: #item withArguments: { index }) isNotNil ] whileTrue: [
+	"Extract the children and validate we have only 1 (no support for multiple atm)"
+	children := ((anElement propertyAt: #content) ifNil: [ anElement ]) children.
+	children size = 1
+		ifFalse: [ self error: 'A template should have exactly 1 child' ].
 
-		"Deep clone child node (so we don't have to recurse ourselves)"
-		template apply: #appendChild withArguments: { childNode apply: #cloneNode withArguments: { true } }.
-		index := index + 1 ].
+	"Deep clone child element (so we don't have to recurse ourselves)"
+	template appendChild: (children first apply: #cloneNode withArguments: { true }).
 
 	"Walk the template and store the DataUpdaters"
 	self scanTree: template
@@ -337,35 +337,14 @@ CpTemplateBasedDomUpdater >> release [
 { #category : #private }
 CpTemplateBasedDomUpdater >> renderData: aDictionary on: anElement [
 
-	"Render the specified data onto the DOM subtree specified by the
-	given reference Element. The Element MUST be the first Element of
-	the subtree. If necessary rendering will continu on siblings of
-	this Element.
-	For example the following template:
-		<template>
-			<li>{{oddItem}}</li>
-			<li>{{evenItem}}</li>
-		</template>
-	The #renderData:on: method should be called with the first <li>
-	element. The second element will be rendered too by the mechanism
-	implemented in #renderRemaining:data:on:"
-
-	self renderRemaining: dataUpdaters size data: aDictionary on: anElement
-]
-
-{ #category : #private }
-CpTemplateBasedDomUpdater >> renderRemaining: anInteger data: aDictionary on: anElement [
-
-	"Render the remaining count of the specified data onto the DOM subtree
-	specified by the given reference Element.
+	"Render the specified data onto the DOM subtree specified by the given reference Element.
 
 	Implementation:
-	When more data needs to be rendered then possible within the specified
-	Element, continu onto its next sibling. See also comment in #renderData:on:"
+	Perform a sanity check that we update all elements."
 
 	| remaining |
 
-	remaining := anInteger.
+	remaining := dataUpdaters size.
 
 	self allMarkedElementsIn: anElement do: [ :each |
 		self updatersOn: each do: [ :eachUpdater |
@@ -373,11 +352,7 @@ CpTemplateBasedDomUpdater >> renderRemaining: anInteger data: aDictionary on: an
 			remaining := remaining - 1 ] ].
 
 	remaining = 0
-		ifTrue: [ ^ self ].
-
-	anElement nextSibling
-		ifNotNil: [ :nextSibling | self renderRemaining: remaining data: aDictionary on: nextSibling ]
-		ifNil: [ self warnCr: 'Template shape does not match the origin anymore' ]
+		ifFalse: [ self warnCr: 'Template shape does not match the origin anymore' ]
 ]
 
 { #category : #private }
