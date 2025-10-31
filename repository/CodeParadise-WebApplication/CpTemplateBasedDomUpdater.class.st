@@ -182,19 +182,12 @@ CpTemplateBasedDomUpdater >> allMarkedElementsIn: anElement do: aBlock [
 ]
 
 { #category : #rendering }
-CpTemplateBasedDomUpdater >> createDomIn: anElement before: aChildElement with: aDictionary [
+CpTemplateBasedDomUpdater >> createDomIn: anElement with: aDictionary [
 
 	"Create a new DOM subtree for the specified (Dictionary like) object.
-	The subtree will be inserted in the specified Element at the specified
-	location (before the child Element or at the end if nil is provided as
-	the child Element's value).
-	Answer the first child Element created, this is the reference point
-	for updating the subtree later on using #updateDomFor:in:
-	When the subtree is created in a known location, the answered Element
-	does not need to be used. A regular reference to a CpDomElement can
-	be used during updating as well."
+	The subtree will be inserted in the specified Element at the end."
 
-	| subtree newElement refElement prevElement |
+	| subtree newElement nextElement |
 
 	"Create a new DOM subtree (will always have a <div> as parent)"
 	subtree := template apply: #cloneNode withArguments: { true }.
@@ -205,29 +198,13 @@ CpTemplateBasedDomUpdater >> createDomIn: anElement before: aChildElement with: 
 	"Render data onto the subtree"
 	self renderData: aDictionary on: subtree firstChild.
 
-	"Move subtree into final position.
-	To ensure correct order (also when aChildElement is nil) always
-	insert from last to first subtree child and use the previous
-	inserted element as reference point (except for first one which
-	is specified explicitly by caller)."
-	refElement := aChildElement.
-	newElement := subtree lastChild.
+	"Move subtree into final position"
+	newElement := subtree firstChild.
 	[ newElement isNotNil ] whileTrue: [
-		"Get the previous Element before the Element is moved and this info is lost"
-		prevElement := newElement previousSibling.
-		refElement
-			ifNotNil: [ anElement insertChild: newElement before: refElement ]
-			ifNil: [ anElement appendChild: newElement ].
-		refElement := newElement.
-		newElement := prevElement ].
-
-	^ refElement
-]
-
-{ #category : #rendering }
-CpTemplateBasedDomUpdater >> createDomIn: anElement with: aDictionary [
-
-	^ self createDomIn: anElement before: nil with: aDictionary
+		"Get the next Element before the Element is moved and this info is lost"
+		nextElement := newElement nextSibling.
+		anElement appendChild: newElement.
+		newElement := nextElement ]
 ]
 
 { #category : #private }
