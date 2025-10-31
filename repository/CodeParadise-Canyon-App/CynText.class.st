@@ -17,9 +17,21 @@ CynText class >> style [
 { #category : #initialization }
 CynText >> initialize [
 
+	| index count |
+
 	super initialize.
 
+	index := (self attributeAt: #index)
+		ifNotNil: [ :indexString | indexString asNumberOrNil ].
+	count := (self attributeAt: #count)
+		ifNotNil: [ :countString | countString asNumberOrNil ].
+
 	"Set text if value provided as attribute"
-	(self attributeAt: #text)
-		ifNotNil: [ :text | self textContent: (CynPropertyEntity text: text asSymbol) ]
+	(self attributeAt: #text) ifNotNil: [ :text |
+		self textContent: (index
+			ifNotNil: [ CynPropertyEntity index: index text: text asSymbol ]
+			ifNil: [
+				count
+					ifNotNil: [ CynPropertyEntity count: count text: text asSymbol ]
+					ifNil: [ CynPropertyEntity text: text asSymbol ] ]) ]
 ]
