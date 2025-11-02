@@ -856,6 +856,17 @@ CynLocalAccountRestApiService >> updateSettings: aRestRequest response: aRestRes
 ]
 
 { #category : #'API - authorization' }
+CynLocalAccountRestApiService >> validateAuthorizedAdminRequest: aRestRequest [
+
+	"Default authorization handler for admin endpoints"
+
+	self validateAuthorizedRequest: aRestRequest.
+
+	(self isAdminAccount: (aRestRequest propertyAt: #accountId))
+		ifFalse: [ CpNodeJSRestForbiddenError signal ]
+]
+
+{ #category : #'API - authorization' }
 CynLocalAccountRestApiService >> validateAuthorizedRequest: aRestRequest [
 
 	"Default authorization handler for non-public endpoints"
