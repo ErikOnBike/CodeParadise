@@ -407,13 +407,15 @@ CynBaseRestApiService >> initializeMailer [
 		mailer := nil ].
 
 	"Configure the mailer"
-	config at: #mailer ifPresent: [ :mailerConfig |
+	config at: #mailer
+		ifPresent: [ :mailerConfig |
 
-		"If mailer is preent, 'mailer-default' and 'mailer-dsn' are assumed to be present too"
-		mailer := CpNodeJSNodemailerTransporter createTransport: mailerConfig withDefaults: (config at: #'mailer-defaults').
-		mailer verify: [ :error :success |
-			error ifNotNil: [ self errorCr: ('Startup error mailer: {1}' format: { error }) ].
-			success ifNotNil: [ self traceCr: ('Startup mailer successful: {1}' format: { success }) ] ] ]
+			"If mailer is preent, 'mailer-default' and 'mailer-dsn' are assumed to be present too"
+			mailer := CpNodeJSNodemailerTransporter createTransport: mailerConfig withDefaults: (config at: #'mailer-defaults').
+			mailer verify: [ :error :success |
+				error ifNotNil: [ self errorCr: ('Startup error mailer: {1}' format: { error }) ].
+				success ifNotNil: [ self traceCr: ('Startup mailer successful: {1}' format: { success }) ] ] ]
+		ifAbsent: [ self traceCr: 'No mailer configured' ]
 ]
 
 { #category : #initialization }
@@ -595,7 +597,7 @@ CynBaseRestApiService >> mail: aMessage to: aString [
 	"Update message with to fields"
 	aMessage to: aString.
 
-	mailer sendMail: aMessage thenDo: [ :error :info |
+	self sendMail: aMessage thenDo: [ :error :info |
 		error ifNotNil: [ self logError: error ].
 		info ifNotNil: [ self logInfoMessage: 'Send mail: ', aMessage restApiLogInfo ] ]
 ]
@@ -686,7 +688,7 @@ CynBaseRestApiService >> reReadConfig [
 	[
 		version := nil.
 		config := CpJavaScriptJSON parse: (CpNodeJSFS require readFileSync: self class configFile options: 'utf-8').
-		(config at: #mailer) = (oldConfig at: #mailer)
+		(config at: #mailer ifAbsent: [ nil ]) = (oldConfig at: #mailer ifAbsent: [ nil ])
 			ifFalse: [ self initializeMailer ].
 		self traceCr: 'Re-read config'
 	] on: Error do: [ :error |
@@ -737,6 +739,19 @@ CynBaseRestApiService >> send: anObject response: aServerResponse [
 CynBaseRestApiService >> sendEmptyResponse: aServerResponse [
 
 	self send: Dictionary new response: aServerResponse
+]
+
+{ #category : #'API - support' }
+CynBaseRestApiService >> sendMail: aMessage thenDo: aBlock [
+
+	"Send the specified Message and then evaluate the specified Block
+	with two arguments: error and info"
+
+	mailer
+		ifNotNil: [ mailer sendMail: aMessage thenDo: aBlock ]
+		ifNil: [
+			self traceCr: 'Mailer not configured. Send mail: ', aMessage printString.
+			aBlock value: nil value: 'Mailer not configured' ]
 ]
 
 { #category : #'API - private' }

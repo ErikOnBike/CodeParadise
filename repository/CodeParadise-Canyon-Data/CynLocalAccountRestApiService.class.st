@@ -573,7 +573,7 @@ CynLocalAccountRestApiService >> notify: messageString statusCode: statusCodeInt
 		html: ('<h1>Error: {1}</h1><h3>Statuscode: {2}</h3><h3>Stack trace:</h3><pre>{3}</pre>' format: { messageString . statusCodeInteger printString . stackString }) ;
 		yourself.
 
-	mailer sendMail: notificationMessage thenDo: [ :error :info |
+	self sendMail: notificationMessage thenDo: [ :error :info |
 		error ifNotNil: [ self errorCr: 'Failed to send notification: ', error printString ] ].
 
 	[ logDatabase
