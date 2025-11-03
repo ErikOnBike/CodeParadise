@@ -512,7 +512,7 @@ CpDomElement >> destroy [
 	"Remove receiver from parent (take it out of visible DOM)"
 	self remove.
 
-	"Destroy all touched (descanedant) elements explicitly as well.
+	"Destroy all touched (descendant) elements explicitly as well.
 	This only needs to be performed once for a DOM (sub)tree.
 	Therefore apply a marker on the touched elements."
 	(self propertyAt: #__cp_touched) ifNil: [
