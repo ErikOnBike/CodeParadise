@@ -52,7 +52,8 @@ CpJavaScriptDate class >> fromSeconds: anInteger [
 { #category : #'instance creation' }
 CpJavaScriptDate class >> fromString: aString [
 
-	"Answer a new instance of the receiver based on the specified String representation"
+	"Answer a new instance of the receiver based on the specified String representation.
+	If the String representation is not a valid representation for a Date, nil is answered."
 
 	^ CpGlobalThis apply: #cpDateFromString: withArguments: { aString }
 ]
@@ -78,6 +79,7 @@ CpJavaScriptDate class >> now [
 CpJavaScriptDate class >> parse: aString [
 
 	"Parse the specified date String and answer a timestamp in milliseconds.
+	A Float NaN is answered when no valid date is represented.
 	Use #fromString: to retrieve an instance of the receiver."
 
 	^ self apply: #parse withArguments: { aString }
@@ -101,7 +103,11 @@ CpJavaScriptDate class >> postInstallOnce [
 	"cpDateFromString: - Answer a new Date insance based on a String representation"
 	CpGlobalThis propertyAt: #cpDateFromString: put: (CpJavaScriptFunction
 		method:
-'return new Date(Date.parse(str));'
+'let ms = Date.parse(str);
+if(Number.isNaN(ms)) {
+	return null;
+}
+return new Date(ms);'
 		arguments: #('str')).
 
 	"cpDateFromSeconds: - Answer a new Date instance based on seconds since Unix epoch."
