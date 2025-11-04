@@ -587,7 +587,7 @@ CpJavaScriptObject >> primApply: aSymbol withArguments: anArray resultAs: aProxy
 		ifNotNil: [ :exception | ^ exception rootException signal ].
 
 	"Check if selector exists by using #getSelectorType: (if that fails, do not do a DNU)"
-	[ type := self getSelectorType: aSymbol ] on: Error do: [ #skipDNU ].
+	type := [ self getSelectorType: aSymbol ] on: Error do: [ #skipDNU ].
 
 	type ifNil: [ ^ super doesNotUnderstand: (Message selector: aSymbol arguments: anArray) ].
 
