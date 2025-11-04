@@ -10,5 +10,9 @@ CynApp class >> updateMultiLanguageText [
 
 	self traceCr: 'Update multi language text'.
 
-	Current ifNotNil: [ Current initializeLanguageText ]
+	Current ifNotNil: [ Current initializeLanguageText ].
+
+	CpHtmlElement documentBody touchedElements do: [ :each |
+		each class = CynText
+			ifTrue: [ each render ] ]
 ]
