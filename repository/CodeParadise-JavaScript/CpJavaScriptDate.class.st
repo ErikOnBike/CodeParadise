@@ -20,6 +20,19 @@ CpJavaScriptDate class >> dayInSeconds [
 	^ 86400
 ]
 
+{ #category : #accessing }
+CpJavaScriptDate class >> daysBetween: dateRef and: dateComp [
+
+	"Answer the number of days between the specified Dates.
+	A positive number means dateRef < dateComp.
+	A negative number means dateRef > dateComp.
+	A 0 means dateRef = dateComp.
+
+	See #postInstallOnce"
+
+	^ CpGlobalThis apply: #cpDateDaysBetween:and: withArguments: { dateRef . dateComp }
+]
+
 { #category : #'instance creation' }
 CpJavaScriptDate class >> fromMilliseconds: anInteger [
 
@@ -33,7 +46,7 @@ CpJavaScriptDate class >> fromSeconds: anInteger [
 
 	"Answer a new instance of the receiver using the specified number of seconds"
 
-	^ self fromMilliseconds: anInteger * 1000
+	^ CpGlobalThis apply: #cpDateFromSeconds: withArguments: { anInteger }
 ]
 
 { #category : #'instance creation' }
@@ -41,7 +54,7 @@ CpJavaScriptDate class >> fromString: aString [
 
 	"Answer a new instance of the receiver based on the specified String representation"
 
-	^ self fromMilliseconds: (self parse: aString)
+	^ CpGlobalThis apply: #cpDateFromString: withArguments: { aString }
 ]
 
 { #category : #accessing }
@@ -64,9 +77,72 @@ CpJavaScriptDate class >> now [
 { #category : #accessing }
 CpJavaScriptDate class >> parse: aString [
 
-	"Parse the specified date String and answer a timestamp in milliseconds"
+	"Parse the specified date String and answer a timestamp in milliseconds.
+	Use #fromString: to retrieve an instance of the receiver."
 
 	^ self apply: #parse withArguments: { aString }
+]
+
+{ #category : #'class initialization' }
+CpJavaScriptDate class >> postInstallOnce [
+
+	"Add some helper functions.
+
+	Add a helper function to answer a new Date based on seconds since Unix epoch.
+	Add a helper function to answer a new Date based on a String representation.
+	Add a helper function to answer the current timestamp in seconds (instead of milliseconds).
+	Add a helper function to answer the timestamp in seconds of a particular Date.
+	Add a helper function to find the difference in days between two dates.
+
+	Date object's timestamps are LargeIntegers. By having these convenience methods
+	a little less conversion between SmallIntegers and LargeIntegers is required.
+	And therefore a little less GC on these instances."
+
+	"cpDateFromString: - Answer a new Date insance based on a String representation"
+	CpGlobalThis propertyAt: #cpDateFromString: put: (CpJavaScriptFunction
+		method:
+'return new Date(Date.parse(str));'
+		arguments: #('str')).
+
+	"cpDateFromSeconds: - Answer a new Date instance based on seconds since Unix epoch."
+	CpGlobalThis propertyAt: #cpDateFromSeconds: put: (CpJavaScriptFunction
+		method:
+'return new Date(seconds * 1000);'
+		arguments: #('seconds')).
+
+	"cpDateTimestampNow - Answer time as seconds sinde Unix epoch.
+	The milliseconds part is stripped of, i.e. no rounding is being performed."
+	CpGlobalThis propertyAt: #cpDateTimestampNow put: (CpJavaScriptFunction
+		method:
+'return Math.floor(Date.now() / 1000);'
+		arguments: #()).
+
+	"cpDateTimestampFrom: - Answer the timestamp of a particular date."
+	CpGlobalThis propertyAt: #cpDateTimestampFrom: put: (CpJavaScriptFunction
+		method:
+'return Math.floor(date.getTime() / 1000);'
+		arguments: #('date')).
+
+	"cpDateDaysBetween:and: - Answer number of days between two dates.
+	1 day = 24 * 60 * 60 * 1000 milliseconds = 86400000 milliseconds"
+	CpGlobalThis propertyAt: #cpDateDaysBetween:and: put: (CpJavaScriptFunction
+		method:
+'let ref = new Date(dateRef);
+let comp = new Date(dateComp);
+ref.setHours(0, 0, 0, 0);
+comp.setHours(0, 0, 0, 0);
+return Math.round((comp - ref) / 86400000);'
+		arguments: #('dateRef' 'dateComp'))
+]
+
+{ #category : #accessing }
+CpJavaScriptDate class >> timestampFrom: aDate [
+
+	"Answer the timestamp (seconds since Unix epoch) from the specified Date.
+
+	See #postInstallOnce"
+
+	^ CpGlobalThis apply: #cpDateTimestampFrom: withArguments: { aDate }
 ]
 
 { #category : #accessing }
@@ -74,10 +150,9 @@ CpJavaScriptDate class >> timestampNow [
 
 	"Answer the current timestamp as seconds since Unix epoch (midnight Jan 1, 1970, UTC).
 
-	Implementation:
-	The milliseconds part is stripped of, i.e. no rounding is being performed."
+	See #postInstallOnce"
 
-	^ self now // 1000
+	^ CpGlobalThis apply: #cpDateTimestampNow
 ]
 
 { #category : #'instance creation' }
@@ -85,7 +160,7 @@ CpJavaScriptDate class >> today [
 
 	"Answer an instance of the receiver for today (0:00 hrs)"
 
-	^ (self fromMilliseconds: self now)
+	^ self newInstance
 		resetTime ;
 		yourself
 ]
@@ -95,7 +170,7 @@ CpJavaScriptDate class >> tomorrow [
 
 	"Answer an instance of the receiver for tomorrow (0:00 hrs)"
 
-	^ (self fromMilliseconds: self now + self dayInMilliseconds)
+	^ (self fromSeconds: self timestampNow + self dayInSeconds)
 		resetTime ;
 		yourself
 ]
@@ -105,7 +180,7 @@ CpJavaScriptDate class >> yesterday [
 
 	"Answer an instance of the receiver for yesterday (0:00 hrs)"
 
-	^ (self fromMilliseconds: self now - self dayInMilliseconds)
+	^ (self fromSeconds: self timestampNow - self dayInSeconds)
 		resetTime ;
 		yourself
 ]
@@ -159,7 +234,7 @@ CpJavaScriptDate >> beforeDate: aDate [
 { #category : #copying }
 CpJavaScriptDate >> copy [
 
-	^ self class fromMilliseconds: self time
+	^ self class fromSeconds: self timestamp
 ]
 
 { #category : #accessing }
@@ -204,6 +279,19 @@ CpJavaScriptDate >> dayOfWeekIndex [
 	^ index = 0
 		ifTrue: [ 7 ]
 		ifFalse: [ index ]
+]
+
+{ #category : #accessing }
+CpJavaScriptDate >> daysBetween: aDate [
+
+	"Answer the number of days between the receiver and the specified Date.
+	A positive value means that the specified Date is in the future (from the
+	receiver's perspective). A negative value means that the specified Date is
+	in the past (from the receiver's perspective). The value 0 means both Dates
+	are the same."
+
+	^ self class
+		daysBetween: self and: aDate
 ]
 
 { #category : #comparing }
@@ -396,7 +484,8 @@ CpJavaScriptDate >> timestamp [
 
 	"Answer the seconds since unix epoch (see class methods #timestamp and #now)"
 
-	^ self time // 1000
+	^ self class
+		timestampFrom: self
 ]
 
 { #category : #accessing }
