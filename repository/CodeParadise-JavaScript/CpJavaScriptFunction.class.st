@@ -22,7 +22,7 @@ Class {
 	#category : #'CodeParadise-JavaScript-Core'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #'instance creation' }
 CpJavaScriptFunction class >> method: aString arguments: anArray [
 
 	"Answer an instance of the receiver with the specified method and arguments.
