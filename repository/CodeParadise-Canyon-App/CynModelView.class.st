@@ -543,9 +543,9 @@ CynModelView >> handleInvalidModel: aDictionary [
 			| propertieLabels |
 
 			"Make sure the labels are in the same order as the properties on screen.
-			Assume the bound properties collection is in that specific order."
+			Assume the properties for validation collection is in that specific order."
 			propertieLabels := OrderedCollection new.
-			self boundProperties do: [ :each |
+			self propertiesForValidation do: [ :each |
 				(aDictionary includesKey: each)
 					ifTrue: [ propertieLabels add: (self normalizedLabelAt: each) ] ].
 
