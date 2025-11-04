@@ -81,6 +81,8 @@ CynApp class >> constraintTexts [
 	^ Dictionary new
 		at: #'constraint.empty' put: 'Input should not be empty.' ;
 		at: #'constraint.required' put: 'Input is required to operate correctly.' ;
+		at: #'constraint.date.format' put: 'The date should be formatted YYYY-MM-DD' ;
+		at: #'constraint.date.content' put: 'The date should be formatted YYYY-MM-DD' ;
 		at: #'constraint.email.at' put: 'An email address should match the pattern "name@domain.org".' ;
 		at: #'constraint.email.format' put: 'An email address should contain exactly one @-symbol (like "name@domain.org").' ;
 		at: #'constraint.email.name' put: 'The name before the @-symbol only allows letters, digits and the following symbols: {1}' ;
@@ -92,6 +94,8 @@ CynApp class >> constraintTexts [
 		at: #'constraint.id.length' put: 'The id should be exactly 36 characters long (formatted xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx)' ;
 		at: #'constraint.id.dash' put: 'The id should contain dashes at fixed locations (formatted xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx)' ;
 		at: #'constraint.id.content' put: 'The id should only contain digits, the letters "a" until "f" and dashes (formatted xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx)' ;
+		at: #'constraint.time.format' put: 'The time should be formatted HH:MM or HH:MM:SS' ;
+		at: #'constraint.time.content' put: 'The time should be formatted HH:MM or HH:MM:SS' ;
 		at: #'constraint.token.length' put: 'The code should be exactly 32 characters long. Maybe it is not copied correctly from the mail?' ;
 		at: #'constraint.token.content' put: 'The code should only contain digits and the letters "a" until "f". Maybe it is not copied correctly from the mail?' ;
 		at: #'constraint.length.min' put: 'The input should be at least {1} characters long and is only {2} characters long.' ;
