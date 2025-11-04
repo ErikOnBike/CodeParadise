@@ -294,6 +294,25 @@ CpJavaScriptDate >> daysBetween: aDate [
 		daysBetween: self and: aDate
 ]
 
+{ #category : #accessing }
+CpJavaScriptDate >> daysInMonth [
+
+	"Answer the number of days in the current month.
+
+	Implementation:
+	Create a new Date instance and setting the day to the last day of
+	the month and then answer the dayIndex."
+
+	| endOfMonth |
+
+	"Create date on next month and day index 0 => last day of this month.
+	All wrapping is performed by the JavaScript Date class."
+	endOfMonth := self class
+		year: self year month: self monthIndex + 1 day: 0.
+
+	^ endOfMonth dayIndex
+]
+
 { #category : #comparing }
 CpJavaScriptDate >> equalsDate: aDate [
 
@@ -343,6 +362,23 @@ CpJavaScriptDate >> hours: hours minutes: minutes seconds: seconds [
 CpJavaScriptDate >> hours: hours minutes: minutes seconds: seconds milliseconds: milliseconds [
 
 	self apply: #setHours withArguments: { hours . minutes . seconds . milliseconds }
+]
+
+{ #category : #accessing }
+CpJavaScriptDate >> lastWeekdayOfMonthIndex [
+
+	"Answer the max occurrence count (the ordinal value) of the receiver's weekday within
+	its current month.
+	I.e.
+		2025-01-01 is a Wednesday. For this date the weekdayOfMonthIndex = 1
+		2025-01-08 is a Wednesday. For this date the weekdayOfMonthIndex = 2
+		etc.
+	The maximum index value any weekday can have within a month is 5.
+	For January 2025 there are 5 Wednesdays: 1, 8, 15, 22, 29.
+	Some weekdays have only 4 occurrences (never less since smallest month has 28 days).
+	For January 2025 there are 4 Tuesdays: 7, 14, 21, 28."
+
+	^ self weekdayOfMonthIndex + ((self daysInMonth - self dayIndex) // 7)
 ]
 
 { #category : #accessing }
@@ -492,6 +528,25 @@ CpJavaScriptDate >> timestamp [
 CpJavaScriptDate >> toISOString [
 
 	^ self apply: #toISOString
+]
+
+{ #category : #accessing }
+CpJavaScriptDate >> weekdayOfMonthIndex [
+
+	"Answer the occurrence count (the ordinal value) of the receiver's weekday within
+	its current month.
+	I.e.
+		2025-01-01 is a Wednesday. For this date the weekdayOfMonthIndex = 1
+		2025-01-08 is a Wednesday. For this date the weekdayOfMonthIndex = 2
+		etc.
+	The maximum index value any weekday can have within a month is 5.
+	For January 2025 there are 5 Wednesdays: 1, 8, 15, 22, 29.
+	Some weekdays have only 4 occurrences (never less since smallest month has 28 days).
+	For January 2025 there are 4 Tuesdays: 7, 14, 21, 28.
+
+	The current occurrence can therefore be any number between 1 and 5."
+
+	^ ((self dayIndex - 1) // 7) + 1
 ]
 
 { #category : #accessing }
