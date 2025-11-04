@@ -17,9 +17,15 @@ CynText class >> style [
 { #category : #initialization }
 CynText >> initialize [
 
-	| index count |
-
 	super initialize.
+
+	self render
+]
+
+{ #category : #initialization }
+CynText >> render [
+
+	| index count |
 
 	index := (self attributeAt: #index)
 		ifNotNil: [ :indexString | indexString asNumberOrNil ].
