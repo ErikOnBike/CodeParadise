@@ -606,6 +606,11 @@ CynModelView >> handleRefreshAction [
 { #category : #'event handling' }
 CynModelView >> handleSubmitForm [
 
+	self isModelDirty
+		ifFalse: [
+			self handleFormSubmitted.
+			^ self ].
+
 	self
 		handleSubmitFormOnSuccess: [ self handleFormSubmitted ]
 		onFailure: [ :violations |
