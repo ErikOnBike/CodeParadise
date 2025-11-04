@@ -182,6 +182,17 @@ CpJavaScriptDate class >> tomorrow [
 ]
 
 { #category : #'instance creation' }
+CpJavaScriptDate class >> year: yearInteger month: monthInteger day: dayInteger [
+
+	"Answer a new instance of the receiver.
+
+	Implementation:
+	Remember JavaScript Date object uses a 0-based month index."
+
+	^ self newInstanceWithArguments: { yearInteger . monthInteger - 1 . dayInteger }
+]
+
+{ #category : #'instance creation' }
 CpJavaScriptDate class >> yesterday [
 
 	"Answer an instance of the receiver for yesterday (0:00 hrs)"
