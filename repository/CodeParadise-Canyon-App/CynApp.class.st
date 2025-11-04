@@ -155,6 +155,18 @@ CynApp class >> defaultAppTexts [
 			5 -> 'Fr'.
 			6 -> 'Sa'.
 			7 -> 'Su' } asDictionary ;
+		at: #'app.ordinal' put: {
+			1 -> '1st'.
+			2 -> '2nd'.
+			3 -> '3rd'.
+			4 -> '4th'.
+			5 -> '5th'.
+			6 -> '6th'.
+			7 -> '7th'.
+			8 -> '8th'.
+			9 -> '9th'.
+			10 -> '10th' } asDictionary ;
+		at: #'app.ordinal.last' put: 'last' ;
 		at: #'app.server.internalError.title' put: 'Oops, something went wrong' ;
 		at: #'app.server.internalError.message' put: 'The computer where the entry is stored, is not working correctly. The maintainer is informed. You could try it again shortly, just in case. We''ll try to fix this as soon as possible.' ;
 		at: #'app.server.unavailable.title' put: 'Oops, something went wrong' ;
