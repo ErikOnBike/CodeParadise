@@ -789,7 +789,7 @@ CynBaseRestApiService >> updateLogError: anError response: aRestResponse [
 	#updateLogRequest:statusCode: method which is always called.
 	Answer the id of the log record (or nil if none is updated/added)."
 
-	| request rowId |
+	| request rowId stack |
 
 	request := aRestResponse request.
 	rowId := request propertyAt: #rowId.
@@ -798,13 +798,17 @@ CynBaseRestApiService >> updateLogError: anError response: aRestResponse [
 	rowId ifNil: [
 		^ self log: #error message: anError description request: request ].
 
+	"Only add a stack trace for server errors"
+	stack := anError restResponseCode >= 500
+		ifTrue: [ anError signalerContext ifNotNil: [ :stackContext | stackContext printString ] ].
+
 	"Update the existing entry"
 	[
 		logDatabase
 			performOne: #updateLogRecord
 			statement: 'UPDATE logs SET stack=:stack, request=:request, body=:body WHERE rowid=:rowId'
 			bind: {
-				#stack -> (anError signalerContext ifNotNil: [ :stackContext | stackContext printString ]).
+				#stack -> stack.
 				#request -> request printString.
 				#body -> (self bodyFromRequest: request).
 				#rowId -> rowId } asDictionary.
