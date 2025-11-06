@@ -1303,7 +1303,7 @@ CynModelView >> updateChildViewsAtSlotNamed: aString usingDefinitions: aCollecti
 ]
 
 { #category : #view }
-CynModelView >> updateGrid: aGridElement wide: anInteger with: aCollection using: aDomUpdater [
+CynModelView >> updateGrid: aGridElement wide: anInteger with: aSequenceableCollection accessor: anObject using: aDomUpdater [
 
 	"Convenience method to create and update <ion-grid> elements with rows and cols.
 	Update the specified grid with the collection of data using the DOMUpdater.
@@ -1317,7 +1317,7 @@ CynModelView >> updateGrid: aGridElement wide: anInteger with: aCollection using
 
 	| columns |
 
-	aCollection withIndexDo: [ :each :index |
+	aSequenceableCollection withIndexDo: [ :each :index |
 		| row column |
 		row := aGridElement children
 			at: ((index - 1) // anInteger) + 1
@@ -1326,17 +1326,28 @@ CynModelView >> updateGrid: aGridElement wide: anInteger with: aCollection using
 			at: ((index - 1) \\ anInteger) + 1
 			ifAbsent: [ nil ].
 		column
-			ifNotNil: [ aDomUpdater updateDomIn: column with: each ]
-			ifNil: [ aDomUpdater createDomIn: row with: each ] ].
+			ifNotNil: [ aDomUpdater updateDomIn: column with: each accessor: anObject ]
+			ifNil: [ aDomUpdater createDomIn: row with: each accessor: anObject ] ].
 
 	"Remove remaining columns  (if the data has shrunk)"
 	columns := aGridElement allDescendantsMatching: IonCol asCssSelector.
-	columns size to: aCollection size + 1 by: -1 do: [ :index |
+	columns size to: aSequenceableCollection size + 1 by: -1 do: [ :index |
 		(columns at: index) destroy ].
 
 	"Remove (what now have become) empty rows"
 	(aGridElement allDescendantsMatching: IonRow asCssSelector) do: [ :each |
 		each ifEmpty: [ each destroy ] ]
+]
+
+{ #category : #view }
+CynModelView >> updateGrid: aGridElement wide: anInteger with: aSequenceableCollection using: aDomUpdater [
+
+	self
+		updateGrid: aGridElement
+		wide: anInteger
+		with: aSequenceableCollection
+		accessor: nil
+		using: aDomUpdater
 ]
 
 { #category : #private }

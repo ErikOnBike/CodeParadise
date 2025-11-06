@@ -184,6 +184,12 @@ CpTemplateBasedDomUpdater >> allMarkedElementsIn: anElement do: aBlock [
 { #category : #rendering }
 CpTemplateBasedDomUpdater >> createDomIn: anElement with: aDictionary [
 
+	self createDomIn: anElement with: aDictionary accessor: nil
+]
+
+{ #category : #rendering }
+CpTemplateBasedDomUpdater >> createDomIn: anElement with: aDictionary accessor: anObject [
+
 	"Create a new DOM subtree for the specified (Dictionary like) object.
 	The subtree will be inserted in the specified Element at the end."
 
@@ -196,7 +202,7 @@ CpTemplateBasedDomUpdater >> createDomIn: anElement with: aDictionary [
 	self moveIndicesToPropertyIn: subtree.
 
 	"Render data onto the subtree"
-	self renderData: aDictionary on: subtree firstChild.
+	self renderData: aDictionary accessor: anObject on: subtree firstChild.
 
 	"Move subtree into final position"
 	newElement := subtree firstChild.
@@ -335,20 +341,26 @@ CpTemplateBasedDomUpdater >> release [
 ]
 
 { #category : #private }
-CpTemplateBasedDomUpdater >> renderData: aDictionary on: anElement [
+CpTemplateBasedDomUpdater >> renderData: aDictionary accessor: anObject on: anElement [
 
 	"Render the specified data onto the DOM subtree specified by the given reference Element.
 
 	Implementation:
 	Perform a sanity check that we update all elements."
 
-	| remaining |
+	| remaining data |
 
 	remaining := dataUpdaters size.
 
+	"If an accessor is provided, use it to gain access to the Object in a Dictionary like way"
+	data := anObject
+		ifNotNil: [ anObject value: aDictionary ]
+		ifNil: [ aDictionary ].
+
+	"Render the data"
 	self allMarkedElementsIn: anElement do: [ :each |
 		self updatersOn: each do: [ :eachUpdater |
-			eachUpdater renderData: aDictionary on: each.
+			eachUpdater renderData: data on: each.
 			remaining := remaining - 1 ] ].
 
 	remaining = 0
@@ -373,16 +385,21 @@ CpTemplateBasedDomUpdater >> scanTree: anElement [
 { #category : #rendering }
 CpTemplateBasedDomUpdater >> updateChildrenOf: anElement with: aSequenceableCollection [
 
-	self updateChildrenOf: anElement with: aSequenceableCollection thenDo: nil
+	self updateChildrenOf: anElement with: aSequenceableCollection accessor: nil
 ]
 
 { #category : #rendering }
-CpTemplateBasedDomUpdater >> updateChildrenOf: anElement with: aSequenceableCollection thenDo: aBlock [
+CpTemplateBasedDomUpdater >> updateChildrenOf: anElement with: aSequenceableCollection accessor: anObject [
 
 	"Create and/or update the children of the specified Element using the Collection of data.
 	It is assumed the template of the receiver has a single element (and therefore each child
 	of the specified Element is an instance of the template). A future version might support
-	templates with multiple children."
+	templates with multiple children.
+	The accessor Object (if provided) should ensure the elements of the Collection can be
+	accessed using #at:ifAbsent:. The accessor Object will be sent the message #value: with
+	the current Object from the Collection as argument. The method #value: should answer an
+	Object which understands #at:ifAbsent:. Typically this means some wrapper, delegation or
+	proxy Object is answered for the Object provided."
 
 	| children |
 
@@ -391,12 +408,8 @@ CpTemplateBasedDomUpdater >> updateChildrenOf: anElement with: aSequenceableColl
 	"Add or update children"
 	aSequenceableCollection withIndexDo: [ :each :index |
 			index <= children size
-				ifTrue: [
-					self updateDomIn: (children at: index) with: each.
-					aBlock ifNotNil: [ aBlock value: (children at: index) ] ]
-				ifFalse: [
-					self createDomIn: anElement with: each.
-					aBlock ifNotNil: [ aBlock value: anElement lastChild ] ] ].
+				ifTrue: [ self updateDomIn: (children at: index) with: each accessor: anObject ]
+				ifFalse: [ self createDomIn: anElement with: each accessor: anObject ] ].
 
 	"Remove any remaining children (if the data has shrunk)"
 	children size to: aSequenceableCollection size + 1 by: -1 do: [ :index |
@@ -406,13 +419,19 @@ CpTemplateBasedDomUpdater >> updateChildrenOf: anElement with: aSequenceableColl
 { #category : #rendering }
 CpTemplateBasedDomUpdater >> updateDomIn: anElement with: aDictionary [
 
+	self updateDomIn: anElement with: aDictionary accessor: nil
+]
+
+{ #category : #rendering }
+CpTemplateBasedDomUpdater >> updateDomIn: anElement with: aDictionary accessor: anObject [
+
 	"Update the existing DOM subtree for the specified (Dictionary like) object.
 	Make sure the DOM subtree has NOT been altered 'manually' or by some other
 	tool/library, because updating will refer to Elements in the subtree using a
 	'known' location derived during creation of the initial creation of the
 	DOM subtree."
 
-	self renderData: aDictionary on: anElement
+	self renderData: aDictionary accessor: anObject on: anElement
 ]
 
 { #category : #private }
