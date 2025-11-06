@@ -314,6 +314,22 @@ CynModelView >> closePage [
 		close
 ]
 
+{ #category : #accessing }
+CynModelView >> deferSend: aSymbol [
+
+	"Answer a DeferredMessageSend for the receiver"
+
+	^ CpDeferredMessageSend receiver: self selector: aSymbol
+]
+
+{ #category : #accessing }
+CynModelView >> deferSend: aSymbol with: anObject [
+
+	"Answer a DeferredMessageSend for the receiver and the specified argument"
+
+	^ CpDeferredMessageSend receiver: self selector: aSymbol argument: anObject
+]
+
 { #category : #view }
 CynModelView >> do: aBlock whileShowing: aString [
 
@@ -1410,6 +1426,22 @@ CynModelView >> validateProperty: aSymbol inElement: anElement [
 		classed: #'ion-invalid' if: errorText isNotNil ;
 		classed: #'ion-valid' if: errorText isNil ;
 		classed: #'ion-touched' if: (self isDirtyProperty: aSymbol)
+]
+
+{ #category : #accessing }
+CynModelView >> when: eventSymbol deferSend: selectorSymbol [
+
+	"Answer an Association for the specified event and a DeferredMessageSend to the specified selector"
+
+	^ eventSymbol -> (self deferSend: selectorSymbol)
+]
+
+{ #category : #accessing }
+CynModelView >> when: eventSymbol deferSend: selectorSymbol with: anObject [
+
+	"Answer an Association for the specified event and a DeferredMessageSend to the specified selector"
+
+	^ eventSymbol -> (self deferSend: selectorSymbol with: anObject)
 ]
 
 { #category : #testing }
