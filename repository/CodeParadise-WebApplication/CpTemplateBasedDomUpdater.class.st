@@ -3,7 +3,8 @@ I am a DOM Updater based on a HTML Template.
 I am responsible for creating or updating DOM subtrees based on a HTML template and data provided in a
 Dictionary like object. The HTML template preferable is a HTML <template> element (because by default it
 will not show in the DOM), but other HTML elements are accepted as well. The data object only needs to
-understand the message #at:ifAbsent: (so it is easy to create or add this method to an existing object).
+understand the message #at:ifAbsent:. For convenience an accessor Object can be provided on the update
+method which transforms (or wraps) the data object so it can be accessed using #at:ifAbsent:.
 
 I collaborate with DataUpdaters to implement my behavior.
 
