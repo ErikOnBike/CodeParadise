@@ -31,7 +31,7 @@ Class {
 { #category : #'instance creation' }
 CpDomUpdaterDataObject class >> new [
 
-	self errorNewReplacedBy: (' or ' join: { #on: . #on:overrides: })
+	self errorNewReplacedBy: (' or ' join: { #on: . #on:override: . #on:overrides: })
 ]
 
 { #category : #'instance creation' }
@@ -41,12 +41,22 @@ CpDomUpdaterDataObject class >> on: anObject [
 ]
 
 { #category : #'instance creation' }
+CpDomUpdaterDataObject class >> on: anObject override: anAssociation [
+
+	"Answer a new instance of the receiver for the specified Object with a single override"
+
+	^ self on: anObject overrides: (Dictionary with: anAssociation)
+]
+
+{ #category : #'instance creation' }
 CpDomUpdaterDataObject class >> on: anObject overrides: aDictionary [
 
-	"Answer a new instance of the receiver for the specified Object"
+	"Answer a new instance of the receiver for the specified Object
+	using the specified overrides. The overrides is either a Dictionary
+	or a Collection of Associations."
 
 	^ self basicNew
-		initializeWithObject: anObject overrides: aDictionary ;
+		initializeWithObject: anObject overrides: aDictionary asDictionary ;
 		yourself
 ]
 
