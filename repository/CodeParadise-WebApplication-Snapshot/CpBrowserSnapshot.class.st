@@ -76,10 +76,6 @@ CpBrowserSnapshot class >> postInstall [
 	"Add script to download the snapshot"
 	CpHtmlElement documentAddScript: self downloadImageScript.
 
-	"Install the keyboard handler to perform the snapshot operation"
-"	CpBrowserWindow current
-		when: (CpKeyDownEvent fromString: 'X-S-s') send: #saveSnapshot: to: self"
-
 	"Invoke snapshot directly"
 	self saveSnapshot
 ]
@@ -120,17 +116,6 @@ CpBrowserSnapshot class >> saveSnapshot [
 
 	"Start snapshot in separate process which terminates itself"
 	[ self snapshotImage ] forkAt: 2 named: 'Snapshot'
-]
-
-{ #category : #private }
-CpBrowserSnapshot class >> saveSnapshot: aKeyEvent [
-
-	"Save a snapshot of the image"
-
-	"Prevent default behavior for the key being pressed"
-	aKeyEvent preventDefault.
-
-	self saveSnapshot
 ]
 
 { #category : #actions }
@@ -193,17 +178,7 @@ CpBrowserSnapshot class >> snapshotImage [
 		ifFalse: [
 			self traceCr: 'Saved image'.
 
-			"Prepare image for restart/continuation"
-			CpJavaScriptObject withAllSubclassesDo: [ :each |
-				each postSnapshot ].
-			CpEvent allSubclassesDo: [ :each | each postSnapshot ].
-			CpEvent postSnapshot.
-			Smalltalk globals at: #CpSnapshotClasses ifPresent: [ :classes |
-				classes do: [ :each | each postSnapshot ] ].
-			(Smalltalk classNamed: #CpTransition)
-				ifNotNil: [ :cls | cls postSnapshot ].
-
-			^ self ].
+			^ Smalltalk quit ].
 	self traceCr: 'Restoring saved image'.
 
 	"Recreate Symbol table"
