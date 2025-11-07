@@ -139,6 +139,6 @@ CynMobileWebApplication >> startInstance [
 	self environment
 		sendMessage: (MessageSend
 		receiver: CynApp name
-		selector: #start
+		selector: #startInstance
 		arguments: nil)
 ]

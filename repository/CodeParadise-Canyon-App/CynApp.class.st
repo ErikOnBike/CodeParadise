@@ -320,6 +320,16 @@ CynApp class >> start [
 			yourself)
 ]
 
+{ #category : #'class initialization' }
+CynApp class >> startInstance [
+
+	"Start an instance of the receiver in the browser"
+
+	(CpBrowserWindow current propertyAt: #screen)
+		ifNotNil: [ self start ]
+		ifNil: [ self traceCr: 'Running in a screenless environment' ]
+]
+
 { #category : #'web resources' }
 CynApp class >> style [
 
