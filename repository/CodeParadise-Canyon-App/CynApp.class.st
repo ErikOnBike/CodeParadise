@@ -327,7 +327,9 @@ CynApp class >> startInstance [
 
 	(CpBrowserWindow current propertyAt: #screen)
 		ifNotNil: [ self start ]
-		ifNil: [ self traceCr: 'Running in a screenless environment' ]
+		ifNil: [
+			self traceCr: 'Running in a screenless environment'.
+			CpClientEnvironment current serverAnnounce: (CynPropertyChanged name: #ready) ]
 ]
 
 { #category : #'web resources' }

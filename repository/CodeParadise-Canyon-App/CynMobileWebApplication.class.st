@@ -58,7 +58,7 @@ CynMobileWebApplication >> addInstallationChecker [
 			package: (CynMobileWebApplication >> #updateMultiLanguageText) package) ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #actions }
 CynMobileWebApplication >> createSnapshot [
 
 	"Create a snapshot of the client image"
@@ -75,6 +75,13 @@ CynMobileWebApplication >> extensionMethodCategories [
 
 	^ super extensionMethodCategories,
 		#(canyonModelExtension canyonApplicationExtension)
+]
+
+{ #category : #'event handling' }
+CynMobileWebApplication >> handleStateAnnouncement: anAnnouncement [
+
+	anAnnouncement name = #ready
+		ifTrue: [ self createSnapshot ]
 ]
 
 { #category : #actions }
@@ -129,6 +136,18 @@ CynMobileWebApplication >> preLoad [
 	"By default install all property slot (types)"
 	CynClientPropertySlot allSubclassesDo: [ :each |
 		self installClass: each ]
+]
+
+{ #category : #initialization }
+CynMobileWebApplication >> setUp [
+
+	"Setup the receiver to handle view events from client"
+
+	super setUp.
+
+	"The PropertyChanged Announcement is (mis)used to indicate some state"
+	self environment
+		when: CynPropertyChanged send: #handleStateAnnouncement: to: self
 ]
 
 { #category : #actions }
