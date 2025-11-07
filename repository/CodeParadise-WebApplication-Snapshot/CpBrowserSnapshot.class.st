@@ -15,48 +15,18 @@ Class {
 	#category : #'CodeParadise-WebApplication-Snapshot-Core'
 }
 
-{ #category : #'class initialization' }
-CpBrowserSnapshot class >> beLoaded [
+{ #category : #snapshot }
+CpBrowserSnapshot class >> customPostSnapshotWith: anObject [
 
-	"The downloader is used to download the snapshot image (see #downloadImageScript)"
-
-	CpDownloader beLoaded
+	"Perform any custom pre snapshot behavior using the data from #customPreSnapshot"
 ]
 
-{ #category : #accessing }
-CpBrowserSnapshot class >> collectWebComponentsFrom: anElement into: aDictionary [
+{ #category : #snapshot }
+CpBrowserSnapshot class >> customPreSnapshot [
 
-	"Collect the receiver and all children which are WebComponents into the specified Dictionary.
-	Use the component's ID as key and the component itself as value."
+	"Perform any custom pre snapshot behavior and answer an Objec to be used during post snapshot"
 
-	anElement isWebComponent
-		ifTrue: [
-			anElement id
-				ifNotNil: [ :id | aDictionary at: id put: anElement ] ].
-
-	anElement children do: [ :each | self collectWebComponentsFrom: each into: aDictionary ]
-]
-
-{ #category : #'web resources' }
-CpBrowserSnapshot class >> downloadImageScript [
-
-	"Answer a JavaScript download image script.
-	Assume the snapshot primitive is called just before executing this script.
-
-	Implementation:
-	Use the Squeak JS VM's file storage implementation to retrieve the image content."
-
-	^ '// Add empty function to mimic presence of FilePlugin
-Squeak.flushAllFiles = function() {};
-
-// Add default download operation to the filePut method
-Squeak.filePut = function(name, buffer) {
-	console.log("Saving image");
-	if(name.startsWith("_")) {
-		name = name.slice(1);
-	}
-	globalThis.cpDownload(buffer, "application/octet-stream", name.endsWith(".image") ? name : name + ".image");
-};'
+	^ nil
 ]
 
 { #category : #private }
@@ -73,40 +43,8 @@ CpBrowserSnapshot class >> postInstall [
 
 	super postInstall.
 
-	"Add script to download the snapshot"
-	CpHtmlElement documentAddScript: self downloadImageScript.
-
 	"Invoke snapshot directly"
 	self saveSnapshot
-]
-
-{ #category : #'class initialization' }
-CpBrowserSnapshot class >> postSnapshotOnce [
-
-	"Add script to allow reattaching Smalltalk CpDomElements to browser DOM elements"
-
-	CpHtmlElement documentAddScript: self privateAttachToIdScript
-]
-
-{ #category : #'web resources' }
-CpBrowserSnapshot class >> privateAttachToIdScript [
-
-	"Answer a JavaScript primitive for attaching a Smalltalk CpDomElement to a browser DOM element.
-
-	Add this primitive to the DOMPlugin."
-
-	^ '// Add extra primitive to the DOM plugin
-Squeak.externalModules.CpDOMPlugin["primitiveDomElementPrivateAttachToId:"] = function(argCount) {
-	if(argCount !== 1) return false;
-	var id = this.interpreterProxy.stackValue(0).asString();
-	if(!id) return false;
-	var receiver = this.interpreterProxy.stackValue(argCount);
-	var domElement = document.getElementById(id);
-	if(!domElement) return false;
-	receiver.domElement = domElement;
-	this.domElementMap.set(domElement, receiver);
-	return this.answerSelf(argCount); 
-};'
 ]
 
 { #category : #private }
@@ -149,7 +87,7 @@ CpBrowserSnapshot class >> snapshotImage [
 	See also https://github.com/ErikOnBike/TinyBootstrap for an
 	alternative to create custom images."
 
-	| content components |
+	| data |
 
 	"Prepare image for snapshot"
 	(Smalltalk classNamed: #CpTransition)
@@ -164,15 +102,10 @@ CpBrowserSnapshot class >> snapshotImage [
 	Smalltalk globals at: #CpSnapshotClasses ifPresent: [ :classes |
 		classes do: [ :each | each preSnapshot ] ].
 
-	"Save application content"
-	content := CpHtmlElement documentBody markupContent.
-	self traceCr: 'Saving markup: ', content.
+	"Perform custom snapshotting"
+	data := self customPreSnapshot.
 
-	"Save components"
-	components := Dictionary new.
-	self collectWebComponentsFrom: CpHtmlElement documentBody into: components.
-
-	"Snapshot image"	
+	"Snapshot image (using tiny image specific methods #snapshotPrimitive and #quit)"
 	self traceCr: 'About to save image'.
 	Smalltalk snapshotPrimitive
 		ifFalse: [
@@ -191,9 +124,6 @@ CpBrowserSnapshot class >> snapshotImage [
 	CpJavaScriptObject withAllSubclassesDo: [ :each |
 		each postSnapshot ].
 
-	"Restore the application content"
-	CpHtmlElement documentBody markupContent: content.
-
 	"Prepare image for restart"
 	CpEvent allSubclassesDo: [ :each | each postSnapshot ].
 	CpEvent postSnapshot.
@@ -201,10 +131,9 @@ CpBrowserSnapshot class >> snapshotImage [
 	"Restore components"
 	self postSnapshot.
 	CpWebComponent allSubclassesDo: [ :each | each postInstall ].
-	components keysAndValuesDo: [ :id :element |
-		element
-			privateAttachToId: id ;
-			initialize ].
+
+	"Perform custom post snapshotting"
+	self customPostSnapshotWith: data.
 
 	"Prepare marked classes"
 	Smalltalk globals at: #CpSnapshotClasses ifPresent: [ :classes |
