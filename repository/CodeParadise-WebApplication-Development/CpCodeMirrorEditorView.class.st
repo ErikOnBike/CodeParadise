@@ -16,6 +16,12 @@ CpCodeMirrorEditorView class >> postInstallOnce [
 	CpHtmlElement documentAddExternalScript: '/dev/cp-codemirror-editor.js'
 ]
 
+{ #category : #'class initialization' }
+CpCodeMirrorEditorView class >> postSnapshotOnce [
+
+	self postInstallOnce
+]
+
 { #category : #'accessing - convenience' }
 CpCodeMirrorEditorView >> content [
 

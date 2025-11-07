@@ -20,6 +20,12 @@ CpJavaScriptError class >> postInstallOnce [
 	self registerUncaughtInstanceContext
 ]
 
+{ #category : #'class initialization' }
+CpJavaScriptError class >> postSnapshotOnce [
+
+	self postInstallOnce
+]
+
 { #category : #support }
 CpJavaScriptError class >> registerUncaughtInstanceContext [
 

@@ -74,3 +74,11 @@ CpBrowserAbortSignal class >> postInstallOnce [
 				type: nil
 				id: 'abortsignal-timeout-polyfill' ]
 ]
+
+{ #category : #'*CodeParadise-Browser-Support' }
+CpBrowserAbortSignal class >> postSnapshotOnce [
+
+	<environment: #browser>
+
+	self postInstallOnce
+]

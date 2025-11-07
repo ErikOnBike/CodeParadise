@@ -141,6 +141,12 @@ return Math.round((comp - ref) / 86400000);'
 		arguments: #('dateRef' 'dateComp'))
 ]
 
+{ #category : #'class initialization' }
+CpJavaScriptDate class >> postSnapshotOnce [
+
+	self postInstallOnce
+]
+
 { #category : #accessing }
 CpJavaScriptDate class >> timestampFrom: aDate [
 
