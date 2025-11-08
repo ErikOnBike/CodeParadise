@@ -1,7 +1,7 @@
 Class {
 	#name : #CpBrowserSupportExamplesWebApplication,
 	#superclass : #CpWebApplication,
-	#category : #'CodeParadise-Browser-Support-Examples'
+	#category : #'CodeParadise-WebApplication-Examples-Browser-Support'
 }
 
 { #category : #accessing }

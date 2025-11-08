@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'process'
 	],
-	#category : #'CodeParadise-Browser-Support-Examples'
+	#category : #'CodeParadise-WebApplication-Examples-Browser-Support'
 }
 
 { #category : #'class initialization' }

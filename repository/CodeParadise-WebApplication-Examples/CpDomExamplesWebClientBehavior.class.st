@@ -9,7 +9,7 @@ Class {
 		'transition',
 		'textRegistry'
 	],
-	#category : #'CodeParadise-WebApplication-Examples'
+	#category : #'CodeParadise-WebApplication-Examples-DOM'
 }
 
 { #category : #'class initialization' }

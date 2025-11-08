@@ -5,7 +5,7 @@ I only live in the ServerEnvironment.
 Class {
 	#name : #CpDomExamplesWebApplication,
 	#superclass : #CpWebApplication,
-	#category : #'CodeParadise-WebApplication-Examples'
+	#category : #'CodeParadise-WebApplication-Examples-DOM'
 }
 
 { #category : #accessing }

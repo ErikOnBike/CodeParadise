@@ -19,8 +19,8 @@ BaselineOfCodeParadise >> baseline: spec [
 		spec
 			package: 'CodeParadise-RemoteEnvironment' with: [ spec requires: #('CpClientEnvironment' 'Zinc-WebSocket-Core') ];
 			package: 'CodeParadise-JavaScript' ;
-			package: 'CodeParadise-WebApplication' with: [ spec requires: #('CodeParadise-RemoteEnvironment' 'CodeParadise-JavaScript') ];
-			package: 'CodeParadise-Browser-Support' with: [ spec requires: #('CodeParadise-WebApplication') ];
+			package: 'CodeParadise-WebApplication' with: [ spec requires: #('CodeParadise-RemoteEnvironment' 'CodeParadise-Browser-Support' 'CodeParadise-JavaScript') ];
+			package: 'CodeParadise-Browser-Support' with: [ spec requires: #('CodeParadise-JavaScript') ];
 			package: 'CodeParadise-WebApplication-Snapshot' with: [ spec requires: #('CodeParadise-Browser-Support') ];
 
 			package: 'CodeParadise-NodeJS-Support' with: [ spec requires: #('CodeParadise-RemoteEnvironment' 'CodeParadise-JavaScript') ];
@@ -47,7 +47,9 @@ BaselineOfCodeParadise >> baseline: spec [
 			package: 'CodeParadise-WebApplication-Presentation' with: [ spec requires: #('CodeParadise-WebApplication-MVP') ];
 			package: 'CodeParadise-Beach' with: [ spec requires: #('CodeParadise-WebApplication-MVP') ];
 
-			package: 'CodeParadise-WebApplication-Development' with: [ spec requires: #('CodeParadise-WebApplication' 'CodeParadise-WebApplication-Shoelace') ];
+			package: 'CodeParadise-WebApplication-Examples' with: [ spec requires: #('CodeParadise-WebApplication-MVP') ];
+
+			package: 'CodeParadise-WebApplication-Development' with: [ spec requires: #('CodeParadise-WebApplication' 'CodeParadise-Browser-Support' 'CodeParadise-WebApplication-Shoelace') ];
 			package: 'CodeParadise-WebApplication-Debugger' with: [ spec requires: #('CodeParadise-WebApplication') ].
 
 		spec

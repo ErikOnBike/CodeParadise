@@ -1,7 +1,7 @@
 Class {
 	#name : #CpCounterApplicationView,
 	#superclass : #CpView,
-	#category : #'CodeParadise-WebApplication-MVP-Examples'
+	#category : #'CodeParadise-WebApplication-Examples-MVP'
 }
 
 { #category : #'web resources' }
