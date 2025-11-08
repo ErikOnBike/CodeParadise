@@ -28,35 +28,38 @@ CjsChart class >> loadLibrary [
 
 	self flag: #todo. "Replace JS script with new JS proxy support"
 
-	CpHtmlElement
-		documentAddExternalScript: 'https://cdn.jsdelivr.net/npm/chart.js@3.9' ;
-		documentAddScript: 'window.cjsCreateChart = function(element, config) {
-				const chart = new Chart(element, config);
-				element.__cjs_chart = chart;
-			};
-			window.cjsSetChartProperty = function(element, propertyNames, propertyValue) {
-				// Extract last propertyName (remove it from propertyNames collection)
-				const propertyName = propertyNames.splice(-1, 1)[0];
+	CpHtmlElement documentAddExternalScript: 'https://cdn.jsdelivr.net/npm/chart.js@3.9'.
+	CpGlobalThis propertyAt: #cjsCreateChart put: (CpJavaScriptFunction
+		method:
+'const chart = new Chart(element, config);
+element.__cjs_chart = chart;'
+		arguments: #('element' 'config')).
 
-				// Find the last property (given the remaining propertyNames)
-				const property = propertyNames.reduce(function(property, name, index) {
-					if(property[name] === undefined) {
+	CpGlobalThis propertyAt: #cjsSetChartProperty put: (CpJavaScriptFunction
+		method:
+'// Extract last propertyName (remove it from propertyNames collection)
+const propertyName = propertyNames.splice(-1, 1)[0];
 
-						// Validate if property is Array or Object type (based on next propertyName)
-						const propertyIsArray = index + 1 < propertyNames.length && propertyNames[index + 1].substr === undefined;	// If it is a String it will not be an Array
-						if(propertyIsArray) {
-							return property[name] = [ /* Empty Array */ ];
-						} else {
-							return property[name] = { /* Empty Object */ };
-						}
-					}
-					return property[name];
-				}, element.__cjs_chart);
-				property[propertyName] = propertyValue;
-			};
-			window.cjsUpdateChart = function(element) {
-				element.__cjs_chart.update();
-			};'
+// Find the last property (given the remaining propertyNames)
+const property = propertyNames.reduce(function(property, name, index) {
+	if(property[name] === undefined) {
+
+		// Validate if property is Array or Object type (based on next propertyName)
+		const propertyIsArray = index + 1 < propertyNames.length && propertyNames[index + 1].substr === undefined;	// If it is a String it will not be an Array
+		if(propertyIsArray) {
+			return property[name] = [ /* Empty Array */ ];
+		} else {
+			return property[name] = { /* Empty Object */ };
+		}
+	}
+	return property[name];
+}, element.__cjs_chart);
+property[propertyName] = propertyValue;'
+		arguments: #('element' 'propertyNames' 'propertyValue')).
+
+	CpGlobalThis propertyAt: #cjsUpdateChart put: (CpJavaScriptFunction
+		method: 'element.__cjs_chart.update()'
+		arguments: #('element'))
 ]
 
 { #category : #'instance creation' }
