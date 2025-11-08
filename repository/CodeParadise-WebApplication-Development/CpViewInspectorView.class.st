@@ -11,6 +11,8 @@ Class {
 { #category : #'class initialization' }
 CpViewInspectorView class >> beLoaded [
 
+	CpBrowserCustomElementRegistry beLoaded.
+
 	SlButton beLoaded.
 	SlButtonGroup beLoaded.
 	SlCard beLoaded.
