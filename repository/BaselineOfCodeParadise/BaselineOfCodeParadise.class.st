@@ -21,7 +21,7 @@ BaselineOfCodeParadise >> baseline: spec [
 			package: 'CodeParadise-JavaScript' ;
 			package: 'CodeParadise-WebApplication' with: [ spec requires: #('CodeParadise-RemoteEnvironment' 'CodeParadise-Browser-Support' 'CodeParadise-JavaScript') ];
 			package: 'CodeParadise-Browser-Support' with: [ spec requires: #('CodeParadise-JavaScript') ];
-			package: 'CodeParadise-WebApplication-Snapshot' with: [ spec requires: #('CodeParadise-Browser-Support') ];
+			package: 'CodeParadise-WebApplication-Snapshot' with: [ spec requires: #('CodeParadise-WebApplication') ];
 
 			package: 'CodeParadise-NodeJS-Support' with: [ spec requires: #('CodeParadise-RemoteEnvironment' 'CodeParadise-JavaScript') ];
 			package: 'CodeParadise-NodeJS-REST' with: [ spec requires: #('CodeParadise-NodeJS-Support') ];
