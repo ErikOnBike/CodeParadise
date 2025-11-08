@@ -18,7 +18,7 @@ BaselineOfCodeParadise >> baseline: spec [
 		"Packages"
 		spec
 			package: 'CodeParadise-RemoteEnvironment' with: [ spec requires: #('CpClientEnvironment' 'Zinc-WebSocket-Core') ];
-			package: 'CodeParadise-JavaScript' ;
+			package: 'CodeParadise-JavaScript' with: [ spec requires: #('CodeParadise-RemoteEnvironment') ] ;
 			package: 'CodeParadise-WebApplication' with: [ spec requires: #('CodeParadise-RemoteEnvironment' 'CodeParadise-Browser-Support' 'CodeParadise-JavaScript') ];
 			package: 'CodeParadise-Browser-Support' with: [ spec requires: #('CodeParadise-JavaScript') ];
 			package: 'CodeParadise-WebApplication-Snapshot' with: [ spec requires: #('CodeParadise-WebApplication') ];
@@ -38,7 +38,7 @@ BaselineOfCodeParadise >> baseline: spec [
 			"Canyon"
 			package: 'CodeParadise-Canyon-Model' with: [ spec requires: #('CodeParadise-RemoteEnvironment' 'CodeParadise-JavaScript') ];
 			package: 'CodeParadise-Canyon-Data' with: [ spec requires: #('CodeParadise-Canyon-Model' 'CodeParadise-NodeJS-REST') ];
-			package: 'CodeParadise-Canyon-App' with: [ spec requires: #('CodeParadise-Canyon-Model' 'CodeParadise-WebApplication-Ionic' 'CodeParadise-Browser-Support') ];
+			package: 'CodeParadise-Canyon-App' with: [ spec requires: #('CodeParadise-Canyon-Model' 'CodeParadise-WebApplication-Ionic' 'CodeParadise-WebApplication-Snapshot') ];
 			package: 'CodeParadise-Canyon-Development' with: [ spec requires: #('CodeParadise-Canyon-App') ];
 
 			"2022-06: No longer maintained"

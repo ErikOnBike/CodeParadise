@@ -39,14 +39,6 @@ CpBrowserBlob >> arrayBuffer [
 	^ self apply: #arrayBuffer resultAs: CpJavaScriptPromise
 ]
 
-{ #category : #converting }
-CpBrowserBlob >> asBrowserClipboardItem [
-
-	<ignoreReference: #CpBrowserClipboardItem>
-
-	^ CpBrowserClipboardItem newWithBlob: self
-]
-
 { #category : #accessing }
 CpBrowserBlob >> size [
 
