@@ -60,7 +60,7 @@ BaselineOfCodeParadise >> baseline: spec [
 
 		"Groups"
 		spec 
-			group: 'default' with: #( 'Core' 'NodeJS-Core' 'Shoelace' 'Ionic' 'ChartJS' 'Presentation' 'Snapshot' 'Tests' 'Development' 'NodeJS-Applications' 'Canyon');
+			group: 'default' with: #( 'Core' 'NodeJS-Core' 'Shoelace' 'Ionic' 'ChartJS' 'Presentation' 'Snapshot' 'Tests' 'Examples' 'Development' 'NodeJS-Applications' 'Canyon');
 
 			group: 'Core' with: #( 'CodeParadise-Browser-Support' );
 			group: 'NodeJS-Core' with: #( 'CodeParadise-NodeJS-Support' );
@@ -75,6 +75,8 @@ BaselineOfCodeParadise >> baseline: spec [
 			group: 'ChartJS' with: #( 'CodeParadise-WebApplication-ChartJS' );
 			group: 'Presentation' with: #( 'CodeParadise-WebApplication-Presentation' );
 			group: 'Beach' with: #( 'CodeParadise-Beach' 'CodeParadise-Beach-Tests' );
+
+			group: 'Examples' with: #( 'CodeParadise-WebApplication-Examples' );
 
 			"2022-06: No longer maintained (needs to be loaded manually)"
 			group: 'Fomantic' with: #( 'CodeParadise-WebApplication-Fomantic' );
