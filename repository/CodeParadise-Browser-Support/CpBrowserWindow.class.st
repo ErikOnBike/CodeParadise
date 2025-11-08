@@ -9,7 +9,7 @@ CpBrowserWindow class >> current [
 
 	"The Window object is the global object in the Browser"
 
-	^ CpJavaScriptObject global
+	^ CpGlobalThis globalThis
 ]
 
 { #category : #'instance creation' }

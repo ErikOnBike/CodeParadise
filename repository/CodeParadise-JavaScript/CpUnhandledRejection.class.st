@@ -122,7 +122,7 @@ CpUnhandledRejection >> signalAsync [
 
 	self log.
 
-	CpExceptionAnnouncer announceException: self
+	self announce
 ]
 
 { #category : #resources }

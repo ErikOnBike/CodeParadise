@@ -13,7 +13,7 @@ CpBrowserCustomElementRegistry class >> current [
 	To prevent too many dependencies, retrieve the value from the global object
 	(instead of asking the CpBrowserWindow for it)."
 
-	^ self wrap: (CpJavaScriptObject global propertyAt: #customElements)
+	^ self wrap: (CpGlobalThis propertyAt: #customElements)
 ]
 
 { #category : #'instance creation' }

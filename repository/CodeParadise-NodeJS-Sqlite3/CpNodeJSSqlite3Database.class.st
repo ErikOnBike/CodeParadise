@@ -39,9 +39,8 @@ CpNodeJSSqlite3Database class >> onPath: aString withOptions: aDictionary [
 	Because require provides the Database class itself, use the constructor
 	directly here."
 
-	^ (self global
-		apply: #require withArguments: { self moduleName } resultAs: CpJavaScriptFunction)
-			call: nil withArguments: { aString . aDictionary } resultAs: self
+	^ (CpGlobalThis apply: #require withArguments: { self moduleName } resultAs: CpJavaScriptFunction)
+		call: nil withArguments: { aString . aDictionary } resultAs: self
 ]
 
 { #category : #operations }

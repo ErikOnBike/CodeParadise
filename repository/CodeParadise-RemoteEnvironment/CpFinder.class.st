@@ -7,7 +7,7 @@ Class {
 	#classVars : [
 		'Current'
 	],
-	#category : #'CodeParadise-WebApplication-Support'
+	#category : #'CodeParadise-RemoteEnvironment-Support'
 }
 
 { #category : #api }

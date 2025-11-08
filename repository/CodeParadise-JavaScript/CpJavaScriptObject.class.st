@@ -163,8 +163,8 @@ CpJavaScriptObject class >> global [
 	"Answer a Proxy for the global object/global scope
 	(i.e. 'window' object in a web browser and 'global' object in Node.js)"
 
-	^ CpClientEnvironment current
-		globalApply: #identity withArguments: nil
+	<primitive: 'primitiveJavaScriptObjectGlobal' module: 'CpSystemPlugin'>
+	self primitiveFailed
 ]
 
 { #category : #accessing }
@@ -313,8 +313,7 @@ CpJavaScriptObject class >> wrap: anObject in: aProxyClass [
 
 	"Wrap the specified (Smalltalk) Object into a JavaScriptObject proxy"
 
-	^ self global
-		apply: #identity withArguments: { anObject } resultAs: aProxyClass
+	^ CpGlobalThis apply: #identity withArguments: { anObject } resultAs: aProxyClass
 ]
 
 { #category : #accessing }
@@ -437,7 +436,7 @@ CpJavaScriptObject >> consoleLevel: aSymbol [
 
 	"Log the receiver using the specified log level (#log, #trace, #debug, #info, #warn or #error) to the console"
 
-	(CpJavaScriptObject global propertyAt: #console resultAs: CpJavaScriptObject)
+	(CpGlobalThis propertyAt: #console resultAs: CpJavaScriptObject)
 		apply: aSymbol withArguments: { self } resultAs: nil
 ]
 

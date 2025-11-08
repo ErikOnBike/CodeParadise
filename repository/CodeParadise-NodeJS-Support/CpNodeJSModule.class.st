@@ -9,8 +9,7 @@ CpNodeJSModule class >> forName: aString [
 
 	"Answer the Node.js module for the specified name"
 
-	^ self global
-		apply: #require withArguments: { aString } resultAs: self
+	^ CpGlobalThis apply: #require withArguments: { aString } resultAs: self
 ]
 
 { #category : #testing }

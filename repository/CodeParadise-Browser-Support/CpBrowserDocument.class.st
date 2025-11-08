@@ -13,7 +13,7 @@ CpBrowserDocument class >> current [
 	To prevent too many dependencies, retrieve the value from the global object
 	(instead of asking the CpBrowserWindow for it)."
 
-	^ self wrap: (CpJavaScriptObject global propertyAt: #document)
+	^ self wrap: (CpGlobalThis propertyAt: #document)
 ]
 
 { #category : #'instance creation' }

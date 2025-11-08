@@ -15,7 +15,7 @@ CpJavaScriptObject class >> isTestEnvironment [
 { #category : #'*CodeParadise-NodeJS-Support' }
 CpJavaScriptObject class >> nodeEnvironment [
 
-	^ ((self global propertyAt: #process)
+	^ ((CpGlobalThis propertyAt: #process)
 		propertyAt: #env)
 			propertyAt: #NODE_ENV
 ]
