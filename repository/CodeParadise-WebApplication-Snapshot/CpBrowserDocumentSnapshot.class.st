@@ -73,32 +73,3 @@ CpBrowserDocumentSnapshot class >> customPreSnapshot [
 		#content -> content.
 		#components -> components } asDictionary
 ]
-
-{ #category : #'class initialization' }
-CpBrowserDocumentSnapshot class >> postSnapshotOnce [
-
-	"Add script to allow reattaching Smalltalk CpDomElements to browser DOM elements"
-
-	CpHtmlElement documentAddScript: self privateAttachToIdScript
-]
-
-{ #category : #'web resources' }
-CpBrowserDocumentSnapshot class >> privateAttachToIdScript [
-
-	"Answer a JavaScript primitive for attaching a Smalltalk CpDomElement to a browser DOM element.
-
-	Add this primitive to the DOMPlugin."
-
-	^ '// Add extra primitive to the DOM plugin
-Squeak.externalModules.CpDOMPlugin["primitiveDomElementPrivateAttachToId:"] = function(argCount) {
-	if(argCount !== 1) return false;
-	var id = this.interpreterProxy.stackValue(0).asString();
-	if(!id) return false;
-	var receiver = this.interpreterProxy.stackValue(argCount);
-	var domElement = document.getElementById(id);
-	if(!domElement) return false;
-	receiver.domElement = domElement;
-	this.domElementMap.set(domElement, receiver);
-	return this.answerSelf(argCount); 
-};'
-]
