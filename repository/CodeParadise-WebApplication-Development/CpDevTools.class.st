@@ -78,14 +78,24 @@ CpDevTools class >> handleClientError: aClientError for: aServerEnvironment [
 				aClientError messageSend ifNotNil: [ :messageSend |
 					presenter := application presenterWithId: messageSend receiver ifAbsent: [ nil ] ] ] ].
 
-	"Show inspector with relevant information"
-	presenter
-		ifNotNil: [
-			"Show inspector with the error, presenter and application"
-			{ 'A failure in message sent' . aClientError . presenter . application } inspect ]
-		ifNil: [
-			"Show inspector with the error and environment"
-			{ 'An error occurred in the Client Environment' . aClientError . aServerEnvironment } inspect ]
+	Smalltalk isHeadless
+		ifTrue: [
+			"Show relevant information on Transcript"
+			self
+				traceCr: 'Error in client of application: ', application class app asString ;
+				traceCr: aClientError printString.
+
+			presenter ifNotNil: [
+				self traceCr: 'In Presenter: ', presenter class name ] ]
+		ifFalse: [
+			"Show inspector with relevant information"
+			presenter
+				ifNotNil: [
+					"Show inspector with the error, presenter and application"
+					{ 'A failure in message sent' . aClientError . presenter . application } inspect ]
+				ifNil: [
+					"Show inspector with the error and environment"
+					{ 'An error occurred in the Client Environment' . aClientError . aServerEnvironment } inspect ] ]
 ]
 
 { #category : #scripts }
