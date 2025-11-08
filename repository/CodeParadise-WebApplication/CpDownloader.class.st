@@ -9,6 +9,14 @@ Class {
 }
 
 { #category : #performing }
+CpDownloader class >> blob: aBlob filename: aString [
+
+	"Download the specified blob content using the given filename"
+
+	self content: aBlob type: aBlob type filename: aString
+]
+
+{ #category : #performing }
 CpDownloader class >> content: anObject type: typeString filename: filenameString [
 
 	"Download the specified content (of the specified MIME type) using the given filename"
