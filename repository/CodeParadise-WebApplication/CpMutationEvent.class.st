@@ -55,104 +55,106 @@ CpMutationEvent class >> installCode [
 
 	self flag: #todo. "Replace JS script with new JS proxy support"
 
-	CpHtmlElement documentAddScript: '
-		window.__cp_cleanUpNodes = function(nodeOrNodeList) {
-			if(nodeOrNodeList === null) {
-				return null;
-			} else if(nodeOrNodeList.nodeType) {
-				return nodeOrNodeList.nodeType === Node.ELEMENT_NODE ? nodeOrNodeList : null;
-			} else {
-				// Convert all NodeList nodes to elements
-				return Array.from(nodeOrNodeList)
-					.map(function(node) { return window.__cp_cleanUpNodes(node); })
-					.filter(function(node) { return node !== null; })
+	CpGlobalThis propertyAt: #__cp_cleanUpNodes put: (CpJavaScriptFunction
+		method:
+'if(nodeOrNodeList === null) {
+	return null;
+} else if(nodeOrNodeList.nodeType) {
+	return nodeOrNodeList.nodeType === Node.ELEMENT_NODE ? nodeOrNodeList : null;
+} else {
+	// Convert all NodeList nodes to elements
+	return Array.from(nodeOrNodeList)
+		.map(function(node) { return window.__cp_cleanUpNodes(node); })
+		.filter(function(node) { return node !== null; })
+	;
+}'
+		arguments: #('nodeOrNodeList')).
+
+	CpGlobalThis propertyAt: #addMutationObserverTo:withOptions: put: (CpJavaScriptFunction
+		method:
+'// Remove field "attributeFilter" if null.
+if(options.attributeFilter === null) {
+	delete options.attributeFilter;
+}
+
+// Create new MutationObserver
+const mutationObserver = new MutationObserver(function(mutationRecords) {
+
+	// Create the custom mutation event
+	const mutationEvent = new CustomEvent("mutation", {
+		detail: mutationRecords
+			.map(function(mutation) {
+				// Create a copy of the mutation record (replacing NodeLists with Arrays and
+				// removing non-Element nodes). Also explicitly leave out the characterData
+				// fields (CDATA is not supported in CodeParadise).
+				return {
+					addedNodes: window.__cp_cleanUpNodes(mutation.addedNodes),
+					attributeName: mutation.attributeName,
+					attributeNamespace: mutation.attributeNamespace,
+					nextSibling: window.__cp_cleanUpNodes(mutation.nextSibling),
+					oldValue: mutation.oldValue,
+					previousSibling: window.__cp_cleanUpNodes(mutation.previousSibling),
+					removedNodes: window.__cp_cleanUpNodes(mutation.removedNodes),
+					target: window.__cp_cleanUpNodes(mutation.target),
+					type: mutation.type
+				};
+			})
+			.filter(function(mutation) {
+				return mutation.addedNodes.length > 0 ||
+					mutation.attributeName !== null ||
+					mutation.attributeNamespace !== null ||
+					mutation.nextSibling !== null ||
+					mutation.oldValue !== null ||
+					mutation.previousSibling !== null ||
+					mutation.removedNodes.length > 0
 				;
-			}
-		};
-		window["addMutationObserverTo:withOptions:"] = function(target, options) {
+			})
+	});
 
-			// Remove field "attributeFilter" if null.
-			if(options.attributeFilter === null) {
-				delete options.attributeFilter;
-			}
+	// Dispatch the event (if not empty wrt mutation records)
+	if(mutationEvent.detail.length > 0) {
+		target.dispatchEvent(mutationEvent);
+	}
+});
 
-			// Create new MutationObserver
-			const mutationObserver = new MutationObserver(function(mutationRecords) {
+// Keep track of the observer and options
+mutationObserver.__cp_options = options;
+if(target.__cp_mutationObservers === undefined) {
+	target.__cp_mutationObservers = [];
+}
+target.__cp_mutationObservers.push(mutationObserver);
 
-				// Create the custom mutation event
-				const mutationEvent = new CustomEvent("mutation", {
-					detail: mutationRecords
-						.map(function(mutation) {
-							// Create a copy of the mutation record (replacing NodeLists with Arrays and
-							// removing non-Element nodes). Also explicitly leave out the characterData
-							// fields (CDATA is not supported in CodeParadise).
-							return {
-								addedNodes: window.__cp_cleanUpNodes(mutation.addedNodes),
-								attributeName: mutation.attributeName,
-								attributeNamespace: mutation.attributeNamespace,
-								nextSibling: window.__cp_cleanUpNodes(mutation.nextSibling),
-								oldValue: mutation.oldValue,
-								previousSibling: window.__cp_cleanUpNodes(mutation.previousSibling),
-								removedNodes: window.__cp_cleanUpNodes(mutation.removedNodes),
-								target: window.__cp_cleanUpNodes(mutation.target),
-								type: mutation.type
-							};
-						})
-						.filter(function(mutation) {
-							return mutation.addedNodes.length > 0 ||
-								mutation.attributeName !== null ||
-								mutation.attributeNamespace !== null ||
-								mutation.nextSibling !== null ||
-								mutation.oldValue !== null ||
-								mutation.previousSibling !== null ||
-								mutation.removedNodes.length > 0
-							;
-						})
-				});
+// Start observing
+mutationObserver.observe(target, options);'
+		arguments: #('target' 'options')).
 
-				// Dispatch the event (if not empty wrt mutation records)
-				if(mutationEvent.detail.length > 0) {
-					target.dispatchEvent(mutationEvent);
-				}
-			});
+	CpGlobalThis propertyAt: #removeMutationObserverFrom:withOptions: put: (CpJavaScriptFunction
+		method:
+'// Remove field "attributeFilter" if null.
+if(options.attributeFilter === null) {
+	delete options.attributeFilter;
+}
 
-			// Keep track of the observer and options
-			mutationObserver.__cp_options = options;
-			if(target.__cp_mutationObservers === undefined) {
-				target.__cp_mutationObservers = [];
-			}
-			target.__cp_mutationObservers.push(mutationObserver);
+// Since multiple observers can be attached, find the one with exactly the same options
+const optionsAttributeFilter = (options.attributeFilter || []).sort().join(",");	// Pre calculate this value
+const mutationObserverIndex = target.__cp_mutationObservers.findIndex(function(mutationObserver) {
+	const compareOptions = mutationObserver.__cp_options;
+	return compareOptions.subtree === options.subtree &&
+		compareOptions.childList === options.childList &&
+		compareOptions.attributes === options.attributes &&
+		compareOptions.attributeOldValue === options.attributeOldValue &&
+		(compareOptions.attributeFilter || []).sort().join(",") === optionsAttributeFilter	// Perform as last line because it is the most expensive to calculate
+	;
+});
+if(mutationObserverIndex === -1) {
+	console.warn("removeMutationObserver called for options which do not exist (anymore)", options);
+	return;
+}
 
-			// Start observing
-			mutationObserver.observe(target, options);
-		};
-		window["removeMutationObserverFrom:withOptions:"] = function(target, options) {
-
-			// Remove field "attributeFilter" if null.
-			if(options.attributeFilter === null) {
-				delete options.attributeFilter;
-			}
-
-			// Since multiple observers can be attached, find the one with exactly the same options
-			const optionsAttributeFilter = (options.attributeFilter || []).sort().join(",");	// Pre calculate this value
-			const mutationObserverIndex = target.__cp_mutationObservers.findIndex(function(mutationObserver) {
-				const compareOptions = mutationObserver.__cp_options;
-				return compareOptions.subtree === options.subtree &&
-					compareOptions.childList === options.childList &&
-					compareOptions.attributes === options.attributes &&
-					compareOptions.attributeOldValue === options.attributeOldValue &&
-					(compareOptions.attributeFilter || []).sort().join(",") === optionsAttributeFilter	// Perform as last line because it is the most expensive to calculate
-				;
-			});
-			if(mutationObserverIndex === -1) {
-				console.warn("removeMutationObserver called for options which do not exist (anymore)", options);
-				return;
-			}
-			
-			// Disconnect observer and remove it from the collection
-			target.__cp_mutationObservers[mutationObserverIndex].disconnect();
-			target.__cp_mutationObservers.splice(mutationObserverIndex, 1);
-		};'
+// Disconnect observer and remove it from the collection
+target.__cp_mutationObservers[mutationObserverIndex].disconnect();
+target.__cp_mutationObservers.splice(mutationObserverIndex, 1);'
+		arguments: #('target' 'options'))
 ]
 
 { #category : #announcing }
