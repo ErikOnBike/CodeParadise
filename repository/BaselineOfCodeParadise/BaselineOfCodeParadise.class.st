@@ -47,7 +47,7 @@ BaselineOfCodeParadise >> baseline: spec [
 			package: 'CodeParadise-WebApplication-Presentation' with: [ spec requires: #('CodeParadise-WebApplication-MVP') ];
 			package: 'CodeParadise-Beach' with: [ spec requires: #('CodeParadise-WebApplication-MVP') ];
 
-			package: 'CodeParadise-WebApplication-Development' with: [ spec requires: #('CodeParadise-WebApplication') ];
+			package: 'CodeParadise-WebApplication-Development' with: [ spec requires: #('CodeParadise-WebApplication' 'CodeParadise-WebApplication-Shoelace') ];
 			package: 'CodeParadise-WebApplication-Debugger' with: [ spec requires: #('CodeParadise-WebApplication') ].
 
 		spec
