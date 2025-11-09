@@ -12,6 +12,13 @@ CpNodeApplication class >> app [
 	^ (self nameWithoutPrefix withoutSuffix: #NodeApplication) asKebabCase asSymbol
 ]
 
+{ #category : #tags }
+CpNodeApplication class >> isAbstractTag [
+
+	"The method is present to indicate the receiver is abstract.
+	This method will NOT be evaluated to decide if the receiver is abstract."
+]
+
 { #category : #installing }
 CpNodeApplication >> addInstallationChecker [
 

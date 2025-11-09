@@ -20,6 +20,13 @@ CynRestHttpServerApplication class >> allowedPackages [
 		CynPropertyModel package }
 ]
 
+{ #category : #tags }
+CynRestHttpServerApplication class >> isAbstractTag [
+
+	"The method is present to indicate the receiver is abstract.
+	This method will NOT be evaluated to decide if the receiver is abstract."
+]
+
 { #category : #accessing }
 CynRestHttpServerApplication >> extensionMethodCategories [
 
