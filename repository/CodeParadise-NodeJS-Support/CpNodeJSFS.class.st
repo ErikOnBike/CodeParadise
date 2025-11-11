@@ -137,7 +137,7 @@ CpNodeJSFS >> openDir: aString options: aDictionary do: aBlock [
 
 	The encoding option sets the encoding for the path while opening the directory and subsequent read operations."
 
-	self apply: #opendir withArguments: { aString . aDictionary . aBlock asJavaScriptFunction }
+	self apply: #opendir withArguments: { aString . aDictionary . aBlock asJavaScriptFunction } resultAs: CpNodeJSFSDir
 ]
 
 { #category : #operations }
@@ -156,7 +156,7 @@ CpNodeJSFS >> openDirSync: aString options: aDictionary [
 
 	The encoding option sets the encoding for the path while opening the directory and subsequent read operations."
 
-	self apply: #opendirSync withArguments: { aString . aDictionary }
+	^ self apply: #opendirSync withArguments: { aString . aDictionary } resultAs: CpNodeJSFSDir
 ]
 
 { #category : #operations }
