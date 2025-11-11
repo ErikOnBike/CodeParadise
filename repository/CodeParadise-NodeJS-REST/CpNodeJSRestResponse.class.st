@@ -84,9 +84,9 @@ CpNodeJSRestResponse >> writeError: anError [
 
 	CpClientEnvironment current
 		ifDevelopment: [
-			self
-				traceCr: 'Error: ', anError printString ;
-				traceCr: 'Response: ', anError restResponseString ].
+			(anError restResponseCode = CpNodeJSRestForbiddenError responseCode or: [ anError restResponseCode = CpNodeJSRestUnauthorizedError responseCode ])
+				ifFalse: [ self traceCr: 'Error: ', anError printString ].
+			self traceCr: 'Response: ', anError restResponseString ].
 
 	"Prevent error if response already written"
 	self writableEnded
