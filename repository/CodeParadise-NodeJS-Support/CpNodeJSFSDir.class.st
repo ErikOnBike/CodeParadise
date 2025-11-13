@@ -129,3 +129,19 @@ CpNodeJSFSDir >> readSync [
 
 	^ self apply: #readSync
 ]
+
+{ #category : #'as yet unclassified' }
+CpNodeJSFSDir >> stat: aString options: aDictionary do: aBlock [
+
+	"Asynchronous stat(2). The callback gets two arguments (err, stats) where stats is an <fs.Stats> object."
+
+	self apply: #stat withArguments: { aString . aDictionary . aBlock asJavaScriptFunction }
+]
+
+{ #category : #'as yet unclassified' }
+CpNodeJSFSDir >> statSync: aString options: aDictionary [
+
+	"Retrieves the <fs.Stats> for the path."
+
+	^ self apply: #statSync withArguments: { aString . aDictionary } resultAs: CpNodeJSFSStats
+]
