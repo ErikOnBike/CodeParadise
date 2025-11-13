@@ -153,6 +153,14 @@ CpNodeJSBuffer class >> poolSize: anInteger [
 	self propertyAt: #poolSize put: anInteger
 ]
 
+{ #category : #converting }
+CpNodeJSBuffer >> asString [
+
+	"Convert receiver to a String"
+
+	^ self toString
+]
+
 { #category : #accessing }
 CpNodeJSBuffer >> at: anInteger [
 
