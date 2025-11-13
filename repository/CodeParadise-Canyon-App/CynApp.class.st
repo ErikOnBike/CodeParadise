@@ -436,10 +436,13 @@ CynApp >> closePage: aPage [
 				removeCount: 1
 				opts: { #animated -> false } asDictionary) await ].
 
-	"Destroy the old page, removing any dependencies"
+	"Remove the old page from the document DOM"
 	aPage isConnected
-		ifTrue: [ self warnCr: 'A page is NOT disconnected after closing it?! ', aPage printString ]
-		ifFalse: [ aPage destroy ]
+		ifTrue: [
+			self warnCr: 'A page is NOT disconnected after closing it?! ', aPage printString.
+			aPage remove ].
+
+	"Remember to destroy the page to release any dependencies in the caller!"
 ]
 
 { #category : #actions }

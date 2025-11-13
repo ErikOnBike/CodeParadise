@@ -171,9 +171,17 @@ CynPage >> close [
 
 	self addClass: #closing.
 
+	self announce: CynPageClosing.
+
 	self isShownInModal
 		ifTrue: [ self closeModalPage ]
-		ifFalse: [ self app closePage: self ]
+		ifFalse: [ self app closePage: self ].
+
+	"Perform announcement before destroy, otherwise the subscriptions are gone"
+	self announce: CynPageClosed.
+
+	"Remove any dependencies in the receiver"
+	self destroy
 ]
 
 { #category : #view }
