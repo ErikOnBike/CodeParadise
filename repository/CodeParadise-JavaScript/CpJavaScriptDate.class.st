@@ -261,18 +261,39 @@ CpJavaScriptDate >> copy [
 ]
 
 { #category : #accessing }
+CpJavaScriptDate >> dateAndTimeString [
+
+	"Answer the date String of the receiver in the format: YYYY-MM-DD.
+	Assume year is between 1000 and 9999 (i.e. 4 digits long)."
+
+	^ String streamContents: [ :stream | self dateAndTimeStringOn: stream ]
+]
+
+{ #category : #accessing }
+CpJavaScriptDate >> dateAndTimeStringOn: aStream [
+
+	self dateStringOn: aStream.
+	aStream space.
+	self timeStringOn: aStream
+]
+
+{ #category : #accessing }
 CpJavaScriptDate >> dateString [
 
 	"Answer the date String of the receiver in the format: YYYY-MM-DD.
 	Assume year is between 1000 and 9999 (i.e. 4 digits long)."
 
-	^ String streamContents: [ :stream |
-		stream
-			print: self year ;
-			nextPut: $-.
-		self printPart: self monthIndex on: stream.
-		stream nextPut: $-.
-		self printPart: self dayIndex on: stream ]
+	^ String streamContents: [ :stream | self dateStringOn: stream ]
+]
+
+{ #category : #accessing }
+CpJavaScriptDate >> dateStringOn: aStream [
+
+	self printPart: self year on: aStream.
+	aStream nextPut: $-.
+	self printPart: self monthIndex on: aStream.
+	aStream nextPut: $-.
+	self printPart: self dayIndex on: aStream
 ]
 
 { #category : #accessing }
@@ -511,10 +532,15 @@ CpJavaScriptDate >> shortTimeString [
 
 	"Answer the time String of the receiver in the format: HH:mm"
 
-	^ String streamContents: [ :stream |
-		self printPart: self hours on: stream.
-		stream nextPut: $:.
-		self printPart: self minutes on: stream ]
+	^ String streamContents: [ :stream | self shortTimeStringOn: stream ]
+]
+
+{ #category : #accessing }
+CpJavaScriptDate >> shortTimeStringOn: aStream [
+
+	self printPart: self hours on: aStream.
+	aStream nextPut: $:.
+	self printPart: self minutes on: aStream
 ]
 
 { #category : #accessing }
@@ -530,12 +556,17 @@ CpJavaScriptDate >> timeString [
 
 	"Answer the time String of the receiver in the format: HH:mm:ss"
 
-	^ String streamContents: [ :stream |
-		self printPart: self hours on: stream.
-		stream nextPut: $:.
-		self printPart: self minutes on: stream.
-		stream nextPut: $:.
-		self printPart: self seconds on: stream ]
+	^ String streamContents: [ :stream | self timeStringOn: stream ]
+]
+
+{ #category : #accessing }
+CpJavaScriptDate >> timeStringOn: aStream [
+
+	self printPart: self hours on: aStream.
+	aStream nextPut: $:.
+	self printPart: self minutes on: aStream.
+	aStream nextPut: $:.
+	self printPart: self seconds on: aStream
 ]
 
 { #category : #accessing }
