@@ -28,9 +28,3 @@ Class {
 	#superclass : #CpNodeJSImportedModule,
 	#category : #'CodeParadise-NodeJS-Nodemailer-Core'
 }
-
-{ #category : #accessing }
-CpNodeJSNodemailer class >> moduleName [
-
-	^ 'nodemailer'
-]
