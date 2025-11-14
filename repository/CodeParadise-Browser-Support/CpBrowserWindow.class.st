@@ -18,6 +18,18 @@ CpBrowserWindow class >> newInstanceWithArguments: anArray resultAs: aProxyClass
 	self errorNewReplacedBy: #current
 ]
 
+{ #category : #'class initialization' }
+CpBrowserWindow class >> postInstall [
+
+	"Since I'm the actual globalThis in the browser, reset the current
+	value which is mapped to an instance of JavaScriptObject on initial
+	use. Now I'm here, replace it."
+
+	super postInstall.
+
+	CpGlobalThis reset
+]
+
 { #category : #operations }
 CpBrowserWindow >> clearTimeout: anInteger [
 

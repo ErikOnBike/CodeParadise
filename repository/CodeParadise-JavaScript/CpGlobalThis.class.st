@@ -299,6 +299,16 @@ CpGlobalThis class >> rawPropertyAt: aSymbol put: anObject [
 		rawPropertyAt: aSymbol put: anObject
 ]
 
+{ #category : #'class initialization' }
+CpGlobalThis class >> reset [
+
+	"Reset the cached globalThis instance (required when run inside the browser,
+	since the CpBrowserWindow class was not available yet when accessing the
+	globalThis the first time)"
+
+	GlobalThis := nil
+]
+
 { #category : #operations }
 CpGlobalThis class >> setInterval: anInteger thenDo: aBlock [
 
