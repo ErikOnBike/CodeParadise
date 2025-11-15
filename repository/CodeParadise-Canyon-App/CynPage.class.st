@@ -194,9 +194,8 @@ CynPage >> closeAndNavigateTo: aPageClass withModel: aModel [
 
 	self modal
 		ifNotNil: [ :modal |
-			self
-				close ;
-				showPage: aPageClass withModel: aModel inModal: modal ]
+			self close.
+			self app showPage: aPageClass withModel: aModel inModal: modal ]
 		ifNil: [ self app showPage: aPageClass withModel: aModel ]
 ]
 
@@ -492,7 +491,7 @@ CynPage >> navigateTo: aPageClass withModel: aModel [
 		ifFalse: [ ^ nil ].
 
 	^ self modal
-		ifNotNil: [ :modal | self showPage: aPageClass withModel: aModel inModal: modal ]
+		ifNotNil: [ :modal | self app showPage: aPageClass withModel: aModel inModal: modal ]
 		ifNil: [ self app showPage: aPageClass withModel: aModel ]
 ]
 
@@ -567,27 +566,6 @@ CynPage >> showInitialTabs [
 			actions add: (each select: tab) ] ].
 
 	(CpJavaScriptPromise allSettled: actions asArray) await
-]
-
-{ #category : #view }
-CynPage >> showPage: aPageClass withModel: aModel inModal: aModal [
-
-	"Show the Model modal in the page Class specified.
-	Answer the page or nil if it can't be shown."
-
-	| nav page |
-
-	nav := aModal firstChild.
-	nav class = IonNav
-		ifFalse: [ ^ nil ].
-
-	page := aPageClass on: aModel.
-
-	page updateBeforeNavigate.
-	(nav push: page) await.
-	page updateAfterNavigate.
-
-	^ page
 ]
 
 { #category : #private }

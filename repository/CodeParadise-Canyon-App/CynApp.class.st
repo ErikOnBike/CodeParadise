@@ -1568,6 +1568,28 @@ CynApp >> showPage: aPageClass withModel: aModel [
 ]
 
 { #category : #actions }
+CynApp >> showPage: aPageClass withModel: aModel inModal: aModal [
+
+	"Show the Model modal in the page Class specified.
+	It is assumed, that all checks have already been performed with respect to navigation.
+	Answer the page or nil if it can't be shown."
+
+	| nav page |
+
+	nav := aModal firstChild.
+	nav class = IonNav
+		ifFalse: [ ^ nil ].
+
+	page := aPageClass on: aModel.
+
+	page updateBeforeNavigate.
+	(nav push: page) await.
+	page updateAfterNavigate.
+
+	^ page
+]
+
+{ #category : #actions }
 CynApp >> showToast: aString [
 
 	"Show the specified toast message with the default duration"
