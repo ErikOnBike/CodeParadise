@@ -65,7 +65,7 @@ CpExceptionAnnouncer class >> unsubscribe: anObject [
 	self hasCurrent
 		ifFalse: [ ^ self ].
 
-	^ self current
+	self current
 		unsubscribe: anObject
 ]
 

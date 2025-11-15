@@ -149,7 +149,7 @@ CpServerEnvironment class >> resetAnnouncer [
 { #category : #announcing }
 CpServerEnvironment class >> unsubscribe: anObject [
 
-	^ self announcer
+	self announcer
 		unsubscribe: anObject
 ]
 
@@ -760,7 +760,7 @@ CpServerEnvironment >> unsubscribe: anObject [
 
 	"Unsubscribe the specified Object from Announcements of the receiver"
 
-	^ self announcer unsubscribe: anObject
+	self announcer unsubscribe: anObject
 ]
 
 { #category : #updating }

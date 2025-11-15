@@ -61,7 +61,7 @@ CpBaseModel >> unsubscribe: anObject [
 	"Nobody has registered interest"
 	announcer ifNil: [ ^ nil ].
 
-	^ announcer unsubscribe: anObject
+	announcer unsubscribe: anObject
 ]
 
 { #category : #announcing }

@@ -5,5 +5,5 @@ Model >> unsubscribe: anObject [
 
 	"Unsubscribe all subscriptions from the specified object on the receiver"
 
-	^ self announcer unsubscribe: anObject
+	self announcer unsubscribe: anObject
 ]

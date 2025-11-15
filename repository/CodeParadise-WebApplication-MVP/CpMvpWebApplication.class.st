@@ -331,7 +331,7 @@ CpMvpWebApplication >> unsubscribe: anObject [
 
 	"Unsubscribe the specified Object from Announcements of the receiver"
 
-	^ self announcer unsubscribe: anObject
+	self announcer unsubscribe: anObject
 ]
 
 { #category : #announcing }
