@@ -63,7 +63,7 @@ CpServerEnvironment class >> announcer [
 	^ ClassSideAnnouncer ifNil: [ ClassSideAnnouncer := Announcer new ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 CpServerEnvironment class >> beDevelopment [
 
 	"Let the new server environments be development environments"
@@ -72,7 +72,7 @@ CpServerEnvironment class >> beDevelopment [
 		at: #'CODE_PARADISE_ENV' put: 'development'
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : #accessing }
 CpServerEnvironment class >> beProduction [
 
 	"Let the new server environments be production environments"
