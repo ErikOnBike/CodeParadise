@@ -13,14 +13,6 @@ Announcer >> removeInterestIn: anAnnouncementClass for: anObject [
 ]
 
 { #category : #'*CodeParadise-WebApplication' }
-Announcer >> reset [
-
-	<webApplicationExtension>
-
-	registry reset
-]
-
-{ #category : #'*CodeParadise-WebApplication' }
 Announcer >> subscriptionsOf: anObject do: aBlock [
 
 	<webApplicationExtension>

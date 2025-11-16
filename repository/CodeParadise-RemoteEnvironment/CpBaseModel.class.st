@@ -16,7 +16,8 @@ CpBaseModel >> announce: anAnnouncement [
 
 	"Let the receiver announce the specified Announcement"
 
-	"Nobody has registered interest"
+	"Only announce something when interest is shown in the receiver
+	(which will have resulted in the creation of the Announcer)"
 	announcer ifNil: [ ^ self ].
 
 	announcer announce: anAnnouncement
@@ -36,7 +37,7 @@ CpBaseModel >> postCopy [
 CpBaseModel >> release [
 
 	announcer ifNotNil: [
-		announcer subscriptions reset.
+		announcer release.
 		announcer := nil ].
 
 	super release

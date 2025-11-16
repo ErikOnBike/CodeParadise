@@ -289,7 +289,10 @@ CpDomElement >> animate: aCollection options: aDictionary [
 { #category : #announcing }
 CpDomElement >> announce: anAnnouncement [
 
+	"Only announce something when interest is shown in the receiver
+	(which will have resulted in the creation of the Announcer)"
 	announcer ifNil: [ ^ self ].
+
 	announcer announce: anAnnouncement
 ]
 
@@ -964,7 +967,7 @@ CpDomElement >> propertyAt: nameString put: anObject [
 CpDomElement >> release [
 
 	announcer ifNotNil: [
-		announcer reset.
+		announcer release.
 		announcer := nil ].
 
 	self unregisterAllInterest.

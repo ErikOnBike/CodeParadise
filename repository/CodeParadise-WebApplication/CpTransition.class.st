@@ -292,8 +292,8 @@ CpTransition >> announce: anAnnouncement [
 
 	"Announce the specified Announcement"
 
-	"Only announce something when interest is shown in the receiver (which will have resulted
-	in the creation of the Announcer"
+	"Only announce something when interest is shown in the receiver
+	(which will have resulted in the creation of the Announcer)"
 	announcer ifNil: [ ^ self ].
 
 	announcer announce: anAnnouncement
@@ -428,7 +428,7 @@ CpTransition >> progressAt: anInteger [
 CpTransition >> release [
 
 	announcer ifNotNil: [
-		announcer subscriptions reset.
+		announcer release.
 		announcer := nil ].
 	block := nil.
 

@@ -48,7 +48,11 @@ CpServerEnvironment class >> announce: anAnnouncement [
 
 	"Let the receiver annouce the specified Announcement"
 
-	self announcer announce: anAnnouncement
+	"Only announce something when interest is shown in the receiver
+	(which will have resulted in the creation of the Announcer)"
+	ClassSideAnnouncer ifNil: [ ^ self ].
+
+	ClassSideAnnouncer announce: anAnnouncement
 ]
 
 { #category : #accessing }
@@ -142,7 +146,7 @@ CpServerEnvironment class >> resetAnnouncer [
 	"Reset the class side announcer to prevent keeping references to registered applications"
 
 	ClassSideAnnouncer ifNotNil: [
-		ClassSideAnnouncer subscriptions reset.
+		ClassSideAnnouncer release.
 		ClassSideAnnouncer := nil ]
 ]
 
@@ -280,7 +284,10 @@ CpServerEnvironment >> announce: anAnnouncement [
 
 	"Let the receiver announce the specified Announcement"
 
-	[ self announcer announce: anAnnouncement ] on: Error do: [ :error |
+	"Sanity check"
+	announcer ifNil: [ ^ self ].
+
+	[ announcer announce: anAnnouncement ] on: Error do: [ :error |
 
 		"Add 'location' of the error, by appending the Announcement description"
 		error messageText: (String streamContents: [ :stream |
@@ -626,7 +633,7 @@ CpServerEnvironment >> release [
 	"Release the receiver's instance variables"
 
 	announcer ifNotNil: [
-		announcer subscriptions reset.
+		announcer release.
 		announcer := nil ].
 	loaded := nil.
 	encoder := nil.

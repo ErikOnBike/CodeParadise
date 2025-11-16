@@ -25,6 +25,9 @@ CpDomElementAnnouncer class >> newForElement: anElement [
 { #category : #accessing }
 CpDomElementAnnouncer >> announce: anAnnouncement [
 
+	"Sanity check"
+	announcer ifNil: [ ^ self ].
+
 	announcer announce: anAnnouncement
 ]
 
@@ -51,6 +54,19 @@ CpDomElementAnnouncer >> initializeWithElement: anElement [
 ]
 
 { #category : #subscription }
+CpDomElementAnnouncer >> release [
+
+	announcer ifNotNil: [
+		announcer release.
+		announcer := nil ].
+
+	"Do not release the element, it is not our responsibility"
+	element := nil.
+
+	super release
+]
+
+{ #category : #subscription }
 CpDomElementAnnouncer >> removeInterestIn: anAnnouncementClass for: anObject [
 
 	announcer removeInterestIn: anAnnouncementClass for: anObject
@@ -64,18 +80,6 @@ CpDomElementAnnouncer >> removeSubscription: aSubscription [
 	aSubscription announcementClass removeListenerFrom: self element.
 
 	^ announcer removeSubscription: aSubscription
-]
-
-{ #category : #subscription }
-CpDomElementAnnouncer >> reset [
-
-	"Reset the subscriptions.
-
-	Implementation:
-	The current Announcer's #subscriptions method actually answers the
-	registry, therefore sending #subscriptions and then #reset."
-
-	^ announcer reset
 ]
 
 { #category : #subscription }

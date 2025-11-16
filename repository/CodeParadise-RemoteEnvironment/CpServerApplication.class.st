@@ -47,9 +47,8 @@ CpServerApplication class >> allowedPackages [
 { #category : #announcing }
 CpServerApplication class >> announce: anAnnouncement [
 
-	"Announce the specified Announcement (only if there are interested listeners,
-	in which case the announcer is already instantiated)"
-
+	"Only announce something when interest is shown in the receiver
+	(which will have resulted in the creation of the Announcer)"
 	announcer ifNil: [ ^ self ].
 
 	announcer announce: anAnnouncement
@@ -161,6 +160,10 @@ CpServerApplication class >> release [
 	"Release any class side resource. Subclasses can override."
 
 	self unregister.
+
+	announcer ifNotNil: [
+		announcer release.
+		announcer := nil ].
 
 	super release
 ]

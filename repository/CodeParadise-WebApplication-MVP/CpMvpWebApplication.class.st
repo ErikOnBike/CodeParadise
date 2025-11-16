@@ -67,7 +67,10 @@ CpMvpWebApplication >> allPresentersDo: aBlock [
 { #category : #announcing }
 CpMvpWebApplication >> announce: anAnnouncement [
 
-	self announcer announce: anAnnouncement
+	"Sanity check"
+	announcer ifNil: [ ^ self ].
+
+	announcer announce: anAnnouncement
 ]
 
 { #category : #accessing }
@@ -263,7 +266,7 @@ CpMvpWebApplication >> release [
 		presentersById := nil ].
 
 	announcer ifNotNil: [
-		announcer subscriptions reset.
+		announcer release.
 		announcer := nil ].
 
 	"The ApplicationPresenter is part of the presenters collection.

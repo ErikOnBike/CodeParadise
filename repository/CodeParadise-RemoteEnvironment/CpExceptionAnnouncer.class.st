@@ -18,7 +18,8 @@ Class {
 { #category : #announcing }
 CpExceptionAnnouncer class >> announce: anAnnouncement [
 
-	"In case no one is listening, simply answer nil and do not create my current instance"
+	"Only announce something when interest is shown in the receiver
+	(which will have resulted in the creation of the Announcer)"
 	self hasCurrent
 		ifFalse: [ ^ nil ].
 

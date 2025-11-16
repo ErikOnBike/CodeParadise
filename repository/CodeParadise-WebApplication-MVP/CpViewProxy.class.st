@@ -55,7 +55,10 @@ CpViewProxy class >> newForPresenter: aPresenter [
 { #category : #announcing }
 CpViewProxy >> announce: anAnnouncement [
 
-	self announcer announce: anAnnouncement
+	"Sanity check"
+	announcer ifNil: [ ^ self ].
+
+	announcer announce: anAnnouncement
 ]
 
 { #category : #accessing }
@@ -115,7 +118,7 @@ CpViewProxy >> initializeWithPresenter: aPresenter [
 CpViewProxy >> release [
 
 	announcer ifNotNil: [ 
-		announcer subscriptions reset.
+		announcer release.
 		announcer := nil ].
 	presenter := nil.
 	viewClass := nil.
