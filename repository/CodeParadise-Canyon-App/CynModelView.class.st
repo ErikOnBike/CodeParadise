@@ -178,7 +178,8 @@ CynModelView >> bindProperty: aSymbol toElement: anElement [
 		when: (CynPropertyChanged name: aSymbol) do: [ :event | anElement valueFromModel: event newValue ] for: self).
 
 	"Set the element's label"
-	anElement label: (model textAspect: #label at: aSymbol).
+	(model keyForTextAspect: #label at: aSymbol) ifNotNil: [ :textKey |
+		anElement appendChild: (CynText text: textKey) atSlotNamed: #label ].
 
 	"Add the element's placeholder (if available)"
 	(model textAspect: #placeholder at: aSymbol) ifNotNil: [ :placeholder |
@@ -1085,7 +1086,7 @@ CynModelView >> slotOfChildView: anElement [
 { #category : #'view - customization' }
 CynModelView >> submitToolbarEndButtonText [
 
-	^ #'app.button.label.generic.done' langText
+	^ #'app.button.label.generic.done'
 ]
 
 { #category : #'view - customization' }
@@ -1094,7 +1095,7 @@ CynModelView >> submitToolbarEndButtons [
 	"Answer the default 'submit' toolbar buttons for the receiver"
 
 	^ Array with: (IonButton new
-		textContent: self submitToolbarEndButtonText ;
+		appendChild: (CynText text: self submitToolbarEndButtonText) ;
 		type: #submit ;
 		form: self form ;
 		yourself)
@@ -1132,7 +1133,7 @@ CynModelView >> title [
 { #category : #'view - customization' }
 CynModelView >> toolbarEndButtonText [
 
-	^ #'app.button.label.generic.done' langText
+	^ #'app.button.label.generic.done'
 ]
 
 { #category : #'view - customization' }
@@ -1147,7 +1148,7 @@ CynModelView >> toolbarEndButtons [
 		ifFalse: [ ^ #() ].
 
 	^ Array with: (IonButton new
-		textContent: self toolbarEndButtonText ;
+		appendChild: (CynText text: self toolbarEndButtonText) ;
 		type: #submit ;
 		form: self form ;
 		yourself)
@@ -1348,6 +1349,12 @@ CynModelView >> updateGrid: aGridElement wide: anInteger with: aSequenceableColl
 		with: aSequenceableCollection
 		accessor: nil
 		using: aDomUpdater
+]
+
+{ #category : #'view - customization' }
+CynModelView >> updateMultiLanguageText [
+
+	"Perform any local multi language text updates"
 ]
 
 { #category : #private }

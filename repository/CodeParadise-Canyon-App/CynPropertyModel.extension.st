@@ -36,6 +36,55 @@ CynPropertyModel >> errorTextForViolation: aSymbolOrTextReference [
 ]
 
 { #category : #'*CodeParadise-Canyon-App' }
+CynPropertyModel class >> keyForTextAspect: aString at: aSymbol [
+
+	"Answer the key for the specified text aspect of the specified property.
+	Answer nil if such an aspect is missing.
+
+	The text aspect can for example be: 'label', 'placeholder', etc.
+
+	Implementation:
+	Since Models can inherit properties from a superclass, perform repeated
+	requests on the superclass when no text is found yet.
+	A value is not found, if the value retrieved is the same as the key."
+
+	| key value |
+
+	"Create key"
+	key := (String streamContents: [ :stream |
+		stream
+			nextPutAll: 'app.' ;
+			nextPutAll: aString ;
+			nextPut: $. ;
+			nextPutAll: self shortName ;
+			nextPut: $. ;
+			nextPutAll: aSymbol ]) asSymbol.
+
+	"Retrieve value"
+	value := self text: key.
+
+	"If no value is found and not yet at root, try superclass"
+	(value = key and: [ self ~~ CynPropertyModel ])
+		ifTrue: [ value := self superclass textAspect: aString at: aSymbol ].
+
+	"Answer nil if still not found (i.e. key = value)"
+	^ key = value
+		ifFalse: [ key ]
+]
+
+{ #category : #'*CodeParadise-Canyon-App' }
+CynPropertyModel >> keyForTextAspect: aString at: aSymbol [
+
+	"Answer the specified text aspect of the specified property.
+	Answer nil if such an aspect is missing.
+
+	The text aspect can for example be: 'label', 'placeholder', etc."
+
+	^ self class
+		keyForTextAspect: aString at: aSymbol
+]
+
+{ #category : #'*CodeParadise-Canyon-App' }
 CynPropertyModel class >> labelFor: propertySymbol selection: selectionSymbol [
 
 	"Answer the label for the specified selection of the specified property"

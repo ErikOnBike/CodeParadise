@@ -14,6 +14,14 @@ CynText class >> style [
 }'
 ]
 
+{ #category : #'instance creation' }
+CynText class >> text: aSymbol [
+
+	^ self new
+		attributeAt: #text put: aSymbol ;
+		render
+]
+
 { #category : #initialization }
 CynText >> initialize [
 

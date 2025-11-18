@@ -924,7 +924,7 @@ CynApp >> loadApp [
 				appendChild: (IonHeader new
 					appendChild: (IonToolbar new
 						appendChild: (IonTitle new
-							textContent: self menuTitle ;
+							appendChild: (CynText text: self menuText) ;
 							yourself) ;
 						yourself) ;
 					yourself) ;
@@ -1028,11 +1028,11 @@ CynApp >> menuSide [
 ]
 
 { #category : #accessing }
-CynApp >> menuTitle [
+CynApp >> menuText [
 
-	"Answer the title of the menu (from the language resource)"
+	"Answer the (multi language) text of the menu"
 
-	^ #'app.menu.title' langText
+	^ #'app.menu.title'
 ]
 
 { #category : #actions }
