@@ -10,6 +10,8 @@ IonSelect >> initializeForModel: aModel property: aSymbol [
 
 	super initializeForModel: aModel property: aSymbol.
 
+	self cancelText: #'app.cancel' langText.
+
 	selection := OrderedDictionary new.
 
 	aModel class possibleValuesFromPropertyConstraintsAt: aSymbol do: [ :each |

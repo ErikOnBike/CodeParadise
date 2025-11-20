@@ -25,3 +25,9 @@ CpDomElement >> canyonPage [
 			"We reached the root, check our host (we might be in Shadow DOM)"
 			self host ifNotNil: [ :host | host canyonPage ] ]
 ]
+
+{ #category : #'*CodeParadise-Canyon-App' }
+CpDomElement >> updateMultiLanguageText [
+
+	"Perform any local multi language text updates"
+]

@@ -1,12 +1,6 @@
 Extension { #name : #CynMobileWebApplication }
 
 { #category : #'*CodeParadise-Canyon-Development' }
-CynMobileWebApplication >> languageResourcePragmaName [
-
-	^ #languageResource
-]
-
-{ #category : #'*CodeParadise-Canyon-Development' }
 CynMobileWebApplication >> loadDevelopment [
 
 	"Add development tools"
@@ -28,7 +22,7 @@ CynMobileWebApplication >> methodChanged: anAnnouncement [
 	result := super methodChanged: anAnnouncement.
 
 	method := anAnnouncement method.
-	(method pragmaAt: self languageResourcePragmaName)
+	(method pragmaAt: CynApp languageResourcePragmaName)
 		ifNotNil: [ self updateMultiLanguageText ].
 
 	^ result

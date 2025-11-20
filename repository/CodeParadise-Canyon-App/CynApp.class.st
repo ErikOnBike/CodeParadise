@@ -72,11 +72,11 @@ CynApp class >> beLoaded [
 ]
 
 { #category : #'accessing - text' }
-CynApp class >> constraintTexts [
+CynApp class >> constraintTextsEn [
 
 	"Answer Dictionary with constraint texts"
 
-	<languageResource>
+	<languageResource: #en>
 
 	^ Dictionary new
 		at: #'constraint.empty' put: 'Input should not be empty.' ;
@@ -105,6 +105,40 @@ CynApp class >> constraintTexts [
 		yourself
 ]
 
+{ #category : #'accessing - text' }
+CynApp class >> constraintTextsNl [
+
+	"Answer Dictionary with constraint texts"
+
+	<languageResource: #nl>
+
+	^ Dictionary new
+		at: #'constraint.empty' put: 'Invoer mag niet leeg zijn.' ;
+		at: #'constraint.required' put: 'Invoer is verplicht om correct te werken.' ;
+		at: #'constraint.date.format' put: 'De datum moet de vorm YYYY-MM-DD hebben' ;
+		at: #'constraint.date.content' put: 'De datum moet de vorm YYYY-MM-DD hebben' ;
+		at: #'constraint.email.at' put: 'Een email-adres moet de vorm "naam@domein.nl" hebben.' ;
+		at: #'constraint.email.format' put: 'Een email-adres moet precies één @-symbool hebben (zoals "naam@domein.nl").' ;
+		at: #'constraint.email.name' put: 'De naam voorafgaand aan het @-symbool mag alleen bestaan uit letters, cijfers en de volgende symbolen: {1}' ;
+		at: #'constraint.email.domain' put: 'De domeinnaam achter het @-symbool mag alleen bestaan uit letters, cijfers, punten and koppeltekens.' ;
+		at: #'constraint.email.domain.dot.missing' put: 'De domeinnaam achter het @-symbool moet minimaal één punt hebben (zoals "naam@domein.nl").' ;
+		at: #'constraint.email.domain.dot.position' put: 'Een email-adres mag alleen punten hebben tussen domeinnaamdelen (zoals "naam@mijn.domein.nl").' ;
+		at: #'constraint.email.domain.dash' put: 'Een email-adres mag alleen koppeltekens hebben binnen domeinnaamdelen (zoals "naam@mijn-domein.nl").' ;
+		at: #'constraint.password.length' put: 'Het wachtwoord moet minimaal {1} tekens lang zijn.' ;
+		at: #'constraint.id.length' put: 'Het id moet exact 36 tekens lang zijn (in de vorm xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx)' ;
+		at: #'constraint.id.dash' put: 'Het id moet koppeltekens hebben op vaste plekken (in de vorm xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx)' ;
+		at: #'constraint.id.content' put: 'Het id mag alleen cijfers, de letters "a" tot en met "f" en koppeltekens bevatten (in de vorm xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx)' ;
+		at: #'constraint.time.format' put: 'De tijd moet de vorm HH:MM of HH:MM:SS hebben' ;
+		at: #'constraint.time.content' put: 'De tijd moet de vorm HH:MM of HH:MM:SS hebben' ;
+		at: #'constraint.token.length' put: 'De code moet exact 32 tekens lang zijn. Misschien is het niet goed gekopieerd uit de email?' ;
+		at: #'constraint.token.content' put: 'De code mag alleen cijfers en de letters "a" tot en met "f" bevatten. Misschien is het niet goed gekopieerd uit de email?' ;
+		at: #'constraint.length.min' put: 'De invoer moet minimaal {1} tekens lang zijn en is nu {2} tekens lang.' ;
+		at: #'constraint.length.min.zero' put: 'De invoer moet minimaal {1} tekens lang zijn en is nu nog leeg.' ;
+		at: #'constraint.length.max' put: 'De invoer mag maximaal {1} tekens lang zijn en is nu {2} tekens lang.' ;
+		at: #'constraint.selection.unknown' put: 'De waarde "{1}" is niet toegestaan.' ;
+		yourself
+]
+
 { #category : #accessing }
 CynApp class >> current [
 
@@ -114,11 +148,11 @@ CynApp class >> current [
 ]
 
 { #category : #'accessing - text' }
-CynApp class >> defaultAppTexts [
+CynApp class >> defaultAppTextsEn [
 
 	"Answer Dictionary with default app texts"
 
-	<languageResource>
+	<languageResource: #en>
 
 	^ Dictionary new
 		at: #'app.ok' put: 'OK' ;
@@ -187,6 +221,79 @@ CynApp class >> defaultAppTexts [
 ]
 
 { #category : #'accessing - text' }
+CynApp class >> defaultAppTextsNl [
+
+	"Answer Dictionary with default app texts"
+
+	<languageResource: #nl>
+
+	^ Dictionary new
+		at: #'app.ok' put: 'OK' ;
+		at: #'app.cancel' put: 'Annuleer' ;
+		at: #'app.or' put: 'of' ;
+		at: #'app.and' put: 'en' ;
+		at: #'app.today' put: 'vandaag' ;
+		at: #'app.yesterday' put: 'gisteren' ;
+		at: #'app.tomorrow' put: 'morgen' ;
+		at: #'app.date' put: '{day}-{month}-{year}' ;
+		at: #'app.short.date' put: '{day}-{month}' ;
+		at: #'app.month' put: {
+			1 -> 'Januari'.
+			2 -> 'Februari'.
+			3 -> 'Maart'.
+			4 -> 'April'.
+			5 -> 'Mei'.
+			6 -> 'Juni'.
+			7 -> 'Juli'.
+			8 -> 'Augustus'.
+			9 -> 'September'.
+			10 -> 'Oktober'.
+			11 -> 'November'.
+			12 -> 'December' } asDictionary ;
+		at: #'app.day' put: {
+			1 -> 'Maandag'.
+			2 -> 'Dinsdag'.
+			3 -> 'Woensdag'.
+			4 -> 'Donderdag'.
+			5 -> 'Vrijdag'.
+			6 -> 'Zaterdag'.
+			7 -> 'Zondag' } asDictionary ;
+		at: #'app.day.short' put: {
+			1 -> 'Ma'.
+			2 -> 'Di'.
+			3 -> 'Wo'.
+			4 -> 'Do'.
+			5 -> 'Vr'.
+			6 -> 'Za'.
+			7 -> 'Zo' } asDictionary ;
+		at: #'app.ordinal' put: {
+			1 -> '1e'.
+			2 -> '2e'.
+			3 -> '3e'.
+			4 -> '4e'.
+			5 -> '5e'.
+			6 -> '6e'.
+			7 -> '7e'.
+			8 -> '8e'.
+			9 -> '9e'.
+			10 -> '10e' } asDictionary ;
+		at: #'app.ordinal.last' put: 'laatste' ;
+		at: #'app.server.internalError.title' put: 'Oeps, er is iets fout gegaan' ;
+		at: #'app.server.internalError.message' put: 'De computer waar de data is opgeslagen heeft een probleem. De beheerder is geïnformeerd. Je kunt het straks nog een keer proberen voor de zekerheid. We proberen dit zo snel mogelijk op te lossen.' ;
+		at: #'app.server.unavailable.title' put: 'Oeps, er is iets fout gegaan' ;
+		at: #'app.server.unavailable.message' put: 'De computer waar de data is opgeslagen is niet bereikbaar op dit moment. Dit zou snel verholpen moeten zijn. Probeer nogmaals over een minuutje.' ;
+		at: #'app.server.forbidden.title' put: 'Oeps, er is iets fout gegaan' ;
+		at: #'app.server.forbidden.message' put: 'De computer waar de data is opgeslagen geeft aan dat je deze wijziging niet mag maken. De beheerder is geïnformeerd. We proberen dit zo snel mogelijk op te lossen.' ;
+		at: #'app.menu.title' put: 'Menu' ;
+		at: #'app.loading.generic.new' put: 'Maken nieuwe element...' ;
+		at: #'app.loading.generic.update' put: 'Opslaan wijzigingen...' ;
+		at: #'app.loading.generic.delete' put: 'Verwijderen element...' ;
+		at: #'app.loading.generic.read' put: 'Inlezen element...' ;
+		at: #'app.loading.generic.operation' put: 'Verwerken opdracht...' ;
+		yourself
+]
+
+{ #category : #'accessing - text' }
 CynApp class >> defaultFallbackLocales [
 
 	"Answer the collection of fallback locales for the app.
@@ -197,6 +304,7 @@ CynApp class >> defaultFallbackLocales [
 
 { #category : #'accessing - text' }
 CynApp class >> defaultLanguage [
+
 	"Answer the app's text language"
 
 	^ CynTextLanguage
@@ -250,6 +358,12 @@ CynApp class >> isAbstractTag [
 
 	"The method is present to indicate the receiver is abstract.
 	This method will NOT be evaluated to decide if the receiver is abstract."
+]
+
+{ #category : #accessing }
+CynApp class >> languageResourcePragmaName [
+
+	^ #languageResource:
 ]
 
 { #category : #'instance creation' }
@@ -343,6 +457,35 @@ CynApp class >> style [
 :host {
 	height: 100%;
 }'
+]
+
+{ #category : #view }
+CynApp class >> updateLanguage: aSymbol [
+
+	"Set new default language, when not English use English as fallback"
+
+	CynPropertyEntity languageText
+		defaultLanguage: (CynTextLanguage
+		  locale: aSymbol
+		  fallbackLocales: (aSymbol = #en ifTrue: [ #() ] ifFalse: [ #(en) ])).
+
+	self updateMultiLanguageText
+]
+
+{ #category : #view }
+CynApp class >> updateMultiLanguageText [
+
+	"Update the multi language text of the current instance.
+
+	Implementation:
+	Simply re-initialize the multi language text."
+
+	self traceCr: 'Update multi language text'.
+
+	Current ifNotNil: [ Current initializeLanguageText ].
+
+	CpHtmlElement documentBody touchedElements
+		do: [ :each | each updateMultiLanguageText ]
 ]
 
 { #category : #'actions - periodic' }
@@ -766,6 +909,7 @@ CynApp >> initialize [
 		ifNil: [ shadowRoot appendChild: ionicStyle ].
 
 	"Initialize the language text before anything else"
+	CynPropertyEntity languageText: (CynMultiLanguageText defaultLanguage: self class defaultLanguage).
 	self initializeLanguageText.
 
 	"Setup handlers for detecting going online/offline"
@@ -788,10 +932,16 @@ CynApp >> initializeLanguageText [
 
 	"Initialize the language text by setting the default language, locale and fallback locales"
 
-	CynPropertyEntity
-		languageText: (CynMultiLanguageText defaultLanguage: self class defaultLanguage) ;
-		addVolume: (CynLanguageVolume fromDictionary: self class defaultAppTexts) locale: self class defaultLocale ;
-		addVolume: (CynLanguageVolume fromDictionary: self class constraintTexts) locale: self class defaultLocale
+	| languageResourcePragma |
+
+	languageResourcePragma := self class languageResourcePragmaName.
+
+	CynApp withAllSubclassesDo: [ :each |
+		each classSide selectorsAndMethodsDo: [ :selector :method |
+			(method pragmaAt: languageResourcePragma) ifNotNil: [ :pragma |
+				CynPropertyEntity
+					addVolume: (CynLanguageVolume fromDictionary: (each instanceSide perform: selector))
+					locale: pragma arguments first ] ] ]
 ]
 
 { #category : #testing }

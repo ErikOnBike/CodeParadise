@@ -1351,12 +1351,6 @@ CynModelView >> updateGrid: aGridElement wide: anInteger with: aSequenceableColl
 		using: aDomUpdater
 ]
 
-{ #category : #'view - customization' }
-CynModelView >> updateMultiLanguageText [
-
-	"Perform any local multi language text updates"
-]
-
 { #category : #private }
 CynModelView >> updateToEmptyChildView: aView atSlotNamed: aString [
 

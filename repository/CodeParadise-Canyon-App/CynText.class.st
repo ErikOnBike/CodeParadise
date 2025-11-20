@@ -49,3 +49,9 @@ CynText >> render [
 					ifNotNil: [ CynPropertyEntity count: count text: text asSymbol ]
 					ifNil: [ CynPropertyEntity text: text asSymbol ] ]) ]
 ]
+
+{ #category : #'view - customization' }
+CynText >> updateMultiLanguageText [
+
+	self render
+]

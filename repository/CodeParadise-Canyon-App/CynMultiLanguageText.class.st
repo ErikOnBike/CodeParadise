@@ -87,6 +87,18 @@ CynMultiLanguageText >> count: anInteger key: aSymbolOrTextReference format: aDi
 	^ self lang: defaultLanguage count: anInteger key: aSymbolOrTextReference format: aDictionary
 ]
 
+{ #category : #accessing }
+CynMultiLanguageText >> defaultLanguage [
+
+	^ defaultLanguage
+]
+
+{ #category : #accessing }
+CynMultiLanguageText >> defaultLanguage: aLanguage [
+
+	defaultLanguage := aLanguage
+]
+
 { #category : #private }
 CynMultiLanguageText >> formatDict: aDictionary with: anAssociation lang: aLanguage key: aSymbolOrTextReference [
 
