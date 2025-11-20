@@ -65,11 +65,11 @@ CynPropertyModel class >> keyForTextAspect: aString at: aSymbol [
 
 	"If no value is found and not yet at root, try superclass"
 	(value = key and: [ self ~~ CynPropertyModel ])
-		ifTrue: [ value := self superclass textAspect: aString at: aSymbol ].
+		ifTrue: [ key := self superclass keyForTextAspect: aString at: aSymbol ].
 
 	"Answer nil if still not found (i.e. key = value)"
-	^ key = value
-		ifFalse: [ key ]
+	^ (key isNotNil and: [ key ~= value ])
+		ifTrue: [ key ]
 ]
 
 { #category : #'*CodeParadise-Canyon-App' }
