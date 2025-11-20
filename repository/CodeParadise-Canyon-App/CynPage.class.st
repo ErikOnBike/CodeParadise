@@ -586,16 +586,6 @@ CynPage >> tabFromTabChangeEvent: aTabChangeEvent [
 ]
 
 { #category : #'view - customization' }
-CynPage >> title [
-
-	self isModelPage
-		ifTrue: [ ^ super title ].
-
-	^ self activeChildView
-		ifNotNil: [ :activeChildView | activeChildView title ]
-]
-
-{ #category : #'view - customization' }
 CynPage >> updateBeforeNavigate [
 
 	"Update the receiver just before being shown (again) because of a navigation.
@@ -606,7 +596,17 @@ CynPage >> updateBeforeNavigate [
 
 	self
 		updateScreenWidth ;
-		updateTitle: self title
+		updateDocumentTitle
+]
+
+{ #category : #view }
+CynPage >> updateDocumentTitle [
+
+	"Update (on desktops) the document title which is often shown in the browser tab"
+
+	self headerTitle ifNotNil: [ :title |
+		CpBrowserDocument current
+			title: (self documentTitleFrom: title textContent) ]
 ]
 
 { #category : #view }
@@ -628,30 +628,4 @@ CynPage >> updateScreenWidth [
 
 	CpHtmlElement documentBody
 		classed: #thin if: (screenWidth = #min or: [ screenWidth = #auto and: [ isWidePreferred not ] ])
-]
-
-{ #category : #view }
-CynPage >> updateTitle: aString [
-
-	"Update the title of the receiver and on desktops the browser title as well.
-
-	Implementation:
-	If a nil title is specified or the header title is readonly, use the current
-	Page's title as the title to show in the browser title."
-
-	| titleString |
-
-	titleString := aString.
-
-	"Set the title in the header title, if available and not marked 'readonly'"
-	self headerTitle ifNotNil: [ :title |
-
-		"Only set the title if it is not marked 'readonly' and an actual title is provided"
-		(titleString isNil or: [ title isClassed: #readonly ])
-			ifTrue: [ titleString := title textContent ]
-			ifFalse: [ title textContent: titleString ] ].
-
-	"Set the title of the page as the browser title (for desktop)"
-	CpBrowserDocument current
-		title: (self documentTitleFrom: titleString)
 ]
