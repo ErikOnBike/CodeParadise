@@ -785,7 +785,7 @@ CynLocalAccountRestApiService >> shouldNotifyStatusCode: anInteger [
 
 	"Only notify internal server errors or client errors (statusCode = 0)"
 
-	^ anInteger >= 500 or: [ anInteger = 0 ]
+	^ anInteger >= 500 or: [ anInteger = 0 or: [ anInteger = CpNodeJSRestForbiddenError ] ]
 ]
 
 { #category : #logging }
