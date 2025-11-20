@@ -244,7 +244,7 @@ CynModelView >> canNavigate [
 							violations
 								ifNotNil: [ self handleInvalidModel: violations ]
 								ifNil: [ self app showToast: #'app.toast.saveOnNavigate.failed' langText ].
-						^ false ] ] ;
+							^ false ] ] ;
 				yourself.
 			IonActionSheetButton new
 				text: #'app.action.button.ignore' langText ;
