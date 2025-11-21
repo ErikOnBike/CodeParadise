@@ -1388,6 +1388,37 @@ CynApp >> main [
 	^ main ifNil: [ self ]
 ]
 
+{ #category : #actions }
+CynApp >> makeTopPage: aPage [
+
+	"Make the specified page the top page"
+
+	| actions |
+
+	"Skip if already top page"
+	aPage nextSibling
+		ifNil: [ ^ self ].
+
+	"Remove page from navigation stack (remember Ionic is 0-based for indexing)"
+	actions := Array new: 2.
+	actions at: 1 put: (navigation removeIndex: aPage indexInParent - 1 removeCount: 1 opts: { #animated -> false } asDictionary).
+
+	"Add page on top"
+	actions at: 2 put: (navigation push: aPage).
+
+	aPage updateBeforeNavigate.
+	(CpJavaScriptPromise allSettled: actions) await.
+	aPage updateAfterNavigate.
+
+	"Sanity check (after having seen this fail)"
+	CpGlobalThis setTimeout: 1000 thenDo: [
+		((self activePage ifNil: [ aPage ]) isClassed: #'ion-page-hidden')
+			ifTrue: [
+				aPage removeClass: #'ion-page-hidden'.
+				self sendClientLogFor: (Error new messageText: '#makeTopPage resulted in hidden page: ', aPage class name ; yourself).
+				self traceCr: '#makeTopPage resulted in hidden page: ', aPage class name ] ]
+]
+
 { #category : #accessing }
 CynApp >> menu [
 
