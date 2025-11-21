@@ -87,14 +87,14 @@ CynLocalAccountRestApiService >> activateAccount: anActivateAccount [
 ]
 
 { #category : #API }
-CynLocalAccountRestApiService >> activateAccount: aRestRequest response: aRestResponse [
+CynLocalAccountRestApiService >> activateAccount: aRestRequest response: aServerResponse [
 
 	"Activate Account within Accounts collection"
 
 	<post: '/api/accounts?action=activate'>
 	<public>
 
-	| body account |
+	| body account accessToken |
 
 	body := (aRestRequest jsonBody) ifNil: [ self errorNoBody ].
 	account := self extractNewObject: CynActivateAccount fromBody: body.
@@ -104,7 +104,14 @@ CynLocalAccountRestApiService >> activateAccount: aRestRequest response: aRestRe
 
 	self activateAccount: account.
 
-	self sendEmptyResponse: aRestResponse
+	"Need to retrieve account id, otherwise the create session will fail"
+	self addAccountId: account.
+
+	"Create session and store access token in response header"
+	accessToken := self createSessionForAccount: account.
+	aServerResponse setHeaderWithName: #'cp-access-token' value: accessToken.
+
+	self sendEmptyResponse: aServerResponse
 ]
 
 { #category : #'API - accounts' }
@@ -115,6 +122,26 @@ CynLocalAccountRestApiService >> activationTokenMailMessageWith: aString [
 		text: ('Your activation code is: {1}' format: { aString }) ;
 		html: ('Your <i>activation code</i> is <code>{1}</code>' format: { aString }) ;
 		yourself
+]
+
+{ #category : #private }
+CynLocalAccountRestApiService >> addAccountId: anAccount [
+
+	"DO NOT USE, unless you know what you're doing!"
+
+	| accountId |
+
+	anAccount class = CynActivateAccount
+		ifFalse: [ ^ self error: 'Do not use this method!' ].
+
+	accountId := modelDatabase
+		selectValue: #getAccountByEmail
+		statement: 'SELECT id FROM accounts WHERE email=:email'
+		bind: {
+			#email -> anAccount email } asDictionary.
+	accountId ifNil: [ CpNodeJSRestBadRequestError signal ].
+
+	anAccount id: accountId
 ]
 
 { #category : #'API - accounts' }
