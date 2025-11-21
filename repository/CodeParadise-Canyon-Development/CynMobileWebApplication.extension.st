@@ -23,13 +23,13 @@ CynMobileWebApplication >> methodChanged: anAnnouncement [
 
 	method := anAnnouncement method.
 	(method pragmaAt: CynApp languageResourcePragmaName)
-		ifNotNil: [ self updateMultiLanguageText ].
+		ifNotNil: [ self recreateMultiLanguageText ].
 
 	^ result
 ]
 
 { #category : #'*CodeParadise-Canyon-Development' }
-CynMobileWebApplication >> updateMultiLanguageText [
+CynMobileWebApplication >> recreateMultiLanguageText [
 
 	"Update the multi language text in the browser"
 
@@ -37,6 +37,6 @@ CynMobileWebApplication >> updateMultiLanguageText [
 		self environment
 			sendMessage: (MessageSend
 			receiver: CynApp name
-			selector: #updateMultiLanguageText
+			selector: #recreateMultiLanguageText
 			arguments: nil) ]
 ]

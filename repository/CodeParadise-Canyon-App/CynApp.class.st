@@ -460,14 +460,12 @@ CynApp class >> style [
 ]
 
 { #category : #view }
-CynApp class >> updateLanguage: aSymbol [
+CynApp class >> updateLanguage: aLanguage [
 
-	"Set new default language, when not English use English as fallback"
+	"Set new default language"
 
 	CynPropertyEntity languageText
-		defaultLanguage: (CynTextLanguage
-		  locale: aSymbol
-		  fallbackLocales: (aSymbol = #en ifTrue: [ #() ] ifFalse: [ #(en) ])).
+		defaultLanguage: aLanguage.
 
 	self updateMultiLanguageText
 ]
@@ -476,13 +474,7 @@ CynApp class >> updateLanguage: aSymbol [
 CynApp class >> updateMultiLanguageText [
 
 	"Update the multi language text of the current instance.
-
-	Implementation:
-	Simply re-initialize the multi language text."
-
-	self traceCr: 'Update multi language text'.
-
-	Current ifNotNil: [ Current initializeLanguageText ].
+	This method should be used when switching language in the app."
 
 	CpHtmlElement documentBody touchedElements
 		do: [ :each | each updateMultiLanguageText ]
@@ -654,6 +646,28 @@ CynApp >> confirm: titleString action: actionString onConfirm: aBlock [
 		action: actionString
 		cancel: #'app.action.button.cancel' langText
 		onConfirm: aBlock
+]
+
+{ #category : #initialization }
+CynApp >> createLanguageText [
+
+	CynPropertyEntity languageText: (CynMultiLanguageText defaultLanguage: self currentLanguage)
+]
+
+{ #category : #initialization }
+CynApp >> currentLanguage [
+
+	"Answer the current language (will create a new instance of the language object)"
+
+	^ self languageWithLocale: self currentLocale
+]
+
+{ #category : #initialization }
+CynApp >> currentLocale [
+
+	"Answer the current locale (subclasses should override)"
+
+	^ self class defaultLocale
 ]
 
 { #category : #accessing }
@@ -909,8 +923,9 @@ CynApp >> initialize [
 		ifNil: [ shadowRoot appendChild: ionicStyle ].
 
 	"Initialize the language text before anything else"
-	CynPropertyEntity languageText: (CynMultiLanguageText defaultLanguage: self class defaultLanguage).
-	self initializeLanguageText.
+	self
+		createLanguageText ;
+		initializeLanguageText.
 
 	"Setup handlers for detecting going online/offline"
 	CpBrowserWindow current
@@ -1006,6 +1021,17 @@ CynApp >> isShowingError: aSymbol [
 CynApp >> isStopShowingError: aSymbol [
 
 	^ recentErrors at: #stop, aSymbol ifAbsent: [ false ]
+]
+
+{ #category : #initialization }
+CynApp >> languageWithLocale: aSymbol [
+
+	"Answer a new language instance based on the specified locale.
+	If the specified locale is not English, add English as fallback."
+
+	^ CynTextLanguage
+	  locale: aSymbol
+	  fallbackLocales: (aSymbol = #en ifTrue: [ #() ] ifFalse: [ #(en) ])
 ]
 
 { #category : #initialization }
@@ -1815,6 +1841,18 @@ CynApp >> stopLoading: aLoading [
 			aLoading dismiss
 				then: [ aLoading remove ] ]
 		ifFalse: [ aLoading remove ]
+]
+
+{ #category : #actions }
+CynApp >> updateCurrentLanguage [
+
+	"Update the current language.
+	Use this method if a subclass has overridden the current
+	language and the language has changed. It will ensure the
+	correct language is set as default and it will update all
+	Views and Pages."
+
+	self class updateLanguage: self currentLanguage
 ]
 
 { #category : #actions }

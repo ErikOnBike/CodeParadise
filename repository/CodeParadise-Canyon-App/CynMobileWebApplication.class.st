@@ -55,7 +55,7 @@ CynMobileWebApplication >> addInstallationChecker [
 
 	self environment ifDevelopment: [
 		environment addInstallationChecker: (CpPackageInstallationChecker
-			package: (CynMobileWebApplication >> #updateMultiLanguageText) package) ]
+			package: (CynMobileWebApplication >> #recreateMultiLanguageText) package) ]
 ]
 
 { #category : #actions }
