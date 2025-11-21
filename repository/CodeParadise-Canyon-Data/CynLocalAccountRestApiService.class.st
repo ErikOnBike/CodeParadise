@@ -188,8 +188,9 @@ CynLocalAccountRestApiService >> createAccount: account [
 				#password -> passwordHash.
 				#settings -> '{}' } asDictionary
 	] on: CynDatabaseUniqueConstraintViolation do: [
-		"Account exists and is already activated (otherwise found it above at #isNonActivatedAccount:).
-		No need to create and send activation token."
+		"Account exists and is already activated (otherwise found it before in #createAccount:response:).
+		No need to create and send activation token.
+		The client can't distinguish this from a new account being created."
 		^ self ].
 
 	self createActivationTokenForAccount: account
@@ -212,8 +213,8 @@ CynLocalAccountRestApiService >> createAccount: aRestRequest response: aRestResp
 	account := self extractNewObject: CynRegisterAccount fromBody: body.
 
 	"If this Account exists, but is not activated, send new activation token,
-	otherwise try to create new account (could fail if on exists, but that is
-	handled in #newAccount:)."
+	otherwise try to create new account (could fail if one exists, but that is
+	handled in #createAccount:)."
 	(self isNonActivatedAccount: account)
 		ifTrue: [ self addActivationTokenToAccount: account ]
 		ifFalse: [ self createAccount: account ].
