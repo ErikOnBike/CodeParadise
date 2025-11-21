@@ -1050,7 +1050,7 @@ CynApp >> homePageModel [
 	"Answer the model representing the initial/home page model for the app.
 	If a model is not required, answer nil."
 
-	^ nil
+	^ self homePageClass defaultModel
 ]
 
 { #category : #'error handling' }
@@ -1329,8 +1329,8 @@ CynApp >> loadApp [
 	"Load any content required for the app"
 	self loadInitialContent.
 
-	"Load the first page (aka home page)"
-	self showPage: self homePageClass withModel: self homePageModel
+	"Load the initial page"
+	self showInitialPage
 ]
 
 { #category : #initialization }
@@ -1426,7 +1426,7 @@ CynApp >> navigateTo: aPageClass [
 	"Navigate to another page.
 	Answer the page navigated to or nil if navigation did not succeed."
 
-	^ self navigateTo: aPageClass withModel: nil
+	^ self navigateTo: aPageClass withModel: aPageClass defaultModel
 ]
 
 { #category : #actions }
@@ -1439,6 +1439,15 @@ CynApp >> navigateTo: aPageClass withModel: aModel [
 
 	^ self activePage
 		navigateTo: aPageClass withModel: aModel
+]
+
+{ #category : #actions }
+CynApp >> pageFromUrl: aString [
+
+	"Answer the Page Class represented by the (relative) path specified.
+	Answer nil if no match is available."
+
+	^ nil
 ]
 
 { #category : #actions }
@@ -1846,6 +1855,12 @@ CynApp >> showErrorServerNotAvailable [
 ]
 
 { #category : #actions }
+CynApp >> showInitialPage [
+
+	self showPage: self homePageClass withModel: self homePageModel
+]
+
+{ #category : #actions }
 CynApp >> showInteraction: anElement [
 
 	"Remove a loading message if present, since it would block the interaction"
@@ -1881,7 +1896,7 @@ CynApp >> showModal: aViewClass [
 
 	"Show the specified View modal and answer the modal's result"
 
-	^ self showModal: aViewClass withModel: nil
+	^ self showModal: aViewClass withModel: aViewClass defaultModel
 ]
 
 { #category : #actions }
@@ -1972,6 +1987,29 @@ CynApp >> showPage: aPageClass withModel: aModel inModal: aModal [
 	page updateAfterNavigate.
 
 	^ page
+]
+
+{ #category : #actions }
+CynApp >> showPageFromUrl [
+
+	"Show the page defined in the URL"
+
+	| url path |
+
+	url := CpBrowserDocument current location.
+
+	path := url pathname.
+
+	"Remove the app name from the path in development"
+	self class ifDevelopment: [
+		path := self class prodPathFrom: path ].
+
+	"No explicit path specified, do nothing"
+	path = '/'
+		ifTrue: [ ^ self ].
+
+	(self pageFromUrl: path) ifNotNil: [ :pageClass |
+		self showPage: pageClass withModel: pageClass defaultModel ]
 ]
 
 { #category : #actions }

@@ -15,6 +15,22 @@ Class {
 	#category : #'CodeParadise-Canyon-App-View'
 }
 
+{ #category : #accessing }
+CynModelView class >> app [
+
+	"Convenience method to access the app (instance)"
+
+	^ CynApp current
+]
+
+{ #category : #accessing }
+CynModelView class >> defaultModel [
+
+	"Answer the default model which should be shown if no model is provided"
+
+	^ nil
+]
+
 { #category : #'instance creation' }
 CynModelView class >> new [
 
