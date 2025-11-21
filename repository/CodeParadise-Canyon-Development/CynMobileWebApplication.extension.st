@@ -1,6 +1,21 @@
 Extension { #name : #CynMobileWebApplication }
 
 { #category : #'*CodeParadise-Canyon-Development' }
+CynMobileWebApplication class >> addWebResourcesDelegateTo: aServer [
+
+	"Add a simplified delegate to map all (unknown) paths to the Canyon app"
+	
+	| originalDelegate |
+
+	super addWebResourcesDelegateTo: aServer.
+
+	"Add replacement delegate only once"
+	originalDelegate := aServer delegate.
+	originalDelegate class = CynMobileApplicationServerDelegate
+		ifFalse: [ aServer delegate: (CynMobileApplicationServerDelegate delegate: originalDelegate) ]
+]
+
+{ #category : #'*CodeParadise-Canyon-Development' }
 CynMobileWebApplication >> loadDevelopment [
 
 	"Add development tools"
