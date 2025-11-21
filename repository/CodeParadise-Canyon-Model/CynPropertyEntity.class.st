@@ -112,7 +112,7 @@ CynPropertyEntity class >> id: aString [
 { #category : #'class initialization' }
 CynPropertyEntity class >> postInstallOnce [
 
-	config := Dictionary new
+	config ifNil: [ config := Dictionary new ]
 ]
 
 { #category : #accessing }
@@ -132,11 +132,18 @@ CynPropertyEntity class >> readWriteProperties [
 	^ #(id)
 ]
 
-{ #category : #'class initialization' }
+{ #category : #snapshotting }
 CynPropertyEntity class >> releaseRefs [
 
-	config := nil.
+	"Release unwanted references when snapshotting.
+	Leave the language text in, since it will be used instead of creating it again.
 
+	Do NOT call 'super releaseRefs' in a subclass since each class should remove its own references."
+
+	"Remove the REST API Client reference"
+	self restApiClient: nil.
+
+	"Let subclasses remove their references"
 	self subclassesDo: [ :each | each releaseRefs ]
 ]
 

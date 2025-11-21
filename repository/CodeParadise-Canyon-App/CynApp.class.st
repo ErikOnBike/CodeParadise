@@ -321,6 +321,45 @@ CynApp class >> defaultLocale [
 	^ #en
 ]
 
+{ #category : #snapshotting }
+CynApp class >> developmentClasses [
+
+	"Answer a Collection of classes which should be removed when going to production.
+	Some (commented out) classes can't be removed without the final image becoming
+	unstable. Have not figured out why this is the case. Leaving them in for now."
+
+	^ #(
+		CpSecondaryClickEvent
+		CpShortClick
+		CpLongClick
+		CpAnyClickEventCondition
+		CpNoModifiersDown
+		CpCtrlKeyDown
+		CpActionKeyDown
+		CpMetaKeyDown
+		CpShiftKeyDown
+		CpAltKeyDown
+		CpModifierKeyDownCondition
+		CpContextMenuEvent
+		CpConditionalEvent
+		CpNegatedEventCondition
+		CpEventCondition
+		"CpClientCommunicator"
+		"CpCommunicatorReconnectStrategy"
+		CpClientMessageSendFailed
+		CpClientReconnected
+		CpClientStarted
+		CpClientStopped
+		"CpJavaScriptWebSocketChannel"
+		"CpMessageChannel"
+		CpObjectDecoder
+		CpObjectEncoder
+		CpClientDecodeFailed
+		CpClientError
+		"CpCommunicator"
+	)
+]
+
 { #category : #'web resources' }
 CynApp class >> globalStyle [
 
@@ -372,6 +411,18 @@ CynApp class >> new [
 	self errorNewReplacedBy: #current
 ]
 
+{ #category : #snapshotting }
+CynApp class >> noop [
+
+	"Argument-less no-operation"
+]
+
+{ #category : #snapshotting }
+CynApp class >> noop: anObject [
+
+	"Single argument no-operation"
+]
+
 { #category : #'class initialization' }
 CynApp class >> postInstall [
 
@@ -394,7 +445,7 @@ CynApp class >> postInstall [
 		registerObject: self withId: CynApp name
 ]
 
-{ #category : #'class initialization' }
+{ #category : #snapshotting }
 CynApp class >> postSnapshotOnce [
 
 	| appClass |
@@ -409,10 +460,12 @@ CynApp class >> postSnapshotOnce [
 		ifNil: [ self errorCr: 'No app registered!' ]
 ]
 
-{ #category : #'class initialization' }
+{ #category : #snapshotting }
 CynApp class >> preSnapshotOnce [
 
-	self traceCr: 'Preparing app for snapshot'.
+	| languageResourcePragma |
+
+	self traceCr: 'Cleaning up in MoesApp before snapshot'.
 
 	"Remove HTML content since app will be rebuild on post snapshot"
 	CpHtmlElement documentBody makeEmpty.
@@ -420,7 +473,163 @@ CynApp class >> preSnapshotOnce [
 	"Remove current state"
 	Current ifNotNil: [
 		Current release.
-		Current := nil ]
+		Current := nil ].
+
+	CpClientEnvironment current
+		stopCommunication ;
+		removeSession.
+
+	(CpJavaScriptPromise on: [ :resolveBlock :rejectBlock |
+		self traceCr: 'Waiting for communication to stop...'.
+		CpGlobalThis setTimeout: 2000 thenDo: [ resolveBlock value: nil ] ]) await.
+	self traceCr: 'Continuing'.
+
+	CpGlobalThis preSnapshotOnce.
+
+	self developmentClasses do: [ :each |
+		self removeClassFromSystem: each ].
+
+	"Replace all language resource methods (language objects are already created).
+	Since the replaced method does not have a pragma, it is no longer recognized
+	as a resource language method and will not be executed to update the language."
+	languageResourcePragma := self languageResourcePragmaName.
+	self withAllSubclassesDo: [ :each |
+		each classSide selectorsAndMethodsDo: [ :selector :method |
+			(method pragmaAt: languageResourcePragma) ifNotNil: [
+				each classSide methodDictionary
+					at: selector put: self classSide >> #noop ] ] ].
+
+	IonElement classSide methodDictionary
+		at: #loadLibrary put: self classSide >> #noop.
+	CpEnvironment instanceSide methodDictionary
+		at: #ifDevelopment: put: self classSide >> #noop:.
+	CpClientEnvironment instanceSide methodDictionary
+		at: #primVariableAt: put: (CpClientEnvironment instanceSide methodDictionary at: #variableAt:).
+	CpClientEnvironment instanceSide methodDictionary
+		at: #variableAt: put: self classSide >> #replacementVariableAt:.
+	CynApp classSide methodDictionary
+		at: #ifDevelopment: put: self classSide >> #noop: ;
+		at: #developmentClasses put: self classSide >> #noop ;
+		at: #removeClassFromSystem: put: self classSide >> #noop: ;
+		at: #replacementVariableAt: put: self classSide >> #noop: ;
+		at: #preSnapshotOnce put: self classSide >> #noop.
+
+	3 timesRepeat: [ Smalltalk garbageCollect ].
+
+"	self traceCr: 'Testing for WebComponents'.
+	CpWebComponent allSubclassesDo: [ :eachSubclass |
+		eachSubclass allInstancesDo: [ :each |
+			self traceCr: 'Still alive ', each printString.
+			each destroy ] ]."
+
+"	self traceCr: 'Testing for PropertyEntities'.
+	CynPropertyEntity allSubclassesDo: [ :eachSubclass |
+		eachSubclass allInstancesDo: [ :each |
+			self traceCr: 'Still alive ', each printString.
+			each release ] ]."
+
+"	self traceCr: 'Testing some object instances'.
+	CynLanguageDictionary allInstancesDo: [ :each |
+		self traceCr: 'Lang dict ', each printString ].
+	CynLanguageVolume allInstancesDo: [ :each |
+		self traceCr: 'Lang volume ', each printString ].
+	CynTextReference allInstancesDo: [ :each |
+		self traceCr: 'Text reference ', each printString ].
+	CynTextLookup allInstancesDo: [ :each |
+		self traceCr: 'Text lookup ', each printString ].
+	CynTextVariant allInstancesDo: [ :each |
+		self traceCr: 'Text variant ', each printString ].
+	CynTextFormat allInstancesDo: [ :each |
+		self traceCr: 'Text format ', each printString ].
+	CynTextLanguage allInstancesDo: [ :each |
+		self traceCr: 'Text language ', each printString ].
+
+	self traceCr: 'Testing JavaScript object instances'.
+	CpJavaScriptObject allSubclassesDo: [ :eachSubclass |
+		eachSubclass allInstancesDo: [ :each |
+			self traceCr: 'JavaScript object: ', each printString ] ]."
+
+"	self ifNotNil: [
+		| count size |
+
+		count := Dictionary new.
+		size := Dictionary new.
+		String allSubclassesDo: [ :eachSubclass |
+			eachSubclass allInstancesDo: [ :each |
+				count at: eachSubclass name put: (count at: eachSubclass name ifAbsent: [ 0 ]) + 1.
+				size at: eachSubclass name put: (size at: eachSubclass name ifAbsent: [ 0 ]) + each size ] ].
+		SequenceableCollection allSubclassesDo: [ :eachSubclass |
+			eachSubclass allInstancesDo: [ :each |
+				count at: eachSubclass name put: (count at: eachSubclass name ifAbsent: [ 0 ]) + 1.
+				size at: eachSubclass name put: (size at: eachSubclass name ifAbsent: [ 0 ]) + each size ] ].
+		self traceCr: 'String/Array count and sizes:'.
+		self traceCr: count printString.
+		self traceCr: size printString.
+
+		count := Dictionary new.
+		Object allSubclassesDo: [ :eachSubclass |
+			eachSubclass allInstancesDo: [ :each |
+				count at: eachSubclass name put: (count at: eachSubclass name ifAbsent: [ 0 ]) + 1 ] ].
+		self traceCr: 'All classes count:'.
+		self traceCr: count printString.
+
+		CompiledMethod allInstancesDo: [ :each |
+			each size > 1000
+				ifTrue: [ self traceCr: 'Method ', each printString, ' size ', each size printString ] ] ]."
+
+	3 timesRepeat: [ Smalltalk garbageCollect ]
+]
+
+{ #category : #snapshotting }
+CynApp class >> removeClassFromSystem: aSymbol [
+
+	"Remove the specified class from the environment.
+	Actually, only the methods are removed. I was not able to actually
+	remove the class instances. Took too much time to figure out."
+
+	| oldClass oldMetaClass |
+
+	self traceCr: 'Cleaning up ', aSymbol.
+
+	oldClass := (Smalltalk at: aSymbol) ifNil: [ self warnCr: 'Unknown class ', aSymbol ].
+
+	"Releasing instances"
+	oldClass allInstancesDo: [ :each | each release ].
+	oldClass allSubclassesDo: [ :eachSubclass |
+		eachSubclass allInstancesDo: [ :each | each release ] ].
+
+	self traceCr: 'Disconnect from superclass'.
+	oldClass superclass removeSubclass: oldClass.
+
+	self traceCr: 'Remove from globals'.
+	Smalltalk globals
+		removeKey: oldClass name.
+
+	"Remove method Dictionaries by replacing it with an existing empty variant
+	(currently taken from an existing class)"
+	self traceCr: 'Removing the class methodDict'.
+	oldClass methodDictionary: CynCancelOperation methodDictionary.
+
+	self traceCr: 'Removing the metaclass methodDict'.
+	oldMetaClass := oldClass classSide.
+	oldMetaClass methodDictionary: CynCancelOperation methodDictionary.
+
+	self traceCr: 'Class become nil'.
+	oldClass becomeForward: nil.
+
+	self traceCr: 'Done'
+]
+
+{ #category : #snapshotting }
+CynApp class >> replacementVariableAt: nameString [
+
+	"Replacement method (to be installed on ClientEnvironment) for snapshotting.
+	Always act as if the snapshotted environment is a production environment."
+
+	nameString = #'CODE_PARADISE_ENV'
+		ifTrue: [ ^ 'production' ].
+
+	^ self primVariableAt: nameString
 ]
 
 { #category : #'class initialization' }
