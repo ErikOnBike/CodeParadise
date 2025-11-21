@@ -87,7 +87,7 @@ CynLocalAccountRestApiService >> activateAccount: anActivateAccount [
 ]
 
 { #category : #API }
-CynLocalAccountRestApiService >> activateAccount: aRestRequest response: aServerResponse [
+CynLocalAccountRestApiService >> activateAccount: aRestRequest response: aRestResponse [
 
 	"Activate Account within Accounts collection"
 
@@ -109,9 +109,9 @@ CynLocalAccountRestApiService >> activateAccount: aRestRequest response: aServer
 
 	"Create session and store access token in response header"
 	accessToken := self createSessionForAccount: account.
-	aServerResponse setHeaderWithName: #'cp-access-token' value: accessToken.
+	aRestResponse setHeaderWithName: #'cp-access-token' value: accessToken.
 
-	self sendEmptyResponse: aServerResponse
+	self sendEmptyResponse: aRestResponse
 ]
 
 { #category : #'API - accounts' }
