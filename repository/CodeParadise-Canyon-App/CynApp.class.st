@@ -1465,10 +1465,14 @@ CynApp >> navigateTo: aPageClass withModel: aModel [
 ]
 
 { #category : #actions }
-CynApp >> pageFromUrl: aString [
+CynApp >> pageClassFromUrl: aString [
 
 	"Answer the Page Class represented by the (relative) path specified.
 	Answer nil if no match is available."
+
+	CynPage allSubclassesDo: [ :each |
+		(each isDefaultForUrl: aString)
+			ifTrue: [ ^ each ] ].
 
 	^ nil
 ]
@@ -2017,7 +2021,7 @@ CynApp >> showPageFromUrl [
 
 	"Show the page defined in the URL"
 
-	| url path |
+	| url path page |
 
 	url := CpBrowserDocument current location.
 
@@ -2031,8 +2035,11 @@ CynApp >> showPageFromUrl [
 	path = '/'
 		ifTrue: [ ^ self ].
 
-	(self pageFromUrl: path) ifNotNil: [ :pageClass |
-		self showPage: pageClass withModel: pageClass defaultModel ]
+	(self pageClassFromUrl: path) ifNotNil: [ :pageClass |
+		pageClass allowsDirectLink
+			ifTrue: [
+				page := self showPage: pageClass withModel: pageClass defaultModel.
+				page addClass: #'direct-link' ] ]
 ]
 
 { #category : #actions }
