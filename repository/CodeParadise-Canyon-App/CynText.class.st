@@ -4,6 +4,18 @@ Class {
 	#category : #'CodeParadise-Canyon-App-View'
 }
 
+{ #category : #'instance creation' }
+CynText class >> labelText: aSymbol [
+
+	"Answer a new instance with the specified text key and mark it as a label (will influence color,
+	since Ionic is peculiair in handling label color)."
+
+	^ self new
+		attributeAt: #text put: aSymbol ;
+		addClass: #label ;
+		render
+]
+
 { #category : #'web resources' }
 CynText class >> style [
 
@@ -11,6 +23,9 @@ CynText class >> style [
 
 	^ ':host {
 	display: inline;
+}
+:host(.label) {
+	color: var(--canyon-label-color);
 }'
 ]
 
