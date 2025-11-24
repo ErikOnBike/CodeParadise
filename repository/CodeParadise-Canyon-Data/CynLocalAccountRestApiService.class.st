@@ -77,7 +77,7 @@ CynLocalAccountRestApiService >> activateAccountUsingToken: anActivateAccountTok
 	"Get the activation for the supplied token"
 	activation := modelDatabase
 		selectOne: #getActivation
-		statement: 'SELECT id, email, expiresAt FROM activations WHERE token=:token'
+		statement: 'SELECT id, email, expiresAt FROM tokens WHERE token=:token AND task="activate"'
 		bind: { #token -> anActivateAccountToken token } asDictionary.
 
 	"No match for token"
@@ -111,7 +111,7 @@ CynLocalAccountRestApiService >> activateAccountUsingToken: anActivateAccountTok
 	"Remove all older activations (no longer needed). Keep the one used, because people sometimes accidentally use it again."
 	modelDatabase
 		performMulti: #removeOldActivations
-		statement: 'DELETE FROM activations WHERE email=:email AND id<>:id'
+		statement: 'DELETE FROM tokens WHERE email=:email AND task="activate" AND id<>:id'
 		bind: {
 			#id -> (activation at: #id).
 			#email -> (activation at: #email) } asDictionary.
@@ -226,7 +226,7 @@ CynLocalAccountRestApiService >> createActivationTokenForAccount: anAccount [
 
 	modelDatabase
 		performOne: #createActivation
-		statement: 'INSERT INTO activations (id, email, token, expiresAt) VALUES(:id, :email, :token, :expiresAt)'
+		statement: 'INSERT INTO tokens (id, task, email, token, expiresAt) VALUES(:id, "activate", :email, :token, :expiresAt)'
 		bind: {
 			#id -> id.
 			#email -> anAccount email.
@@ -257,7 +257,7 @@ CynLocalAccountRestApiService >> createPasswordResetTokenForAccount: anAccount [
 
 	modelDatabase
 		performOne: #createPasswordReset
-		statement: 'INSERT INTO resets (id, email, token, expiresAt) VALUES(:id, :email, :token, :expiresAt)'
+		statement: 'INSERT INTO tokens (id, task, email, token, expiresAt) VALUES(:id, "password", :email, :token, :expiresAt)'
 		bind: {
 			#id -> id.
 			#email -> anAccount email.
@@ -735,7 +735,7 @@ CynLocalAccountRestApiService >> passwordResetAccountUsingToken: aChangePassword
 	"Get the reset for the supplied token"
 	reset := modelDatabase
 		selectOne: #getReset
-		statement: 'SELECT id, email, expiresAt FROM resets WHERE token=:token'
+		statement: 'SELECT id, email, expiresAt FROM tokens WHERE token=:token AND task="password"'
 		bind: { #token -> aChangePasswordToken token } asDictionary.
 
 	"No match for token"
@@ -766,7 +766,7 @@ CynLocalAccountRestApiService >> passwordResetAccountUsingToken: aChangePassword
 	"Remove all older resets (no longer needed). Keep the one used, because people sometimes accidentally use it again."
 	modelDatabase
 		performMulti: #removeResets
-		statement: 'DELETE FROM resets WHERE email=:email AND id<>:id'
+		statement: 'DELETE FROM tokens WHERE email=:email AND task="password" AND id<>:id'
 		bind: {
 			#id -> (reset at: #id).
 			#email -> (reset at: #email) } asDictionary.
