@@ -41,7 +41,7 @@ CpBrowserURLSearchParams >> deleteKey: aString [
 
 	"Deletes search parameters that match a name, and optional value, from the list of all search parameters."
 
-	self apply: #append withArguments: { aString }
+	self apply: #delete withArguments: { aString }
 ]
 
 { #category : #operations }
@@ -49,7 +49,7 @@ CpBrowserURLSearchParams >> deleteKey: aString value: anObject [
 
 	"Deletes search parameters that match a name, and optional value, from the list of all search parameters."
 
-	self apply: #append withArguments: { aString . anObject }
+	self apply: #delete withArguments: { aString . anObject }
 ]
 
 { #category : #operations }
