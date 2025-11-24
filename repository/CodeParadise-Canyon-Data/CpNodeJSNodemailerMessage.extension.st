@@ -8,6 +8,6 @@ CpNodeJSNodemailerMessage >> restApiLogInfo [
 			nextPutAll: 'message to: "' ;
 			nextPutAll: self to asString ;
 			nextPutAll: '" subject: "' ;
-			nextPutAll: (self text ifNil: [ self html ifNil: [ '<no content>' ] ]) asString ;
+			nextPutAll: (self subject ifNil: [ '<no subject>' ]) asString ;
 			nextPut: $" ]
 ]
