@@ -12,7 +12,7 @@ CynRegisterAccount class >> allPropertyNames [
 
 	"Generated code. DO NOT EDIT"
 
-	^ #(id task email password)
+	^ #(id email password)
 ]
 
 { #category : #accessing }
@@ -32,15 +32,7 @@ CynRegisterAccount class >> readWriteProperties [
 
 	"Generated code. DO NOT EDIT"
 
-	^ #(id task email password)
-]
-
-{ #category : #initialization }
-CynRegisterAccount >> initializeProperties [
-
-	super initializeProperties.
-
-	task := #create
+	^ #(id email password)
 ]
 
 { #category : #accessing }

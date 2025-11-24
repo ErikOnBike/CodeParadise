@@ -9,7 +9,7 @@ CynActivateAccountToken class >> allPropertyNames [
 
 	"Generated code. DO NOT EDIT"
 
-	^ #(id task token)
+	^ #(id token)
 ]
 
 { #category : #accessing }
@@ -29,13 +29,5 @@ CynActivateAccountToken class >> readWriteProperties [
 
 	"Generated code. DO NOT EDIT"
 
-	^ #(id task token)
-]
-
-{ #category : #initialization }
-CynActivateAccountToken >> initializeProperties [
-
-	super initializeProperties.
-
-	task := #activate
+	^ #(id token)
 ]

@@ -12,7 +12,7 @@ CynChangePasswordToken class >> allPropertyNames [
 
 	"Generated code. DO NOT EDIT"
 
-	^ #(id task token password)
+	^ #(id token password)
 ]
 
 { #category : #accessing }
@@ -33,15 +33,7 @@ CynChangePasswordToken class >> readWriteProperties [
 
 	"Generated code. DO NOT EDIT"
 
-	^ #(id task token password)
-]
-
-{ #category : #initialization }
-CynChangePasswordToken >> initializeProperties [
-
-	super initializeProperties.
-
-	task := #passwordReset
+	^ #(id token password)
 ]
 
 { #category : #accessing }

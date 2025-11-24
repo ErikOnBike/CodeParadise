@@ -2,11 +2,26 @@ Class {
 	#name : #CynTaskToken,
 	#superclass : #CynPropertyEntity,
 	#instVars : [
-		'#task => CynPropertySlot',
 		'#token => CynPropertySlot'
 	],
 	#category : #'CodeParadise-Canyon-Model-Core'
 }
+
+{ #category : #'accessing - generated' }
+CynTaskToken class >> allPropertyNames [
+
+	"Generated code. DO NOT EDIT"
+
+	^ #(id token)
+]
+
+{ #category : #'accessing - generated' }
+CynTaskToken class >> readWriteProperties [
+
+	"Generated code. DO NOT EDIT"
+
+	^ #(id token)
+]
 
 { #category : #accessing }
 CynTaskToken >> token [

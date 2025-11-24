@@ -16,7 +16,7 @@ CynLoginAccount class >> allPropertyNames [
 
 	"Generated code. DO NOT EDIT"
 
-	^ #(id task email password expires success settings)
+	^ #(id email password expires success settings)
 ]
 
 { #category : #accessing }
@@ -37,7 +37,7 @@ CynLoginAccount class >> readWriteProperties [
 
 	"Generated code. DO NOT EDIT"
 
-	^ #(id task email password expires success settings)
+	^ #(id email password expires success settings)
 ]
 
 { #category : #accessing }
@@ -68,7 +68,6 @@ CynLoginAccount >> initializeProperties [
 
 	super initializeProperties.
 
-	task := #login.
 	expires := #day.
 	success := false.
 	settings := Dictionary new

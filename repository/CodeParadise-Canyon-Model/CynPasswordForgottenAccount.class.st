@@ -9,7 +9,7 @@ CynPasswordForgottenAccount class >> allPropertyNames [
 
 	"Generated code. DO NOT EDIT"
 
-	^ #(id task email)
+	^ #(id email)
 ]
 
 { #category : #'accessing - generated' }
@@ -17,13 +17,5 @@ CynPasswordForgottenAccount class >> readWriteProperties [
 
 	"Generated code. DO NOT EDIT"
 
-	^ #(id task email)
-]
-
-{ #category : #initialization }
-CynPasswordForgottenAccount >> initializeProperties [
-
-	super initializeProperties.
-
-	task := #passwordForgotten
+	^ #(id email)
 ]

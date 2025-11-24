@@ -13,7 +13,6 @@ Class {
 	#name : #CynAccount,
 	#superclass : #CynPropertyEntity,
 	#instVars : [
-		'#task => CynPropertySlot',
 		'#email => CynPropertySlot'
 	],
 	#category : #'CodeParadise-Canyon-Model-Core'
@@ -24,7 +23,7 @@ CynAccount class >> allPropertyNames [
 
 	"Generated code. DO NOT EDIT"
 
-	^ #(id task email)
+	^ #(id email)
 ]
 
 { #category : #accessing }
@@ -44,7 +43,7 @@ CynAccount class >> readWriteProperties [
 
 	"Generated code. DO NOT EDIT"
 
-	^ #(id task email)
+	^ #(id email)
 ]
 
 { #category : #accessing }
