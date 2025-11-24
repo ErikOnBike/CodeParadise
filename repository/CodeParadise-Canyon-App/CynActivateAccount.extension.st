@@ -7,7 +7,7 @@ CynActivateAccount >> activate [
 ]
 
 { #category : #'*CodeParadise-Canyon-App' }
-CynActivateAccount class >> uri [
+CynActivateAccount classSide >> uri [
 
 	^ '/accounts?action=activate'
 ]

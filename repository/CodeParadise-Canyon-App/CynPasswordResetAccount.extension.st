@@ -7,7 +7,7 @@ CynPasswordResetAccount >> reset [
 ]
 
 { #category : #'*CodeParadise-Canyon-App' }
-CynPasswordResetAccount class >> uri [
+CynPasswordResetAccount classSide >> uri [
 
 	^ '/accounts?action=password-reset'
 ]

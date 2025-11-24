@@ -95,6 +95,9 @@ CynMobileWebApplication >> load [
 
 	super load.
 
+	"Ensure Ionic is loaded first (so our global style sheets are added later)"
+	self installClass: IonElement.
+
 	"By default install all the Views in the package of the receiver"
 	package := self class package.
 	CpWebComponent allSubclassesDo: [ :each |
