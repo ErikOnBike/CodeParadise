@@ -786,7 +786,7 @@ CynLocalAccountRestApiService >> sendPasswordResetMailToAccount: anAccount [
 		exists: #passwordResetAccountExists
 		statement: 'SELECT id FROM accounts WHERE email=:email AND activatedAt IS NOT NULL AND deletedAt IS NULL'
 		bind: { #email -> anAccount email } asDictionary
-		ifNot: [ ^ self ].
+		ifFalse: [ ^ self ].
 
 	self createPasswordResetTokenForAccount: anAccount
 ]
