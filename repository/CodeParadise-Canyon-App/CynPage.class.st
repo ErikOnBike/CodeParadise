@@ -35,11 +35,31 @@ Class {
 	#category : #'CodeParadise-Canyon-App-View'
 }
 
+{ #category : #'as yet unclassified' }
+CynPage class >> allowsDirectLink [
+
+	"Answer whether a direct (deep) link to the receiver is allowed"
+
+	^ false
+]
+
 { #category : #tags }
 CynPage class >> isAbstractTag [
 
 	"The method is present to indicate the receiver is abstract.
 	This method will NOT be evaluated to decide if the receiver is abstract."
+]
+
+{ #category : #testing }
+CynPage class >> isDefaultForUrl: aString [
+
+	"Answer a Boolean indicating the receiver should be used when the specified URL is requested.
+
+	Implementation:
+	Assume the URL maps to the page name directly. The URL will start with a '/', so remove it
+	before comparing."
+
+	^ self pageName asKebabCase = aString allButFirst
 ]
 
 { #category : #testing }
@@ -249,6 +269,30 @@ CynPage >> documentTitleFrom: aString [
 	^ aString
 ]
 
+{ #category : #actions }
+CynPage >> fromUrlExtractParam: aSymbol [
+
+	| document url searchParams value |
+
+	"Retrieve search parameters"
+	document := CpBrowserDocument current.
+	url := document url.
+	searchParams := url searchParams.
+
+	"Get value from the parameters (stop if none found)"
+	value := searchParams getKey: aSymbol.
+	value ifNil: [ ^ nil ].
+
+	"Remove the extracted key and value"
+	searchParams deleteKey: aSymbol.
+
+	"Set the new query string without the extracted key and value and without reloading the page"
+	CpBrowserHistory current
+		replaceState: nil url: url toString.
+
+	^ value
+]
+
 { #category : #'event handling' }
 CynPage >> handleConnected [
 
@@ -390,6 +434,12 @@ CynPage >> isActiveChildView: anElement [
 	^ tab isConnected
 		ifTrue: [ tab active = true ]
 		ifFalse: [ tab previousSibling isNil ]
+]
+
+{ #category : #testing }
+CynPage >> isDirectLinked [
+
+	^ self isClassed: #'direct-link'
 ]
 
 { #category : #testing }
