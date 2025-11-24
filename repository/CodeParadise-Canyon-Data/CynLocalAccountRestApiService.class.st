@@ -621,7 +621,7 @@ CynLocalAccountRestApiService >> notifyLog: anInteger [
 	"Notify about the log entry.
 	Answer the log id provided."
 
-	| logRecord notified recently |
+	| logRecord notificationCount recently |
 
 	anInteger ifNil: [ ^ nil ].
 
@@ -638,28 +638,27 @@ CynLocalAccountRestApiService >> notifyLog: anInteger [
 	(self shouldNotifyStatusCode: (logRecord at: #statusCode))
 		ifFalse: [ ^ anInteger ].
 
-	"Check if a recent notification is made for a similar log entry"
+	"Check if a recent notification is made for a similar log entry.
+	If recently notified, do not notify again."
 	recently := CpJavaScriptDate timestampNow - self notificationTimeout.
-	notified := logDatabase
+	logDatabase
 		exists: #notificationExists
 		statement: 'SELECT id FROM notifications WHERE timestamp >= :recently AND statusCode=:statusCode AND message=:message'
 		bind: {
 			#recently -> recently.
 			#statusCode -> (logRecord at: #statusCode).
-			#message -> (logRecord at: #message) } asDictionary.
-
-	"If recently notified, do not notify again"
-	notified ifTrue: [ ^ anInteger ].
+			#message -> (logRecord at: #message) } asDictionary
+		ifTrue: [ ^ anInteger ].
 
 	"Check total amount of recent notifications"
 	recently := CpJavaScriptDate timestampNow - self notificationWindow.
-	notified := logDatabase
+	notificationCount := logDatabase
 		selectCount: #countRecentNotifications
 		statement: 'SELECT count(*) FROM notifications WHERE timestamp >= :recently AND (statusCode>=500 OR statusCode=0)'
 		bind: { #recently -> recently } asDictionary.
 
 	"If too many notifications, do not notify again"
-	notified > self notificationWindowCount
+	notificationCount > self notificationWindowCount
 		ifTrue: [ ^ anInteger ].
 
 	"Do notify"
