@@ -69,20 +69,70 @@ CynDatabase >> exists: aSymbol statement: aString bind: aDictionary [
 ]
 
 { #category : #database }
-CynDatabase >> exists: aSymbol statement: aString bind: aDictionary ifNot: aBlock [
+CynDatabase >> exists: aSymbol statement: aString bind: aDictionary ifFalse: aBlock [
 
-	"Convenience method to test for non-existing records"
+	"Convenience method to test for non-existing records.
+	Answers the evaluation of the Block (for non-existing records)
+	or nil if a record exists."
 
-	(self exists: aSymbol statement: aString bind: aDictionary)
+	^ (self exists: aSymbol statement: aString bind: aDictionary)
 		ifFalse: [ aBlock value ]
 ]
 
 { #category : #database }
-CynDatabase >> exists: aSymbol statement: aString ifNot: aBlock [
+CynDatabase >> exists: aSymbol statement: aString bind: aDictionary ifTrue: aBlock [
 
-	"Convenience method to test for non-existing records"
+	"Convenience method to test for existing records.
+	Answers the evaluation of the Block (for existing records)
+	or nil if a record does not exist."
 
-	self exists: aSymbol statement: aString bind: nil ifNot: aBlock
+	^ (self exists: aSymbol statement: aString bind: aDictionary)
+		ifTrue: [ aBlock value ]
+]
+
+{ #category : #database }
+CynDatabase >> exists: aSymbol statement: aString bind: aDictionary ifTrue: trueBlock ifFalse: falseBlock [
+
+	"Convenience method to test for existing records"
+
+	^ (self exists: aSymbol statement: aString bind: aDictionary)
+		ifTrue: [ trueBlock value ]
+		ifFalse: [ falseBlock value ]
+]
+
+{ #category : #database }
+CynDatabase >> exists: aSymbol statement: aString ifFalse: aBlock [
+
+	"Convenience method to test for non-existing records.
+	Answers the evaluation of the Block (for non-existing records)
+	or nil if a record exists."
+
+	^ self exists: aSymbol statement: aString bind: nil ifFalse: aBlock
+]
+
+{ #category : #database }
+CynDatabase >> exists: aSymbol statement: aString ifTrue: aBlock [
+
+	"Convenience method to test for existing records.
+	Answers the evaluation of the Block (for existing records)
+	or nil if a record does not exist."
+
+	^ self exists: aSymbol statement: aString bind: nil ifTrue: aBlock
+]
+
+{ #category : #database }
+CynDatabase >> exists: aSymbol statement: aString ifTrue: trueBlock ifFalse: falseBlock [
+
+	"Convenience method to test for existing records.
+	Answers the evaluation of the Block (for existing records)
+	or nil if a record does not exist."
+
+	^ self
+		exists: aSymbol
+		statement: aString
+		bind: nil
+		ifTrue: trueBlock
+		ifFalse: falseBlock
 ]
 
 { #category : #initialization }
