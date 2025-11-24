@@ -1,13 +1,13 @@
-Extension { #name : #CynPasswordResetAccount }
+Extension { #name : #CynChangePasswordToken }
 
 { #category : #'*CodeParadise-Canyon-App' }
-CynPasswordResetAccount >> reset [
+CynChangePasswordToken >> change [
 
 	self restWrite
 ]
 
 { #category : #'*CodeParadise-Canyon-App' }
-CynPasswordResetAccount classSide >> uri [
+CynChangePasswordToken class >> uri [
 
 	^ '/accounts?action=password-reset'
 ]

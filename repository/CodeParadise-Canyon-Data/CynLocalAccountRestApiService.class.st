@@ -42,50 +42,6 @@ CynLocalAccountRestApiService class >> isAbstractTag [
 	This method will NOT be evaluated to decide if the receiver is abstract."
 ]
 
-{ #category : #'API - accounts' }
-CynLocalAccountRestApiService >> activateAccount: anActivateAccount [
-
-	"Activate the specified Account.
-
-	Implementation:
-	If there is not activation for the specified Account, provide the same error
-	as in #activateAccount:response: to prevent wrong-doer from concluding account
-	exists for given email address."
-
-	| now activations |
-
-	now := CpJavaScriptDate timestampNow.
-
-	activations := modelDatabase
-		selectMany: #getActivations
-		statement: 'SELECT id, expiresAt FROM activations WHERE token=:token AND email=:email ORDER BY expiresAt DESC'
-		bind: {
-			#token -> anActivateAccount token.
-			#email -> anActivateAccount email } asDictionary.
-
-	"No match for token and email"
-	activations ifEmpty: [ ^ self errorTokenAndEmailNotFound ].
-
-	"Token already expired (okay to provide answer, since token is secret value anyway and can't be guessed)"
-	(activations first at: #expiresAt) < now
-		ifTrue: [ ^ self errorTokenExpired ].
-
-	"Mark account as activated"
-	modelDatabase
-		performOne: #activateAccount
-		statement: 'UPDATE accounts SET activatedAt=:now, updatedAt=:now WHERE email=:email AND activatedAt IS NULL'
-		bind: {
-			#now -> now.
-			#email -> anActivateAccount email } asDictionary.
-
-	"Remove activations (no longer needed)"
-	modelDatabase
-		performMulti: #removeActivations
-		statement: 'DELETE FROM activations WHERE email=:email'
-		bind: {
-			#email -> anActivateAccount email } asDictionary
-]
-
 { #category : #API }
 CynLocalAccountRestApiService >> activateAccount: aRestRequest response: aRestResponse [
 
@@ -94,24 +50,84 @@ CynLocalAccountRestApiService >> activateAccount: aRestRequest response: aRestRe
 	<post: '/api/accounts?action=activate'>
 	<public>
 
-	| body account accessToken |
+	| body activateAccountToken accountId accessToken |
 
 	body := (aRestRequest jsonBody) ifNil: [ self errorNoBody ].
-	account := self extractNewObject: CynActivateAccount fromBody: body.
+	activateAccountToken := self extractNewObject: CynActivateAccountToken fromBody: body.
 
-	(self isNonActivatedAccount: account)
-		ifFalse: [ ^ self errorTokenAndEmailNotFound ].
-
-	self activateAccount: account.
-
-	"Need to retrieve account id, otherwise the create session will fail"
-	self addAccountId: account.
+	accountId := self activateAccountUsingToken: activateAccountToken.
 
 	"Create session and store access token in response header"
-	accessToken := self createSessionForAccount: account.
+	accessToken := self createSessionForAccountId: accountId.
 	aRestResponse setHeaderWithName: #'cp-access-token' value: accessToken.
 
 	self sendEmptyResponse: aRestResponse
+]
+
+{ #category : #'API - accounts' }
+CynLocalAccountRestApiService >> activateAccountUsingToken: anActivateAccountToken [
+
+	"Activate the Account belonging to the specified Token.
+	Answer the id of the Account activated."
+
+	| now activation account |
+
+	now := CpJavaScriptDate timestampNow.
+
+	"Get the activation for the supplied token"
+	activation := modelDatabase
+		selectOne: #getActivation
+		statement: 'SELECT id, email, expiresAt FROM activations WHERE token=:token'
+		bind: { #token -> anActivateAccountToken token } asDictionary.
+
+	"No match for token"
+	activation ifNil: [ ^ self errorTokenNotFound ].
+
+	"Get account for the specified token"
+	account := modelDatabase
+		selectOne: #getActivationAccount
+		statement: 'SELECT id, activatedAt FROM accounts WHERE email=:email AND deletedAt IS NULL'
+		bind: { #email -> (activation at: #email) } asDictionary.
+
+	"No match for account"
+	account ifNil: [ ^ self errorTokenNotFound ].
+
+	"Check if account is already activated, then we're done"
+	(account at: #activatedAt)
+		ifNotNil: [ ^ self ].
+
+	"Check if token is already expired (okay to provide answer, since token is secret value anyway and can't be guessed)"
+	(activation at: #expiresAt) < now
+		ifTrue: [ ^ self errorTokenExpired ].
+
+	"Mark account as activated"
+	modelDatabase
+		performOne: #activateAccount
+		statement: 'UPDATE accounts SET activatedAt=:now, updatedAt=:now WHERE id=:id AND activatedAt IS NULL'
+		bind: {
+			#now -> now.
+			#id -> (account at: #id) } asDictionary.
+
+	"Remove all older activations (no longer needed). Keep the one used, because people sometimes accidentally use it again."
+	modelDatabase
+		performMulti: #removeOldActivations
+		statement: 'DELETE FROM activations WHERE email=:email AND id<>:id'
+		bind: {
+			#id -> (activation at: #id).
+			#email -> (activation at: #email) } asDictionary.
+
+	self mailActivatedMailMessageTo: (activation at: #email).
+
+	^ account at: #id
+]
+
+{ #category : #'API - accounts' }
+CynLocalAccountRestApiService >> activatedMailMessage [
+
+	^ self newMailMessage
+		subject: 'Account is ready' ;
+		text: ('Your account is ready to be used!') ;
+		yourself
 ]
 
 { #category : #'API - accounts' }
@@ -124,76 +140,56 @@ CynLocalAccountRestApiService >> activationTokenMailMessageWith: aString [
 		yourself
 ]
 
-{ #category : #private }
-CynLocalAccountRestApiService >> addAccountId: anAccount [
+{ #category : #'API - accounts' }
+CynLocalAccountRestApiService >> alreadyCreatedMailMessage [
 
-	"DO NOT USE, unless you know what you're doing!"
-
-	| accountId |
-
-	anAccount class = CynActivateAccount
-		ifFalse: [ ^ self error: 'Do not use this method!' ].
-
-	accountId := modelDatabase
-		selectValue: #getAccountByEmail
-		statement: 'SELECT id FROM accounts WHERE email=:email'
-		bind: {
-			#email -> anAccount email } asDictionary.
-	accountId ifNil: [ CpNodeJSRestBadRequestError signal ].
-
-	anAccount id: accountId
+	^ self newMailMessage
+		subject: 'Account already created' ;
+		text: ('An attempt was made to create an account belonging to this email address, but the account is already created.') ;
+		yourself
 ]
 
 { #category : #'API - accounts' }
-CynLocalAccountRestApiService >> addActivationTokenToAccount: anAccount [
+CynLocalAccountRestApiService >> createAccount: anAccount [
 
-	"Send new activation token to existing account, update the provided
-	password. In theory a wrong-doer could get in between registration
-	and activation, but that will not result in access to the account.
-	At worst the account owner needs to reset his/her password."
+	"Create a new Account"
 
-	| passwordHash |
+	| existingAccount id passwordHash |
 
-	"Update password with the new value given (to prevent name clash use
-	statement identifier: #insertAccountPassword"
-	passwordHash := self createPasswordHashFrom: anAccount password.
-	modelDatabase
-		performOne: #insertAccountPassword
-		statement: 'UPDATE accounts SET password=:password, updatedAt=:now WHERE email=:email'
-		bind: {
-			#email -> anAccount email.
-			#password -> passwordHash.
-			#now -> CpJavaScriptDate timestampNow } asDictionary.
+	"Read account for specfied email address"
+	existingAccount := modelDatabase
+		selectOne: #getExistingAccountForCreate
+		statement: 'SELECT activatedAt FROM accounts WHERE email=:email'
+		bind: { #email -> anAccount email } asDictionary.
 
-	self createActivationTokenForAccount: anAccount
-]
+	"Handle the situation that an account already exists"
+	existingAccount ifNotNil: [
 
-{ #category : #'API - accounts' }
-CynLocalAccountRestApiService >> createAccount: account [
+		"If this Account is not activated yet, send new activation token."
+		"If this Account is already activated send mail to explain the
+		account already exists (a wrong doer will not see either situations
+		and can therefore not conclude if the account is existing)."
+		(existingAccount at: #activatedAt)
+			ifNotNil: [ self mailAlreadyCreatedMailMessageTo: anAccount email ]
+			ifNil: [ self createActivationTokenForAccount: anAccount ].
 
-	| id passwordHash |
-
-	"Try to create new Account (might fail if it exists, but we catch that)"
-	id := self newId.
-	passwordHash := self createPasswordHashFrom: account password.
-
-	[
-		modelDatabase
-			performOne: #insertAccount
-			statement: 'INSERT INTO accounts (id, createdAt, email, password, settings) VALUES(:id, :now, :email, :password, :settings)'
-			bind: {
-				#id -> id.
-				#now -> CpJavaScriptDate timestampNow.
-				#email -> account email.
-				#password -> passwordHash.
-				#settings -> '{}' } asDictionary
-	] on: CynDatabaseUniqueConstraintViolation do: [
-		"Account exists and is already activated (otherwise found it before in #createAccount:response:).
-		No need to create and send activation token.
-		The client can't distinguish this from a new account being created."
 		^ self ].
 
-	self createActivationTokenForAccount: account
+	"Create new Account"
+	id := self newId.
+	passwordHash := self createPasswordHashFrom: anAccount password.
+
+	modelDatabase
+		performOne: #insertAccount
+		statement: 'INSERT INTO accounts (id, createdAt, email, password, settings) VALUES(:id, :now, :email, :password, :settings)'
+		bind: {
+			#id -> id.
+			#now -> CpJavaScriptDate timestampNow.
+			#email -> anAccount email.
+			#password -> passwordHash.
+			#settings -> '{}' } asDictionary.
+
+	self createActivationTokenForAccount: anAccount
 ]
 
 { #category : #API }
@@ -212,12 +208,7 @@ CynLocalAccountRestApiService >> createAccount: aRestRequest response: aRestResp
 	body := (aRestRequest jsonBody) ifNil: [ self errorNoBody ].
 	account := self extractNewObject: CynRegisterAccount fromBody: body.
 
-	"If this Account exists, but is not activated, send new activation token,
-	otherwise try to create new account (could fail if one exists, but that is
-	handled in #createAccount:)."
-	(self isNonActivatedAccount: account)
-		ifTrue: [ self addActivationTokenToAccount: account ]
-		ifFalse: [ self createAccount: account ].
+	self createAccount: account.
 
 	self sendEmptyResponse: aRestResponse
 ]
@@ -277,7 +268,15 @@ CynLocalAccountRestApiService >> createPasswordResetTokenForAccount: anAccount [
 ]
 
 { #category : #'API - sessions' }
-CynLocalAccountRestApiService >> createSessionForAccount: anAccount [
+CynLocalAccountRestApiService >> createSessionForAccountId: aString [
+
+	"Create session with default expiration period"
+
+	^ self createSessionForAccountId: aString expires: #day
+]
+
+{ #category : #'API - sessions' }
+CynLocalAccountRestApiService >> createSessionForAccountId: accountIdString expires: expiresString [
 
 	| id accessToken |
 
@@ -290,9 +289,9 @@ CynLocalAccountRestApiService >> createSessionForAccount: anAccount [
 		bind: {
 			#id -> id.
 			#now -> CpJavaScriptDate timestampNow.
-			#accountId -> anAccount id.
+			#accountId -> accountIdString.
 			#accessToken -> accessToken.
-			#expires -> anAccount expires } asDictionary.
+			#expires -> expiresString } asDictionary.
 
 	^ accessToken
 ]
@@ -312,15 +311,15 @@ CynLocalAccountRestApiService >> errorNotificationMailAccount [
 ]
 
 { #category : #errors }
-CynLocalAccountRestApiService >> errorTokenAndEmailNotFound [
-
-	CpNodeJSRestNotFoundError signal: 'Token and email combination not found'
-]
-
-{ #category : #errors }
 CynLocalAccountRestApiService >> errorTokenExpired [
 
 	CpNodeJSRestUnprocessableEntityError signal: 'Token is expired'
+]
+
+{ #category : #errors }
+CynLocalAccountRestApiService >> errorTokenNotFound [
+
+	CpNodeJSRestNotFoundError signal: 'Token not found'
 ]
 
 { #category : #'API - authorization' }
@@ -408,17 +407,6 @@ CynLocalAccountRestApiService >> isExpiredSession: aSession [
 				ifTrue: [ ^ false ] ].
 
 	^ true
-]
-
-{ #category : #'API - accounts' }
-CynLocalAccountRestApiService >> isNonActivatedAccount: anAccount [
-
-	"Answer whether the specified Account has pending activations (might be expired)"
-
-	^ modelDatabase
-		exists: #openActivationsExists
-		statement: 'SELECT id FROM activations WHERE email=:email UNION SELECT id FROM accounts WHERE email=:email AND activatedAt IS NULL'
-		bind: { #email -> anAccount email } asDictionary
 ]
 
 { #category : #API }
@@ -517,7 +505,7 @@ CynLocalAccountRestApiService >> login: aRestRequest response: aRestResponse [
 	] on: Error do: [ :err | self errorInvalidLogin ].
 
 	"Create session and store access token in response header"
-	accessToken := self createSessionForAccount: account.
+	accessToken := self createSessionForAccountId: account id expires: account expires.
 	aRestResponse setHeaderWithName: #'cp-access-token' value: accessToken.
 
 	"Send response to indicate success"
@@ -525,9 +513,27 @@ CynLocalAccountRestApiService >> login: aRestRequest response: aRestResponse [
 ]
 
 { #category : #'API - accounts' }
+CynLocalAccountRestApiService >> mailActivatedMailMessageTo: emailString [
+
+	self mail: self activatedMailMessage to: emailString
+]
+
+{ #category : #'API - accounts' }
 CynLocalAccountRestApiService >> mailActivationToken: tokenString to: emailString [
 
 	self mail: (self activationTokenMailMessageWith: tokenString) to: emailString
+]
+
+{ #category : #'API - accounts' }
+CynLocalAccountRestApiService >> mailAlreadyCreatedMailMessageTo: emailString [
+
+	self mail: self alreadyCreatedMailMessage to: emailString
+]
+
+{ #category : #'API - accounts' }
+CynLocalAccountRestApiService >> mailPasswordChangedMailMessageTo: emailString [
+
+	self mail: self passwordChangedMailMessage to: emailString
 ]
 
 { #category : #'API - accounts' }
@@ -671,6 +677,15 @@ CynLocalAccountRestApiService >> notifyLog: anInteger [
 	^ anInteger
 ]
 
+{ #category : #'API - accounts' }
+CynLocalAccountRestApiService >> passwordChangedMailMessage [
+
+	^ self newMailMessage
+		subject: 'Account password is reset' ;
+		text: ('Your account''s password is reset!') ;
+		yourself
+]
+
 { #category : #API }
 CynLocalAccountRestApiService >> passwordForgottenAccount: aRestRequest response: aRestResponse [
 
@@ -689,28 +704,54 @@ CynLocalAccountRestApiService >> passwordForgottenAccount: aRestRequest response
 	self sendEmptyResponse: aRestResponse
 ]
 
+{ #category : #API }
+CynLocalAccountRestApiService >> passwordResetAccount: aRestRequest response: aRestResponse [
+
+	"Reset password of Account within Accounts collection"
+
+	<post: '/api/accounts?action=password-reset'>
+	<public>
+
+	| body changePasswordToken |
+
+	body := (aRestRequest jsonBody) ifNil: [ self errorNoBody ].
+	changePasswordToken := self extractNewObject: CynChangePasswordToken fromBody: body.
+
+	self passwordResetAccountUsingToken: changePasswordToken.
+
+	self sendEmptyResponse: aRestResponse
+]
+
 { #category : #'API - accounts' }
-CynLocalAccountRestApiService >> passwordResetAccount: aPasswordResetAccount [
+CynLocalAccountRestApiService >> passwordResetAccountUsingToken: aChangePasswordToken [
 
-	"Reset password for the specified Account"
+	"Reset password for the Account belonging to the specified in the Token"
 
-	| now passwordHash resets |
+	| now passwordHash reset account |
 
 	now := CpJavaScriptDate timestampNow.
-	passwordHash := self createPasswordHashFrom: aPasswordResetAccount password.
+	passwordHash := self createPasswordHashFrom: aChangePasswordToken password.
 
-	resets := modelDatabase
-		selectMany: #getResets
-		statement: 'SELECT id, expiresAt FROM resets WHERE token=:token AND email=:email ORDER BY expiresAt DESC'
-		bind: {
-			#token -> aPasswordResetAccount token.
-			#email -> aPasswordResetAccount email } asDictionary.
+	"Get the reset for the supplied token"
+	reset := modelDatabase
+		selectOne: #getReset
+		statement: 'SELECT id, email, expiresAt FROM resets WHERE token=:token'
+		bind: { #token -> aChangePasswordToken token } asDictionary.
 
-	"No match for token and email"
-	resets ifEmpty: [ ^ self errorTokenAndEmailNotFound ].
+	"No match for token"
+	reset ifNil: [ ^ self errorTokenNotFound ].
+
+	"Get account for the specified token"
+	account := modelDatabase
+		selectOne: #getResetAccount
+		statement: 'SELECT id FROM accounts WHERE email=:email AND deletedAt IS NULL'
+		bind: { #email -> (reset at: #email) } asDictionary.
+
+	"No match for account"
+	account ifNil: [ ^ self errorTokenNotFound ].
 
 	"Token already expired (okay to provide answer, since token is secret value anyway and can't be guessed)"
-	(resets first at: #expiresAt) < now
+	(reset at: #expiresAt) < now
 		ifTrue: [ ^ self errorTokenExpired ].
 
 	"Store the new password"
@@ -720,32 +761,17 @@ CynLocalAccountRestApiService >> passwordResetAccount: aPasswordResetAccount [
 		bind: {
 			#now -> now.
 			#passwordHash -> passwordHash.
-			#email -> aPasswordResetAccount email } asDictionary.
+			#email -> (reset at: #email) } asDictionary.
 
-	"Remove resets (no longer needed)"
+	"Remove all older resets (no longer needed). Keep the one used, because people sometimes accidentally use it again."
 	modelDatabase
 		performMulti: #removeResets
-		statement: 'DELETE FROM resets WHERE email=:email'
+		statement: 'DELETE FROM resets WHERE email=:email AND id<>:id'
 		bind: {
-			#email -> aPasswordResetAccount email } asDictionary
-]
+			#id -> (reset at: #id).
+			#email -> (reset at: #email) } asDictionary.
 
-{ #category : #API }
-CynLocalAccountRestApiService >> passwordResetAccount: aRestRequest response: aRestResponse [
-
-	"Reset password of Account within Accounts collection"
-
-	<post: '/api/accounts?action=password-reset'>
-	<public>
-
-	| body account |
-
-	body := (aRestRequest jsonBody) ifNil: [ self errorNoBody ].
-	account := self extractNewObject: CynPasswordResetAccount fromBody: body.
-
-	self passwordResetAccount: account.
-
-	self sendEmptyResponse: aRestResponse
+	self mailPasswordChangedMailMessageTo: (reset at: #email)
 ]
 
 { #category : #'API - accounts' }
@@ -780,11 +806,11 @@ CynLocalAccountRestApiService >> sendPasswordResetMailToAccount: anAccount [
 
 	Implementation:
 	If account does not exist, ignore it. Do not let caller know whether
-	account exists or not."
+	account exists or not. It is okay if account is not activated yet."
 
 	modelDatabase
 		exists: #passwordResetAccountExists
-		statement: 'SELECT id FROM accounts WHERE email=:email AND activatedAt IS NOT NULL AND deletedAt IS NULL'
+		statement: 'SELECT id FROM accounts WHERE email=:email AND deletedAt IS NULL'
 		bind: { #email -> anAccount email } asDictionary
 		ifFalse: [ ^ self ].
 

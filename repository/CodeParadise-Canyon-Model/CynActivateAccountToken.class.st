@@ -1,22 +1,19 @@
 Class {
-	#name : #CynActivateAccount,
-	#superclass : #CynAccount,
-	#instVars : [
-		'#token => CynPropertySlot'
-	],
+	#name : #CynActivateAccountToken,
+	#superclass : #CynTaskToken,
 	#category : #'CodeParadise-Canyon-Model-Core'
 }
 
 { #category : #'accessing - generated' }
-CynActivateAccount class >> allPropertyNames [
+CynActivateAccountToken class >> allPropertyNames [
 
 	"Generated code. DO NOT EDIT"
 
-	^ #(id task email token)
+	^ #(id task token)
 ]
 
 { #category : #accessing }
-CynActivateAccount class >> propertyConstraints [
+CynActivateAccountToken class >> propertyConstraints [
 
 	| constraints |
 
@@ -28,23 +25,17 @@ CynActivateAccount class >> propertyConstraints [
 ]
 
 { #category : #'accessing - generated' }
-CynActivateAccount class >> readWriteProperties [
+CynActivateAccountToken class >> readWriteProperties [
 
 	"Generated code. DO NOT EDIT"
 
-	^ #(id task email token)
+	^ #(id task token)
 ]
 
 { #category : #initialization }
-CynActivateAccount >> initializeProperties [
+CynActivateAccountToken >> initializeProperties [
 
 	super initializeProperties.
 
 	task := #activate
-]
-
-{ #category : #accessing }
-CynActivateAccount >> token [
-
-	^ token
 ]

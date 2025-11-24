@@ -1,13 +1,13 @@
-Extension { #name : #CynActivateAccount }
+Extension { #name : #CynActivateAccountToken }
 
 { #category : #'*CodeParadise-Canyon-App' }
-CynActivateAccount >> activate [
+CynActivateAccountToken >> activate [
 
 	self restWrite
 ]
 
 { #category : #'*CodeParadise-Canyon-App' }
-CynActivateAccount classSide >> uri [
+CynActivateAccountToken class >> uri [
 
 	^ '/accounts?action=activate'
 ]

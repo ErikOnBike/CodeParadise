@@ -1,23 +1,22 @@
 Class {
-	#name : #CynPasswordResetAccount,
-	#superclass : #CynAccount,
+	#name : #CynChangePasswordToken,
+	#superclass : #CynTaskToken,
 	#instVars : [
-		'#token => CynPropertySlot',
 		'#password => CynPropertySlot'
 	],
 	#category : #'CodeParadise-Canyon-Model-Core'
 }
 
 { #category : #'accessing - generated' }
-CynPasswordResetAccount class >> allPropertyNames [
+CynChangePasswordToken class >> allPropertyNames [
 
 	"Generated code. DO NOT EDIT"
 
-	^ #(id task email token password)
+	^ #(id task token password)
 ]
 
 { #category : #accessing }
-CynPasswordResetAccount class >> propertyConstraints [
+CynChangePasswordToken class >> propertyConstraints [
 
 	| constraints |
 
@@ -30,15 +29,15 @@ CynPasswordResetAccount class >> propertyConstraints [
 ]
 
 { #category : #'accessing - generated' }
-CynPasswordResetAccount class >> readWriteProperties [
+CynChangePasswordToken class >> readWriteProperties [
 
 	"Generated code. DO NOT EDIT"
 
-	^ #(id task email token password)
+	^ #(id task token password)
 ]
 
 { #category : #initialization }
-CynPasswordResetAccount >> initializeProperties [
+CynChangePasswordToken >> initializeProperties [
 
 	super initializeProperties.
 
@@ -46,13 +45,7 @@ CynPasswordResetAccount >> initializeProperties [
 ]
 
 { #category : #accessing }
-CynPasswordResetAccount >> password [
+CynChangePasswordToken >> password [
 
 	^ password
-]
-
-{ #category : #accessing }
-CynPasswordResetAccount >> token [
-
-	^ token
 ]
