@@ -76,6 +76,20 @@ CynAccountApp >> initialize [
 		when: CynAccountLoggedOut send: #handleUserLoggedOut to: self
 ]
 
+{ #category : #actions }
+CynAccountApp >> makeTopPage: aPage [
+
+	super makeTopPage: aPage.
+
+	"Sanity check (after having seen this fail)"
+	CpGlobalThis setTimeout: 1000 thenDo: [
+		((self activePage ifNil: [ aPage ]) isClassed: #'ion-page-hidden')
+			ifTrue: [
+				aPage removeClass: #'ion-page-hidden'.
+				self sendClientLogFor: (Error new messageText: '#makeTopPage resulted in hidden page: ', aPage class name ; yourself).
+				self traceCr: '#makeTopPage resulted in hidden page: ', aPage class name ] ]
+]
+
 { #category : #initialization }
 CynAccountApp >> release [
 

@@ -1408,15 +1408,7 @@ CynApp >> makeTopPage: aPage [
 
 	aPage updateBeforeNavigate.
 	(CpJavaScriptPromise allSettled: actions) await.
-	aPage updateAfterNavigate.
-
-	"Sanity check (after having seen this fail)"
-	CpGlobalThis setTimeout: 1000 thenDo: [
-		((self activePage ifNil: [ aPage ]) isClassed: #'ion-page-hidden')
-			ifTrue: [
-				aPage removeClass: #'ion-page-hidden'.
-				self sendClientLogFor: (Error new messageText: '#makeTopPage resulted in hidden page: ', aPage class name ; yourself).
-				self traceCr: '#makeTopPage resulted in hidden page: ', aPage class name ] ]
+	aPage updateAfterNavigate
 ]
 
 { #category : #accessing }
