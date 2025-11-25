@@ -139,6 +139,12 @@ CynApp class >> constraintTextsNl [
 		yourself
 ]
 
+{ #category : #'class initialization' }
+CynApp class >> createLanguageText [
+
+	CynPropertyEntity languageText: (CynMultiLanguageText defaultLanguage: (self languageWithLocale: self defaultLocale))
+]
+
 { #category : #accessing }
 CynApp class >> current [
 
@@ -392,6 +398,23 @@ CynApp class >> ifDevelopment: aBlock [
 		ifDevelopment: [ aBlock value ]
 ]
 
+{ #category : #'class initialization' }
+CynApp class >> initializeLanguageText [
+
+	"Initialize the language text by setting the default language, locale and fallback locales"
+
+	| languageResourcePragma |
+
+	languageResourcePragma := self languageResourcePragmaName.
+
+	CynApp withAllSubclassesDo: [ :each |
+		each classSide selectorsAndMethodsDo: [ :selector :method |
+			(method pragmaAt: languageResourcePragma) ifNotNil: [ :pragma |
+				CynPropertyEntity
+					addVolume: (CynLanguageVolume fromDictionary: (each instanceSide perform: selector))
+					locale: pragma arguments first ] ] ]
+]
+
 { #category : #tags }
 CynApp class >> isAbstractTag [
 
@@ -403,6 +426,17 @@ CynApp class >> isAbstractTag [
 CynApp class >> languageResourcePragmaName [
 
 	^ #languageResource:
+]
+
+{ #category : #accessing }
+CynApp class >> languageWithLocale: aSymbol [
+
+	"Answer a new language instance based on the specified locale.
+	If the specified locale is not English, add English as fallback."
+
+	^ CynTextLanguage
+	  locale: aSymbol
+	  fallbackLocales: (aSymbol = #en ifTrue: [ #() ] ifFalse: [ #(en) ])
 ]
 
 { #category : #'instance creation' }
@@ -648,6 +682,10 @@ CynApp class >> startInstance [
 
 	"Start an instance of the receiver in the browser"
 
+	self
+		createLanguageText ;
+		initializeLanguageText.
+
 	(CpBrowserWindow current propertyAt: #screen)
 		ifNotNil: [ self start ]
 		ifNil: [
@@ -858,17 +896,11 @@ CynApp >> confirm: titleString action: actionString onConfirm: aBlock [
 ]
 
 { #category : #initialization }
-CynApp >> createLanguageText [
-
-	CynPropertyEntity languageText: (CynMultiLanguageText defaultLanguage: self currentLanguage)
-]
-
-{ #category : #initialization }
 CynApp >> currentLanguage [
 
 	"Answer the current language (will create a new instance of the language object)"
 
-	^ self languageWithLocale: self currentLocale
+	^ self class languageWithLocale: self currentLocale
 ]
 
 { #category : #initialization }
@@ -1131,11 +1163,6 @@ CynApp >> initialize [
 		ifNotNil: [ :firstChild | shadowRoot insertChild: ionicStyle before: firstChild ]
 		ifNil: [ shadowRoot appendChild: ionicStyle ].
 
-	"Initialize the language text before anything else"
-	self
-		createLanguageText ;
-		initializeLanguageText.
-
 	"Setup handlers for detecting going online/offline"
 	CpBrowserWindow current
 		addEventListener: #online handler: [ self handleOnline ] ;
@@ -1230,17 +1257,6 @@ CynApp >> isShowingError: aSymbol [
 CynApp >> isStopShowingError: aSymbol [
 
 	^ recentErrors at: #stop, aSymbol ifAbsent: [ false ]
-]
-
-{ #category : #initialization }
-CynApp >> languageWithLocale: aSymbol [
-
-	"Answer a new language instance based on the specified locale.
-	If the specified locale is not English, add English as fallback."
-
-	^ CynTextLanguage
-	  locale: aSymbol
-	  fallbackLocales: (aSymbol = #en ifTrue: [ #() ] ifFalse: [ #(en) ])
 ]
 
 { #category : #initialization }

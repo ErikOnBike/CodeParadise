@@ -33,9 +33,8 @@ CynApp class >> recreateMultiLanguageText [
 
 	self traceCr: 'Update multi language text'.
 
-	Current
+	self
 		createLanguageText ;
-		initializeLanguageText.
-
-	self updateMultiLanguageText
+		initializeLanguageText ;
+		updateMultiLanguageText
 ]
