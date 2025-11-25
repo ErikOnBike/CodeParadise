@@ -499,7 +499,7 @@ CynApp class >> preSnapshotOnce [
 
 	| languageResourcePragma |
 
-	self traceCr: 'Cleaning up in MoesApp before snapshot'.
+	self traceCr: 'Cleaning up before snapshot'.
 
 	"Remove HTML content since app will be rebuild on post snapshot"
 	CpHtmlElement documentBody makeEmpty.
@@ -670,6 +670,9 @@ CynApp class >> replacementVariableAt: nameString [
 CynApp class >> start [
 
 	"Start an instance of the receiver in the browser"
+
+	"Update language to browser language (if available)"
+	self updateLanguage: self defaultLanguage.
 
 	CpHtmlElement documentBody
 		appendChild: (self current
