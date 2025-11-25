@@ -33,8 +33,9 @@ CynApp class >> recreateMultiLanguageText [
 
 	self traceCr: 'Update multi language text'.
 
+	CynPropertyEntity languageText reset.
+
 	self
-		createLanguageText ;
 		initializeLanguageText ;
 		updateMultiLanguageText
 ]

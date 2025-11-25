@@ -331,6 +331,12 @@ CynMultiLanguageText >> missingText: aSymbolOrTextReference formatDict: aDiction
 				print: anAssocation ] ]
 ]
 
+{ #category : #private }
+CynMultiLanguageText >> reset [
+
+	dictionaries := Dictionary new
+]
+
 { #category : #validating }
 CynMultiLanguageText >> validateDefaultLanguage [
 
