@@ -270,7 +270,11 @@ CynPage >> documentTitleFrom: aString [
 ]
 
 { #category : #actions }
-CynPage >> fromUrlExtractParam: aSymbol [
+CynPage >> fromUrlExtractParam: aSymbol ifValid: aBlock [
+
+	"Extract the specified parameter from the current document's URL.
+	Validate the parameter value by evaluating it with the specified Block.
+	If valid, answer the parameter value, otherwise answer nil."
 
 	| document url searchParams value |
 
@@ -282,6 +286,9 @@ CynPage >> fromUrlExtractParam: aSymbol [
 	"Get value from the parameters (stop if none found)"
 	value := searchParams getKey: aSymbol.
 	value ifNil: [ ^ nil ].
+
+	(aBlock value: value)
+		ifFalse: [ ^ nil ].
 
 	"Remove the extracted key and value"
 	searchParams deleteKey: aSymbol.
