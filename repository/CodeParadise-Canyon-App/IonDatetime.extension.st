@@ -1,15 +1,15 @@
 Extension { #name : #IonDatetime }
 
 { #category : #'*CodeParadise-Canyon-App' }
-IonDatetime >> errorText: aString [
+IonDatetime >> appendLabel: anElement [
 
-	"The receiver does not have an errorText, ignore it"
+	"The receiver does not have a label, ignore it"
 ]
 
 { #category : #'*CodeParadise-Canyon-App' }
-IonDatetime >> label: aString [
+IonDatetime >> errorText: aString [
 
-	"The receiver does not have a label, ignore it"
+	"The receiver does not have an errorText, ignore it"
 ]
 
 { #category : #'*CodeParadise-Canyon-App' }

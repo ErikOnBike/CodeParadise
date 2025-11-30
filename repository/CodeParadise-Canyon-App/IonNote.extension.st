@@ -1,15 +1,15 @@
 Extension { #name : #IonNote }
 
 { #category : #'*CodeParadise-Canyon-App' }
-IonNote >> isReadonly [
+IonNote >> appendLabel: anElement [
 
-	^ true
+	"The receiver does not have a label, ignore it"
 ]
 
 { #category : #'*CodeParadise-Canyon-App' }
-IonNote >> label: aString [
+IonNote >> isReadonly [
 
-	"The receiver does not have a label, ignore it"
+	^ true
 ]
 
 { #category : #'*CodeParadise-Canyon-App' }

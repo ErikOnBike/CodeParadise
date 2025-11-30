@@ -1,19 +1,9 @@
 Extension { #name : #IonToggle }
 
 { #category : #'*CodeParadise-Canyon-App' }
-IonToggle >> label [
+IonToggle >> appendLabel: anElement [
 
-	"Convenience method for consistent protocol"
-
-	^ self textContent
-]
-
-{ #category : #'*CodeParadise-Canyon-App' }
-IonToggle >> label: aString [
-
-	"Convenience method for consistent protocol"
-
-	self textContent: aString
+	self appendChild: anElement
 ]
 
 { #category : #'*CodeParadise-Canyon-App' }

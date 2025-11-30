@@ -195,7 +195,7 @@ CynModelView >> bindProperty: aSymbol toElement: anElement [
 
 	"Set the element's label"
 	(model keyForTextAspect: #label at: aSymbol) ifNotNil: [ :textKey |
-		anElement appendChild: (CynText labelText: textKey) atSlotNamed: #label ].
+		anElement appendLabel: (CynText labelText: textKey) ].
 
 	"Add the element's placeholder (if available)"
 	(model textAspect: #placeholder at: aSymbol) ifNotNil: [ :placeholder |
