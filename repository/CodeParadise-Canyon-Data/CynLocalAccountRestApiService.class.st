@@ -94,7 +94,7 @@ CynLocalAccountRestApiService >> activateAccountUsingToken: anActivateAccountTok
 
 	"Check if account is already activated, then we're done"
 	(account at: #activatedAt)
-		ifNotNil: [ ^ self ].
+		ifNotNil: [ ^ account at: #id ].
 
 	"Check if token is already expired (okay to provide answer, since token is secret value anyway and can't be guessed)"
 	(activation at: #expiresAt) < now
