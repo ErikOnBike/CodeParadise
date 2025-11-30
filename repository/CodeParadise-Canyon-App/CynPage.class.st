@@ -552,6 +552,24 @@ CynPage >> navigateTo: aPageClass withModel: aModel [
 		ifNil: [ self app showPage: aPageClass withModel: aModel ]
 ]
 
+{ #category : #actions }
+CynPage >> navigateUrl: aString [
+
+	"Navigate to the specified URL.
+	Navigation like this will restart the app.
+
+	Implementation:
+	Disconnect the REST API client to prevent a running Promise from being
+	interrupted and leading to an error (which will be logged as client error
+	through the REST API client)."
+
+	"Moving away, ignore any remaining calls"
+	CynPropertyEntity restApiClient ifNotNil: [ :restApiClient |
+		restApiClient release ].
+
+	CpBrowserDocument current location href: aString
+]
+
 { #category : #accessing }
 CynPage >> previousPage [
 
