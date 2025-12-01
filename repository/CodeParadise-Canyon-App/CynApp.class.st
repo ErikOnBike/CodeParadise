@@ -1268,26 +1268,26 @@ CynApp >> load [
 	"Load the app and its content"
 
 	"Make sure the most prominent components are loaded, before loading the app content"
-	CpWebComponent
-		whenDefinedAll: {
-			IonApp.
-			IonNav.
-			IonHeader.
-			IonFooter.
-			IonMenu.
-			IonToolbar.
-			IonButtons.
-			IonTitle.
-			IonContent.
-			IonList.
-			IonItem.
-			IonLabel.
-			IonLoading.
-			IonToast.
-			IonAlert.
-			IonButton.
-			IonInput }
-		do: [ self loadApp ]
+	CpWebComponent awaitWhenDefinedAll: {
+		IonApp.
+		IonNav.
+		IonHeader.
+		IonFooter.
+		IonMenu.
+		IonToolbar.
+		IonButtons.
+		IonTitle.
+		IonContent.
+		IonList.
+		IonItem.
+		IonLabel.
+		IonLoading.
+		IonToast.
+		IonAlert.
+		IonButton.
+		IonInput }.
+
+	self loadApp
 ]
 
 { #category : #initialization }

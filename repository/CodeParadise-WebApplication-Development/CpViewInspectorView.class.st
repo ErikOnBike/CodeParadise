@@ -74,12 +74,12 @@ CpViewInspectorView class >> postInstallOnce [
 		registerObject: self
 		withId: self name.
 
-	self
-		whenDefinedAll: {
-			CpViewCodeInspectorView.
-			SlIcon.
-			SlIconButton }
-		do: [ self createInstance ]
+	self awaitWhenDefinedAll: {
+		CpViewCodeInspectorView.
+		SlIcon.
+		SlIconButton }.
+
+	self createInstance
 ]
 
 { #category : #rendering }

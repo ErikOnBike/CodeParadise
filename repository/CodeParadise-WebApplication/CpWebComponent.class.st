@@ -33,6 +33,48 @@ CpWebComponent class >> asCssSelector [
 
 ]
 
+{ #category : #accessing }
+CpWebComponent class >> awaitWhenDefined [
+
+	"(Promise) await until the receiver is defined/definition is loaded
+	(allowing third-party WebComponents to be present before using them).
+
+	Implementation:
+	The method ignores the reference to the CpBrowserCustomElementRegistry
+	class to prevent another class from being put into the image. Please
+	add this class in the relevant #beLoaded method (either of a specific
+	component or more generally in the WebClient class for your application)
+	if using this method."
+
+	<ignoreReference: #CpBrowserCustomElementRegistry>
+
+	(CpBrowserCustomElementRegistry current whenDefined: self tagName) await
+]
+
+{ #category : #accessing }
+CpWebComponent class >> awaitWhenDefinedAll: aCollection [
+
+	"(Promise) await until all the specified WebComponents are defined
+	(allowing third-party WebComponents to be present before using them).
+
+	Implementation:
+	The method ignores the reference to the CpBrowserCustomElementRegistry
+	class to prevent another class from being put into the image. Please
+	add this class in the relevant #beLoaded method (either of a specific
+	component or more generally in the WebClient class for your application)
+	if using this method."
+
+	<ignoreReference: #CpBrowserCustomElementRegistry>
+	<ignoreReference: #CpJavaScriptPromise>
+
+	| registry |
+
+	registry := CpBrowserCustomElementRegistry current.
+
+	"Perform Promise.all on the collection of Promises per WebComponent (class)"
+	(CpJavaScriptPromise all: (aCollection collect: [ :each | registry whenDefined: each tagName ])) await
+]
+
 { #category : #'instance creation' }
 CpWebComponent class >> basicNew [
 
@@ -216,48 +258,24 @@ CpWebComponent class >> textContent: aString [
 		yourself
 ]
 
-{ #category : #accessing }
+{ #category : #'as yet unclassified' }
 CpWebComponent class >> whenDefinedAll: aCollection do: aBlock [
 
-	"Perform the specified Block once all the specified WebComponents are defined
-	(allowing third-party WebComponents to be present before using them).
+	self flag: #deprecatedMethod.
+	self warnCr: 'The method CpWebComponent class >> #whenDefinedAll:do: is deprecated, please use ', #awaitWhenDefinedAll:.
 
-	Implementation:
-	The method ignores the reference to the CpBrowserCustomElementRegistry
-	class to prevent another class from being put into the image. Please
-	add this class in the relevant #beLoaded method (either of a specific
-	component or more generally in the WebClient class for your application)
-	if using this method."
-
-	<ignoreReference: #CpBrowserCustomElementRegistry>
-	<ignoreReference: #CpJavaScriptPromise>
-
-	| registry |
-
-	registry := CpBrowserCustomElementRegistry current.
-
-	"Perform Promise.all on the collection of Promises per WebComponent (class)"
-	(CpJavaScriptPromise allSettled: (aCollection collect: [ :each | registry whenDefined: each tagName ]))
-		then: aBlock
+	self awaitWhenDefinedAll: aCollection.
+	aBlock value
 ]
 
-{ #category : #accessing }
+{ #category : #'as yet unclassified' }
 CpWebComponent class >> whenDefinedDo: aBlock [
 
-	"Perform the specified Block once the receiver is defined
-	(allowing third-party WebComponents to be present before using them).
+	self flag: #deprecatedMethod.
+	self warnCr: 'The method CpWebComponent class >> #whenDefinedDo: is deprecated, please use ', #awaitWhenDefined.
 
-	Implementation:
-	The method ignores the reference to the CpBrowserCustomElementRegistry
-	class to prevent another class from being put into the image. Please
-	add this class in the relevant #beLoaded method (either of a specific
-	component or more generally in the WebClient class for your application)
-	if using this method."
-
-	<ignoreReference: #CpBrowserCustomElementRegistry>
-
-	(CpBrowserCustomElementRegistry current whenDefined: self tagName)
-		then: aBlock
+	self awaitWhenDefined.
+	aBlock value
 ]
 
 { #category : #private }
