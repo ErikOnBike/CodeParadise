@@ -490,7 +490,7 @@ CynLocalAccountRestApiService >> login: aRestRequest response: aRestResponse [
 		"Read account"
 		storedAccount := modelDatabase
 			selectOne: #login
-			statement: 'SELECT id, email, password, settings FROM accounts WHERE deletedAt IS NULL AND email=:email'
+			statement: 'SELECT id, email, password, settings FROM accounts WHERE deletedAt IS NULL AND activatedAt IS NOT NULL AND email=:email'
 			bind: {
 				#email -> account email } asDictionary.
 
