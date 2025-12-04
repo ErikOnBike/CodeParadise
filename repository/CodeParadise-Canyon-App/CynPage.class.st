@@ -527,17 +527,6 @@ CynPage >> navigateBack [
 	self close
 ]
 
-{ #category : #actions }
-CynPage >> navigateLink: aSymbol [
-
-	"Navigate to the specified link"
-
-	self activeChildView
-		ifNotNil: [ :activeChildView | ^ activeChildView navigateLink: aSymbol ].
-
-	CynApp ifDevelopment: [ self warnCr: 'Unhandled link: ', aSymbol ]
-]
-
 { #category : #view }
 CynPage >> navigateTo: aPageClass withModel: aModel [
 
