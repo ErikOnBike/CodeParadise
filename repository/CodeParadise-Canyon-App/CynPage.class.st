@@ -669,9 +669,7 @@ CynPage >> updateBeforeNavigate [
 
 	super updateBeforeNavigate.
 
-	self
-		updateScreenWidth ;
-		updateDocumentTitle
+	self updateDocumentTitle
 ]
 
 { #category : #view }
@@ -682,25 +680,4 @@ CynPage >> updateDocumentTitle [
 	self headerTitle ifNotNil: [ :title |
 		CpBrowserDocument current
 			title: (self documentTitleFrom: title textContent) ]
-]
-
-{ #category : #view }
-CynPage >> updateScreenWidth [
-
-	"The receiver can be shown using the full width of the device, always use a minimal (thin)
-	display or dynamically decide based on the page's behavior. Three different values are
-	possible (and stored in the persistent variable #SCREEN_WIDTH, see method #screenWidth):
-		- #min (always show thin display)
-		- #max (always show full width)
-		- #auto (let page decide based on response from #isWidePreferred)
-
-	It is up to the app to decide how the user can select her preference."
-
-	| screenWidth isWidePreferred |
-
-	screenWidth := self screenWidth.
-	isWidePreferred := self isWidePreferred.
-
-	CpHtmlElement documentBody
-		classed: #thin if: (screenWidth = #min or: [ screenWidth = #auto and: [ isWidePreferred not ] ])
 ]
