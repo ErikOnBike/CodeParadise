@@ -674,10 +674,9 @@ CynApp class >> start [
 	"Update language to browser language (if available)"
 	self updateLanguage: self defaultLanguage.
 
-	CpHtmlElement documentBody
-		appendChild: (self current
-			load ;
-			yourself)
+	(CpHtmlElement documentBody
+		appendChild: self current)
+			load
 ]
 
 { #category : #'class initialization' }
