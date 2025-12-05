@@ -372,8 +372,8 @@ CpJavaScriptDate >> equalsDateOnly: aDate [
 
 	| selfDate compareDate |
 
-	selfDate := self copy ; resetTime ; yourself.
-	compareDate := aDate copy ; resetTime ; yourself.
+	selfDate := self copy resetTime ; yourself.
+	compareDate := aDate copy resetTime ; yourself.
 
 	^ selfDate equalsDate: compareDate
 ]
