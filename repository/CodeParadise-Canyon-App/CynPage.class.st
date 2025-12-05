@@ -2,11 +2,10 @@
 I represent a Page in the Canyon app.
 I am responsible for navigation (to another page or back) and deciding if navigation is possible.
 My instances can be bound to a Model to allow a user to interact with it. Typically this is
-done in collaboration with a CpPropertyModelView.
+done in collaboration with a CynModelView.
 When bound, the Model in my instances might need to show non-public information. Therefore my
 instances need to be defined explicitly for public use. By default they assume an authenticated
-user is required. Making a Page public is done by adding a placeholder method/tag #isPublicTag
-(see also method #isPublic).
+user is required. Making a Page public is done by adding a method #isPublic which answers true.
 My instances can have a header and/or footer. It is also possible to use tabs within a page.
 When tabs are present, be sure to handle the navigation between tabs within the page itself.
 It does not become part of the navigation mechanism between pages.
@@ -35,7 +34,7 @@ Class {
 	#category : #'CodeParadise-Canyon-App-View'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : #testing }
 CynPage class >> allowsDirectLink [
 
 	"Answer whether a direct (deep) link to the receiver is allowed"
