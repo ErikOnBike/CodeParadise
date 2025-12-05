@@ -68,8 +68,10 @@ CynPropertyEntity class >> relativeDate: anInteger usingText: aSymbol [
 		year
 		month
 		monthName
+		monthNameShort
 		day
-		dayOfWeekName"
+		dayOfWeekName
+		dayOfWeekNameShort"
 
 	| date | 
 
@@ -93,8 +95,10 @@ CynPropertyEntity class >> relativeDate: anInteger usingText: aSymbol [
 			#year -> date year .
 			#month -> date monthIndex .
 			#monthName -> (self index: date monthIndex text: #'app.month').
+			#monthNameShort -> (self index: date monthIndex text: #'app.month.short').
 			#day -> date dayIndex.
-			#dayOfWeekName -> (self index: date dayOfWeekIndex text: #'app.day') } asDictionary
+			#dayOfWeekName -> (self index: date dayOfWeekIndex text: #'app.day').
+			#dayOfWeekNameShort -> (self index: date dayOfWeekIndex text: #'app.day.short') } asDictionary
 ]
 
 { #category : #'*CodeParadise-Canyon-App' }

@@ -183,6 +183,19 @@ CynApp class >> defaultAppTextsEn [
 			10 -> 'October'.
 			11 -> 'November'.
 			12 -> 'December' } asDictionary ;
+		at: #'app.month.short' put: {
+			1 -> 'Jan'.
+			2 -> 'Feb'.
+			3 -> 'Mar'.
+			4 -> 'Apr'.
+			5 -> 'May'.
+			6 -> 'Jun'.
+			7 -> 'Jul'.
+			8 -> 'Aug'.
+			9 -> 'Sep'.
+			10 -> 'Oct'.
+			11 -> 'Nov'.
+			12 -> 'Dec' } asDictionary ;
 		at: #'app.day' put: {
 			1 -> 'Monday'.
 			2 -> 'Tuesday'.
@@ -244,34 +257,47 @@ CynApp class >> defaultAppTextsNl [
 		at: #'app.date' put: '{day}-{month}-{year}' ;
 		at: #'app.short.date' put: '{day}-{month}' ;
 		at: #'app.month' put: {
-			1 -> 'Januari'.
-			2 -> 'Februari'.
-			3 -> 'Maart'.
-			4 -> 'April'.
-			5 -> 'Mei'.
-			6 -> 'Juni'.
-			7 -> 'Juli'.
-			8 -> 'Augustus'.
-			9 -> 'September'.
-			10 -> 'Oktober'.
-			11 -> 'November'.
-			12 -> 'December' } asDictionary ;
+			1 -> 'januari'.
+			2 -> 'februari'.
+			3 -> 'maart'.
+			4 -> 'april'.
+			5 -> 'mei'.
+			6 -> 'juni'.
+			7 -> 'juli'.
+			8 -> 'august'.
+			9 -> 'september'.
+			10 -> 'oktober'.
+			11 -> 'november'.
+			12 -> 'december' } asDictionary ;
+		at: #'app.month.short' put: {
+			1 -> 'jan'.
+			2 -> 'feb'.
+			3 -> 'mrt'.
+			4 -> 'apr'.
+			5 -> 'mei'.
+			6 -> 'jun'.
+			7 -> 'jul'.
+			8 -> 'aug'.
+			9 -> 'sep'.
+			10 -> 'okt'.
+			11 -> 'nov'.
+			12 -> 'dec' } asDictionary ;
 		at: #'app.day' put: {
-			1 -> 'Maandag'.
-			2 -> 'Dinsdag'.
-			3 -> 'Woensdag'.
-			4 -> 'Donderdag'.
-			5 -> 'Vrijdag'.
-			6 -> 'Zaterdag'.
-			7 -> 'Zondag' } asDictionary ;
+			1 -> 'maandag'.
+			2 -> 'dinsdag'.
+			3 -> 'woensdag'.
+			4 -> 'donderdag'.
+			5 -> 'vrijdag'.
+			6 -> 'zaterdag'.
+			7 -> 'zondag' } asDictionary ;
 		at: #'app.day.short' put: {
-			1 -> 'Ma'.
-			2 -> 'Di'.
-			3 -> 'Wo'.
-			4 -> 'Do'.
-			5 -> 'Vr'.
-			6 -> 'Za'.
-			7 -> 'Zo' } asDictionary ;
+			1 -> 'ma'.
+			2 -> 'di'.
+			3 -> 'wo'.
+			4 -> 'do'.
+			5 -> 'vr'.
+			6 -> 'za'.
+			7 -> 'zo' } asDictionary ;
 		at: #'app.ordinal' put: {
 			1 -> '1e'.
 			2 -> '2e'.
