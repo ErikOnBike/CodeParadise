@@ -302,6 +302,15 @@ CynLocalAccountRestApiService >> errorInvalidLogin [
 	CpNodeJSRestUnauthorizedError signal: 'Credentials provided do not match an active account'
 ]
 
+{ #category : #errors }
+CynLocalAccountRestApiService >> errorNonActivatedAccountDuringLogin [
+
+	"This error should only be signalled if the account is validated (username/password match),
+	because otherwise we might provide too much information to a possible wrong do-er."
+
+	CpNodeJSRestConflictError signal: 'Account not activated'
+]
+
 { #category : #accessing }
 CynLocalAccountRestApiService >> errorNotificationMailAccount [
 
@@ -490,7 +499,7 @@ CynLocalAccountRestApiService >> login: aRestRequest response: aRestResponse [
 		"Read account"
 		storedAccount := modelDatabase
 			selectOne: #login
-			statement: 'SELECT id, email, password, settings FROM accounts WHERE deletedAt IS NULL AND activatedAt IS NOT NULL AND email=:email'
+			statement: 'SELECT id, email, password, settings, activatedAt FROM accounts WHERE deletedAt IS NULL AND email=:email'
 			bind: {
 				#email -> account email } asDictionary.
 
@@ -503,6 +512,10 @@ CynLocalAccountRestApiService >> login: aRestRequest response: aRestResponse [
 		"Merge the stored account id"
 		account id: (storedAccount at: #id).
 	] on: Error do: [ :err | self errorInvalidLogin ].
+
+	"Validate activated (perform outside error handler above)"
+	(storedAccount at: #activatedAt)
+		ifNil: [ self errorNonActivatedAccountDuringLogin ].
 
 	"Create session and store access token in response header"
 	accessToken := self createSessionForAccountId: account id expires: account expires.
