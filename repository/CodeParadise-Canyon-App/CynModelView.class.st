@@ -83,11 +83,11 @@ CynModelView >> activeChildView [
 { #category : #view }
 CynModelView >> activeChildViewsDo: aBlock [
 
-	"Evaluate the specified Block for all child views (created from my childViewsDefinitions)
+	"Evaluate the specified Block for all child views (which are typically elements inside a slot)
 	of the receiver which are active at the moment. Views inside a IonTab which is not selected,
 	are NOT considered active. This method can be used to update only active/visible elements."
 
-	self childViewsDo: [ :each |
+	self children do: [ :each |
 		(self isActiveChildView: each)
 			ifTrue: [ aBlock value: each ] ]
 ]

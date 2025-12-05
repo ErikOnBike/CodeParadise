@@ -144,7 +144,7 @@ CynPage >> canNavigate [
 	self isModelPage
 		ifTrue: [ ^ super canNavigate ].
 
-	self childViewsDo: [ :each |
+	self activeChildViewsDo: [ :each |
 		each canNavigate
 			ifFalse: [ ^ false ] ].
 
@@ -162,7 +162,7 @@ CynPage >> canNavigateBack [
 	self isModelPage
 		ifTrue: [ ^ super canNavigateBack ].
 
-	self childViewsDo: [ :each |
+	self activeChildViewsDo: [ :each |
 		each canNavigateBack
 			ifFalse: [ ^ false ] ].
 
