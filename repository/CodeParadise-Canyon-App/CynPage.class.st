@@ -462,16 +462,6 @@ CynPage >> isPublic [
 	^ self class isPublic
 ]
 
-{ #category : #testing }
-CynPage >> isWidePreferred [
-
-	"Answer whether the receiver is preferrably shown on a wide screen.
-	By default all pages are shown wide in the receiver.
-	This is only relevant on wide displays (i.e. laptops or desktops)."
-
-	^ true
-]
-
 { #category : #private }
 CynPage >> keepSelectedTab: aTab [
 
@@ -572,18 +562,6 @@ CynPage >> release [
 	selectedTabNames := nil.
 
 	super release
-]
-
-{ #category : #accessing }
-CynPage >> screenWidth [
-
-	"Answer the screen width setting (as stored in a persistent variable)
-	or use default #auto (alternatives are #min and #max)"
-
-	^ (CpClientEnvironment current
-			persistentVariableAt: #SCREEN_WIDTH)
-				ifNotNil: [ :value | value asSymbol ]
-				ifNil: [ #auto ]
 ]
 
 { #category : #private }
