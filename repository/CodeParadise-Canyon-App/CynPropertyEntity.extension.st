@@ -8,6 +8,22 @@ CynPropertyEntity class >> addVolume: aVolume locale: aSymbol [
 ]
 
 { #category : #'*CodeParadise-Canyon-App' }
+CynPropertyEntity class >> app [
+
+	"Convenience method to access the app (instance)"
+
+	^ CynApp current
+]
+
+{ #category : #'*CodeParadise-Canyon-App' }
+CynPropertyEntity >> app [
+
+	"Convenience method to access the app (instance)"
+
+	^ CynApp current
+]
+
+{ #category : #'*CodeParadise-Canyon-App' }
 CynPropertyEntity class >> count: anInteger text: aSymbolOrTextReference [
 
 	^ self count: anInteger text: aSymbolOrTextReference format: nil
