@@ -224,6 +224,7 @@ CynApp class >> defaultAppTextsEn [
 			9 -> '9th'.
 			10 -> '10th' } asDictionary ;
 		at: #'app.ordinal.last' put: 'last' ;
+		at: #'app.error.dontShowAgain' put: 'Don''t show again' ;
 		at: #'app.server.internalError.title' put: 'Oops, something went wrong' ;
 		at: #'app.server.internalError.message' put: 'The computer where the entry is stored, is not working correctly. The maintainer is informed. You could try it again shortly, just in case. We''ll try to fix this as soon as possible.' ;
 		at: #'app.server.unavailable.title' put: 'Oops, something went wrong' ;
@@ -310,6 +311,7 @@ CynApp class >> defaultAppTextsNl [
 			9 -> '9e'.
 			10 -> '10e' } asDictionary ;
 		at: #'app.ordinal.last' put: 'laatste' ;
+		at: #'app.error.dontShowAgain' put: 'Toon niet meer' ;
 		at: #'app.server.internalError.title' put: 'Oeps, er is iets fout gegaan' ;
 		at: #'app.server.internalError.message' put: 'De computer waar de data is opgeslagen heeft een probleem. De beheerder is geïnformeerd. Je kunt het straks nog een keer proberen voor de zekerheid. We proberen dit zo snel mogelijk op te lossen.' ;
 		at: #'app.server.unavailable.title' put: 'Oeps, er is iets fout gegaan' ;
@@ -1834,7 +1836,7 @@ CynApp >> showAlertTitle: titleString message: messageString [
 	alert := IonAlert new
 		header: titleString ;
 		message: messageString ;
-		buttons: { 'Okay' } ;
+		buttons: { #'app.ok' langText } ;
 		yourself.
 
 	"Present and wait for result"
@@ -1862,7 +1864,7 @@ CynApp >> showError: aSymbol title: titleString message: messageString [
 	alert := IonAlert new
 		header: titleString ;
 		message: messageString ;
-		buttons: { 'Okay' } ;
+		buttons: { #'app.ok' langText } ;
 		addClass: #stoppable ;	"Just a marker for CSS in relation to bugfix described below"
 		yourself.
 
@@ -1871,7 +1873,7 @@ CynApp >> showError: aSymbol title: titleString message: messageString [
 			{
 				#type -> #checkbox.
 				#value -> #stop.
-				#label -> 'Toon niet meer'
+				#label -> #'app.error.dontShowAgain' langText
 			} asDictionary } ].
 
 	"Present and wait for result (fix l&f in iOS)"
