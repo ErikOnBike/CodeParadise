@@ -87,6 +87,12 @@ CpDomRectangle >> northPoint [
 	^ ((left + right) / 2) @ top
 ]
 
+{ #category : #accessing }
+CpDomRectangle >> position [
+
+	^ left @ top
+]
+
 { #category : #printing }
 CpDomRectangle >> printOn: aStream [
 
@@ -113,6 +119,12 @@ CpDomRectangle >> right [
 CpDomRectangle >> right: anInteger [
 
 	right := anInteger
+]
+
+{ #category : #accessing }
+CpDomRectangle >> size [
+
+	^ self width @ self height
 ]
 
 { #category : #accessing }
