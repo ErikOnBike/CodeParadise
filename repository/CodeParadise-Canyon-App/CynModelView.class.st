@@ -254,12 +254,11 @@ CynModelView >> canNavigate [
 			IonActionSheetButton new
 				text: #'app.action.button.save' langText ;
 				data: [
-					self
-						handleSubmitFormOnFailure: [ :violations |
-							violations
-								ifNotNil: [ self handleInvalidModel: violations ]
-								ifNil: [ self app showToast: #'app.toast.saveOnNavigate.failed' langText ].
-							^ false ] ] ;
+					self handleSubmitFormOnFailure: [ :violations |
+						violations
+							ifNotNil: [ self handleInvalidModel: violations ]
+							ifNil: [ self app showToast: #'app.toast.saveOnNavigate.failed' langText ].
+						^ false ] ] ;
 				yourself.
 			IonActionSheetButton new
 				text: #'app.action.button.ignore' langText ;
