@@ -1038,6 +1038,7 @@ CynModelView >> submitToolbarEndButtons [
 	"Answer the default 'submit' toolbar buttons for the receiver"
 
 	^ Array with: (IonButton new
+		id: 'submit-button' ;
 		appendChild: (CynText text: self submitToolbarEndButtonText) ;
 		type: #submit ;
 		form: self form ;
