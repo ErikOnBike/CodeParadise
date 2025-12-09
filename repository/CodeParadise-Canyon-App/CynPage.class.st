@@ -258,6 +258,12 @@ CynPage >> closeModalPage: aSymbol [
 		previousPage updateAfterNavigate ]
 ]
 
+{ #category : #accessing }
+CynPage >> content [
+
+	^ self shadowedFirstDescendantMatching: IonContent asCssSelector
+]
+
 { #category : #'view - customization' }
 CynPage >> documentTitleFrom: aString [
 
