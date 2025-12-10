@@ -198,15 +198,12 @@ CynFloatingHelpView >> highlightElements: aStep [
 		"Set new 'destination' position and size"
 		highlight
 			toPos: (eachBoundingRect centerPoint - boundingRect position)
-			size: (((eachBoundingRect size) * 0.6) max: 12 @ 12).
+			size: (eachBoundingRect size max: 24 @ 24).
 
 		index := index + 1 ].
 
 	"Release the remaining elements (do not do a transition here, because it distracts)"
-	[ index <= highlights size ] whileTrue: [
-		highlights removeLast ifNotNil: [ :last |
-			last element destroy.
-			last release ] ].
+	self releaseHighlightsFrom: index.
 
 	self startTransition
 ]
@@ -290,6 +287,39 @@ CynFloatingHelpView >> previousStepElement [
 	^ self shadowedElementWithId: #'previous-step'
 ]
 
+{ #category : #initialization }
+CynFloatingHelpView >> release [
+
+	self releaseHighlights.
+
+	super release
+]
+
+{ #category : #initialization }
+CynFloatingHelpView >> releaseHighlights [
+
+	"Remove the highlights and release any dependencies"
+
+	highlights ifNil: [ ^ self ].
+
+	self releaseHighlightsFrom: 1.
+
+	highlights := nil
+]
+
+{ #category : #initialization }
+CynFloatingHelpView >> releaseHighlightsFrom: anInteger [
+
+	"Remove the highlights and release any dependencies"
+
+	highlights ifNil: [ ^ self ].
+
+	[ anInteger <= highlights size ] whileTrue: [
+		highlights removeLast ifNotNil: [ :highlight |
+			highlight element destroy.
+			highlight release ] ]
+]
+
 { #category : #accessing }
 CynFloatingHelpView >> root [
 
@@ -315,7 +345,7 @@ CynFloatingHelpView >> showCurrentStep [
 			self highlightElements: currentStep ]
 		ifNil: [
 			self removeChildrenAtSlotNamed: nil.
-			highlights := nil ]
+			self releaseHighlights ]
 ]
 
 { #category : #view }
