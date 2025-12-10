@@ -5,7 +5,6 @@ Class {
 		'helpScript',
 		'highlights',
 		'position',
-		'root',
 		'transition'
 	],
 	#category : #'CodeParadise-Canyon-App-View'
@@ -181,7 +180,7 @@ CynFloatingHelpView >> highlightElements: aStep [
 				nextPut: $) ]).
 
 	index := 1.
-	self highlightElementsIn: aStep do: [ :each |
+	aStep highlightElementsDo: [ :each |
 		| eachBoundingRect highlight |
 		eachBoundingRect := each boundingClientRectangle.
 
@@ -206,19 +205,6 @@ CynFloatingHelpView >> highlightElements: aStep [
 	self releaseHighlightsFrom: index.
 
 	self startTransition
-]
-
-{ #category : #view }
-CynFloatingHelpView >> highlightElementsIn: aStep do: aBlock [
-
-	aStep selectors do: [ :each |
-		self highlightElementsMatching: each from: root do: aBlock ]
-]
-
-{ #category : #view }
-CynFloatingHelpView >> highlightElementsMatching: aString from: anElement do: aBlock [
-
-	(anElement allHighlightElementsMatching: aString) do: aBlock
 ]
 
 { #category : #initialization }
@@ -320,18 +306,6 @@ CynFloatingHelpView >> releaseHighlightsFrom: anInteger [
 			highlight release ] ]
 ]
 
-{ #category : #accessing }
-CynFloatingHelpView >> root [
-
-	^ root
-]
-
-{ #category : #accessing }
-CynFloatingHelpView >> root: anElement [
-
-	root := anElement
-]
-
 { #category : #view }
 CynFloatingHelpView >> showCurrentStep [
 
@@ -341,7 +315,7 @@ CynFloatingHelpView >> showCurrentStep [
 
 	currentStep
 		ifNotNil: [
-			self replaceAllChildrenWith: currentStep element atSlotNamed: nil.
+			self replaceAllChildrenWith: currentStep contentElement atSlotNamed: nil.
 			self highlightElements: currentStep ]
 		ifNil: [
 			self removeChildrenAtSlotNamed: nil.

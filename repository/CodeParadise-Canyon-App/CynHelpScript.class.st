@@ -13,6 +13,7 @@ CynHelpScript >> addStep: aStep [
 
 	steps add: aStep.
 
+	"Assume the first step is always a showable step (for now)"
 	currentStepIndex = 0
 		ifTrue: [ currentStepIndex := 1 ].
 
@@ -25,27 +26,24 @@ CynHelpScript >> currentStep [
 	^ steps at: currentStepIndex ifAbsent: [ nil ]
 ]
 
-{ #category : #accessing }
-CynHelpScript >> firstStep [
-
-	steps ifEmpty: [ ^ nil ].
-
-	"Update the current step index"
-	currentStepIndex := 1.
-
-	^ steps at: currentStepIndex
-]
-
 { #category : #testing }
 CynHelpScript >> hasNextStep [
 
-	^ currentStepIndex < steps size
+	currentStepIndex + 1 to: steps size do: [ :index |
+		(steps at: index) isShowable
+			ifTrue: [ ^ true ] ].
+
+	^ false
 ]
 
 { #category : #testing }
 CynHelpScript >> hasPreviousStep [
 
-	^ currentStepIndex > 1
+	currentStepIndex - 1 to: 1 by: -1 do: [ :index |
+		(steps at: index) isShowable
+			ifTrue: [ ^ true ] ].
+
+	^ false
 ]
 
 { #category : #initialization }
@@ -58,48 +56,27 @@ CynHelpScript >> initialize [
 ]
 
 { #category : #testing }
-CynHelpScript >> isAtFirstStep [
-
-	^ currentStepIndex = 1
-]
-
-{ #category : #testing }
-CynHelpScript >> isAtLastStep [
-
-	^ currentStepIndex = steps size
-]
-
-{ #category : #testing }
-CynHelpScript >> isEmpty [
-
-	^ steps isEmpty
-]
-
-{ #category : #testing }
 CynHelpScript >> isNotEmpty [
+
+	"Answer whether the receiver has steps (assume the first step is always showable)"
 
 	^ steps isNotEmpty
 ]
 
 { #category : #accessing }
-CynHelpScript >> lastStep [
-
-	steps ifEmpty: [ ^ nil ].
-
-	"Update the current step index"
-	currentStepIndex := steps size.
-
-	^ steps at: currentStepIndex
-]
-
-{ #category : #accessing }
 CynHelpScript >> nextStep [
 
+	| nextIndex |
+
 	steps ifEmpty: [ ^ nil ].
 
+	nextIndex := currentStepIndex + 1.
+	[ nextIndex <= steps size and: [ (steps at: nextIndex) isShowable not ] ] whileTrue: [
+		nextIndex := nextIndex + 1 ].
+
 	"Update the current step index"
-	currentStepIndex < steps size
-		ifTrue: [ currentStepIndex := currentStepIndex + 1 ]
+	nextIndex <= steps size
+		ifTrue: [ currentStepIndex := nextIndex ]
 		ifFalse: [ ^ nil ].
 
 	^ steps at: currentStepIndex
@@ -108,11 +85,17 @@ CynHelpScript >> nextStep [
 { #category : #accessing }
 CynHelpScript >> previousStep [
 
+	| previousIndex |
+
 	steps ifEmpty: [ ^ nil ].
 
+	previousIndex := currentStepIndex - 1.
+	[ previousIndex >= 1 and: [ (steps at: previousIndex) isShowable not ] ] whileTrue: [
+		previousIndex := previousIndex - 1 ].
+
 	"Update the current step index"
-	currentStepIndex > 1
-		ifTrue: [ currentStepIndex := currentStepIndex - 1 ]
+	previousIndex >= 1
+		ifTrue: [ currentStepIndex := previousIndex ]
 		ifFalse: [ ^ nil ].
 
 	^ steps at: currentStepIndex
@@ -123,5 +106,6 @@ CynHelpScript >> reset [
 
 	steps ifEmpty: [ ^ self ].
 
+	"Assume the first step is always showable (for now)"
 	currentStepIndex := 1
 ]

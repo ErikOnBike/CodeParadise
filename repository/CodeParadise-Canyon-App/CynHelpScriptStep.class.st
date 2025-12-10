@@ -2,113 +2,181 @@ Class {
 	#name : #CynHelpScriptStep,
 	#superclass : #Object,
 	#instVars : [
-		'selectors',
-		'element'
+		'root',
+		'selector',
+		'content',
+		'maxElements',
+		'showable'
 	],
 	#category : #'CodeParadise-Canyon-App-Help'
 }
 
-{ #category : #'instance creation' }
-CynHelpScriptStep class >> id: aString element: anElement [
+{ #category : #accessing }
+CynHelpScriptStep class >> defaultMaxElements [
 
-	^ self selectors: { '#', aString } element: anElement
-]
-
-{ #category : #'instance creation' }
-CynHelpScriptStep class >> id: idString html: htmlString [
-
-	^ self selectors: { '#', idString } html: htmlString
-]
-
-{ #category : #'instance creation' }
-CynHelpScriptStep class >> id: idString text: textString [
-
-	^ self selectors: { '#', idString } text: textString
-]
-
-{ #category : #'instance creation' }
-CynHelpScriptStep class >> ids: aCollection element: anElement [
-
-	^ self selectors: (aCollection collect: [ :each | '#', each ]) element: anElement
-]
-
-{ #category : #'instance creation' }
-CynHelpScriptStep class >> ids: aCollection html: aString [
-
-	^ self selectors: (aCollection collect: [ :each | '#', each ]) html: aString
-]
-
-{ #category : #'instance creation' }
-CynHelpScriptStep class >> ids: aCollection text: aString [
-
-	^ self selectors: (aCollection collect: [ :each | '#', each ]) text: aString
+	^ 3
 ]
 
 { #category : #'instance creation' }
 CynHelpScriptStep class >> new [
 
-	self errorNewReplacedBy: #selectors:element:
+	self errorNewReplacedBy: #root:
 ]
 
 { #category : #'instance creation' }
-CynHelpScriptStep class >> selector: aString element: anElement [
-
-	^ self selectors: { aString } element: anElement
-]
-
-{ #category : #'instance creation' }
-CynHelpScriptStep class >> selector: selectorString html: htmlString [
-
-	^ self selectors: { selectorString } html: htmlString
-]
-
-{ #category : #'instance creation' }
-CynHelpScriptStep class >> selector: selectorString text: textString [
-
-	^ self selectors: { selectorString } text: textString
-]
-
-{ #category : #'instance creation' }
-CynHelpScriptStep class >> selectors: aCollection element: anElement [
+CynHelpScriptStep class >> root: rootElement [
 
 	^ self basicNew
-		initializeWithSelectors: aCollection element: anElement ;
+		initializeWithRoot: rootElement ;
 		yourself
 ]
 
-{ #category : #'instance creation' }
-CynHelpScriptStep class >> selectors: aCollection html: aString [
+{ #category : #accessing }
+CynHelpScriptStep >> allHighlightElements [
 
-	^ self
-		selectors: aCollection
-		element: ((CpHtmlElement newWithTag: #div)
-			markupContent: aString ;
-			yourself)
-]
+	"Answer all the elements which should be highlighted.
 
-{ #category : #'instance creation' }
-CynHelpScriptStep class >> selectors: aCollection text: aString [
+	Be aware: This might be more elements than the requested max elements."
 
-	^ self selectors: aCollection element: (aString inHtmlTag: #p)
+	selector ifNil: [ ^ #() ].
+
+	^ root allHighlightElementsMatching: selector
 ]
 
 { #category : #accessing }
-CynHelpScriptStep >> element [
+CynHelpScriptStep >> alwaysShow [
 
-	^ element clone
+	"Always show the step, independent of visible highlight elements.
+	This can be useful in combination with dynamic content which will
+	show an explanation about what could be visible."
+
+	showable := [ true ]
+]
+
+{ #category : #accessing }
+CynHelpScriptStep >> contentElement [
+
+	^ (content isBlock
+		ifTrue: [ content cull: self ]
+		ifFalse: [ content ]) clone
+]
+
+{ #category : #accessing }
+CynHelpScriptStep >> contentElement: anElementOrBlock [
+
+	content := anElementOrBlock
+]
+
+{ #category : #testing }
+CynHelpScriptStep >> hasShowableElements [
+
+	^ self allHighlightElements
+		anySatisfy: [ :each | root isVisibleElement: each ]
+]
+
+{ #category : #accessing }
+CynHelpScriptStep >> highlightElementsDo: aBlock [
+
+	"Evaluate the specified Block for the receiver's highlight elements.
+	The evaluation is only performed on the max element count visible
+	elements of the receiver. The other elements are ignored."
+
+	| elements count |
+
+	elements := self allHighlightElements.
+
+	count := self maxElements.
+	elements do: [ :each |
+		(root isVisibleElement: each)
+			ifTrue: [
+				aBlock value: each.
+
+				"One down, some more to go?"
+				count := count - 1.
+				count = 0
+					ifTrue: [ ^ self ] ] ]
+]
+
+{ #category : #accessing }
+CynHelpScriptStep >> html: aString [
+
+	"Update the content"
+
+	self contentElement:  ((CpHtmlElement newWithTag: #div)
+		markupContent: aString ;
+		yourself)
+]
+
+{ #category : #accessing }
+CynHelpScriptStep >> id: aString [
+
+	selector := '#', aString
 ]
 
 { #category : #initialization }
-CynHelpScriptStep >> initializeWithSelectors: aCollection element: anElement [
+CynHelpScriptStep >> initializeWithRoot: anElement [
 
 	self initialize.
 
-	selectors := aCollection.
-	element := anElement
+	root := anElement
+]
+
+{ #category : #testing }
+CynHelpScriptStep >> isShowable [
+
+	"Answer whether the receiver can be shown.
+
+	When a selector is provided, but does not resolve to any visible elements,
+	the receiver can not be showed."
+
+	showable ifNotNil: [
+		^ showable cull: self ].
+
+	^ selector isNil or: [ self hasShowableElements ]
 ]
 
 { #category : #accessing }
-CynHelpScriptStep >> selectors [
+CynHelpScriptStep >> maxElements [
 
-	^ selectors
+	^ maxElements ifNil: [ self class defaultMaxElements ]
+]
+
+{ #category : #accessing }
+CynHelpScriptStep >> maxElements: anInteger [
+
+	maxElements := anInteger
+]
+
+{ #category : #initialization }
+CynHelpScriptStep >> release [
+
+	root := nil.
+	content := nil.
+	showable := nil.
+
+	super release
+]
+
+{ #category : #accessing }
+CynHelpScriptStep >> selector: aString [
+
+	selector := aString
+]
+
+{ #category : #accessing }
+CynHelpScriptStep >> showable: aBlock [
+
+	"Set a Block which will be culled with the receiver to answer whether
+	the receiver is showable. If the specified Block evaluates to true,
+	the step will be shown. Otherwise it will not be shown."
+
+	showable := aBlock
+]
+
+{ #category : #accessing }
+CynHelpScriptStep >> text: aString [
+
+	"Update the content"
+
+	self contentElement: (aString inHtmlTag: #p)
 ]
