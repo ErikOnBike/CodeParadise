@@ -12,8 +12,7 @@ BaselineOfCodeParadise >> baseline: spec [
 	spec for: #common do: [
 
 		"Dependencies"
-		spec
-			package: 'Zinc-WebSocket-Core' with: [ spec repository: 'github://svenvc/zinc' ].
+		spec baseline: 'ZincHTTPComponentsWebSocket' with: [ spec repository: 'github://svenvc/zinc' ].
 
 		"Packages"
 		spec
