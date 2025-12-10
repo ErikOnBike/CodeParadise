@@ -6,7 +6,7 @@ Class {
 		'fromSize',
 		'toPos',
 		'toSize',
-		'ellipse'
+		'path'
 	],
 	#category : #'CodeParadise-Canyon-App-Help'
 }
@@ -36,7 +36,7 @@ CynHelpHighlight class >> new [
 { #category : #accessing }
 CynHelpHighlight >> element [
 
-	^ ellipse
+	^ path
 ]
 
 { #category : #private }
@@ -61,7 +61,7 @@ CynHelpHighlight >> initialize [
 
 	fromSize := 0 @ 0.
 
-	ellipse := CpSvgElement newWithTag: #path
+	path := CpSvgElement newWithTag: #path
 ]
 
 { #category : #initialization }
@@ -83,7 +83,7 @@ CynHelpHighlight >> isEllipseRatio: aFloat [
 { #category : #private }
 CynHelpHighlight >> path: aString [
 
-	ellipse attributeAt: #d put: aString
+	path attributeAt: #d put: aString
 ]
 
 { #category : #private }
@@ -98,9 +98,9 @@ CynHelpHighlight >> positionAt: aFloat [
 { #category : #initialization }
 CynHelpHighlight >> release [
 
-	ellipse ifNotNil: [
-		ellipse destroy.
-		ellipse := nil ].
+	path ifNotNil: [
+		path destroy.
+		path := nil ].
 
 	super release
 ]
