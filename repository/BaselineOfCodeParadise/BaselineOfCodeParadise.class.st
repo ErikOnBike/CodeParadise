@@ -12,7 +12,7 @@ BaselineOfCodeParadise >> baseline: spec [
 	spec for: #common do: [
 
 		"Dependencies"
-		spec baseline: 'ZincHTTPComponentsWebSocket' with: [ spec repository: 'github://svenvc/zinc' ].
+		self loadZinc.
 
 		"Packages"
 		spec
@@ -107,4 +107,14 @@ BaselineOfCodeParadise >> baseline: spec [
 		spec
 			package: 'CodeParadise-RemoteEnvironment' with: [ spec includes: 'CodeParadise-RemoteEnvironment-Pharo11' ] ;
 			package: 'CodeParadise-RemoteEnvironment-Pharo11' with: [ spec requires: 'CodeParadise-RemoteEnvironment' ] ].
+]
+
+{ #category : #'as yet unclassified' }
+BaselineOfCodeParadise >> loadZinc [
+
+	Metacello new
+		baseline: 'ZincHTTPComponentsWebSocket' ;
+		repository: 'github://svenvc/zinc' ;
+		onConflictUseLoaded ;
+		load
 ]
