@@ -12,11 +12,12 @@ BaselineOfCodeParadise >> baseline: spec [
 	spec for: #common do: [
 
 		"Dependencies"
-		self loadZinc.
+		spec
+			package: 'Zinc-WebSocket-Core' with: [ spec repository: 'github://svenvc/zinc' ].
 
 		"Packages"
 		spec
-			package: 'CodeParadise-RemoteEnvironment' with: [ spec requires: #('CpClientEnvironment' 'ZincHTTPComponentsWebSocket' 'CodeParadise-JavaScript') ];
+			package: 'CodeParadise-RemoteEnvironment' with: [ spec requires: #('CpClientEnvironment' 'Zinc-WebSocket-Core' 'CodeParadise-JavaScript') ];
 			package: 'CodeParadise-JavaScript' ;
 			package: 'CodeParadise-WebApplication' with: [ spec requires: #('CodeParadise-RemoteEnvironment' 'CodeParadise-Browser-Support' 'CodeParadise-JavaScript') ];
 			package: 'CodeParadise-Browser-Support' with: [ spec requires: #('CodeParadise-JavaScript') ];
@@ -107,14 +108,4 @@ BaselineOfCodeParadise >> baseline: spec [
 		spec
 			package: 'CodeParadise-RemoteEnvironment' with: [ spec includes: 'CodeParadise-RemoteEnvironment-Pharo11' ] ;
 			package: 'CodeParadise-RemoteEnvironment-Pharo11' with: [ spec requires: 'CodeParadise-RemoteEnvironment' ] ].
-]
-
-{ #category : #'as yet unclassified' }
-BaselineOfCodeParadise >> loadZinc [
-
-	Metacello new
-		baseline: 'ZincHTTPComponentsWebSocket' ;
-		repository: 'github://svenvc/zinc' ;
-		onConflictUseLoaded ;
-		load
 ]
