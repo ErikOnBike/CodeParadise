@@ -776,6 +776,14 @@ CpDomElement >> isNotEmpty [
 ]
 
 { #category : #testing }
+CpDomElement >> isShadowRoot [
+
+	"Answer whether the receiver is a shadow root (which is a special kind of Element)"
+
+	^ (self propertyAt: #styleSheets) isNotNil
+]
+
+{ #category : #testing }
 CpDomElement >> isWebComponent [
 
 	^ false
@@ -979,9 +987,22 @@ CpDomElement >> release [
 CpDomElement >> remove [
 
 	"Remove the receiver from its parent.
-	Answer the removed element (i.e. the receiver, which is default)."
+	Answer the removed element (i.e. the receiver, which is default).
 
-	self parent ifNotNil: [ :parent | parent removeChild: self ]
+	Implementation:
+	If the receiver does not have a parent and is not a shadow root,
+	but does have a host, it means it's a direct child element of the
+	shadow DOM's root. Shadow roots are ignored for removal (atm).
+	This is most likely an odd case and not used often, therefore
+	this is not implemented as a primitive itself."
+
+	self parent
+		ifNotNil: [ :parent | parent removeChild: self ]
+		ifNil: [
+			self isShadowRoot
+				ifFalse: [
+					self host ifNotNil: [ :host |
+						host shadowRoot removeChild: self ] ] ]
 ]
 
 { #category : #attributes }
