@@ -339,26 +339,6 @@ CynFloatingHelpView >> startTransition [
 ]
 
 { #category : #view }
-CynFloatingHelpView >> test [
-
-	| circle |
-
-	(self shadowedElementWithId: #holeMask)
-		appendChild: ((circle := CpSvgElement newWithTag: #circle)
-			id: #circle1 ;
-			attributeAt: #cx put: '50' ;
-			attributeAt: #cy put: '50' ;
-			attributeAt: #r put: '10' ;
-			attributeAt: #fill put: #black ;
-			yourself).
-
-	CpGlobalThis setTimeout: 2000 thenDo: [
-		[ :p | circle attributeAt: #cx put: (50 + (40 * p)) printString ] asTransition
-			duration: 1000 ;
-			start ]
-]
-
-{ #category : #view }
 CynFloatingHelpView >> transitionEnded [
 
 	highlights do: [ :each | each updateFinal ]
