@@ -81,7 +81,7 @@ CynFloatingHelpView class >> template [
 		<defs>
 			<mask id="holeMask">
 				<rect width="100" height="100" fill="white"></rect>
-				<g id="highlights">
+				<g id="highlights" fill="black">
 				</g>
 			</mask>
 		</defs>

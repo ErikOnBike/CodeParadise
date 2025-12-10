@@ -55,7 +55,6 @@ CynHelpHighlight >> initialize [
 		attributeAt: #cy put: '0' ;
 		attributeAt: #rx put: '0' ;
 		attributeAt: #ry put: '0' ;
-		attributeAt: #fill put: #black ;	"Required because it is used in a mask to 'stamp' out a hole"
 		yourself
 ]
 
