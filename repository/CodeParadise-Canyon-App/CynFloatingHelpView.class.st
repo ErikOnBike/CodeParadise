@@ -197,7 +197,7 @@ CynFloatingHelpView >> highlightElements: aStep [
 		"Set new 'destination' position and size"
 		highlight
 			toPos: (eachBoundingRect centerPoint - boundingRect position)
-			size: (eachBoundingRect size max: 24 @ 24).
+			size: (self normalizedSize: eachBoundingRect).
 
 		index := index + 1 ].
 
@@ -253,6 +253,22 @@ CynFloatingHelpView >> nextStepControl [
 CynFloatingHelpView >> nextStepElement [
 
 	^ self shadowedElementWithId: #'next-step'
+]
+
+{ #category : #view }
+CynFloatingHelpView >> normalizedSize: eachBoundingRect [
+
+	| size side ratio |
+
+	size := eachBoundingRect size max: 24 @ 24.
+
+	"Make square shape if almost square"
+	side := size x max: size y.
+	ratio := size x / size y.
+	((side < 60 and: [ ratio between: 0.6 and: 1.4 ]) or: [ ratio between: 0.8 and: 1.2 ])
+		ifTrue: [ size := side @ side ].
+
+	^ size
 ]
 
 { #category : #view }
