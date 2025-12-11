@@ -233,6 +233,12 @@ CynFloatingHelpView >> initializeShadowRoot [
 	self updateView
 ]
 
+{ #category : #testing }
+CynFloatingHelpView >> isShowing [
+
+	^ self isClassed: #show
+]
+
 { #category : #'event handling' }
 CynFloatingHelpView >> keepPosition: anEvent [
 
