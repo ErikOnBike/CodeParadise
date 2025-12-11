@@ -31,7 +31,7 @@ CynFloatingHelpView class >> style [
 	bottom: 0;
 	left: 0;
 	right: 0;
-	z-index: 999;
+	z-index: 1001;
 	opacity: 0;
 	transition: opacity .5s ease;
 }
@@ -84,7 +84,7 @@ CynFloatingHelpView class >> template [
 				</g>
 			</mask>
 		</defs>
-		<rect width="100" height="100" fill="rgba(42, 42, 42, .84)" mask="url(#holeMask)"></rect>
+		<rect width="100" height="100" fill="rgba(42, 42, 42, .7)" mask="url(#holeMask)"></rect>
 	</svg>
 	<div id="content" part="content">
 		<div id="text" part="text"><slot></slot></div>
