@@ -29,7 +29,7 @@ String >> refersToLiteral: aSymbol [
 								ifTrue: [
 
 									"Test for reference to the WebComponent's tag name"
-									(method isHtmlWebResourceMethod and: [ method webResourceRefersTo: class tagName ])
+									(method isWebResourceMethod and: [ method webResourceRefersTo: class tagName ])
 										ifTrue: [ ^ true ] ] ]
 						ifNil: [
 							"Test for reference to the non-class literal in web resource method"

@@ -5,13 +5,13 @@ ClyClassReferencesQuery >> decorateResultMethodEditor: aMethodEditor [
 
 	"Decorate the specified method editor using the receiver's query result.
 	When searching for WebComponents it can be found as tag name in HTML web resource
-	methods (of TemplateComponents). If found, highlight the first occurrence.
-	Otherwise use default decoration behavior."
+	methods (of TemplateComponents). Or in sttlesheets of CSS web resource methods.
+	If found, highlight the first occurrence. Otherwise use default decoration behavior."
 
 	<serverEnvironment>
 
 	"Check if a html web resource method is being decorated"
-	aMethodEditor editingMethod isHtmlWebResourceMethod
+	aMethodEditor editingMethod isWebResourceMethod
 		ifFalse: [ ^ super decorateResultMethodEditor: aMethodEditor ].
 
 	"Iterate all vars"
