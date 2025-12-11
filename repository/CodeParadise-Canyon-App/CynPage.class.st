@@ -632,6 +632,12 @@ CynPage >> tabFromTabChangeEvent: aTabChangeEvent [
 		ifNone: [ nil ]
 ]
 
+{ #category : #accessing }
+CynPage >> toolbar [
+
+	^ self shadowedFirstDescendantMatching: IonToolbar asCssSelector
+]
+
 { #category : #'view - customization' }
 CynPage >> updateBeforeNavigate [
 
