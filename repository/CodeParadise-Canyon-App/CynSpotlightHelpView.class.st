@@ -1,5 +1,5 @@
 Class {
-	#name : #CynFloatingHelpView,
+	#name : #CynSpotlightHelpView,
 	#superclass : #CpTemplateComponent,
 	#instVars : [
 		'helpScript',
@@ -7,17 +7,17 @@ Class {
 		'position',
 		'transition'
 	],
-	#category : #'CodeParadise-Canyon-App-View'
+	#category : #'CodeParadise-Canyon-App-Help'
 }
 
 { #category : #'class initialization' }
-CynFloatingHelpView class >> beLoaded [
+CynSpotlightHelpView class >> beLoaded [
 
 	CpTransition beLoaded
 ]
 
 { #category : #'web resources' }
-CynFloatingHelpView class >> style [
+CynSpotlightHelpView class >> style [
 
 	<webResource: #css>
 
@@ -65,13 +65,13 @@ CynFloatingHelpView class >> style [
 }
 #controls {
 	display: flex;
-	justify-content: flex-start;
+	justify-content: center;
 	align-items: center;
 }'
 ]
 
 { #category : #'web resources' }
-CynFloatingHelpView class >> template [
+CynSpotlightHelpView class >> template [
 
 	<webResource: #html>
 
@@ -87,44 +87,55 @@ CynFloatingHelpView class >> template [
 		<rect width="100" height="100" fill="rgba(42, 42, 42, .7)" mask="url(#holeMask)"></rect>
 	</svg>
 	<div id="content" part="content">
-		<div id="text" part="text"><slot></slot></div>
-		<div id="controls" part="controls">
-			<div id="previous-step" part="previous-step"><slot name="previous-step"></slot></div>
-			<div id="next-step" part="next-step"><slot name="next-step"></slot></div>
-			<div id="close-help" part="close-help"><slot name="close-help"></slot></div>
+		<div id="content-wrapper">
+			<div id="text" part="text"><slot></slot></div>
+			<div id="controls" part="controls">
+				<div id="previous-step" part="previous-step"><slot name="previous-step"></slot></div>
+				<div id="next-step" part="next-step"><slot name="next-step"></slot></div>
+				<div id="close-help" part="close-help"><slot name="close-help"></slot></div>
+			</div>
 		</div>
 	</div>
 </div>'
 ]
 
 { #category : #view }
-CynFloatingHelpView >> close [
+CynSpotlightHelpView >> close [
 
 	self removeClass: #show.
+
+	"Announce close, before destroy otherwise the announcer is gone"
+	self announce: CynHelpViewClosed.
 
 	CpGlobalThis setTimeout: 600 thenDo: [ self destroy ]
 ]
 
 { #category : #accessing }
-CynFloatingHelpView >> closeControl [
+CynSpotlightHelpView >> closeControl [
 
 	^ self firstChildAtSlotNamed: #'close-help'
 ]
 
 { #category : #accessing }
-CynFloatingHelpView >> closeElement [
+CynSpotlightHelpView >> closeElement [
 
 	^ self shadowedElementWithId: #'close-help'
 ]
 
+{ #category : #accessing }
+CynSpotlightHelpView >> contentWrapper [
+
+	^ self shadowedElementWithId: #'content-wrapper'
+]
+
 { #category : #'event handling' }
-CynFloatingHelpView >> handleClose [
+CynSpotlightHelpView >> handleClose [
 
 	self close
 ]
 
 { #category : #'event handling' }
-CynFloatingHelpView >> handleNextStep [
+CynSpotlightHelpView >> handleNextStep [
 
 	helpScript ifNotNil: [ helpScript nextStep ].
 
@@ -132,7 +143,7 @@ CynFloatingHelpView >> handleNextStep [
 ]
 
 { #category : #'event handling' }
-CynFloatingHelpView >> handlePreviousStep [
+CynSpotlightHelpView >> handlePreviousStep [
 
 	helpScript ifNotNil: [ helpScript previousStep ].
 
@@ -140,7 +151,7 @@ CynFloatingHelpView >> handlePreviousStep [
 ]
 
 { #category : #testing }
-CynFloatingHelpView >> hasNextStep [
+CynSpotlightHelpView >> hasNextStep [
 
 	^ helpScript
 		ifNotNil: [ helpScript hasNextStep ]
@@ -148,7 +159,7 @@ CynFloatingHelpView >> hasNextStep [
 ]
 
 { #category : #testing }
-CynFloatingHelpView >> hasPreviousStep [
+CynSpotlightHelpView >> hasPreviousStep [
 
 	^ helpScript
 		ifNotNil: [ helpScript hasPreviousStep ]
@@ -156,7 +167,7 @@ CynFloatingHelpView >> hasPreviousStep [
 ]
 
 { #category : #accessing }
-CynFloatingHelpView >> helpScript: aHelpScript [
+CynSpotlightHelpView >> helpScript: aHelpScript [
 
 	helpScript := aHelpScript.
 
@@ -164,9 +175,12 @@ CynFloatingHelpView >> helpScript: aHelpScript [
 ]
 
 { #category : #view }
-CynFloatingHelpView >> highlightElements: aStep [
+CynSpotlightHelpView >> highlightElements: aStep [
 
-	| boundingRect index |
+	| page content boundingRect minY maxY index |
+
+	page := self canyonPage.
+	content := page ifNotNil: [ page content ].
 
 	boundingRect := self boundingClientRectangle.
 
@@ -179,10 +193,18 @@ CynFloatingHelpView >> highlightElements: aStep [
 				print: (100 / boundingRect height) ;
 				nextPut: $) ]).
 
+	minY := boundingRect height.
+	maxY := 0.
 	index := 1.
 	aStep highlightElementsDo: [ :each |
 		| eachBoundingRect highlight |
 		eachBoundingRect := each boundingClientRectangle.
+
+		"Perform size calculations on scrollable content (find bounds of Y)"
+		(content isNotNil and: [ each isDescendantOf: content ])
+			ifTrue: [
+				minY := eachBoundingRect top min: minY.
+				maxY := eachBoundingRect bottom max: maxY ].
 
 		"Create new or use existing highlight element"
 		highlights size < index
@@ -204,11 +226,39 @@ CynFloatingHelpView >> highlightElements: aStep [
 	"Release the remaining elements (do not do a transition here, because it distracts)"
 	self releaseHighlightsFrom: index.
 
+	"Scroll into position and update highlights accordingly"
+	content ifNotNil: [
+		| toolbarHeight helpHeight scrollTop scrollY |
+
+		"Check if toolbar is hiding content"
+		scrollY := 0.
+		toolbarHeight := page toolbar
+			ifNotNil: [ :toolbar | toolbar boundingClientRectangle height ]
+			ifNil: [ 44 ].	"default minimum for iOS"
+		scrollTop := [ (content getScrollElement await propertyAt: #scrollTop) ifNil: [ 0 ] ] on: Error do: [ :error | self errorCr: 'Failed to read scrollTop: ', error printString. 0 ].
+		(scrollTop > 0 and: [ minY < toolbarHeight ])
+			ifTrue: [ scrollY := minY - toolbarHeight ].
+
+		"Check if help content is hiding content (should normally not conflict with toolbar)"
+		helpHeight := self contentWrapper boundingClientRectangle height + 16. "Add margin of content"
+		(scrollY >= 0 and: [ maxY + helpHeight > boundingRect height ])
+			ifTrue: [ scrollY := scrollY max: maxY + helpHeight - boundingRect height ].
+
+		"Perform scroll"
+		scrollY = 0
+			ifFalse: [
+
+				"Scroll content into view"
+				content scrollToPoint: 0 y: scrollTop + scrollY duration: 600.
+
+				"Compensate position of highlights"
+				highlights do: [ :each | each scrollY: scrollY negated ] ] ].
+
 	self startTransition
 ]
 
 { #category : #initialization }
-CynFloatingHelpView >> initialize [
+CynSpotlightHelpView >> initialize [
 
 	super initialize.
 
@@ -216,7 +266,7 @@ CynFloatingHelpView >> initialize [
 ]
 
 { #category : #initialization }
-CynFloatingHelpView >> initializeShadowRoot [
+CynSpotlightHelpView >> initializeShadowRoot [
 
 	super initializeShadowRoot.
 
@@ -234,13 +284,13 @@ CynFloatingHelpView >> initializeShadowRoot [
 ]
 
 { #category : #testing }
-CynFloatingHelpView >> isShowing [
+CynSpotlightHelpView >> isShowing [
 
 	^ self isClassed: #show
 ]
 
 { #category : #'event handling' }
-CynFloatingHelpView >> keepPosition: anEvent [
+CynSpotlightHelpView >> keepPosition: anEvent [
 
 	| boundingRect |
 
@@ -250,19 +300,19 @@ CynFloatingHelpView >> keepPosition: anEvent [
 ]
 
 { #category : #accessing }
-CynFloatingHelpView >> nextStepControl [
+CynSpotlightHelpView >> nextStepControl [
 
 	^ self firstChildAtSlotNamed: #'next-step'
 ]
 
 { #category : #accessing }
-CynFloatingHelpView >> nextStepElement [
+CynSpotlightHelpView >> nextStepElement [
 
 	^ self shadowedElementWithId: #'next-step'
 ]
 
 { #category : #view }
-CynFloatingHelpView >> normalizedSize: eachBoundingRect [
+CynSpotlightHelpView >> normalizedSize: eachBoundingRect [
 
 	| size side ratio |
 
@@ -278,25 +328,25 @@ CynFloatingHelpView >> normalizedSize: eachBoundingRect [
 ]
 
 { #category : #view }
-CynFloatingHelpView >> open [
+CynSpotlightHelpView >> open [
 
 	CpGlobalThis defer: [ self addClass: #show ]
 ]
 
 { #category : #accessing }
-CynFloatingHelpView >> previousStepControl [
+CynSpotlightHelpView >> previousStepControl [
 
 	^ self firstChildAtSlotNamed: #'previous-step'
 ]
 
 { #category : #accessing }
-CynFloatingHelpView >> previousStepElement [
+CynSpotlightHelpView >> previousStepElement [
 
 	^ self shadowedElementWithId: #'previous-step'
 ]
 
 { #category : #initialization }
-CynFloatingHelpView >> release [
+CynSpotlightHelpView >> release [
 
 	self releaseHighlights.
 
@@ -304,7 +354,7 @@ CynFloatingHelpView >> release [
 ]
 
 { #category : #initialization }
-CynFloatingHelpView >> releaseHighlights [
+CynSpotlightHelpView >> releaseHighlights [
 
 	"Remove the highlights and release any dependencies"
 
@@ -316,7 +366,7 @@ CynFloatingHelpView >> releaseHighlights [
 ]
 
 { #category : #initialization }
-CynFloatingHelpView >> releaseHighlightsFrom: anInteger [
+CynSpotlightHelpView >> releaseHighlightsFrom: anInteger [
 
 	"Remove the highlights and release any dependencies"
 
@@ -329,7 +379,7 @@ CynFloatingHelpView >> releaseHighlightsFrom: anInteger [
 ]
 
 { #category : #view }
-CynFloatingHelpView >> showCurrentStep [
+CynSpotlightHelpView >> showCurrentStep [
 
 	| currentStep |
 
@@ -345,7 +395,7 @@ CynFloatingHelpView >> showCurrentStep [
 ]
 
 { #category : #view }
-CynFloatingHelpView >> startTransition [
+CynSpotlightHelpView >> startTransition [
 
 	| ease |
 
@@ -361,13 +411,13 @@ CynFloatingHelpView >> startTransition [
 ]
 
 { #category : #view }
-CynFloatingHelpView >> transitionEnded [
+CynSpotlightHelpView >> transitionEnded [
 
 	highlights do: [ :each | each updateFinal ]
 ]
 
 { #category : #view }
-CynFloatingHelpView >> updateView [
+CynSpotlightHelpView >> updateView [
 
 	self previousStepControl ifNotNil: [ :control |
 		control disabled: self hasPreviousStep not ].

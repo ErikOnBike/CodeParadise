@@ -105,6 +105,12 @@ CynHelpHighlight >> release [
 	super release
 ]
 
+{ #category : #updating }
+CynHelpHighlight >> scrollY: anInteger [
+
+	toPos := toPos x @ (toPos y + anInteger)
+]
+
 { #category : #private }
 CynHelpHighlight >> shapeFor: aPoint [
 

@@ -1,11 +1,11 @@
 Class {
-	#name : #CynFloatingHelpViewButton,
+	#name : #CynSpotlightHelpViewButton,
 	#superclass : #CpTemplateComponent,
-	#category : #'CodeParadise-Canyon-App-View'
+	#category : #'CodeParadise-Canyon-App-Help'
 }
 
 { #category : #'web resources' }
-CynFloatingHelpViewButton class >> style [
+CynSpotlightHelpViewButton class >> style [
 
 	<webResource: #css>
 
@@ -18,7 +18,7 @@ CynFloatingHelpViewButton class >> style [
 ]
 
 { #category : #'web resources' }
-CynFloatingHelpViewButton class >> template [
+CynSpotlightHelpViewButton class >> template [
 
 	<webResource: #html>
 
@@ -26,7 +26,7 @@ CynFloatingHelpViewButton class >> template [
 ]
 
 { #category : #'event hand' }
-CynFloatingHelpViewButton >> handleClick [
+CynSpotlightHelpViewButton >> handleClick [
 
 	(self attributeAt: #button) ifNotNil: [ :button |
 		button = #'menu'
@@ -40,7 +40,7 @@ CynFloatingHelpViewButton >> handleClick [
 ]
 
 { #category : #initialization }
-CynFloatingHelpViewButton >> initialize [
+CynSpotlightHelpViewButton >> initialize [
 
 	super initialize.
 
@@ -48,7 +48,7 @@ CynFloatingHelpViewButton >> initialize [
 ]
 
 { #category : #view }
-CynFloatingHelpViewButton >> showFeatureForButton: aButton [
+CynSpotlightHelpViewButton >> showFeatureForButton: aButton [
 
 	aButton ifNil: [ ^ self ].
 
@@ -56,32 +56,32 @@ CynFloatingHelpViewButton >> showFeatureForButton: aButton [
 ]
 
 { #category : #view }
-CynFloatingHelpViewButton >> showMenu [
+CynSpotlightHelpViewButton >> showMenu [
 
 	CynApp current menu open await
 ]
 
 { #category : #view }
-CynFloatingHelpViewButton >> showToolbarLeftFeature [
+CynSpotlightHelpViewButton >> showToolbarLeftFeature [
 
 	self showFeatureForButton: self toolbarLeftButton
 ]
 
 { #category : #view }
-CynFloatingHelpViewButton >> showToolbarRightFeature [
+CynSpotlightHelpViewButton >> showToolbarRightFeature [
 
 	self showFeatureForButton: self toolbarRightButton
 ]
 
 { #category : #view }
-CynFloatingHelpViewButton >> toolbarLeftButton [
+CynSpotlightHelpViewButton >> toolbarLeftButton [
 
 	^ CynApp current activeToolbar ifNotNil: [ :toolbar |
 		(toolbar firstDescendantMatching: '[slot="start"] > ion-button:first-child') ]
 ]
 
 { #category : #view }
-CynFloatingHelpViewButton >> toolbarRightButton [
+CynSpotlightHelpViewButton >> toolbarRightButton [
 
 	^ CynApp current activeToolbar ifNotNil: [ :toolbar |
 		(toolbar firstDescendantMatching: '[slot="end"] > ion-button:last-child') ]
