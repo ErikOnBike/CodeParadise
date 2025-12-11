@@ -792,6 +792,15 @@ CynApp >> activePage [
 ]
 
 { #category : #accessing }
+CynApp >> activeToolbar [
+
+	"Answer the toolbar of the active page (if applicable otherwise answer nil)"
+
+	^ self activePage ifNotNil: [ :page |
+		page toolbar ]
+]
+
+{ #category : #accessing }
 CynApp >> apiBaseUrl [
 
 	"Answer the base URL for the REST API"
