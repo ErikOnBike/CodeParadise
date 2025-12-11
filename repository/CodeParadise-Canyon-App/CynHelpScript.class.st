@@ -12,6 +12,7 @@ Class {
 CynHelpScript >> addStep: aStep [
 
 	steps add: aStep.
+	aStep script: self.
 
 	"Assume the first step is always a showable step (for now)"
 	currentStepIndex = 0
@@ -24,6 +25,18 @@ CynHelpScript >> addStep: aStep [
 CynHelpScript >> currentStep [
 
 	^ steps at: currentStepIndex ifAbsent: [ nil ]
+]
+
+{ #category : #testing }
+CynHelpScript >> hasAllShowableStepsWithNameIn: aCollection [
+
+	^ aCollection allSatisfy: [ :each | self hasShowableStepWithName: each ]
+]
+
+{ #category : #testing }
+CynHelpScript >> hasAnyShowableStepWithNameIn: aCollection [
+
+	^ aCollection anySatisfy: [ :each | self hasShowableStepWithName: each ]
 ]
 
 { #category : #testing }
@@ -44,6 +57,14 @@ CynHelpScript >> hasPreviousStep [
 			ifTrue: [ ^ true ] ].
 
 	^ false
+]
+
+{ #category : #testing }
+CynHelpScript >> hasShowableStepWithName: aString [
+
+	^ (self stepNamed: aString)
+		ifNotNil: [ :step | step isShowable ]
+		ifNil: [ false ]
 ]
 
 { #category : #initialization }
@@ -101,6 +122,16 @@ CynHelpScript >> previousStep [
 	^ steps at: currentStepIndex
 ]
 
+{ #category : #initialization }
+CynHelpScript >> release [
+
+	steps ifNotNil: [
+		steps do: [ :each | each release ].
+		steps := nil ].
+
+	super release
+]
+
 { #category : #accessing }
 CynHelpScript >> reset [
 
@@ -108,4 +139,12 @@ CynHelpScript >> reset [
 
 	"Assume the first step is always showable (for now)"
 	currentStepIndex := 1
+]
+
+{ #category : #accessing }
+CynHelpScript >> stepNamed: aString [
+
+	"Answer the (first) step with the specified name or nil if none is present"
+
+	^ steps detect: [ :each | each name = aString ] ifNone: [ nil ]
 ]

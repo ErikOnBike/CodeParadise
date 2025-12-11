@@ -2,6 +2,8 @@ Class {
 	#name : #CynHelpScriptStep,
 	#superclass : #Object,
 	#instVars : [
+		'name',
+		'script',
 		'root',
 		'selector',
 		'content',
@@ -98,13 +100,21 @@ CynHelpScriptStep >> highlightElementsDo: aBlock [
 ]
 
 { #category : #accessing }
-CynHelpScriptStep >> html: aString [
+CynHelpScriptStep >> html: aStringOrBlock [
 
 	"Update the content"
 
-	self contentElement:  ((CpHtmlElement newWithTag: #div)
+	self contentElement: (aStringOrBlock isBlock
+		ifTrue: [ [ self htmlToContent: (aStringOrBlock cull: self) ] ]
+		ifFalse: [ self htmlToContent: aStringOrBlock ])
+]
+
+{ #category : #accessing }
+CynHelpScriptStep >> htmlToContent: aString [
+
+	^ (CpHtmlElement newWithTag: #div)
 		markupContent: aString ;
-		yourself)
+		yourself
 ]
 
 { #category : #accessing }
@@ -147,14 +157,39 @@ CynHelpScriptStep >> maxElements: anInteger [
 	maxElements := anInteger
 ]
 
+{ #category : #accessing }
+CynHelpScriptStep >> name [
+
+	^ name
+]
+
+{ #category : #accessing }
+CynHelpScriptStep >> name: aString [
+
+	name := aString
+]
+
 { #category : #initialization }
 CynHelpScriptStep >> release [
 
+	script := nil.
 	root := nil.
 	content := nil.
 	showable := nil.
 
 	super release
+]
+
+{ #category : #accessing }
+CynHelpScriptStep >> script [
+
+	^ script
+]
+
+{ #category : #private }
+CynHelpScriptStep >> script: aHelpScript [
+
+	script := aHelpScript
 ]
 
 { #category : #accessing }
@@ -174,9 +209,19 @@ CynHelpScriptStep >> showable: aBlock [
 ]
 
 { #category : #accessing }
-CynHelpScriptStep >> text: aString [
+CynHelpScriptStep >> text: aStringOrBlock [
 
 	"Update the content"
 
-	self contentElement: (aString inHtmlTag: #p)
+	self contentElement: (aStringOrBlock isBlock
+		ifTrue: [ [ self textToContent: (aStringOrBlock cull: self) ] ]
+		ifFalse: [ self textToContent: aStringOrBlock ])
+]
+
+{ #category : #accessing }
+CynHelpScriptStep >> textToContent: aString [
+
+	^ (CpHtmlElement newWithTag: #p)
+		textContent: aString ;
+		yourself
 ]
