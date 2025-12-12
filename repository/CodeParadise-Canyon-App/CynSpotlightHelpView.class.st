@@ -5,7 +5,8 @@ Class {
 		'helpScript',
 		'highlights',
 		'position',
-		'transition'
+		'transition',
+		'orientationSubscription'
 	],
 	#category : #'CodeParadise-Canyon-App-Help'
 }
@@ -13,7 +14,8 @@ Class {
 { #category : #'class initialization' }
 CynSpotlightHelpView class >> beLoaded [
 
-	CpTransition beLoaded
+	CpTransition beLoaded.
+	CpBrowserScreenOrientation beLoaded
 ]
 
 { #category : #'web resources' }
@@ -101,6 +103,10 @@ CynSpotlightHelpView class >> template [
 
 { #category : #view }
 CynSpotlightHelpView >> close [
+
+	orientationSubscription ifNotNil: [
+		CpBrowserScreen current orientation removeEventListener: orientationSubscription.
+		orientationSubscription := nil ].
 
 	self removeClass: #show.
 
@@ -329,6 +335,9 @@ CynSpotlightHelpView >> normalizedSize: eachBoundingRect [
 
 { #category : #view }
 CynSpotlightHelpView >> open [
+
+	orientationSubscription := CpBrowserScreen current orientation ifNotNil: [ :orientation |
+		orientation onChangeDo: [ self releaseHighlightsFrom: 1. CpGlobalThis setTimeout: 600 thenDo: [ self updateView ] ] ].
 
 	CpGlobalThis defer: [ self addClass: #show ]
 ]
