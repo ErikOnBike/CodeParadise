@@ -60,7 +60,6 @@ CynModelView class >> style [
 :host {
 	display: flex;
 	flex-direction: column;
-	height: 100%;
 }
 :host > :not(style) {
 	flex-grow: 1;
