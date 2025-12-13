@@ -5,6 +5,8 @@ ReadStream >> hasNextAll: aCollection [
 
 	"Answer whether the following elements are exactly equal to the ones given in the Collection"
 
+	<webApplicationExtension>
+
 	| maxPosition |
 
 	maxPosition := position + 1 + aCollection size.	"The #position is 0-based"
@@ -22,6 +24,8 @@ ReadStream >> hasNextAll: aCollection [
 ReadStream >> lookAheadAt: index [
 
 	"Answer the element at the specified (delta) position or nil if outside the receiver's boundaries."
+
+	<webApplicationExtension>
 
 	| lookPosition |
 
