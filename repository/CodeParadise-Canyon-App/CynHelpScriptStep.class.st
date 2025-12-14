@@ -8,6 +8,7 @@ Class {
 		'selector',
 		'content',
 		'maxElements',
+		'maxHeight',
 		'showable'
 	],
 	#category : #'CodeParadise-Canyon-App-Help'
@@ -155,6 +156,18 @@ CynHelpScriptStep >> maxElements [
 CynHelpScriptStep >> maxElements: anInteger [
 
 	maxElements := anInteger
+]
+
+{ #category : #accessing }
+CynHelpScriptStep >> maxHeight [
+
+	^ maxHeight
+]
+
+{ #category : #accessing }
+CynHelpScriptStep >> maxHeight: anInteger [
+
+	maxHeight := anInteger
 ]
 
 { #category : #accessing }

@@ -65,6 +65,9 @@ CynSpotlightHelpView class >> style [
 	width: 100%;
 	height: 100%;
 }
+#text {
+	padding-top: 4px;
+}
 #controls {
 	display: flex;
 	justify-content: center;
@@ -183,12 +186,16 @@ CynSpotlightHelpView >> helpScript: aHelpScript [
 { #category : #view }
 CynSpotlightHelpView >> highlightElements: aStep [
 
-	| page content boundingRect minY maxY index |
+	| page content boundingRect toolbarHeight helpHeight minY maxY index |
 
 	page := self canyonPage.
 	content := page ifNotNil: [ page content ].
 
 	boundingRect := self boundingClientRectangle.
+	toolbarHeight := page toolbar
+		ifNotNil: [ :toolbar | toolbar boundingClientRectangle height ]
+		ifNil: [ 44 ].	"default minimum for iOS"
+	helpHeight := self contentWrapper boundingClientRectangle height + 16. "Add margin of content"
 
 	(self shadowedElementWithId: #highlights)
 		attributeAt: #transform put: (String streamContents: [ :stream |
@@ -203,8 +210,13 @@ CynSpotlightHelpView >> highlightElements: aStep [
 	maxY := 0.
 	index := 1.
 	aStep highlightElementsDo: [ :each |
-		| eachBoundingRect highlight |
+		| eachBoundingRect maxHeight highlight |
 		eachBoundingRect := each boundingClientRectangle.
+
+		"Limit bounds if required"
+		maxHeight := (aStep maxHeight ifNil: [ Float infinity ]) min: boundingRect height - toolbarHeight - helpHeight.
+		eachBoundingRect height > maxHeight
+			ifTrue: [ eachBoundingRect bottom: eachBoundingRect top + maxHeight ].
 
 		"Perform size calculations on scrollable content (find bounds of Y)"
 		(content isNotNil and: [ each isDescendantOf: content ])
@@ -234,19 +246,15 @@ CynSpotlightHelpView >> highlightElements: aStep [
 
 	"Scroll into position and update highlights accordingly"
 	content ifNotNil: [
-		| toolbarHeight helpHeight scrollTop scrollY |
+		| scrollTop scrollY |
 
 		"Check if toolbar is hiding content"
 		scrollY := 0.
-		toolbarHeight := page toolbar
-			ifNotNil: [ :toolbar | toolbar boundingClientRectangle height ]
-			ifNil: [ 44 ].	"default minimum for iOS"
 		scrollTop := [ (content getScrollElement await propertyAt: #scrollTop) ifNil: [ 0 ] ] on: Error do: [ :error | self errorCr: 'Failed to read scrollTop: ', error printString. 0 ].
 		(scrollTop > 0 and: [ minY < toolbarHeight ])
 			ifTrue: [ scrollY := minY - toolbarHeight ].
 
 		"Check if help content is hiding content (should normally not conflict with toolbar)"
-		helpHeight := self contentWrapper boundingClientRectangle height + 16. "Add margin of content"
 		(scrollY >= 0 and: [ maxY + helpHeight > boundingRect height ])
 			ifTrue: [ scrollY := scrollY max: maxY + helpHeight - boundingRect height ].
 
