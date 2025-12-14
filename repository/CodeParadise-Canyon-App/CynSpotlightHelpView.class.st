@@ -221,8 +221,8 @@ CynSpotlightHelpView >> highlightElements: aStep [
 		"Perform size calculations on scrollable content (find bounds of Y)"
 		(content isNotNil and: [ each isDescendantOf: content ])
 			ifTrue: [
-				minY := eachBoundingRect top min: minY.
-				maxY := eachBoundingRect bottom max: maxY ].
+				minY := (eachBoundingRect top - boundingRect top) min: minY.
+				maxY := (eachBoundingRect bottom - boundingRect top) max: maxY ].
 
 		"Create new or use existing highlight element"
 		highlights size < index
