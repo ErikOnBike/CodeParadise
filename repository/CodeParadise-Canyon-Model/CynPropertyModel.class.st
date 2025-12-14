@@ -142,6 +142,14 @@ CynPropertyModel class >> hasPropertyNamed: aSymbol [
 ]
 
 { #category : #initialization }
+CynPropertyModel class >> initialize [
+
+	<serverEnvironment>
+
+	self initializeClassDefinitionChangeListener
+]
+
+{ #category : #initialization }
 CynPropertyModel class >> initializeClassDefinitionChangeListener [
 
 	<script>
