@@ -410,7 +410,7 @@ CynBaseRestApiService >> initializeMailer [
 	config at: #mailer
 		ifPresent: [ :mailerConfig |
 
-			"If mailer is preent, 'mailer-default' and 'mailer-dsn' are assumed to be present too"
+			"If mailer is preent, 'mailer-default' is assumed to be present too"
 			mailer := CpNodeJSNodemailerTransporter createTransport: mailerConfig withDefaults: (config at: #'mailer-defaults').
 			mailer verify: [ :error :success |
 				error ifNotNil: [ self errorCr: ('Startup error mailer: {1}' format: { error }) ].

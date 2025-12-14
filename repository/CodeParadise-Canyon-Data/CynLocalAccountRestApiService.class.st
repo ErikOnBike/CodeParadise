@@ -316,7 +316,7 @@ CynLocalAccountRestApiService >> errorNotificationMailAccount [
 
 	"Answer the mail account where notifications should be sent"
 
-	^ config at: #errorNotificationMailAccount
+	^ config at: #errorNotificationMailAccount ifAbsent: [ nil ]
 ]
 
 { #category : #errors }
