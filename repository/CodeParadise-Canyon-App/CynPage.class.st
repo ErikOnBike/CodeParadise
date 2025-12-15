@@ -204,21 +204,6 @@ CynPage >> close [
 ]
 
 { #category : #view }
-CynPage >> closeAndNavigateTo: aPageClass withModel: aModel [
-
-	"Close the receiver and navigate to the specified Page Class with the specified Model"
-
-	self canNavigate
-		ifFalse: [ ^ self ].
-
-	self modal
-		ifNotNil: [ :modal |
-			self close.
-			self app showPage: aPageClass withModel: aModel inModal: modal ]
-		ifNil: [ self app showPage: aPageClass withModel: aModel ]
-]
-
-{ #category : #view }
 CynPage >> closeModalPage [
 
 	"Close the receiver.

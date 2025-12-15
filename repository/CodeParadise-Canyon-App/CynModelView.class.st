@@ -280,15 +280,6 @@ CynModelView >> canNavigateBack [
 ]
 
 { #category : #view }
-CynModelView >> closeAndNavigateTo: aPageClass withModel: aModel [
-
-	"Close the receiver and navigate to the specified Page Class with the specified Model"
-
-	self page
-		closeAndNavigateTo: aPageClass withModel: aModel
-]
-
-{ #category : #view }
 CynModelView >> closePage [
 
 	self page
