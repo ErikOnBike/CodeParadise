@@ -130,7 +130,7 @@ CpBrowserSnapshot class >> snapshotImage [
 
 	"Restore components"
 	self postSnapshot.
-	CpWebComponent allSubclassesDo: [ :each | each postInstall ].
+	CpDomElement allSubclassesDo: [ :each | each postInstall ].
 
 	"Perform custom post snapshotting"
 	self customPostSnapshotWith: data.
