@@ -59,9 +59,9 @@ CynHelpScriptStep >> alwaysShow [
 { #category : #accessing }
 CynHelpScriptStep >> contentElement [
 
-	^ (content isBlock
+	^ content isBlock
 		ifTrue: [ content cull: self ]
-		ifFalse: [ content ]) clone
+		ifFalse: [ content ]
 ]
 
 { #category : #accessing }
