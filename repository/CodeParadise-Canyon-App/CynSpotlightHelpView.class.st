@@ -408,7 +408,7 @@ CynSpotlightHelpView >> showCurrentStep [
 			self highlightElements: currentStep ]
 		ifNil: [
 			self removeChildrenAtSlotNamed: nil.
-			self releaseHighlights ]
+			self releaseHighlightsFrom: 1 ]
 ]
 
 { #category : #view }
