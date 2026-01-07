@@ -49,9 +49,9 @@ CpNodeJSFS >> glob: aString options: aDictionary do: aBlock [
 CpNodeJSFS >> isDirectory: aString [
 
 	"Answer whether the specified path refers to a Directory"
-self traceCr: 'Is dir: ', aString.
+
 	^ (self statSync: aString)
-		ifNotNil: [ :stats | stats consoleLog. self traceCr: 'Dir? ', stats isDirectory printString. stats isDirectory ]
+		ifNotNil: [ :stats | stats isDirectory ]
 		ifNil: [ false ]
 ]
 
