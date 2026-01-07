@@ -273,6 +273,39 @@ CpNodeJSFS >> rmdirSync: aString options: aDictionary [
 	^ self apply: #rmdirSync withArguments: { aString . aDictionary }
 ]
 
+{ #category : #operations }
+CpNodeJSFS >> stat: aString do: aBlock [
+
+	"Asynchronous stat(2). The callback gets two arguments (err, stats) where stats is an <fs.Stats> object."
+
+	self apply: #stat withArguments: { aString . aBlock asJavaScriptFunction }
+]
+
+{ #category : #operations }
+CpNodeJSFS >> stat: aString options: aDictionary do: aBlock [
+
+	"Asynchronous stat(2). The callback gets two arguments (err, stats) where stats is an <fs.Stats> object."
+
+	self apply: #stat withArguments: { aString . aDictionary . aBlock asJavaScriptFunction }
+]
+
+{ #category : #operations }
+CpNodeJSFS >> statSync: aString [
+
+	"Retrieves the <fs.Stats> for the path.
+	By default do NOT throw if path does not exist."
+
+	^ self statSync: aString options: { #throwIfNoEntry -> false } asDictionary
+]
+
+{ #category : #operations }
+CpNodeJSFS >> statSync: aString options: aDictionary [
+
+	"Retrieves the <fs.Stats> for the path."
+
+	^ self apply: #statSync withArguments: { aString . aDictionary } resultAs: CpNodeJSFSStats
+]
+
 { #category : #deprecated }
 CpNodeJSFS >> syncReadFile: aString options: aDictionary [
 
