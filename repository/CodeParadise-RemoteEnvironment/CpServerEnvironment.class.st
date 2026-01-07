@@ -197,7 +197,7 @@ CpServerEnvironment >> addClass: aClass [
 			the application's #allowedPackages method contains all packages allowed."
 			installationChecker ifNotNil: [
 				(installationChecker isClassAllowed: each)
-					ifFalse: [ self error: 'Trying to install ', each name, ' from ', each package name, ' which is not allowed by the installation checker' ] ].
+					ifFalse: [ self error: 'Trying to install ', each name, ' from ', each package name, ' which is not allowed by the installation checker, when adding Class ', aClass name ] ].
 
 			"Remember which Classes are installed (in order) for reloading"
 			self installedClasses add: each.
