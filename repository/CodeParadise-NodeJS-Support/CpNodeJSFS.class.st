@@ -45,6 +45,26 @@ CpNodeJSFS >> glob: aString options: aDictionary do: aBlock [
 	self apply: #glob withArguments: { aString . aDictionary . aBlock asJavaScriptFunction }
 ]
 
+{ #category : #convenience }
+CpNodeJSFS >> isDirectory: aString [
+
+	"Answer whether the specified path refers to a Directory"
+self traceCr: 'Is dir: ', aString.
+	^ (self statSync: aString)
+		ifNotNil: [ :stats | stats consoleLog. self traceCr: 'Dir? ', stats isDirectory printString. stats isDirectory ]
+		ifNil: [ false ]
+]
+
+{ #category : #convenience }
+CpNodeJSFS >> isFile: aString [
+
+	"Answer whether the specified path refers to a File"
+
+	^ (self statSync: aString)
+		ifNotNil: [ :stats | stats isFile ]
+		ifNil: [ false ]
+]
+
 { #category : #operations }
 CpNodeJSFS >> mkdir: aString options: aDictionary do: aBlock [
 
