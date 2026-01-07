@@ -7,7 +7,7 @@ The general principle behind CodeParadise is the execution of a regular (but tin
 JavaScript libraries can be used from your Smalltalk code quite easily. The DOM model is coded in CodeParadise, but many other things can be accessed through a generic proxy mechanism. Furthermore, support has been added for two UI frameworks:
 
 * Shoelace (many, but not all components yet) [website](https://shoelace.style)
-* Ionic (all components) *NEW* [website](https://ionicframework.com/docs/components)
+* Ionic (all components) [website](https://ionicframework.com/docs/components)
 
 A few online videos:
 
@@ -81,9 +81,9 @@ APP="http-server-example" SERVER_URL="ws://localhost:8080/io" node cp-node.js cl
 
 ---
 
-### Using Ionic Framework *NEW*
+### Using Ionic Framework
 
-The Ionic Framework support is a recently added feature. It allows you to build mobile apps more easily.
+The Ionic Framework allows you to build mobile apps more easily.
 
 If you are using Ionic components inside your shadow DOM (the recommended way when creating WebComponents with CodeParadise), please make sure to include the CSS bundle in all your #style methods. Ionic uses some global styling which does not penetrate through the shadow DOM's encapsulation. Please add the following CSS rule to your style method (or use a more specific version if required):
 
@@ -97,9 +97,9 @@ The CSS included is not very big in size and browsers should cache the content, 
 
 CodeParadise currently has a 'debugger' and a View inspector. The debugger is mostly an inspector too, you can't change code but you can see the stack trace and inspect variables. Already very useful during development.
 
-The View inspector allows you to open a special pane in which you can view the DOM, including the Shadow DOM of your WebComponents. The WebComponents created in Smalltalk can be edited right in your browser! Change the HTML template or CSS style of your WebComponent in two coding panes. Update the browser by simplying pressing Cmd-S/Ctrl-S or clicking a button. Press Shift-Cmd-S/Shift-Ctrl-S to actually save it in your Smalltalk image once your satisfied with the results. To start the View inspector press Cmd-i/Ctrl-i or press Cmd-b/Ctrl-b to select a WebComponent by name (instead of browsing through the DOM).
+The View inspector allows you to open a special pane in which you can view the DOM, including the Shadow DOM of your WebComponents. The WebComponents created in Smalltalk can be edited right in your browser! Change the HTML template or CSS style of your WebComponent in two coding panes. Update the browser by pressing Cmd-S/Ctrl-S or clicking a button. Press Shift-Cmd-S/Shift-Ctrl-S to actually save it in your Smalltalk image once your satisfied with the results. To start the View inspector press Cmd-i/Ctrl-i or press Cmd-b/Ctrl-b to select a WebComponent by name (instead of browsing through the DOM).
 
-You can install the debugger or View inspector sending either `addDebugger` or `addViewInspector` to your Application (in the `load` method of the Application for example).
+You can install the debugger or View inspector by sending either `addDebugger` or `addViewInspector` to your Application (in the `load` method of the Application for example).
 
 ### <a name="manually">Manually starting and stopping</a>
 
@@ -146,6 +146,6 @@ Applications can also be 'sealed' allowing them to be run without the need of a 
 
 ## Compatibility
 
-The means of installing (Compiled) code in the tiny Smalltalk image (aka ClientEnvironment) is by sending the relevant bytecode. The current implementation assumes that both the Pharo server image (aka ServerEnvironment) and the ClientEnvironment share the same bytecode set. Since the ClientEnvironment is running on SqueakJS VM, only bytecode sets supported by SqueakJS VM are usable. Currently Pharo 10 up to 13 (and including) are supported. Active development is on P12. Support for P8 and P9 is no longer provided, because of the non-standard process of creating the tiny Smalltalk image which runs in the browser. From P10 onwards this is standardized using [TinyBootstrap](https://github.com/ErikOnBike/TinyBootstrap). IF you still need support for P8 or P9, please contact me directly or create an issue.
+The means of installing (Compiled) code in the tiny Smalltalk image (aka ClientEnvironment) is by sending the relevant bytecode. The current implementation assumes that both the Pharo server image (aka ServerEnvironment) and the ClientEnvironment share the same bytecode set. Since the ClientEnvironment is running on SqueakJS VM, only bytecode sets supported by SqueakJS VM are usable. Currently Pharo 10 up to 13 (and including) are supported. Active development is on P13. Support for P8 and P9 is no longer provided, because of the non-standard process of creating the tiny Smalltalk image which runs in the browser. From P10 onwards this is standardized using [TinyBootstrap](https://github.com/ErikOnBike/TinyBootstrap). IF you still need support for P8 or P9, please contact me directly or create an issue.
 
 There is no explicit list of supported browsers at the moment. Please use a recent browser version. If you have trouble using (the pre-Chrome based) Microsoft Edge, please consider switching to Chrome, Firefox or one of the derivatives.
