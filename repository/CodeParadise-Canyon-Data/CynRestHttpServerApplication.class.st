@@ -20,6 +20,14 @@ CynRestHttpServerApplication class >> allowedPackages [
 		CynPropertyModel package }
 ]
 
+{ #category : #accessing }
+CynRestHttpServerApplication class >> app [
+
+	"Answer the receiver unique name (similar to CynMobileWebApplication class >> #app but with added '-data')"
+
+	^ ((self nameWithoutPrefix withoutSuffix: #RestHttpServerApplication), #Data) asKebabCase asSymbol
+]
+
 { #category : #tags }
 CynRestHttpServerApplication class >> isAbstractTag [
 
