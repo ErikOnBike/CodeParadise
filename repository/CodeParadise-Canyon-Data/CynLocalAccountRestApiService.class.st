@@ -623,6 +623,8 @@ CynLocalAccountRestApiService >> notify: messageString statusCode: statusCodeInt
 	self sendMail: notificationMessage thenDo: [ :error :info |
 		error ifNotNil: [ self errorCr: 'Failed to send notification: ', error printString ] ].
 
+	logDatabase ifNil: [ ^ self ].
+
 	[ logDatabase
 		performOne: #addNotification
 		statement: 'INSERT INTO notifications (timestamp, logId, statusCode, message) VALUES(:now, :logId, :statusCode, :message)'
@@ -646,6 +648,8 @@ CynLocalAccountRestApiService >> notifyLog: anInteger [
 
 	self shouldNotify
 		ifFalse: [ ^ anInteger ].
+
+	logDatabase ifNil: [ ^ anInteger ].
 
 	"Retrieve log record"
 	logRecord := logDatabase
@@ -968,6 +972,8 @@ CynLocalAccountRestApiService >> writeClientLogFrom: aRestRequest [
 	Answer the id of the log row created (or nil if none is created)."
 
 	| body accessToken session level message logRecord |
+
+	logDatabase ifNil: [ ^ nil ].
 
 	body := (aRestRequest jsonBody)
 		ifNil: [ ^ nil ].

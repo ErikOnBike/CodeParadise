@@ -472,6 +472,8 @@ CynBaseRestApiService >> log: aSymbol message: aString request: aRestRequest [
 
 	| logRecord |
 
+	logDatabase ifNil: [ ^ nil ].
+
 	[
 		logRecord := self logRecordFromRequest: aRestRequest.
 
@@ -503,6 +505,8 @@ CynBaseRestApiService >> logError: anError request: aRestRequest [
 	Answer the rowId of the added log row."
 
 	| logRecord |
+
+	logDatabase ifNil: [ ^ nil ].
 
 	[
 		logRecord := self logRecordFromError: anError request: aRestRequest.
@@ -794,6 +798,8 @@ CynBaseRestApiService >> updateLogError: anError response: aRestResponse [
 
 	| request rowId stack |
 
+	logDatabase ifNil: [ ^ nil ].
+
 	request := aRestResponse request.
 	rowId := request propertyAt: #rowId.
 
@@ -828,6 +834,8 @@ CynBaseRestApiService >> updateLogResponse: aRestResponse [
 	Answer the id of the log record (or nil if none is updated/added)."
 
 	| request rowId stop duration |
+
+	logDatabase ifNil: [ ^ nil ].
 
 	request := aRestResponse request.
 	rowId := (request propertyAt: #rowId)
