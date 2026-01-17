@@ -582,7 +582,7 @@ CynLocalAccountRestApiService >> notificationTimeout [
 
 	By default this is 30 minutes."
 
-	^ (config at: #notificationTimeout) ifNil: [ 1800 ]
+	^ config at: #notificationTimeout ifAbsent: [ 1800 ]
 ]
 
 { #category : #accessing }
@@ -593,7 +593,7 @@ CynLocalAccountRestApiService >> notificationWindow [
 
 	By default this is 2 hours."
 
-	^ (config at: #notificationWindow) ifNil: [ 7200 ]
+	^ config at: #notificationWindow ifAbsent: [ 7200 ]
 ]
 
 { #category : #accessing }
@@ -604,7 +604,7 @@ CynLocalAccountRestApiService >> notificationWindowCount [
 
 	By default this is 4."
 
-	^ (config at: #notificationWindowCount) ifNil: [ 4 ]
+	^ config at: #notificationWindowCount ifAbsent: [ 4 ]
 ]
 
 { #category : #notifying }
@@ -841,7 +841,7 @@ CynLocalAccountRestApiService >> sessionExpirationDuration [
 
 	By default this is 30 minutes."
 
-	^ (config at: #sessionExpirationDuration) ifNil: [ 1800 ]
+	^ config at: #sessionExpirationDuration ifAbsent: [ 1800 ]
 ]
 
 { #category : #notifying }
