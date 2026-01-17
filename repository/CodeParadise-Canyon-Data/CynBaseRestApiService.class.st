@@ -393,8 +393,11 @@ CynBaseRestApiService >> initialize [
 
 	super initialize.
 
-	modelDatabase := CynDatabase on: 'data/database.db'.
-	logDatabase := CynDatabase on: 'data/log.db'.
+	"Skip opening the default databases?"
+	(config at: #skipDatabase ifAbsent: [ false ])
+		ifFalse: [
+			modelDatabase := CynDatabase on: 'data/database.db'.
+			logDatabase := CynDatabase on: 'data/log.db' ].
 
 	self initializeMailer
 ]
@@ -410,7 +413,7 @@ CynBaseRestApiService >> initializeMailer [
 	config at: #mailer
 		ifPresent: [ :mailerConfig |
 
-			"If mailer is preent, 'mailer-default' is assumed to be present too"
+			"If mailer is present, 'mailer-default' is assumed to be present too"
 			mailer := CpNodeJSNodemailerTransporter createTransport: mailerConfig withDefaults: (config at: #'mailer-defaults').
 			mailer verify: [ :error :success |
 				error ifNotNil: [ self errorCr: ('Startup error mailer: {1}' format: { error }) ].
