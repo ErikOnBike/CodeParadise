@@ -673,7 +673,7 @@ CynBaseRestApiService >> operationFor: aCompiledMethod [
 ]
 
 { #category : #API }
-CynBaseRestApiService >> ping: aRestRequest response: aServerResponse [
+CynBaseRestApiService >> ping: aRestRequest response: aRestResponse [
 
 	"Ping to check on liveness"
 
@@ -681,7 +681,7 @@ CynBaseRestApiService >> ping: aRestRequest response: aServerResponse [
 	<public>
 
 	"Pong the message back to the requestor"
-	self send: 'world' response: aServerResponse
+	self send: 'world' response: aRestResponse
 ]
 
 { #category : #support }
@@ -762,12 +762,12 @@ CynBaseRestApiService >> sendMail: aMessage thenDo: aBlock [
 ]
 
 { #category : #'API - private' }
-CynBaseRestApiService >> snapshot: aRestRequest response: aServerResponse [
+CynBaseRestApiService >> snapshot: aRestRequest response: aRestResponse [
 
 	<get: '/snapshot'>
 	<public>
 
-	self sendEmptyResponse: aServerResponse.
+	self sendEmptyResponse: aRestResponse.
 
 	Smalltalk at: #Sealed ifAbsent: [
 		Smalltalk at: #Sealed put: true.
