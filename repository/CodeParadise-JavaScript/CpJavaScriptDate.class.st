@@ -167,6 +167,46 @@ CpJavaScriptDate class >> timestampNow [
 	^ CpGlobalThis apply: #cpDateTimestampNow
 ]
 
+{ #category : #accessing }
+CpJavaScriptDate class >> timestampNowDeltaDays: anInteger [
+
+	"Answer the timestamp for the specified number of days
+	in the future (on a positive value) or past (on a negative value).
+	The result is the number of seconds since Unix epoch (midnight Jan 1, 1970, UTC)."
+
+	^ self timestampNow + (anInteger * 86400)	"60 * 60 * 24"
+]
+
+{ #category : #accessing }
+CpJavaScriptDate class >> timestampNowDeltaHours: anInteger [
+
+	"Answer the timestamp for the specified number of hours
+	in the future (on a positive value) or past (on a negative value).
+	The result is the number of seconds since Unix epoch (midnight Jan 1, 1970, UTC)."
+
+	^ self timestampNow + (anInteger * 3600)	"60 * 60"
+]
+
+{ #category : #accessing }
+CpJavaScriptDate class >> timestampNowDeltaMinutes: anInteger [
+
+	"Answer the timestamp for the specified number of minutes
+	in the future (on a positive value) or past (on a negative value).
+	The result is the number of seconds since Unix epoch (midnight Jan 1, 1970, UTC)."
+
+	^ self timestampNow + (anInteger * 60)
+]
+
+{ #category : #accessing }
+CpJavaScriptDate class >> timestampNowDeltaWeeks: anInteger [
+
+	"Answer the timestamp for the specified number of weeks
+	in the future (on a positive value) or past (on a negative value).
+	The result is the number of seconds since Unix epoch (midnight Jan 1, 1970, UTC)."
+
+	^ self timestampNow + (anInteger * 604800)	"60 * 60 * 24 * 7"
+]
+
 { #category : #'instance creation' }
 CpJavaScriptDate class >> today [
 
@@ -182,9 +222,17 @@ CpJavaScriptDate class >> tomorrow [
 
 	"Answer an instance of the receiver for tomorrow (0:00 hrs)"
 
-	^ (self fromSeconds: self timestampNow + self dayInSeconds)
+	^ (self fromSeconds: (self timestampNowDeltaDays: 1))
 		resetTime ;
 		yourself
+]
+
+{ #category : #accessing }
+CpJavaScriptDate class >> weekInSeconds [
+
+	"60 * 60 * 24 * 7"
+
+	^ 604800
 ]
 
 { #category : #'instance creation' }
@@ -203,7 +251,7 @@ CpJavaScriptDate class >> yesterday [
 
 	"Answer an instance of the receiver for yesterday (0:00 hrs)"
 
-	^ (self fromSeconds: self timestampNow - self dayInSeconds)
+	^ (self fromSeconds: (self timestampNowDeltaDays: -1))
 		resetTime ;
 		yourself
 ]

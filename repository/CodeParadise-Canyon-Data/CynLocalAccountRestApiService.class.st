@@ -222,7 +222,7 @@ CynLocalAccountRestApiService >> createActivationTokenForAccount: anAccount [
 
 	id := self newId.
 	token := self newToken.
-	expiresAt := CpJavaScriptDate timestampNow + (30 * 60). "30 x 60 = 30 minutes"
+	expiresAt := CpJavaScriptDate timestampNowDeltaMinutes: 30.
 
 	modelDatabase
 		performOne: #createActivation
@@ -253,7 +253,7 @@ CynLocalAccountRestApiService >> createPasswordResetTokenForAccount: anAccount [
 
 	id := self newId.
 	token := self newToken.
-	expiresAt := CpJavaScriptDate timestampNow + (30 * 60). "30 x 60 = 30 minutes"
+	expiresAt := CpJavaScriptDate timestampNowDeltaMinutes: 30.
 
 	modelDatabase
 		performOne: #createPasswordReset
@@ -410,9 +410,9 @@ CynLocalAccountRestApiService >> isExpiredSession: aSession [
 	"Check for expiring the next day"
 	expires = #day
 		ifTrue: [
-			"Check if 'createdAt' and 'now' are still on the same day (1 day = 86400 seconds, 60 * 60 * 24)"
+			"Check if 'createdAt' and 'now' are still on the same day"
 			createdAt := aSession at: #createdAt.
-			(createdAt // 86400) = (now // 86400)
+			(createdAt // CpJavaScriptDate dayInSeconds) = (now // CpJavaScriptDate dayInSeconds)
 				ifTrue: [ ^ false ] ].
 
 	^ true
