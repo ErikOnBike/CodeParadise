@@ -1,8 +1,16 @@
 "
 I am a Model containing properties. I announce when my properties have changed.
 I am responsible for keeping track of my property values.
+
+When updated I announce the individual properties which have changed. When another
+object's (property) values are merged with mine or when my properties are reset,
+I also announce a CynModelChanged to indicate I am changed (not just my property
+values). Technically #normalize also makes me update my property values. Since
+these updates are mostly 'cosmetic' by nature, I do not announce I have changed
+(but the individual property changes are announced).
+
 My properties can have additional definitions. I don't use these definitions
-but make them accessable. Subclasses can use thes definitions to adapt behavior.
+but make them accessable. Subclasses can use these definitions to adapt behavior.
 
 Property definitions can be added (automagically) by adding methods which have the
 pragma <propertyDefinition>. Such methods will be executed when updating the
@@ -675,7 +683,32 @@ CynPropertyModel >> merge: anObject [
 	Assuming the Object is Dictionary-like (like the receiver but also a JSON Object).
 	Answer the Object merged into the receiver."
 
-	anObject mergeIntoPropertyModel: self.
+	| oldAnnouncer oldData mergeError |
+
+	"Prevent announcing changes while merging"
+	[
+		oldAnnouncer := announcer.
+		announcer := nil.
+
+		oldData := data copy.
+
+		"Merge data"
+		[ anObject mergeIntoPropertyModel: self ] on: Error do: [ :error |
+			mergeError := error.
+			data := oldData ]
+	] ensure: [ announcer := oldAnnouncer ].
+
+	"Stop if an Error occurred"
+	mergeError ifNotNil: [
+		mergeError signal.
+		^ anObject ].
+
+	"Announce the receiver's value(s) changed"
+	oldData keysAndValuesDo: [ :key :value |
+		self announce: (CynPropertyChanged name: key oldValue: value newValue: (self rawAt: key)) ].
+
+	"Announce the receiver changed"
+	self valueChanged.
 
 	^ anObject
 ]
@@ -684,6 +717,7 @@ CynPropertyModel >> merge: anObject [
 CynPropertyModel >> mergeIntoPropertyModel: aPropertyModel [
 
 	"Merge the receiver into the specified PropertyModel.
+	Normally only #merge: should be used, which calls this method.
 
 	Implementation:
 	Do not try to store calculated properties."
@@ -959,7 +993,10 @@ CynPropertyModel >> reset [
 
 	"Announce the receiver's value(s) changed"
 	oldData keysAndValuesDo: [ :key :value |
-		self announce: (CynPropertyChanged name: key oldValue: value newValue: (self rawAt: key)) ]
+		self announce: (CynPropertyChanged name: key oldValue: value newValue: (self rawAt: key)) ].
+
+	"Announce the receiver changed"
+	self valueChanged
 ]
 
 { #category : #'accessing - dictionary access' }
@@ -970,6 +1007,26 @@ CynPropertyModel >> size [
 	This gives the receiver a Dictionary like interface."
 
 	^ self class propertyCount
+]
+
+{ #category : #announcing }
+CynPropertyModel >> valueChanged [
+	
+	"Announce the fact that the receiver changed (in the large, not
+	an individual property which is handled differently).
+	A specific Canyon Announcement is used instead of the default
+	ValueChanged. This specific Announcement is a subclass
+	however for compatibility.
+
+	Implementation:
+	This method is for compatibility with Model and NewValueHolder.
+	The method contains some duplicate code with the super class'
+	implementation for performance reasons."
+
+	"Nobody has registered interest"
+	announcer ifNil: [ ^ self ].
+
+	announcer announce: (CynModelChanged newValue: self)
 ]
 
 { #category : #'accessing - dictionary access' }
