@@ -36,6 +36,18 @@ CynPropertyModel >> errorTextForViolation: aSymbolOrTextReference [
 ]
 
 { #category : #'*CodeParadise-Canyon-App' }
+CynPropertyModel class >> index: anInteger text: aSymbol [
+
+	"Answer the indexed text for the specified Symbol.
+
+	Implementation:
+	Subclasses should override this.
+	For now it simply answers the Symbol."
+
+	^ aSymbol
+]
+
+{ #category : #'*CodeParadise-Canyon-App' }
 CynPropertyModel class >> keyForTextAspect: aString at: aSymbol [
 
 	"Answer the key for the specified text aspect of the specified property.
@@ -85,26 +97,20 @@ CynPropertyModel >> keyForTextAspect: aString at: aSymbol [
 ]
 
 { #category : #'*CodeParadise-Canyon-App' }
-CynPropertyModel class >> labelFor: propertySymbol selection: selectionSymbol [
+CynPropertyModel class >> labelFor: propertySymbol at: selectionSymbol [
 
 	"Answer the label for the specified selection of the specified property"
 
-	^ self
-		textAspect: #selection
-		at: (String streamContents: [ :stream |
-			stream
-				nextPutAll: propertySymbol ;
-				nextPut: $. ;
-				nextPutAll: selectionSymbol ]) asSymbol
+	^ self textAspect: #selection at: propertySymbol at: selectionSymbol
 ]
 
 { #category : #'*CodeParadise-Canyon-App' }
-CynPropertyModel >> labelFor: propertySymbol selection: selectionSymbol [
+CynPropertyModel >> labelFor: propertySymbol at: key [
 
 	"Answer the label for the specified selection of the specified property"
 
 	^ self class
-		labelFor: propertySymbol selection: selectionSymbol
+		labelFor: propertySymbol at: key
 ]
 
 { #category : #'*CodeParadise-Canyon-App' }
@@ -142,37 +148,7 @@ CynPropertyModel class >> text: aSymbol [
 { #category : #'*CodeParadise-Canyon-App' }
 CynPropertyModel class >> textAspect: aString at: aSymbol [
 
-	"Answer the specified text aspect of the specified property.
-	Answer nil if such an aspect is missing.
-
-	The text aspect can for example be: 'label', 'placeholder', etc.
-
-	Implementation:
-	Since Models can inherit properties from a superclass, perform repeated
-	requests on the superclass when no text is found yet."
-
-	| key value |
-
-	"Create key"
-	key := (String streamContents: [ :stream |
-		stream
-			nextPutAll: 'app.' ;
-			nextPutAll: aString ;
-			nextPut: $. ;
-			nextPutAll: self shortName ;
-			nextPut: $. ;
-			nextPutAll: aSymbol ]) asSymbol.
-
-	"Retrieve value"
-	value := self text: key.
-
-	"If no label value is found and not yet at root, try superclass"
-	(value = key and: [ self ~~ CynPropertyModel ])
-		ifTrue: [ value := self superclass textAspect: aString at: aSymbol ].
-
-	"Answer nil if still not found (i.e. key = value)"
-	^ value = key
-		ifFalse: [ value ]
+	^ self textAspect: aString at: aSymbol at: nil
 ]
 
 { #category : #'*CodeParadise-Canyon-App' }
@@ -185,4 +161,49 @@ CynPropertyModel >> textAspect: aString at: aSymbol [
 
 	^ self class
 		textAspect: aString at: aSymbol
+]
+
+{ #category : #'*CodeParadise-Canyon-App' }
+CynPropertyModel class >> textAspect: aString at: aSymbol at: key [
+
+	"Answer the specified text aspect of the specified property.
+	Answer nil if such an aspect is missing.
+
+	The text aspect can for example be: 'label', 'placeholder', etc.
+
+	The specified key is optional (and used for aspect #selection).
+
+	Implementation:
+	Since Models can inherit properties from a superclass, perform repeated
+	requests on the superclass when no text is found yet."
+
+	| fullKey value |
+
+	"Create full key"
+	fullKey := (String streamContents: [ :stream |
+		stream
+			nextPutAll: 'app.' ;
+			nextPutAll: aString ;
+			nextPut: $. ;
+			nextPutAll: self shortName ;
+			nextPut: $. ;
+			nextPutAll: aSymbol.
+		key isSymbol
+			ifTrue: [
+				stream
+					nextPut: $. ;
+					nextPutAll: key ] ]) asSymbol.
+
+	"Retrieve value"
+	value := key isInteger
+		ifTrue: [ self index: key text: fullKey ]
+		ifFalse: [ self text: fullKey ].
+
+	"If no label value is found and not yet at root, try superclass"
+	(value = fullKey and: [ self ~~ CynPropertyModel ])
+		ifTrue: [ value := self superclass textAspect: aString at: aSymbol at: key ].
+
+	"Answer nil if still not found (i.e. key = value)"
+	^ value = fullKey
+		ifFalse: [ value ]
 ]
