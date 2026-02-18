@@ -330,7 +330,7 @@ CynSpotlightHelpView >> normalizedSize: eachBoundingRect [
 
 	| size side ratio |
 
-	size := eachBoundingRect size max: 24.0 @ 24.0.
+	size := eachBoundingRect size max: 32.0 @ 32.0.
 
 	"Make square shape if almost square"
 	side := size x max: size y.
