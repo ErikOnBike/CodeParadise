@@ -1264,8 +1264,8 @@ CynApp >> isOnline [
 
 	restApiClient := CynPropertyEntity restApiClient.
 
-	"Used REST API successfully within last 5 seconds?"
-	restApiClient lastSuccessResponseTimestamp >= (CpJavaScriptDate timestampNow - 5000)
+	"Used REST API within last 5 seconds?"
+	(restApiClient lastResponseTimestamp ifNil: [ 0 ]) >= (CpJavaScriptDate timestampNow - 5000)
 		ifTrue: [ ^ true ].
 
 	^ restApiClient ping
