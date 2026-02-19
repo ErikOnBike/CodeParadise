@@ -145,7 +145,6 @@ CynPeriodicOperation >> perform [
 	self reset.
 
 	"Perform the receiver's Block"
-	needsToRun := false.
 	block cull: self.
 
 	"Prepare for next run (if the receiver hasn't stopped)"
@@ -220,7 +219,9 @@ CynPeriodicOperation >> reset [
 
 	timer ifNotNil: [
 		CpGlobalThis clearTimeout: timer.
-		timer := nil ]
+		timer := nil ].
+
+	needsToRun := false
 ]
 
 { #category : #actions }
