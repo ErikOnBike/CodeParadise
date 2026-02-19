@@ -344,11 +344,12 @@ CynLocalAccountRestApiService >> getSessionForRequest: aRestRequest [
 	(CynTokenPropertyConstraint isValidValue: accessToken)
 		ifFalse: [ ^ nil ].
 
-	"Find the session for this access token (which has an active account attached)"
-	^ modelDatabase
+	"Find the session for this access token (which has an active account attached).
+	Answer a (minimal) expired session if none is found (to distinguish between invalid or no access token)."
+	^ (modelDatabase
 		selectOne: #getSessionByAccessToken
 		statement: 'SELECT id, accountId, createdAt, updatedAt, expires FROM sessions WHERE accessToken=:accessToken AND EXISTS (SELECT id FROM accounts WHERE id=accountId AND activatedAt IS NOT NULL AND deletedAt IS NULL)'
-		bind: { #accessToken -> accessToken } asDictionary
+		bind: { #accessToken -> accessToken } asDictionary) ifNil: [ { #expires -> #usage. #updatedAt -> (CpJavaScriptDate timestampNowDeltaDays: -1) } asDictionary ]
 ]
 
 { #category : #'API - password' }
