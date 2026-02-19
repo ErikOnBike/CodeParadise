@@ -107,7 +107,7 @@ CpNodeJSRestRequestProcess >> performEndpointOperation: anEndpointOperation [
 
 	| timeoutPeriod |
 
-	timeoutPeriod := (anEndpointOperation timeout)
+	timeoutPeriod := anEndpointOperation timeout
 		ifNil: [ self defaultTimeoutPeriod ].
 
 	timer := CpGlobalThis setTimeout: timeoutPeriod thenDo: [ self abort ].
