@@ -1361,6 +1361,10 @@ CynApp >> loadApp [
 	automagically) or some code should explicitly open the menu based on the
 	user input/action."
 
+	"Make the app (all pages) thin by default"
+	CpHtmlElement documentBody
+		addClass: #thin.
+
 	"Create the visual app structure"
 	self
 		appendChild: (main := IonApp new
