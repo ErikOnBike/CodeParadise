@@ -18,6 +18,14 @@ Class {
 }
 
 { #category : #operations }
+CpJavaScriptJSON class >> indentedStringify: aDictionary [
+
+	"Answer a String representation of the specified Dictionary using indentation"
+
+	^ self apply: #stringify withArguments: { aDictionary . nil . '	' }
+]
+
+{ #category : #operations }
 CpJavaScriptJSON class >> parse: aString [
 
 	"Answer an OrderedDictionary representing the object given by the JSON string specified.
