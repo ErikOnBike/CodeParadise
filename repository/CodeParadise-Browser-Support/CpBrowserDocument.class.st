@@ -33,7 +33,7 @@ CpBrowserDocument >> location [
 
 	"Returns the URI of the current document."
 
-	^ self propertyAt: #location
+	^ self propertyAt: #location resultAs: CpBrowserLocation
 ]
 
 { #category : #accessing }
