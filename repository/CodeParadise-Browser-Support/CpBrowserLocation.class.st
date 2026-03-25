@@ -68,6 +68,19 @@ CpBrowserLocation >> href: aString [
 	self propertyAt: #href put: aString
 ]
 
+{ #category : #'operations - convenience' }
+CpBrowserLocation >> hrefWithoutSearch [
+
+	"Answer a URL (String) representing the receiver without the search parameters"
+
+	^ String streamContents: [ :stream |
+		stream
+			nextPutAll: self protocol ;
+			nextPutAll: '//' ;
+			nextPutAll: self host ;
+			nextPutAll: self pathname ]
+]
+
 { #category : #accessing }
 CpBrowserLocation >> origin [
 
