@@ -10,6 +10,21 @@ Class {
 	#category : #'CodeParadise-WebApplication-Support'
 }
 
+{ #category : #enumerating }
+CpApplicationServerStarter class >> allWebApplicationsDo: aBlock [
+
+	"Evaluate the specified Block for all the defined web applications (i.e. only browser based applications).
+	
+	Implementation:
+	Only applications which do not have the 'isAbstract' tag set will be evaluated."
+	
+	^ (CpServerApplication allSubclasses
+		reject: [ :each | each hasAbstractTag ])
+			do: [ :each |
+				(each inheritsFrom: CpWebApplication)
+					ifTrue: [ aBlock value: each ] ]
+]
+
 { #category : #'starting/stopping' }
 CpApplicationServerStarter class >> startUsingConfig: configuration [
 
@@ -75,11 +90,11 @@ CpApplicationServerStarter class >> startUsingConfig: configuration [
 		applicationServer clientErrorHandler: clientErrorHandler ].
 
 	"Create delegate for handling static file requests"
-	staticFilesDelegate := ZnStaticFileServerDelegate new
+	staticFilesDelegate := CpGlobalStaticFileServerDelegate new
 		directory: staticFilesDirectory ;
 		yourself.
 
-	"Add static file delegate to server"
+	"Add io and static file delegates to server"
 	applicationServer server
 		stop ;
 		delegate: (ZnPrefixMappingDelegate new
@@ -88,5 +103,8 @@ CpApplicationServerStarter class >> startUsingConfig: configuration [
 			yourself) ;
 		start.
 
-	^ applicationServer 
+	"Let web applications add their resource directory"
+	self allWebApplicationsDo: [ :each | each addWebResourcesDelegateTo: applicationServer server ].
+
+	^ applicationServer
 ]

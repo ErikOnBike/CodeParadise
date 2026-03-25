@@ -12,6 +12,38 @@ Class {
 }
 
 { #category : #accessing }
+CpWebApplication class >> addWebResourcesDelegateTo: aServer [
+
+	"Add the repository's web resource directory to the Zinc server's delegates.
+	By default, the following mapping will be installed:
+		/<app-name> -> './www'.
+
+	For example, a WebApplication class with app identifier #'my-first-app'
+	will receive the following mapping:
+		'/my-first-app' -> './www'
+
+	The subfolder 'www' can be changed by overriding the method #webResourceDirectory."
+	
+	| packageName icePackage repository resourcePath |
+
+	packageName := self package name.
+	icePackage := IcePackage allInstances detect: [ :each | each package = packageName ] ifNone: [ ^ self ].
+	repository := icePackage repository.
+
+	resourcePath := repository location / self webResourceDirectory.
+	resourcePath ifAbsent: [ ^ self ].
+
+	"Add the new file delegate to the specified application server (replacing an existing one if necessary)"
+	aServer delegate
+		map: self app asString
+		to: (CpWebApplicationStaticFileServerDelegate
+			application: (ZnStaticFileServerDelegate new
+				directory: resourcePath ;
+				yourself)
+			global: aServer globalStaticFileServerDelegate)
+]
+
+{ #category : #accessing }
 CpWebApplication class >> allowedPackages [
 
 	"Answer a collection of Packages which are allowed to contain classes to install in the receiver.

@@ -165,9 +165,6 @@ CpDevTools class >> start [
 			#clientErrorHandler -> self
 		} asDictionary.
 
-	"Let web applications add their resource directory"
-	self allWebApplications do: [ :each | each addWebResourcesDelegateTo: applicationServer server ].
-
 	"Add an entry for development tool resources"
 	toolsResourcePath := IceRepository directoryNamed: 'dev' in: 'CodeParadise'.
 	applicationServer server
