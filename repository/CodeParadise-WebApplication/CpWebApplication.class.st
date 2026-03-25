@@ -31,15 +31,16 @@ CpWebApplication class >> addWebResourcesDelegateTo: aServer [
 	repository := icePackage repository.
 
 	resourcePath := repository location / self webResourceDirectory.
-	resourcePath ifAbsent: [ ^ self ].
 
-	"Add the new file delegate to the specified application server (replacing an existing one if necessary)"
+	"Add the new file delegate to the specified application server (replacing an existing one if necessary).
+	A nil value will be set as the application if no web resource directory exists."
 	aServer delegate
 		map: self app asString
 		to: (CpWebApplicationStaticFileServerDelegate
-			application: (ZnStaticFileServerDelegate new
-				directory: resourcePath ;
-				yourself)
+			application: (resourcePath exists ifTrue: [
+				ZnStaticFileServerDelegate new
+					directory: resourcePath ;
+					yourself ])
 			global: aServer globalStaticFileServerDelegate)
 ]
 

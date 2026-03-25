@@ -36,8 +36,9 @@ CpWebApplicationStaticFileServerDelegate >> handleRequest: aRequest [
 	| response |
 
 	"Try to let the application's static file server delegate handle it first"
-	(response := applicationStaticFileServerDelegate handleRequest: aRequest) isNotFound
-		ifFalse: [ ^ response ].
+	applicationStaticFileServerDelegate ifNotNil: [
+		(response := applicationStaticFileServerDelegate handleRequest: aRequest) isNotFound
+			ifFalse: [ ^ response ] ].
 
 	"Fall back to global static file server delegate"
 	^ globalStaticFileServerDelegate handleRequest: aRequest
