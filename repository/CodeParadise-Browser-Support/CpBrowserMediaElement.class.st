@@ -89,7 +89,7 @@ CpBrowserMediaElement >> play [
 
 	"Begins playback of the media."
 
-	self apply: #play
+	^ self apply: #play resultAs: CpJavaScriptPromise
 ]
 
 { #category : #operations }
