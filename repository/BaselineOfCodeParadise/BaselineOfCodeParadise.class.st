@@ -1,6 +1,9 @@
 Class {
 	#name : #BaselineOfCodeParadise,
 	#superclass : #BaselineOf,
+	#classVars : [
+		'Initialized'
+	],
 	#category : #BaselineOfCodeParadise
 }
 
@@ -11,9 +14,8 @@ BaselineOfCodeParadise >> baseline: spec [
 
 	spec for: #common do: [
 
-		"Dependencies"
-		spec
-			package: 'Zinc-WebSocket-Core' with: [ spec repository: 'github://svenvc/zinc' ].
+		"Preload Zinc, including WebSocket support using preLoad hook"
+		spec preLoadDoIt: #preLoad:package:.
 
 		"Packages"
 		spec
@@ -110,4 +112,33 @@ BaselineOfCodeParadise >> baseline: spec [
 		spec
 			package: 'CodeParadise-RemoteEnvironment' with: [ spec includes: 'CodeParadise-RemoteEnvironment-Pharo11' ] ;
 			package: 'CodeParadise-RemoteEnvironment-Pharo11' with: [ spec requires: 'CodeParadise-RemoteEnvironment' ] ].
+]
+
+{ #category : 'actions' }
+BaselineOfCodeParadise >> preLoad: loader package: packageSpec [
+
+	"Load Zinc, including WebSocket support.
+
+	Implementation:
+	Loading WebSocket package in default Pharo image always leads to a dirty zinc repo.
+	Reading in the full zinc default repo and then adding WebSockets prevents this."
+
+	"Ignore additional pre load calls if already executed"
+	Initialized = true ifTrue: [ ^ self ].
+
+	Metacello new
+		repository: 'github://svenvc/zinc/repository';
+		baseline: 'ZincHTTPComponents';
+		onConflict: [ :e | e useIncoming ];
+		onUpgrade: [ :e | e useIncoming ];
+		onWarning: [ :e | e load ];
+		ignoreImage;
+		load.
+
+	Metacello new
+		baseline: 'ZincHTTPComponents';
+		repository: 'github://svenvc/zinc/repository';
+		load: 'WebSocket'.
+	
+	Initialized := true
 ]
