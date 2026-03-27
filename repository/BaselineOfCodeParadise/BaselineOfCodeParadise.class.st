@@ -21,6 +21,7 @@ BaselineOfCodeParadise >> baseline: spec [
 			package: 'CodeParadise-JavaScript' ;
 			package: 'CodeParadise-WebApplication' with: [ spec requires: #('CodeParadise-RemoteEnvironment' 'CodeParadise-Browser-Support' 'CodeParadise-JavaScript') ];
 			package: 'CodeParadise-Browser-Support' with: [ spec requires: #('CodeParadise-JavaScript') ];
+			package: 'CodeParadise-Browser-Auth0-SPA-JS' with: [ spec requires: #('CodeParadise-Browser-Support') ];
 			package: 'CodeParadise-WebApplication-Snapshot' with: [ spec requires: #('CodeParadise-WebApplication') ];
 
 			package: 'CodeParadise-NodeJS-Support' with: [ spec requires: #('CodeParadise-RemoteEnvironment' 'CodeParadise-JavaScript') ];
@@ -60,7 +61,7 @@ BaselineOfCodeParadise >> baseline: spec [
 
 		"Groups"
 		spec 
-			group: 'default' with: #( 'Core' 'NodeJS-Core' 'Shoelace' 'Ionic' 'ChartJS' 'Presentation' 'Snapshot' 'Tests' 'Examples' 'Development' 'NodeJS-Applications' 'Canyon');
+			group: 'default' with: #( 'Core' 'NodeJS-Core' 'Shoelace' 'Ionic' 'ChartJS' 'Auth0-SPA-JS' 'Presentation' 'Snapshot' 'Tests' 'Examples' 'Development' 'NodeJS-Applications' 'Canyon');
 
 			group: 'Core' with: #( 'CodeParadise-Browser-Support' );
 			group: 'NodeJS-Core' with: #( 'CodeParadise-NodeJS-Support' );
@@ -73,6 +74,7 @@ BaselineOfCodeParadise >> baseline: spec [
 			group: 'Shoelace' with: #( 'CodeParadise-WebApplication-Shoelace' );
 			group: 'Ionic' with: #( 'CodeParadise-WebApplication-Ionic' );
 			group: 'ChartJS' with: #( 'CodeParadise-WebApplication-ChartJS' );
+			group: 'Auth0-SPA-JS' with: #( 'CodeParadise-Browser-Auth0-SPA-JS' );
 			group: 'Presentation' with: #( 'CodeParadise-WebApplication-Presentation' );
 			group: 'Beach' with: #( 'CodeParadise-Beach' 'CodeParadise-Beach-Tests' );
 
