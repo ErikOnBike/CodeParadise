@@ -210,10 +210,9 @@ CpAuth0Client >> logoutOptions: aLogoutOptions [
 ]
 
 { #category : #'operations - convenience' }
-CpAuth0Client >> removeRedirectParameters [
+CpAuth0Client >> redirectToSelf [
 
-	"Remove the redirect parameter values (otherwise reload will fail, because the
-	redirect parameters can't be reused)"
+	"Answer the URL which redirects to the receiver"
 
 	| location searchParams |
 
@@ -229,6 +228,23 @@ CpAuth0Client >> removeRedirectParameters [
 	"Keep new search parameters (do not update existing location, because it will perform a navigation operation)"
 	location := CpBrowserURL newUrl: location hrefWithoutSearch.
 	location search: searchParams toString.
+
+	^ location href
+]
+
+{ #category : #'operations - convenience' }
+CpAuth0Client >> removeRedirectParameters [
+
+	"Remove the redirect parameter values.
+	Otherwise reload will fail, because the redirect parameters can't be reused.
+
+	Implementation:
+	The redirectToSelf method answers a cleaned up URL for the current browser location."
+
+	| url |
+
+	url := self redirectToSelf.
+
 	CpBrowserHistory current
-		replaceState: nil url: location href
+		replaceState: nil url: url
 ]
