@@ -88,8 +88,10 @@ CpWebApplication class >> clientLoaded: anAnnouncement [
 
 	"Handle the client loaded event and remove the loader afterwards"
 
-	(super clientLoaded: anAnnouncement)
-		ifNotNil: [ :application | application removeLoader ]
+	^ (super clientLoaded: anAnnouncement)
+		ifNotNil: [ :application |
+			application removeLoader.
+			application ]
 ]
 
 { #category : #accessing }

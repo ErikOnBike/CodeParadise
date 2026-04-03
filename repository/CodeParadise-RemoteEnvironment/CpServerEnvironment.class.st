@@ -35,7 +35,7 @@ Class {
 		'installationMutex',
 		'installationChecker',
 		'announcer',
-		'loaded'
+		'status'
 	],
 	#classVars : [
 		'ClassSideAnnouncer'
@@ -306,9 +306,13 @@ CpServerEnvironment >> announcer [
 ]
 
 { #category : #accessing }
-CpServerEnvironment >> beLoaded [
+CpServerEnvironment >> beConnected [
 
-	loaded := true
+	"Mark the receiver as being connected to an application.
+	This can only happen after the receiver is loaded."
+
+	status = #loaded
+		ifTrue: [ status := #connected ]
 ]
 
 { #category : #'remote execution' }
@@ -443,7 +447,7 @@ CpServerEnvironment >> initialize [
 	installedClasses := OrderedCollection new.
 	installedMethods := OrderedCollection new.
 	installationMutex := Mutex new.
-	loaded := false.
+	status := #init.
 	announcer := Announcer new.
 
 	"Add subscription to reinstall already registered code in the client environment if restarted"
@@ -520,7 +524,9 @@ CpServerEnvironment >> installedMethods [
 { #category : #testing }
 CpServerEnvironment >> isLoaded [
 
-	^ loaded
+	"The receiver is loaded if it is no longer in the #init state"
+
+	^ status ~~ #init
 ]
 
 { #category : #'installing - support' }
@@ -635,7 +641,7 @@ CpServerEnvironment >> release [
 	announcer ifNotNil: [
 		announcer release.
 		announcer := nil ].
-	loaded := nil.
+	status := nil.
 	encoder := nil.
 	encoderMutex := nil.
 	installedClasses := nil.
@@ -732,9 +738,15 @@ CpServerEnvironment >> started: anAnnouncement [
 			announcementClass := CpClientReloaded.
 			loadedAnnouncer := self announcer ].
 
-	self beLoaded.
+	"Mark the receiver loaded"
+	status := #loaded.
 
-	loadedAnnouncer announce: (announcementClass variables: anAnnouncement variables environment: self)
+	"Announce the environment is loaded, an application should connect"
+	loadedAnnouncer announce: (announcementClass variables: anAnnouncement variables environment: self).
+
+	"If not connected, show warning on the console. Maybe the application is not registered."
+	status = #loaded
+		ifTrue: [ self warnCr: 'Unknown (unregistered?) application identifier: ', anAnnouncement app asString ]
 ]
 
 { #category : #support }

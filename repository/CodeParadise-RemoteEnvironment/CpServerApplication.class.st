@@ -522,7 +522,10 @@ CpServerApplication >> setUp [
 	"Ensure the receiver reacts to methods being changed on the server"
 	SystemAnnouncer uniqueInstance weak
 		when: MethodAdded, MethodModified, MethodRemoved
-		send: #methodChanged: to: self
+		send: #methodChanged: to: self.
+
+	"Mark the environment as 'connected'"
+	self environment beConnected
 ]
 
 { #category : #actions }

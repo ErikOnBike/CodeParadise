@@ -7,7 +7,7 @@ CpServerEnvironment >> handleError: anError [
 
 	super handleError: anError.
 
-	loaded
+	self isLoaded
 		ifTrue: [
 			self ifDevelopment: [
 				self sendMessageDirectly: (MessageSend
