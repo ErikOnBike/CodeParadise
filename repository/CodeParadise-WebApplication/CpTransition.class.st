@@ -266,7 +266,7 @@ CpTransition class >> unregisterFinishedTransitions: finishedTransitions [
  	finishedTransitions reverseDo: [ :each |
  		(Transitions lastIndexOf: each startingAt: index ifAbsent: [ nil ])
 			ifNotNil: [ :foundIndex |
- 				Transitions removeAt: foundIndex.
+ 				Transitions removeIndex: foundIndex.
  				index := foundIndex - 1 min: Transitions size ] ].
 
 	self hasTransitions: Transitions isNotEmpty
