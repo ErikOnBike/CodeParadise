@@ -62,3 +62,9 @@ CynMobileApplicationServerDelegate >> map: aString to: aDelegate [
 
 	delegate map: aString to: aDelegate
 ]
+
+{ #category : #accessing }
+CynMobileApplicationServerDelegate >> prefixDictionary [
+
+	^ delegate prefixDictionary
+]
