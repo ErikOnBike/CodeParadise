@@ -15,6 +15,18 @@ CynTaskToken class >> allPropertyNames [
 	^ #(id token)
 ]
 
+{ #category : #accessing }
+CynTaskToken class >> propertyConstraints [
+
+	| constraints |
+
+	constraints := super propertyConstraints.
+
+	self for: #token addConstraint: CynTokenPropertyConstraint default to: constraints.
+
+	^ constraints
+]
+
 { #category : #'accessing - generated' }
 CynTaskToken class >> readWriteProperties [
 
