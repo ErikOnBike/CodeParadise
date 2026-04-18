@@ -704,8 +704,10 @@ CynPropertyModel >> merge: anObject [
 		^ anObject ].
 
 	"Announce the receiver's value(s) changed"
-	oldData keysAndValuesDo: [ :key :value |
-		self announce: (CynPropertyChanged name: key oldValue: value newValue: (self rawAt: key)) ].
+	self propertyNamesAndValuesDo: [ :name :value |
+		| oldValue newValue |
+		(oldValue := oldData at: name ifAbsent: [ nil ]) = (newValue := self rawAt: name)
+			ifFalse: [ self announce: (CynPropertyChanged name: name oldValue: oldValue newValue: newValue) ] ].
 
 	"Announce the receiver changed"
 	self valueChanged.
