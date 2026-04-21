@@ -8,13 +8,21 @@ Class {
 	#category : #'CodeParadise-JavaScript-Shared'
 }
 
-{ #category : #actions }
+{ #category : #'instance creation' }
+CpBrowserReadableStreamDefaultReader class >> stream: aReadableStream [
+
+	"Creates and returns a ReadableStreamDefaultReader object instance."
+
+	^ self newInstanceWithArguments: { aReadableStream }
+]
+
+{ #category : #operations }
 CpBrowserReadableStreamDefaultReader >> cancel [
 
 	^ self cancelWithReason: nil
 ]
 
-{ #category : #actions }
+{ #category : #operations }
 CpBrowserReadableStreamDefaultReader >> cancelWithReason: aString [
 
 	"Returns a Promise that resolves when the stream is canceled. Calling this method signals a loss of interest in the stream by a consumer. The supplied reason argument will be given to the underlying source, which may or may not use it."
@@ -30,7 +38,7 @@ CpBrowserReadableStreamDefaultReader >> closed [
 	^ self propertyAt: #closed
 ]
 
-{ #category : #actions }
+{ #category : #operations }
 CpBrowserReadableStreamDefaultReader >> read [
 
 	"Returns a promise providing access to the next chunk in the stream's internal queue."
@@ -38,10 +46,10 @@ CpBrowserReadableStreamDefaultReader >> read [
 	^ self apply: #read resultAs: CpJavaScriptPromise
 ]
 
-{ #category : #actions }
+{ #category : #operations }
 CpBrowserReadableStreamDefaultReader >> releaseLock [
 
 	"Releases the reader's lock on the stream."
 
-	^ self apply: #releaseLock
+	self apply: #releaseLock
 ]
