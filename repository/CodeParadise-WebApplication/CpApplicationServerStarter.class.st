@@ -85,9 +85,10 @@ CpApplicationServerStarter class >> startUsingConfig: configuration [
 	"Create new application server"
 	applicationServer := CpApplicationServer newOnPort: portNumber path: '/'.
 
-	"Add client error handler (if configured)"
-	configuration at: #clientErrorHandler ifPresent: [ :clientErrorHandler |
-		applicationServer clientErrorHandler: clientErrorHandler ].
+	"Add client error handler (if configured, otherwise install a default handler which only write log to Transcript)"
+	configuration at: #clientErrorHandler
+		ifPresent: [ :clientErrorHandler | applicationServer clientErrorHandler: clientErrorHandler ]
+		ifAbsent: [ applicationServer clientErrorHandler: CpTranscriptClientErrorHandler new ].
 
 	"Create delegate for handling static file requests"
 	staticFilesDelegate := CpGlobalStaticFileServerDelegate new

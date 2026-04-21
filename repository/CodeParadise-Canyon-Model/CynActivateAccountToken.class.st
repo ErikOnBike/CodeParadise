@@ -12,18 +12,6 @@ CynActivateAccountToken class >> allPropertyNames [
 	^ #(id token)
 ]
 
-{ #category : #accessing }
-CynActivateAccountToken class >> propertyConstraints [
-
-	| constraints |
-
-	constraints := super propertyConstraints.
-
-	self for: #token addConstraint: CynTokenPropertyConstraint default to: constraints.
-
-	^ constraints
-]
-
 { #category : #'accessing - generated' }
 CynActivateAccountToken class >> readWriteProperties [
 

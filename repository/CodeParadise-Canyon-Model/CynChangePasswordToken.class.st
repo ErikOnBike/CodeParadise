@@ -23,7 +23,6 @@ CynChangePasswordToken class >> propertyConstraints [
 	constraints := super propertyConstraints.
 
 	self for: #password addConstraint: CynPasswordPropertyConstraint default to: constraints.
-	self for: #token addConstraint: CynTokenPropertyConstraint default to: constraints.
 
 	^ constraints
 ]
