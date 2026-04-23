@@ -29,27 +29,27 @@ CpBrowserWorker class >> url: aString options: aDictionary [
 ]
 
 { #category : #'event handling' }
-CpBrowserWorker >> onMessage: aBlock [
+CpBrowserWorker >> onMessageDo: aBlock [
 
 	"Install and answer event handler for messages from Worker thread.
 
 	Be aware: this method receives Smalltalk objects.
 
 	If you need to receive the raw JavaScript message event objects,
-	consider using: #onRawMessage: which pairs with #postRawMessage:"
+	consider using: #onRawMessageDo: which pairs with #postRawMessage:"
 
-	^ self onRawMessage: [ :messageEvent |
+	^ self onRawMessageDo: [ :messageEvent |
 			aBlock value: (CpObjectDecoder on: (messageEvent propertyAt: #data)) decodeNext ]
 ]
 
 { #category : #'event handling' }
-CpBrowserWorker >> onRawMessage: aBlock [
+CpBrowserWorker >> onRawMessageDo: aBlock [
 
 	"Install and answer event handler for messages from Worker thread.
 
 	Be aware: this method receives the raw message event object.
 
-	If you need to receive Smalltalk objects, consider using: #onMessage:
+	If you need to receive Smalltalk objects, consider using: #onMessageDo:
 	which pairs with #postMessage:"
 
 

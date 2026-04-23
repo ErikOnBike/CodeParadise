@@ -21,27 +21,27 @@ CpBrowserDedicatedWorkerGlobalScope >> close [
 ]
 
 { #category : #'event handling' }
-CpBrowserDedicatedWorkerGlobalScope >> onMessage: aBlock [
+CpBrowserDedicatedWorkerGlobalScope >> onMessageDo: aBlock [
 
 	"Install and answer event handler for messages from the context that spawned the Worker.
 
 	Be aware: this method receives Smalltalk objects.
 
 	If you need to receive the raw JavaScript message event objects,
-	consider using: #onRawMessage: which pairs with #postRawMessage:"
+	consider using: #onRawMessageDo: which pairs with #postRawMessage:"
 
-	^ self onRawMessage: [ :messageEvent |
+	^ self onRawMessageDo: [ :messageEvent |
 			aBlock value: (CpObjectDecoder on: (messageEvent propertyAt: #data)) decodeNext ]
 ]
 
 { #category : #'event handling' }
-CpBrowserDedicatedWorkerGlobalScope >> onRawMessage: aBlock [
+CpBrowserDedicatedWorkerGlobalScope >> onRawMessageDo: aBlock [
 
 	"Install and answer event handler for messages from the context that spawned the Worker.
 
 	Be aware: this method receives the raw message event object.
 
-	If you need to receive Smalltalk objects, consider using: #onMessage:
+	If you need to receive Smalltalk objects, consider using: #onMessageDo:
 	which pairs with #postMessage:"
 
 

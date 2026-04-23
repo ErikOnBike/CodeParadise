@@ -681,7 +681,7 @@ CpBrowserSupportExamplesWebClientBehavior >> exampleWorker [
 
 	worker ifNil: [
 		worker := CpBrowserWorker name: 'first-example'.
-		worker onMessage: [ :numbersResult |
+		worker onMessageDo: [ :numbersResult |
 			(CpHtmlElement elementWithId: #numbersOutcome) ifNotNil: [ :element |
 				element textContent: numbersResult printString ] ] ]
 ]
@@ -1108,7 +1108,7 @@ CpBrowserSupportExamplesWebClientBehavior >> toDoExampleWorker2 [
 
 	worker2 ifNil: [
 		worker2 := CpBrowserWorker name: 'second-example'.
-		worker2 onMessage: [ :result |
+		worker2 onMessageDo: [ :result |
 			(CpHtmlElement elementWithId: #textOutcome) ifNotNil: [ :element |
 				element textContent: result printString ] ] ]
 ]

@@ -41,5 +41,5 @@ CpFirstExampleWorkerBehavior >> initialize [
 
 	self traceCr: 'The numbers-adding-Worker has started'.
 
-	self onMessage: [ :numbers | self handleNumbers: numbers ]
+	self onMessageDo: [ :numbers | self handleNumbers: numbers ]
 ]

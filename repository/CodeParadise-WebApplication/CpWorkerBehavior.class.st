@@ -93,11 +93,11 @@ CpWorkerBehavior >> initialize [
 ]
 
 { #category : #'event handling' }
-CpWorkerBehavior >> onMessage: aBlock [
+CpWorkerBehavior >> onMessageDo: aBlock [
 
 	"Install and answer event handler for messages from Worker thread"
 
-	^ globalThis onMessage: aBlock
+	^ globalThis onMessageDo: aBlock
 ]
 
 { #category : #operations }

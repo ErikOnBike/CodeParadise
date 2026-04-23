@@ -11,5 +11,5 @@ CpSecondExampleWorkerBehavior >> initialize [
 
 	self traceCr: 'The block-executor-Worker has started'.
 
-	self onMessage: [ :input :block | self postMessage: (block value: input) ]
+	self onMessageDo: [ :input :block | self postMessage: (block value: input) ]
 ]
