@@ -61,7 +61,7 @@ CpBrowserFormData >> entries [
 
 	"Returns an iterator that iterates through all key/value pairs contained in the FormData"
 
-	^ self apply: #entries
+	^ self apply: #entries resultAs: CpJavaScriptIteratorProtocol
 ]
 
 { #category : #accessing }
@@ -93,7 +93,7 @@ CpBrowserFormData >> keys [
 
 	"Returns an iterator iterates through all keys of the key/value pairs contained in the FormData"
 
-	^ self apply: #keys
+	^ self apply: #keys resultAs: CpJavaScriptIteratorProtocol
 ]
 
 { #category : #accessing }
@@ -125,5 +125,5 @@ CpBrowserFormData >> values [
 
 	"Returns an iterator that iterates through all values contained in the FormData"
 
-	^ self apply: #values
+	^ self apply: #values resultAs: CpJavaScriptIteratorProtocol
 ]

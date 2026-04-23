@@ -47,7 +47,7 @@ CpBrowserHeaders >> entries [
 
 	"Returns an iterator allowing to go through all key/value pairs contained in this object"
 
-	^ self apply: #entries
+	^ self apply: #entries resultAs: CpJavaScriptIteratorProtocol
 ]
 
 { #category : #operations }
@@ -87,7 +87,7 @@ CpBrowserHeaders >> keys [
 
 	"Returns an iterator allowing you to go through all keys of the key/value pairs contained in this object"
 
-	^ self apply: #keys
+	^ self apply: #keys resultAs: CpJavaScriptIteratorProtocol
 ]
 
 { #category : #operations }
@@ -111,5 +111,5 @@ CpBrowserHeaders >> values [
 
 	"Returns an iterator allowing you to go through all values of the key/value pairs contained in this object"
 
-	^ self apply: #values
+	^ self apply: #values resultAs: CpJavaScriptIteratorProtocol
 ]
