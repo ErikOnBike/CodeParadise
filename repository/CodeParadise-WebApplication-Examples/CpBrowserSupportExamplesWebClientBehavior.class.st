@@ -2,7 +2,8 @@ Class {
 	#name : #CpBrowserSupportExamplesWebClientBehavior,
 	#superclass : #CpWebClientBehavior,
 	#instVars : [
-		'process'
+		'process',
+		'worker'
 	],
 	#category : #'CodeParadise-WebApplication-Examples-Browser-Support'
 }
@@ -651,6 +652,40 @@ CpBrowserSupportExamplesWebClientBehavior >> exampleProcess [
 ]
 
 { #category : #examples }
+CpBrowserSupportExamplesWebClientBehavior >> exampleWorker [
+
+	<example: 'Workers' order: 1500>
+
+	| outputElement listener |
+
+	self clearOutput.
+	outputElement := self outputElement.
+
+	outputElement
+		appendChild: ((CpHtmlElement newWithTag: #h1)
+			textContent: 'Worker test' ;
+			yourself) ;
+		appendChild: ((CpHtmlElement newWithTag: #p)
+			textContent: 'Enter numbers in the field below and have them added by the Worker thread. The result is shown below the input field (after hitting ENTER).' ;
+			yourself) ;
+		appendChild: ((CpHtmlElement newWithTag: #input)
+			id: #numbers ;
+			attributeAt: #type put: #text ;
+			when: CpChangeEvent do: [ self workerAddNumbers: ((CpHtmlElement elementWithId: #numbers) propertyAt: #value) ] for: self ;
+			yourself) ;
+		appendChild: ((CpHtmlElement newWithTag: #pre)
+			id: #numbersOutcome ;
+			yourself) ;
+		yourself.
+
+	worker ifNil: [
+		worker := CpBrowserWorker name: 'first-example'.
+		listener := worker onMessage: [ :numbersResult |
+			(CpHtmlElement elementWithId: #numbersOutcome) ifNotNil: [ :element |
+				element textContent: numbersResult printString ] ] ]
+]
+
+{ #category : #examples }
 CpBrowserSupportExamplesWebClientBehavior >> geolocationGetCurrent [
 
 	| outputElement |
@@ -1037,4 +1072,21 @@ CpBrowserSupportExamplesWebClientBehavior >> stopProcess [
 	process ifNil: [ ^ self ].
 	process terminate.
 	process := nil
+]
+
+{ #category : #examples }
+CpBrowserSupportExamplesWebClientBehavior >> workerAddNumbers: aString [
+
+	| numbers |
+
+	worker ifNil: [ ^ self ].
+
+	numbers := (((aString findTokens: ' ')
+		select: [ :each | each isNotEmpty ])
+			collect: [ :each | each asNumberOrNil ])
+				select: [ :each | each isNotNil ].
+
+	"We can only decode a small number of objects (OrderedCollection is not one of them),
+	so transform it into an Array first"
+	worker postMessage: numbers asArray
 ]

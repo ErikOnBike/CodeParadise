@@ -9,8 +9,7 @@ CpBrowserNavigator class >> current [
 
 	"Answer an instance of the receiver"
 
-	^ CpBrowserWindow current
-		apply: #navigator resultAs: self
+	^ CpGlobalThis apply: #navigator resultAs: self
 ]
 
 { #category : #'instance creation' }

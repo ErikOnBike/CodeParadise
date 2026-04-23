@@ -33,6 +33,12 @@ CpEnvironmentMethodInstallationChecker class >> nodejs [
 	^ self environmentName: #nodejs
 ]
 
+{ #category : #'instance creation' }
+CpEnvironmentMethodInstallationChecker class >> worker [
+
+	^ self environmentName: #worker
+]
+
 { #category : #testing }
 CpEnvironmentMethodInstallationChecker >> excludeMethod: aCompiledMethod [
 

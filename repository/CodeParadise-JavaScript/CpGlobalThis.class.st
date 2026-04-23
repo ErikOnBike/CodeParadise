@@ -216,8 +216,9 @@ CpGlobalThis class >> fetch: aString withOptions: aDictionary [
 CpGlobalThis class >> globalThis [
 
 	"Answer the globalThis instance. This will NOT be an instance of the receiver.
-	In a web browser this will result in an instance of CpBrowserWindow and in a
-	Node.js environment this will be an instance of CpJavaScriptObject."
+	In a web browser this will result in an instance of CpBrowserWindow, in a
+	Worker thread this will be the  WorkerGlobalScope and in a Node.js environment
+	this will be an instance of CpJavaScriptObject."
 
 	^ GlobalThis ifNil: [ GlobalThis := CpJavaScriptObject global ]
 ]
