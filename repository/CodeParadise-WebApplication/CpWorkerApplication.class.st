@@ -1,5 +1,12 @@
 "
 I am a ServerApplication with (Web) Worker-specific behavior.
+
+Like any other ServerApplication I'm the server side of the application.
+I can update and command the Worker(Behavior) running in the client.
+By default any updates made on methods which are installed in the
+client, will be reflected directly in the client too (again, like any
+other ServerApplication).
+
 "
 Class {
 	#name : #CpWorkerApplication,

@@ -1,3 +1,6 @@
+"
+I represent a (Dedicated Web) Worker
+"
 Class {
 	#name : #CpBrowserWorker,
 	#superclass : #CpBrowserEventTarget,

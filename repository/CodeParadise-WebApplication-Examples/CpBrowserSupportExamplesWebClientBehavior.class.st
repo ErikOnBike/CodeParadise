@@ -3,7 +3,8 @@ Class {
 	#superclass : #CpWebClientBehavior,
 	#instVars : [
 		'process',
-		'worker'
+		'worker',
+		'worker2'
 	],
 	#category : #'CodeParadise-WebApplication-Examples-Browser-Support'
 }
@@ -656,7 +657,7 @@ CpBrowserSupportExamplesWebClientBehavior >> exampleWorker [
 
 	<example: 'Workers' order: 1500>
 
-	| outputElement listener |
+	| outputElement |
 
 	self clearOutput.
 	outputElement := self outputElement.
@@ -680,7 +681,7 @@ CpBrowserSupportExamplesWebClientBehavior >> exampleWorker [
 
 	worker ifNil: [
 		worker := CpBrowserWorker name: 'first-example'.
-		listener := worker onMessage: [ :numbersResult |
+		worker onMessage: [ :numbersResult |
 			(CpHtmlElement elementWithId: #numbersOutcome) ifNotNil: [ :element |
 				element textContent: numbersResult printString ] ] ]
 ]
@@ -1075,6 +1076,44 @@ CpBrowserSupportExamplesWebClientBehavior >> stopProcess [
 ]
 
 { #category : #examples }
+CpBrowserSupportExamplesWebClientBehavior >> toDoExampleWorker2 [
+
+	"I need to add CleanBlockClosure support to SqueakJS VM before this one works"
+	
+	<example: 'Workers 2' order: 1510>
+
+	| outputElement |
+
+	self flag: #todo.
+
+	self clearOutput.
+	outputElement := self outputElement.
+
+	outputElement
+		appendChild: ((CpHtmlElement newWithTag: #h1)
+			textContent: 'Worker test #2' ;
+			yourself) ;
+		appendChild: ((CpHtmlElement newWithTag: #p)
+			textContent: 'Enter a text in the field below and have it uppercased by the Worker thread. The result is shown below the input field (after hitting ENTER).' ;
+			yourself) ;
+		appendChild: ((CpHtmlElement newWithTag: #input)
+			id: #text ;
+			attributeAt: #type put: #text ;
+			when: CpChangeEvent do: [ self workerUppercase: ((CpHtmlElement elementWithId: #text) propertyAt: #value) ] for: self ;
+			yourself) ;
+		appendChild: ((CpHtmlElement newWithTag: #pre)
+			id: #textOutcome ;
+			yourself) ;
+		yourself.
+
+	worker2 ifNil: [
+		worker2 := CpBrowserWorker name: 'second-example'.
+		worker2 onMessage: [ :result |
+			(CpHtmlElement elementWithId: #textOutcome) ifNotNil: [ :element |
+				element textContent: result printString ] ] ]
+]
+
+{ #category : #examples }
 CpBrowserSupportExamplesWebClientBehavior >> workerAddNumbers: aString [
 
 	| numbers |
@@ -1089,4 +1128,10 @@ CpBrowserSupportExamplesWebClientBehavior >> workerAddNumbers: aString [
 	"We can only decode a small number of objects (OrderedCollection is not one of them),
 	so transform it into an Array first"
 	worker postMessage: numbers asArray
+]
+
+{ #category : #examples }
+CpBrowserSupportExamplesWebClientBehavior >> workerUppercase: aString [
+
+	worker2 postMessage: { aString . [ :input | self traceCr: input asUppercase ] }
 ]

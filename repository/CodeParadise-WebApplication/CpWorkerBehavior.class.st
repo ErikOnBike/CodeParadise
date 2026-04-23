@@ -1,3 +1,16 @@
+"
+I'm the client side of a WorkerApplication.
+
+I have the typical `onMesssage:` and `postMessage:` methods implemented to
+communicate with the environment that spawned me. These messages are encoded
+and decoded by the same mechanism CodeParadise uses for installing code into
+a client environment and/or announcements which are sent back from the client
+to the server. This means these messages are limited. There is for example
+no support for OrderedCollections or Sets. There is support for Numbers,
+Strings, Arrays, Dictionaries, MessageSends, Announcements and (Clean) Blocks.
+See CpObjectDecoder for more details.
+
+"
 Class {
 	#name : #CpWorkerBehavior,
 	#superclass : #Object,
