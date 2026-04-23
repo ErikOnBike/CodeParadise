@@ -38,6 +38,12 @@ CpJavaScriptSet >> difference: aSet [
 	^ self apply: #difference withArguments: { aSet } resultAs: CpJavaScriptSet
 ]
 
+{ #category : #'operations - convenience' }
+CpJavaScriptSet >> do: aBlock [
+
+	self forEach: aBlock
+]
+
 { #category : #operations }
 CpJavaScriptSet >> entries [
 

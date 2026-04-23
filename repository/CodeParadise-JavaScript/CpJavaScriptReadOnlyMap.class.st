@@ -8,6 +8,12 @@ Class {
 	#category : #'CodeParadise-JavaScript-Core'
 }
 
+{ #category : #'operations - convenience' }
+CpJavaScriptReadOnlyMap >> do: aBlock [
+
+	self valuesDo: aBlock
+]
+
 { #category : #operations }
 CpJavaScriptReadOnlyMap >> entries [
 
@@ -50,6 +56,12 @@ CpJavaScriptReadOnlyMap >> keys [
 	^ self apply: #keys resultAs: CpJavaScriptIteratorProtocol
 ]
 
+{ #category : #'operations - convenience' }
+CpJavaScriptReadOnlyMap >> keysDo: aBlock [
+
+	self keys do: aBlock
+]
+
 { #category : #accessing }
 CpJavaScriptReadOnlyMap >> size [
 
@@ -64,4 +76,10 @@ CpJavaScriptReadOnlyMap >> values [
 	"Returns a new Iterator object that contains the values for each element in the Map object in insertion order."
 
 	^ self apply: #values resultAs: CpJavaScriptIteratorProtocol
+]
+
+{ #category : #'operations - convenience' }
+CpJavaScriptReadOnlyMap >> valuesDo: aBlock [
+
+	self values do: aBlock
 ]
