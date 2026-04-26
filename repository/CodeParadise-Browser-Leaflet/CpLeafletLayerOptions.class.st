@@ -29,7 +29,7 @@ CpLeafletLayerOptions >> pane: aString [
 { #category : #accessing}
 CpLeafletLayerOptions >> attribution [
 
-	"String to be shown in the attribution control, e.g. "© OpenStreetMap contributors". It describes the layer data and is often a legal obligation towards copyright holders and tile providers.
+	"String to be shown in the attribution control, e.g. ""© OpenStreetMap contributors"". It describes the layer data and is often a legal obligation towards copyright holders and tile providers.
 
 	Type: String
 	Default: null"
@@ -40,7 +40,7 @@ CpLeafletLayerOptions >> attribution [
 { #category : #accessing }
 CpLeafletLayerOptions >> attribution: aString [
 
-	"String to be shown in the attribution control, e.g. "© OpenStreetMap contributors". It describes the layer data and is often a legal obligation towards copyright holders and tile providers.
+	"String to be shown in the attribution control, e.g. ""© OpenStreetMap contributors"". It describes the layer data and is often a legal obligation towards copyright holders and tile providers.
 
 	Type: String
 	Default: null"
