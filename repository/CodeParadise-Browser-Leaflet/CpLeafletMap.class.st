@@ -4,25 +4,25 @@ Class {
 	#category : #'CodeParadise-Browser-Leaflet-Core'
 }
 
-{ #category : #accessing }
+{ #category : #'instance creation' }
 CpLeafletMap class >> element: anElement [
 
 	^ self newInstanceWithArguments: { anElement }
 ]
 
-{ #category : #accessing }
+{ #category : #'instance creation' }
 CpLeafletMap class >> element: anElement options: aDictionary [
 
 	^ self newInstanceWithArguments: { anElement . aDictionary asDictionary }
 ]
 
-{ #category : #accessing }
+{ #category : #'instance creation' }
 CpLeafletMap class >> id: aString [
 
 	^ self newInstanceWithArguments: { aString }
 ]
 
-{ #category : #accessing }
+{ #category : #'instance creation' }
 CpLeafletMap class >> id: aString options: aDictionary [
 
 	^ self newInstanceWithArguments: { aString . aDictionary asDictionary }
