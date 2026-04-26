@@ -1,6 +1,6 @@
 Class {
 	#name : #CpLeafletGridLayerOptions,
-	#superclass : #CpLeafletLayerOptions
+	#superclass : #CpLeafletLayerOptions,
 	#category : #'CodeParadise-Browser-Leaflet-Support'
 }
 
