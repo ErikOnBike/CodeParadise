@@ -54,14 +54,14 @@ CpLeafletMapOptions >> boxZoom: aBoolean [
 	self propertyAt: #boxZoom put: aBoolean
 ]
 
-CpLeafletMapOptions >> doubleClickZoom: aBoolean|String [
+CpLeafletMapOptions >> doubleClickZoom: aBooleanOrString [
 
 	"Whether the map can be zoomed in by double clicking on it and zoomed out by double clicking while holding shift. If passed 'center', double-click zoom will zoom to the center of the view regardless of where the pointer was.
 
 	Type: Boolean|String
 	Default: true"
 
-	self propertyAt: #doubleClickZoom put: aBoolean|String
+	self propertyAt: #doubleClickZoom put: aBooleanOrString
 ]
 
 CpLeafletMapOptions >> dragging: aBoolean [
@@ -184,14 +184,14 @@ CpLeafletMapOptions >> keyboardPanDelta: aNumber [
 	self propertyAt: #keyboardPanDelta put: aNumber
 ]
 
-CpLeafletMapOptions >> pinchZoom: aBoolean|String [
+CpLeafletMapOptions >> pinchZoom: aBooleanOrString [
 
 	"Whether the map can be zoomed by touch-dragging with two fingers. If passed 'center', it will zoom to the center of the view regardless of where the touch events (fingers) were. Enabled for touch-capable web browsers.
 
 	Type: Boolean|String
 	Default: *"
 
-	self propertyAt: #pinchZoom put: aBoolean|String
+	self propertyAt: #pinchZoom put: aBooleanOrString
 ]
 
 CpLeafletMapOptions >> bounceAtZoomLimits: aBoolean [
@@ -224,14 +224,14 @@ CpLeafletMapOptions >> tapTolerance: aNumber [
 	self propertyAt: #tapTolerance put: aNumber
 ]
 
-CpLeafletMapOptions >> scrollWheelZoom: aBoolean|String [
+CpLeafletMapOptions >> scrollWheelZoom: aBooleanOrString [
 
 	"Whether the map can be zoomed by using the mouse wheel. If passed 'center', it will zoom to the center of the view regardless of where the pointer was.
 
 	Type: Boolean|String
 	Default: true"
 
-	self propertyAt: #scrollWheelZoom put: aBoolean|String
+	self propertyAt: #scrollWheelZoom put: aBooleanOrString
 ]
 
 CpLeafletMapOptions >> wheelDebounceTime: aNumber [
@@ -304,14 +304,14 @@ CpLeafletMapOptions >> maxZoom: aNumber [
 	self propertyAt: #maxZoom put: aNumber
 ]
 
-CpLeafletMapOptions >> layers: aLayer[] [
+CpLeafletMapOptions >> layers: aLayerCollection [
 
 	"Array of layers that will be added to the map initially
 
 	Type: Layer[]
 	Default: []"
 
-	self propertyAt: #layers put: aLayer[]
+	self propertyAt: #layers put: aLayerCollection
 ]
 
 CpLeafletMapOptions >> maxBounds: aLatLngBounds [
