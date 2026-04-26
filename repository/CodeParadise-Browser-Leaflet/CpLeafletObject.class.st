@@ -43,3 +43,9 @@ CpLeafletObject class >> postInstallOnce [
 
 	self loadLibrary
 ]
+
+{ #category : #adding }
+CpLeafletObject >> addTo: aMap [
+
+	self apply: #addTo withArguments: { aMap }
+]
