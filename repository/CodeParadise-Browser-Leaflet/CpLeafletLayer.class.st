@@ -1,5 +1,5 @@
 Class {
-	#name : #CpLeafletPolyline,
-	#superclass : #CpLeafletPath,
+	#name : #CpLeafletLayer,
+	#superclass : #CpLeafletObject,
 	#category : #'CodeParadise-Browser-Leaflet-Core'
 }

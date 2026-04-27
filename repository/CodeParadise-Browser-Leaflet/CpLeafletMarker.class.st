@@ -1,6 +1,6 @@
 Class {
 	#name : #CpLeafletMarker,
-	#superclass : #CpLeafletObject,
+	#superclass : #CpLeafletLayer,
 	#category : #'CodeParadise-Browser-Leaflet-Core'
 }
 
