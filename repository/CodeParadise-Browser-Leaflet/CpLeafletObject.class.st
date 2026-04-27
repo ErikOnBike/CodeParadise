@@ -44,8 +44,26 @@ CpLeafletObject class >> postInstallOnce [
 	self loadLibrary
 ]
 
-{ #category : #adding }
-CpLeafletObject >> addTo: aMap [
+{ #category : #'event handling' }
+CpLeafletObject >> off: aString handler: aBlock [
 
-	self apply: #addTo withArguments: { aMap }
+	^ self apply: #off withArguments: { aString . aBlock asJavaScriptFunction }
+]
+
+{ #category : #'event handling' }
+CpLeafletObject >> on: aString handler: aBlock [
+
+	^ self apply: #on withArguments: { aString . aBlock asJavaScriptFunction }
+]
+
+{ #category : #'event handling' }
+CpLeafletObject >> once: aString handler: aBlock [
+
+	^ self apply: #once withArguments: { aString . aBlock asJavaScriptFunction }
+]
+
+{ #category : #removing }
+CpLeafletObject >> remove [
+
+	self apply: #remove
 ]

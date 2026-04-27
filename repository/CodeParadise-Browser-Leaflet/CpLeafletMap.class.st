@@ -27,3 +27,27 @@ CpLeafletMap class >> id: aString options: aDictionary [
 
 	^ self newInstanceWithArguments: { aString . aDictionary asDictionary }
 ]
+
+{ #category : #operations }
+CpLeafletMap >> flyTo: anArray [
+
+	self apply: #flyTo withArguments: { anArray }
+]
+
+{ #category : #operations }
+CpLeafletMap >> flyTo: anArray zoom: anInteger options: aDictionary [
+
+	self apply: #flyTo withArguments: { anArray . anInteger . aDictionary asDictionary }
+]
+
+{ #category : #operations }
+CpLeafletMap >> panTo: anArray [
+
+	self apply: #panTo withArguments: { anArray }
+]
+
+{ #category : #operations }
+CpLeafletMap >> panTo: anArray options: aDictionary [
+
+	self apply: #panTo withArguments: { anArray . aDictionary asDictionary }
+]

@@ -1,6 +1,6 @@
 Class {
 	#name : #CpLeafletTileLayer,
-	#superclass : #CpLeafletObject,
+	#superclass : #CpLeafletGridLayer,
 	#category : #'CodeParadise-Browser-Leaflet-Core'
 }
 
