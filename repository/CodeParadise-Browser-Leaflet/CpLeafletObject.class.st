@@ -4,6 +4,15 @@ Class {
 	#category : #'CodeParadise-Browser-Leaflet-Core'
 }
 
+{ #category : #'class initialization' }
+CpLeafletObject class >> addGlobalFunction [
+
+	"Setup function to retrieve Leaflet class by name"
+	CpGlobalThis propertyAt: #leafletClassByName put: (CpJavaScriptFunction
+		method: 'return L[name];'
+		arguments: #('name'))
+]
+
 { #category : #accessing }
 CpLeafletObject class >> getClass [
 
@@ -32,16 +41,19 @@ CpLeafletObject class >> loadLibrary [
 		documentAddExternalScript: 'https://unpkg.com/leaflet@2.0.0-alpha.1/dist/leaflet-global.js' ;
 		documentAddStylesheet: 'https://unpkg.com/leaflet@2.0.0-alpha.1/dist/leaflet.css'.
 
-	"Setup function to retrieve Leaflet class by name"
-	CpGlobalThis propertyAt: #leafletClassByName put: (CpJavaScriptFunction
-		method: 'return L[name];'
-		arguments: #('name'))
+	self addGlobalFunction
 ]
 
 { #category : #'class initialization' }
 CpLeafletObject class >> postInstallOnce [
 
 	self loadLibrary
+]
+
+{ #category : #'class initialization' }
+CpLeafletObject class >> postSnapshotOnce [
+
+	self addGlobalFunction
 ]
 
 { #category : #'event handling' }
