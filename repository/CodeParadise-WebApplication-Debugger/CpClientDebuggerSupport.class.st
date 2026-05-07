@@ -24,24 +24,6 @@ CpClientDebuggerSupport class >> applicationLoaded: anApplicationLoaded [
 	^ self on: serverEnvironment
 ]
 
-{ #category : #'event handling' }
-CpClientDebuggerSupport class >> clientLoaded: aClientLoaded [
-
-	"A new client is loaded create a new instance of the receiver
-	(it will register as listener to the environment and therefore remain 'alive')"
-
-	| serverEnvironment applicationClass |
-
-	serverEnvironment := aClientLoaded environment ifProduction: [ ^ self ].
-
-	"Only install instances of the receiver in WebApplications"
-	applicationClass := CpServerApplication applicationClassWithId: aClientLoaded app.
-	(applicationClass isNil or: [ applicationClass isWebApplication not ])
-		ifTrue: [ ^ self ].
-
-	^ self on: serverEnvironment
-]
-
 { #category : #initialization }
 CpClientDebuggerSupport class >> initialize [
 
