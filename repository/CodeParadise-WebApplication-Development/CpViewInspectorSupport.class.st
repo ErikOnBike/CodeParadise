@@ -8,6 +8,23 @@ Class {
 }
 
 { #category : #'event handling' }
+CpViewInspectorSupport class >> applicationLoaded: anApplicationLoaded [
+
+	"A new application is loaded create a new instance of the receiver
+	(it will register as listener to the application's environment and therefore remain 'alive')"
+
+	| serverEnvironment |
+
+	serverEnvironment := anApplicationLoaded environment ifProduction: [ ^ self ].
+
+	"Only install instances of the receiver in WebApplications"
+	anApplicationLoaded application class isWebApplication
+		ifFalse: [ ^ self ].
+
+	^ self on: serverEnvironment
+]
+
+{ #category : #'event handling' }
 CpViewInspectorSupport class >> clientLoaded: aClientLoaded [
 
 	"A new client is loaded create a new instance of the receiver
@@ -31,7 +48,7 @@ CpViewInspectorSupport class >> initialize [
 	"Perform this method to have all applications receive view inspector support.
 	Otherwise add support manually sending #addViewInspector to a specific Application instance."
 
-	CpServerEnvironment whenClientLoadedSend: #clientLoaded: to: self
+	CpServerApplication whenLoadedSend: #applicationLoaded: to: self
 ]
 
 { #category : #'instance creation' }

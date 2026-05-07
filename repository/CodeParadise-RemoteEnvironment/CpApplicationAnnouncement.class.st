@@ -21,6 +21,12 @@ CpApplicationAnnouncement >> application [
 	^ application
 ]
 
+{ #category : #accessing }
+CpApplicationAnnouncement >> environment [
+
+	^ self application environment
+]
+
 { #category : #initialization }
 CpApplicationAnnouncement >> initializeWithApplication: anApplication [
 
