@@ -194,6 +194,14 @@ CpBrowserRTCPeerConnection >> localDescription [
 	^ self propertyAt: #localDescription resultAs: CpBrowserRTCSessionDescription
 ]
 
+{ #category : #'event handling' }
+CpBrowserRTCPeerConnection >> onTrackDo: aBlock [
+
+	"Sent after a new track has been added to one of the RTCRtpReceiver instances which comprise the connection."
+
+	^ self addEventListener: #track handler: aBlock
+]
+
 { #category : #accessing }
 CpBrowserRTCPeerConnection >> pendingLocalDescription [
 
