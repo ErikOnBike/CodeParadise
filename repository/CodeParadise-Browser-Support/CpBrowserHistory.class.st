@@ -7,7 +7,7 @@ Class {
 { #category : #accessing }
 CpBrowserHistory class >> current [
 
-	^ CpGlobalThis propertyAt: #history
+	^ CpGlobalThis propertyAt: #history resultAs: self
 ]
 
 { #category : #'instance creation' }
