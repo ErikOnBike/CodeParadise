@@ -773,7 +773,6 @@ CynApp class >> updateVersion: aString [
 	aString ifNil: [ ^ self ].
 
 	Current ifNil: [ ^ self ].
-	aString ifNil: [ ^ self ].
 
 	self version = aString
 		ifTrue: [ ^ self ].

@@ -253,11 +253,11 @@ CpObjectEncoder >> encodeClassVariable: aClassVariable [
 { #category : #encoding }
 CpObjectEncoder >> encodeCleanBlockClosure: aCleanBlockClosure [
 
-	"Encode aCleanBlockClosure using its number of arguments"
+	"Encode aCleanBlockClosure using its compiledBlock"
 
 	writeStream nextPut: 31.
 
-	self writeLength: aCleanBlockClosure numArgs
+	aCleanBlockClosure compiledBlock cpEncodeWith: self
 ]
 
 { #category : #encoding }
