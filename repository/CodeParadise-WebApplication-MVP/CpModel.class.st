@@ -33,6 +33,19 @@ CpModel >> displayIn: aPresenter [
 	^ aPresenter createChildPresenterForModel: self
 ]
 
+{ #category : #initialization }
+CpModel >> initialize [
+
+	"In the MVP-context, a Model will always be listened to, so create the Announcer directly.
+	Replace the default (unordered) subscriptions registry with an ordered collection to have
+	an ordered delivery of Announcements."
+
+	super initialize.
+
+	announcer := Announcer new.
+	announcer subscriptions cpSubscriptions: OrderedCollection new
+]
+
 { #category : #presenter }
 CpModel >> preferredPresenterClass [
 
