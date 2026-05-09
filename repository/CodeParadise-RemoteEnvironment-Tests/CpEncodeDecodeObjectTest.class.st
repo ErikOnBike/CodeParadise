@@ -479,6 +479,12 @@ CpEncodeDecodeObjectTest >> testPositiveIntegerEncoding [
 { #category : #tests }
 CpEncodeDecodeObjectTest >> testSortedCollection [
 
+	"These tests are disabled because safety checks prevent it (to prevent CompiledMethods from being installed).
+	Tests have been performed by manually removing the safe guards. Need to find a mechanism to make this
+	possible from inside these tests. Since it is a security risks, I'm not too keen on this."
+
+	self skip.
+
 	"SortedCollection are only supported when CleanBlockClosures are enabled"
 
 	self class compiler compilationContext optionCleanBlockClosure 
