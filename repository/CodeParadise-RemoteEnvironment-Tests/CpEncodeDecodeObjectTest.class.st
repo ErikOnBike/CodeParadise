@@ -198,6 +198,35 @@ CpEncodeDecodeObjectTest >> testCharacter [
 ]
 
 { #category : #tests }
+CpEncodeDecodeObjectTest >> testCollection [
+
+	self
+		assert: (CpObjectDecoder on: (CpObjectEncoder new encodeCollection: OrderedDictionary new ; bytes)) decodeNext isEmpty
+		description: 'Encode/decode empty OrderedDictionary has no elements'.
+	self
+		assert: (CpObjectDecoder on: (CpObjectEncoder new encodeCollection: OrderedCollection new ; bytes)) decodeNext isEmpty
+		description: 'Encode/decode empty OrderedCollection has no elements'.
+	self
+		assert: (CpObjectDecoder on: (CpObjectEncoder new encodeCollection: Set new ; bytes)) decodeNext isEmpty
+		description: 'Encode/decode empty Set has no elements'.
+	self
+		assert: (CpObjectDecoder on: (CpObjectEncoder new encodeCollection: LinkedList new ; bytes)) decodeNext isEmpty
+		description: 'Encode/decode empty LinkedList has no elements'.
+	self
+		assert: (CpObjectDecoder on: (CpObjectEncoder new encodeCollection: (OrderedDictionary withAll: {#one -> 1. #two -> 2. #three -> 3 }) ; bytes)) decodeNext = (OrderedDictionary withAll: {#one -> 1. #two -> 2. #three -> 3 })
+		description: 'Encode/decode OrderedDictionary with values'.
+	self
+		assert: (CpObjectDecoder on: (CpObjectEncoder new encodeCollection: (OrderedCollection withAll: { 1 . 2 . 3 }) ; bytes)) decodeNext = (OrderedCollection withAll: { 1 . 2 . 3 })
+		description: 'Encode/decode OrderedCollection with values'.
+	self
+		assert: (CpObjectDecoder on: (CpObjectEncoder new encodeCollection: (Set withAll: #(1 2 3)) ; bytes)) decodeNext = (Set withAll: #(3 2 1))
+		description: 'Encode/decode Set with values'.
+	self
+		assert: (CpObjectDecoder on: (CpObjectEncoder new encodeCollection: (LinkedList withAll: #(1 2 3)) ; bytes)) decodeNext = (LinkedList withAll: #(1 2 3))
+		description: 'Encode/decode LinkedList with values'
+]
+
+{ #category : #tests }
 CpEncodeDecodeObjectTest >> testCompiledMethod [
 
 	"These tests are disabled because safety checks prevent it (to prevent CompiledMethods from being installed)"
@@ -309,6 +338,17 @@ CpEncodeDecodeObjectTest >> testInteger [
 			assert: (CpObjectDecoder on: (CpObjectEncoder new encodeInteger: integer ; bytes)) decodeNext = integer
 			description: 'Encode/decode Integer loop2' ].
 
+]
+
+{ #category : #tests }
+CpEncodeDecodeObjectTest >> testInterval [
+
+	self
+		assert: (CpObjectDecoder on: (CpObjectEncoder new encodeArray: (Interval from: 3 to: 2 by: 1) ; bytes)) decodeNext isEmpty
+		description: 'Encode/decode empty Interval has no elements'.
+	self
+		assert: (CpObjectDecoder on: (CpObjectEncoder new encodeArray: (Interval from: 1 to: 2 by: 3) ; bytes)) decodeNext = (Interval from: 1 to: 2 by: 3)
+		description: 'Encode/decode Interval with values'
 ]
 
 { #category : #tests }
@@ -434,6 +474,25 @@ CpEncodeDecodeObjectTest >> testPositiveIntegerEncoding [
 		assert: ((CpObjectEncoder new encodeInteger: 16r80000000 ; bytes) at: 1) = 12
 		description: 'Encode/decode Integer type for 16r80000000'
 
+]
+
+{ #category : #tests }
+CpEncodeDecodeObjectTest >> testSortedCollection [
+
+	"SortedCollection are only supported when CleanBlockClosures are enabled"
+
+	self class compiler compilationContext optionCleanBlockClosure 
+		ifFalse: [ ^ self ].
+
+	self
+		assert: (CpObjectDecoder on: (CpObjectEncoder new encodeSortedCollection: (SortedCollection sortBlock: [ :a :b | a > b ]) ; bytes)) decodeNext isEmpty
+		description: 'Encode/decode empty SortedCollection has no elements'.
+	self
+		assert: (CpObjectDecoder on: (CpObjectEncoder new encodeSortedCollection: ((SortedCollection sortBlock: [ :a :b | a > b ]) addAll: { 1 . 3 . 2 } ; yourself) ; bytes)) decodeNext first = 3
+		description: 'Encode/decode SortedCollection first is in order'.
+	self
+		assert: (CpObjectDecoder on: (CpObjectEncoder new encodeSortedCollection: ((SortedCollection sortBlock: [ :a :b | a > b ]) addAll: { 1 . 3 . 2 } ; yourself) ; bytes)) decodeNext last = 1
+		description: 'Encode/decode SortedCollection last is in order'
 ]
 
 { #category : #tests }

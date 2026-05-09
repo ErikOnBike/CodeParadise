@@ -1,6 +1,12 @@
 Extension { #name : #Collection }
 
 { #category : #'*CodeParadise-RemoteEnvironment' }
+Collection >> asCpEncodedArray [
+
+	^ self asArray
+]
+
+{ #category : #'*CodeParadise-RemoteEnvironment' }
 Collection >> ifEmptyOrNil: aBlock [
 
 	<clientEnvironment>

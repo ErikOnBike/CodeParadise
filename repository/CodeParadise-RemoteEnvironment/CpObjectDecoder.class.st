@@ -320,6 +320,20 @@ CpObjectDecoder >> decodeCleanBlockClosure [
 ]
 
 { #category : #decoding }
+CpObjectDecoder >> decodeCollection [
+
+	"Decode Collection (generic approach, specific versions exist too)"
+
+	| className |
+
+	className := self readSymbol.
+
+	(Smalltalk classNamed: className)
+		ifNotNil: [ :class | ^ class withAll: self readArray ]
+		ifNil: [ self error: 'Unknown Collection class ', className ]
+]
+
+{ #category : #decoding }
 CpObjectDecoder >> decodeCompiledBlock [
 
 	"Decode a CompiledBlock. It will have its outerCode set,
@@ -474,6 +488,20 @@ CpObjectDecoder >> decodeInteger4Bytes [
 ]
 
 { #category : #decoding }
+CpObjectDecoder >> decodeInterval [
+
+	"Decode Interval"
+
+	| start stop step |
+
+	start := self decodeNext.
+	stop := self decodeNext.
+	step := self decodeNext.
+
+	^ Interval from: start to: stop by: step
+]
+
+{ #category : #decoding }
 CpObjectDecoder >> decodeLargeNegativeInteger [
 
 	"Large integers are stored as special type and therefore do not need a sign bit anymore.
@@ -562,6 +590,9 @@ CpObjectDecoder >> decodeNext [
 		decodeConstantBlockClosure
 		decodeByteArray
 		decodeWordArray
+		decodeCollection
+		decodeSortedCollection
+		decodeInterval
 	) at: type ifAbsent: [ self error: 'Unknown type in decode stream' ].
 
 	^ self perform: selector
@@ -596,6 +627,24 @@ CpObjectDecoder >> decodePragma [
 	^ Pragma new
 		selector: selector ;
 		arguments: arguments ;
+		yourself
+]
+
+{ #category : #decoding }
+CpObjectDecoder >> decodeSortedCollection [
+
+	"Decode SortedCollection.
+
+	Be aware: this is only supported when CleanBlockClosures are enabled.
+	From Pharo 14 onwards these are enabled by default (before that it requires
+	manually setting this compiler option through #optionCleanBlockClosure)."
+
+	| sortBlock |
+
+	sortBlock := self decodeNext.
+
+	^ (SortedCollection sortBlock: sortBlock)
+		addAll: self readArray ;
 		yourself
 ]
 

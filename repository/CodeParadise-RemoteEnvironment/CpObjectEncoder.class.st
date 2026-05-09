@@ -261,6 +261,24 @@ CpObjectEncoder >> encodeCleanBlockClosure: aCleanBlockClosure [
 ]
 
 { #category : #encoding }
+CpObjectEncoder >> encodeCollection: aCollection [
+
+	"Encode the Collection by converting it to an Array.
+	Write the Collection class name as identification.
+	Some Collection subclasses are handled specifically,
+	because this conversion is not usable and/or an
+	optimized version already exists.
+	Not all Collection classes are available in the
+	client environment (like Bag or KeyedTree or any
+	of the Weak collections)."
+
+	writeStream nextPut: 35.
+
+	self writeSymbol: aCollection class name.
+	self writeArray: aCollection asCpEncodedArray
+]
+
+{ #category : #encoding }
 CpObjectEncoder >> encodeCompiledBlock: aCompiledBlock [
 
 	"Encode aCompiledBlock based on the block's header, bytecode and literals.
@@ -381,6 +399,19 @@ CpObjectEncoder >> encodeInteger: anInteger [
 ]
 
 { #category : #encoding }
+CpObjectEncoder >> encodeInterval: anInterval [
+
+	"Encode the Interval using its start, stop and step."
+
+	writeStream nextPut: 37.
+
+	"Since start, stop and step can be both SmallIntegers or LargeIntegers, use encoding"
+	anInterval first cpEncodeWith: self.
+	anInterval stop cpEncodeWith: self.
+	anInterval increment cpEncodeWith: self
+]
+
+{ #category : #encoding }
 CpObjectEncoder >> encodeLargeNegativeInteger: anInteger [
 
 	writeStream nextPut: 13.
@@ -489,6 +520,23 @@ CpObjectEncoder >> encodePragma: aPragma [
 
 	self writeSymbol: aPragma selector.
 	self writeArray: aPragma arguments asArray
+]
+
+{ #category : #encoding }
+CpObjectEncoder >> encodeSortedCollection: aSortedCollection [
+
+	"Encode the SortedCollection by converting it to an Array
+	and writing the sortBlock and Array consecutively.
+
+	Be aware: this is only supported when CleanBlockClosures are enabled.
+	From Pharo 14 onwards these are enabled by default (before that it requires
+	manually setting this compiler option through #optionCleanBlockClosure)."
+
+	writeStream nextPut: 36.
+
+	aSortedCollection sortBlock cpEncodeWith: self.
+
+	self writeArray: aSortedCollection asArray
 ]
 
 { #category : #encoding }
