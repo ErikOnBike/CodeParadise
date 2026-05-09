@@ -7,6 +7,14 @@ Collection >> asCpEncodedArray [
 ]
 
 { #category : #'*CodeParadise-RemoteEnvironment' }
+Collection >> cpEncodeWith: anEncoder [
+
+	<clientEnvironment>
+
+	anEncoder encodeCollection: self
+]
+
+{ #category : #'*CodeParadise-RemoteEnvironment' }
 Collection >> ifEmptyOrNil: aBlock [
 
 	<clientEnvironment>
