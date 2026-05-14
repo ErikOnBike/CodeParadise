@@ -109,19 +109,19 @@ CpBrowserRTCDataChannel >> onClosingDo: aBlock [
 ]
 
 { #category : #'event handling' }
-CpBrowserRTCDataChannel >> onDataDo: aBlock [
-
-	"Sent when a message has been received from the remote peer. The message contents can be found in the event's data property."
-
-	^ self addEventListener: #data handler: aBlock
-]
-
-{ #category : #'event handling' }
 CpBrowserRTCDataChannel >> onErrorDo: aBlock [
 
 	"Sent when an error occurs on the data channel."
 
 	^ self addEventListener: #error handler: aBlock
+]
+
+{ #category : #'event handling' }
+CpBrowserRTCDataChannel >> onMessageDo: aBlock [
+
+	"Sent when a message has been received from the remote peer. The message contents can be found in the event's data property."
+
+	^ self addEventListener: #message handler: aBlock
 ]
 
 { #category : #'event handling' }
