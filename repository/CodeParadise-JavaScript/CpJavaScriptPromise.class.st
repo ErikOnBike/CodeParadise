@@ -126,7 +126,9 @@ CpJavaScriptPromise >> await [
 		then: [ :value |
 
 			"Store the fulfilled result"
-			fulfilled := value.
+			fulfilled := (self rawPropertyAt: #__proxyClass)
+				ifNotNil: [ :proxyClass | CpJavaScriptObject wrap: value in: proxyClass ]
+				ifNil: [ value ].
 			success := true.
 
 			"Resume the original Process"
@@ -255,6 +257,14 @@ CpJavaScriptPromise >> rawCatch: aBlockOrFunction [
 	^ self primCatch: aBlockOrFunction asJavaScriptFunction
 ]
 
+{ #category : #convenience }
+CpJavaScriptPromise >> resultAs: aProxyClass [
+
+	"Set a hidden property to describe the result's ProxyClass"
+
+	self rawPropertyAt: #__proxyClass put: aProxyClass
+]
+
 { #category : #operations }
 CpJavaScriptPromise >> then: fulfilledBlock [
 
@@ -284,7 +294,10 @@ CpJavaScriptPromise >> then: fulfilledBlock onRejected: rejectedBlock [
 	fulfilledBlock ifNil: [ self error: 'A Block or Function should be specified' ].
 
 	^ self
-		primThen: fulfilledBlock asJavaScriptFunction
+		primThen: [ :value |
+			fulfilledBlock value: ((self rawPropertyAt: #__proxyClass)
+				ifNotNil: [ :proxyClass | CpJavaScriptObject wrap: value in: proxyClass ]
+				ifNil: [ value ]) ] asJavaScriptFunction
 		onRejected: (rejectedBlock ifNotNil: [ rejectedBlock asJavaScriptFunction ])
 ]
 
