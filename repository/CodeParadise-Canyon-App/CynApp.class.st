@@ -388,6 +388,7 @@ CynApp class >> developmentClasses [
 		CpEventCondition
 		"CpClientCommunicator"
 		"CpCommunicatorReconnectStrategy"
+		CpClientMessageToUnknownReceiver
 		CpClientMessageSendFailed
 		CpClientReconnected
 		CpClientStarted

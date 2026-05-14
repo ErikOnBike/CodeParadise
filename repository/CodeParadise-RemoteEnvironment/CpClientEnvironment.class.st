@@ -143,6 +143,7 @@ CpClientEnvironment class >> preInstalledClasses [
 			add: CpClientEnvironment ;
 			add: CpClientError ;
 			add: CpClientMessageSendFailed ;
+			add: CpClientMessageToUnknownReceiver ;
 			add: CpClientReconnected ;
 			add: CpClientStarted ;
 			add: CpClientStopped ;
