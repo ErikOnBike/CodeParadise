@@ -97,7 +97,8 @@ CpBrowserRTCPeerConnection >> createOfferOptions: aDictionary [
 
 	"Initiates the creation of an SDP offer for the purpose of starting a new WebRTC connection to a remote peer. The SDP offer includes information about any MediaStreamTrack objects already attached to the WebRTC session, codec, and options supported by the browser, as well as any candidates already gathered by the ICE agent, for the purpose of being sent over the signaling channel to a potential peer to request a connection or to update the configuration of an existing connection."
 
-	^ self apply: #createOffer withArguments: { aDictionary } resultAs: CpJavaScriptPromise
+	^ (self apply: #createOffer withArguments: { aDictionary } resultAs: CpJavaScriptPromise)
+		resultAs: CpBrowserRTCSessionDescription
 ]
 
 { #category : #accessing }
