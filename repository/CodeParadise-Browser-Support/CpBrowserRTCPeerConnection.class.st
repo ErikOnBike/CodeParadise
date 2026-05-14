@@ -195,6 +195,14 @@ CpBrowserRTCPeerConnection >> localDescription [
 ]
 
 { #category : #'event handling' }
+CpBrowserRTCPeerConnection >> onConnectionStateChangeDo: aBlock [
+
+	"Sent when the overall connectivity status of the RTCPeerConnection changes."
+
+	^ self addEventListener: #connectionstatechange handler: aBlock
+]
+
+{ #category : #'event handling' }
 CpBrowserRTCPeerConnection >> onTrackDo: aBlock [
 
 	"Sent after a new track has been added to one of the RTCRtpReceiver instances which comprise the connection."
