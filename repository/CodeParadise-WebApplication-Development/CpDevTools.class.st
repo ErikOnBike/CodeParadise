@@ -73,10 +73,17 @@ CpDevTools class >> handleClientError: aClientError for: aServerEnvironment [
 		ifFound: [ :serverApplication | application := serverApplication ].
 
 	application ifNotNil: [
-		(aClientError class == CpClientMessageSendFailed and: [ application class isMvpWebApplication ])
+		((aClientError isKindOf: CpClientMessageSendFailed) and: [ application class isMvpWebApplication ])
 			ifTrue: [
 				aClientError messageSend ifNotNil: [ :messageSend |
-					presenter := application presenterWithId: messageSend receiver ifAbsent: [ nil ] ] ] ].
+					presenter := application presenterWithId: messageSend receiver ifAbsent: [ nil ].
+
+					"For unknown receivers, remove the presenter (it will not magically become known)"
+					(presenter isNotNil and: [ aClientError isKindOf: CpClientMessageToUnknownReceiver ])
+						ifTrue: [
+							presenter parent ifNotNil: [ :parent |
+								parent removeChildPresenter: presenter ].
+							application removePresenter: presenter ] ] ] ].
 
 	Smalltalk isHeadless
 		ifTrue: [
