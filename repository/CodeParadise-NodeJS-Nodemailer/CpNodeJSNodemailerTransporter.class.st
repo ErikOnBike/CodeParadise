@@ -56,7 +56,7 @@ CpNodeJSNodemailerTransporter >> onIdle: aBlock [
 
 	See also: https://nodemailer.com/smtp/pooled/"
 
-	self apply: #on withArguments: { #idle . CpJavaScriptFunction wrap: aBlock }
+	self apply: #on withArguments: { #idle . aBlock asJavaScriptFunction }
 ]
 
 { #category : #'operations - proxy' }
@@ -72,7 +72,7 @@ CpNodeJSNodemailerTransporter >> proxyHandler: aBlock [
 
 	See also: https://nodemailer.com/smtp/proxies/"
 
-	self apply: #set withArguments: { #proxy_handler_myproxy . CpJavaScriptFunction wrap: aBlock }
+	self apply: #set withArguments: { #proxy_handler_myproxy . aBlock asJavaScriptFunction }
 ]
 
 { #category : #operations }
@@ -116,5 +116,5 @@ CpNodeJSNodemailerTransporter >> verify: aBlock [
 	but it does not check if the service allows you to use a specific
 	envelope “From” address or not."
 
-	self apply: #verify withArguments: { CpJavaScriptFunction wrap: aBlock }
+	self apply: #verify withArguments: { aBlock asJavaScriptFunction }
 ]

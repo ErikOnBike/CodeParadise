@@ -93,5 +93,5 @@ CpNodeJSNodemailerTransport >> normalizeHeaderKey: aBlock [
 	The specified Block is responsible for converting the single String provided into a normalized
 	String value."
 
-	options at: #normalizeHeaderKey put: (CpJavaScriptFunction wrap: aBlock)
+	options at: #normalizeHeaderKey put: aBlock asJavaScriptFunction
 ]
