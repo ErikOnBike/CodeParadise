@@ -398,7 +398,7 @@ CpClientEnvironment >> handleMessageSend: aMessageSend [
 				ifNotNil: [ :object | aMessageSend receiver: object ]
 				ifNil: [
 					"Send Announcement of error to server"
-					self serverAnnounce: (CpClientMessageSendFailed
+					self serverAnnounce: (CpClientMessageToUnknownReceiver
 						messageSend: aMessageSend
 						description: 'Object with the specified id does not exist in the client').
 					^ self ] ]
