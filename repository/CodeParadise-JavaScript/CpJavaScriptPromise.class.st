@@ -293,11 +293,13 @@ CpJavaScriptPromise >> then: fulfilledBlock onRejected: rejectedBlock [
 
 	fulfilledBlock ifNil: [ self error: 'A Block or Function should be specified' ].
 
+	"If a proxyClass is set for the result, wrap the fulfilled Block to ensure the value
+	is provided as the specified proxied Class"
 	^ self
-		primThen: [ :value |
-			fulfilledBlock value: ((self rawPropertyAt: #__proxyClass)
-				ifNotNil: [ :proxyClass | CpJavaScriptObject wrap: value in: proxyClass ]
-				ifNil: [ value ]) ] asJavaScriptFunction
+		primThen: ((self rawPropertyAt: #__proxyClass)
+			ifNotNil: [ :proxyClass |
+				[ :value | fulfilledBlock value: (CpJavaScriptObject wrap: value in: proxyClass) ] ]
+			ifNil: [ fulfilledBlock ]) asJavaScriptFunction
 		onRejected: (rejectedBlock ifNotNil: [ rejectedBlock asJavaScriptFunction ])
 ]
 
