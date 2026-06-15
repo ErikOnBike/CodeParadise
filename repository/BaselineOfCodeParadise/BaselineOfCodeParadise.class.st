@@ -38,12 +38,6 @@ BaselineOfCodeParadise >> baseline: spec [
 			package: 'CodeParadise-WebApplication-ChartJS' with: [ spec requires: #('CodeParadise-WebApplication') ];
 			package: 'CodeParadise-Browser-Auth0-SPA-JS' with: [ spec requires: #('CodeParadise-WebApplication') ];
 
-			"Canyon"
-			package: 'CodeParadise-Canyon-Model' with: [ spec requires: #('CodeParadise-RemoteEnvironment') ];
-			package: 'CodeParadise-Canyon-Data' with: [ spec requires: #('CodeParadise-Canyon-Model' 'CodeParadise-NodeJS-REST') ];
-			package: 'CodeParadise-Canyon-App' with: [ spec requires: #('CodeParadise-Canyon-Model' 'CodeParadise-WebApplication-Ionic' 'CodeParadise-WebApplication-Snapshot') ];
-			package: 'CodeParadise-Canyon-Development' with: [ spec requires: #('CodeParadise-Canyon-App') ];
-
 			"2022-06: No longer maintained"
 			package: 'CodeParadise-WebApplication-Fomantic' with: [ spec requires: #('CodeParadise-WebApplication') ];
 
@@ -63,15 +57,13 @@ BaselineOfCodeParadise >> baseline: spec [
 
 		"Groups"
 		spec 
-			group: 'default' with: #( 'Core' 'NodeJS-Core' 'Shoelace' 'Ionic' 'ChartJS' 'Auth0-SPA-JS' 'Presentation' 'Snapshot' 'Tests' 'Examples' 'Development' 'NodeJS-Applications' 'Canyon');
+			group: 'default' with: #( 'Core' 'NodeJS-Core' 'Shoelace' 'Ionic' 'ChartJS' 'Auth0-SPA-JS' 'Presentation' 'Snapshot' 'Tests' 'Examples' 'Development' 'NodeJS-Applications' );
 
 			group: 'Core' with: #( 'CodeParadise-Browser-Support' );
 			group: 'NodeJS-Core' with: #( 'CodeParadise-NodeJS-Support' );
 			group: 'Tests' with: #( 'CodeParadise-WebApplication-Tests' 'CodeParadise-RemoteEnvironment-Tests' );
 
 			group: 'MVP' with: #( 'CodeParadise-WebApplication-MVP' );
-
-			group: 'Canyon' with: #( 'CodeParadise-Canyon-Model' 'CodeParadise-Canyon-Data' 'CodeParadise-Canyon-App' 'CodeParadise-Canyon-Development' );
 
 			group: 'Shoelace' with: #( 'CodeParadise-WebApplication-Shoelace' );
 			group: 'Ionic' with: #( 'CodeParadise-WebApplication-Ionic' );
