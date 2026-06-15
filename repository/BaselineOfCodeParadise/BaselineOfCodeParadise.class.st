@@ -21,11 +21,11 @@ BaselineOfCodeParadise >> baseline: spec [
 		spec
 			package: 'CodeParadise-RemoteEnvironment' with: [ spec requires: #('CpClientEnvironment' 'CodeParadise-JavaScript') ];
 			package: 'CodeParadise-JavaScript' ;
-			package: 'CodeParadise-WebApplication' with: [ spec requires: #('CodeParadise-RemoteEnvironment' 'CodeParadise-Browser-Support' 'CodeParadise-JavaScript') ];
-			package: 'CodeParadise-Browser-Support' with: [ spec requires: #('CodeParadise-JavaScript') ];
+			package: 'CodeParadise-Browser-Support' with: [ spec requires: #('CodeParadise-RemoteEnvironment') ];
+			package: 'CodeParadise-WebApplication' with: [ spec requires: #('CodeParadise-Browser-Support') ];
 			package: 'CodeParadise-WebApplication-Snapshot' with: [ spec requires: #('CodeParadise-WebApplication') ];
 
-			package: 'CodeParadise-NodeJS-Support' with: [ spec requires: #('CodeParadise-RemoteEnvironment' 'CodeParadise-JavaScript') ];
+			package: 'CodeParadise-NodeJS-Support' with: [ spec requires: #('CodeParadise-RemoteEnvironment') ];
 			package: 'CodeParadise-NodeJS-REST' with: [ spec requires: #('CodeParadise-NodeJS-Support') ];
 			package: 'CodeParadise-NodeJS-Sqlite3' with: [ spec requires: #('CodeParadise-NodeJS-Support') ];
 			package: 'CodeParadise-NodeJS-Nodemailer' with: [ spec requires: #('CodeParadise-NodeJS-Support') ];
@@ -39,7 +39,7 @@ BaselineOfCodeParadise >> baseline: spec [
 			package: 'CodeParadise-Browser-Auth0-SPA-JS' with: [ spec requires: #('CodeParadise-WebApplication') ];
 
 			"Canyon"
-			package: 'CodeParadise-Canyon-Model' with: [ spec requires: #('CodeParadise-RemoteEnvironment' 'CodeParadise-JavaScript') ];
+			package: 'CodeParadise-Canyon-Model' with: [ spec requires: #('CodeParadise-RemoteEnvironment') ];
 			package: 'CodeParadise-Canyon-Data' with: [ spec requires: #('CodeParadise-Canyon-Model' 'CodeParadise-NodeJS-REST') ];
 			package: 'CodeParadise-Canyon-App' with: [ spec requires: #('CodeParadise-Canyon-Model' 'CodeParadise-WebApplication-Ionic' 'CodeParadise-WebApplication-Snapshot') ];
 			package: 'CodeParadise-Canyon-Development' with: [ spec requires: #('CodeParadise-Canyon-App') ];
@@ -52,7 +52,7 @@ BaselineOfCodeParadise >> baseline: spec [
 
 			package: 'CodeParadise-WebApplication-Examples' with: [ spec requires: #('CodeParadise-WebApplication-MVP') ];
 
-			package: 'CodeParadise-WebApplication-Development' with: [ spec requires: #('CodeParadise-WebApplication' 'CodeParadise-Browser-Support' 'CodeParadise-WebApplication-Shoelace') ];
+			package: 'CodeParadise-WebApplication-Development' with: [ spec requires: #('CodeParadise-WebApplication-Shoelace') ];
 			package: 'CodeParadise-WebApplication-Debugger' with: [ spec requires: #('CodeParadise-WebApplication') ].
 
 		spec
@@ -114,7 +114,7 @@ BaselineOfCodeParadise >> baseline: spec [
 			package: 'CodeParadise-RemoteEnvironment-Pharo11' with: [ spec requires: 'CodeParadise-RemoteEnvironment' ] ].
 ]
 
-{ #category : 'actions' }
+{ #category : #actions }
 BaselineOfCodeParadise >> preLoad: loader package: packageSpec [
 
 	"Load Zinc, including WebSocket support.
