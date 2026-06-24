@@ -163,3 +163,12 @@ CpPropertyModel >> rawMergePropertyValues: aDictionary [
 			at: each name
 			ifPresent: [ :value | each write: value to: self ] ]
 ]
+
+{ #category : #accessing }
+CpPropertyModel >> rawPropertyAt: aSymbol put: anObject [
+
+	"Update the receiver without announcing any change"
+
+	(self class propertySlotNamed: aSymbol)
+		rawWrite: anObject to: self
+]

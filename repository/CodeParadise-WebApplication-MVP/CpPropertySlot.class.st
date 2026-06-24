@@ -183,6 +183,17 @@ CpPropertySlot >> object: anObject instVarAt: anIndex put: aValue [
 ]
 
 { #category : #'meta-object-protocol' }
+CpPropertySlot >> rawWrite: aValue to: anObject [
+
+	"Set the value of the specified Object's slot matching the receiver.
+	Do NOT announce any change."
+
+	<reflection: 'Object Modification - State modification'>
+
+	^ self object: anObject instVarAt: index put: aValue
+]
+
+{ #category : #'meta-object-protocol' }
 CpPropertySlot >> read: anObject [
 
 	"Answer the value of the specified Object's slot matching the receiver"
