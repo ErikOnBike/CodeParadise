@@ -28,7 +28,10 @@ Class {
 { #category : #announcing }
 CpPropertyModel >> asSingleChange: aBlock [
 
-	"Evaluate the specified Block and only announce changes after the Block has completed"
+	"Evaluate the specified Block and only announce changes after the Block has completed.
+	This method is useful to prevent updating the view while the receiver is not consistent
+	yet. When all properties (set during the Block evaluation) are updated and the receiver's
+	properties are in a consistent state, then the changes are announced."
 
 	"If no interest is registered, simply evaluate the Block"
 	announcer ifNil: [
