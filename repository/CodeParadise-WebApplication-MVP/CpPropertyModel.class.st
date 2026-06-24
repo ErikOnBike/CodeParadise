@@ -25,6 +25,19 @@ Class {
 	#category : #'CodeParadise-WebApplication-MVP-Core'
 }
 
+{ #category : #announcing }
+CpPropertyModel >> asSingleChange: aBlock [
+
+	"Evaluate the specified Block and only announce changes after the Block has completed"
+
+	"If no interest is registered, simply evaluate the Block"
+	announcer ifNil: [
+		aBlock value.
+		^ self ].
+
+	announcer delayAnnouncementsAfter: aBlock
+]
+
 { #category : #accessing }
 CpPropertyModel >> mergePropertyValues: aDictionary [
 
