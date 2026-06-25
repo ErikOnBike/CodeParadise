@@ -42,9 +42,9 @@ CpPropertyModel >> asSingleChange: aBlock [
 ]
 
 { #category : #accessing }
-CpPropertyModel >> mergePropertyValues: aDictionary [
+CpPropertyModel >> mergeProperties: aDictionary [
 
-	"Merge the property values from the specified Dictionary into the receiver.
+	"Merge the properties from the specified Dictionary into the receiver.
 
 	Implementation:
 	The safe way to merge the properties is by using the slot names instead of
@@ -55,6 +55,21 @@ CpPropertyModel >> mergePropertyValues: aDictionary [
 	announcer
 		ifNotNil: [ announcer delayAnnouncementsAfter: [ self rawMergePropertyValues: aDictionary ] ]
 		ifNil: [ self rawMergePropertyValues: aDictionary ]
+]
+
+{ #category : #accessing }
+CpPropertyModel >> properties [
+
+	"Answer a Dictionary containing the receiver's property names and values"
+
+	| properties |
+
+	properties := Dictionary new: self propertyCount.
+
+	self propertyNamesAndValuesDo: [ :name :value |
+		properties at: name put: value ].
+
+	^ properties
 ]
 
 { #category : #accessing }
