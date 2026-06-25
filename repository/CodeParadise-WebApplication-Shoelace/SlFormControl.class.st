@@ -26,12 +26,6 @@ SlFormControl >> beEnabled [
 ]
 
 { #category : #'accessing style' }
-SlFormControl >> beInvalid [
-
-	self invalid: true
-]
-
-{ #category : #'accessing style' }
 SlFormControl >> beNotDisabled [
 
 	self disabled: false
@@ -43,12 +37,6 @@ SlFormControl >> beNotEnabled [
 	"Convenience method to clear the enabled state of the receiver"
 
 	self disabled: true
-]
-
-{ #category : #'accessing style' }
-SlFormControl >> beNotInvalid [
-
-	self invalid: false
 ]
 
 { #category : #'accessing style' }
@@ -121,12 +109,6 @@ SlFormControl >> hasFocus [
 	^ self = CpHtmlElement activeElement
 ]
 
-{ #category : #accessing }
-SlFormControl >> invalid: aBoolean [
-
-	self propertyAt: #invalid put: aBoolean
-]
-
 { #category : #testing }
 SlFormControl >> isDisabled [
 
@@ -150,12 +132,6 @@ SlFormControl >> isFormControl [
 ]
 
 { #category : #testing }
-SlFormControl >> isInvalid [
-
-	^ self propertyAt: #invalid
-]
-
-{ #category : #testing }
 SlFormControl >> isRequired [
 
 	^ self propertyAt: #required
@@ -176,9 +152,10 @@ SlFormControl >> name: aString [
 { #category : #actions }
 SlFormControl >> reportValidity [
  
-	"Checks for validity and shows the browser's validation message if the control is invalid."
+	"Checks for validity and shows the browser's validation message if the control is invalid.
+	Answer a Boolean indicating if the receiver is valid."
 
-	self apply: #reportValidity withArguments: #()
+	^ self apply: #reportValidity withArguments: #()
 ]
 
 { #category : #accessing }
