@@ -190,6 +190,24 @@ CpHtmlElement >> isSlotted [
 	^ self hasAttributeAt: #slot
 ]
 
+{ #category : #scrolling }
+CpHtmlElement >> scrollIntoView [
+
+	"Scroll the receiver into the visible view"
+
+	self scrollIntoView: true
+]
+
+{ #category : #scrolling }
+CpHtmlElement >> scrollIntoView: anObject [
+
+	"Scroll the receiver into the visible view using the specified option.
+	If the specified option can be a boolean or a Dictionary.
+	See: https://developer.mozilla.org/en-US/docs/Web/API/Element/scrollIntoView"
+
+	self apply: #scrollIntoView withArguments: { anObject }
+]
+
 { #category : #accessing }
 CpHtmlElement >> slot [
 
