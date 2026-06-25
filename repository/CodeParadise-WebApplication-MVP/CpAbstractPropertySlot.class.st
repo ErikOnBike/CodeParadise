@@ -226,7 +226,7 @@ CpAbstractPropertySlot >> initialize: anObject [
 
 	super initialize: anObject.
 
-	self halt
+	"self halt"
 ]
 
 { #category : #'class building' }
