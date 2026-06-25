@@ -142,6 +142,14 @@ SlFormControl >> isEnabled [
 ]
 
 { #category : #testing }
+SlFormControl >> isFormControl [
+
+	"Convenience method to distinguish form controls"
+
+	^ true
+]
+
+{ #category : #testing }
 SlFormControl >> isInvalid [
 
 	^ self propertyAt: #invalid
