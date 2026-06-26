@@ -35,6 +35,41 @@ CpWaInterfaceProperty >> argumentName [
 		ifFalse: [ 'a' ]), typeName
 ]
 
+{ #category : #testing }
+CpWaInterfaceProperty >> booleanConvenienceVariantsSourceCode [
+
+	"Answer the source code for a #beXyz and #beNotXyz method"
+
+	| trueSelector falseSelector |
+
+	trueSelector := ('be', self name capitalized) asSymbol.
+	falseSelector := (String streamContents: [ :stream |
+		stream nextPutAll: 'be'.
+		self nameStartsWithWith
+			ifTrue: [ stream nextPutAll: 'Without' ; nextPutAll: (self name allButFirst: 4) capitalized ]
+			ifFalse: [
+				self nameStartsWithWithout
+					ifTrue: [ stream nextPutAll: 'With' ; nextPutAll: (self name allButFirst: 7) capitalized ]
+					ifFalse: [ stream nextPutAll: 'Not' ; nextPutAll: self name capitalized ] ] ]) asSymbol.
+
+	^ Dictionary new
+		add: trueSelector -> (String streamContents: [ :stream |
+			stream
+				nextPutAll: trueSelector ; cr ;
+				cr ;
+				tab ; nextPut: $" ; nextPutAll: self convenienceMethodComment ; nextPut: $" ; cr ;
+				cr ;
+				tab ; nextPutAll: 'self ' ; nextPutAll: self name ; nextPutAll: ': true' ]) ;
+		add: falseSelector -> (String streamContents: [ :stream |
+			stream
+				nextPutAll: falseSelector ; cr ;
+				cr ;
+				tab ; nextPut: $" ; nextPutAll: self convenienceMethodComment ; nextPut: $" ; cr ;
+				cr ;
+				tab ; nextPutAll: 'self ' ; nextPutAll: self name ; nextPutAll: ': false' ]) ;
+		yourself
+]
+
 { #category : #accessing }
 CpWaInterfaceProperty >> comment [
 
@@ -51,6 +86,32 @@ CpWaInterfaceProperty >> comment [
 			stream nextPutAll: 'Allowed: ' ; nextPutAll: (' | ' join: (self allowedValues collect: [ :each | each printString ])) ; cr ].
 		self readonly ifTrue: [
 			stream nextPutAll: 'Read-only: true' ] ]
+]
+
+{ #category : #accessing }
+CpWaInterfaceProperty >> convenienceMethodComment [
+
+	^ 'This is a convenience method to prevent having to provide arguments to a genric setter method'
+]
+
+{ #category : #testing }
+CpWaInterfaceProperty >> convenienceVariantsSourceCode [
+
+	"Answer a Dictionary of source code strings for each convenience variant of the receiver.
+	Keys are the selectors and values the source code."
+
+	| typeName |
+
+	typeName := self typeName.
+
+	typeName = #Boolean
+		ifTrue: [ ^ self booleanConvenienceVariantsSourceCode ].
+
+	"Some special style elements"
+	(typeName = #String and: [ self allowedValues isNotNil and: [ #(appearance variant size) includes: self name ] ])
+		ifTrue: [ ^ self stringConvenienceVariantsSourceCode ].
+
+	^ Dictionary new
 ]
 
 { #category : #accessing }
@@ -94,6 +155,47 @@ CpWaInterfaceProperty >> getterSource [
 			ifFalse: [ stream nextPutAll: '^ self propertyAt: #' ; nextPutAll: name ] ]
 ]
 
+{ #category : #testing }
+CpWaInterfaceProperty >> hasConvenienceVariants [
+
+	| typeName |
+
+	typeName := self typeName.
+
+	typeName = #Boolean
+		ifTrue: [ ^ true ].
+
+	"Some special style elements"
+	(typeName = #String and: [ #(appearance variant size) includes: self name ])
+		ifTrue: [ ^ true ].
+
+	^ false
+]
+
+{ #category : #actions }
+CpWaInterfaceProperty >> installMethodsIn: aClass [
+
+	CpWaInterfaceInstaller
+		installMethodSource:  self getterSource
+		selector: self name
+		protocol: 'accessing'
+		in: aClass.
+
+	self setterSource ifNotNil: [ :source |
+		CpWaInterfaceInstaller
+			installMethodSource:  source
+			selector: self name, ':'
+			protocol: 'accessing'
+			in: aClass ].
+
+	self convenienceVariantsSourceCode keysAndValuesDo: [ :selector :source |
+		CpWaInterfaceInstaller
+			installMethodSource: source
+			selector: selector
+			protocol: 'convenience'
+			in: aClass ]
+]
+
 { #category : #accessing }
 CpWaInterfaceProperty >> instanceSide [
 
@@ -126,6 +228,32 @@ CpWaInterfaceProperty >> name: aString [
 	name := aString
 ]
 
+{ #category : #testing }
+CpWaInterfaceProperty >> nameStartsWith: aString [
+
+	"Answer if the receiver's name start with the specified prefix
+	AND has an uppercase character following it.
+
+	This allows checking for names like 'withValue' and 'withoutValue'
+	although both have the same prefix 'with'."
+
+	^ (self name beginsWith: aString)
+		and: [ self name size > aString size
+			and: [ (self name at: aString size + 1) isUppercase ] ]
+]
+
+{ #category : #testing }
+CpWaInterfaceProperty >> nameStartsWithWith [
+
+	^ self nameStartsWith: 'with'
+]
+
+{ #category : #testing }
+CpWaInterfaceProperty >> nameStartsWithWithout [
+
+	^ self nameStartsWith: 'without'
+]
+
 { #category : #accessing }
 CpWaInterfaceProperty >> readonly [
 
@@ -154,6 +282,32 @@ CpWaInterfaceProperty >> setterSource [
 					nextPutAll: (CpWaInterfaceInstaller generateComment: self comment indent: 1) ; cr ;
 					cr ;
 					tab ; nextPutAll: 'self propertyAt: #' ; nextPutAll: name ; nextPutAll: ' put: ' ; nextPutAll: argumentName ; nextPutAll: (self isTypeBlock ifTrue: [ ' asJavaScriptFunction' ] ifFalse: [ '' ]) ] ]
+]
+
+{ #category : #testing }
+CpWaInterfaceProperty >> stringConvenienceVariantsSourceCode [
+
+	"Answer the source code for a #beAbc and #beDef methods (depending on allowed values).
+	A Dictionary is answered with selector as key and source code as value."
+
+	^ (self allowedValues collect: [ :each |
+
+		| selector source |
+		selector := (String streamContents: [ :stream |
+			stream nextPutAll: 'be'.
+			each size <= 2
+				ifTrue: [ stream nextPutAll: self name capitalized ].
+			stream nextPutAll: (self unkebabCase: each initialUppercase: true) ]) asSymbol.
+
+		source := String streamContents: [ :stream |
+			stream
+				nextPutAll: selector ; cr ;
+				cr ;
+				tab ; nextPut: $" ; nextPutAll: self convenienceMethodComment ; nextPut: $" ; cr ;
+				cr ;
+				tab ; nextPutAll: 'self ' ; nextPutAll: self name ; nextPutAll: ': ' ; print: each asSymbol ].
+		
+		selector -> source ]) asDictionary
 ]
 
 { #category : #accessing }
@@ -209,4 +363,25 @@ CpWaInterfaceProperty >> typeName [
 		(typeName = #Object and: [ self defaultValue isString ])
 			ifTrue: [ #String ]
 			ifFalse: [ typeName ] ]
+]
+
+{ #category : #accessing }
+CpWaInterfaceProperty >> unkebabCase: aString initialUppercase: aBoolean [
+
+	"Replace kebab-case with kebabCase"
+
+	| nextUpper |
+
+	nextUpper := aBoolean.
+
+	^ String streamContents: [ :stream |
+		aString do: [ :each |
+			nextUpper
+				ifTrue: [
+					stream nextPut: each asUppercase.
+					nextUpper := false ]
+				ifFalse: [
+					each = $-
+						ifTrue: [ nextUpper := true ]
+						ifFalse: [ stream nextPut: each ] ] ] ]
 ]

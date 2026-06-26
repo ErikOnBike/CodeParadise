@@ -22,16 +22,16 @@ CpWaInterfaceMethod class >> copy: aMethod withoutParameter: anInteger [
 ]
 
 { #category : #accessing }
-CpWaInterfaceMethod >> addParameterName: nameString typeDescription: aDictionary [
+CpWaInterfaceMethod >> addParameterName: aString typeDescription: aDictionary [
 
 	parameters ifNil: [ parameters := OrderedCollection new ].
 
-	parameters add: nameString -> aDictionary.
+	parameters add: aString -> aDictionary.
 
 	"Keep track of a common prefix in parameter names"
 	commonParameterPrefixLength := commonParameterPrefixLength
-		ifNotNil: [ self commonPrefixLength: commonParameterPrefixLength between: nameString and: parameters first key ]
-		ifNil: [ nameString size ]
+		ifNotNil: [ self commonPrefixLength: commonParameterPrefixLength between: aString and: parameters first key ]
+		ifNil: [ aString size ]
 ]
 
 { #category : #accessing }
@@ -138,6 +138,16 @@ CpWaInterfaceMethod >> initializeFrom: aMethod withoutParameter: anInteger [
 		| parameter |
 		parameter := aMethod parameters at: index.
 		self addParameterName: parameter key typeDescription: parameter value ]
+]
+
+{ #category : #initialization }
+CpWaInterfaceMethod >> installIn: aClass [
+
+	CpWaInterfaceInstaller
+		installMethodSource: self methodSource
+		selector: self selector
+		protocol: 'actions'
+		in: aClass
 ]
 
 { #category : #accessing }

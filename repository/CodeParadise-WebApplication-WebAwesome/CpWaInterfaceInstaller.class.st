@@ -9,7 +9,8 @@ Class {
 		'typeAttributes',
 		'elementAttributes',
 		'properties',
-		'methods'
+		'methods',
+		'events'
 	],
 	#category : #'CodeParadise-WebApplication-WebAwesome-Support'
 }
@@ -172,11 +173,42 @@ CpWaInterfaceInstaller class >> installAll [
 ]
 
 { #category : #actions }
+CpWaInterfaceInstaller class >> installClass: aSymbol asSubclassOf: aClass inTag: aString [
+
+	^ (Smalltalk classNamed: aSymbol)
+		ifNil: [
+
+			self traceCr: 'Creating new component ', aSymbol.
+			(aClass << aSymbol
+				tag: aString ;
+				package: 'CodeParadise-WebApplication-WebAwesome') install ]
+]
+
+{ #category : #actions }
 CpWaInterfaceInstaller class >> installFromTypeDict: typeDictionary elementDict: elementDictionary [
 
 	self basicNew
 		initializeWithTypeDict: typeDictionary elementDict: elementDictionary ;
 		install
+]
+
+{ #category : #actions }
+CpWaInterfaceInstaller class >> installMethodSource: sourceString selector: aSymbol protocol: protocolString in: aClass [
+
+	| normalizedSourceCode |
+
+	normalizedSourceCode := sourceString replaceAll: Character lf with: Character cr.
+
+	"Check for presence of existing method"
+	(aClass includesSelector: aSymbol)
+		ifTrue: [
+			| sourceCode |
+			sourceCode := (aClass >> aSymbol) sourceCode.
+
+			sourceCode = normalizedSourceCode
+				ifFalse: [ self halt ] ].
+
+	aClass compile: sourceString classified: protocolString
 ]
 
 { #category : #accessing }
@@ -345,6 +377,17 @@ CpWaInterfaceInstaller >> descriptionFromMember: aDictionary [
 ]
 
 { #category : #iterating }
+CpWaInterfaceInstaller >> eventMembersDo: aBlock [
+
+	(elementDict at: #modules) do: [ :eachModule |
+		(eachModule at: #declarations ifAbsent: [ #() ]) do: [ :eachDeclaration |
+			(self from: eachDeclaration atPath: #(kind)) = #class
+				ifTrue: [
+					(self from: eachDeclaration atPath: #(superclass name)) = #Event
+						ifTrue: [ aBlock value: eachDeclaration ] ] ] ]
+]
+
+{ #category : #iterating }
 CpWaInterfaceInstaller >> fieldMembersFromElementDo: aBlock [
 
 	"Evaluate the specified Block for all public field members of the current element"
@@ -417,7 +460,14 @@ CpWaInterfaceInstaller >> install [
 	self typesDo: [ :each |
 		self
 			setupType: each ;
-			installComponent ]
+			installComponent ].
+
+	"Install the Event (currently just empty classes)"
+	events := Set new.
+
+	self selectEvents.
+
+	events do: [ :each | each install ]
 ]
 
 { #category : #actions }
@@ -428,17 +478,21 @@ CpWaInterfaceInstaller >> installComponent [
 	Implementation:
 	Gather all relevant info first, then create the actual class and its methods."
 
+	| componentClass |
+
 	self traceCr: 'Installing component: ', self className.
 
 	self
 		selectProperties ;
 		selectMethods.
 
-	properties do: [ :each |
-		self traceCr: each getterSource asString.
-		self traceCr: each setterSource asString ].
+	componentClass := self class installClass: self className asSymbol asSubclassOf: WaElement inTag: 'Elements'.
+
+	properties do: [ :each | each installMethodsIn: componentClass ].
+
 	methods do: [ :each |
-		self traceCr: each methodSource asString ]
+		each isUnwanted
+			ifFalse: [ each installIn: componentClass ] ]
 ]
 
 { #category : #testing }
@@ -533,6 +587,34 @@ CpWaInterfaceInstaller >> selectAttributesFromType [
 
 	typeAttributes := Dictionary newFrom: ((type at: #attributes)
 		collect: [ :each | (each at: #name) -> each ])
+]
+
+{ #category : #'accessing - field members' }
+CpWaInterfaceInstaller >> selectEventFromFieldMember: eventMemberDictionary [
+
+	"Add a new event from the specified field member"
+
+	| event |
+
+	event := (CpWaInterfaceEvent new
+		name: (eventMemberDictionary at: #name) ;
+		yourself).
+
+	"Add event properties"
+	(eventMemberDictionary at: #members ifAbsent: [ #() ]) do: [ :each |
+		(self from: each atPath: #(kind)) = #field
+			ifTrue: [ event addPropertyName: (each at: #name) typeDescription: each ] ].
+
+	events add: event
+]
+
+{ #category : #accessing }
+CpWaInterfaceInstaller >> selectEvents [
+
+	"Select events"
+
+	self eventMembersDo: [ :each |
+		self selectEventFromFieldMember: each ]
 ]
 
 { #category : #'accessing - field members' }
