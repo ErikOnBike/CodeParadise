@@ -40,6 +40,22 @@ WaAnimatedImage >> bePlay [
 	self play: true
 ]
 
+{ #category : #'accessing - slots' }
+WaAnimatedImage >> pauseIconElement [
+
+	"Optional pause icon to use instead of the default. Works best with `<wa-icon>`."
+
+	^ self firstChildAtSlotNamed: #'pause-icon'
+]
+
+{ #category : #'accessing - slots' }
+WaAnimatedImage >> pauseIconElement: anElement [
+
+	"Optional pause icon to use instead of the default. Works best with `<wa-icon>`."
+
+	self replaceAllChildrenWith: anElement atSlotNamed: #'pause-icon'
+]
+
 { #category : #accessing }
 WaAnimatedImage >> play [
 
@@ -58,6 +74,22 @@ WaAnimatedImage >> play: aBoolean [
 	Type: Boolean"
 
 	self propertyAt: #play put: aBoolean
+]
+
+{ #category : #'accessing - slots' }
+WaAnimatedImage >> playIconElement [
+
+	"Optional play icon to use instead of the default. Works best with `<wa-icon>`."
+
+	^ self firstChildAtSlotNamed: #'play-icon'
+]
+
+{ #category : #'accessing - slots' }
+WaAnimatedImage >> playIconElement: anElement [
+
+	"Optional play icon to use instead of the default. Works best with `<wa-icon>`."
+
+	self replaceAllChildrenWith: anElement atSlotNamed: #'play-icon'
 ]
 
 { #category : #accessing }

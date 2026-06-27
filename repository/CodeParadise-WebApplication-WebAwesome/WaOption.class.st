@@ -91,6 +91,22 @@ WaOption >> disabled: aBoolean [
 	self propertyAt: #disabled put: aBoolean
 ]
 
+{ #category : #'accessing - slots' }
+WaOption >> endElement [
+
+	"An element, such as `<wa-icon>`, placed after the label."
+
+	^ self firstChildAtSlotNamed: #end
+]
+
+{ #category : #'accessing - slots' }
+WaOption >> endElement: anElement [
+
+	"An element, such as `<wa-icon>`, placed after the label."
+
+	self replaceAllChildrenWith: anElement atSlotNamed: #end
+]
+
 { #category : #accessing }
 WaOption >> label [
 
@@ -111,6 +127,22 @@ WaOption >> label: aString [
 	Type: String"
 
 	self propertyAt: #label put: aString
+]
+
+{ #category : #'accessing - slots' }
+WaOption >> startElement [
+
+	"An element, such as `<wa-icon>`, placed before the label."
+
+	^ self firstChildAtSlotNamed: #start
+]
+
+{ #category : #'accessing - slots' }
+WaOption >> startElement: anElement [
+
+	"An element, such as `<wa-icon>`, placed before the label."
+
+	self replaceAllChildrenWith: anElement atSlotNamed: #start
 ]
 
 { #category : #accessing }

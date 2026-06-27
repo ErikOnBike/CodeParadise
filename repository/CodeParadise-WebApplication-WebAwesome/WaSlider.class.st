@@ -336,6 +336,22 @@ WaSlider >> hint: aString [
 	self propertyAt: #hint put: aString
 ]
 
+{ #category : #'accessing - slots' }
+WaSlider >> hintElement [
+
+	"Text that describes how to use the input. Alternatively, you can use the `hint` attribute. instead."
+
+	^ self firstChildAtSlotNamed: #hint
+]
+
+{ #category : #'accessing - slots' }
+WaSlider >> hintElement: anElement [
+
+	"Text that describes how to use the input. Alternatively, you can use the `hint` attribute. instead."
+
+	self replaceAllChildrenWith: anElement atSlotNamed: #hint
+]
+
 { #category : #accessing }
 WaSlider >> indicatorOffset [
 
@@ -387,6 +403,22 @@ WaSlider >> label: aString [
 	Default: ''"
 
 	self propertyAt: #label put: aString
+]
+
+{ #category : #'accessing - slots' }
+WaSlider >> labelElement [
+
+	"The slider label. Alternatively, you can use the `label` attribute."
+
+	^ self firstChildAtSlotNamed: #label
+]
+
+{ #category : #'accessing - slots' }
+WaSlider >> labelElement: anElement [
+
+	"The slider label. Alternatively, you can use the `label` attribute."
+
+	self replaceAllChildrenWith: anElement atSlotNamed: #label
 ]
 
 { #category : #accessing }
@@ -563,6 +595,22 @@ WaSlider >> readonly: aBoolean [
 	Default: false"
 
 	self propertyAt: #readonly put: aBoolean
+]
+
+{ #category : #'accessing - slots' }
+WaSlider >> referenceElement [
+
+	"One or more reference labels to show visually below the slider."
+
+	^ self firstChildAtSlotNamed: #reference
+]
+
+{ #category : #'accessing - slots' }
+WaSlider >> referenceElement: anElement [
+
+	"One or more reference labels to show visually below the slider."
+
+	self replaceAllChildrenWith: anElement atSlotNamed: #reference
 ]
 
 { #category : #actions }

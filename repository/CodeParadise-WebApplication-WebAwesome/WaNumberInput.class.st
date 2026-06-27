@@ -294,6 +294,22 @@ WaNumberInput >> blur [
 	^ self apply: #blur
 ]
 
+{ #category : #'accessing - slots' }
+WaNumberInput >> decrementIconElement [
+
+	"An icon to use in lieu of the default decrement icon."
+
+	^ self firstChildAtSlotNamed: #'decrement-icon'
+]
+
+{ #category : #'accessing - slots' }
+WaNumberInput >> decrementIconElement: anElement [
+
+	"An icon to use in lieu of the default decrement icon."
+
+	self replaceAllChildrenWith: anElement atSlotNamed: #'decrement-icon'
+]
+
 { #category : #accessing }
 WaNumberInput >> defaultValue [
 
@@ -334,6 +350,22 @@ WaNumberInput >> disabled: aBoolean [
 	Default: false"
 
 	self propertyAt: #disabled put: aBoolean
+]
+
+{ #category : #'accessing - slots' }
+WaNumberInput >> endElement [
+
+	"An element, such as `<wa-icon>`, placed at the end of the input control (before steppers)."
+
+	^ self firstChildAtSlotNamed: #end
+]
+
+{ #category : #'accessing - slots' }
+WaNumberInput >> endElement: anElement [
+
+	"An element, such as `<wa-icon>`, placed at the end of the input control (before steppers)."
+
+	self replaceAllChildrenWith: anElement atSlotNamed: #end
 ]
 
 { #category : #accessing }
@@ -422,6 +454,38 @@ WaNumberInput >> hint: aString [
 	self propertyAt: #hint put: aString
 ]
 
+{ #category : #'accessing - slots' }
+WaNumberInput >> hintElement [
+
+	"Text that describes how to use the input. Alternatively, you can use the `hint` attribute."
+
+	^ self firstChildAtSlotNamed: #hint
+]
+
+{ #category : #'accessing - slots' }
+WaNumberInput >> hintElement: anElement [
+
+	"Text that describes how to use the input. Alternatively, you can use the `hint` attribute."
+
+	self replaceAllChildrenWith: anElement atSlotNamed: #hint
+]
+
+{ #category : #'accessing - slots' }
+WaNumberInput >> incrementIconElement [
+
+	"An icon to use in lieu of the default increment icon."
+
+	^ self firstChildAtSlotNamed: #'increment-icon'
+]
+
+{ #category : #'accessing - slots' }
+WaNumberInput >> incrementIconElement: anElement [
+
+	"An icon to use in lieu of the default increment icon."
+
+	self replaceAllChildrenWith: anElement atSlotNamed: #'increment-icon'
+]
+
 { #category : #accessing }
 WaNumberInput >> inputmode [
 
@@ -468,6 +532,22 @@ WaNumberInput >> label: aString [
 	Default: ''"
 
 	self propertyAt: #label put: aString
+]
+
+{ #category : #'accessing - slots' }
+WaNumberInput >> labelElement [
+
+	"The input's label. Alternatively, you can use the `label` attribute."
+
+	^ self firstChildAtSlotNamed: #label
+]
+
+{ #category : #'accessing - slots' }
+WaNumberInput >> labelElement: anElement [
+
+	"The input's label. Alternatively, you can use the `label` attribute."
+
+	self replaceAllChildrenWith: anElement atSlotNamed: #label
 ]
 
 { #category : #accessing }
@@ -667,6 +747,22 @@ WaNumberInput >> size: aString [
 	Allowed: 'xs' | 's' | 'm' | 'l' | 'xl' | 'small' | 'medium' | 'large'"
 
 	self propertyAt: #size put: aString
+]
+
+{ #category : #'accessing - slots' }
+WaNumberInput >> startElement [
+
+	"An element, such as `<wa-icon>`, placed at the start of the input control."
+
+	^ self firstChildAtSlotNamed: #start
+]
+
+{ #category : #'accessing - slots' }
+WaNumberInput >> startElement: anElement [
+
+	"An element, such as `<wa-icon>`, placed at the start of the input control."
+
+	self replaceAllChildrenWith: anElement atSlotNamed: #start
 ]
 
 { #category : #accessing }

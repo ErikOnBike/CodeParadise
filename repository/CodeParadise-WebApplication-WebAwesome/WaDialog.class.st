@@ -68,6 +68,38 @@ WaDialog >> beWithoutHeader [
 	self withoutHeader: true
 ]
 
+{ #category : #'accessing - slots' }
+WaDialog >> footerElement [
+
+	"The dialog's footer, usually one or more buttons representing various options."
+
+	^ self firstChildAtSlotNamed: #footer
+]
+
+{ #category : #'accessing - slots' }
+WaDialog >> footerElement: anElement [
+
+	"The dialog's footer, usually one or more buttons representing various options."
+
+	self replaceAllChildrenWith: anElement atSlotNamed: #footer
+]
+
+{ #category : #'accessing - slots' }
+WaDialog >> headerActionsElement [
+
+	"Optional actions to add to the header. Works best with `<wa-button>`."
+
+	^ self firstChildAtSlotNamed: #'header-actions'
+]
+
+{ #category : #'accessing - slots' }
+WaDialog >> headerActionsElement: anElement [
+
+	"Optional actions to add to the header. Works best with `<wa-button>`."
+
+	self replaceAllChildrenWith: anElement atSlotNamed: #'header-actions'
+]
+
 { #category : #accessing }
 WaDialog >> label [
 
@@ -90,6 +122,22 @@ WaDialog >> label: aString [
 	Default: ''"
 
 	self propertyAt: #label put: aString
+]
+
+{ #category : #'accessing - slots' }
+WaDialog >> labelElement [
+
+	"The dialog's label. Alternatively, you can use the `label` attribute."
+
+	^ self firstChildAtSlotNamed: #label
+]
+
+{ #category : #'accessing - slots' }
+WaDialog >> labelElement: anElement [
+
+	"The dialog's label. Alternatively, you can use the `label` attribute."
+
+	self replaceAllChildrenWith: anElement atSlotNamed: #label
 ]
 
 { #category : #accessing }

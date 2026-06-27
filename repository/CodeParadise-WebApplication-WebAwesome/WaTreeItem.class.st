@@ -68,6 +68,22 @@ WaTreeItem >> beSelected [
 	self selected: true
 ]
 
+{ #category : #'accessing - slots' }
+WaTreeItem >> collapseIconElement [
+
+	"The icon to show when the tree item is collapsed."
+
+	^ self firstChildAtSlotNamed: #'collapse-icon'
+]
+
+{ #category : #'accessing - slots' }
+WaTreeItem >> collapseIconElement: anElement [
+
+	"The icon to show when the tree item is collapsed."
+
+	self replaceAllChildrenWith: anElement atSlotNamed: #'collapse-icon'
+]
+
 { #category : #accessing }
 WaTreeItem >> disabled [
 
@@ -88,6 +104,22 @@ WaTreeItem >> disabled: aBoolean [
 	Default: false"
 
 	self propertyAt: #disabled put: aBoolean
+]
+
+{ #category : #'accessing - slots' }
+WaTreeItem >> expandIconElement [
+
+	"The icon to show when the tree item is expanded."
+
+	^ self firstChildAtSlotNamed: #'expand-icon'
+]
+
+{ #category : #'accessing - slots' }
+WaTreeItem >> expandIconElement: anElement [
+
+	"The icon to show when the tree item is expanded."
+
+	self replaceAllChildrenWith: anElement atSlotNamed: #'expand-icon'
 ]
 
 { #category : #accessing }

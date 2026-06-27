@@ -290,6 +290,22 @@ WaCheckbox >> hint: aString [
 	self propertyAt: #hint put: aString
 ]
 
+{ #category : #'accessing - slots' }
+WaCheckbox >> hintElement [
+
+	"Text that describes how to use the checkbox. Alternatively, you can use the `hint` attribute."
+
+	^ self firstChildAtSlotNamed: #hint
+]
+
+{ #category : #'accessing - slots' }
+WaCheckbox >> hintElement: anElement [
+
+	"Text that describes how to use the checkbox. Alternatively, you can use the `hint` attribute."
+
+	self replaceAllChildrenWith: anElement atSlotNamed: #hint
+]
+
 { #category : #accessing }
 WaCheckbox >> indeterminate [
 

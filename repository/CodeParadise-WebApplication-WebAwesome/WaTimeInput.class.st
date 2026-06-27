@@ -310,6 +310,22 @@ WaTimeInput >> blur [
 	^ self apply: #blur
 ]
 
+{ #category : #'accessing - slots' }
+WaTimeInput >> clearIconElement [
+
+	"An icon to use in lieu of the default clear icon."
+
+	^ self firstChildAtSlotNamed: #'clear-icon'
+]
+
+{ #category : #'accessing - slots' }
+WaTimeInput >> clearIconElement: anElement [
+
+	"An icon to use in lieu of the default clear icon."
+
+	self replaceAllChildrenWith: anElement atSlotNamed: #'clear-icon'
+]
+
 { #category : #accessing }
 WaTimeInput >> defaultValue [
 
@@ -374,6 +390,38 @@ WaTimeInput >> distance: aNumber [
 	self propertyAt: #distance put: aNumber
 ]
 
+{ #category : #'accessing - slots' }
+WaTimeInput >> endElement [
+
+	"An element placed at the end of the input."
+
+	^ self firstChildAtSlotNamed: #end
+]
+
+{ #category : #'accessing - slots' }
+WaTimeInput >> endElement: anElement [
+
+	"An element placed at the end of the input."
+
+	self replaceAllChildrenWith: anElement atSlotNamed: #end
+]
+
+{ #category : #'accessing - slots' }
+WaTimeInput >> expandIconElement [
+
+	"The icon to show on the popup toggle button. Defaults to a clock icon."
+
+	^ self firstChildAtSlotNamed: #'expand-icon'
+]
+
+{ #category : #'accessing - slots' }
+WaTimeInput >> expandIconElement: anElement [
+
+	"The icon to show on the popup toggle button. Defaults to a clock icon."
+
+	self replaceAllChildrenWith: anElement atSlotNamed: #'expand-icon'
+]
+
 { #category : #actions }
 WaTimeInput >> focus [
 
@@ -390,6 +438,22 @@ WaTimeInput >> focus: anObject [
 	Parameter: options (FocusOptions)"
 
 	^ self apply: #focus withArguments: { anObject }
+]
+
+{ #category : #'accessing - slots' }
+WaTimeInput >> footerElement [
+
+	"Content shown below the column picker in the popup. Replaces the default Now button when present."
+
+	^ self firstChildAtSlotNamed: #footer
+]
+
+{ #category : #'accessing - slots' }
+WaTimeInput >> footerElement: anElement [
+
+	"Content shown below the column picker in the popup. Replaces the default Now button when present."
+
+	self replaceAllChildrenWith: anElement atSlotNamed: #footer
 ]
 
 { #category : #accessing }
@@ -448,6 +512,22 @@ WaTimeInput >> hint: aString [
 	self propertyAt: #hint put: aString
 ]
 
+{ #category : #'accessing - slots' }
+WaTimeInput >> hintElement [
+
+	"Text that describes how to use the time picker. Alternatively, use the `hint` attribute."
+
+	^ self firstChildAtSlotNamed: #hint
+]
+
+{ #category : #'accessing - slots' }
+WaTimeInput >> hintElement: anElement [
+
+	"Text that describes how to use the time picker. Alternatively, use the `hint` attribute."
+
+	self replaceAllChildrenWith: anElement atSlotNamed: #hint
+]
+
 { #category : #accessing }
 WaTimeInput >> hourFormat [
 
@@ -492,6 +572,22 @@ WaTimeInput >> label: aString [
 	Default: ''"
 
 	self propertyAt: #label put: aString
+]
+
+{ #category : #'accessing - slots' }
+WaTimeInput >> labelElement [
+
+	"The time picker's label. Alternatively, use the `label` attribute."
+
+	^ self firstChildAtSlotNamed: #label
+]
+
+{ #category : #'accessing - slots' }
+WaTimeInput >> labelElement: anElement [
+
+	"The time picker's label. Alternatively, use the `label` attribute."
+
+	self replaceAllChildrenWith: anElement atSlotNamed: #label
 ]
 
 { #category : #accessing }
@@ -725,6 +821,22 @@ WaTimeInput >> size: aString [
 	Allowed: 's' | 'xs' | 'm' | 'l' | 'xl' | 'small' | 'medium' | 'large'"
 
 	self propertyAt: #size put: aString
+]
+
+{ #category : #'accessing - slots' }
+WaTimeInput >> startElement [
+
+	"An element placed at the start of the input."
+
+	^ self firstChildAtSlotNamed: #start
+]
+
+{ #category : #'accessing - slots' }
+WaTimeInput >> startElement: anElement [
+
+	"An element placed at the start of the input."
+
+	self replaceAllChildrenWith: anElement atSlotNamed: #start
 ]
 
 { #category : #accessing }

@@ -482,6 +482,22 @@ WaTextarea >> hint: aString [
 	self propertyAt: #hint put: aString
 ]
 
+{ #category : #'accessing - slots' }
+WaTextarea >> hintElement [
+
+	"Text that describes how to use the input. Alternatively, you can use the `hint` attribute."
+
+	^ self firstChildAtSlotNamed: #hint
+]
+
+{ #category : #'accessing - slots' }
+WaTextarea >> hintElement: anElement [
+
+	"Text that describes how to use the input. Alternatively, you can use the `hint` attribute."
+
+	self replaceAllChildrenWith: anElement atSlotNamed: #hint
+]
+
 { #category : #accessing }
 WaTextarea >> inputmode [
 
@@ -526,6 +542,22 @@ WaTextarea >> label: aString [
 	Default: ''"
 
 	self propertyAt: #label put: aString
+]
+
+{ #category : #'accessing - slots' }
+WaTextarea >> labelElement [
+
+	"The textarea's label. Alternatively, you can use the `label` attribute."
+
+	^ self firstChildAtSlotNamed: #label
+]
+
+{ #category : #'accessing - slots' }
+WaTextarea >> labelElement: anElement [
+
+	"The textarea's label. Alternatively, you can use the `label` attribute."
+
+	self replaceAllChildrenWith: anElement atSlotNamed: #label
 ]
 
 { #category : #accessing }

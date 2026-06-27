@@ -170,6 +170,22 @@ WaCallout >> beWarning [
 	self variant: #warning
 ]
 
+{ #category : #'accessing - slots' }
+WaCallout >> iconElement [
+
+	"An icon to show in the callout. Works best with `<wa-icon>`."
+
+	^ self firstChildAtSlotNamed: #icon
+]
+
+{ #category : #'accessing - slots' }
+WaCallout >> iconElement: anElement [
+
+	"An icon to show in the callout. Works best with `<wa-icon>`."
+
+	self replaceAllChildrenWith: anElement atSlotNamed: #icon
+]
+
 { #category : #accessing }
 WaCallout >> size [
 

@@ -233,6 +233,22 @@ WaCarousel >> next: aString [
 	^ self apply: #next withArguments: { aString }
 ]
 
+{ #category : #'accessing - slots' }
+WaCarousel >> nextIconElement [
+
+	"Optional next icon to use instead of the default. Works best with `<wa-icon>`."
+
+	^ self firstChildAtSlotNamed: #'next-icon'
+]
+
+{ #category : #'accessing - slots' }
+WaCarousel >> nextIconElement: anElement [
+
+	"Optional next icon to use instead of the default. Works best with `<wa-icon>`."
+
+	self replaceAllChildrenWith: anElement atSlotNamed: #'next-icon'
+]
+
 { #category : #accessing }
 WaCarousel >> orientation [
 
@@ -295,6 +311,22 @@ WaCarousel >> previous: aString [
 	Parameter: behavior (string)"
 
 	^ self apply: #previous withArguments: { aString }
+]
+
+{ #category : #'accessing - slots' }
+WaCarousel >> previousIconElement [
+
+	"Optional previous icon to use instead of the default. Works best with `<wa-icon>`."
+
+	^ self firstChildAtSlotNamed: #'previous-icon'
+]
+
+{ #category : #'accessing - slots' }
+WaCarousel >> previousIconElement: anElement [
+
+	"Optional previous icon to use instead of the default. Works best with `<wa-icon>`."
+
+	self replaceAllChildrenWith: anElement atSlotNamed: #'previous-icon'
 ]
 
 { #category : #accessing }

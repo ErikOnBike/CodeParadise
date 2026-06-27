@@ -27,3 +27,19 @@ WaBreadcrumb >> label: aString [
 
 	self propertyAt: #label put: aString
 ]
+
+{ #category : #'accessing - slots' }
+WaBreadcrumb >> separatorElement [
+
+	"The separator to use between breadcrumb items. Works best with `<wa-icon>`."
+
+	^ self firstChildAtSlotNamed: #separator
+]
+
+{ #category : #'accessing - slots' }
+WaBreadcrumb >> separatorElement: anElement [
+
+	"The separator to use between breadcrumb items. Works best with `<wa-icon>`."
+
+	self replaceAllChildrenWith: anElement atSlotNamed: #separator
+]

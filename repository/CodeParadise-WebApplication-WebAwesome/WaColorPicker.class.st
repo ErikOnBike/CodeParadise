@@ -387,6 +387,22 @@ WaColorPicker >> hint: aString [
 	self propertyAt: #hint put: aString
 ]
 
+{ #category : #'accessing - slots' }
+WaColorPicker >> hintElement [
+
+	"The color picker's form hint. Alternatively, you can use the `hint` attribute."
+
+	^ self firstChildAtSlotNamed: #hint
+]
+
+{ #category : #'accessing - slots' }
+WaColorPicker >> hintElement: anElement [
+
+	"The color picker's form hint. Alternatively, you can use the `hint` attribute."
+
+	self replaceAllChildrenWith: anElement atSlotNamed: #hint
+]
+
 { #category : #accessing }
 WaColorPicker >> label [
 
@@ -409,6 +425,22 @@ WaColorPicker >> label: aString [
 	Default: ''"
 
 	self propertyAt: #label put: aString
+]
+
+{ #category : #'accessing - slots' }
+WaColorPicker >> labelElement [
+
+	"The color picker's form label. Alternatively, you can use the `label` attribute."
+
+	^ self firstChildAtSlotNamed: #label
+]
+
+{ #category : #'accessing - slots' }
+WaColorPicker >> labelElement: anElement [
+
+	"The color picker's form label. Alternatively, you can use the `label` attribute."
+
+	self replaceAllChildrenWith: anElement atSlotNamed: #label
 ]
 
 { #category : #accessing }

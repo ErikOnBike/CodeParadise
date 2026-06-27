@@ -4,6 +4,22 @@ Class {
 	#category : #'CodeParadise-WebApplication-WebAwesome-Elements'
 }
 
+{ #category : #'accessing - slots' }
+WaCard >> actionsElement [
+
+	"An optional actions section to render at the end for the horizontal card."
+
+	^ self firstChildAtSlotNamed: #actions
+]
+
+{ #category : #'accessing - slots' }
+WaCard >> actionsElement: anElement [
+
+	"An optional actions section to render at the end for the horizontal card."
+
+	self replaceAllChildrenWith: anElement atSlotNamed: #actions
+]
+
 { #category : #accessing }
 WaCard >> appearance [
 
@@ -146,6 +162,86 @@ WaCard >> beWithoutMedia [
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
 
 	self withMedia: false
+]
+
+{ #category : #'accessing - slots' }
+WaCard >> footerActionsElement [
+
+	"An optional actions section to render in the footer of the vertical card."
+
+	^ self firstChildAtSlotNamed: #'footer-actions'
+]
+
+{ #category : #'accessing - slots' }
+WaCard >> footerActionsElement: anElement [
+
+	"An optional actions section to render in the footer of the vertical card."
+
+	self replaceAllChildrenWith: anElement atSlotNamed: #'footer-actions'
+]
+
+{ #category : #'accessing - slots' }
+WaCard >> footerElement [
+
+	"An optional footer for the card."
+
+	^ self firstChildAtSlotNamed: #footer
+]
+
+{ #category : #'accessing - slots' }
+WaCard >> footerElement: anElement [
+
+	"An optional footer for the card."
+
+	self replaceAllChildrenWith: anElement atSlotNamed: #footer
+]
+
+{ #category : #'accessing - slots' }
+WaCard >> headerActionsElement [
+
+	"An optional actions section to render in the header of the vertical card."
+
+	^ self firstChildAtSlotNamed: #'header-actions'
+]
+
+{ #category : #'accessing - slots' }
+WaCard >> headerActionsElement: anElement [
+
+	"An optional actions section to render in the header of the vertical card."
+
+	self replaceAllChildrenWith: anElement atSlotNamed: #'header-actions'
+]
+
+{ #category : #'accessing - slots' }
+WaCard >> headerElement [
+
+	"An optional header for the card."
+
+	^ self firstChildAtSlotNamed: #header
+]
+
+{ #category : #'accessing - slots' }
+WaCard >> headerElement: anElement [
+
+	"An optional header for the card."
+
+	self replaceAllChildrenWith: anElement atSlotNamed: #header
+]
+
+{ #category : #'accessing - slots' }
+WaCard >> mediaElement [
+
+	"An optional media section to render at the start of the card."
+
+	^ self firstChildAtSlotNamed: #media
+]
+
+{ #category : #'accessing - slots' }
+WaCard >> mediaElement: anElement [
+
+	"An optional media section to render at the start of the card."
+
+	self replaceAllChildrenWith: anElement atSlotNamed: #media
 ]
 
 { #category : #accessing }

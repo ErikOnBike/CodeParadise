@@ -140,6 +140,22 @@ WaBadge >> beWarning [
 	self variant: #warning
 ]
 
+{ #category : #'accessing - slots' }
+WaBadge >> endElement [
+
+	"An element, such as `<wa-icon>`, placed after the label."
+
+	^ self firstChildAtSlotNamed: #end
+]
+
+{ #category : #'accessing - slots' }
+WaBadge >> endElement: anElement [
+
+	"An element, such as `<wa-icon>`, placed after the label."
+
+	self replaceAllChildrenWith: anElement atSlotNamed: #end
+]
+
 { #category : #accessing }
 WaBadge >> pill [
 
@@ -160,6 +176,22 @@ WaBadge >> pill: aBoolean [
 	Default: false"
 
 	self propertyAt: #pill put: aBoolean
+]
+
+{ #category : #'accessing - slots' }
+WaBadge >> startElement [
+
+	"An element, such as `<wa-icon>`, placed before the label."
+
+	^ self firstChildAtSlotNamed: #start
+]
+
+{ #category : #'accessing - slots' }
+WaBadge >> startElement: anElement [
+
+	"An element, such as `<wa-icon>`, placed before the label."
+
+	self replaceAllChildrenWith: anElement atSlotNamed: #start
 ]
 
 { #category : #accessing }

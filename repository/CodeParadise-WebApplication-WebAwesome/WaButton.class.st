@@ -342,6 +342,22 @@ WaButton >> download: aString [
 	self propertyAt: #download put: aString
 ]
 
+{ #category : #'accessing - slots' }
+WaButton >> endElement [
+
+	"An element, such as `<wa-icon>`, placed after the label."
+
+	^ self firstChildAtSlotNamed: #end
+]
+
+{ #category : #'accessing - slots' }
+WaButton >> endElement: anElement [
+
+	"An element, such as `<wa-icon>`, placed after the label."
+
+	self replaceAllChildrenWith: anElement atSlotNamed: #end
+]
+
 { #category : #actions }
 WaButton >> focus [
 
@@ -637,6 +653,22 @@ WaButton >> size: aString [
 	Allowed: 'xs' | 's' | 'm' | 'l' | 'xl' | 'small' | 'medium' | 'large'"
 
 	self propertyAt: #size put: aString
+]
+
+{ #category : #'accessing - slots' }
+WaButton >> startElement [
+
+	"An element, such as `<wa-icon>`, placed before the label."
+
+	^ self firstChildAtSlotNamed: #start
+]
+
+{ #category : #'accessing - slots' }
+WaButton >> startElement: anElement [
+
+	"An element, such as `<wa-icon>`, placed before the label."
+
+	self replaceAllChildrenWith: anElement atSlotNamed: #start
 ]
 
 { #category : #accessing }

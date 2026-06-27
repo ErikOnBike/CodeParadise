@@ -312,6 +312,22 @@ WaZoomableFrame >> zoomIn [
 	^ self apply: #zoomIn
 ]
 
+{ #category : #'accessing - slots' }
+WaZoomableFrame >> zoomInIconElement [
+
+	"The slot that contains the zoom in icon."
+
+	^ self firstChildAtSlotNamed: #'zoom-in-icon'
+]
+
+{ #category : #'accessing - slots' }
+WaZoomableFrame >> zoomInIconElement: anElement [
+
+	"The slot that contains the zoom in icon."
+
+	self replaceAllChildrenWith: anElement atSlotNamed: #'zoom-in-icon'
+]
+
 { #category : #accessing }
 WaZoomableFrame >> zoomLevels [
 
@@ -340,4 +356,20 @@ WaZoomableFrame >> zoomOut [
 	"Zooms out to the previous available zoom level."
 
 	^ self apply: #zoomOut
+]
+
+{ #category : #'accessing - slots' }
+WaZoomableFrame >> zoomOutIconElement [
+
+	"The slot that contains the zoom out icon."
+
+	^ self firstChildAtSlotNamed: #'zoom-out-icon'
+]
+
+{ #category : #'accessing - slots' }
+WaZoomableFrame >> zoomOutIconElement: anElement [
+
+	"The slot that contains the zoom out icon."
+
+	self replaceAllChildrenWith: anElement atSlotNamed: #'zoom-out-icon'
 ]

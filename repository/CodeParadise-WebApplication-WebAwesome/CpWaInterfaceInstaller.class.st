@@ -10,6 +10,7 @@ Class {
 		'elementAttributes',
 		'properties',
 		'methods',
+		'slots',
 		'events'
 	],
 	#category : #'CodeParadise-WebApplication-WebAwesome-Support'
@@ -318,6 +319,27 @@ CpWaInterfaceInstaller class >> typeStringContainsFunction: aString [
 ]
 
 { #category : #accessing }
+CpWaInterfaceInstaller class >> unkebabCase: aString initialUppercase: aBoolean [
+
+	"Replace kebab-case with kebabCase"
+
+	| nextUpper |
+
+	nextUpper := aBoolean.
+
+	^ String streamContents: [ :stream |
+		aString do: [ :each |
+			nextUpper
+				ifTrue: [
+					stream nextPut: each asUppercase.
+					nextUpper := false ]
+				ifFalse: [
+					each = $-
+						ifTrue: [ nextUpper := true ]
+						ifFalse: [ stream nextPut: each ] ] ] ]
+]
+
+{ #category : #accessing }
 CpWaInterfaceInstaller >> className [
 
 	"Answer the element's class name"
@@ -484,7 +506,8 @@ CpWaInterfaceInstaller >> installComponent [
 
 	self
 		selectProperties ;
-		selectMethods.
+		selectMethods ;
+		selectSlots.
 
 	componentClass := self class installClass: self className asSymbol asSubclassOf: WaElement inTag: 'Elements'.
 
@@ -492,7 +515,9 @@ CpWaInterfaceInstaller >> installComponent [
 
 	methods do: [ :each |
 		each isUnwanted
-			ifFalse: [ each installIn: componentClass ] ]
+			ifFalse: [ each installIn: componentClass ] ].
+
+	slots do: [ :each | each installMethodsIn: componentClass ]
 ]
 
 { #category : #testing }
@@ -696,7 +721,7 @@ CpWaInterfaceInstaller >> selectPropertyFromFieldMember: fieldMemberDictionary [
 	| property |
 
 	property := (CpWaInterfaceProperty new
-		name: (fieldMemberDictionary at: #name) ;
+		name: (fieldMemberDictionary at: #name) asSymbol ;
 		typeDescription: (self fieldTypeFromFieldMember: fieldMemberDictionary) ;
 		defaultValue: (self defaultValueFromFieldMember: fieldMemberDictionary) ;
 		description: (self descriptionFromMember: fieldMemberDictionary) ;
@@ -711,6 +736,20 @@ CpWaInterfaceInstaller >> selectPropertyFromFieldMember: fieldMemberDictionary [
 			^ self ].
 
 	properties add: property
+]
+
+{ #category : #accessing }
+CpWaInterfaceInstaller >> selectSlots [
+
+	"Select slots for the current type"
+
+	slots := type
+		at: #slots
+		ifPresent: [ :collection | collection collect: [ :each |
+				CpWaInterfaceSlot
+					name: ((self from: each atPath: #(name)) ifNil: [ '' ]) asSymbol
+					description: ((self from: each atPath: #(description)) ifNil: [ '' ]) ] ]
+		ifAbsent: [ #() ]
 ]
 
 { #category : #accessing }
@@ -733,7 +772,8 @@ CpWaInterfaceInstaller >> setupType: aDictionary [
 
 	"(Re)set the properties and methods for this type"
 	properties := Set new.
-	methods := Set new
+	methods := Set new.
+	slots := Set new
 ]
 
 { #category : #accessing }
@@ -761,7 +801,7 @@ CpWaInterfaceInstaller >> valueFromString: aString [
 
 	"Very special case, but let's just play along"
 	aString = 'new Date()'
-		ifTrue: [ ^ DateAndTime now ].
+		ifTrue: [ ^ 'DateAndTime now' ].
 
 self halt.
 	^ nil

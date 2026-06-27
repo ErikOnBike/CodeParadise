@@ -4,6 +4,38 @@ Class {
 	#category : #'CodeParadise-WebApplication-WebAwesome-Elements'
 }
 
+{ #category : #'accessing - slots' }
+WaTree >> collapseIconElement [
+
+	"The icon to show when the tree item is collapsed. Works best with `<wa-icon>`."
+
+	^ self firstChildAtSlotNamed: #'collapse-icon'
+]
+
+{ #category : #'accessing - slots' }
+WaTree >> collapseIconElement: anElement [
+
+	"The icon to show when the tree item is collapsed. Works best with `<wa-icon>`."
+
+	self replaceAllChildrenWith: anElement atSlotNamed: #'collapse-icon'
+]
+
+{ #category : #'accessing - slots' }
+WaTree >> expandIconElement [
+
+	"The icon to show when the tree item is expanded. Works best with `<wa-icon>`."
+
+	^ self firstChildAtSlotNamed: #'expand-icon'
+]
+
+{ #category : #'accessing - slots' }
+WaTree >> expandIconElement: anElement [
+
+	"The icon to show when the tree item is expanded. Works best with `<wa-icon>`."
+
+	self replaceAllChildrenWith: anElement atSlotNamed: #'expand-icon'
+]
+
 { #category : #accessing }
 WaTree >> selection [
 

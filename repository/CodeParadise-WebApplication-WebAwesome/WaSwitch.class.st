@@ -290,6 +290,22 @@ WaSwitch >> hint: aString [
 	self propertyAt: #hint put: aString
 ]
 
+{ #category : #'accessing - slots' }
+WaSwitch >> hintElement [
+
+	"Text that describes how to use the switch. Alternatively, you can use the `hint` attribute."
+
+	^ self firstChildAtSlotNamed: #hint
+]
+
+{ #category : #'accessing - slots' }
+WaSwitch >> hintElement: anElement [
+
+	"Text that describes how to use the switch. Alternatively, you can use the `hint` attribute."
+
+	self replaceAllChildrenWith: anElement atSlotNamed: #hint
+]
+
 { #category : #accessing }
 WaSwitch >> name [
 

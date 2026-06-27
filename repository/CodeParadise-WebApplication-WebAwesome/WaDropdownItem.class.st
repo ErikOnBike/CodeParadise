@@ -98,6 +98,22 @@ WaDropdownItem >> closeSubmenu [
 	^ self apply: #closeSubmenu
 ]
 
+{ #category : #'accessing - slots' }
+WaDropdownItem >> detailsElement [
+
+	"Additional content or details to display after the label."
+
+	^ self firstChildAtSlotNamed: #details
+]
+
+{ #category : #'accessing - slots' }
+WaDropdownItem >> detailsElement: anElement [
+
+	"Additional content or details to display after the label."
+
+	self replaceAllChildrenWith: anElement atSlotNamed: #details
+]
+
 { #category : #accessing }
 WaDropdownItem >> disabled [
 
@@ -120,12 +136,44 @@ WaDropdownItem >> disabled: aBoolean [
 	self propertyAt: #disabled put: aBoolean
 ]
 
+{ #category : #'accessing - slots' }
+WaDropdownItem >> iconElement [
+
+	"An optional icon to display before the label."
+
+	^ self firstChildAtSlotNamed: #icon
+]
+
+{ #category : #'accessing - slots' }
+WaDropdownItem >> iconElement: anElement [
+
+	"An optional icon to display before the label."
+
+	self replaceAllChildrenWith: anElement atSlotNamed: #icon
+]
+
 { #category : #actions }
 WaDropdownItem >> openSubmenu [
 
 	"Opens the submenu."
 
 	^ self apply: #openSubmenu
+]
+
+{ #category : #'accessing - slots' }
+WaDropdownItem >> submenuElement [
+
+	"Submenu items, typically `<wa-dropdown-item>` elements, to create a nested menu."
+
+	^ self firstChildAtSlotNamed: #submenu
+]
+
+{ #category : #'accessing - slots' }
+WaDropdownItem >> submenuElement: anElement [
+
+	"Submenu items, typically `<wa-dropdown-item>` elements, to create a nested menu."
+
+	self replaceAllChildrenWith: anElement atSlotNamed: #submenu
 ]
 
 { #category : #accessing }

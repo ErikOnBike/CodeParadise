@@ -4,6 +4,22 @@ Class {
 	#category : #'CodeParadise-WebApplication-WebAwesome-Elements'
 }
 
+{ #category : #'accessing - slots' }
+WaBreadcrumbItem >> endElement [
+
+	"An element, such as `<wa-icon>`, placed after the label."
+
+	^ self firstChildAtSlotNamed: #end
+]
+
+{ #category : #'accessing - slots' }
+WaBreadcrumbItem >> endElement: anElement [
+
+	"An element, such as `<wa-icon>`, placed after the label."
+
+	self replaceAllChildrenWith: anElement atSlotNamed: #end
+]
+
 { #category : #accessing }
 WaBreadcrumbItem >> href [
 
@@ -46,6 +62,38 @@ WaBreadcrumbItem >> rel: aString [
 	Default: 'noreferrer noopener'"
 
 	self propertyAt: #rel put: aString
+]
+
+{ #category : #'accessing - slots' }
+WaBreadcrumbItem >> separatorElement [
+
+	"The separator to use for the breadcrumb item. This will only change the separator for this item. If you want to change it for all items in the group, set the separator on `<wa-breadcrumb>` instead."
+
+	^ self firstChildAtSlotNamed: #separator
+]
+
+{ #category : #'accessing - slots' }
+WaBreadcrumbItem >> separatorElement: anElement [
+
+	"The separator to use for the breadcrumb item. This will only change the separator for this item. If you want to change it for all items in the group, set the separator on `<wa-breadcrumb>` instead."
+
+	self replaceAllChildrenWith: anElement atSlotNamed: #separator
+]
+
+{ #category : #'accessing - slots' }
+WaBreadcrumbItem >> startElement [
+
+	"An element, such as `<wa-icon>`, placed before the label."
+
+	^ self firstChildAtSlotNamed: #start
+]
+
+{ #category : #'accessing - slots' }
+WaBreadcrumbItem >> startElement: anElement [
+
+	"An element, such as `<wa-icon>`, placed before the label."
+
+	self replaceAllChildrenWith: anElement atSlotNamed: #start
 ]
 
 { #category : #accessing }

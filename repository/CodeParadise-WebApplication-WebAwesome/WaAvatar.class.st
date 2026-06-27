@@ -4,6 +4,22 @@ Class {
 	#category : #'CodeParadise-WebApplication-WebAwesome-Elements'
 }
 
+{ #category : #'accessing - slots' }
+WaAvatar >> iconElement [
+
+	"The default icon to use when no image or initials are present. Works best with `<wa-icon>`."
+
+	^ self firstChildAtSlotNamed: #icon
+]
+
+{ #category : #'accessing - slots' }
+WaAvatar >> iconElement: anElement [
+
+	"The default icon to use when no image or initials are present. Works best with `<wa-icon>`."
+
+	self replaceAllChildrenWith: anElement atSlotNamed: #icon
+]
+
 { #category : #accessing }
 WaAvatar >> image [
 

@@ -20,6 +20,22 @@ WaCopyButton >> beNotDisabled [
 	self disabled: false
 ]
 
+{ #category : #'accessing - slots' }
+WaCopyButton >> copyIconElement [
+
+	"The icon to show in the default copy state. Works best with `<wa-icon>`."
+
+	^ self firstChildAtSlotNamed: #'copy-icon'
+]
+
+{ #category : #'accessing - slots' }
+WaCopyButton >> copyIconElement: anElement [
+
+	"The icon to show in the default copy state. Works best with `<wa-icon>`."
+
+	self replaceAllChildrenWith: anElement atSlotNamed: #'copy-icon'
+]
+
 { #category : #accessing }
 WaCopyButton >> copyLabel [
 
@@ -62,6 +78,22 @@ WaCopyButton >> disabled: aBoolean [
 	Default: false"
 
 	self propertyAt: #disabled put: aBoolean
+]
+
+{ #category : #'accessing - slots' }
+WaCopyButton >> errorIconElement [
+
+	"The icon to show when a copy error occurs. Works best with `<wa-icon>`."
+
+	^ self firstChildAtSlotNamed: #'error-icon'
+]
+
+{ #category : #'accessing - slots' }
+WaCopyButton >> errorIconElement: anElement [
+
+	"The icon to show when a copy error occurs. Works best with `<wa-icon>`."
+
+	self replaceAllChildrenWith: anElement atSlotNamed: #'error-icon'
 ]
 
 { #category : #accessing }
@@ -134,6 +166,22 @@ WaCopyButton >> from: aString [
 	Default: ''"
 
 	self propertyAt: #from put: aString
+]
+
+{ #category : #'accessing - slots' }
+WaCopyButton >> successIconElement [
+
+	"The icon to show when the content is copied. Works best with `<wa-icon>`."
+
+	^ self firstChildAtSlotNamed: #'success-icon'
+]
+
+{ #category : #'accessing - slots' }
+WaCopyButton >> successIconElement: anElement [
+
+	"The icon to show when the content is copied. Works best with `<wa-icon>`."
+
+	self replaceAllChildrenWith: anElement atSlotNamed: #'success-icon'
 ]
 
 { #category : #accessing }

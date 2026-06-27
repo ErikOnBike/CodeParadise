@@ -42,6 +42,38 @@ WaSplitPanel >> disabled: aBoolean [
 	self propertyAt: #disabled put: aBoolean
 ]
 
+{ #category : #'accessing - slots' }
+WaSplitPanel >> dividerElement [
+
+	"The divider. Useful for slotting in a custom icon that renders as a handle."
+
+	^ self firstChildAtSlotNamed: #divider
+]
+
+{ #category : #'accessing - slots' }
+WaSplitPanel >> dividerElement: anElement [
+
+	"The divider. Useful for slotting in a custom icon that renders as a handle."
+
+	self replaceAllChildrenWith: anElement atSlotNamed: #divider
+]
+
+{ #category : #'accessing - slots' }
+WaSplitPanel >> endElement [
+
+	"Content to place in the end panel."
+
+	^ self firstChildAtSlotNamed: #end
+]
+
+{ #category : #'accessing - slots' }
+WaSplitPanel >> endElement: anElement [
+
+	"Content to place in the end panel."
+
+	self replaceAllChildrenWith: anElement atSlotNamed: #end
+]
+
 { #category : #accessing }
 WaSplitPanel >> orientation [
 
@@ -178,4 +210,20 @@ WaSplitPanel >> snapThreshold: aNumber [
 	Default: 12"
 
 	self propertyAt: #snapThreshold put: aNumber
+]
+
+{ #category : #'accessing - slots' }
+WaSplitPanel >> startElement [
+
+	"Content to place in the start panel."
+
+	^ self firstChildAtSlotNamed: #start
+]
+
+{ #category : #'accessing - slots' }
+WaSplitPanel >> startElement: anElement [
+
+	"Content to place in the start panel."
+
+	self replaceAllChildrenWith: anElement atSlotNamed: #start
 ]

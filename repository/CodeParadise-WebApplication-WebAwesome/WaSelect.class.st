@@ -252,6 +252,22 @@ WaSelect >> blur [
 	^ self apply: #blur
 ]
 
+{ #category : #'accessing - slots' }
+WaSelect >> clearIconElement [
+
+	"An icon to use in lieu of the default clear icon."
+
+	^ self firstChildAtSlotNamed: #'clear-icon'
+]
+
+{ #category : #'accessing - slots' }
+WaSelect >> clearIconElement: anElement [
+
+	"An icon to use in lieu of the default clear icon."
+
+	self replaceAllChildrenWith: anElement atSlotNamed: #'clear-icon'
+]
+
 { #category : #accessing }
 WaSelect >> disabled [
 
@@ -272,6 +288,38 @@ WaSelect >> disabled: aBoolean [
 	Default: false"
 
 	self propertyAt: #disabled put: aBoolean
+]
+
+{ #category : #'accessing - slots' }
+WaSelect >> endElement [
+
+	"An element, such as `<wa-icon>`, placed at the end of the combobox."
+
+	^ self firstChildAtSlotNamed: #end
+]
+
+{ #category : #'accessing - slots' }
+WaSelect >> endElement: anElement [
+
+	"An element, such as `<wa-icon>`, placed at the end of the combobox."
+
+	self replaceAllChildrenWith: anElement atSlotNamed: #end
+]
+
+{ #category : #'accessing - slots' }
+WaSelect >> expandIconElement [
+
+	"The icon to show when the control is expanded and collapsed. Rotates on open and close."
+
+	^ self firstChildAtSlotNamed: #'expand-icon'
+]
+
+{ #category : #'accessing - slots' }
+WaSelect >> expandIconElement: anElement [
+
+	"The icon to show when the control is expanded and collapsed. Rotates on open and close."
+
+	self replaceAllChildrenWith: anElement atSlotNamed: #'expand-icon'
 ]
 
 { #category : #actions }
@@ -370,6 +418,22 @@ WaSelect >> hint: aString [
 	self propertyAt: #hint put: aString
 ]
 
+{ #category : #'accessing - slots' }
+WaSelect >> hintElement [
+
+	"Text that describes how to use the input. Alternatively, you can use the `hint` attribute."
+
+	^ self firstChildAtSlotNamed: #hint
+]
+
+{ #category : #'accessing - slots' }
+WaSelect >> hintElement: anElement [
+
+	"Text that describes how to use the input. Alternatively, you can use the `hint` attribute."
+
+	self replaceAllChildrenWith: anElement atSlotNamed: #hint
+]
+
 { #category : #accessing }
 WaSelect >> label [
 
@@ -390,6 +454,22 @@ WaSelect >> label: aString [
 	Default: ''"
 
 	self propertyAt: #label put: aString
+]
+
+{ #category : #'accessing - slots' }
+WaSelect >> labelElement [
+
+	"The input's label. Alternatively, you can use the `label` attribute."
+
+	^ self firstChildAtSlotNamed: #label
+]
+
+{ #category : #'accessing - slots' }
+WaSelect >> labelElement: anElement [
+
+	"The input's label. Alternatively, you can use the `label` attribute."
+
+	self replaceAllChildrenWith: anElement atSlotNamed: #label
 ]
 
 { #category : #accessing }
@@ -625,6 +705,22 @@ WaSelect >> size: aString [
 	Allowed: 'xs' | 's' | 'm' | 'l' | 'xl' | 'small' | 'medium' | 'large'"
 
 	self propertyAt: #size put: aString
+]
+
+{ #category : #'accessing - slots' }
+WaSelect >> startElement [
+
+	"An element, such as `<wa-icon>`, placed at the start of the combobox."
+
+	^ self firstChildAtSlotNamed: #start
+]
+
+{ #category : #'accessing - slots' }
+WaSelect >> startElement: anElement [
+
+	"An element, such as `<wa-icon>`, placed at the start of the combobox."
+
+	self replaceAllChildrenWith: anElement atSlotNamed: #start
 ]
 
 { #category : #accessing }

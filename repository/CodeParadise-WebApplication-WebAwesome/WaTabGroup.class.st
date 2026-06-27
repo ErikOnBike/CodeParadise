@@ -88,6 +88,22 @@ WaTabGroup >> defaultSlot: anHtmlElement [
 	self propertyAt: #defaultSlot put: anHtmlElement
 ]
 
+{ #category : #'accessing - slots' }
+WaTabGroup >> navElement [
+
+	"Used for grouping tabs in the tab group. Must be `<wa-tab>` elements. Note that `<wa-tab>` will set this slot on itself automatically."
+
+	^ self firstChildAtSlotNamed: #nav
+]
+
+{ #category : #'accessing - slots' }
+WaTabGroup >> navElement: anElement [
+
+	"Used for grouping tabs in the tab group. Must be `<wa-tab>` elements. Note that `<wa-tab>` will set this slot on itself automatically."
+
+	self replaceAllChildrenWith: anElement atSlotNamed: #nav
+]
+
 { #category : #accessing }
 WaTabGroup >> placement [
 

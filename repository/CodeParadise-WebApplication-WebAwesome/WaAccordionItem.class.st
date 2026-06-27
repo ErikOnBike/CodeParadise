@@ -114,6 +114,22 @@ WaAccordionItem >> focus: anObject [
 	^ self apply: #focus withArguments: { anObject }
 ]
 
+{ #category : #'accessing - slots' }
+WaAccordionItem >> iconElement [
+
+	"Optional expand/collapse icon. Works best with `<wa-icon>`."
+
+	^ self firstChildAtSlotNamed: #icon
+]
+
+{ #category : #'accessing - slots' }
+WaAccordionItem >> iconElement: anElement [
+
+	"Optional expand/collapse icon. Works best with `<wa-icon>`."
+
+	self replaceAllChildrenWith: anElement atSlotNamed: #icon
+]
+
 { #category : #accessing }
 WaAccordionItem >> label [
 
@@ -134,6 +150,22 @@ WaAccordionItem >> label: aString [
 	Default: ''"
 
 	self propertyAt: #label put: aString
+]
+
+{ #category : #'accessing - slots' }
+WaAccordionItem >> labelElement [
+
+	"The accordion item's label. Alternatively, use the `label` attribute."
+
+	^ self firstChildAtSlotNamed: #label
+]
+
+{ #category : #'accessing - slots' }
+WaAccordionItem >> labelElement: anElement [
+
+	"The accordion item's label. Alternatively, use the `label` attribute."
+
+	self replaceAllChildrenWith: anElement atSlotNamed: #label
 ]
 
 { #category : #actions }

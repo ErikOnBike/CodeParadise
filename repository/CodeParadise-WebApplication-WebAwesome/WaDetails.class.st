@@ -92,6 +92,22 @@ WaDetails >> bePlain [
 	self appearance: #plain
 ]
 
+{ #category : #'accessing - slots' }
+WaDetails >> collapseIconElement [
+
+	"Optional collapse icon to use instead of the default. Works best with `<wa-icon>`."
+
+	^ self firstChildAtSlotNamed: #'collapse-icon'
+]
+
+{ #category : #'accessing - slots' }
+WaDetails >> collapseIconElement: anElement [
+
+	"Optional collapse icon to use instead of the default. Works best with `<wa-icon>`."
+
+	self replaceAllChildrenWith: anElement atSlotNamed: #'collapse-icon'
+]
+
 { #category : #accessing }
 WaDetails >> disabled [
 
@@ -112,6 +128,22 @@ WaDetails >> disabled: aBoolean [
 	Default: false"
 
 	self propertyAt: #disabled put: aBoolean
+]
+
+{ #category : #'accessing - slots' }
+WaDetails >> expandIconElement [
+
+	"Optional expand icon to use instead of the default. Works best with `<wa-icon>`."
+
+	^ self firstChildAtSlotNamed: #'expand-icon'
+]
+
+{ #category : #'accessing - slots' }
+WaDetails >> expandIconElement: anElement [
+
+	"Optional expand icon to use instead of the default. Works best with `<wa-icon>`."
+
+	self replaceAllChildrenWith: anElement atSlotNamed: #'expand-icon'
 ]
 
 { #category : #actions }
@@ -216,4 +248,20 @@ WaDetails >> summary: aString [
 	Type: String"
 
 	self propertyAt: #summary put: aString
+]
+
+{ #category : #'accessing - slots' }
+WaDetails >> summaryElement [
+
+	"The details' summary. Alternatively, you can use the `summary` attribute."
+
+	^ self firstChildAtSlotNamed: #summary
+]
+
+{ #category : #'accessing - slots' }
+WaDetails >> summaryElement: anElement [
+
+	"The details' summary. Alternatively, you can use the `summary` attribute."
+
+	self replaceAllChildrenWith: anElement atSlotNamed: #summary
 ]

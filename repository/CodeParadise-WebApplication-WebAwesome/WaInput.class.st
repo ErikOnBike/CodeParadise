@@ -418,6 +418,22 @@ WaInput >> blur [
 	^ self apply: #blur
 ]
 
+{ #category : #'accessing - slots' }
+WaInput >> clearIconElement [
+
+	"An icon to use in lieu of the default clear icon."
+
+	^ self firstChildAtSlotNamed: #'clear-icon'
+]
+
+{ #category : #'accessing - slots' }
+WaInput >> clearIconElement: anElement [
+
+	"An icon to use in lieu of the default clear icon."
+
+	self replaceAllChildrenWith: anElement atSlotNamed: #'clear-icon'
+]
+
 { #category : #accessing }
 WaInput >> defaultValue [
 
@@ -458,6 +474,22 @@ WaInput >> disabled: aBoolean [
 	Default: false"
 
 	self propertyAt: #disabled put: aBoolean
+]
+
+{ #category : #'accessing - slots' }
+WaInput >> endElement [
+
+	"An element, such as `<wa-icon>`, placed at the end of the input control."
+
+	^ self firstChildAtSlotNamed: #end
+]
+
+{ #category : #'accessing - slots' }
+WaInput >> endElement: anElement [
+
+	"An element, such as `<wa-icon>`, placed at the end of the input control."
+
+	self replaceAllChildrenWith: anElement atSlotNamed: #end
 ]
 
 { #category : #accessing }
@@ -524,6 +556,22 @@ WaInput >> form: anHtmlElement [
 	self propertyAt: #form put: anHtmlElement
 ]
 
+{ #category : #'accessing - slots' }
+WaInput >> hidePasswordIconElement [
+
+	"An icon to use in lieu of the default hide password icon."
+
+	^ self firstChildAtSlotNamed: #'hide-password-icon'
+]
+
+{ #category : #'accessing - slots' }
+WaInput >> hidePasswordIconElement: anElement [
+
+	"An icon to use in lieu of the default hide password icon."
+
+	self replaceAllChildrenWith: anElement atSlotNamed: #'hide-password-icon'
+]
+
 { #category : #accessing }
 WaInput >> hint [
 
@@ -544,6 +592,22 @@ WaInput >> hint: aString [
 	Default: ''"
 
 	self propertyAt: #hint put: aString
+]
+
+{ #category : #'accessing - slots' }
+WaInput >> hintElement [
+
+	"Text that describes how to use the input. Alternatively, you can use the `hint` attribute."
+
+	^ self firstChildAtSlotNamed: #hint
+]
+
+{ #category : #'accessing - slots' }
+WaInput >> hintElement: anElement [
+
+	"Text that describes how to use the input. Alternatively, you can use the `hint` attribute."
+
+	self replaceAllChildrenWith: anElement atSlotNamed: #hint
 ]
 
 { #category : #accessing }
@@ -590,6 +654,22 @@ WaInput >> label: aString [
 	Default: ''"
 
 	self propertyAt: #label put: aString
+]
+
+{ #category : #'accessing - slots' }
+WaInput >> labelElement [
+
+	"The input's label. Alternatively, you can use the `label` attribute."
+
+	^ self firstChildAtSlotNamed: #label
+]
+
+{ #category : #'accessing - slots' }
+WaInput >> labelElement: anElement [
+
+	"The input's label. Alternatively, you can use the `label` attribute."
+
+	self replaceAllChildrenWith: anElement atSlotNamed: #label
 ]
 
 { #category : #accessing }
@@ -940,6 +1020,22 @@ WaInput >> setSelectionRangeStart: startNumber end: endNumber direction: aString
 	^ self apply: #setSelectionRange withArguments: { startNumber . endNumber . aString }
 ]
 
+{ #category : #'accessing - slots' }
+WaInput >> showPasswordIconElement [
+
+	"An icon to use in lieu of the default show password icon."
+
+	^ self firstChildAtSlotNamed: #'show-password-icon'
+]
+
+{ #category : #'accessing - slots' }
+WaInput >> showPasswordIconElement: anElement [
+
+	"An icon to use in lieu of the default show password icon."
+
+	self replaceAllChildrenWith: anElement atSlotNamed: #'show-password-icon'
+]
+
 { #category : #actions }
 WaInput >> showPicker [
 
@@ -992,6 +1088,22 @@ WaInput >> spellcheck: aBoolean [
 	Default: true"
 
 	self propertyAt: #spellcheck put: aBoolean
+]
+
+{ #category : #'accessing - slots' }
+WaInput >> startElement [
+
+	"An element, such as `<wa-icon>`, placed at the start of the input control."
+
+	^ self firstChildAtSlotNamed: #start
+]
+
+{ #category : #'accessing - slots' }
+WaInput >> startElement: anElement [
+
+	"An element, such as `<wa-icon>`, placed at the start of the input control."
+
+	self replaceAllChildrenWith: anElement atSlotNamed: #start
 ]
 
 { #category : #accessing }

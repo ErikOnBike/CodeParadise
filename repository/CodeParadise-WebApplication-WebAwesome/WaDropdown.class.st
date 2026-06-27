@@ -199,3 +199,19 @@ WaDropdown >> skidding: aNumber [
 
 	self propertyAt: #skidding put: aNumber
 ]
+
+{ #category : #'accessing - slots' }
+WaDropdown >> triggerElement [
+
+	"The element that triggers the dropdown, such as a `<wa-button>` or `<button>`."
+
+	^ self firstChildAtSlotNamed: #trigger
+]
+
+{ #category : #'accessing - slots' }
+WaDropdown >> triggerElement: anElement [
+
+	"The element that triggers the dropdown, such as a `<wa-button>` or `<button>`."
+
+	self replaceAllChildrenWith: anElement atSlotNamed: #trigger
+]

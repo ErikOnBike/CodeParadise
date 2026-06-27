@@ -352,6 +352,22 @@ WaKnownDate >> hint: aString [
 	self propertyAt: #hint put: aString
 ]
 
+{ #category : #'accessing - slots' }
+WaKnownDate >> hintElement [
+
+	"Text that describes how to use the known date. Alternatively, use the `hint` attribute."
+
+	^ self firstChildAtSlotNamed: #hint
+]
+
+{ #category : #'accessing - slots' }
+WaKnownDate >> hintElement: anElement [
+
+	"Text that describes how to use the known date. Alternatively, use the `hint` attribute."
+
+	self replaceAllChildrenWith: anElement atSlotNamed: #hint
+]
+
 { #category : #accessing }
 WaKnownDate >> label [
 
@@ -372,6 +388,22 @@ WaKnownDate >> label: aString [
 	Default: ''"
 
 	self propertyAt: #label put: aString
+]
+
+{ #category : #'accessing - slots' }
+WaKnownDate >> labelElement [
+
+	"The known date's group label. Alternatively, use the `label` attribute."
+
+	^ self firstChildAtSlotNamed: #label
+]
+
+{ #category : #'accessing - slots' }
+WaKnownDate >> labelElement: anElement [
+
+	"The known date's group label. Alternatively, use the `label` attribute."
+
+	self replaceAllChildrenWith: anElement atSlotNamed: #label
 ]
 
 { #category : #accessing }

@@ -297,7 +297,7 @@ CpWaInterfaceProperty >> stringConvenienceVariantsSourceCode [
 			stream nextPutAll: 'be'.
 			each size <= 2
 				ifTrue: [ stream nextPutAll: self name capitalized ].
-			stream nextPutAll: (self unkebabCase: each initialUppercase: true) ]) asSymbol.
+			stream nextPutAll: (CpWaInterfaceInstaller unkebabCase: each initialUppercase: true) ]) asSymbol.
 
 		source := String streamContents: [ :stream |
 			stream
@@ -363,25 +363,4 @@ CpWaInterfaceProperty >> typeName [
 		(typeName = #Object and: [ self defaultValue isString ])
 			ifTrue: [ #String ]
 			ifFalse: [ typeName ] ]
-]
-
-{ #category : #accessing }
-CpWaInterfaceProperty >> unkebabCase: aString initialUppercase: aBoolean [
-
-	"Replace kebab-case with kebabCase"
-
-	| nextUpper |
-
-	nextUpper := aBoolean.
-
-	^ String streamContents: [ :stream |
-		aString do: [ :each |
-			nextUpper
-				ifTrue: [
-					stream nextPut: each asUppercase.
-					nextUpper := false ]
-				ifFalse: [
-					each = $-
-						ifTrue: [ nextUpper := true ]
-						ifFalse: [ stream nextPut: each ] ] ] ]
 ]

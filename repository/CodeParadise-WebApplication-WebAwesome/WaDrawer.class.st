@@ -68,6 +68,38 @@ WaDrawer >> beWithoutHeader [
 	self withoutHeader: true
 ]
 
+{ #category : #'accessing - slots' }
+WaDrawer >> footerElement [
+
+	"The drawer's footer, usually one or more buttons representing various options."
+
+	^ self firstChildAtSlotNamed: #footer
+]
+
+{ #category : #'accessing - slots' }
+WaDrawer >> footerElement: anElement [
+
+	"The drawer's footer, usually one or more buttons representing various options."
+
+	self replaceAllChildrenWith: anElement atSlotNamed: #footer
+]
+
+{ #category : #'accessing - slots' }
+WaDrawer >> headerActionsElement [
+
+	"Optional actions to add to the header. Works best with `<wa-button>`."
+
+	^ self firstChildAtSlotNamed: #'header-actions'
+]
+
+{ #category : #'accessing - slots' }
+WaDrawer >> headerActionsElement: anElement [
+
+	"Optional actions to add to the header. Works best with `<wa-button>`."
+
+	self replaceAllChildrenWith: anElement atSlotNamed: #'header-actions'
+]
+
 { #category : #accessing }
 WaDrawer >> label [
 
@@ -90,6 +122,22 @@ WaDrawer >> label: aString [
 	Default: ''"
 
 	self propertyAt: #label put: aString
+]
+
+{ #category : #'accessing - slots' }
+WaDrawer >> labelElement [
+
+	"The drawer's label. Alternatively, you can use the `label` attribute."
+
+	^ self firstChildAtSlotNamed: #label
+]
+
+{ #category : #'accessing - slots' }
+WaDrawer >> labelElement: anElement [
+
+	"The drawer's label. Alternatively, you can use the `label` attribute."
+
+	self replaceAllChildrenWith: anElement atSlotNamed: #label
 ]
 
 { #category : #accessing }

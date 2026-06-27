@@ -52,6 +52,22 @@ WaPopup >> anchor: anHtmlElementOrString [
 	self propertyAt: #anchor put: anHtmlElementOrString
 ]
 
+{ #category : #'accessing - slots' }
+WaPopup >> anchorElement [
+
+	"The element the popup will be anchored to. If the anchor lives outside of the popup, you can use the `anchor` attribute or property instead."
+
+	^ self firstChildAtSlotNamed: #anchor
+]
+
+{ #category : #'accessing - slots' }
+WaPopup >> anchorElement: anElement [
+
+	"The element the popup will be anchored to. If the anchor lives outside of the popup, you can use the `anchor` attribute or property instead."
+
+	self replaceAllChildrenWith: anElement atSlotNamed: #anchor
+]
+
 { #category : #accessing }
 WaPopup >> arrow [
 
