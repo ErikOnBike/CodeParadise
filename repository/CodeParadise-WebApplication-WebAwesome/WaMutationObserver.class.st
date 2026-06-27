@@ -48,7 +48,7 @@ WaMutationObserver >> attrOldValue: aBoolean [
 	self propertyAt: #attrOldValue put: aBoolean
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaMutationObserver >> beAttrOldValue [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -56,7 +56,7 @@ WaMutationObserver >> beAttrOldValue [
 	self attrOldValue: true
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaMutationObserver >> beCharData [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -64,7 +64,7 @@ WaMutationObserver >> beCharData [
 	self charData: true
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaMutationObserver >> beCharDataOldValue [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -72,7 +72,7 @@ WaMutationObserver >> beCharDataOldValue [
 	self charDataOldValue: true
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaMutationObserver >> beChildList [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -80,7 +80,7 @@ WaMutationObserver >> beChildList [
 	self childList: true
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaMutationObserver >> beDisabled [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -88,7 +88,7 @@ WaMutationObserver >> beDisabled [
 	self disabled: true
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaMutationObserver >> beNotAttrOldValue [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -96,7 +96,7 @@ WaMutationObserver >> beNotAttrOldValue [
 	self attrOldValue: false
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaMutationObserver >> beNotCharData [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -104,7 +104,7 @@ WaMutationObserver >> beNotCharData [
 	self charData: false
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaMutationObserver >> beNotCharDataOldValue [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -112,7 +112,7 @@ WaMutationObserver >> beNotCharDataOldValue [
 	self charDataOldValue: false
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaMutationObserver >> beNotChildList [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -120,7 +120,7 @@ WaMutationObserver >> beNotChildList [
 	self childList: false
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaMutationObserver >> beNotDisabled [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"

@@ -4,7 +4,7 @@ Class {
 	#category : #'CodeParadise-WebApplication-WebAwesome-Elements'
 }
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaScroller >> beWithScrollbar [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -12,7 +12,7 @@ WaScroller >> beWithScrollbar [
 	self withoutScrollbar: false
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaScroller >> beWithShadow [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -20,7 +20,7 @@ WaScroller >> beWithShadow [
 	self withoutShadow: false
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaScroller >> beWithoutScrollbar [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -28,7 +28,7 @@ WaScroller >> beWithoutScrollbar [
 	self withoutScrollbar: true
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaScroller >> beWithoutShadow [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"

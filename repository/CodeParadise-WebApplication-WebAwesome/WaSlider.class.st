@@ -24,7 +24,7 @@ WaSlider >> autofocus: aBoolean [
 	self propertyAt: #autofocus put: aBoolean
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaSlider >> beAutofocus [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -32,7 +32,7 @@ WaSlider >> beAutofocus [
 	self autofocus: true
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaSlider >> beDisabled [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -40,7 +40,7 @@ WaSlider >> beDisabled [
 	self disabled: true
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaSlider >> beIsRange [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -48,7 +48,7 @@ WaSlider >> beIsRange [
 	self isRange: true
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaSlider >> beLarge [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -56,7 +56,7 @@ WaSlider >> beLarge [
 	self size: #large
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaSlider >> beMedium [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -64,7 +64,7 @@ WaSlider >> beMedium [
 	self size: #medium
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaSlider >> beNotAutofocus [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -72,7 +72,7 @@ WaSlider >> beNotAutofocus [
 	self autofocus: false
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaSlider >> beNotDisabled [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -80,7 +80,7 @@ WaSlider >> beNotDisabled [
 	self disabled: false
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaSlider >> beNotIsRange [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -88,7 +88,7 @@ WaSlider >> beNotIsRange [
 	self isRange: false
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaSlider >> beNotRange [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -96,7 +96,7 @@ WaSlider >> beNotRange [
 	self range: false
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaSlider >> beNotReadonly [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -104,7 +104,7 @@ WaSlider >> beNotReadonly [
 	self readonly: false
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaSlider >> beRange [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -112,7 +112,7 @@ WaSlider >> beRange [
 	self range: true
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaSlider >> beReadonly [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -120,7 +120,7 @@ WaSlider >> beReadonly [
 	self readonly: true
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaSlider >> beSizeL [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -128,7 +128,7 @@ WaSlider >> beSizeL [
 	self size: #l
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaSlider >> beSizeM [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -136,7 +136,7 @@ WaSlider >> beSizeM [
 	self size: #m
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaSlider >> beSizeS [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -144,7 +144,7 @@ WaSlider >> beSizeS [
 	self size: #s
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaSlider >> beSizeXl [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -152,7 +152,7 @@ WaSlider >> beSizeXl [
 	self size: #xl
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaSlider >> beSizeXs [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -160,7 +160,7 @@ WaSlider >> beSizeXs [
 	self size: #xs
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaSlider >> beSmall [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -168,7 +168,7 @@ WaSlider >> beSmall [
 	self size: #small
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaSlider >> beWithHint [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -176,7 +176,7 @@ WaSlider >> beWithHint [
 	self withHint: true
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaSlider >> beWithLabel [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -184,7 +184,7 @@ WaSlider >> beWithLabel [
 	self withLabel: true
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaSlider >> beWithMarkers [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -192,7 +192,7 @@ WaSlider >> beWithMarkers [
 	self withMarkers: true
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaSlider >> beWithTooltip [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -200,7 +200,7 @@ WaSlider >> beWithTooltip [
 	self withTooltip: true
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaSlider >> beWithoutHint [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -208,7 +208,7 @@ WaSlider >> beWithoutHint [
 	self withHint: false
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaSlider >> beWithoutLabel [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -216,7 +216,7 @@ WaSlider >> beWithoutLabel [
 	self withLabel: false
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaSlider >> beWithoutMarkers [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -224,7 +224,7 @@ WaSlider >> beWithoutMarkers [
 	self withMarkers: false
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaSlider >> beWithoutTooltip [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"

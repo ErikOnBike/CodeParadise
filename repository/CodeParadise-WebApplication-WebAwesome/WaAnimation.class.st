@@ -4,7 +4,7 @@ Class {
 	#category : #'CodeParadise-WebApplication-WebAwesome-Elements'
 }
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaAnimation >> beNotPlay [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -12,7 +12,7 @@ WaAnimation >> beNotPlay [
 	self play: false
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaAnimation >> bePlay [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"

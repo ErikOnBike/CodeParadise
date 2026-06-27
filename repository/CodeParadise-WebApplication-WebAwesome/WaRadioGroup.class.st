@@ -4,7 +4,7 @@ Class {
 	#category : #'CodeParadise-WebApplication-WebAwesome-Elements'
 }
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaRadioGroup >> beDisabled [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -12,7 +12,7 @@ WaRadioGroup >> beDisabled [
 	self disabled: true
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaRadioGroup >> beLarge [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -20,7 +20,7 @@ WaRadioGroup >> beLarge [
 	self size: #large
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaRadioGroup >> beMedium [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -28,7 +28,7 @@ WaRadioGroup >> beMedium [
 	self size: #medium
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaRadioGroup >> beNotDisabled [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -36,7 +36,7 @@ WaRadioGroup >> beNotDisabled [
 	self disabled: false
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaRadioGroup >> beNotRequired [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -44,7 +44,7 @@ WaRadioGroup >> beNotRequired [
 	self required: false
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaRadioGroup >> beRequired [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -52,7 +52,7 @@ WaRadioGroup >> beRequired [
 	self required: true
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaRadioGroup >> beSizeL [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -60,7 +60,7 @@ WaRadioGroup >> beSizeL [
 	self size: #l
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaRadioGroup >> beSizeM [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -68,7 +68,7 @@ WaRadioGroup >> beSizeM [
 	self size: #m
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaRadioGroup >> beSizeS [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -76,7 +76,7 @@ WaRadioGroup >> beSizeS [
 	self size: #s
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaRadioGroup >> beSizeXl [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -84,7 +84,7 @@ WaRadioGroup >> beSizeXl [
 	self size: #xl
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaRadioGroup >> beSizeXs [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -92,7 +92,7 @@ WaRadioGroup >> beSizeXs [
 	self size: #xs
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaRadioGroup >> beSmall [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -100,7 +100,7 @@ WaRadioGroup >> beSmall [
 	self size: #small
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaRadioGroup >> beWithHint [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -108,7 +108,7 @@ WaRadioGroup >> beWithHint [
 	self withHint: true
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaRadioGroup >> beWithLabel [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -116,7 +116,7 @@ WaRadioGroup >> beWithLabel [
 	self withLabel: true
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaRadioGroup >> beWithoutHint [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -124,7 +124,7 @@ WaRadioGroup >> beWithoutHint [
 	self withHint: false
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaRadioGroup >> beWithoutLabel [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"

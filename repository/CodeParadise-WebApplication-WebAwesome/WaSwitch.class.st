@@ -4,7 +4,7 @@ Class {
 	#category : #'CodeParadise-WebApplication-WebAwesome-Elements'
 }
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaSwitch >> beChecked [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -12,7 +12,7 @@ WaSwitch >> beChecked [
 	self checked: true
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaSwitch >> beDefaultChecked [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -20,7 +20,7 @@ WaSwitch >> beDefaultChecked [
 	self defaultChecked: true
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaSwitch >> beDisabled [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -28,7 +28,7 @@ WaSwitch >> beDisabled [
 	self disabled: true
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaSwitch >> beLarge [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -36,7 +36,7 @@ WaSwitch >> beLarge [
 	self size: #large
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaSwitch >> beMedium [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -44,7 +44,7 @@ WaSwitch >> beMedium [
 	self size: #medium
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaSwitch >> beNotChecked [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -52,7 +52,7 @@ WaSwitch >> beNotChecked [
 	self checked: false
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaSwitch >> beNotDefaultChecked [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -60,7 +60,7 @@ WaSwitch >> beNotDefaultChecked [
 	self defaultChecked: false
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaSwitch >> beNotDisabled [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -68,7 +68,7 @@ WaSwitch >> beNotDisabled [
 	self disabled: false
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaSwitch >> beNotRequired [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -76,7 +76,7 @@ WaSwitch >> beNotRequired [
 	self required: false
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaSwitch >> beRequired [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -84,7 +84,7 @@ WaSwitch >> beRequired [
 	self required: true
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaSwitch >> beSizeL [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -92,7 +92,7 @@ WaSwitch >> beSizeL [
 	self size: #l
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaSwitch >> beSizeM [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -100,7 +100,7 @@ WaSwitch >> beSizeM [
 	self size: #m
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaSwitch >> beSizeS [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -108,7 +108,7 @@ WaSwitch >> beSizeS [
 	self size: #s
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaSwitch >> beSizeXl [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -116,7 +116,7 @@ WaSwitch >> beSizeXl [
 	self size: #xl
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaSwitch >> beSizeXs [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -124,7 +124,7 @@ WaSwitch >> beSizeXs [
 	self size: #xs
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaSwitch >> beSmall [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -132,7 +132,7 @@ WaSwitch >> beSmall [
 	self size: #small
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaSwitch >> beWithHint [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -140,7 +140,7 @@ WaSwitch >> beWithHint [
 	self withHint: true
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaSwitch >> beWithoutHint [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"

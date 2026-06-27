@@ -24,7 +24,7 @@ WaAnimatedImage >> alt: aString [
 	self propertyAt: #alt put: aString
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaAnimatedImage >> beNotPlay [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -32,7 +32,7 @@ WaAnimatedImage >> beNotPlay [
 	self play: false
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaAnimatedImage >> bePlay [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"

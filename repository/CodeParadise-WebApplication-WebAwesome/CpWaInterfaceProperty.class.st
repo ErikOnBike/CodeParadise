@@ -184,7 +184,7 @@ CpWaInterfaceProperty >> installMethodsIn: aClass [
 	self setterSource ifNotNil: [ :source |
 		CpWaInterfaceInstaller
 			installMethodSource:  source
-			selector: self name, ':'
+			selector: (self name, ':') asSymbol
 			protocol: 'accessing'
 			in: aClass ].
 
@@ -192,7 +192,7 @@ CpWaInterfaceProperty >> installMethodsIn: aClass [
 		CpWaInterfaceInstaller
 			installMethodSource: source
 			selector: selector
-			protocol: 'convenience'
+			protocol: 'accessing - convenience'
 			in: aClass ]
 ]
 

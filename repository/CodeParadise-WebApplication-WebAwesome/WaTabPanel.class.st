@@ -26,7 +26,7 @@ WaTabPanel >> active: aBoolean [
 	self propertyAt: #active put: aBoolean
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaTabPanel >> beActive [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -34,7 +34,7 @@ WaTabPanel >> beActive [
 	self active: true
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaTabPanel >> beNotActive [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"

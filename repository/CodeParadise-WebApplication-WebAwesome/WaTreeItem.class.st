@@ -4,7 +4,7 @@ Class {
 	#category : #'CodeParadise-WebApplication-WebAwesome-Elements'
 }
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaTreeItem >> beDisabled [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -12,7 +12,7 @@ WaTreeItem >> beDisabled [
 	self disabled: true
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaTreeItem >> beExpanded [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -20,7 +20,7 @@ WaTreeItem >> beExpanded [
 	self expanded: true
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaTreeItem >> beLazy [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -28,7 +28,7 @@ WaTreeItem >> beLazy [
 	self lazy: true
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaTreeItem >> beNotDisabled [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -36,7 +36,7 @@ WaTreeItem >> beNotDisabled [
 	self disabled: false
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaTreeItem >> beNotExpanded [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -44,7 +44,7 @@ WaTreeItem >> beNotExpanded [
 	self expanded: false
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaTreeItem >> beNotLazy [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -52,7 +52,7 @@ WaTreeItem >> beNotLazy [
 	self lazy: false
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaTreeItem >> beNotSelected [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -60,7 +60,7 @@ WaTreeItem >> beNotSelected [
 	self selected: false
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaTreeItem >> beSelected [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"

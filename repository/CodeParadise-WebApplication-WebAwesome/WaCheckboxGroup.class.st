@@ -4,7 +4,7 @@ Class {
 	#category : #'CodeParadise-WebApplication-WebAwesome-Elements'
 }
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaCheckboxGroup >> beLarge [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -12,7 +12,7 @@ WaCheckboxGroup >> beLarge [
 	self size: #large
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaCheckboxGroup >> beMedium [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -20,7 +20,7 @@ WaCheckboxGroup >> beMedium [
 	self size: #medium
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaCheckboxGroup >> beNotRequired [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -28,7 +28,7 @@ WaCheckboxGroup >> beNotRequired [
 	self required: false
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaCheckboxGroup >> beRequired [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -36,7 +36,7 @@ WaCheckboxGroup >> beRequired [
 	self required: true
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaCheckboxGroup >> beSizeL [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -44,7 +44,7 @@ WaCheckboxGroup >> beSizeL [
 	self size: #l
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaCheckboxGroup >> beSizeM [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -52,7 +52,7 @@ WaCheckboxGroup >> beSizeM [
 	self size: #m
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaCheckboxGroup >> beSizeS [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -60,7 +60,7 @@ WaCheckboxGroup >> beSizeS [
 	self size: #s
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaCheckboxGroup >> beSizeXl [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -68,7 +68,7 @@ WaCheckboxGroup >> beSizeXl [
 	self size: #xl
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaCheckboxGroup >> beSizeXs [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -76,7 +76,7 @@ WaCheckboxGroup >> beSizeXs [
 	self size: #xs
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaCheckboxGroup >> beSmall [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -84,7 +84,7 @@ WaCheckboxGroup >> beSmall [
 	self size: #small
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaCheckboxGroup >> beWithHint [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -92,7 +92,7 @@ WaCheckboxGroup >> beWithHint [
 	self withHint: true
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaCheckboxGroup >> beWithLabel [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -100,7 +100,7 @@ WaCheckboxGroup >> beWithLabel [
 	self withLabel: true
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaCheckboxGroup >> beWithoutHint [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -108,7 +108,7 @@ WaCheckboxGroup >> beWithoutHint [
 	self withHint: false
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaCheckboxGroup >> beWithoutLabel [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"

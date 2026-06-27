@@ -4,7 +4,7 @@ Class {
 	#category : #'CodeParadise-WebApplication-WebAwesome-Elements'
 }
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaDrawer >> beLightDismiss [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -12,7 +12,7 @@ WaDrawer >> beLightDismiss [
 	self lightDismiss: true
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaDrawer >> beNotLightDismiss [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -20,7 +20,7 @@ WaDrawer >> beNotLightDismiss [
 	self lightDismiss: false
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaDrawer >> beNotOpen [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -28,7 +28,7 @@ WaDrawer >> beNotOpen [
 	self open: false
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaDrawer >> beOpen [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -36,7 +36,7 @@ WaDrawer >> beOpen [
 	self open: true
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaDrawer >> beWithFooter [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -44,7 +44,7 @@ WaDrawer >> beWithFooter [
 	self withFooter: true
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaDrawer >> beWithHeader [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -52,7 +52,7 @@ WaDrawer >> beWithHeader [
 	self withoutHeader: false
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaDrawer >> beWithoutFooter [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -60,7 +60,7 @@ WaDrawer >> beWithoutFooter [
 	self withFooter: false
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaDrawer >> beWithoutHeader [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"

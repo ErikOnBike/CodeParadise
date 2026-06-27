@@ -54,7 +54,7 @@ WaKnownDate >> autocomplete: aString [
 	self propertyAt: #autocomplete put: aString
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaKnownDate >> beDisabled [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -62,7 +62,7 @@ WaKnownDate >> beDisabled [
 	self disabled: true
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaKnownDate >> beFilled [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -70,7 +70,7 @@ WaKnownDate >> beFilled [
 	self appearance: #filled
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaKnownDate >> beFilledOutlined [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -78,7 +78,7 @@ WaKnownDate >> beFilledOutlined [
 	self appearance: #'filled-outlined'
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaKnownDate >> beLarge [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -86,7 +86,7 @@ WaKnownDate >> beLarge [
 	self size: #large
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaKnownDate >> beMedium [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -94,7 +94,7 @@ WaKnownDate >> beMedium [
 	self size: #medium
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaKnownDate >> beNotDisabled [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -102,7 +102,7 @@ WaKnownDate >> beNotDisabled [
 	self disabled: false
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaKnownDate >> beNotPill [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -110,7 +110,7 @@ WaKnownDate >> beNotPill [
 	self pill: false
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaKnownDate >> beNotReadonly [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -118,7 +118,7 @@ WaKnownDate >> beNotReadonly [
 	self readonly: false
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaKnownDate >> beNotRequired [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -126,7 +126,7 @@ WaKnownDate >> beNotRequired [
 	self required: false
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaKnownDate >> beOutlined [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -134,7 +134,7 @@ WaKnownDate >> beOutlined [
 	self appearance: #outlined
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaKnownDate >> bePill [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -142,7 +142,7 @@ WaKnownDate >> bePill [
 	self pill: true
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaKnownDate >> beReadonly [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -150,7 +150,7 @@ WaKnownDate >> beReadonly [
 	self readonly: true
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaKnownDate >> beRequired [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -158,7 +158,7 @@ WaKnownDate >> beRequired [
 	self required: true
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaKnownDate >> beSizeL [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -166,7 +166,7 @@ WaKnownDate >> beSizeL [
 	self size: #l
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaKnownDate >> beSizeM [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -174,7 +174,7 @@ WaKnownDate >> beSizeM [
 	self size: #m
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaKnownDate >> beSizeS [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -182,7 +182,7 @@ WaKnownDate >> beSizeS [
 	self size: #s
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaKnownDate >> beSizeXl [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -190,7 +190,7 @@ WaKnownDate >> beSizeXl [
 	self size: #xl
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaKnownDate >> beSizeXs [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -198,7 +198,7 @@ WaKnownDate >> beSizeXs [
 	self size: #xs
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaKnownDate >> beSmall [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -206,7 +206,7 @@ WaKnownDate >> beSmall [
 	self size: #small
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaKnownDate >> beWithHint [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -214,7 +214,7 @@ WaKnownDate >> beWithHint [
 	self withHint: true
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaKnownDate >> beWithLabel [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -222,7 +222,7 @@ WaKnownDate >> beWithLabel [
 	self withLabel: true
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaKnownDate >> beWithoutHint [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -230,7 +230,7 @@ WaKnownDate >> beWithoutHint [
 	self withHint: false
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaKnownDate >> beWithoutLabel [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"

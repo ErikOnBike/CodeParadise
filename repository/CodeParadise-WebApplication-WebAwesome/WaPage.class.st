@@ -4,7 +4,7 @@ Class {
 	#category : #'CodeParadise-WebApplication-WebAwesome-Elements'
 }
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaPage >> beDisableNavigationToggle [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -12,7 +12,7 @@ WaPage >> beDisableNavigationToggle [
 	self disableNavigationToggle: true
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaPage >> beNavOpen [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -20,7 +20,7 @@ WaPage >> beNavOpen [
 	self navOpen: true
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaPage >> beNotDisableNavigationToggle [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -28,7 +28,7 @@ WaPage >> beNotDisableNavigationToggle [
 	self disableNavigationToggle: false
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaPage >> beNotNavOpen [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"

@@ -48,7 +48,7 @@ WaIcon >> autoWidth: aBoolean [
 	self propertyAt: #autoWidth put: aBoolean
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaIcon >> beAutoWidth [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -56,7 +56,7 @@ WaIcon >> beAutoWidth [
 	self autoWidth: true
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaIcon >> beNotAutoWidth [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -64,7 +64,7 @@ WaIcon >> beNotAutoWidth [
 	self autoWidth: false
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaIcon >> beNotSwapOpacity [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -72,7 +72,7 @@ WaIcon >> beNotSwapOpacity [
 	self swapOpacity: false
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaIcon >> beSwapOpacity [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"

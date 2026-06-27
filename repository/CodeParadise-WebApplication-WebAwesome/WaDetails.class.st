@@ -28,7 +28,7 @@ WaDetails >> appearance: aString [
 	self propertyAt: #appearance put: aString
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaDetails >> beDisabled [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -36,7 +36,7 @@ WaDetails >> beDisabled [
 	self disabled: true
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaDetails >> beFilled [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -44,7 +44,7 @@ WaDetails >> beFilled [
 	self appearance: #filled
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaDetails >> beFilledOutlined [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -52,7 +52,7 @@ WaDetails >> beFilledOutlined [
 	self appearance: #'filled-outlined'
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaDetails >> beNotDisabled [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -60,7 +60,7 @@ WaDetails >> beNotDisabled [
 	self disabled: false
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaDetails >> beNotOpen [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -68,7 +68,7 @@ WaDetails >> beNotOpen [
 	self open: false
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaDetails >> beOpen [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -76,7 +76,7 @@ WaDetails >> beOpen [
 	self open: true
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaDetails >> beOutlined [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -84,7 +84,7 @@ WaDetails >> beOutlined [
 	self appearance: #outlined
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaDetails >> bePlain [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"

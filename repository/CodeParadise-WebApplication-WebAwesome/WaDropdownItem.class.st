@@ -4,7 +4,7 @@ Class {
 	#category : #'CodeParadise-WebApplication-WebAwesome-Elements'
 }
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaDropdownItem >> beChecked [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -12,7 +12,7 @@ WaDropdownItem >> beChecked [
 	self checked: true
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaDropdownItem >> beDanger [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -20,7 +20,7 @@ WaDropdownItem >> beDanger [
 	self variant: #danger
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaDropdownItem >> beDefault [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -28,7 +28,7 @@ WaDropdownItem >> beDefault [
 	self variant: #default
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaDropdownItem >> beDisabled [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -36,7 +36,7 @@ WaDropdownItem >> beDisabled [
 	self disabled: true
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaDropdownItem >> beNotChecked [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -44,7 +44,7 @@ WaDropdownItem >> beNotChecked [
 	self checked: false
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaDropdownItem >> beNotDisabled [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -52,7 +52,7 @@ WaDropdownItem >> beNotDisabled [
 	self disabled: false
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaDropdownItem >> beNotSubmenuOpen [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -60,7 +60,7 @@ WaDropdownItem >> beNotSubmenuOpen [
 	self submenuOpen: false
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaDropdownItem >> beSubmenuOpen [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"

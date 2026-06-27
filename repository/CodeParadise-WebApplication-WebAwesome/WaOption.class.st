@@ -4,7 +4,7 @@ Class {
 	#category : #'CodeParadise-WebApplication-WebAwesome-Elements'
 }
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaOption >> beDefaultSelected [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -12,7 +12,7 @@ WaOption >> beDefaultSelected [
 	self defaultSelected: true
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaOption >> beDisabled [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -20,7 +20,7 @@ WaOption >> beDisabled [
 	self disabled: true
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaOption >> beNotDefaultSelected [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -28,7 +28,7 @@ WaOption >> beNotDefaultSelected [
 	self defaultSelected: false
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaOption >> beNotDisabled [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"

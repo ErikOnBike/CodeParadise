@@ -12,7 +12,7 @@ WaFormatDate >> date [
 	in JavaScript, use [`date.toISOString()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toISOString).
 	
 	Type: DateOrString
-	Default: 2026-06-26T21:29:26.578459+02:00"
+	Default: 'DateAndTime now'"
 
 	^ self propertyAt: #date
 ]
@@ -25,7 +25,7 @@ WaFormatDate >> date: aDateOrString [
 	in JavaScript, use [`date.toISOString()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toISOString).
 	
 	Type: DateOrString
-	Default: 2026-06-26T21:29:26.578459+02:00"
+	Default: 'DateAndTime now'"
 
 	self propertyAt: #date put: aDateOrString
 ]

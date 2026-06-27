@@ -4,7 +4,7 @@ Class {
 	#category : #'CodeParadise-WebApplication-WebAwesome-Elements'
 }
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaPopover >> beNotOpen [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -12,7 +12,7 @@ WaPopover >> beNotOpen [
 	self open: false
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaPopover >> beOpen [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -20,7 +20,7 @@ WaPopover >> beOpen [
 	self open: true
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaPopover >> beWithArrow [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -28,7 +28,7 @@ WaPopover >> beWithArrow [
 	self withoutArrow: false
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaPopover >> beWithoutArrow [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"

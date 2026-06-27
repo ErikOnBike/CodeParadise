@@ -28,7 +28,7 @@ WaAccordion >> appearance: aString [
 	self propertyAt: #appearance put: aString
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaAccordion >> beFilled [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -36,7 +36,7 @@ WaAccordion >> beFilled [
 	self appearance: #filled
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaAccordion >> beFilledOutlined [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -44,7 +44,7 @@ WaAccordion >> beFilledOutlined [
 	self appearance: #'filled-outlined'
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaAccordion >> beOutlined [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -52,7 +52,7 @@ WaAccordion >> beOutlined [
 	self appearance: #outlined
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaAccordion >> bePlain [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"

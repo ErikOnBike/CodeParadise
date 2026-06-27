@@ -4,7 +4,7 @@ Class {
 	#category : #'CodeParadise-WebApplication-WebAwesome-Elements'
 }
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaFormatNumber >> beWithGrouping [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -12,7 +12,7 @@ WaFormatNumber >> beWithGrouping [
 	self withoutGrouping: false
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaFormatNumber >> beWithoutGrouping [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"

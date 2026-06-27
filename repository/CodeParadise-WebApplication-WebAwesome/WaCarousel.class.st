@@ -48,7 +48,7 @@ WaCarousel >> autoplayInterval: aNumber [
 	self propertyAt: #autoplayInterval put: aNumber
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaCarousel >> beAutoplay [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -56,7 +56,7 @@ WaCarousel >> beAutoplay [
 	self autoplay: true
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaCarousel >> beLoop [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -64,7 +64,7 @@ WaCarousel >> beLoop [
 	self loop: true
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaCarousel >> beMouseDragging [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -72,7 +72,7 @@ WaCarousel >> beMouseDragging [
 	self mouseDragging: true
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaCarousel >> beNavigation [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -80,7 +80,7 @@ WaCarousel >> beNavigation [
 	self navigation: true
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaCarousel >> beNotAutoplay [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -88,7 +88,7 @@ WaCarousel >> beNotAutoplay [
 	self autoplay: false
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaCarousel >> beNotLoop [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -96,7 +96,7 @@ WaCarousel >> beNotLoop [
 	self loop: false
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaCarousel >> beNotMouseDragging [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -104,7 +104,7 @@ WaCarousel >> beNotMouseDragging [
 	self mouseDragging: false
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaCarousel >> beNotNavigation [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -112,7 +112,7 @@ WaCarousel >> beNotNavigation [
 	self navigation: false
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaCarousel >> beNotPagination [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -120,7 +120,7 @@ WaCarousel >> beNotPagination [
 	self pagination: false
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaCarousel >> bePagination [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"

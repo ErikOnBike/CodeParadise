@@ -198,7 +198,7 @@ WaPopup >> autoSizePadding: aNumber [
 	self propertyAt: #autoSizePadding put: aNumber
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaPopup >> beActive [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -206,7 +206,7 @@ WaPopup >> beActive [
 	self active: true
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaPopup >> beArrow [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -214,7 +214,7 @@ WaPopup >> beArrow [
 	self arrow: true
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaPopup >> beFlip [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -222,7 +222,7 @@ WaPopup >> beFlip [
 	self flip: true
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaPopup >> beHoverBridge [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -230,7 +230,7 @@ WaPopup >> beHoverBridge [
 	self hoverBridge: true
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaPopup >> beNotActive [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -238,7 +238,7 @@ WaPopup >> beNotActive [
 	self active: false
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaPopup >> beNotArrow [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -246,7 +246,7 @@ WaPopup >> beNotArrow [
 	self arrow: false
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaPopup >> beNotFlip [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -254,7 +254,7 @@ WaPopup >> beNotFlip [
 	self flip: false
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaPopup >> beNotHoverBridge [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -262,7 +262,7 @@ WaPopup >> beNotHoverBridge [
 	self hoverBridge: false
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaPopup >> beNotShift [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -270,7 +270,7 @@ WaPopup >> beNotShift [
 	self shift: false
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaPopup >> beShift [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"

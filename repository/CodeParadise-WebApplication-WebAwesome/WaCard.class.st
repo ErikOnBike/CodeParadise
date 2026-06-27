@@ -28,7 +28,7 @@ WaCard >> appearance: aString [
 	self propertyAt: #appearance put: aString
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaCard >> beAccent [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -36,7 +36,7 @@ WaCard >> beAccent [
 	self appearance: #accent
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaCard >> beFilled [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -44,7 +44,7 @@ WaCard >> beFilled [
 	self appearance: #filled
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaCard >> beFilledOutlined [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -52,7 +52,7 @@ WaCard >> beFilledOutlined [
 	self appearance: #'filled-outlined'
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaCard >> beOutlined [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -60,7 +60,7 @@ WaCard >> beOutlined [
 	self appearance: #outlined
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaCard >> bePlain [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -68,7 +68,7 @@ WaCard >> bePlain [
 	self appearance: #plain
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaCard >> beWithFooter [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -76,7 +76,7 @@ WaCard >> beWithFooter [
 	self withFooter: true
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaCard >> beWithFooterActions [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -84,7 +84,7 @@ WaCard >> beWithFooterActions [
 	self withFooterActions: true
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaCard >> beWithHeader [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -92,7 +92,7 @@ WaCard >> beWithHeader [
 	self withHeader: true
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaCard >> beWithHeaderActions [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -100,7 +100,7 @@ WaCard >> beWithHeaderActions [
 	self withHeaderActions: true
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaCard >> beWithMedia [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -108,7 +108,7 @@ WaCard >> beWithMedia [
 	self withMedia: true
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaCard >> beWithoutFooter [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -116,7 +116,7 @@ WaCard >> beWithoutFooter [
 	self withFooter: false
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaCard >> beWithoutFooterActions [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -124,7 +124,7 @@ WaCard >> beWithoutFooterActions [
 	self withFooterActions: false
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaCard >> beWithoutHeader [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -132,7 +132,7 @@ WaCard >> beWithoutHeader [
 	self withHeader: false
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaCard >> beWithoutHeaderActions [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -140,7 +140,7 @@ WaCard >> beWithoutHeaderActions [
 	self withHeaderActions: false
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaCard >> beWithoutMedia [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"

@@ -28,7 +28,7 @@ WaButton >> appearance: aString [
 	self propertyAt: #appearance put: aString
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaButton >> beAccent [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -36,7 +36,7 @@ WaButton >> beAccent [
 	self appearance: #accent
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaButton >> beBrand [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -44,7 +44,7 @@ WaButton >> beBrand [
 	self variant: #brand
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaButton >> beDanger [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -52,7 +52,7 @@ WaButton >> beDanger [
 	self variant: #danger
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaButton >> beDisabled [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -60,7 +60,7 @@ WaButton >> beDisabled [
 	self disabled: true
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaButton >> beFilled [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -68,7 +68,7 @@ WaButton >> beFilled [
 	self appearance: #filled
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaButton >> beFilledOutlined [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -76,7 +76,7 @@ WaButton >> beFilledOutlined [
 	self appearance: #'filled-outlined'
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaButton >> beFormNoValidate [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -84,7 +84,7 @@ WaButton >> beFormNoValidate [
 	self formNoValidate: true
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaButton >> beLarge [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -92,7 +92,7 @@ WaButton >> beLarge [
 	self size: #large
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaButton >> beLoading [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -100,7 +100,7 @@ WaButton >> beLoading [
 	self loading: true
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaButton >> beMedium [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -108,7 +108,7 @@ WaButton >> beMedium [
 	self size: #medium
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaButton >> beNeutral [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -116,7 +116,7 @@ WaButton >> beNeutral [
 	self variant: #neutral
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaButton >> beNotDisabled [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -124,7 +124,7 @@ WaButton >> beNotDisabled [
 	self disabled: false
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaButton >> beNotFormNoValidate [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -132,7 +132,7 @@ WaButton >> beNotFormNoValidate [
 	self formNoValidate: false
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaButton >> beNotLoading [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -140,7 +140,7 @@ WaButton >> beNotLoading [
 	self loading: false
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaButton >> beNotPill [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -148,7 +148,7 @@ WaButton >> beNotPill [
 	self pill: false
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaButton >> beOutlined [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -156,7 +156,7 @@ WaButton >> beOutlined [
 	self appearance: #outlined
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaButton >> bePill [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -164,7 +164,7 @@ WaButton >> bePill [
 	self pill: true
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaButton >> bePlain [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -172,7 +172,7 @@ WaButton >> bePlain [
 	self appearance: #plain
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaButton >> beSizeL [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -180,7 +180,7 @@ WaButton >> beSizeL [
 	self size: #l
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaButton >> beSizeM [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -188,7 +188,7 @@ WaButton >> beSizeM [
 	self size: #m
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaButton >> beSizeS [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -196,7 +196,7 @@ WaButton >> beSizeS [
 	self size: #s
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaButton >> beSizeXl [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -204,7 +204,7 @@ WaButton >> beSizeXl [
 	self size: #xl
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaButton >> beSizeXs [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -212,7 +212,7 @@ WaButton >> beSizeXs [
 	self size: #xs
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaButton >> beSmall [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -220,7 +220,7 @@ WaButton >> beSmall [
 	self size: #small
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaButton >> beSuccess [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -228,7 +228,7 @@ WaButton >> beSuccess [
 	self variant: #success
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaButton >> beWarning [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -236,7 +236,7 @@ WaButton >> beWarning [
 	self variant: #warning
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaButton >> beWithCaret [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -244,7 +244,7 @@ WaButton >> beWithCaret [
 	self withCaret: true
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaButton >> beWithEnd [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -252,7 +252,7 @@ WaButton >> beWithEnd [
 	self withEnd: true
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaButton >> beWithStart [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -260,7 +260,7 @@ WaButton >> beWithStart [
 	self withStart: true
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaButton >> beWithoutCaret [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -268,7 +268,7 @@ WaButton >> beWithoutCaret [
 	self withCaret: false
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaButton >> beWithoutEnd [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -276,7 +276,7 @@ WaButton >> beWithoutEnd [
 	self withEnd: false
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaButton >> beWithoutStart [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"

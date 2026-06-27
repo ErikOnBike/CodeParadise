@@ -4,7 +4,7 @@ Class {
 	#category : #'CodeParadise-WebApplication-WebAwesome-Elements'
 }
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaDialog >> beLightDismiss [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -12,7 +12,7 @@ WaDialog >> beLightDismiss [
 	self lightDismiss: true
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaDialog >> beNotLightDismiss [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -20,7 +20,7 @@ WaDialog >> beNotLightDismiss [
 	self lightDismiss: false
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaDialog >> beNotOpen [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -28,7 +28,7 @@ WaDialog >> beNotOpen [
 	self open: false
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaDialog >> beOpen [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -36,7 +36,7 @@ WaDialog >> beOpen [
 	self open: true
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaDialog >> beWithFooter [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -44,7 +44,7 @@ WaDialog >> beWithFooter [
 	self withFooter: true
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaDialog >> beWithHeader [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -52,7 +52,7 @@ WaDialog >> beWithHeader [
 	self withoutHeader: false
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaDialog >> beWithoutFooter [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -60,7 +60,7 @@ WaDialog >> beWithoutFooter [
 	self withFooter: false
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaDialog >> beWithoutHeader [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"

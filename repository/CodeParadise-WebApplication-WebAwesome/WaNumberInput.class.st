@@ -70,7 +70,7 @@ WaNumberInput >> autofocus: aBoolean [
 	self propertyAt: #autofocus put: aBoolean
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaNumberInput >> beAutofocus [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -78,7 +78,7 @@ WaNumberInput >> beAutofocus [
 	self autofocus: true
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaNumberInput >> beDisabled [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -86,7 +86,7 @@ WaNumberInput >> beDisabled [
 	self disabled: true
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaNumberInput >> beFilled [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -94,7 +94,7 @@ WaNumberInput >> beFilled [
 	self appearance: #filled
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaNumberInput >> beFilledOutlined [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -102,7 +102,7 @@ WaNumberInput >> beFilledOutlined [
 	self appearance: #'filled-outlined'
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaNumberInput >> beLarge [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -110,7 +110,7 @@ WaNumberInput >> beLarge [
 	self size: #large
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaNumberInput >> beMedium [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -118,7 +118,7 @@ WaNumberInput >> beMedium [
 	self size: #medium
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaNumberInput >> beNotAutofocus [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -126,7 +126,7 @@ WaNumberInput >> beNotAutofocus [
 	self autofocus: false
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaNumberInput >> beNotDisabled [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -134,7 +134,7 @@ WaNumberInput >> beNotDisabled [
 	self disabled: false
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaNumberInput >> beNotPill [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -142,7 +142,7 @@ WaNumberInput >> beNotPill [
 	self pill: false
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaNumberInput >> beNotReadonly [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -150,7 +150,7 @@ WaNumberInput >> beNotReadonly [
 	self readonly: false
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaNumberInput >> beNotRequired [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -158,7 +158,7 @@ WaNumberInput >> beNotRequired [
 	self required: false
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaNumberInput >> beOutlined [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -166,7 +166,7 @@ WaNumberInput >> beOutlined [
 	self appearance: #outlined
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaNumberInput >> bePill [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -174,7 +174,7 @@ WaNumberInput >> bePill [
 	self pill: true
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaNumberInput >> beReadonly [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -182,7 +182,7 @@ WaNumberInput >> beReadonly [
 	self readonly: true
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaNumberInput >> beRequired [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -190,7 +190,7 @@ WaNumberInput >> beRequired [
 	self required: true
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaNumberInput >> beSizeL [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -198,7 +198,7 @@ WaNumberInput >> beSizeL [
 	self size: #l
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaNumberInput >> beSizeM [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -206,7 +206,7 @@ WaNumberInput >> beSizeM [
 	self size: #m
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaNumberInput >> beSizeS [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -214,7 +214,7 @@ WaNumberInput >> beSizeS [
 	self size: #s
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaNumberInput >> beSizeXl [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -222,7 +222,7 @@ WaNumberInput >> beSizeXl [
 	self size: #xl
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaNumberInput >> beSizeXs [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -230,7 +230,7 @@ WaNumberInput >> beSizeXs [
 	self size: #xs
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaNumberInput >> beSmall [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -238,7 +238,7 @@ WaNumberInput >> beSmall [
 	self size: #small
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaNumberInput >> beWithHint [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -246,7 +246,7 @@ WaNumberInput >> beWithHint [
 	self withHint: true
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaNumberInput >> beWithLabel [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -254,7 +254,7 @@ WaNumberInput >> beWithLabel [
 	self withLabel: true
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaNumberInput >> beWithSteppers [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -262,7 +262,7 @@ WaNumberInput >> beWithSteppers [
 	self withoutSteppers: false
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaNumberInput >> beWithoutHint [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -270,7 +270,7 @@ WaNumberInput >> beWithoutHint [
 	self withHint: false
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaNumberInput >> beWithoutLabel [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -278,7 +278,7 @@ WaNumberInput >> beWithoutLabel [
 	self withLabel: false
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaNumberInput >> beWithoutSteppers [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"

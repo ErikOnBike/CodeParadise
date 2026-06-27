@@ -4,7 +4,7 @@ Class {
 	#category : #'CodeParadise-WebApplication-WebAwesome-Elements'
 }
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaProgressBar >> beIndeterminate [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -12,7 +12,7 @@ WaProgressBar >> beIndeterminate [
 	self indeterminate: true
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaProgressBar >> beNotIndeterminate [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"

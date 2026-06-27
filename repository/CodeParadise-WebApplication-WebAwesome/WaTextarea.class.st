@@ -114,7 +114,7 @@ WaTextarea >> autofocus: aBoolean [
 	self propertyAt: #autofocus put: aBoolean
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaTextarea >> beAutocorrect [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -122,7 +122,7 @@ WaTextarea >> beAutocorrect [
 	self autocorrect: true
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaTextarea >> beAutofocus [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -130,7 +130,7 @@ WaTextarea >> beAutofocus [
 	self autofocus: true
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaTextarea >> beDisabled [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -138,7 +138,7 @@ WaTextarea >> beDisabled [
 	self disabled: true
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaTextarea >> beFilled [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -146,7 +146,7 @@ WaTextarea >> beFilled [
 	self appearance: #filled
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaTextarea >> beFilledOutlined [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -154,7 +154,7 @@ WaTextarea >> beFilledOutlined [
 	self appearance: #'filled-outlined'
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaTextarea >> beLarge [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -162,7 +162,7 @@ WaTextarea >> beLarge [
 	self size: #large
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaTextarea >> beMedium [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -170,7 +170,7 @@ WaTextarea >> beMedium [
 	self size: #medium
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaTextarea >> beNotAutocorrect [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -178,7 +178,7 @@ WaTextarea >> beNotAutocorrect [
 	self autocorrect: false
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaTextarea >> beNotAutofocus [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -186,7 +186,7 @@ WaTextarea >> beNotAutofocus [
 	self autofocus: false
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaTextarea >> beNotDisabled [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -194,7 +194,7 @@ WaTextarea >> beNotDisabled [
 	self disabled: false
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaTextarea >> beNotReadonly [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -202,7 +202,7 @@ WaTextarea >> beNotReadonly [
 	self readonly: false
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaTextarea >> beNotRequired [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -210,7 +210,7 @@ WaTextarea >> beNotRequired [
 	self required: false
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaTextarea >> beNotSpellcheck [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -218,7 +218,7 @@ WaTextarea >> beNotSpellcheck [
 	self spellcheck: false
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaTextarea >> beOutlined [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -226,7 +226,7 @@ WaTextarea >> beOutlined [
 	self appearance: #outlined
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaTextarea >> beReadonly [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -234,7 +234,7 @@ WaTextarea >> beReadonly [
 	self readonly: true
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaTextarea >> beRequired [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -242,7 +242,7 @@ WaTextarea >> beRequired [
 	self required: true
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaTextarea >> beSizeL [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -250,7 +250,7 @@ WaTextarea >> beSizeL [
 	self size: #l
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaTextarea >> beSizeM [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -258,7 +258,7 @@ WaTextarea >> beSizeM [
 	self size: #m
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaTextarea >> beSizeS [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -266,7 +266,7 @@ WaTextarea >> beSizeS [
 	self size: #s
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaTextarea >> beSizeXl [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -274,7 +274,7 @@ WaTextarea >> beSizeXl [
 	self size: #xl
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaTextarea >> beSizeXs [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -282,7 +282,7 @@ WaTextarea >> beSizeXs [
 	self size: #xs
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaTextarea >> beSmall [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -290,7 +290,7 @@ WaTextarea >> beSmall [
 	self size: #small
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaTextarea >> beSpellcheck [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -298,7 +298,7 @@ WaTextarea >> beSpellcheck [
 	self spellcheck: true
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaTextarea >> beWithCount [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -306,7 +306,7 @@ WaTextarea >> beWithCount [
 	self withCount: true
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaTextarea >> beWithHint [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -314,7 +314,7 @@ WaTextarea >> beWithHint [
 	self withHint: true
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaTextarea >> beWithLabel [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -322,7 +322,7 @@ WaTextarea >> beWithLabel [
 	self withLabel: true
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaTextarea >> beWithoutCount [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -330,7 +330,7 @@ WaTextarea >> beWithoutCount [
 	self withCount: false
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaTextarea >> beWithoutHint [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -338,7 +338,7 @@ WaTextarea >> beWithoutHint [
 	self withHint: false
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaTextarea >> beWithoutLabel [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"

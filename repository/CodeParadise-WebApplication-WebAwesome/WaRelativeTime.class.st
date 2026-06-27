@@ -4,7 +4,7 @@ Class {
 	#category : #'CodeParadise-WebApplication-WebAwesome-Elements'
 }
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaRelativeTime >> beNotSync [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -12,7 +12,7 @@ WaRelativeTime >> beNotSync [
 	self sync: false
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaRelativeTime >> beSync [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -28,7 +28,7 @@ WaRelativeTime >> date [
 	a date to this format in JavaScript, use [`date.toISOString()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toISOString).
 	
 	Type: DateOrString
-	Default: 2026-06-26T21:29:26.874628+02:00"
+	Default: 'DateAndTime now'"
 
 	^ self propertyAt: #date
 ]
@@ -41,7 +41,7 @@ WaRelativeTime >> date: aDateOrString [
 	a date to this format in JavaScript, use [`date.toISOString()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toISOString).
 	
 	Type: DateOrString
-	Default: 2026-06-26T21:29:26.874628+02:00"
+	Default: 'DateAndTime now'"
 
 	self propertyAt: #date put: aDateOrString
 ]

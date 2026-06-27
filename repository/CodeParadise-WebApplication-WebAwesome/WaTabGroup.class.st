@@ -52,7 +52,7 @@ WaTabGroup >> active: aString [
 	self propertyAt: #active put: aString
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaTabGroup >> beWithScrollControls [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -60,7 +60,7 @@ WaTabGroup >> beWithScrollControls [
 	self withoutScrollControls: false
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaTabGroup >> beWithoutScrollControls [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"

@@ -28,7 +28,7 @@ WaInclude >> allowScripts: aBoolean [
 	self propertyAt: #allowScripts put: aBoolean
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaInclude >> beAllowScripts [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -36,7 +36,7 @@ WaInclude >> beAllowScripts [
 	self allowScripts: true
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaInclude >> beNotAllowScripts [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"

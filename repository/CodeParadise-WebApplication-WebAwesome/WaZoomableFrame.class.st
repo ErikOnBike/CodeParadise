@@ -26,7 +26,7 @@ WaZoomableFrame >> allowfullscreen: aBoolean [
 	self propertyAt: #allowfullscreen put: aBoolean
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaZoomableFrame >> beAllowfullscreen [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -34,7 +34,7 @@ WaZoomableFrame >> beAllowfullscreen [
 	self allowfullscreen: true
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaZoomableFrame >> beNotAllowfullscreen [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -42,7 +42,7 @@ WaZoomableFrame >> beNotAllowfullscreen [
 	self allowfullscreen: false
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaZoomableFrame >> beWithControls [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -50,7 +50,7 @@ WaZoomableFrame >> beWithControls [
 	self withoutControls: false
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaZoomableFrame >> beWithInteraction [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -58,7 +58,7 @@ WaZoomableFrame >> beWithInteraction [
 	self withoutInteraction: false
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaZoomableFrame >> beWithThemeSync [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -66,7 +66,7 @@ WaZoomableFrame >> beWithThemeSync [
 	self withThemeSync: true
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaZoomableFrame >> beWithoutControls [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -74,7 +74,7 @@ WaZoomableFrame >> beWithoutControls [
 	self withoutControls: true
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaZoomableFrame >> beWithoutInteraction [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -82,7 +82,7 @@ WaZoomableFrame >> beWithoutInteraction [
 	self withoutInteraction: true
 ]
 
-{ #category : #convenience }
+{ #category : #'accessing - convenience' }
 WaZoomableFrame >> beWithoutThemeSync [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
