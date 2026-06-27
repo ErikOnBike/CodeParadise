@@ -54,7 +54,7 @@ WaElement class >> componentName [
 { #category : #accessing }
 WaElement class >> importBasePath [
 
-	^ 'https://cdn.jsdelivr.net/npm/@awesome.me/webawesome@3.9.0/dist/'
+	^ 'https://cdn.jsdelivr.net/npm/@awesome.me/webawesome@3.9.0/dist-cdn/'
 ]
 
 { #category : #accessing }
