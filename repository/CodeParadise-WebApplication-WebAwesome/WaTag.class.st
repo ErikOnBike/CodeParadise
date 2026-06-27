@@ -29,7 +29,7 @@ WaTag >> appearance: aString [
 ]
 
 { #category : #'accessing - convenience' }
-WaTag >> beAccent [
+WaTag >> appearanceAccent [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
 
@@ -37,23 +37,7 @@ WaTag >> beAccent [
 ]
 
 { #category : #'accessing - convenience' }
-WaTag >> beBrand [
-
-	"This is a convenience method to prevent having to provide arguments to a genric setter method"
-
-	self variant: #brand
-]
-
-{ #category : #'accessing - convenience' }
-WaTag >> beDanger [
-
-	"This is a convenience method to prevent having to provide arguments to a genric setter method"
-
-	self variant: #danger
-]
-
-{ #category : #'accessing - convenience' }
-WaTag >> beFilled [
+WaTag >> appearanceFilled [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
 
@@ -61,7 +45,7 @@ WaTag >> beFilled [
 ]
 
 { #category : #'accessing - convenience' }
-WaTag >> beFilledOutlined [
+WaTag >> appearanceFilledOutlined [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
 
@@ -69,27 +53,11 @@ WaTag >> beFilledOutlined [
 ]
 
 { #category : #'accessing - convenience' }
-WaTag >> beLarge [
+WaTag >> appearanceOutlined [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
 
-	self size: #large
-]
-
-{ #category : #'accessing - convenience' }
-WaTag >> beMedium [
-
-	"This is a convenience method to prevent having to provide arguments to a genric setter method"
-
-	self size: #medium
-]
-
-{ #category : #'accessing - convenience' }
-WaTag >> beNeutral [
-
-	"This is a convenience method to prevent having to provide arguments to a genric setter method"
-
-	self variant: #neutral
+	self appearance: #outlined
 ]
 
 { #category : #'accessing - convenience' }
@@ -101,83 +69,11 @@ WaTag >> beNotPill [
 ]
 
 { #category : #'accessing - convenience' }
-WaTag >> beOutlined [
-
-	"This is a convenience method to prevent having to provide arguments to a genric setter method"
-
-	self appearance: #outlined
-]
-
-{ #category : #'accessing - convenience' }
 WaTag >> bePill [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
 
 	self pill: true
-]
-
-{ #category : #'accessing - convenience' }
-WaTag >> beSizeL [
-
-	"This is a convenience method to prevent having to provide arguments to a genric setter method"
-
-	self size: #l
-]
-
-{ #category : #'accessing - convenience' }
-WaTag >> beSizeM [
-
-	"This is a convenience method to prevent having to provide arguments to a genric setter method"
-
-	self size: #m
-]
-
-{ #category : #'accessing - convenience' }
-WaTag >> beSizeS [
-
-	"This is a convenience method to prevent having to provide arguments to a genric setter method"
-
-	self size: #s
-]
-
-{ #category : #'accessing - convenience' }
-WaTag >> beSizeXl [
-
-	"This is a convenience method to prevent having to provide arguments to a genric setter method"
-
-	self size: #xl
-]
-
-{ #category : #'accessing - convenience' }
-WaTag >> beSizeXs [
-
-	"This is a convenience method to prevent having to provide arguments to a genric setter method"
-
-	self size: #xs
-]
-
-{ #category : #'accessing - convenience' }
-WaTag >> beSmall [
-
-	"This is a convenience method to prevent having to provide arguments to a genric setter method"
-
-	self size: #small
-]
-
-{ #category : #'accessing - convenience' }
-WaTag >> beSuccess [
-
-	"This is a convenience method to prevent having to provide arguments to a genric setter method"
-
-	self variant: #success
-]
-
-{ #category : #'accessing - convenience' }
-WaTag >> beWarning [
-
-	"This is a convenience method to prevent having to provide arguments to a genric setter method"
-
-	self variant: #warning
 ]
 
 { #category : #'accessing - convenience' }
@@ -242,6 +138,70 @@ WaTag >> size: aString [
 	self propertyAt: #size put: aString
 ]
 
+{ #category : #'accessing - convenience' }
+WaTag >> sizeL [
+
+	"This is a convenience method to prevent having to provide arguments to a genric setter method"
+
+	self size: #l
+]
+
+{ #category : #'accessing - convenience' }
+WaTag >> sizeLarge [
+
+	"This is a convenience method to prevent having to provide arguments to a genric setter method"
+
+	self size: #large
+]
+
+{ #category : #'accessing - convenience' }
+WaTag >> sizeM [
+
+	"This is a convenience method to prevent having to provide arguments to a genric setter method"
+
+	self size: #m
+]
+
+{ #category : #'accessing - convenience' }
+WaTag >> sizeMedium [
+
+	"This is a convenience method to prevent having to provide arguments to a genric setter method"
+
+	self size: #medium
+]
+
+{ #category : #'accessing - convenience' }
+WaTag >> sizeS [
+
+	"This is a convenience method to prevent having to provide arguments to a genric setter method"
+
+	self size: #s
+]
+
+{ #category : #'accessing - convenience' }
+WaTag >> sizeSmall [
+
+	"This is a convenience method to prevent having to provide arguments to a genric setter method"
+
+	self size: #small
+]
+
+{ #category : #'accessing - convenience' }
+WaTag >> sizeXl [
+
+	"This is a convenience method to prevent having to provide arguments to a genric setter method"
+
+	self size: #xl
+]
+
+{ #category : #'accessing - convenience' }
+WaTag >> sizeXs [
+
+	"This is a convenience method to prevent having to provide arguments to a genric setter method"
+
+	self size: #xs
+]
+
 { #category : #accessing }
 WaTag >> variant [
 
@@ -264,6 +224,46 @@ WaTag >> variant: aString [
 	Allowed: 'brand' | 'neutral' | 'success' | 'warning' | 'danger'"
 
 	self propertyAt: #variant put: aString
+]
+
+{ #category : #'accessing - convenience' }
+WaTag >> variantBrand [
+
+	"This is a convenience method to prevent having to provide arguments to a genric setter method"
+
+	self variant: #brand
+]
+
+{ #category : #'accessing - convenience' }
+WaTag >> variantDanger [
+
+	"This is a convenience method to prevent having to provide arguments to a genric setter method"
+
+	self variant: #danger
+]
+
+{ #category : #'accessing - convenience' }
+WaTag >> variantNeutral [
+
+	"This is a convenience method to prevent having to provide arguments to a genric setter method"
+
+	self variant: #neutral
+]
+
+{ #category : #'accessing - convenience' }
+WaTag >> variantSuccess [
+
+	"This is a convenience method to prevent having to provide arguments to a genric setter method"
+
+	self variant: #success
+]
+
+{ #category : #'accessing - convenience' }
+WaTag >> variantWarning [
+
+	"This is a convenience method to prevent having to provide arguments to a genric setter method"
+
+	self variant: #warning
 ]
 
 { #category : #accessing }

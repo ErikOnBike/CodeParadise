@@ -37,22 +37,6 @@ WaCheckbox >> beIndeterminate [
 ]
 
 { #category : #'accessing - convenience' }
-WaCheckbox >> beLarge [
-
-	"This is a convenience method to prevent having to provide arguments to a genric setter method"
-
-	self size: #large
-]
-
-{ #category : #'accessing - convenience' }
-WaCheckbox >> beMedium [
-
-	"This is a convenience method to prevent having to provide arguments to a genric setter method"
-
-	self size: #medium
-]
-
-{ #category : #'accessing - convenience' }
 WaCheckbox >> beNotChecked [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -98,54 +82,6 @@ WaCheckbox >> beRequired [
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
 
 	self required: true
-]
-
-{ #category : #'accessing - convenience' }
-WaCheckbox >> beSizeL [
-
-	"This is a convenience method to prevent having to provide arguments to a genric setter method"
-
-	self size: #l
-]
-
-{ #category : #'accessing - convenience' }
-WaCheckbox >> beSizeM [
-
-	"This is a convenience method to prevent having to provide arguments to a genric setter method"
-
-	self size: #m
-]
-
-{ #category : #'accessing - convenience' }
-WaCheckbox >> beSizeS [
-
-	"This is a convenience method to prevent having to provide arguments to a genric setter method"
-
-	self size: #s
-]
-
-{ #category : #'accessing - convenience' }
-WaCheckbox >> beSizeXl [
-
-	"This is a convenience method to prevent having to provide arguments to a genric setter method"
-
-	self size: #xl
-]
-
-{ #category : #'accessing - convenience' }
-WaCheckbox >> beSizeXs [
-
-	"This is a convenience method to prevent having to provide arguments to a genric setter method"
-
-	self size: #xs
-]
-
-{ #category : #'accessing - convenience' }
-WaCheckbox >> beSmall [
-
-	"This is a convenience method to prevent having to provide arguments to a genric setter method"
-
-	self size: #small
 ]
 
 { #category : #actions }
@@ -413,6 +349,70 @@ WaCheckbox >> size: aString [
 	Allowed: 'xs' | 's' | 'm' | 'l' | 'xl' | 'small' | 'medium' | 'large'"
 
 	self propertyAt: #size put: aString
+]
+
+{ #category : #'accessing - convenience' }
+WaCheckbox >> sizeL [
+
+	"This is a convenience method to prevent having to provide arguments to a genric setter method"
+
+	self size: #l
+]
+
+{ #category : #'accessing - convenience' }
+WaCheckbox >> sizeLarge [
+
+	"This is a convenience method to prevent having to provide arguments to a genric setter method"
+
+	self size: #large
+]
+
+{ #category : #'accessing - convenience' }
+WaCheckbox >> sizeM [
+
+	"This is a convenience method to prevent having to provide arguments to a genric setter method"
+
+	self size: #m
+]
+
+{ #category : #'accessing - convenience' }
+WaCheckbox >> sizeMedium [
+
+	"This is a convenience method to prevent having to provide arguments to a genric setter method"
+
+	self size: #medium
+]
+
+{ #category : #'accessing - convenience' }
+WaCheckbox >> sizeS [
+
+	"This is a convenience method to prevent having to provide arguments to a genric setter method"
+
+	self size: #s
+]
+
+{ #category : #'accessing - convenience' }
+WaCheckbox >> sizeSmall [
+
+	"This is a convenience method to prevent having to provide arguments to a genric setter method"
+
+	self size: #small
+]
+
+{ #category : #'accessing - convenience' }
+WaCheckbox >> sizeXl [
+
+	"This is a convenience method to prevent having to provide arguments to a genric setter method"
+
+	self size: #xl
+]
+
+{ #category : #'accessing - convenience' }
+WaCheckbox >> sizeXs [
+
+	"This is a convenience method to prevent having to provide arguments to a genric setter method"
+
+	self size: #xs
 ]
 
 { #category : #accessing }

@@ -29,22 +29,6 @@ WaSwitch >> beDisabled [
 ]
 
 { #category : #'accessing - convenience' }
-WaSwitch >> beLarge [
-
-	"This is a convenience method to prevent having to provide arguments to a genric setter method"
-
-	self size: #large
-]
-
-{ #category : #'accessing - convenience' }
-WaSwitch >> beMedium [
-
-	"This is a convenience method to prevent having to provide arguments to a genric setter method"
-
-	self size: #medium
-]
-
-{ #category : #'accessing - convenience' }
 WaSwitch >> beNotChecked [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -82,54 +66,6 @@ WaSwitch >> beRequired [
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
 
 	self required: true
-]
-
-{ #category : #'accessing - convenience' }
-WaSwitch >> beSizeL [
-
-	"This is a convenience method to prevent having to provide arguments to a genric setter method"
-
-	self size: #l
-]
-
-{ #category : #'accessing - convenience' }
-WaSwitch >> beSizeM [
-
-	"This is a convenience method to prevent having to provide arguments to a genric setter method"
-
-	self size: #m
-]
-
-{ #category : #'accessing - convenience' }
-WaSwitch >> beSizeS [
-
-	"This is a convenience method to prevent having to provide arguments to a genric setter method"
-
-	self size: #s
-]
-
-{ #category : #'accessing - convenience' }
-WaSwitch >> beSizeXl [
-
-	"This is a convenience method to prevent having to provide arguments to a genric setter method"
-
-	self size: #xl
-]
-
-{ #category : #'accessing - convenience' }
-WaSwitch >> beSizeXs [
-
-	"This is a convenience method to prevent having to provide arguments to a genric setter method"
-
-	self size: #xs
-]
-
-{ #category : #'accessing - convenience' }
-WaSwitch >> beSmall [
-
-	"This is a convenience method to prevent having to provide arguments to a genric setter method"
-
-	self size: #small
 ]
 
 { #category : #'accessing - convenience' }
@@ -389,6 +325,70 @@ WaSwitch >> size: aString [
 	Allowed: 'xs' | 's' | 'm' | 'l' | 'xl' | 'small' | 'medium' | 'large'"
 
 	self propertyAt: #size put: aString
+]
+
+{ #category : #'accessing - convenience' }
+WaSwitch >> sizeL [
+
+	"This is a convenience method to prevent having to provide arguments to a genric setter method"
+
+	self size: #l
+]
+
+{ #category : #'accessing - convenience' }
+WaSwitch >> sizeLarge [
+
+	"This is a convenience method to prevent having to provide arguments to a genric setter method"
+
+	self size: #large
+]
+
+{ #category : #'accessing - convenience' }
+WaSwitch >> sizeM [
+
+	"This is a convenience method to prevent having to provide arguments to a genric setter method"
+
+	self size: #m
+]
+
+{ #category : #'accessing - convenience' }
+WaSwitch >> sizeMedium [
+
+	"This is a convenience method to prevent having to provide arguments to a genric setter method"
+
+	self size: #medium
+]
+
+{ #category : #'accessing - convenience' }
+WaSwitch >> sizeS [
+
+	"This is a convenience method to prevent having to provide arguments to a genric setter method"
+
+	self size: #s
+]
+
+{ #category : #'accessing - convenience' }
+WaSwitch >> sizeSmall [
+
+	"This is a convenience method to prevent having to provide arguments to a genric setter method"
+
+	self size: #small
+]
+
+{ #category : #'accessing - convenience' }
+WaSwitch >> sizeXl [
+
+	"This is a convenience method to prevent having to provide arguments to a genric setter method"
+
+	self size: #xl
+]
+
+{ #category : #'accessing - convenience' }
+WaSwitch >> sizeXs [
+
+	"This is a convenience method to prevent having to provide arguments to a genric setter method"
+
+	self size: #xs
 ]
 
 { #category : #accessing }

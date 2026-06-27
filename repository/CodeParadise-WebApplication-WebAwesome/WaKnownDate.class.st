@@ -28,6 +28,30 @@ WaKnownDate >> appearance: aString [
 	self propertyAt: #appearance put: aString
 ]
 
+{ #category : #'accessing - convenience' }
+WaKnownDate >> appearanceFilled [
+
+	"This is a convenience method to prevent having to provide arguments to a genric setter method"
+
+	self appearance: #filled
+]
+
+{ #category : #'accessing - convenience' }
+WaKnownDate >> appearanceFilledOutlined [
+
+	"This is a convenience method to prevent having to provide arguments to a genric setter method"
+
+	self appearance: #'filled-outlined'
+]
+
+{ #category : #'accessing - convenience' }
+WaKnownDate >> appearanceOutlined [
+
+	"This is a convenience method to prevent having to provide arguments to a genric setter method"
+
+	self appearance: #outlined
+]
+
 { #category : #accessing }
 WaKnownDate >> autocomplete [
 
@@ -63,38 +87,6 @@ WaKnownDate >> beDisabled [
 ]
 
 { #category : #'accessing - convenience' }
-WaKnownDate >> beFilled [
-
-	"This is a convenience method to prevent having to provide arguments to a genric setter method"
-
-	self appearance: #filled
-]
-
-{ #category : #'accessing - convenience' }
-WaKnownDate >> beFilledOutlined [
-
-	"This is a convenience method to prevent having to provide arguments to a genric setter method"
-
-	self appearance: #'filled-outlined'
-]
-
-{ #category : #'accessing - convenience' }
-WaKnownDate >> beLarge [
-
-	"This is a convenience method to prevent having to provide arguments to a genric setter method"
-
-	self size: #large
-]
-
-{ #category : #'accessing - convenience' }
-WaKnownDate >> beMedium [
-
-	"This is a convenience method to prevent having to provide arguments to a genric setter method"
-
-	self size: #medium
-]
-
-{ #category : #'accessing - convenience' }
 WaKnownDate >> beNotDisabled [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -127,14 +119,6 @@ WaKnownDate >> beNotRequired [
 ]
 
 { #category : #'accessing - convenience' }
-WaKnownDate >> beOutlined [
-
-	"This is a convenience method to prevent having to provide arguments to a genric setter method"
-
-	self appearance: #outlined
-]
-
-{ #category : #'accessing - convenience' }
 WaKnownDate >> bePill [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -156,54 +140,6 @@ WaKnownDate >> beRequired [
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
 
 	self required: true
-]
-
-{ #category : #'accessing - convenience' }
-WaKnownDate >> beSizeL [
-
-	"This is a convenience method to prevent having to provide arguments to a genric setter method"
-
-	self size: #l
-]
-
-{ #category : #'accessing - convenience' }
-WaKnownDate >> beSizeM [
-
-	"This is a convenience method to prevent having to provide arguments to a genric setter method"
-
-	self size: #m
-]
-
-{ #category : #'accessing - convenience' }
-WaKnownDate >> beSizeS [
-
-	"This is a convenience method to prevent having to provide arguments to a genric setter method"
-
-	self size: #s
-]
-
-{ #category : #'accessing - convenience' }
-WaKnownDate >> beSizeXl [
-
-	"This is a convenience method to prevent having to provide arguments to a genric setter method"
-
-	self size: #xl
-]
-
-{ #category : #'accessing - convenience' }
-WaKnownDate >> beSizeXs [
-
-	"This is a convenience method to prevent having to provide arguments to a genric setter method"
-
-	self size: #xs
-]
-
-{ #category : #'accessing - convenience' }
-WaKnownDate >> beSmall [
-
-	"This is a convenience method to prevent having to provide arguments to a genric setter method"
-
-	self size: #small
 ]
 
 { #category : #'accessing - convenience' }
@@ -621,6 +557,70 @@ WaKnownDate >> size: aString [
 	Allowed: 's' | 'xs' | 'm' | 'l' | 'xl' | 'small' | 'medium' | 'large'"
 
 	self propertyAt: #size put: aString
+]
+
+{ #category : #'accessing - convenience' }
+WaKnownDate >> sizeL [
+
+	"This is a convenience method to prevent having to provide arguments to a genric setter method"
+
+	self size: #l
+]
+
+{ #category : #'accessing - convenience' }
+WaKnownDate >> sizeLarge [
+
+	"This is a convenience method to prevent having to provide arguments to a genric setter method"
+
+	self size: #large
+]
+
+{ #category : #'accessing - convenience' }
+WaKnownDate >> sizeM [
+
+	"This is a convenience method to prevent having to provide arguments to a genric setter method"
+
+	self size: #m
+]
+
+{ #category : #'accessing - convenience' }
+WaKnownDate >> sizeMedium [
+
+	"This is a convenience method to prevent having to provide arguments to a genric setter method"
+
+	self size: #medium
+]
+
+{ #category : #'accessing - convenience' }
+WaKnownDate >> sizeS [
+
+	"This is a convenience method to prevent having to provide arguments to a genric setter method"
+
+	self size: #s
+]
+
+{ #category : #'accessing - convenience' }
+WaKnownDate >> sizeSmall [
+
+	"This is a convenience method to prevent having to provide arguments to a genric setter method"
+
+	self size: #small
+]
+
+{ #category : #'accessing - convenience' }
+WaKnownDate >> sizeXl [
+
+	"This is a convenience method to prevent having to provide arguments to a genric setter method"
+
+	self size: #xl
+]
+
+{ #category : #'accessing - convenience' }
+WaKnownDate >> sizeXs [
+
+	"This is a convenience method to prevent having to provide arguments to a genric setter method"
+
+	self size: #xs
 ]
 
 { #category : #accessing }

@@ -45,7 +45,7 @@ WaCard >> appearance: aString [
 ]
 
 { #category : #'accessing - convenience' }
-WaCard >> beAccent [
+WaCard >> appearanceAccent [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
 
@@ -53,7 +53,7 @@ WaCard >> beAccent [
 ]
 
 { #category : #'accessing - convenience' }
-WaCard >> beFilled [
+WaCard >> appearanceFilled [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
 
@@ -61,7 +61,7 @@ WaCard >> beFilled [
 ]
 
 { #category : #'accessing - convenience' }
-WaCard >> beFilledOutlined [
+WaCard >> appearanceFilledOutlined [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
 
@@ -69,7 +69,7 @@ WaCard >> beFilledOutlined [
 ]
 
 { #category : #'accessing - convenience' }
-WaCard >> beOutlined [
+WaCard >> appearanceOutlined [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
 
@@ -77,7 +77,7 @@ WaCard >> beOutlined [
 ]
 
 { #category : #'accessing - convenience' }
-WaCard >> bePlain [
+WaCard >> appearancePlain [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
 

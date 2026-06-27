@@ -28,6 +28,38 @@ WaBadge >> appearance: aString [
 	self propertyAt: #appearance put: aString
 ]
 
+{ #category : #'accessing - convenience' }
+WaBadge >> appearanceAccent [
+
+	"This is a convenience method to prevent having to provide arguments to a genric setter method"
+
+	self appearance: #accent
+]
+
+{ #category : #'accessing - convenience' }
+WaBadge >> appearanceFilled [
+
+	"This is a convenience method to prevent having to provide arguments to a genric setter method"
+
+	self appearance: #filled
+]
+
+{ #category : #'accessing - convenience' }
+WaBadge >> appearanceFilledOutlined [
+
+	"This is a convenience method to prevent having to provide arguments to a genric setter method"
+
+	self appearance: #'filled-outlined'
+]
+
+{ #category : #'accessing - convenience' }
+WaBadge >> appearanceOutlined [
+
+	"This is a convenience method to prevent having to provide arguments to a genric setter method"
+
+	self appearance: #outlined
+]
+
 { #category : #accessing }
 WaBadge >> attention [
 
@@ -53,54 +85,6 @@ WaBadge >> attention: aString [
 ]
 
 { #category : #'accessing - convenience' }
-WaBadge >> beAccent [
-
-	"This is a convenience method to prevent having to provide arguments to a genric setter method"
-
-	self appearance: #accent
-]
-
-{ #category : #'accessing - convenience' }
-WaBadge >> beBrand [
-
-	"This is a convenience method to prevent having to provide arguments to a genric setter method"
-
-	self variant: #brand
-]
-
-{ #category : #'accessing - convenience' }
-WaBadge >> beDanger [
-
-	"This is a convenience method to prevent having to provide arguments to a genric setter method"
-
-	self variant: #danger
-]
-
-{ #category : #'accessing - convenience' }
-WaBadge >> beFilled [
-
-	"This is a convenience method to prevent having to provide arguments to a genric setter method"
-
-	self appearance: #filled
-]
-
-{ #category : #'accessing - convenience' }
-WaBadge >> beFilledOutlined [
-
-	"This is a convenience method to prevent having to provide arguments to a genric setter method"
-
-	self appearance: #'filled-outlined'
-]
-
-{ #category : #'accessing - convenience' }
-WaBadge >> beNeutral [
-
-	"This is a convenience method to prevent having to provide arguments to a genric setter method"
-
-	self variant: #neutral
-]
-
-{ #category : #'accessing - convenience' }
 WaBadge >> beNotPill [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -109,35 +93,11 @@ WaBadge >> beNotPill [
 ]
 
 { #category : #'accessing - convenience' }
-WaBadge >> beOutlined [
-
-	"This is a convenience method to prevent having to provide arguments to a genric setter method"
-
-	self appearance: #outlined
-]
-
-{ #category : #'accessing - convenience' }
 WaBadge >> bePill [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
 
 	self pill: true
-]
-
-{ #category : #'accessing - convenience' }
-WaBadge >> beSuccess [
-
-	"This is a convenience method to prevent having to provide arguments to a genric setter method"
-
-	self variant: #success
-]
-
-{ #category : #'accessing - convenience' }
-WaBadge >> beWarning [
-
-	"This is a convenience method to prevent having to provide arguments to a genric setter method"
-
-	self variant: #warning
 ]
 
 { #category : #'accessing - slots' }
@@ -216,4 +176,44 @@ WaBadge >> variant: aString [
 	Allowed: 'brand' | 'neutral' | 'success' | 'warning' | 'danger'"
 
 	self propertyAt: #variant put: aString
+]
+
+{ #category : #'accessing - convenience' }
+WaBadge >> variantBrand [
+
+	"This is a convenience method to prevent having to provide arguments to a genric setter method"
+
+	self variant: #brand
+]
+
+{ #category : #'accessing - convenience' }
+WaBadge >> variantDanger [
+
+	"This is a convenience method to prevent having to provide arguments to a genric setter method"
+
+	self variant: #danger
+]
+
+{ #category : #'accessing - convenience' }
+WaBadge >> variantNeutral [
+
+	"This is a convenience method to prevent having to provide arguments to a genric setter method"
+
+	self variant: #neutral
+]
+
+{ #category : #'accessing - convenience' }
+WaBadge >> variantSuccess [
+
+	"This is a convenience method to prevent having to provide arguments to a genric setter method"
+
+	self variant: #success
+]
+
+{ #category : #'accessing - convenience' }
+WaBadge >> variantWarning [
+
+	"This is a convenience method to prevent having to provide arguments to a genric setter method"
+
+	self variant: #warning
 ]

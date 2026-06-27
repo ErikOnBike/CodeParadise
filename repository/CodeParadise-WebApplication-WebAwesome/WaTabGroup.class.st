@@ -128,6 +128,38 @@ WaTabGroup >> placement: aString [
 	self propertyAt: #placement put: aString
 ]
 
+{ #category : #'accessing - convenience' }
+WaTabGroup >> placementBottom [
+
+	"This is a convenience method to prevent having to provide arguments to a genric setter method"
+
+	self placement: #bottom
+]
+
+{ #category : #'accessing - convenience' }
+WaTabGroup >> placementEnd [
+
+	"This is a convenience method to prevent having to provide arguments to a genric setter method"
+
+	self placement: #end
+]
+
+{ #category : #'accessing - convenience' }
+WaTabGroup >> placementStart [
+
+	"This is a convenience method to prevent having to provide arguments to a genric setter method"
+
+	self placement: #start
+]
+
+{ #category : #'accessing - convenience' }
+WaTabGroup >> placementTop [
+
+	"This is a convenience method to prevent having to provide arguments to a genric setter method"
+
+	self placement: #top
+]
+
 { #category : #accessing }
 WaTabGroup >> withoutScrollControls [
 

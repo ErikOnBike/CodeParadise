@@ -134,6 +134,102 @@ WaPopover >> placement: aString [
 	self propertyAt: #placement put: aString
 ]
 
+{ #category : #'accessing - convenience' }
+WaPopover >> placementBottom [
+
+	"This is a convenience method to prevent having to provide arguments to a genric setter method"
+
+	self placement: #bottom
+]
+
+{ #category : #'accessing - convenience' }
+WaPopover >> placementBottomEnd [
+
+	"This is a convenience method to prevent having to provide arguments to a genric setter method"
+
+	self placement: #'bottom-end'
+]
+
+{ #category : #'accessing - convenience' }
+WaPopover >> placementBottomStart [
+
+	"This is a convenience method to prevent having to provide arguments to a genric setter method"
+
+	self placement: #'bottom-start'
+]
+
+{ #category : #'accessing - convenience' }
+WaPopover >> placementLeft [
+
+	"This is a convenience method to prevent having to provide arguments to a genric setter method"
+
+	self placement: #left
+]
+
+{ #category : #'accessing - convenience' }
+WaPopover >> placementLeftEnd [
+
+	"This is a convenience method to prevent having to provide arguments to a genric setter method"
+
+	self placement: #'left-end'
+]
+
+{ #category : #'accessing - convenience' }
+WaPopover >> placementLeftStart [
+
+	"This is a convenience method to prevent having to provide arguments to a genric setter method"
+
+	self placement: #'left-start'
+]
+
+{ #category : #'accessing - convenience' }
+WaPopover >> placementRight [
+
+	"This is a convenience method to prevent having to provide arguments to a genric setter method"
+
+	self placement: #right
+]
+
+{ #category : #'accessing - convenience' }
+WaPopover >> placementRightEnd [
+
+	"This is a convenience method to prevent having to provide arguments to a genric setter method"
+
+	self placement: #'right-end'
+]
+
+{ #category : #'accessing - convenience' }
+WaPopover >> placementRightStart [
+
+	"This is a convenience method to prevent having to provide arguments to a genric setter method"
+
+	self placement: #'right-start'
+]
+
+{ #category : #'accessing - convenience' }
+WaPopover >> placementTop [
+
+	"This is a convenience method to prevent having to provide arguments to a genric setter method"
+
+	self placement: #top
+]
+
+{ #category : #'accessing - convenience' }
+WaPopover >> placementTopEnd [
+
+	"This is a convenience method to prevent having to provide arguments to a genric setter method"
+
+	self placement: #'top-end'
+]
+
+{ #category : #'accessing - convenience' }
+WaPopover >> placementTopStart [
+
+	"This is a convenience method to prevent having to provide arguments to a genric setter method"
+
+	self placement: #'top-start'
+]
+
 { #category : #actions }
 WaPopover >> show [
 

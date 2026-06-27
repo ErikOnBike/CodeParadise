@@ -108,7 +108,7 @@ CpWaInterfaceProperty >> convenienceVariantsSourceCode [
 		ifTrue: [ ^ self booleanConvenienceVariantsSourceCode ].
 
 	"Some special style elements"
-	(typeName = #String and: [ self allowedValues isNotNil and: [ #(appearance variant size) includes: self name ] ])
+	(typeName = #String and: [ self allowedValues isNotNil and: [ #(appearance variant size placement) includes: self name ] ])
 		ifTrue: [ ^ self stringConvenienceVariantsSourceCode ].
 
 	^ Dictionary new
@@ -294,10 +294,9 @@ CpWaInterfaceProperty >> stringConvenienceVariantsSourceCode [
 
 		| selector source |
 		selector := (String streamContents: [ :stream |
-			stream nextPutAll: 'be'.
-			each size <= 2
-				ifTrue: [ stream nextPutAll: self name capitalized ].
-			stream nextPutAll: (CpWaInterfaceInstaller unkebabCase: each initialUppercase: true) ]) asSymbol.
+			stream
+				nextPutAll: self name ;
+				nextPutAll: (CpWaInterfaceInstaller unkebabCase: each initialUppercase: true) ]) asSymbol.
 
 		source := String streamContents: [ :stream |
 			stream

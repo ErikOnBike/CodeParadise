@@ -13,22 +13,6 @@ WaColorPicker >> beDisabled [
 ]
 
 { #category : #'accessing - convenience' }
-WaColorPicker >> beLarge [
-
-	"This is a convenience method to prevent having to provide arguments to a genric setter method"
-
-	self size: #large
-]
-
-{ #category : #'accessing - convenience' }
-WaColorPicker >> beMedium [
-
-	"This is a convenience method to prevent having to provide arguments to a genric setter method"
-
-	self size: #medium
-]
-
-{ #category : #'accessing - convenience' }
 WaColorPicker >> beNotDisabled [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -90,54 +74,6 @@ WaColorPicker >> beRequired [
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
 
 	self required: true
-]
-
-{ #category : #'accessing - convenience' }
-WaColorPicker >> beSizeL [
-
-	"This is a convenience method to prevent having to provide arguments to a genric setter method"
-
-	self size: #l
-]
-
-{ #category : #'accessing - convenience' }
-WaColorPicker >> beSizeM [
-
-	"This is a convenience method to prevent having to provide arguments to a genric setter method"
-
-	self size: #m
-]
-
-{ #category : #'accessing - convenience' }
-WaColorPicker >> beSizeS [
-
-	"This is a convenience method to prevent having to provide arguments to a genric setter method"
-
-	self size: #s
-]
-
-{ #category : #'accessing - convenience' }
-WaColorPicker >> beSizeXl [
-
-	"This is a convenience method to prevent having to provide arguments to a genric setter method"
-
-	self size: #xl
-]
-
-{ #category : #'accessing - convenience' }
-WaColorPicker >> beSizeXs [
-
-	"This is a convenience method to prevent having to provide arguments to a genric setter method"
-
-	self size: #xs
-]
-
-{ #category : #'accessing - convenience' }
-WaColorPicker >> beSmall [
-
-	"This is a convenience method to prevent having to provide arguments to a genric setter method"
-
-	self size: #small
 ]
 
 { #category : #'accessing - convenience' }
@@ -535,6 +471,102 @@ WaColorPicker >> placement: aString [
 	self propertyAt: #placement put: aString
 ]
 
+{ #category : #'accessing - convenience' }
+WaColorPicker >> placementBottom [
+
+	"This is a convenience method to prevent having to provide arguments to a genric setter method"
+
+	self placement: #bottom
+]
+
+{ #category : #'accessing - convenience' }
+WaColorPicker >> placementBottomEnd [
+
+	"This is a convenience method to prevent having to provide arguments to a genric setter method"
+
+	self placement: #'bottom-end'
+]
+
+{ #category : #'accessing - convenience' }
+WaColorPicker >> placementBottomStart [
+
+	"This is a convenience method to prevent having to provide arguments to a genric setter method"
+
+	self placement: #'bottom-start'
+]
+
+{ #category : #'accessing - convenience' }
+WaColorPicker >> placementLeft [
+
+	"This is a convenience method to prevent having to provide arguments to a genric setter method"
+
+	self placement: #left
+]
+
+{ #category : #'accessing - convenience' }
+WaColorPicker >> placementLeftEnd [
+
+	"This is a convenience method to prevent having to provide arguments to a genric setter method"
+
+	self placement: #'left-end'
+]
+
+{ #category : #'accessing - convenience' }
+WaColorPicker >> placementLeftStart [
+
+	"This is a convenience method to prevent having to provide arguments to a genric setter method"
+
+	self placement: #'left-start'
+]
+
+{ #category : #'accessing - convenience' }
+WaColorPicker >> placementRight [
+
+	"This is a convenience method to prevent having to provide arguments to a genric setter method"
+
+	self placement: #right
+]
+
+{ #category : #'accessing - convenience' }
+WaColorPicker >> placementRightEnd [
+
+	"This is a convenience method to prevent having to provide arguments to a genric setter method"
+
+	self placement: #'right-end'
+]
+
+{ #category : #'accessing - convenience' }
+WaColorPicker >> placementRightStart [
+
+	"This is a convenience method to prevent having to provide arguments to a genric setter method"
+
+	self placement: #'right-start'
+]
+
+{ #category : #'accessing - convenience' }
+WaColorPicker >> placementTop [
+
+	"This is a convenience method to prevent having to provide arguments to a genric setter method"
+
+	self placement: #top
+]
+
+{ #category : #'accessing - convenience' }
+WaColorPicker >> placementTopEnd [
+
+	"This is a convenience method to prevent having to provide arguments to a genric setter method"
+
+	self placement: #'top-end'
+]
+
+{ #category : #'accessing - convenience' }
+WaColorPicker >> placementTopStart [
+
+	"This is a convenience method to prevent having to provide arguments to a genric setter method"
+
+	self placement: #'top-start'
+]
+
 { #category : #actions }
 WaColorPicker >> reportValidity [
 
@@ -614,6 +646,70 @@ WaColorPicker >> size: aString [
 	Allowed: 'xs' | 's' | 'm' | 'l' | 'xl' | 'small' | 'medium' | 'large'"
 
 	self propertyAt: #size put: aString
+]
+
+{ #category : #'accessing - convenience' }
+WaColorPicker >> sizeL [
+
+	"This is a convenience method to prevent having to provide arguments to a genric setter method"
+
+	self size: #l
+]
+
+{ #category : #'accessing - convenience' }
+WaColorPicker >> sizeLarge [
+
+	"This is a convenience method to prevent having to provide arguments to a genric setter method"
+
+	self size: #large
+]
+
+{ #category : #'accessing - convenience' }
+WaColorPicker >> sizeM [
+
+	"This is a convenience method to prevent having to provide arguments to a genric setter method"
+
+	self size: #m
+]
+
+{ #category : #'accessing - convenience' }
+WaColorPicker >> sizeMedium [
+
+	"This is a convenience method to prevent having to provide arguments to a genric setter method"
+
+	self size: #medium
+]
+
+{ #category : #'accessing - convenience' }
+WaColorPicker >> sizeS [
+
+	"This is a convenience method to prevent having to provide arguments to a genric setter method"
+
+	self size: #s
+]
+
+{ #category : #'accessing - convenience' }
+WaColorPicker >> sizeSmall [
+
+	"This is a convenience method to prevent having to provide arguments to a genric setter method"
+
+	self size: #small
+]
+
+{ #category : #'accessing - convenience' }
+WaColorPicker >> sizeXl [
+
+	"This is a convenience method to prevent having to provide arguments to a genric setter method"
+
+	self size: #xl
+]
+
+{ #category : #'accessing - convenience' }
+WaColorPicker >> sizeXs [
+
+	"This is a convenience method to prevent having to provide arguments to a genric setter method"
+
+	self size: #xs
 ]
 
 { #category : #accessing }

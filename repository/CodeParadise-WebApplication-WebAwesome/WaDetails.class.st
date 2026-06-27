@@ -29,15 +29,7 @@ WaDetails >> appearance: aString [
 ]
 
 { #category : #'accessing - convenience' }
-WaDetails >> beDisabled [
-
-	"This is a convenience method to prevent having to provide arguments to a genric setter method"
-
-	self disabled: true
-]
-
-{ #category : #'accessing - convenience' }
-WaDetails >> beFilled [
+WaDetails >> appearanceFilled [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
 
@@ -45,11 +37,35 @@ WaDetails >> beFilled [
 ]
 
 { #category : #'accessing - convenience' }
-WaDetails >> beFilledOutlined [
+WaDetails >> appearanceFilledOutlined [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
 
 	self appearance: #'filled-outlined'
+]
+
+{ #category : #'accessing - convenience' }
+WaDetails >> appearanceOutlined [
+
+	"This is a convenience method to prevent having to provide arguments to a genric setter method"
+
+	self appearance: #outlined
+]
+
+{ #category : #'accessing - convenience' }
+WaDetails >> appearancePlain [
+
+	"This is a convenience method to prevent having to provide arguments to a genric setter method"
+
+	self appearance: #plain
+]
+
+{ #category : #'accessing - convenience' }
+WaDetails >> beDisabled [
+
+	"This is a convenience method to prevent having to provide arguments to a genric setter method"
+
+	self disabled: true
 ]
 
 { #category : #'accessing - convenience' }
@@ -74,22 +90,6 @@ WaDetails >> beOpen [
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
 
 	self open: true
-]
-
-{ #category : #'accessing - convenience' }
-WaDetails >> beOutlined [
-
-	"This is a convenience method to prevent having to provide arguments to a genric setter method"
-
-	self appearance: #outlined
-]
-
-{ #category : #'accessing - convenience' }
-WaDetails >> bePlain [
-
-	"This is a convenience method to prevent having to provide arguments to a genric setter method"
-
-	self appearance: #plain
 ]
 
 { #category : #'accessing - slots' }

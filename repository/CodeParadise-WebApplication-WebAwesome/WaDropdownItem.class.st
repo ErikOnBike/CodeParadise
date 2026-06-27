@@ -13,22 +13,6 @@ WaDropdownItem >> beChecked [
 ]
 
 { #category : #'accessing - convenience' }
-WaDropdownItem >> beDanger [
-
-	"This is a convenience method to prevent having to provide arguments to a genric setter method"
-
-	self variant: #danger
-]
-
-{ #category : #'accessing - convenience' }
-WaDropdownItem >> beDefault [
-
-	"This is a convenience method to prevent having to provide arguments to a genric setter method"
-
-	self variant: #default
-]
-
-{ #category : #'accessing - convenience' }
 WaDropdownItem >> beDisabled [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
@@ -266,4 +250,20 @@ WaDropdownItem >> variant: aString [
 	Allowed: 'danger' | 'default'"
 
 	self propertyAt: #variant put: aString
+]
+
+{ #category : #'accessing - convenience' }
+WaDropdownItem >> variantDanger [
+
+	"This is a convenience method to prevent having to provide arguments to a genric setter method"
+
+	self variant: #danger
+]
+
+{ #category : #'accessing - convenience' }
+WaDropdownItem >> variantDefault [
+
+	"This is a convenience method to prevent having to provide arguments to a genric setter method"
+
+	self variant: #default
 ]

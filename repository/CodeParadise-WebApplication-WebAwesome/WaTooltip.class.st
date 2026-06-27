@@ -174,6 +174,102 @@ WaTooltip >> placement: aString [
 	self propertyAt: #placement put: aString
 ]
 
+{ #category : #'accessing - convenience' }
+WaTooltip >> placementBottom [
+
+	"This is a convenience method to prevent having to provide arguments to a genric setter method"
+
+	self placement: #bottom
+]
+
+{ #category : #'accessing - convenience' }
+WaTooltip >> placementBottomEnd [
+
+	"This is a convenience method to prevent having to provide arguments to a genric setter method"
+
+	self placement: #'bottom-end'
+]
+
+{ #category : #'accessing - convenience' }
+WaTooltip >> placementBottomStart [
+
+	"This is a convenience method to prevent having to provide arguments to a genric setter method"
+
+	self placement: #'bottom-start'
+]
+
+{ #category : #'accessing - convenience' }
+WaTooltip >> placementLeft [
+
+	"This is a convenience method to prevent having to provide arguments to a genric setter method"
+
+	self placement: #left
+]
+
+{ #category : #'accessing - convenience' }
+WaTooltip >> placementLeftEnd [
+
+	"This is a convenience method to prevent having to provide arguments to a genric setter method"
+
+	self placement: #'left-end'
+]
+
+{ #category : #'accessing - convenience' }
+WaTooltip >> placementLeftStart [
+
+	"This is a convenience method to prevent having to provide arguments to a genric setter method"
+
+	self placement: #'left-start'
+]
+
+{ #category : #'accessing - convenience' }
+WaTooltip >> placementRight [
+
+	"This is a convenience method to prevent having to provide arguments to a genric setter method"
+
+	self placement: #right
+]
+
+{ #category : #'accessing - convenience' }
+WaTooltip >> placementRightEnd [
+
+	"This is a convenience method to prevent having to provide arguments to a genric setter method"
+
+	self placement: #'right-end'
+]
+
+{ #category : #'accessing - convenience' }
+WaTooltip >> placementRightStart [
+
+	"This is a convenience method to prevent having to provide arguments to a genric setter method"
+
+	self placement: #'right-start'
+]
+
+{ #category : #'accessing - convenience' }
+WaTooltip >> placementTop [
+
+	"This is a convenience method to prevent having to provide arguments to a genric setter method"
+
+	self placement: #top
+]
+
+{ #category : #'accessing - convenience' }
+WaTooltip >> placementTopEnd [
+
+	"This is a convenience method to prevent having to provide arguments to a genric setter method"
+
+	self placement: #'top-end'
+]
+
+{ #category : #'accessing - convenience' }
+WaTooltip >> placementTopStart [
+
+	"This is a convenience method to prevent having to provide arguments to a genric setter method"
+
+	self placement: #'top-start'
+]
+
 { #category : #actions }
 WaTooltip >> show [
 

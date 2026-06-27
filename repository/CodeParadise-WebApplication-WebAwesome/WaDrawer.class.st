@@ -228,6 +228,38 @@ WaDrawer >> placement: aString [
 	self propertyAt: #placement put: aString
 ]
 
+{ #category : #'accessing - convenience' }
+WaDrawer >> placementBottom [
+
+	"This is a convenience method to prevent having to provide arguments to a genric setter method"
+
+	self placement: #bottom
+]
+
+{ #category : #'accessing - convenience' }
+WaDrawer >> placementEnd [
+
+	"This is a convenience method to prevent having to provide arguments to a genric setter method"
+
+	self placement: #end
+]
+
+{ #category : #'accessing - convenience' }
+WaDrawer >> placementStart [
+
+	"This is a convenience method to prevent having to provide arguments to a genric setter method"
+
+	self placement: #start
+]
+
+{ #category : #'accessing - convenience' }
+WaDrawer >> placementTop [
+
+	"This is a convenience method to prevent having to provide arguments to a genric setter method"
+
+	self placement: #top
+]
+
 { #category : #accessing }
 WaDrawer >> withFooter [
 

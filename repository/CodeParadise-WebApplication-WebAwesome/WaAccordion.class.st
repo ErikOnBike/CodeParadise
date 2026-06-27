@@ -29,7 +29,7 @@ WaAccordion >> appearance: aString [
 ]
 
 { #category : #'accessing - convenience' }
-WaAccordion >> beFilled [
+WaAccordion >> appearanceFilled [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
 
@@ -37,7 +37,7 @@ WaAccordion >> beFilled [
 ]
 
 { #category : #'accessing - convenience' }
-WaAccordion >> beFilledOutlined [
+WaAccordion >> appearanceFilledOutlined [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
 
@@ -45,7 +45,7 @@ WaAccordion >> beFilledOutlined [
 ]
 
 { #category : #'accessing - convenience' }
-WaAccordion >> beOutlined [
+WaAccordion >> appearanceOutlined [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
 
@@ -53,7 +53,7 @@ WaAccordion >> beOutlined [
 ]
 
 { #category : #'accessing - convenience' }
-WaAccordion >> bePlain [
+WaAccordion >> appearancePlain [
 
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
 
