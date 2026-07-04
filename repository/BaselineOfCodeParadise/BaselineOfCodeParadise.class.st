@@ -17,6 +17,9 @@ BaselineOfCodeParadise >> baseline: spec [
 		"Preload Zinc, including WebSocket support using preLoad hook"
 		spec preLoadDoIt: #preLoad:package:.
 
+		"Dependencies"
+		spec baseline: 'NeoJSON' with: [ spec repository: 'github://svenvc/NeoJSON/repository' ].
+
 		"Packages"
 		spec
 			package: 'CodeParadise-RemoteEnvironment' with: [ spec requires: #('CpClientEnvironment' 'CodeParadise-JavaScript') ];
