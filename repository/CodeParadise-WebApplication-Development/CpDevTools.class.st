@@ -111,7 +111,8 @@ CpDevTools class >> open [
 	<script>
 	
 	| choices |
-	choices := self allWebApplications collect: [ :a | a app ].
+	choices := (self allWebApplications collect: [ :a | a app ])
+		sort: [ :a :b | a asLowercase < b asLowercase ].
 	
 	(UIManager default
 		chooseFrom: choices
