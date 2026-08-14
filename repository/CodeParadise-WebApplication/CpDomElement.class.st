@@ -996,7 +996,7 @@ CpDomElement >> remove [
 	This is most likely an odd case and not used often, therefore
 	this is not implemented as a primitive itself."
 
-	self parent
+	^ self parent
 		ifNotNil: [ :parent | parent removeChild: self ]
 		ifNil: [
 			self isShadowRoot
