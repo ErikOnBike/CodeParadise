@@ -260,6 +260,12 @@ WaDrawer >> placementTop [
 	self placement: #top
 ]
 
+{ #category : #'accessing - convenience' }
+WaDrawer >> slotNames [
+
+	^ #(#label #'header-actions' #footer)
+]
+
 { #category : #accessing }
 WaDrawer >> withFooter [
 

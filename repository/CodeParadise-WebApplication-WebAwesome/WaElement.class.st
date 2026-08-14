@@ -184,3 +184,11 @@ WaElement >> performMessage: aMessage [
 
 	aMessage sendTo: self
 ]
+
+{ #category : #'accessing - convenience' }
+WaElement >> slotNames [
+
+	"Answer the custom (non default) slot names of the receiver"
+
+	^ #()
+]

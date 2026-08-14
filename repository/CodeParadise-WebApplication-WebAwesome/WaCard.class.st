@@ -268,6 +268,12 @@ WaCard >> orientation: aString [
 	self propertyAt: #orientation put: aString
 ]
 
+{ #category : #'accessing - convenience' }
+WaCard >> slotNames [
+
+	^ #(#header #footer #media #actions #'header-actions' #'footer-actions')
+]
+
 { #category : #accessing }
 WaCard >> withFooter [
 

@@ -356,6 +356,12 @@ WaPage >> skipToContentElement: anElement [
 	self replaceAllChildrenWith: anElement atSlotNamed: #'skip-to-content'
 ]
 
+{ #category : #'accessing - convenience' }
+WaPage >> slotNames [
+
+	^ #(#banner #header #subheader #menu #'navigation-header' #navigation #'navigation-footer' #'navigation-toggle' #'navigation-toggle-icon' #'main-header' #'main-footer' #aside #'skip-to-content' #footer)
+]
+
 { #category : #'accessing - slots' }
 WaPage >> subheaderElement [
 

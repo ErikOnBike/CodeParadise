@@ -623,6 +623,12 @@ WaKnownDate >> sizeXs [
 	self size: #xs
 ]
 
+{ #category : #'accessing - convenience' }
+WaKnownDate >> slotNames [
+
+	^ #(#label #hint)
+]
+
 { #category : #accessing }
 WaKnownDate >> validationTarget [
 

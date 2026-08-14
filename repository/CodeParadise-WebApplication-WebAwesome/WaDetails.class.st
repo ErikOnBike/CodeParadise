@@ -230,6 +230,12 @@ WaDetails >> show [
 	^ self apply: #show
 ]
 
+{ #category : #'accessing - convenience' }
+WaDetails >> slotNames [
+
+	^ #(#summary #'expand-icon' #'collapse-icon')
+]
+
 { #category : #accessing }
 WaDetails >> summary [
 

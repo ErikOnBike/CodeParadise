@@ -415,6 +415,12 @@ WaCheckbox >> sizeXs [
 	self size: #xs
 ]
 
+{ #category : #'accessing - convenience' }
+WaCheckbox >> slotNames [
+
+	^ #(#hint)
+]
+
 { #category : #accessing }
 WaCheckbox >> validationTarget [
 

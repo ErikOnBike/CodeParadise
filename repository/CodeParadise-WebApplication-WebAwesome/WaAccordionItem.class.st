@@ -168,6 +168,12 @@ WaAccordionItem >> labelElement: anElement [
 	self replaceAllChildrenWith: anElement atSlotNamed: #label
 ]
 
+{ #category : #'accessing - convenience' }
+WaAccordionItem >> slotNames [
+
+	^ #(#label #icon)
+]
+
 { #category : #actions }
 WaAccordionItem >> toggle [
 

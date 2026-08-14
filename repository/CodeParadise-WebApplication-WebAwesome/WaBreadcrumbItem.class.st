@@ -80,6 +80,12 @@ WaBreadcrumbItem >> separatorElement: anElement [
 	self replaceAllChildrenWith: anElement atSlotNamed: #separator
 ]
 
+{ #category : #'accessing - convenience' }
+WaBreadcrumbItem >> slotNames [
+
+	^ #(#start #end #separator)
+]
+
 { #category : #'accessing - slots' }
 WaBreadcrumbItem >> startElement [
 

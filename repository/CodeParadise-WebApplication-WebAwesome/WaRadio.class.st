@@ -233,6 +233,12 @@ WaRadio >> sizeXs [
 	self size: #xs
 ]
 
+{ #category : #'accessing - convenience' }
+WaRadio >> slotNames [
+
+	^ #()
+]
+
 { #category : #accessing }
 WaRadio >> validationTarget [
 

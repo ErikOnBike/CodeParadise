@@ -260,6 +260,12 @@ WaPopover >> skidding: aNumber [
 	self propertyAt: #skidding put: aNumber
 ]
 
+{ #category : #'accessing - convenience' }
+WaPopover >> slotNames [
+
+	^ #()
+]
+
 { #category : #accessing }
 WaPopover >> withoutArrow [
 

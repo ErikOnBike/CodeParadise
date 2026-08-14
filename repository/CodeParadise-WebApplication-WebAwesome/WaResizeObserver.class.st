@@ -41,3 +41,9 @@ WaResizeObserver >> disabled: aBoolean [
 
 	self propertyAt: #disabled put: aBoolean
 ]
+
+{ #category : #'accessing - convenience' }
+WaResizeObserver >> slotNames [
+
+	^ #()
+]

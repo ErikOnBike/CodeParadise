@@ -215,3 +215,9 @@ WaMutationObserver >> disabled: aBoolean [
 
 	self propertyAt: #disabled put: aBoolean
 ]
+
+{ #category : #'accessing - convenience' }
+WaMutationObserver >> slotNames [
+
+	^ #()
+]

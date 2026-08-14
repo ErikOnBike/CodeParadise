@@ -1068,6 +1068,12 @@ WaInput >> sizeXs [
 	self size: #xs
 ]
 
+{ #category : #'accessing - convenience' }
+WaInput >> slotNames [
+
+	^ #(#label #start #end #'clear-icon' #'show-password-icon' #'hide-password-icon' #hint)
+]
+
 { #category : #accessing }
 WaInput >> spellcheck [
 

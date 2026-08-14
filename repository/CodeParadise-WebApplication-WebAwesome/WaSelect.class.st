@@ -723,6 +723,12 @@ WaSelect >> sizeXs [
 	self size: #xs
 ]
 
+{ #category : #'accessing - convenience' }
+WaSelect >> slotNames [
+
+	^ #(#label #start #end #'clear-icon' #'expand-icon' #hint)
+]
+
 { #category : #'accessing - slots' }
 WaSelect >> startElement [
 

@@ -168,6 +168,12 @@ WaCopyButton >> from: aString [
 	self propertyAt: #from put: aString
 ]
 
+{ #category : #'accessing - convenience' }
+WaCopyButton >> slotNames [
+
+	^ #(#'copy-icon' #'success-icon' #'error-icon')
+]
+
 { #category : #'accessing - slots' }
 WaCopyButton >> successIconElement [
 

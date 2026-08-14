@@ -184,6 +184,12 @@ WaDialog >> open: aBoolean [
 	self propertyAt: #open put: aBoolean
 ]
 
+{ #category : #'accessing - convenience' }
+WaDialog >> slotNames [
+
+	^ #(#label #'header-actions' #footer)
+]
+
 { #category : #accessing }
 WaDialog >> withFooter [
 

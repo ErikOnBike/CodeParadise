@@ -391,6 +391,12 @@ WaSwitch >> sizeXs [
 	self size: #xs
 ]
 
+{ #category : #'accessing - convenience' }
+WaSwitch >> slotNames [
+
+	^ #(#hint)
+]
+
 { #category : #accessing }
 WaSwitch >> validationTarget [
 

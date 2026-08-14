@@ -133,3 +133,9 @@ WaAvatar >> shape: aString [
 
 	self propertyAt: #shape put: aString
 ]
+
+{ #category : #'accessing - convenience' }
+WaAvatar >> slotNames [
+
+	^ #(#icon)
+]

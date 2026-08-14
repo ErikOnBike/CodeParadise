@@ -73,3 +73,9 @@ WaComparison >> position: aNumber [
 
 	self propertyAt: #position put: aNumber
 ]
+
+{ #category : #'accessing - convenience' }
+WaComparison >> slotNames [
+
+	^ #(#before #after #handle)
+]

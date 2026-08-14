@@ -12,6 +12,36 @@ Class {
 	#category : #'CodeParadise-WebApplication-WebAwesome-Support'
 }
 
+{ #category : #actions }
+CpWaInterfaceProperty >> addToExampleMethod: aStream [
+
+	| typeName |
+
+	readonly ifTrue: [ ^ self ].
+
+	typeName := self typeName.
+
+	typeName = #Boolean
+		ifTrue: [
+			aStream tab ; nextPutAll: 'self addBooleanProperty: #' ; nextPutAll: name ; nextPutAll: ' default: ' ; print: (self defaultValue = true) ; nextPutAll: ' comment: ' ; print: self comment ; nextPutAll: ' do: [ :element :value | element ' ; nextPutAll: name ; nextPutAll: ': value ].' ; cr.
+			^ self ].
+
+	(typeName = #String and: [ self allowedValues isNotNil ])
+		ifTrue: [
+			aStream tab ; nextPutAll: 'self addSelectionProperty: #' ; nextPutAll: name ; nextPutAll: ' options: ' ; print: self allowedValues ; nextPutAll: ' default: ' ; print: (self defaultValue ifNil: [ self allowedValues first ]) ; nextPutAll: ' comment: ' ; print: self comment ; nextPutAll: ' do: [ :element :value | element ' ; nextPutAll: name ; nextPutAll: ': value ].' ; cr.
+			^ self ].
+
+	typeName = #String
+		ifTrue: [
+			aStream tab ; nextPutAll: 'self addStringProperty: #' ; nextPutAll: name ; nextPutAll: ' default: ' ; print: self defaultValue ; nextPutAll: ' do: [ :element :value | element ' ; nextPutAll: name ; nextPutAll: ': value ].' ; cr.
+			^ self ].
+
+	typeName = #Number
+		ifTrue: [
+			aStream tab ; nextPutAll: 'self addNumberProperty: #' ; nextPutAll: name ; nextPutAll: ' default: ' ; print: self defaultValue ; nextPutAll: ' do: [ :element :value | element ' ; nextPutAll: name ; nextPutAll: ': value ].' ; cr.
+			^ self ]
+]
+
 { #category : #accessing }
 CpWaInterfaceProperty >> allowedValues [
 

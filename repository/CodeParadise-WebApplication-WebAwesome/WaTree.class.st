@@ -63,3 +63,9 @@ WaTree >> selection: aString [
 
 	self propertyAt: #selection put: aString
 ]
+
+{ #category : #'accessing - convenience' }
+WaTree >> slotNames [
+
+	^ #(#'expand-icon' #'collapse-icon')
+]

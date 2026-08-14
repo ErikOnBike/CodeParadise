@@ -63,3 +63,9 @@ WaTab >> panel: aString [
 
 	self propertyAt: #panel put: aString
 ]
+
+{ #category : #'accessing - convenience' }
+WaTab >> slotNames [
+
+	^ #()
+]

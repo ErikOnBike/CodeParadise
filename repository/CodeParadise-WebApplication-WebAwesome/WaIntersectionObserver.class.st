@@ -146,6 +146,12 @@ WaIntersectionObserver >> rootMargin: aString [
 	self propertyAt: #rootMargin put: aString
 ]
 
+{ #category : #'accessing - convenience' }
+WaIntersectionObserver >> slotNames [
+
+	^ #()
+]
+
 { #category : #accessing }
 WaIntersectionObserver >> threshold [
 

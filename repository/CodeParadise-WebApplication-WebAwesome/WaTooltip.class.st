@@ -322,6 +322,12 @@ WaTooltip >> skidding: aNumber [
 	self propertyAt: #skidding put: aNumber
 ]
 
+{ #category : #'accessing - convenience' }
+WaTooltip >> slotNames [
+
+	^ #()
+]
+
 { #category : #accessing }
 WaTooltip >> trigger [
 

@@ -138,6 +138,12 @@ WaBadge >> pill: aBoolean [
 	self propertyAt: #pill put: aBoolean
 ]
 
+{ #category : #'accessing - convenience' }
+WaBadge >> slotNames [
+
+	^ #(#start #end)
+]
+
 { #category : #'accessing - slots' }
 WaBadge >> startElement [
 

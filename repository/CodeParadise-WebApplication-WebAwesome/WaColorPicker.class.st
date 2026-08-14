@@ -712,6 +712,12 @@ WaColorPicker >> sizeXs [
 	self size: #xs
 ]
 
+{ #category : #'accessing - convenience' }
+WaColorPicker >> slotNames [
+
+	^ #(#label #hint)
+]
+
 { #category : #accessing }
 WaColorPicker >> swatches [
 

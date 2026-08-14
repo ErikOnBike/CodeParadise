@@ -64,6 +64,12 @@ WaProgressBar >> label: aString [
 	self propertyAt: #label put: aString
 ]
 
+{ #category : #'accessing - convenience' }
+WaProgressBar >> slotNames [
+
+	^ #()
+]
+
 { #category : #accessing }
 WaProgressBar >> value [
 

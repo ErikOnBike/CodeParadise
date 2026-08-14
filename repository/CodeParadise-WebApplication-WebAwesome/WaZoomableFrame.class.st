@@ -176,6 +176,12 @@ WaZoomableFrame >> sandbox: aString [
 	self propertyAt: #sandbox put: aString
 ]
 
+{ #category : #'accessing - convenience' }
+WaZoomableFrame >> slotNames [
+
+	^ #(#'zoom-in-icon' #'zoom-out-icon')
+]
+
 { #category : #accessing }
 WaZoomableFrame >> src [
 

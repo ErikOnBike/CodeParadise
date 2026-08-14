@@ -144,6 +144,12 @@ WaDropdownItem >> openSubmenu [
 	^ self apply: #openSubmenu
 ]
 
+{ #category : #'accessing - convenience' }
+WaDropdownItem >> slotNames [
+
+	^ #(#icon #details #submenu)
+]
+
 { #category : #'accessing - slots' }
 WaDropdownItem >> submenuElement [
 

@@ -60,6 +60,12 @@ WaScroller >> orientation: aString [
 	self propertyAt: #orientation put: aString
 ]
 
+{ #category : #'accessing - convenience' }
+WaScroller >> slotNames [
+
+	^ #()
+]
+
 { #category : #accessing }
 WaScroller >> withoutScrollbar [
 

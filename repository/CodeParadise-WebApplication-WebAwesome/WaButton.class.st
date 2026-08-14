@@ -615,6 +615,12 @@ WaButton >> sizeXs [
 	self size: #xs
 ]
 
+{ #category : #'accessing - convenience' }
+WaButton >> slotNames [
+
+	^ #(#start #end)
+]
+
 { #category : #'accessing - slots' }
 WaButton >> startElement [
 

@@ -151,3 +151,9 @@ WaAccordion >> mode: aString [
 
 	self propertyAt: #mode put: aString
 ]
+
+{ #category : #'accessing - convenience' }
+WaAccordion >> slotNames [
+
+	^ #()
+]

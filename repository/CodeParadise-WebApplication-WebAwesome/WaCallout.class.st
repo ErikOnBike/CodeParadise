@@ -170,6 +170,12 @@ WaCallout >> sizeXs [
 	self size: #xs
 ]
 
+{ #category : #'accessing - convenience' }
+WaCallout >> slotNames [
+
+	^ #(#icon)
+]
+
 { #category : #accessing }
 WaCallout >> variant [
 

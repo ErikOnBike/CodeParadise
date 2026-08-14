@@ -92,6 +92,12 @@ WaAnimatedImage >> playIconElement: anElement [
 	self replaceAllChildrenWith: anElement atSlotNamed: #'play-icon'
 ]
 
+{ #category : #'accessing - convenience' }
+WaAnimatedImage >> slotNames [
+
+	^ #(#'play-icon' #'pause-icon')
+]
+
 { #category : #accessing }
 WaAnimatedImage >> src [
 

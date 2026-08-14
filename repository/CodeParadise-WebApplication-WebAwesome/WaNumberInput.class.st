@@ -749,6 +749,12 @@ WaNumberInput >> sizeXs [
 	self size: #xs
 ]
 
+{ #category : #'accessing - convenience' }
+WaNumberInput >> slotNames [
+
+	^ #(#label #start #end #'increment-icon' #'decrement-icon' #hint)
+]
+
 { #category : #'accessing - slots' }
 WaNumberInput >> startElement [
 

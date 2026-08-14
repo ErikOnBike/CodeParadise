@@ -374,3 +374,9 @@ WaCarousel >> slidesPerPage: aNumber [
 
 	self propertyAt: #slidesPerPage put: aNumber
 ]
+
+{ #category : #'accessing - convenience' }
+WaCarousel >> slotNames [
+
+	^ #(#'next-icon' #'previous-icon')
+]

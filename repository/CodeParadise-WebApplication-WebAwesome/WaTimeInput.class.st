@@ -871,6 +871,12 @@ WaTimeInput >> sizeXs [
 	self size: #xs
 ]
 
+{ #category : #'accessing - convenience' }
+WaTimeInput >> slotNames [
+
+	^ #(#label #hint #start #end #'clear-icon' #'expand-icon' #footer)
+]
+
 { #category : #'accessing - slots' }
 WaTimeInput >> startElement [
 

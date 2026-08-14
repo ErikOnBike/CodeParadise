@@ -296,6 +296,12 @@ WaDropdown >> skidding: aNumber [
 	self propertyAt: #skidding put: aNumber
 ]
 
+{ #category : #'accessing - convenience' }
+WaDropdown >> slotNames [
+
+	^ #(#trigger)
+]
+
 { #category : #'accessing - slots' }
 WaDropdown >> triggerElement [
 

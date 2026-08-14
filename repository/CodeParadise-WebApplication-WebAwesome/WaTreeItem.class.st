@@ -208,3 +208,9 @@ WaTreeItem >> selected: aBoolean [
 
 	self propertyAt: #selected put: aBoolean
 ]
+
+{ #category : #'accessing - convenience' }
+WaTreeItem >> slotNames [
+
+	^ #(#'expand-icon' #'collapse-icon')
+]

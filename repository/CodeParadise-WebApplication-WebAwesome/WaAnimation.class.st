@@ -327,3 +327,9 @@ WaAnimation >> playbackRate: aNumber [
 
 	self propertyAt: #playbackRate put: aNumber
 ]
+
+{ #category : #'accessing - convenience' }
+WaAnimation >> slotNames [
+
+	^ #()
+]

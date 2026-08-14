@@ -51,3 +51,9 @@ WaButtonGroup >> orientation: aString [
 
 	self propertyAt: #orientation put: aString
 ]
+
+{ #category : #'accessing - convenience' }
+WaButtonGroup >> slotNames [
+
+	^ #()
+]

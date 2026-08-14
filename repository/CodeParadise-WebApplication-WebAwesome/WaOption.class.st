@@ -129,6 +129,12 @@ WaOption >> label: aString [
 	self propertyAt: #label put: aString
 ]
 
+{ #category : #'accessing - convenience' }
+WaOption >> slotNames [
+
+	^ #(#start #end)
+]
+
 { #category : #'accessing - slots' }
 WaOption >> startElement [
 

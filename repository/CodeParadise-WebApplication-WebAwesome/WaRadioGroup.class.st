@@ -401,6 +401,12 @@ WaRadioGroup >> sizeXs [
 	self size: #xs
 ]
 
+{ #category : #'accessing - convenience' }
+WaRadioGroup >> slotNames [
+
+	^ #(#label #hint)
+]
+
 { #category : #accessing }
 WaRadioGroup >> validationTarget [
 

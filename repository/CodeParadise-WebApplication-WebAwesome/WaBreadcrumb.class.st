@@ -43,3 +43,9 @@ WaBreadcrumb >> separatorElement: anElement [
 
 	self replaceAllChildrenWith: anElement atSlotNamed: #separator
 ]
+
+{ #category : #'accessing - convenience' }
+WaBreadcrumb >> slotNames [
+
+	^ #(#separator)
+]

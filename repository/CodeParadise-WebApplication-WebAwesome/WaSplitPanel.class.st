@@ -168,6 +168,12 @@ WaSplitPanel >> primary: aString [
 	self propertyAt: #primary put: aString
 ]
 
+{ #category : #'accessing - convenience' }
+WaSplitPanel >> slotNames [
+
+	^ #(#start #end #divider)
+]
+
 { #category : #accessing }
 WaSplitPanel >> snap [
 

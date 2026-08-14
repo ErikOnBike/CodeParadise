@@ -873,6 +873,12 @@ WaTextarea >> sizeXs [
 	self size: #xs
 ]
 
+{ #category : #'accessing - convenience' }
+WaTextarea >> slotNames [
+
+	^ #(#label #hint)
+]
+
 { #category : #accessing }
 WaTextarea >> spellcheck [
 

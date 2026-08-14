@@ -732,6 +732,12 @@ WaPopup >> skidding: aNumber [
 	self propertyAt: #skidding put: aNumber
 ]
 
+{ #category : #'accessing - convenience' }
+WaPopup >> slotNames [
+
+	^ #(#anchor)
+]
+
 { #category : #accessing }
 WaPopup >> sync [
 

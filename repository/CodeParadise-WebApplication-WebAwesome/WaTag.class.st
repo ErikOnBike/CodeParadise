@@ -202,6 +202,12 @@ WaTag >> sizeXs [
 	self size: #xs
 ]
 
+{ #category : #'accessing - convenience' }
+WaTag >> slotNames [
+
+	^ #()
+]
+
 { #category : #accessing }
 WaTag >> variant [
 

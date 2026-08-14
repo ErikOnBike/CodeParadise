@@ -201,7 +201,7 @@ CpWaInterfaceInstaller class >> installMethodSource: sourceString selector: aSym
 	normalizedSourceCode := sourceString replaceAll: Character lf with: Character cr.
 
 	"Check for presence of existing method"
-	(aClass includesSelector: aSymbol)
+	((aClass includesSelector: aSymbol) and: [ (aSymbol beginsWith: 'example') not ])
 		ifTrue: [
 			| sourceCode |
 			sourceCode := (aClass >> aSymbol) sourceCode.
@@ -409,6 +409,21 @@ CpWaInterfaceInstaller >> eventMembersDo: aBlock [
 						ifTrue: [ aBlock value: eachDeclaration ] ] ] ]
 ]
 
+{ #category : #accessing }
+CpWaInterfaceInstaller >> exampleMethodSource [
+
+	^ String streamContents: [ :stream |
+		stream
+			nextPutAll: #example ; nextPutAll: self className ; cr ;
+			cr;
+			tab ; nextPutAll: 'self visual: ' ; nextPutAll: self className ; nextPutAll: ' new.' ; cr ;
+			cr.
+
+		properties do: [ :each |
+			each readonly
+				ifFalse: [ each addToExampleMethod: stream ] ] ]
+]
+
 { #category : #iterating }
 CpWaInterfaceInstaller >> fieldMembersFromElementDo: aBlock [
 
@@ -484,6 +499,9 @@ CpWaInterfaceInstaller >> install [
 			setupType: each ;
 			installComponent ].
 
+	"Update the version"
+	self installImportBasePathMethod.
+
 	"Install the Event (currently just empty classes)"
 	events := Set new.
 
@@ -518,6 +536,45 @@ CpWaInterfaceInstaller >> installComponent [
 			ifFalse: [ each installIn: componentClass ] ].
 
 	slots do: [ :each | each installMethodsIn: componentClass ]
+]
+
+{ #category : #actions }
+CpWaInterfaceInstaller >> installImportBasePathMethod [
+
+	self class
+		installMethodSource: (String streamContents: [ :stream |
+			stream
+				nextPutAll: 'importBasePath' ; cr ;
+				cr ;
+				tab ; nextPutAll: '"This method is (re)generated using CpWaInterfaceInstaller, a manual update to the version might not persist."' ; cr ;
+				cr ;
+				tab ; nextPutAll: '^ ''https://cdn.jsdelivr.net/npm/@awesome.me/webawesome@' ; nextPutAll: (typeDict at: #version) ; nextPutAll: '/dist-cdn/''' ])
+		selector: #importBasePath
+		protocol: 'accessing'
+		in: WaElement class
+]
+
+{ #category : #actions }
+CpWaInterfaceInstaller >> installSlotNamesMethodIn: aClass [
+
+	| slotNames |
+
+	slots ifEmpty: [ ^ self ].
+
+	slotNames := (slots collect: [ :each | each name asSymbol ])
+		select: [ :each | each isNotEmpty ].
+
+	self class
+		installMethodSource: (String streamContents: [ :stream |
+			stream
+				nextPutAll: 'slotNames' ; cr ;
+				cr ;
+				tab ; nextPutAll: '^ #('.
+			slotNames do: [ :each | stream print: each ] separatedBy: [ stream space ].
+			stream nextPut: $) ])
+		selector: #slotNames
+		protocol: 'accessing - convenience'
+		in: aClass
 ]
 
 { #category : #testing }
@@ -707,7 +764,9 @@ CpWaInterfaceInstaller >> selectProperties [
 
 	"Select all properties using the members of the current element"
 	self fieldMembersFromElementDo: [ :each |
-		self selectPropertyFromFieldMember: each ]
+		self selectPropertyFromFieldMember: each ].
+
+	properties := properties asOrderedCollection sort: [ :a :b | a name < b name ]
 ]
 
 { #category : #'accessing - field members' }

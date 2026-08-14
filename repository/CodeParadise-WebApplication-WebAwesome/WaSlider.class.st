@@ -656,6 +656,12 @@ WaSlider >> sizeXs [
 	self size: #xs
 ]
 
+{ #category : #'accessing - convenience' }
+WaSlider >> slotNames [
+
+	^ #(#label #hint #reference)
+]
+
 { #category : #accessing }
 WaSlider >> step [
 

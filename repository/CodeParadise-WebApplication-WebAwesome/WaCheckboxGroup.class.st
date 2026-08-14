@@ -266,6 +266,12 @@ WaCheckboxGroup >> sizeXs [
 	self size: #xs
 ]
 
+{ #category : #'accessing - convenience' }
+WaCheckboxGroup >> slotNames [
+
+	^ #(#label #hint)
+]
+
 { #category : #accessing }
 WaCheckboxGroup >> withHint [
 

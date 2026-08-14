@@ -160,6 +160,12 @@ WaTabGroup >> placementTop [
 	self placement: #top
 ]
 
+{ #category : #'accessing - convenience' }
+WaTabGroup >> slotNames [
+
+	^ #(#nav)
+]
+
 { #category : #accessing }
 WaTabGroup >> withoutScrollControls [
 
