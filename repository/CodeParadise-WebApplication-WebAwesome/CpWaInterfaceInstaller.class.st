@@ -421,6 +421,10 @@ CpWaInterfaceInstaller >> exampleMethodSource [
 
 		properties do: [ :each |
 			each readonly
+				ifFalse: [ each addToExampleMethod: stream ] ].
+
+		methods do: [ :each |
+			each hasParameters
 				ifFalse: [ each addToExampleMethod: stream ] ] ]
 ]
 
@@ -471,7 +475,7 @@ CpWaInterfaceInstaller >> fieldTypeFromFieldMember: aDictionary [
 	self error: 'Can''t retrieve field type from element'
 ]
 
-{ #category : #'instance creation' }
+{ #category : #'accessing - field members' }
 CpWaInterfaceInstaller >> from: aDictionary atPath: aCollection [
 
 	^ self class from: aDictionary atPath: aCollection
@@ -539,7 +543,20 @@ CpWaInterfaceInstaller >> installComponent [
 		each isUnwanted
 			ifFalse: [ each installIn: componentClass ] ].
 
-	slots do: [ :each | each installMethodsIn: componentClass ]
+	self installSlotNamesMethodIn: componentClass.
+	slots do: [ :each | each installMethodsIn: componentClass ].
+
+	self installExampleMethod
+]
+
+{ #category : #actions }
+CpWaInterfaceInstaller >> installExampleMethod [
+
+	self class
+		installMethodSource: self exampleMethodSource
+		selector: (#example, self className) asSymbol
+		protocol: 'examples'
+		in: CpWebAwesomeExamplesWebClientBehavior
 ]
 
 { #category : #actions }

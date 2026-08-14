@@ -34,6 +34,15 @@ CpWaInterfaceMethod >> addParameterName: aString typeDescription: aDictionary [
 		ifNil: [ aString size ]
 ]
 
+{ #category : #adding }
+CpWaInterfaceMethod >> addToExampleMethod: aStream [
+
+	self hasParameters
+		ifTrue: [ ^ self ].
+
+	aStream tab ; nextPutAll: 'self addMethod: #' ; nextPutAll: self selector ; nextPutAll: ' do: [ :element | element perform: #' ; nextPutAll: self selector ; nextPutAll: ' ].' ; cr
+]
+
 { #category : #accessing }
 CpWaInterfaceMethod >> comment [
 
