@@ -10,7 +10,7 @@ WaIcon >> animation [
 	"Sets the animation for the icon
 	
 	Type: String
-	Allowed: 'beat' | 'fade' | 'beat-fade' | 'bounce' | 'flip' | 'shake' | 'spin' | 'spin-pulse' | 'spin-reverse'"
+	Allowed: 'beat' | 'fade' | 'beat-fade' | 'bounce' | 'flip' | 'flip-360' | 'shake' | 'spin' | 'spin-pulse' | 'spin-reverse' | 'spin-snap' | 'spin-snap-4' | 'spin-snap-8' | 'buzz' | 'wag' | 'float' | 'swing' | 'jello'"
 
 	^ self propertyAt: #animation
 ]
@@ -21,7 +21,7 @@ WaIcon >> animation: aString [
 	"Sets the animation for the icon
 	
 	Type: String
-	Allowed: 'beat' | 'fade' | 'beat-fade' | 'bounce' | 'flip' | 'shake' | 'spin' | 'spin-pulse' | 'spin-reverse'"
+	Allowed: 'beat' | 'fade' | 'beat-fade' | 'bounce' | 'flip' | 'flip-360' | 'shake' | 'spin' | 'spin-pulse' | 'spin-reverse' | 'spin-snap' | 'spin-snap-4' | 'spin-snap-8' | 'buzz' | 'wag' | 'float' | 'swing' | 'jello'"
 
 	self propertyAt: #animation put: aString
 ]
@@ -78,6 +78,32 @@ WaIcon >> beSwapOpacity [
 	"This is a convenience method to prevent having to provide arguments to a genric setter method"
 
 	self swapOpacity: true
+]
+
+{ #category : #accessing }
+WaIcon >> canvas [
+
+	"Sets the icon canvas — the box the icon is centered within. Unset renders as `fixed` (1.25em × 1em); `auto` hugs the
+	icon's width; `square` is 1.25em × 1.25em; `roomy` is 1.5em × 1.5em. Mirrors Font Awesome's `fa-fixed-width`,
+	`fa-width-auto`, `fa-canvas-square`, and `fa-canvas-roomy`. Scales with `font-size`.
+	
+	Type: String
+	Allowed: 'fixed' | 'auto' | 'square' | 'roomy'"
+
+	^ self propertyAt: #canvas
+]
+
+{ #category : #accessing }
+WaIcon >> canvas: aString [
+
+	"Sets the icon canvas — the box the icon is centered within. Unset renders as `fixed` (1.25em × 1em); `auto` hugs the
+	icon's width; `square` is 1.25em × 1.25em; `roomy` is 1.5em × 1.5em. Mirrors Font Awesome's `fa-fixed-width`,
+	`fa-width-auto`, `fa-canvas-square`, and `fa-canvas-roomy`. Scales with `font-size`.
+	
+	Type: String
+	Allowed: 'fixed' | 'auto' | 'square' | 'roomy'"
+
+	self propertyAt: #canvas put: aString
 ]
 
 { #category : #accessing }

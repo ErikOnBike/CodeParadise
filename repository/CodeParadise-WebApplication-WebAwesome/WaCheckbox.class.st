@@ -269,7 +269,7 @@ WaCheckbox >> indeterminate: aBoolean [
 { #category : #accessing }
 WaCheckbox >> name [
 
-	"The name of the checkbox, submitted as a name/value pair with form data.
+	"The name of the input, submitted as a name/value pair with form data.
 	
 	Type: String"
 
@@ -279,7 +279,7 @@ WaCheckbox >> name [
 { #category : #accessing }
 WaCheckbox >> name: aString [
 
-	"The name of the checkbox, submitted as a name/value pair with form data.
+	"The name of the input, submitted as a name/value pair with form data.
 	
 	Type: String"
 

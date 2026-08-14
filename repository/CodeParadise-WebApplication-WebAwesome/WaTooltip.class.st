@@ -126,6 +126,14 @@ WaTooltip >> hideDelay: aNumber [
 	self propertyAt: #hideDelay put: aNumber
 ]
 
+{ #category : #'accessing - convenience' }
+WaTooltip >> maxWidth: aString [
+
+	"Set the max width of the receiver"
+
+	self styleAt: #'--max-width' put: aString
+]
+
 { #category : #accessing }
 WaTooltip >> open [
 
