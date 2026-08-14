@@ -4,6 +4,16 @@ Class {
 	#category : #'CodeParadise-WebApplication-WebAwesome-Elements'
 }
 
+{ #category : #actions }
+WaCarousel >> addSlide: aWaCarouselItem [
+
+	"Adds a carousel item as the last real slide.
+	
+	Parameter: slide (WaCarouselItem)"
+
+	^ self apply: #addSlide withArguments: { aWaCarouselItem }
+]
+
 { #category : #accessing }
 WaCarousel >> autoplay [
 
@@ -327,6 +337,16 @@ WaCarousel >> previousIconElement: anElement [
 	"Optional previous icon to use instead of the default. Works best with `<wa-icon>`."
 
 	self replaceAllChildrenWith: anElement atSlotNamed: #'previous-icon'
+]
+
+{ #category : #actions }
+WaCarousel >> removeSlide: aNumber [
+
+	"Removes the real slide at the specified index.
+	
+	Parameter: index (number)"
+
+	^ self apply: #removeSlide withArguments: { aNumber }
 ]
 
 { #category : #accessing }

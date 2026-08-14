@@ -464,6 +464,10 @@ CpWaInterfaceInstaller >> fieldTypeFromFieldMember: aDictionary [
 	attributeName = #modal
 		ifTrue: [ ^ 'Object' ].
 
+	"Fix for not fully defined field"
+	(attributeName beginsWith: #total)
+		ifTrue: [ ^ 'number' ].
+
 	self error: 'Can''t retrieve field type from element'
 ]
 

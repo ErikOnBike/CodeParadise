@@ -56,7 +56,7 @@ WaElement class >> importBasePath [
 
 	"This method is (re)generated using CpWaInterfaceInstaller, a manual update to the version might not persist."
 
-	^ 'https://cdn.jsdelivr.net/npm/@awesome.me/webawesome@3.10.0/dist-cdn/'
+	^ 'https://cdn.jsdelivr.net/npm/@awesome.me/webawesome@3.11.0/dist-cdn/'
 ]
 
 { #category : #accessing }

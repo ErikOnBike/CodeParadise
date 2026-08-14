@@ -71,7 +71,10 @@ WaInclude >> mode: aString [
 { #category : #accessing }
 WaInclude >> src [
 
-	"The location of the HTML file to include. Be sure you trust the content you are including as it will be executed as
+	"The location of the content to include. This can be a URL to an HTML file, a same-page reference to an element's id
+	(e.g. `#my-id`), or a URL with a fragment that targets an element's id within the fetched file
+	(e.g. `/partials.html#my-id`). When targeting an element by id, its content is cloned. If the target is a
+	`<template>`, its child nodes are cloned. Be sure you trust the content you are including as it will be executed as
 	code and can result in XSS attacks.
 	
 	Type: String"
@@ -82,7 +85,10 @@ WaInclude >> src [
 { #category : #accessing }
 WaInclude >> src: aString [
 
-	"The location of the HTML file to include. Be sure you trust the content you are including as it will be executed as
+	"The location of the content to include. This can be a URL to an HTML file, a same-page reference to an element's id
+	(e.g. `#my-id`), or a URL with a fragment that targets an element's id within the fetched file
+	(e.g. `/partials.html#my-id`). When targeting an element by id, its content is cloned. If the target is a
+	`<template>`, its child nodes are cloned. Be sure you trust the content you are including as it will be executed as
 	code and can result in XSS attacks.
 	
 	Type: String"

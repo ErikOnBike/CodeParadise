@@ -412,7 +412,7 @@ CpWaInterfaceMethod >> sourceParameterClass: aDictionary [
 	(type beginsWith: 'HTMLElement')
 		ifTrue: [ ^ CpHtmlElement ].
 
-	type = #FocusOptions
+	(type = #FocusOptions or: [ type = #ToastCreateOptions ])
 		ifTrue: [ ^ Object ].
 
 	((type beginsWith: 'string |') or: [ (type includesSubstring: '| string |') or: [ type endsWith: '| string' ] ])
@@ -420,6 +420,11 @@ CpWaInterfaceMethod >> sourceParameterClass: aDictionary [
 
 	type first = ${
 		ifTrue: [ ^ Object ].
+
+	(type beginsWith: 'Wa')
+		ifTrue: [
+			(Smalltalk classNamed: type)
+				ifNotNil: [ :class | ^ class ] ].
 
 	self halt
 ]
