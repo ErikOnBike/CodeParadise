@@ -78,3 +78,15 @@ SlCheckControl >> labelText: aString [
 
 	self textContent: aString
 ]
+
+{ #category : #accessing }
+SlCheckControl >> value [
+
+	^ self isChecked
+]
+
+{ #category : #accessing }
+SlCheckControl >> value: aBoolean [
+
+	self checked: aBoolean
+]
