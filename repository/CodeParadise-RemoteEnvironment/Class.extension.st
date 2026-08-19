@@ -225,7 +225,9 @@ Class >> removeMethod: aCompiledMethod [
 
 	<clientEnvironment>
 
-	self removeInstanceMethod: aCompiledMethod
+	CpClientEnvironment isRunning
+		ifTrue: [ self removeInstanceMethod: aCompiledMethod ]
+		ifFalse: [ super removeMethod: aCompiledMethod ]
 ]
 
 { #category : #'*CodeParadise-RemoteEnvironment' }

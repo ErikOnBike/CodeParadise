@@ -17,5 +17,7 @@ Metaclass >> removeMethod: aCompiledMethod [
 
 	<clientEnvironment>
 
-	self removeClassMethod: aCompiledMethod
+	CpClientEnvironment isRunning
+		ifTrue: [ self removeClassMethod: aCompiledMethod ]
+		ifFalse: [ super removeMethod: aCompiledMethod ]
 ]
