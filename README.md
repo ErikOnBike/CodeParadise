@@ -6,8 +6,10 @@ The general principle behind CodeParadise is the execution of a regular (but tin
 
 JavaScript libraries can be used from your Smalltalk code quite easily. The DOM model is coded in CodeParadise, but many other things can be accessed through a generic proxy mechanism. Furthermore, support has been added for two UI frameworks:
 
-* Shoelace (many, but not all components yet) [website](https://shoelace.style)
+* WebAwesome (all free components) [website](https://webawesome.com)
 * Ionic (all components) [website](https://ionicframework.com/docs/components)
+
+Earlier support for Shoelace is going to be deprecated in favor of its replacement WebAwesome.
 
 A few online videos:
 
@@ -61,7 +63,8 @@ If all went well you should be able to fire up a number of browser tabs/pages an
 The example applications can be reached using the following URLs:
 * Introduction Presentation [http://localhost:8080/static/app.html?presentation](http://localhost:8080/static/app.html?presentation)
 * Building your first app [http://localhost:8080/static/app.html?building-my-first-app](http://localhost:8080/static/app.html?building-my-first-app)
-* Shoelace Examples [http://localhost:8080/static/app.html?Shoelace-Examples](http://localhost:8080/static/app.html?Shoelace-Examples)
+* WebAwesome Playground [http://localhost:8080/static/app.html?WebAwesome-Playground](http://localhost:8080/static/app.html?WebAwesome-Playground)
+* Shoelace Examples [http://localhost:8080/static/app.html?Shoelace-Examples](http://localhost:8080/static/app.html?Shoelace-Examples) "Will be deprecated in favor of WebAwesome"
 * ChartJS Examples [http://localhost:8080/static/app.html?ChartJS-Examples](http://localhost:8080/static/app.html?ChartJS-Examples)
 * Counter Example [http://localhost:8080/static/app.html?counter](http://localhost:8080/static/app.html?counter)
 * DOM Examples [http://localhost:8080/static/app.html?DOM-Examples](http://localhost:8080/static/app.html?DOM-Examples)
@@ -80,6 +83,12 @@ APP="http-server-example" SERVER_URL="ws://localhost:8080/io" node cp-node.js cl
 (replace the value of the APP environment variable with the identifier of your preferred application)
 
 ---
+
+### Using Shoelace/WebAwesome Framework
+
+Originally Shoelace was the go-to web framework within CodeParadise. Since Shoelace itself is replaced by WebAwesome, this is now (August 2026) the web framework to use. Both are optional frameworks. You can use another framework (like Ionic) or add your own or work with plain WebComponents yourself. You are free to choose.
+
+If you have any existing applications using Shoelace, please consider moving to WebAwesome. Shoelace is not actively maintained and so CodeParadise support will also not be actively maintained. See the following [migration guide](https://webawesome.com/docs/resources/migrating-from-shoelace) for any help. Within Pharo you can search for references to a WebComponent class and also find its tag inside an HTML resource method.
 
 ### Using Ionic Framework
 
