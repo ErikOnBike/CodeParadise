@@ -36,7 +36,10 @@ BaselineOfCodeParadise >> baseline: spec [
 
 			package: 'CodeParadise-WebApplication-MVP' with: [ spec requires: #('CodeParadise-WebApplication') ];
 
+			"2026-08: Will be deprecated in favour of CodeParadise-WebApplication-WebAwesome"
 			package: 'CodeParadise-WebApplication-Shoelace' with: [ spec requires: #('CodeParadise-WebApplication') ];
+
+			package: 'CodeParadise-WebApplication-WebAwesome' with: [ spec requires: #('CodeParadise-WebApplication') ];
 			package: 'CodeParadise-WebApplication-Ionic' with: [ spec requires: #('CodeParadise-WebApplication') ];
 			package: 'CodeParadise-WebApplication-ChartJS' with: [ spec requires: #('CodeParadise-WebApplication') ];
 			package: 'CodeParadise-Browser-Auth0-SPA-JS' with: [ spec requires: #('CodeParadise-WebApplication') ];
@@ -60,7 +63,7 @@ BaselineOfCodeParadise >> baseline: spec [
 
 		"Groups"
 		spec 
-			group: 'default' with: #( 'Core' 'NodeJS-Core' 'Shoelace' 'Ionic' 'ChartJS' 'Auth0-SPA-JS' 'Presentation' 'Snapshot' 'Tests' 'Examples' 'Development' 'NodeJS-Applications' );
+			group: 'default' with: #( 'Core' 'NodeJS-Core' 'Shoelace' 'WebAwesome' 'Ionic' 'ChartJS' 'Auth0-SPA-JS' 'Presentation' 'Snapshot' 'Tests' 'Examples' 'Development' 'NodeJS-Applications' );
 
 			group: 'Core' with: #( 'CodeParadise-Browser-Support' );
 			group: 'NodeJS-Core' with: #( 'CodeParadise-NodeJS-Support' );
@@ -68,7 +71,10 @@ BaselineOfCodeParadise >> baseline: spec [
 
 			group: 'MVP' with: #( 'CodeParadise-WebApplication-MVP' );
 
+			"2026-08: Will be deprecated in favour of CodeParadise-WebApplication-WebAwesome"
 			group: 'Shoelace' with: #( 'CodeParadise-WebApplication-Shoelace' );
+
+			group: 'WebAwesome' with: #( 'CodeParadise-WebApplication-WebAwesome' );
 			group: 'Ionic' with: #( 'CodeParadise-WebApplication-Ionic' );
 			group: 'ChartJS' with: #( 'CodeParadise-WebApplication-ChartJS' );
 			group: 'Auth0-SPA-JS' with: #( 'CodeParadise-Browser-Auth0-SPA-JS' );
