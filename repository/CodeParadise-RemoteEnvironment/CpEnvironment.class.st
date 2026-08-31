@@ -86,25 +86,29 @@ CpEnvironment >> id: identifier [
 { #category : #testing }
 CpEnvironment >> ifDevelopment: aBlock [
 
-	"Evaluate the specified Block if running in a development environment (i.e. non-production environment)"
+	"Evaluate the specified Block if running in a development environment (i.e. non-production environment)
+	and answer the result or answer nil if the receiver is a production environment"
 
-	self ifProduction: [ "intentionally empty" ] ifDevelopment: aBlock
+	^ self ifProduction: [ nil ] ifDevelopment: aBlock
 ]
 
 { #category : #testing }
 CpEnvironment >> ifProduction: aBlock [
 
-	"Evaluate the specified Block if running in a production environment"
+	"Evaluate the specified Block if running in a production environment
+	and answer the result or answer nil if the receiver is a non-production environment"
 
-	self ifProduction: aBlock ifDevelopment: [ "intentionally empty" ]
+
+	^ self ifProduction: aBlock ifDevelopment: [ nil ]
 ]
 
 { #category : #testing }
 CpEnvironment >> ifProduction: prodBlock ifDevelopment: devBlock [
 
-	"Evaluate the appropriate Block depending on the environment status"
+	"Evaluate the appropriate Block depending on the environment status
+	and answer its value"
 
-	(self variableAt: #'CODE_PARADISE_ENV') = 'production'
+	^ (self variableAt: #'CODE_PARADISE_ENV') = 'production'
 		ifTrue: [ prodBlock value ]
 		ifFalse: [ devBlock value ]
 ]
