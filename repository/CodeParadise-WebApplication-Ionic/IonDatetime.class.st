@@ -8,6 +8,7 @@ Class {
 IonDatetime >> cancel [
 
 	"Emits the ionCancel event and optionally closes the popover or modal that the datetime was presented in.
+	@param closeOverlay If 'true', closes the parent overlay. Defaults to 'false'.
 	
 	Type: (closeOverlay?: boolean) => Promise<void>"
 
@@ -18,6 +19,7 @@ IonDatetime >> cancel [
 IonDatetime >> cancel: closeOverlay [
 
 	"Emits the ionCancel event and optionally closes the popover or modal that the datetime was presented in.
+	@param closeOverlay If 'true', closes the parent overlay. Defaults to 'false'.
 	
 	Type: (closeOverlay?: boolean) => Promise<void>"
 
@@ -28,6 +30,7 @@ IonDatetime >> cancel: closeOverlay [
 IonDatetime >> cancelText [
 
 	"The text to display on the picker's cancel button.
+	@default 'Cancel'
 	
 	Type: string"
 
@@ -38,6 +41,7 @@ IonDatetime >> cancelText [
 IonDatetime >> cancelText: aString [
 
 	"The text to display on the picker's cancel button.
+	@default 'Cancel'
 	
 	Type: string"
 
@@ -48,6 +52,7 @@ IonDatetime >> cancelText: aString [
 IonDatetime >> clearText [
 
 	"The text to display on the picker's 'Clear' button.
+	@default 'Clear'
 	
 	Type: string"
 
@@ -58,6 +63,7 @@ IonDatetime >> clearText [
 IonDatetime >> clearText: aString [
 
 	"The text to display on the picker's 'Clear' button.
+	@default 'Clear'
 	
 	Type: string"
 
@@ -67,7 +73,7 @@ IonDatetime >> clearText: aString [
 { #category : #api }
 IonDatetime >> color [
 
-	"The color to use from your application's color palette. Default options are: ''primary'', ''secondary'', ''tertiary'', ''success'', ''warning'', ''danger'', ''light'', ''medium'', and ''dark''. For more information on colors, see [theming](/docs/theming/basics).
+	"The color to use from your application's color palette. Default options are: ''primary'', ''secondary'', ''tertiary'', ''success'', ''warning'', ''danger'', ''light'', ''medium'', and ''dark''. For more information on colors, refer to [theming](/docs/theming/basics).
 	
 	Type: Color"
 
@@ -77,7 +83,7 @@ IonDatetime >> color [
 { #category : #api }
 IonDatetime >> color: aString [
 
-	"The color to use from your application's color palette. Default options are: ''primary'', ''secondary'', ''tertiary'', ''success'', ''warning'', ''danger'', ''light'', ''medium'', and ''dark''. For more information on colors, see [theming](/docs/theming/basics).
+	"The color to use from your application's color palette. Default options are: ''primary'', ''secondary'', ''tertiary'', ''success'', ''warning'', ''danger'', ''light'', ''medium'', and ''dark''. For more information on colors, refer to [theming](/docs/theming/basics).
 	
 	Type: Color"
 
@@ -88,6 +94,7 @@ IonDatetime >> color: aString [
 IonDatetime >> confirm [
 
 	"Confirms the selected datetime value, updates the 'value' property, and optionally closes the popover or modal that the datetime was presented in.
+	@param closeOverlay If 'true', closes the parent overlay. Defaults to 'false'.
 	
 	Type: (closeOverlay?: boolean) => Promise<void>"
 
@@ -98,6 +105,7 @@ IonDatetime >> confirm [
 IonDatetime >> confirm: closeOverlay [
 
 	"Confirms the selected datetime value, updates the 'value' property, and optionally closes the popover or modal that the datetime was presented in.
+	@param closeOverlay If 'true', closes the parent overlay. Defaults to 'false'.
 	
 	Type: (closeOverlay?: boolean) => Promise<void>"
 
@@ -128,6 +136,7 @@ IonDatetime >> dayValues: anObject [
 IonDatetime >> disabled [
 
 	"If 'true', the user cannot interact with the datetime.
+	@default false
 	
 	Type: boolean"
 
@@ -138,6 +147,7 @@ IonDatetime >> disabled [
 IonDatetime >> disabled: aBoolean [
 
 	"If 'true', the user cannot interact with the datetime.
+	@default false
 	
 	Type: boolean"
 
@@ -148,6 +158,7 @@ IonDatetime >> disabled: aBoolean [
 IonDatetime >> doneText [
 
 	"The text to display on the picker's 'Done' button.
+	@default 'Done'
 	
 	Type: string"
 
@@ -158,6 +169,7 @@ IonDatetime >> doneText [
 IonDatetime >> doneText: aString [
 
 	"The text to display on the picker's 'Done' button.
+	@default 'Done'
 	
 	Type: string"
 
@@ -168,6 +180,7 @@ IonDatetime >> doneText: aString [
 IonDatetime >> firstDayOfWeek [
 
 	"The first day of the week to use for 'ion-datetime'. The default value is '0' and represents Sunday.
+	@default 0
 	
 	Type: number"
 
@@ -178,6 +191,7 @@ IonDatetime >> firstDayOfWeek [
 IonDatetime >> firstDayOfWeek: aNumber [
 
 	"The first day of the week to use for 'ion-datetime'. The default value is '0' and represents Sunday.
+	@default 0
 	
 	Type: number"
 
@@ -202,6 +216,16 @@ IonDatetime >> formatOptions: anObject [
 	Type: FormatOptions"
 
 	self propertyAt: #formatOptions put: anObject
+]
+
+{ #category : #api }
+IonDatetime >> getDefaultPart [
+
+	"Returns the default parts the datetime falls back to when no value is set: today's date and time snapped to the closest value allowed by the component's constraints ('min', 'max', and the '*Values' props).
+	
+	Type: Promise<DatetimeParts>"
+
+	^ self apply: #getDefaultPart resultAs: CpJavaScriptPromise
 ]
 
 { #category : #api }
@@ -278,6 +302,7 @@ IonDatetime >> isDateEnabled: dateIsoString [
 IonDatetime >> locale [
 
 	"The locale to use for 'ion-datetime'. This impacts month and day name formatting. The ''default'' value refers to the default locale set by your device.
+	@default 'default'
 	
 	Type: string"
 
@@ -288,6 +313,7 @@ IonDatetime >> locale [
 IonDatetime >> locale: aString [
 
 	"The locale to use for 'ion-datetime'. This impacts month and day name formatting. The ''default'' value refers to the default locale set by your device.
+	@default 'default'
 	
 	Type: string"
 
@@ -398,6 +424,7 @@ IonDatetime >> monthValues: anObject [
 IonDatetime >> multiple [
 
 	"If 'true', multiple dates can be selected at once. Only applies to 'presentation='date'' and 'preferWheel='false''.
+	@default false
 	
 	Type: boolean"
 
@@ -408,6 +435,7 @@ IonDatetime >> multiple [
 IonDatetime >> multiple: aBoolean [
 
 	"If 'true', multiple dates can be selected at once. Only applies to 'presentation='date'' and 'preferWheel='false''.
+	@default false
 	
 	Type: boolean"
 
@@ -418,6 +446,7 @@ IonDatetime >> multiple: aBoolean [
 IonDatetime >> name [
 
 	"The name of the control, which is submitted with the form data.
+	@default this.inputId
 	
 	Type: string"
 
@@ -428,6 +457,7 @@ IonDatetime >> name [
 IonDatetime >> name: aString [
 
 	"The name of the control, which is submitted with the form data.
+	@default this.inputId
 	
 	Type: string"
 
@@ -438,6 +468,7 @@ IonDatetime >> name: aString [
 IonDatetime >> preferWheel [
 
 	"If 'true', a wheel picker will be rendered instead of a calendar grid where possible. If 'false', a calendar grid will be rendered instead of a wheel picker where possible.  A wheel picker can be rendered instead of a grid when 'presentation' is one of the following values: ''date'', ''date-time'', or ''time-date''.  A wheel picker will always be rendered regardless of the 'preferWheel' value when 'presentation' is one of the following values: ''time'', ''month'', ''month-year'', or ''year''.
+	@default false
 	
 	Type: boolean"
 
@@ -448,6 +479,7 @@ IonDatetime >> preferWheel [
 IonDatetime >> preferWheel: aBoolean [
 
 	"If 'true', a wheel picker will be rendered instead of a calendar grid where possible. If 'false', a calendar grid will be rendered instead of a wheel picker where possible.  A wheel picker can be rendered instead of a grid when 'presentation' is one of the following values: ''date'', ''date-time'', or ''time-date''.  A wheel picker will always be rendered regardless of the 'preferWheel' value when 'presentation' is one of the following values: ''time'', ''month'', ''month-year'', or ''year''.
+	@default false
 	
 	Type: boolean"
 
@@ -458,6 +490,7 @@ IonDatetime >> preferWheel: aBoolean [
 IonDatetime >> presentation [
 
 	"Which values you want to select. ''date'' will show a calendar picker to select the month, day, and year. ''time'' will show a time picker to select the hour, minute, and (optionally) AM/PM. ''date-time'' will show the date picker first and time picker second. ''time-date'' will show the time picker first and date picker second.
+	@default 'date-time'
 	
 	Type: DatetimePresentation"
 
@@ -468,6 +501,7 @@ IonDatetime >> presentation [
 IonDatetime >> presentation: anObject [
 
 	"Which values you want to select. ''date'' will show a calendar picker to select the month, day, and year. ''time'' will show a time picker to select the hour, minute, and (optionally) AM/PM. ''date-time'' will show the date picker first and time picker second. ''time-date'' will show the time picker first and date picker second.
+	@default 'date-time'
 	
 	Type: DatetimePresentation"
 
@@ -478,6 +512,7 @@ IonDatetime >> presentation: anObject [
 IonDatetime >> readonly [
 
 	"If 'true', the datetime appears normal but the selected date cannot be changed.
+	@default false
 	
 	Type: boolean"
 
@@ -488,6 +523,7 @@ IonDatetime >> readonly [
 IonDatetime >> readonly: aBoolean [
 
 	"If 'true', the datetime appears normal but the selected date cannot be changed.
+	@default false
 	
 	Type: boolean"
 
@@ -498,6 +534,7 @@ IonDatetime >> readonly: aBoolean [
 IonDatetime >> reset [
 
 	"Resets the internal state of the datetime but does not update the value. Passing a valid ISO-8601 string will reset the state of the component to the provided date. If no value is provided, the internal state will be reset to the clamped value of the min, max and today.
+	@param startDate A valid [ISO-8601 string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date#date_time_string_format) to reset the datetime state to.
 	
 	Type: (startDate?: string) => Promise<void>"
 
@@ -508,6 +545,7 @@ IonDatetime >> reset [
 IonDatetime >> reset: startDate [
 
 	"Resets the internal state of the datetime but does not update the value. Passing a valid ISO-8601 string will reset the state of the component to the provided date. If no value is provided, the internal state will be reset to the clamped value of the min, max and today.
+	@param startDate A valid [ISO-8601 string](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date#date_time_string_format) to reset the datetime state to.
 	
 	Type: (startDate?: string) => Promise<void>"
 
@@ -515,9 +553,32 @@ IonDatetime >> reset: startDate [
 ]
 
 { #category : #api }
+IonDatetime >> showAdjacentDays [
+
+	"If 'true', the datetime calendar displays a six-week (42-day) layout, including days from the previous and next months to fill the grid. These adjacent days are selectable unless disabled.
+	@default false
+	
+	Type: boolean"
+
+	^ self propertyAt: #showAdjacentDays
+]
+
+{ #category : #api }
+IonDatetime >> showAdjacentDays: aBoolean [
+
+	"If 'true', the datetime calendar displays a six-week (42-day) layout, including days from the previous and next months to fill the grid. These adjacent days are selectable unless disabled.
+	@default false
+	
+	Type: boolean"
+
+	self propertyAt: #showAdjacentDays put: aBoolean
+]
+
+{ #category : #api }
 IonDatetime >> showClearButton [
 
 	"If 'true', a 'Clear' button will be rendered alongside the default 'Cancel' and 'OK' buttons at the bottom of the 'ion-datetime' component. Developers can also use the 'button' slot if they want to customize these buttons. If custom buttons are set in the 'button' slot then the default buttons will not be rendered.
+	@default false
 	
 	Type: boolean"
 
@@ -528,6 +589,7 @@ IonDatetime >> showClearButton [
 IonDatetime >> showClearButton: aBoolean [
 
 	"If 'true', a 'Clear' button will be rendered alongside the default 'Cancel' and 'OK' buttons at the bottom of the 'ion-datetime' component. Developers can also use the 'button' slot if they want to customize these buttons. If custom buttons are set in the 'button' slot then the default buttons will not be rendered.
+	@default false
 	
 	Type: boolean"
 
@@ -538,6 +600,7 @@ IonDatetime >> showClearButton: aBoolean [
 IonDatetime >> showDefaultButtons [
 
 	"If 'true', the default 'Cancel' and 'OK' buttons will be rendered at the bottom of the 'ion-datetime' component. Developers can also use the 'button' slot if they want to customize these buttons. If custom buttons are set in the 'button' slot then the default buttons will not be rendered.
+	@default false
 	
 	Type: boolean"
 
@@ -548,6 +611,7 @@ IonDatetime >> showDefaultButtons [
 IonDatetime >> showDefaultButtons: aBoolean [
 
 	"If 'true', the default 'Cancel' and 'OK' buttons will be rendered at the bottom of the 'ion-datetime' component. Developers can also use the 'button' slot if they want to customize these buttons. If custom buttons are set in the 'button' slot then the default buttons will not be rendered.
+	@default false
 	
 	Type: boolean"
 
@@ -558,6 +622,7 @@ IonDatetime >> showDefaultButtons: aBoolean [
 IonDatetime >> showDefaultTimeLabel [
 
 	"If 'true', the default 'Time' label will be rendered for the time selector of the 'ion-datetime' component. Developers can also use the 'time-label' slot if they want to customize this label. If a custom label is set in the 'time-label' slot then the default label will not be rendered.
+	@default true
 	
 	Type: boolean"
 
@@ -568,6 +633,7 @@ IonDatetime >> showDefaultTimeLabel [
 IonDatetime >> showDefaultTimeLabel: aBoolean [
 
 	"If 'true', the default 'Time' label will be rendered for the time selector of the 'ion-datetime' component. Developers can also use the 'time-label' slot if they want to customize this label. If a custom label is set in the 'time-label' slot then the default label will not be rendered.
+	@default true
 	
 	Type: boolean"
 
@@ -578,6 +644,7 @@ IonDatetime >> showDefaultTimeLabel: aBoolean [
 IonDatetime >> showDefaultTitle [
 
 	"If 'true', a header will be shown above the calendar picker. This will include both the slotted title, and the selected date.
+	@default false
 	
 	Type: boolean"
 
@@ -588,6 +655,7 @@ IonDatetime >> showDefaultTitle [
 IonDatetime >> showDefaultTitle: aBoolean [
 
 	"If 'true', a header will be shown above the calendar picker. This will include both the slotted title, and the selected date.
+	@default false
 	
 	Type: boolean"
 
@@ -598,6 +666,7 @@ IonDatetime >> showDefaultTitle: aBoolean [
 IonDatetime >> size [
 
 	"If 'cover', the 'ion-datetime' will expand to cover the full width of its container. If 'fixed', the 'ion-datetime' will have a fixed width.
+	@default 'fixed'
 	
 	Type: 'cover' | 'fixed'"
 
@@ -608,6 +677,7 @@ IonDatetime >> size [
 IonDatetime >> size: aString [
 
 	"If 'cover', the 'ion-datetime' will expand to cover the full width of its container. If 'fixed', the 'ion-datetime' will have a fixed width.
+	@default 'fixed'
 	
 	Type: 'cover' | 'fixed'"
 

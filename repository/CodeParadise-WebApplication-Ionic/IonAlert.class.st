@@ -8,6 +8,7 @@ Class {
 IonAlert >> animated [
 
 	"If 'true', the alert will animate.
+	@default true
 	
 	Type: boolean"
 
@@ -18,6 +19,7 @@ IonAlert >> animated [
 IonAlert >> animated: aBoolean [
 
 	"If 'true', the alert will animate.
+	@default true
 	
 	Type: boolean"
 
@@ -28,6 +30,7 @@ IonAlert >> animated: aBoolean [
 IonAlert >> backdropDismiss [
 
 	"If 'true', the alert will be dismissed when the backdrop is clicked.
+	@default true
 	
 	Type: boolean"
 
@@ -38,6 +41,7 @@ IonAlert >> backdropDismiss [
 IonAlert >> backdropDismiss: aBoolean [
 
 	"If 'true', the alert will be dismissed when the backdrop is clicked.
+	@default true
 	
 	Type: boolean"
 
@@ -48,6 +52,7 @@ IonAlert >> backdropDismiss: aBoolean [
 IonAlert >> buttons [
 
 	"Array of buttons to be added to the alert.
+	@default []
 	
 	Type: (AlertButton | string)[]"
 
@@ -58,6 +63,7 @@ IonAlert >> buttons [
 IonAlert >> buttons: anObject [
 
 	"Array of buttons to be added to the alert.
+	@default []
 	
 	Type: (AlertButton | string)[]"
 
@@ -103,9 +109,9 @@ IonAlert >> delegate: anObject [
 { #category : #api }
 IonAlert >> dismiss [
 
-	"Dismiss the alert overlay after it has been presented.
+	"Dismiss the alert overlay after it has been presented. This is a no-op if the overlay has not been presented yet. If you want to remove an overlay from the DOM that was never presented, use the [remove](https://developer.mozilla.org/en-US/docs/Web/API/Element/remove) method.
 	@param data Any data to emit in the dismiss events.
-	@param role The role of the element that is dismissing the alert. This can be useful in a button handler for determining which button was clicked to dismiss the alert. Some examples include: '''cancel'', ''destructive'', 'selected'', and ''backdrop''.  This is a no-op if the overlay has not been presented yet. If you want to remove an overlay from the DOM that was never presented, use the [remove](https://developer.mozilla.org/en-US/docs/Web/API/Element/remove) method.
+	@param role The role of the element that is dismissing the alert. This can be useful in a button handler for determining which button was clicked to dismiss the alert. Some examples include: ''cancel'', ''destructive'', ''selected'', and ''backdrop''.
 	
 	Type: (data?: any, role?: string) => Promise<boolean>"
 
@@ -115,9 +121,9 @@ IonAlert >> dismiss [
 { #category : #api }
 IonAlert >> dismiss: data [
 
-	"Dismiss the alert overlay after it has been presented.
+	"Dismiss the alert overlay after it has been presented. This is a no-op if the overlay has not been presented yet. If you want to remove an overlay from the DOM that was never presented, use the [remove](https://developer.mozilla.org/en-US/docs/Web/API/Element/remove) method.
 	@param data Any data to emit in the dismiss events.
-	@param role The role of the element that is dismissing the alert. This can be useful in a button handler for determining which button was clicked to dismiss the alert. Some examples include: '''cancel'', ''destructive'', 'selected'', and ''backdrop''.  This is a no-op if the overlay has not been presented yet. If you want to remove an overlay from the DOM that was never presented, use the [remove](https://developer.mozilla.org/en-US/docs/Web/API/Element/remove) method.
+	@param role The role of the element that is dismissing the alert. This can be useful in a button handler for determining which button was clicked to dismiss the alert. Some examples include: ''cancel'', ''destructive'', ''selected'', and ''backdrop''.
 	
 	Type: (data?: any, role?: string) => Promise<boolean>"
 
@@ -127,9 +133,9 @@ IonAlert >> dismiss: data [
 { #category : #api }
 IonAlert >> dismiss: data role: role [
 
-	"Dismiss the alert overlay after it has been presented.
+	"Dismiss the alert overlay after it has been presented. This is a no-op if the overlay has not been presented yet. If you want to remove an overlay from the DOM that was never presented, use the [remove](https://developer.mozilla.org/en-US/docs/Web/API/Element/remove) method.
 	@param data Any data to emit in the dismiss events.
-	@param role The role of the element that is dismissing the alert. This can be useful in a button handler for determining which button was clicked to dismiss the alert. Some examples include: '''cancel'', ''destructive'', 'selected'', and ''backdrop''.  This is a no-op if the overlay has not been presented yet. If you want to remove an overlay from the DOM that was never presented, use the [remove](https://developer.mozilla.org/en-US/docs/Web/API/Element/remove) method.
+	@param role The role of the element that is dismissing the alert. This can be useful in a button handler for determining which button was clicked to dismiss the alert. Some examples include: ''cancel'', ''destructive'', ''selected'', and ''backdrop''.
 	
 	Type: (data?: any, role?: string) => Promise<boolean>"
 
@@ -159,7 +165,9 @@ IonAlert >> enterAnimation: anObject [
 { #category : #api }
 IonAlert >> hasController [
 
-	"Type: boolean"
+	"@default false
+	
+	Type: boolean"
 
 	^ self propertyAt: #hasController
 ]
@@ -167,7 +175,9 @@ IonAlert >> hasController [
 { #category : #api }
 IonAlert >> hasController: aBoolean [
 
-	"Type: boolean"
+	"@default false
+	
+	Type: boolean"
 
 	self propertyAt: #hasController put: aBoolean
 ]
@@ -216,6 +226,7 @@ IonAlert >> htmlAttributes: anObject [
 IonAlert >> inputs [
 
 	"Array of input to show in the alert.
+	@default []
 	
 	Type: AlertInput[]"
 
@@ -226,6 +237,7 @@ IonAlert >> inputs [
 IonAlert >> inputs: anObject [
 
 	"Array of input to show in the alert.
+	@default []
 	
 	Type: AlertInput[]"
 
@@ -236,6 +248,7 @@ IonAlert >> inputs: anObject [
 IonAlert >> isOpen [
 
 	"If 'true', the alert will open. If 'false', the alert will close. Use this if you need finer grained control over presentation, otherwise just use the alertController or the 'trigger' property. Note: 'isOpen' will not automatically be set back to 'false' when the alert dismisses. You will need to do that in your code.
+	@default false
 	
 	Type: boolean"
 
@@ -246,6 +259,7 @@ IonAlert >> isOpen [
 IonAlert >> isOpen: aBoolean [
 
 	"If 'true', the alert will open. If 'false', the alert will close. Use this if you need finer grained control over presentation, otherwise just use the alertController or the 'trigger' property. Note: 'isOpen' will not automatically be set back to 'false' when the alert dismisses. You will need to do that in your code.
+	@default false
 	
 	Type: boolean"
 
@@ -256,6 +270,7 @@ IonAlert >> isOpen: aBoolean [
 IonAlert >> keyboardClose [
 
 	"If 'true', the keyboard will be automatically dismissed when the overlay is presented.
+	@default true
 	
 	Type: boolean"
 
@@ -266,6 +281,7 @@ IonAlert >> keyboardClose [
 IonAlert >> keyboardClose: aBoolean [
 
 	"If 'true', the keyboard will be automatically dismissed when the overlay is presented.
+	@default true
 	
 	Type: boolean"
 
@@ -402,6 +418,7 @@ IonAlert >> subHeader: aString [
 IonAlert >> translucent [
 
 	"If 'true', the alert will be translucent. Only applies when the mode is ''ios'' and the device supports ['backdrop-filter'](https://developer.mozilla.org/en-US/docs/Web/CSS/backdrop-filter#Browser_compatibility).
+	@default false
 	
 	Type: boolean"
 
@@ -412,6 +429,7 @@ IonAlert >> translucent [
 IonAlert >> translucent: aBoolean [
 
 	"If 'true', the alert will be translucent. Only applies when the mode is ''ios'' and the device supports ['backdrop-filter'](https://developer.mozilla.org/en-US/docs/Web/CSS/backdrop-filter#Browser_compatibility).
+	@default false
 	
 	Type: boolean"
 

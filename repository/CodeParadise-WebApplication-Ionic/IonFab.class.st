@@ -8,6 +8,7 @@ Class {
 IonFab >> activated [
 
 	"If 'true', both the 'ion-fab-button' and all 'ion-fab-list' inside 'ion-fab' will become active. That means 'ion-fab-button' will become a 'close' icon and 'ion-fab-list' will become visible.
+	@default false
 	
 	Type: boolean"
 
@@ -18,6 +19,7 @@ IonFab >> activated [
 IonFab >> activated: aBoolean [
 
 	"If 'true', both the 'ion-fab-button' and all 'ion-fab-list' inside 'ion-fab' will become active. That means 'ion-fab-button' will become a 'close' icon and 'ion-fab-list' will become visible.
+	@default false
 	
 	Type: boolean"
 
@@ -38,6 +40,7 @@ IonFab >> close [
 IonFab >> edge [
 
 	"If 'true', the fab will display on the edge of the header if 'vertical' is ''top'', and on the edge of the footer if it is ''bottom''. Should be used with a 'fixed' slot.
+	@default false
 	
 	Type: boolean"
 
@@ -48,6 +51,7 @@ IonFab >> edge [
 IonFab >> edge: aBoolean [
 
 	"If 'true', the fab will display on the edge of the header if 'vertical' is ''top'', and on the edge of the footer if it is ''bottom''. Should be used with a 'fixed' slot.
+	@default false
 	
 	Type: boolean"
 

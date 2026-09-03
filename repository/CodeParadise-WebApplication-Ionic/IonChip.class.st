@@ -28,6 +28,7 @@ IonChip >> color: aString [
 IonChip >> disabled [
 
 	"If 'true', the user cannot interact with the chip.
+	@default false
 	
 	Type: boolean"
 
@@ -38,6 +39,7 @@ IonChip >> disabled [
 IonChip >> disabled: aBoolean [
 
 	"If 'true', the user cannot interact with the chip.
+	@default false
 	
 	Type: boolean"
 
@@ -68,6 +70,7 @@ IonChip >> mode: aString [
 IonChip >> outline [
 
 	"Display an outline style button.
+	@default false
 	
 	Type: boolean"
 
@@ -78,6 +81,7 @@ IonChip >> outline [
 IonChip >> outline: aBoolean [
 
 	"Display an outline style button.
+	@default false
 	
 	Type: boolean"
 

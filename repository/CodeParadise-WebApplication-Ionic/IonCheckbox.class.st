@@ -28,6 +28,7 @@ IonCheckbox >> alignment: aString [
 IonCheckbox >> checked [
 
 	"If 'true', the checkbox is selected.
+	@default false
 	
 	Type: boolean"
 
@@ -38,6 +39,7 @@ IonCheckbox >> checked [
 IonCheckbox >> checked: aBoolean [
 
 	"If 'true', the checkbox is selected.
+	@default false
 	
 	Type: boolean"
 
@@ -68,6 +70,7 @@ IonCheckbox >> color: aString [
 IonCheckbox >> disabled [
 
 	"If 'true', the user cannot interact with the checkbox.
+	@default false
 	
 	Type: boolean"
 
@@ -78,6 +81,7 @@ IonCheckbox >> disabled [
 IonCheckbox >> disabled: aBoolean [
 
 	"If 'true', the user cannot interact with the checkbox.
+	@default false
 	
 	Type: boolean"
 
@@ -128,6 +132,7 @@ IonCheckbox >> helperText: aString [
 IonCheckbox >> indeterminate [
 
 	"If 'true', the checkbox will visually appear as indeterminate.
+	@default false
 	
 	Type: boolean"
 
@@ -138,6 +143,7 @@ IonCheckbox >> indeterminate [
 IonCheckbox >> indeterminate: aBoolean [
 
 	"If 'true', the checkbox will visually appear as indeterminate.
+	@default false
 	
 	Type: boolean"
 
@@ -168,6 +174,7 @@ IonCheckbox >> justify: aString [
 IonCheckbox >> labelPlacement [
 
 	"Where to place the label relative to the checkbox. ''start'': The label will appear to the left of the checkbox in LTR and to the right in RTL. ''end'': The label will appear to the right of the checkbox in LTR and to the left in RTL. ''fixed'': The label has the same behavior as ''start'' except it also has a fixed width. Long text will be truncated with ellipses ('...'). ''stacked'': The label will appear above the checkbox regardless of the direction. The alignment of the label can be controlled with the 'alignment' property.
+	@default 'start'
 	
 	Type: 'start' | 'end' | 'fixed' | 'stacked'"
 
@@ -178,6 +185,7 @@ IonCheckbox >> labelPlacement [
 IonCheckbox >> labelPlacement: aString [
 
 	"Where to place the label relative to the checkbox. ''start'': The label will appear to the left of the checkbox in LTR and to the right in RTL. ''end'': The label will appear to the right of the checkbox in LTR and to the left in RTL. ''fixed'': The label has the same behavior as ''start'' except it also has a fixed width. Long text will be truncated with ellipses ('...'). ''stacked'': The label will appear above the checkbox regardless of the direction. The alignment of the label can be controlled with the 'alignment' property.
+	@default 'start'
 	
 	Type: 'start' | 'end' | 'fixed' | 'stacked'"
 
@@ -208,6 +216,7 @@ IonCheckbox >> mode: aString [
 IonCheckbox >> name [
 
 	"The name of the control, which is submitted with the form data.
+	@default this.inputId
 	
 	Type: string"
 
@@ -218,6 +227,7 @@ IonCheckbox >> name [
 IonCheckbox >> name: aString [
 
 	"The name of the control, which is submitted with the form data.
+	@default this.inputId
 	
 	Type: string"
 
@@ -228,6 +238,7 @@ IonCheckbox >> name: aString [
 IonCheckbox >> required [
 
 	"If true, screen readers will announce it as a required field. This property works only for accessibility purposes, it will not prevent the form from submitting if the value is invalid.
+	@default false
 	
 	Type: boolean"
 
@@ -238,6 +249,7 @@ IonCheckbox >> required [
 IonCheckbox >> required: aBoolean [
 
 	"If true, screen readers will announce it as a required field. This property works only for accessibility purposes, it will not prevent the form from submitting if the value is invalid.
+	@default false
 	
 	Type: boolean"
 
@@ -256,6 +268,7 @@ IonCheckbox >> setFocus [
 IonCheckbox >> value [
 
 	"The value of the checkbox does not mean if it's checked or not, use the 'checked' property for that.  The value of a checkbox is analogous to the value of an '<input type='checkbox'>', it's only used when the checkbox participates in a native '<form>'.
+	@default 'on'
 	
 	Type: any | null"
 
@@ -266,6 +279,7 @@ IonCheckbox >> value [
 IonCheckbox >> value: anObject [
 
 	"The value of the checkbox does not mean if it's checked or not, use the 'checked' property for that.  The value of a checkbox is analogous to the value of an '<input type='checkbox'>', it's only used when the checkbox participates in a native '<form>'.
+	@default 'on'
 	
 	Type: any | null"
 

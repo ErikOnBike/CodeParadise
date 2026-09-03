@@ -8,6 +8,7 @@ Class {
 IonBreadcrumb >> active [
 
 	"If 'true', the breadcrumb will take on a different look to show that it is the currently active breadcrumb. Defaults to 'true' for the last breadcrumb if it is not set on any.
+	@default false
 	
 	Type: boolean"
 
@@ -18,6 +19,7 @@ IonBreadcrumb >> active [
 IonBreadcrumb >> active: aBoolean [
 
 	"If 'true', the breadcrumb will take on a different look to show that it is the currently active breadcrumb. Defaults to 'true' for the last breadcrumb if it is not set on any.
+	@default false
 	
 	Type: boolean"
 
@@ -27,7 +29,9 @@ IonBreadcrumb >> active: aBoolean [
 { #category : #api }
 IonBreadcrumb >> collapsed [
 
-	"Type: boolean"
+	"@default false
+	
+	Type: boolean"
 
 	^ self propertyAt: #collapsed
 ]
@@ -35,7 +39,9 @@ IonBreadcrumb >> collapsed [
 { #category : #api }
 IonBreadcrumb >> collapsed: aBoolean [
 
-	"Type: boolean"
+	"@default false
+	
+	Type: boolean"
 
 	self propertyAt: #collapsed put: aBoolean
 ]
@@ -64,6 +70,7 @@ IonBreadcrumb >> color: aString [
 IonBreadcrumb >> disabled [
 
 	"If 'true', the user cannot interact with the breadcrumb.
+	@default false
 	
 	Type: boolean"
 
@@ -74,6 +81,7 @@ IonBreadcrumb >> disabled [
 IonBreadcrumb >> disabled: aBoolean [
 
 	"If 'true', the user cannot interact with the breadcrumb.
+	@default false
 	
 	Type: boolean"
 
@@ -200,6 +208,7 @@ IonBreadcrumb >> routerAnimation: anObject [
 IonBreadcrumb >> routerDirection [
 
 	"When using a router, it specifies the transition direction when navigating to another page using 'href'.
+	@default 'forward'
 	
 	Type: RouterDirection"
 
@@ -210,6 +219,7 @@ IonBreadcrumb >> routerDirection [
 IonBreadcrumb >> routerDirection: anObject [
 
 	"When using a router, it specifies the transition direction when navigating to another page using 'href'.
+	@default 'forward'
 	
 	Type: RouterDirection"
 

@@ -48,6 +48,7 @@ IonFooter >> mode: aString [
 IonFooter >> translucent [
 
 	"If 'true', the footer will be translucent. Only applies when the mode is ''ios'' and the device supports ['backdrop-filter'](https://developer.mozilla.org/en-US/docs/Web/CSS/backdrop-filter#Browser_compatibility).  Note: In order to scroll content behind the footer, the 'fullscreen' attribute needs to be set on the content.
+	@default false
 	
 	Type: boolean"
 
@@ -58,6 +59,7 @@ IonFooter >> translucent [
 IonFooter >> translucent: aBoolean [
 
 	"If 'true', the footer will be translucent. Only applies when the mode is ''ios'' and the device supports ['backdrop-filter'](https://developer.mozilla.org/en-US/docs/Web/CSS/backdrop-filter#Browser_compatibility).  Note: In order to scroll content behind the footer, the 'fullscreen' attribute needs to be set on the content.
+	@default false
 	
 	Type: boolean"
 

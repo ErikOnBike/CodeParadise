@@ -28,6 +28,7 @@ IonBreadcrumbs >> color: aString [
 IonBreadcrumbs >> itemsAfterCollapse [
 
 	"The number of breadcrumbs to show after the collapsed indicator. If 'itemsBeforeCollapse' + 'itemsAfterCollapse' is greater than 'maxItems', the breadcrumbs will not be collapsed.
+	@default 1
 	
 	Type: number"
 
@@ -38,6 +39,7 @@ IonBreadcrumbs >> itemsAfterCollapse [
 IonBreadcrumbs >> itemsAfterCollapse: aNumber [
 
 	"The number of breadcrumbs to show after the collapsed indicator. If 'itemsBeforeCollapse' + 'itemsAfterCollapse' is greater than 'maxItems', the breadcrumbs will not be collapsed.
+	@default 1
 	
 	Type: number"
 
@@ -48,6 +50,7 @@ IonBreadcrumbs >> itemsAfterCollapse: aNumber [
 IonBreadcrumbs >> itemsBeforeCollapse [
 
 	"The number of breadcrumbs to show before the collapsed indicator. If 'itemsBeforeCollapse' + 'itemsAfterCollapse' is greater than 'maxItems', the breadcrumbs will not be collapsed.
+	@default 1
 	
 	Type: number"
 
@@ -58,6 +61,7 @@ IonBreadcrumbs >> itemsBeforeCollapse [
 IonBreadcrumbs >> itemsBeforeCollapse: aNumber [
 
 	"The number of breadcrumbs to show before the collapsed indicator. If 'itemsBeforeCollapse' + 'itemsAfterCollapse' is greater than 'maxItems', the breadcrumbs will not be collapsed.
+	@default 1
 	
 	Type: number"
 

@@ -48,6 +48,7 @@ IonDatetimeButton >> datetime: aString [
 IonDatetimeButton >> disabled [
 
 	"If 'true', the user cannot interact with the button.
+	@default false
 	
 	Type: boolean"
 
@@ -58,6 +59,7 @@ IonDatetimeButton >> disabled [
 IonDatetimeButton >> disabled: aBoolean [
 
 	"If 'true', the user cannot interact with the button.
+	@default false
 	
 	Type: boolean"
 

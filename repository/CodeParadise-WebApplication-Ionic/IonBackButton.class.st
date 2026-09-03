@@ -48,6 +48,7 @@ IonBackButton >> defaultHref: aString [
 IonBackButton >> disabled [
 
 	"If 'true', the user cannot interact with the button.
+	@default false
 	
 	Type: boolean"
 
@@ -58,6 +59,7 @@ IonBackButton >> disabled [
 IonBackButton >> disabled: aBoolean [
 
 	"If 'true', the user cannot interact with the button.
+	@default false
 	
 	Type: boolean"
 
@@ -148,6 +150,7 @@ IonBackButton >> text: aString [
 IonBackButton >> type [
 
 	"The type of the button.
+	@default 'button'
 	
 	Type: 'submit' | 'reset' | 'button'"
 
@@ -158,6 +161,7 @@ IonBackButton >> type [
 IonBackButton >> type: aString [
 
 	"The type of the button.
+	@default 'button'
 	
 	Type: 'submit' | 'reset' | 'button'"
 

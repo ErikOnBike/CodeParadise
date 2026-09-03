@@ -28,6 +28,7 @@ IonContent >> color: aString [
 IonContent >> fixedSlotPlacement [
 
 	"Controls where the fixed content is placed relative to the main content in the DOM. This can be used to control the order in which fixed elements receive keyboard focus. For example, if a FAB in the fixed slot should receive keyboard focus before the main page content, set this property to ''before''.
+	@default 'after'
 	
 	Type: 'after' | 'before'"
 
@@ -38,6 +39,7 @@ IonContent >> fixedSlotPlacement [
 IonContent >> fixedSlotPlacement: aString [
 
 	"Controls where the fixed content is placed relative to the main content in the DOM. This can be used to control the order in which fixed elements receive keyboard focus. For example, if a FAB in the fixed slot should receive keyboard focus before the main page content, set this property to ''before''.
+	@default 'after'
 	
 	Type: 'after' | 'before'"
 
@@ -68,6 +70,7 @@ IonContent >> forceOverscroll: aBoolean [
 IonContent >> fullscreen [
 
 	"If 'true', the content will scroll behind the headers and footers. This effect can easily be seen by setting the toolbar to transparent.
+	@default false
 	
 	Type: boolean"
 
@@ -78,6 +81,7 @@ IonContent >> fullscreen [
 IonContent >> fullscreen: aBoolean [
 
 	"If 'true', the content will scroll behind the headers and footers. This effect can easily be seen by setting the toolbar to transparent.
+	@default false
 	
 	Type: boolean"
 
@@ -105,6 +109,16 @@ IonContent >> getScrollElement [
 ]
 
 { #category : #api }
+IonContent >> recalculateDimensions [
+
+	"Recalculate content dimensions. Called by overlays (e.g., popover) when sibling elements like headers or footers have finished rendering and their heights are available, ensuring accurate offset-top calculations.
+	
+	Type: Promise<void>"
+
+	^ self apply: #recalculateDimensions resultAs: CpJavaScriptPromise
+]
+
+{ #category : #api }
 IonContent >> scrollByPoint: x y: y duration: duration [
 
 	"Scroll by a specified X/Y distance in the component.
@@ -121,6 +135,7 @@ IonContent >> scrollByPoint: x y: y duration: duration [
 IonContent >> scrollEvents [
 
 	"Because of performance reasons, ionScroll events are disabled by default, in order to enable them and start listening from (ionScroll), set this property to 'true'.
+	@default false
 	
 	Type: boolean"
 
@@ -131,6 +146,7 @@ IonContent >> scrollEvents [
 IonContent >> scrollEvents: aBoolean [
 
 	"Because of performance reasons, ionScroll events are disabled by default, in order to enable them and start listening from (ionScroll), set this property to 'true'.
+	@default false
 	
 	Type: boolean"
 
@@ -211,6 +227,7 @@ IonContent >> scrollToTop: duration [
 IonContent >> scrollX [
 
 	"If you want to enable the content scrolling in the X axis, set this property to 'true'.
+	@default false
 	
 	Type: boolean"
 
@@ -221,6 +238,7 @@ IonContent >> scrollX [
 IonContent >> scrollX: aBoolean [
 
 	"If you want to enable the content scrolling in the X axis, set this property to 'true'.
+	@default false
 	
 	Type: boolean"
 
@@ -231,6 +249,7 @@ IonContent >> scrollX: aBoolean [
 IonContent >> scrollY [
 
 	"If you want to disable the content scrolling in the Y axis, set this property to 'false'.
+	@default true
 	
 	Type: boolean"
 
@@ -241,6 +260,7 @@ IonContent >> scrollY [
 IonContent >> scrollY: aBoolean [
 
 	"If you want to disable the content scrolling in the Y axis, set this property to 'false'.
+	@default true
 	
 	Type: boolean"
 

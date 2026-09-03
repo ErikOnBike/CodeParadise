@@ -8,6 +8,7 @@ Class {
 IonBackdrop >> stopPropagation [
 
 	"If 'true', the backdrop will stop propagation on tap.
+	@default true
 	
 	Type: boolean"
 
@@ -18,6 +19,7 @@ IonBackdrop >> stopPropagation [
 IonBackdrop >> stopPropagation: aBoolean [
 
 	"If 'true', the backdrop will stop propagation on tap.
+	@default true
 	
 	Type: boolean"
 
@@ -28,6 +30,7 @@ IonBackdrop >> stopPropagation: aBoolean [
 IonBackdrop >> tappable [
 
 	"If 'true', the backdrop will can be clicked and will emit the 'ionBackdropTap' event.
+	@default true
 	
 	Type: boolean"
 
@@ -38,6 +41,7 @@ IonBackdrop >> tappable [
 IonBackdrop >> tappable: aBoolean [
 
 	"If 'true', the backdrop will can be clicked and will emit the 'ionBackdropTap' event.
+	@default true
 	
 	Type: boolean"
 
@@ -48,6 +52,7 @@ IonBackdrop >> tappable: aBoolean [
 IonBackdrop >> visible [
 
 	"If 'true', the backdrop will be visible.
+	@default true
 	
 	Type: boolean"
 
@@ -58,6 +63,7 @@ IonBackdrop >> visible [
 IonBackdrop >> visible: aBoolean [
 
 	"If 'true', the backdrop will be visible.
+	@default true
 	
 	Type: boolean"
 

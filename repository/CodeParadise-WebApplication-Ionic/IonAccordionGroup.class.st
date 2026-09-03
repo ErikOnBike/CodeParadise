@@ -8,6 +8,7 @@ Class {
 IonAccordionGroup >> animated [
 
 	"If 'true', all accordions inside of the accordion group will animate when expanding or collapsing.
+	@default true
 	
 	Type: boolean"
 
@@ -18,6 +19,7 @@ IonAccordionGroup >> animated [
 IonAccordionGroup >> animated: aBoolean [
 
 	"If 'true', all accordions inside of the accordion group will animate when expanding or collapsing.
+	@default true
 	
 	Type: boolean"
 
@@ -28,6 +30,7 @@ IonAccordionGroup >> animated: aBoolean [
 IonAccordionGroup >> disabled [
 
 	"If 'true', the accordion group cannot be interacted with.
+	@default false
 	
 	Type: boolean"
 
@@ -38,6 +41,7 @@ IonAccordionGroup >> disabled [
 IonAccordionGroup >> disabled: aBoolean [
 
 	"If 'true', the accordion group cannot be interacted with.
+	@default false
 	
 	Type: boolean"
 
@@ -48,6 +52,7 @@ IonAccordionGroup >> disabled: aBoolean [
 IonAccordionGroup >> expand [
 
 	"Describes the expansion behavior for each accordion. Possible values are ''compact'' and ''inset''. Defaults to ''compact''.
+	@default 'compact'
 	
 	Type: 'compact' | 'inset'"
 
@@ -58,6 +63,7 @@ IonAccordionGroup >> expand [
 IonAccordionGroup >> expand: aString [
 
 	"Describes the expansion behavior for each accordion. Possible values are ''compact'' and ''inset''. Defaults to ''compact''.
+	@default 'compact'
 	
 	Type: 'compact' | 'inset'"
 
@@ -116,6 +122,7 @@ IonAccordionGroup >> multiple: aBoolean [
 IonAccordionGroup >> readonly [
 
 	"If 'true', the accordion group cannot be interacted with, but does not alter the opacity.
+	@default false
 	
 	Type: boolean"
 
@@ -126,6 +133,7 @@ IonAccordionGroup >> readonly [
 IonAccordionGroup >> readonly: aBoolean [
 
 	"If 'true', the accordion group cannot be interacted with, but does not alter the opacity.
+	@default false
 	
 	Type: boolean"
 

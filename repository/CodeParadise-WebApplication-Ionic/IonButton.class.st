@@ -8,6 +8,7 @@ Class {
 IonButton >> buttonType [
 
 	"The type of button.
+	@default 'button'
 	
 	Type: string"
 
@@ -18,6 +19,7 @@ IonButton >> buttonType [
 IonButton >> buttonType: aString [
 
 	"The type of button.
+	@default 'button'
 	
 	Type: string"
 
@@ -48,6 +50,7 @@ IonButton >> color: aString [
 IonButton >> disabled [
 
 	"If 'true', the user cannot interact with the button.
+	@default false
 	
 	Type: boolean"
 
@@ -58,6 +61,7 @@ IonButton >> disabled [
 IonButton >> disabled: aBoolean [
 
 	"If 'true', the user cannot interact with the button.
+	@default false
 	
 	Type: boolean"
 
@@ -228,6 +232,7 @@ IonButton >> routerAnimation: anObject [
 IonButton >> routerDirection [
 
 	"When using a router, it specifies the transition direction when navigating to another page using 'href'.
+	@default 'forward'
 	
 	Type: RouterDirection"
 
@@ -238,6 +243,7 @@ IonButton >> routerDirection [
 IonButton >> routerDirection: anObject [
 
 	"When using a router, it specifies the transition direction when navigating to another page using 'href'.
+	@default 'forward'
 	
 	Type: RouterDirection"
 
@@ -288,6 +294,7 @@ IonButton >> size: aString [
 IonButton >> strong [
 
 	"If 'true', activates a button with a heavier font weight.
+	@default false
 	
 	Type: boolean"
 
@@ -298,6 +305,7 @@ IonButton >> strong [
 IonButton >> strong: aBoolean [
 
 	"If 'true', activates a button with a heavier font weight.
+	@default false
 	
 	Type: boolean"
 
@@ -328,6 +336,7 @@ IonButton >> target: aString [
 IonButton >> type [
 
 	"The type of the button.
+	@default 'button'
 	
 	Type: 'submit' | 'reset' | 'button'"
 
@@ -338,6 +347,7 @@ IonButton >> type [
 IonButton >> type: aString [
 
 	"The type of the button.
+	@default 'button'
 	
 	Type: 'submit' | 'reset' | 'button'"
 

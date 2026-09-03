@@ -8,6 +8,7 @@ Class {
 IonCard >> button [
 
 	"If 'true', a button tag will be rendered and the card will be tappable.
+	@default false
 	
 	Type: boolean"
 
@@ -18,6 +19,7 @@ IonCard >> button [
 IonCard >> button: aBoolean [
 
 	"If 'true', a button tag will be rendered and the card will be tappable.
+	@default false
 	
 	Type: boolean"
 
@@ -48,6 +50,7 @@ IonCard >> color: aString [
 IonCard >> disabled [
 
 	"If 'true', the user cannot interact with the card.
+	@default false
 	
 	Type: boolean"
 
@@ -58,6 +61,7 @@ IonCard >> disabled [
 IonCard >> disabled: aBoolean [
 
 	"If 'true', the user cannot interact with the card.
+	@default false
 	
 	Type: boolean"
 
@@ -168,6 +172,7 @@ IonCard >> routerAnimation: anObject [
 IonCard >> routerDirection [
 
 	"When using a router, it specifies the transition direction when navigating to another page using 'href'.
+	@default 'forward'
 	
 	Type: RouterDirection"
 
@@ -178,6 +183,7 @@ IonCard >> routerDirection [
 IonCard >> routerDirection: anObject [
 
 	"When using a router, it specifies the transition direction when navigating to another page using 'href'.
+	@default 'forward'
 	
 	Type: RouterDirection"
 
@@ -208,6 +214,7 @@ IonCard >> target: aString [
 IonCard >> type [
 
 	"The type of the button. Only used when an 'onclick' or 'button' property is present.
+	@default 'button'
 	
 	Type: 'submit' | 'reset' | 'button'"
 
@@ -218,6 +225,7 @@ IonCard >> type [
 IonCard >> type: aString [
 
 	"The type of the button. Only used when an 'onclick' or 'button' property is present.
+	@default 'button'
 	
 	Type: 'submit' | 'reset' | 'button'"
 

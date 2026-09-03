@@ -8,6 +8,7 @@ Class {
 IonGrid >> fixed [
 
 	"If 'true', the grid will have a fixed width based on the screen size.
+	@default false
 	
 	Type: boolean"
 
@@ -18,6 +19,7 @@ IonGrid >> fixed [
 IonGrid >> fixed: aBoolean [
 
 	"If 'true', the grid will have a fixed width based on the screen size.
+	@default false
 	
 	Type: boolean"
 

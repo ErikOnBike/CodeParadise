@@ -8,6 +8,7 @@ Class {
 IonFabButton >> activated [
 
 	"If 'true', the fab button will be show a close icon.
+	@default false
 	
 	Type: boolean"
 
@@ -18,6 +19,7 @@ IonFabButton >> activated [
 IonFabButton >> activated: aBoolean [
 
 	"If 'true', the fab button will be show a close icon.
+	@default false
 	
 	Type: boolean"
 
@@ -28,6 +30,7 @@ IonFabButton >> activated: aBoolean [
 IonFabButton >> closeIcon [
 
 	"The icon name to use for the close icon. This will appear when the fab button is pressed. Only applies if it is the main button inside of a fab containing a fab list.
+	@default close
 	
 	Type: string"
 
@@ -38,6 +41,7 @@ IonFabButton >> closeIcon [
 IonFabButton >> closeIcon: aString [
 
 	"The icon name to use for the close icon. This will appear when the fab button is pressed. Only applies if it is the main button inside of a fab containing a fab list.
+	@default close
 	
 	Type: string"
 
@@ -68,6 +72,7 @@ IonFabButton >> color: aString [
 IonFabButton >> disabled [
 
 	"If 'true', the user cannot interact with the fab button.
+	@default false
 	
 	Type: boolean"
 
@@ -78,6 +83,7 @@ IonFabButton >> disabled [
 IonFabButton >> disabled: aBoolean [
 
 	"If 'true', the user cannot interact with the fab button.
+	@default false
 	
 	Type: boolean"
 
@@ -102,6 +108,26 @@ IonFabButton >> download: aString [
 	Type: string | undefined"
 
 	self propertyAt: #download put: aString
+]
+
+{ #category : #api }
+IonFabButton >> form [
+
+	"The HTML form element or form element id. Used to submit a form when the button is not a child of the form.
+	
+	Type: string | HTMLFormElement"
+
+	^ self propertyAt: #form
+]
+
+{ #category : #api }
+IonFabButton >> form: anObject [
+
+	"The HTML form element or form element id. Used to submit a form when the button is not a child of the form.
+	
+	Type: string | HTMLFormElement"
+
+	self propertyAt: #form put: anObject
 ]
 
 { #category : #api }
@@ -188,6 +214,7 @@ IonFabButton >> routerAnimation: anObject [
 IonFabButton >> routerDirection [
 
 	"When using a router, it specifies the transition direction when navigating to another page using 'href'.
+	@default 'forward'
 	
 	Type: RouterDirection"
 
@@ -198,6 +225,7 @@ IonFabButton >> routerDirection [
 IonFabButton >> routerDirection: anObject [
 
 	"When using a router, it specifies the transition direction when navigating to another page using 'href'.
+	@default 'forward'
 	
 	Type: RouterDirection"
 
@@ -208,6 +236,7 @@ IonFabButton >> routerDirection: anObject [
 IonFabButton >> show [
 
 	"If 'true', the fab button will show when in a fab-list.
+	@default false
 	
 	Type: boolean"
 
@@ -218,6 +247,7 @@ IonFabButton >> show [
 IonFabButton >> show: aBoolean [
 
 	"If 'true', the fab button will show when in a fab-list.
+	@default false
 	
 	Type: boolean"
 
@@ -268,6 +298,7 @@ IonFabButton >> target: aString [
 IonFabButton >> translucent [
 
 	"If 'true', the fab button will be translucent. Only applies when the mode is ''ios'' and the device supports ['backdrop-filter'](https://developer.mozilla.org/en-US/docs/Web/CSS/backdrop-filter#Browser_compatibility).
+	@default false
 	
 	Type: boolean"
 
@@ -278,6 +309,7 @@ IonFabButton >> translucent [
 IonFabButton >> translucent: aBoolean [
 
 	"If 'true', the fab button will be translucent. Only applies when the mode is ''ios'' and the device supports ['backdrop-filter'](https://developer.mozilla.org/en-US/docs/Web/CSS/backdrop-filter#Browser_compatibility).
+	@default false
 	
 	Type: boolean"
 
@@ -288,6 +320,7 @@ IonFabButton >> translucent: aBoolean [
 IonFabButton >> type [
 
 	"The type of the button.
+	@default 'button'
 	
 	Type: 'submit' | 'reset' | 'button'"
 
@@ -298,6 +331,7 @@ IonFabButton >> type [
 IonFabButton >> type: aString [
 
 	"The type of the button.
+	@default 'button'
 	
 	Type: 'submit' | 'reset' | 'button'"
 

@@ -7,12 +7,7 @@ Class {
 { #category : #accessing }
 IonElement class >> importBasePath [
 
-	"Temporary pin to version v8.7.0 because of an issue in StencilJS.
-
-	See also:
-	https://github.com/stenciljs/core/issues/6367"
-
-	^ 'https://cdn.jsdelivr.net/npm/@ionic/core@8.7.0'
+	^ 'https://cdn.jsdelivr.net/npm/@ionic/core@9.0.2'
 ]
 
 { #category : #accessing }
@@ -62,11 +57,9 @@ IonElement class >> loadLibrary [
 	Implementation:
 	Load initial script and stylesheet here. All components will load themselves."
 
-	self warnCr: 'Ionic v8.7.2 has a bug which might affect your application. Therefore v8.7.0 is used. A startup script with polyfills is not run because of this.'.
-
 	CpHtmlElement
 		documentAddExternalScript: self importModulePath type: 'module' id: #'ionic-module' ;
-		"documentAddExternalScript: self importScriptPath ;"
+		documentAddExternalScript: self importScriptPath ;
 		documentAddStylesheet: self importThemesPath
 ]
 

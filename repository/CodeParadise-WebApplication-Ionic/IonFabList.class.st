@@ -8,6 +8,7 @@ Class {
 IonFabList >> activated [
 
 	"If 'true', the fab list will show all fab buttons in the list.
+	@default false
 	
 	Type: boolean"
 
@@ -18,6 +19,7 @@ IonFabList >> activated [
 IonFabList >> activated: aBoolean [
 
 	"If 'true', the fab list will show all fab buttons in the list.
+	@default false
 	
 	Type: boolean"
 
@@ -28,6 +30,7 @@ IonFabList >> activated: aBoolean [
 IonFabList >> side [
 
 	"The side the fab list will show on relative to the main fab button.
+	@default 'bottom'
 	
 	Type: 'start' | 'end' | 'top' | 'bottom'"
 
@@ -38,6 +41,7 @@ IonFabList >> side [
 IonFabList >> side: aString [
 
 	"The side the fab list will show on relative to the main fab button.
+	@default 'bottom'
 	
 	Type: 'start' | 'end' | 'top' | 'bottom'"
 

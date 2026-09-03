@@ -48,6 +48,7 @@ IonCardHeader >> mode: aString [
 IonCardHeader >> translucent [
 
 	"If 'true', the card header will be translucent. Only applies when the mode is ''ios'' and the device supports ['backdrop-filter'](https://developer.mozilla.org/en-US/docs/Web/CSS/backdrop-filter#Browser_compatibility).
+	@default false
 	
 	Type: boolean"
 
@@ -58,6 +59,7 @@ IonCardHeader >> translucent [
 IonCardHeader >> translucent: aBoolean [
 
 	"If 'true', the card header will be translucent. Only applies when the mode is ''ios'' and the device supports ['backdrop-filter'](https://developer.mozilla.org/en-US/docs/Web/CSS/backdrop-filter#Browser_compatibility).
+	@default false
 	
 	Type: boolean"
 
