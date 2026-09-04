@@ -59,7 +59,7 @@ IonElement class >> loadLibrary [
 
 	CpHtmlElement
 		documentAddExternalScript: self importModulePath type: 'module' id: #'ionic-module' ;
-		documentAddExternalScript: self importScriptPath ;
+		"documentAddExternalScript: self importScriptPath ;"
 		documentAddStylesheet: self importThemesPath
 ]
 
