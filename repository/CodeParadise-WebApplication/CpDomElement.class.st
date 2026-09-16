@@ -1345,7 +1345,12 @@ CpDomElement >> when: anAnnouncementClass deferDo: aBlock for: anObject [
 	an event handler. Having a handler which forks of a separate Process
 	allows execution to continu.
 	Be aware that the event handling should not rely on some ordering or
-	timing. These become unpredictable because of awaiting results."
+	timing. These become unpredictable because of awaiting results.
+	Also be aware that the event passed (culled) to the Block will be a
+	copy of the original event, since the actual event will have been
+	handled synchronously. Trying to prevent default behavior or propagation
+	on such a copied event is useless, since the synchronous event has
+	already propagated and performed any default behavior attached."
 
 	^ self announcer
 		when: anAnnouncementClass deferDo: aBlock for: anObject
@@ -1361,7 +1366,12 @@ CpDomElement >> when: anAnnouncementClass deferSend: aSymbol to: anObject [
 	an event handler. Having a handler which forks of a separate Process
 	allows execution to continu.
 	Be aware that the event handling should not rely on some ordering or
-	timing. These become unpredictable because of awaiting results."
+	timing. These become unpredictable because of awaiting results.
+	Also be aware that the event passed to the selector will be a copy of
+	the original event, since the actual event will have been 	handled
+	synchronously. Trying to prevent default behavior or propagation on
+	such a copied event is useless, since the synchronous event has already
+	propagated and performed any default behavior attached."
 
 	^ self announcer
 		when: anAnnouncementClass deferSend: aSymbol to: anObject

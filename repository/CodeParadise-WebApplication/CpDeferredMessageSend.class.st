@@ -10,7 +10,7 @@ as expected when more than one argument is provided, for example.
 I only expect a single argument, the Event/Announcement being handled.
 
 Typically I am used in the form:
-	someElement when: CpClickEvent forkedSend: #handleClick: to: self
+	someElement when: CpClickEvent deferSend: #handleClick: to: self
 "
 Class {
 	#name : #CpDeferredMessageSend,
