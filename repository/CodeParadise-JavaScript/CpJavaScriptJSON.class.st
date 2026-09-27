@@ -35,6 +35,16 @@ CpJavaScriptJSON class >> parse: aString [
 ]
 
 { #category : #operations }
+CpJavaScriptJSON class >> parse: aString ifFail: aBlock [
+
+	"Answer an OrderedDictionary representing the object given by the JSON string specified.
+	If the JSON string can't be parsed, answer the evaluation of the specified Block with the
+	error culled."
+
+	^ [ self parse: aString ] on: Error do: [ :error | aBlock cull: error ]
+]
+
+{ #category : #operations }
 CpJavaScriptJSON class >> stringify: aDictionary [
 
 	"Answer a String representation of the specified Dictionary"
