@@ -473,6 +473,14 @@ CpJavaScriptDate >> lastWeekdayOfMonthIndex [
 	^ self weekdayOfMonthIndex + ((self daysInMonth - self dayIndex) // 7)
 ]
 
+{ #category : #comparing }
+CpJavaScriptDate >> max: aDate [
+
+	^ self > aDate
+		ifTrue: [ self ]
+		ifFalse: [ aDate ]
+]
+
 { #category : #accessing }
 CpJavaScriptDate >> milliseconds [
 
@@ -483,6 +491,14 @@ CpJavaScriptDate >> milliseconds [
 CpJavaScriptDate >> milliseconds: milliseconds [
 
 	self apply: #setMilliseconds withArguments: { milliseconds }
+]
+
+{ #category : #comparing }
+CpJavaScriptDate >> min: aDate [
+
+	^ self < aDate
+		ifTrue: [ self ]
+		ifFalse: [ aDate ]
 ]
 
 { #category : #accessing }
