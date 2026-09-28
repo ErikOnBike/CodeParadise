@@ -1,3 +1,10 @@
+"
+I am the JavaScript Date class.
+In contrast with the Smalltalk Date class, most of my instance methods
+update the instance in place. To receive a new instance first copy
+the instance: `aDate copy dayIndex: 1`.
+
+"
 Class {
 	#name : #CpJavaScriptDate,
 	#superclass : #CpJavaScriptObject,
@@ -284,6 +291,39 @@ CpJavaScriptDate >> > aDate [
 CpJavaScriptDate >> >= aDate [
 
 	^ (aDate afterDate: self) not
+]
+
+{ #category : #accessing }
+CpJavaScriptDate >> addDays: anInteger [
+
+	"Add the specified number (can be negative) days to the receiver.
+
+	This updates the receiver in place. Use 'aDate copy addDays: 3'
+	when a new instance is needed."
+
+	self dayIndex: self dayIndex + anInteger
+]
+
+{ #category : #accessing }
+CpJavaScriptDate >> addMonths: anInteger [
+
+	"Add the specified number (can be negative) months to the receiver.
+
+	This updates the receiver in place. Use 'aDate copy addMonths: 3'
+	when a new instance is needed."
+
+	self monthIndex: self monthIndex + anInteger
+]
+
+{ #category : #accessing }
+CpJavaScriptDate >> addYears: anInteger [
+
+	"Add the specified number (can be negative) years to the receiver.
+
+	This updates the receiver in place. Use 'aDate copy addYears: 3'
+	when a new instance is needed."
+
+	self year: self year + anInteger
 ]
 
 { #category : #comparing }
