@@ -301,6 +301,9 @@ CpJavaScriptDate >> addDays: anInteger [
 	This updates the receiver in place. Use 'aDate copy addDays: 3'
 	when a new instance is needed."
 
+	anInteger = 0
+		ifTrue: [ ^ self ].
+
 	self dayIndex: self dayIndex + anInteger
 ]
 
@@ -312,6 +315,9 @@ CpJavaScriptDate >> addMonths: anInteger [
 	This updates the receiver in place. Use 'aDate copy addMonths: 3'
 	when a new instance is needed."
 
+	anInteger = 0
+		ifTrue: [ ^ self ].
+
 	self monthIndex: self monthIndex + anInteger
 ]
 
@@ -322,6 +328,9 @@ CpJavaScriptDate >> addYears: anInteger [
 
 	This updates the receiver in place. Use 'aDate copy addYears: 3'
 	when a new instance is needed."
+
+	anInteger = 0
+		ifTrue: [ ^ self ].
 
 	self year: self year + anInteger
 ]
@@ -411,6 +420,25 @@ CpJavaScriptDate >> dayOfWeekIndex [
 	^ index = 0
 		ifTrue: [ 7 ]
 		ifFalse: [ index ]
+]
+
+{ #category : #accessing }
+CpJavaScriptDate >> dayOfWeekIndex: anInteger [
+
+	"Set the day of the week index (ISO 8601 based: Monday = 1, Tuesday = 2, ..., Sunday = 7).
+
+	This keeps the receiver within the same week. So if the receiver is on a Sunday and the
+	week index 1 (Monday) is specified, the receiver will move back in time to the previous
+	Monday, not the following Monday."
+
+	| index |
+
+	(anInteger between: 1 and: 7)
+		ifFalse: [ self error: 'Invalid day of week index: ', anInteger printString ].
+
+	index := self dayOfWeekIndex.
+
+	self addDays: anInteger - index
 ]
 
 { #category : #accessing }
