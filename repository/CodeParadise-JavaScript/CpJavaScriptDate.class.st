@@ -278,6 +278,9 @@ CpJavaScriptDate >> <= aDate [
 { #category : #comparing }
 CpJavaScriptDate >> = aDate [
 
+	self species = aDate species
+		ifFalse: [ ^ false ].
+
 	^ aDate equalsDate: self
 ]
 
